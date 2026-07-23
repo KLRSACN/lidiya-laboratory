@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "purpose": "讓新視窗以需求、能力、工具名稱或風險類型快速搜尋開源候選",
+  "generated_branch": "generated/open-source-radar",
+  "entries": [
+    {
+      "keywords": ["代理", "agent", "Hermes", "自主工作流", "技能", "子代理", "記憶"],
+      "repos": ["NousResearch/hermes-agent"]
+    },
+    {
+      "keywords": ["本地模型", "Ollama", "推論", "模型清冊", "模型服務"],
+      "repos": ["ollama/ollama"]
+    },
+    {
+      "keywords": ["GGUF", "llama.cpp", "可攜", "離線", "函式呼叫", "CPU GPU 混合"],
+      "repos": ["ggml-org/llama.cpp"]
+    },
+    {
+      "keywords": ["Gemini CLI", "程式坐駕", "coding agent", "Google", "MCP"],
+      "repos": ["google-gemini/gemini-cli"]
+    },
+    {
+      "keywords": ["MCP", "工具協定", "server", "外掛", "tool contract"],
+      "repos": ["modelcontextprotocol/servers"]
+    },
+    {
+      "keywords": ["Python", "uv", "免安裝", "可攜環境", "依賴鎖定"],
+      "repos": ["astral-sh/uv"]
+    },
+    {
+      "keywords": ["漏洞", "CVE", "OSV", "依賴掃描", "供應鏈"],
+      "repos": ["google/osv-scanner"]
+    },
+    {
+      "keywords": ["簽章", "cosign", "SHA256", "Release 驗證", "供應鏈"],
+      "repos": ["sigstore/cosign"]
+    },
+    {
+      "keywords": ["同步", "rclone", "Drive", "封包搬運", "備份"],
+      "repos": ["rclone/rclone"]
+    },
+    {
+      "keywords": ["媒體資訊", "YouTube", "yt-dlp", "metadata", "素材研究"],
+      "repos": ["yt-dlp/yt-dlp"],
+      "authorization_note": "AUTH-E 暫緩；不得下載未授權內容或繞過平台限制"
+    }
+  ],
+  "new_window_queries": [
+    "目前家的任務有哪些重複、高成本或高失敗率步驟？",
+    "registry 與 generated/open-source-radar 是否有對應能力？",
+    "候選是否比既有工具更省 Token、時間或人工介入？",
+    "來源、授權、版本、SHA256、沙盒與回退證據是否完整？",
+    "是否需要博玄逐次解鎖？"
+  ]
+}
