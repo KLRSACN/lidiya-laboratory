@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "channel": "candidate",
+  "version": "2.0.0-alpha.4",
+  "sequence": 4,
+  "payload_url": "https://raw.githubusercontent.com/KLRSACN/lidiya-laboratory/home-bridge-v2-round1/tools/home_bridge_v2/round4/install_round4.ps1",
+  "payload_sha256": "e85dbec73b6d7bb925a6ab4251aa1d521b651df923b4965a2d3e01a28cd99535",
+  "published_at": "2026-07-27T18:20:00+08:00",
+  "notes": "Installs the GitHub manifest updater, SHA256 verification, isolated release activation, controlled rollback, CMD launchers, and an optional on-logon update check."
+}
