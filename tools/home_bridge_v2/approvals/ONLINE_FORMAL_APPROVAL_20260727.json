@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "app": "Lidiya Home Bridge",
+  "approval_id": "HOME_BRIDGE_V2_ONLINE_APPROVAL_20260727_214407",
+  "verified_at": "2026-07-27T21:44:07+08:00",
+  "verified_by": "online_lidiya",
+  "result": "ROUND5_APPROVED_PENDING_ONLOGON",
+  "baseline": {
+    "baseline_id": "HOME_BRIDGE_V2_FORMAL_20260727_201050",
+    "version": "2.0.0-alpha.4",
+    "status": "FORMAL_BASELINE",
+    "formal_baseline_sha256": "864f2a2dfa183cbc693950fd0440102c509f7acfdc373f27930b4ae1139d10ca",
+    "release_manifest_sha256": "52ca60be7b99fface7acda0bffa5f0a0750d0f955bcf299391d5b804aa775183"
+  },
+  "verified_checks": {
+    "cloud_round5_readback": true,
+    "formal_baseline_readback": true,
+    "release_hashes_match": true,
+    "startup_simulation_pass": true,
+    "index_entry_verified": true,
+    "index_backup_created": true,
+    "github_default_branch_is_main": true,
+    "github_round5_absent_from_main": true,
+    "github_round5_present_on_dev_branch": true,
+    "cloud_bridge_v1_unchanged": true,
+    "actual_onlogon_evidence_present": false
+  },
+  "drive": {
+    "runtime_folder_id": "16alewv1ej-8PSI94uke85f0TU-nbyfmd",
+    "formal_baseline_file_id": "1uqDBlhD0EN0qE_eZfvvDg-YPuspCyTOF",
+    "home_bridge_status_file_id": "1zPtAwyB7LLfPnh3owuDaNogP19YbcfUH",
+    "round_progress_file_id": "1IKpRZt7JImzMrcWhE63UGJ-FcfZ-B7ka",
+    "index_document_id": "1E7aUHI4o9JfmYcJ89e4FShYvUM_gqT-Vj4P3uHRlbwo",
+    "index_revision_id": "AIroW37Tdos78WYxejNkuCLdlLyS-KDP9PjlOxO_v6L-A0cQSRMPIaOB2wUjX2s1empi1TTutLFu5pKGCjrScpyAH_u3_F2_8TZdyBXOLuQ",
+    "index_backup_document_id": "1Hc_8QCRQOW3SoPOkIVOy7FDhkw2jvZ_zDPE0_105W3w"
+  },
+  "github": {
+    "repository": "KLRSACN/lidiya-laboratory",
+    "default_branch": "main",
+    "development_branch": "home-bridge-v2-round1",
+    "development_branch_ahead_by": 9,
+    "round5_blob_sha": "dc95046bf14d7f4dcca468609af02f54c895a9d9"
+  },
+  "state_correction": {
+    "completed_now": [
+      "online cloud readback of round5 evidence",
+      "00 index formal entry"
+    ],
+    "still_pending": [
+      "actual ONLOGON evidence after next normal login"
+    ],
+    "reason": "ROUND_PROGRESS.json was not rewritten after online index update; reconcile state without changing the frozen release."
+  },
+  "boundaries": {
+    "modify_frozen_release": false,
+    "modify_cloud_bridge_v1": false,
+    "modify_github_main": false,
+    "claim_actual_onlogon_pass": false
+  }
+}
