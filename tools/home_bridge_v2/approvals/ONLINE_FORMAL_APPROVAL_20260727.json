@@ -38,7 +38,7 @@
     "repository": "KLRSACN/lidiya-laboratory",
     "default_branch": "main",
     "development_branch": "home-bridge-v2-round1",
-    "development_branch_ahead_by": 9,
+    "development_branch_ahead_by_before_approval_commit": 9,
     "round5_blob_sha": "dc95046bf14d7f4dcca468609af02f54c895a9d9"
   },
   "state_correction": {
