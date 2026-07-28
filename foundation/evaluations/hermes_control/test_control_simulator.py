@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import sys
 import unittest
 from pathlib import Path
 
@@ -9,9 +10,9 @@ MODULE_PATH = Path(__file__).with_name("control_simulator.py")
 SPEC = importlib.util.spec_from_file_location("control_simulator", MODULE_PATH)
 assert SPEC is not None and SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = MODULE
 SPEC.loader.exec_module(MODULE)
 
-Decision = MODULE.Decision
 evaluate = MODULE.evaluate
 run_scenarios = MODULE.run_scenarios
 
