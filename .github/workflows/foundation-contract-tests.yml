@@ -1,0 +1,38 @@
+name: Foundation Contract Tests
+
+on:
+  pull_request:
+    paths:
+      - "foundation/evaluations/**"
+      - ".github/workflows/foundation-contract-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: foundation-contract-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hermes-control-simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+
+      - name: Compile deterministic simulator
+        run: python3 -m compileall -q foundation/evaluations/hermes_control
+
+      - name: Run contract unit tests
+        run: python3 -m unittest discover -s foundation/evaluations/hermes_control -p "test_*.py" -v
+
+      - name: Run declared scenarios
+        run: >-
+          python3 foundation/evaluations/hermes_control/control_simulator.py
+          foundation/evaluations/hermes_control/scenarios.json
+
+      - name: Confirm safety boundary
+        run: |
+          echo "Simulation only. No Hermes download, installation, model call, credential access, formal write, or external publication occurred."
