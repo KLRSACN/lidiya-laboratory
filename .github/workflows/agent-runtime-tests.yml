@@ -1,0 +1,66 @@
+name: Agent Runtime Tests
+
+on:
+  push:
+    branches:
+      - home-bridge/agent-runtime-v0.1
+  pull_request:
+    branches:
+      - foundation/phase2c-v0.4
+    paths:
+      - "foundation/agent_runtime/**"
+      - ".github/workflows/agent-runtime-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-runtime-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deterministic-agent-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Confirm no credential inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test -z "${GEMINI_API_KEY:-}"
+          test -z "${LIDIYA_BRIDGE_TOKEN:-}"
+
+      - name: Compile Agent Runtime
+        run: |
+          python -m py_compile \
+            foundation/agent_runtime/agent_runtime.py \
+            foundation/agent_runtime/cron_runner.py \
+            foundation/agent_runtime/test_agent_runtime.py
+
+      - name: Run unit tests
+        working-directory: foundation/agent_runtime
+        run: python -m unittest test_agent_runtime.py -v
+
+      - name: Run isolated demo
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/lidiya-agent-runtime"
+          python foundation/agent_runtime/agent_runtime.py --root "$root" init
+          python foundation/agent_runtime/agent_runtime.py --root "$root" demo
+          test -f "$root/runtime.db"
+
+      - name: Confirm sandbox boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$HOME/.lidiya"
+          echo "AGENT_RUNTIME_CI_PASS"
+          echo "No external network calls, model calls, credential reads, installation, publishing, or formal-system writes were requested."
