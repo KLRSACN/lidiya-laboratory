@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "project": "Lidiya Home Bridge Agent Runtime",
+  "recorded_at": "2026-07-29T16:29:00+08:00",
+  "github": {
+    "repository": "KLRSACN/lidiya-laboratory",
+    "branch": "home-bridge/agent-runtime-v0.1",
+    "draft_pr": 2,
+    "branch_accessible": true,
+    "pr_accessible": true,
+    "workflow_runs_on_previous_head": 0,
+    "workflow_note": "No GitHub Actions run was attached to the previously checked PR head; validation evidence currently comes from the local Windows candidate tests."
+  },
+  "local": {
+    "home_bridge_root": "D:\\lidiya\\0.dev_tools\\home_bridge_v2",
+    "active_version": "2.0.0-alpha.5-agent-runtime-candidate",
+    "active_release": "D:\\lidiya\\0.dev_tools\\home_bridge_v2\\releases\\2.0.0-alpha.5-agent-runtime-candidate",
+    "previous_version": "2.0.0-alpha.4",
+    "status": "AGENT_RUNTIME_CANDIDATE",
+    "manifest_file_count": 13,
+    "post_activation_selftest": "PASS",
+    "exit_code": 0
+  },
+  "verification": {
+    "python_compile": "PASS",
+    "unit_tests": {
+      "passed": 2,
+      "failed": 0
+    },
+    "scope_escape_blocked": true,
+    "demo_agent_loop": "SUCCESS",
+    "copy_verified": true,
+    "sha256_verified": true,
+    "sqlite_windows_close_fix": true
+  },
+  "next_minimum_step": "Implement an Ollama Hermes supervisor adapter for ESCALATE sessions without granting arbitrary shell access.",
+  "do_not_repeat": [
+    "Do not search again for the Home Bridge root; it is fixed at D:\\lidiya\\0.dev_tools\\home_bridge_v2.",
+    "Do not treat D:\\lidiya as a Git repository.",
+    "Do not search again for Git; use C:\\Program Files\\Git\\cmd\\git.exe when PATH is missing.",
+    "Do not search again for Python; use C:\\Windows\\py.exe.",
+    "Do not modify or delete release 2.0.0-alpha.4.",
+    "Do not include runtime.db, workspace data, or __pycache__ in release manifests."
+  ]
+}
