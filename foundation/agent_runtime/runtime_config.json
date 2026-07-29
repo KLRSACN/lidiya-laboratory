@@ -1,8 +1,11 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "status": "CANDIDATE",
   "default_model": "gemma3n:e2b",
   "supervisor_model": "hermes3:latest",
+  "supervisor_endpoint": "http://127.0.0.1:11434/api/chat",
+  "supervisor_timeout_seconds": 90,
+  "supervisor_max_plan_steps": 6,
   "max_attempts_per_task": 3,
   "max_steps_per_session": 20,
   "allowed_tools": [
