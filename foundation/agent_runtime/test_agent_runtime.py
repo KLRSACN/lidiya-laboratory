@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -28,8 +29,26 @@ class AgentRuntimeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             runtime = HomeBridgeAgentRuntime(Path(tmp))
             runtime.init()
+            native_escape = str(Path("..") / "outside.txt")
+            with self.assertRaises(RuntimeErrorSafe):
+                runtime._resolve_safe(native_escape)
+
+    @unittest.skipUnless(os.name == "nt", "Windows separator semantics")
+    def test_windows_scope_escape_is_blocked(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            runtime = HomeBridgeAgentRuntime(Path(tmp))
+            runtime.init()
             with self.assertRaises(RuntimeErrorSafe):
                 runtime._resolve_safe("..\\outside.txt")
+
+    def test_absolute_scope_escape_is_blocked(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            runtime = HomeBridgeAgentRuntime(root)
+            runtime.init()
+            outside = root.parent / "outside.txt"
+            with self.assertRaises(RuntimeErrorSafe):
+                runtime._resolve_safe(str(outside))
 
 
 if __name__ == "__main__":
