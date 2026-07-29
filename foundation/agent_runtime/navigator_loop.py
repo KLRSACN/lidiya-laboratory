@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Callable
 
-from task_queue import PersistentTaskQueue, TaskQueueError, TaskRecord
+from task_queue import PersistentTaskQueue, TaskRecord
 
 
 class NavigatorError(Exception):
@@ -21,15 +21,16 @@ Planner = Callable[[TaskRecord], dict[str, Any]]
 Executor = Callable[[TaskRecord, dict[str, Any]], dict[str, Any]]
 Verifier = Callable[[TaskRecord, dict[str, Any]], bool]
 Escalator = Callable[[TaskRecord, Exception], dict[str, Any]]
+RecoveryExecutor = Callable[[TaskRecord, dict[str, Any]], dict[str, Any]]
 
 
 class NavigatorLoop:
-    """Processes durable tasks one step at a time.
+    """Processes durable tasks one bounded task per tick.
 
-    This first version intentionally runs one bounded task per tick. A scheduler or
-    Windows service may call tick repeatedly later. The loop owns state transitions
-    but delegates planning, execution, verification, and escalation to injected
-    collaborators so each layer remains testable and replaceable.
+    Planning, execution, verification, escalation, and recovery are injected so
+    the Navigator remains testable. A validated supervisor plan may be passed to
+    a bounded RecoveryPlanExecutor, but the Navigator never executes arbitrary
+    natural-language instructions or shell commands.
     """
 
     def __init__(
@@ -40,12 +41,14 @@ class NavigatorLoop:
         executor: Executor,
         verifier: Verifier,
         escalator: Escalator | None = None,
+        recovery_executor: RecoveryExecutor | None = None,
     ) -> None:
         self.queue = queue
         self.planner = planner
         self.executor = executor
         self.verifier = verifier
         self.escalator = escalator
+        self.recovery_executor = recovery_executor
 
     def tick(self) -> NavigatorResult | None:
         task = self._next_eligible_task()
@@ -72,21 +75,27 @@ class NavigatorLoop:
                 "VERIFYING",
                 payload={"execution": execution},
             )
-            passed = self.verifier(verifying, execution)
-            if not isinstance(passed, bool):
-                raise NavigatorError("verifier must return bool")
-
-            if passed:
-                success = self.queue.transition(
-                    task.task_id,
-                    "SUCCESS",
-                    payload={"execution": execution},
-                )
-                return NavigatorResult(success.task_id, success.status, execution)
-
-            return self._retry_or_fail(task, NavigatorError("verification failed"))
+            return self._finish_verification(verifying, execution)
         except Exception as exc:
             return self._handle_failure(task, exc)
+
+    def _finish_verification(
+        self,
+        task: TaskRecord,
+        execution: dict[str, Any],
+    ) -> NavigatorResult:
+        passed = self.verifier(task, execution)
+        if not isinstance(passed, bool):
+            raise NavigatorError("verifier must return bool")
+        if not passed:
+            return self._handle_failure(task, NavigatorError("verification failed"))
+
+        success = self.queue.transition(
+            task.task_id,
+            "SUCCESS",
+            payload={"execution": execution},
+        )
+        return NavigatorResult(success.task_id, success.status, execution)
 
     def _next_eligible_task(self) -> TaskRecord | None:
         for status in ("RECEIVED", "RETRYING", "PLANNED"):
@@ -96,36 +105,88 @@ class NavigatorLoop:
         return None
 
     def _handle_failure(self, task: TaskRecord, exc: Exception) -> NavigatorResult:
-        if self.escalator is not None:
-            try:
-                escalation = self.escalator(task, exc)
-            except Exception as escalation_error:
-                return self._retry_or_fail(task, escalation_error)
+        if self.escalator is None:
+            return self._retry_or_fail(task, exc)
 
-            if not isinstance(escalation, dict):
-                return self._retry_or_fail(task, NavigatorError("escalator must return a dict"))
+        try:
+            escalation = self.escalator(task, exc)
+        except Exception as escalation_error:
+            return self._retry_or_fail(task, escalation_error)
 
-            if escalation.get("requires_approval") is True:
-                waiting = self.queue.transition(
-                    task.task_id,
-                    "WAITING_APPROVAL",
-                    payload={"escalation": escalation},
-                    last_error=str(exc),
+        if not isinstance(escalation, dict):
+            return self._retry_or_fail(task, NavigatorError("escalator must return a dict"))
+
+        if escalation.get("requires_approval") is True:
+            waiting = self.queue.transition(
+                task.task_id,
+                "WAITING_APPROVAL",
+                payload={"escalation": escalation},
+                last_error=str(exc),
+            )
+            return NavigatorResult(waiting.task_id, waiting.status, escalation)
+
+        if escalation.get("retry") is False:
+            failed = self.queue.transition(
+                task.task_id,
+                "FAILED",
+                payload={"escalation": escalation},
+                last_error=str(exc),
+            )
+            return NavigatorResult(failed.task_id, failed.status, escalation)
+
+        steps = escalation.get("steps")
+        if escalation.get("retry") is True and isinstance(steps, list) and steps:
+            if self.recovery_executor is None:
+                return self._retry_or_fail(
+                    task,
+                    NavigatorError("validated recovery plan exists but no recovery executor configured"),
                 )
-                return NavigatorResult(waiting.task_id, waiting.status, escalation)
-
-            if escalation.get("retry") is False:
-                failed = self.queue.transition(
-                    task.task_id,
-                    "FAILED",
-                    payload={"escalation": escalation},
-                    last_error=str(exc),
-                )
-                return NavigatorResult(failed.task_id, failed.status, escalation)
+            return self._execute_recovery(task, escalation, exc)
 
         return self._retry_or_fail(task, exc)
 
+    def _execute_recovery(
+        self,
+        task: TaskRecord,
+        escalation: dict[str, Any],
+        original_error: Exception,
+    ) -> NavigatorResult:
+        try:
+            recovering = self.queue.transition(
+                task.task_id,
+                "RETRYING",
+                payload={"escalation": escalation},
+                last_error=str(original_error),
+            )
+            if recovering.status == "FAILED":
+                return NavigatorResult(
+                    recovering.task_id,
+                    recovering.status,
+                    {"error": "retry limit reached", "escalation": escalation},
+                )
+
+            running = self.queue.transition(
+                task.task_id,
+                "RUNNING",
+                payload={"recovery_plan": escalation},
+            )
+            recovery = self.recovery_executor(running, escalation)
+            if not isinstance(recovery, dict):
+                raise NavigatorError("recovery_executor must return a dict")
+
+            verifying = self.queue.transition(
+                task.task_id,
+                "VERIFYING",
+                payload={"recovery": recovery},
+            )
+            return self._finish_verification(verifying, recovery)
+        except Exception as recovery_error:
+            return self._retry_or_fail(task, recovery_error)
+
     def _retry_or_fail(self, task: TaskRecord, exc: Exception) -> NavigatorResult:
+        current = self.queue.get(task.task_id)
+        if current.status in {"SUCCESS", "FAILED", "CANCELLED"}:
+            return NavigatorResult(current.task_id, current.status, {"error": str(exc)})
         updated = self.queue.transition(
             task.task_id,
             "RETRYING",
