@@ -41,9 +41,9 @@ class RecoveryPlanExecutorTests(unittest.TestCase):
             self.assertEqual(len(result.outputs), 2)
             with runtime._connect() as connection:
                 attempts = connection.execute(
-                    "SELECT COUNT(*) AS count FROM attempts WHERE session_id = ?",
+                    "SELECT COUNT(*) FROM attempts WHERE session_id = ?",
                     (result.session_id,),
-                ).fetchone()["count"]
+                ).fetchone()[0]
             self.assertEqual(attempts, 2)
 
     def test_blocks_unregistered_tool_through_runtime(self) -> None:
@@ -79,7 +79,7 @@ class RecoveryPlanExecutorTests(unittest.TestCase):
                 row = connection.execute(
                     "SELECT status FROM sessions ORDER BY created_at DESC LIMIT 1"
                 ).fetchone()
-            self.assertEqual(row["status"], "ESCALATE")
+            self.assertEqual(row[0], "ESCALATE")
 
     def test_enforces_max_steps(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
