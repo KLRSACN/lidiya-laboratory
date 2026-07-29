@@ -230,9 +230,24 @@ class HomeBridgeAgentRuntime:
         with self._connect() as conn:
             conn.execute("UPDATE sessions SET status = ?, updated_at = ? WHERE id = ?", (status, self._now(), session_id))
 
-    def _connect(self) -> sqlite3.Connection:
+    def _connect(self):
         self.root.mkdir(parents=True, exist_ok=True)
-        return sqlite3.connect(self.db_path)
+
+        class ManagedConnection:
+            def __enter__(inner_self):
+                inner_self.conn = sqlite3.connect(self.db_path)
+                return inner_self.conn
+
+            def __exit__(inner_self, exc_type, exc_value, traceback):
+                try:
+                    if exc_type is None:
+                        inner_self.conn.commit()
+                    else:
+                        inner_self.conn.rollback()
+                finally:
+                    inner_self.conn.close()
+
+        return ManagedConnection()
 
     @staticmethod
     def _now() -> str:
