@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout candidate branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Compile deterministic simulator
         run: python3 -m compileall -q foundation/evaluations/hermes_control
