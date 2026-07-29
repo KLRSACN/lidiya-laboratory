@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "status": "CANDIDATE",
+  "target": {
+    "os": "Windows 10",
+    "gpu": "RTX 4050 Laptop 6GB",
+    "ram_gb": 16
+  },
+  "models": [
+    {
+      "id": "embeddinggemma",
+      "role": "home-memory-retrieval",
+      "state": "RESEARCHED_NOT_INSTALLED",
+      "priority": 1,
+      "resident_policy": "cpu_or_low_memory_service",
+      "promotion_gate": "retrieval benchmark and storage measurement"
+    },
+    {
+      "id": "gemma3n:e2b",
+      "role": "local-classification-normalization-repair",
+      "state": "INSTALL_SCRIPT_READY_LOCAL_EXECUTION_PENDING",
+      "priority": 2,
+      "estimated_ollama_size_gb": 5.6,
+      "resident_policy": "on_demand_only",
+      "promotion_gate": "latency, RAM, VRAM and contract accuracy benchmark"
+    },
+    {
+      "id": "functiongemma",
+      "role": "specialized-tool-contract-generation",
+      "state": "RESEARCHED_TUNING_DATA_PENDING",
+      "priority": 3,
+      "resident_policy": "on_demand_after_fine_tuning",
+      "promotion_gate": "task-specific fine-tune beats rules and prompts"
+    },
+    {
+      "id": "hermes3:8b",
+      "role": "local-reasoning-fallback",
+      "state": "EXISTING",
+      "priority": 4,
+      "resident_policy": "exclusive_on_demand",
+      "promotion_gate": "existing controlled inference contract"
+    }
+  ],
+  "rules": {
+    "max_concurrent_generative_models": 1,
+    "credentials_in_model_context": false,
+    "raw_training_data_cloud_sync": false,
+    "approved_summary_sync_to_home": true,
+    "all_mutations_require_verification": true
+  }
+}
