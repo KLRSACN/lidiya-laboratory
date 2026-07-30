@@ -1,0 +1,67 @@
+{
+  "handoff_id": "MAIN-HANDOFF-LOCAL-RELAY-0001-001",
+  "created_at": "2026-07-31T04:15:00+08:00",
+  "from_role": "CURRENT-MAIN-CONTEXT",
+  "to_role": "WINDOW-00-MAIN-LIDIYA",
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "repository": "KLRSACN/lidiya-laboratory",
+  "control_commit": "52f6b3b063d518e7cc162546ae7ab60d979b254f",
+  "integration_contract_commit": "2531bee180ebd2e621ce845892f1907843c0ea2f",
+  "wake_core": {
+    "status": "APPROVED",
+    "frozen_commit": "f1f116fa92ebfc45987fb3b3f74f295b3a497d6a",
+    "path": "missions/WAKE-0001/correction-v0.2/"
+  },
+  "window_assignments": {
+    "WINDOW-00": "MAIN integration, conflict resolution, artifact verification, HOME update",
+    "WINDOW-01": "Builder for Local Relay Dispatcher v0.1",
+    "WINDOW-02": "Protocol, schemas, continuity validation",
+    "WINDOW-03": "Independent audit harness and runtime fault injection"
+  },
+  "expected_next_reports": [
+    "WINDOW-01: BUILDER_PUBLISHED or BLOCKED",
+    "WINDOW-02: PROTOCOL_CANDIDATE_PUBLISHED, then formal continuity after Builder frozen commit",
+    "WINDOW-03: AUDIT_HARNESS_PUBLISHED, then formal dynamic audit after Builder frozen commit"
+  ],
+  "approval_order": [
+    "BUILDER_FROZEN_COMMIT",
+    "CONTINUITY_VERIFIED",
+    "AUDITOR_APPROVED",
+    "WINDOW-00_MAIN_VERDICT"
+  ],
+  "write_scopes": {
+    "WINDOW-00": "missions/LOCAL-RELAY-0001/control/",
+    "WINDOW-01": "missions/LOCAL-RELAY-0001/builder/",
+    "WINDOW-02": "missions/LOCAL-RELAY-0001/continuity/",
+    "WINDOW-03": "missions/LOCAL-RELAY-0001/auditor/"
+  },
+  "non_negotiable_rules": [
+    "GitHub frozen artifacts are the canonical cross-window handoff medium",
+    "Do not approve from pasted claims alone; independently fetch frozen artifacts",
+    "Do not start Live Trigger",
+    "Do not modify HOME during builder, continuity, or audit stages",
+    "Do not implement browser or ChatGPT window control in LOCAL-RELAY-0001",
+    "Do not connect OpenAI or Claude API in this mission",
+    "Single writer per stage and path"
+  ],
+  "current_state": {
+    "wake_core_v0_2": "APPROVED",
+    "local_relay_mission": "PARALLEL_WORK_DISPATCHED",
+    "window_01": "WORKING",
+    "window_02": "WORKING",
+    "window_03": "WORKING",
+    "live_trigger": "NOT_STARTED"
+  },
+  "next_main_actions": [
+    "Read mission_control.json and window00_integration_contract.md",
+    "Accept each worker report as it arrives without waiting for all three",
+    "Fetch and verify the referenced GitHub commit and artifacts",
+    "Record conflicts between Builder implementation, Protocol schemas, and Auditor requirements",
+    "Once Builder frozen commit exists, instruct WINDOW-02 to perform formal continuity against it",
+    "After continuity passes, instruct WINDOW-03 to perform dynamic isolated audit against the same commit",
+    "Issue APPROVED, NEEDS_CORRECTION, or BLOCKED verdict",
+    "Only after final approval update the integration Google Doc and plan Trigger Adapter v0.1"
+  ]
+}
