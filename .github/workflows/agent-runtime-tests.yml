@@ -1,9 +1,6 @@
 name: Agent Runtime Tests
 
 on:
-  push:
-    branches:
-      - home-bridge/agent-runtime-v0.1
   pull_request:
     branches:
       - foundation/phase2c-v0.4
@@ -16,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: agent-runtime-${{ github.ref }}
+  group: agent-runtime-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -25,7 +22,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout candidate branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
 
@@ -37,16 +34,12 @@ jobs:
           test -z "${GEMINI_API_KEY:-}"
           test -z "${LIDIYA_BRIDGE_TOKEN:-}"
 
-      - name: Compile Agent Runtime
-        run: |
-          python -m py_compile \
-            foundation/agent_runtime/agent_runtime.py \
-            foundation/agent_runtime/cron_runner.py \
-            foundation/agent_runtime/test_agent_runtime.py
+      - name: Compile all Agent Runtime modules
+        run: python -m compileall -q foundation/agent_runtime
 
-      - name: Run unit tests
+      - name: Run complete unit-test suite
         working-directory: foundation/agent_runtime
-        run: python -m unittest test_agent_runtime.py -v
+        run: python -m unittest discover -s . -p "test_*.py" -v
 
       - name: Run isolated demo
         shell: bash
@@ -63,4 +56,5 @@ jobs:
           set -euo pipefail
           test ! -e "$HOME/.lidiya"
           echo "AGENT_RUNTIME_CI_PASS"
-          echo "No external network calls, model calls, credential reads, installation, publishing, or formal-system writes were requested."
+          echo "Complete test discovery enabled."
+          echo "No model calls, credential reads, installations, publishing, or formal-system writes were requested."
