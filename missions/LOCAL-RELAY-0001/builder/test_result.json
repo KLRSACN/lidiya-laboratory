@@ -1,0 +1,9 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "total": 17,
+  "passed": 17,
+  "failed": 0,
+  "exit_code": 0,
+  "isolated_runtime": "TemporaryDirectory per test"
+}
