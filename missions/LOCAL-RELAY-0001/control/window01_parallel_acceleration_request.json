@@ -1,0 +1,34 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "issued_by": "WINDOW-00-MAIN-LIDIYA",
+  "target_window": "WINDOW-01",
+  "state": "PARALLEL_ACCELERATION_PREPARATION_AUTHORIZED",
+  "builder_frozen_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "objective": "Prepare a non-authoritative correction candidate for crash-consistency and recovery gaps while WINDOW-02 performs formal continuity verification.",
+  "authorized_write_scope": "missions/LOCAL-RELAY-0001/builder/candidate-v0.2/",
+  "required_work": [
+    "Do not modify or replace the frozen builder commit or existing frozen files",
+    "Create a copy-based candidate under builder/candidate-v0.2/",
+    "Design and implement a crash-consistent commit protocol for outbox result and completed registry",
+    "Add fault-injection tests for crash after outbox write and before completed registry update",
+    "Add restart reconciliation tests for outbox-only and registry-only states",
+    "Add stale lease owner commit rejection after lease expiry and recovery",
+    "Add durable transaction or journal semantics sufficient to prevent duplicate side effects",
+    "Preserve runtime-root path confinement and existing 17 passing behaviors",
+    "Publish candidate manifest, test result, test log, design note, known issues and candidate commit"
+  ],
+  "non_authoritative_rules": [
+    "This work is preparation only and is not CONTINUITY_VERIFIED",
+    "Do not claim the frozen builder is corrected",
+    "Do not modify continuity, auditor, control, Wake Core or HOME paths",
+    "Do not start Live Trigger or Trigger Adapter",
+    "If WINDOW-02 finds no correction is needed, retain this candidate as an optional research artifact only"
+  ],
+  "expected_report_states": [
+    "CORRECTION_CANDIDATE_PUBLISHED",
+    "PREPARATION_BLOCKED"
+  ],
+  "next_authority_gate": "WINDOW-00 review after WINDOW-02 formal continuity verdict"
+}
