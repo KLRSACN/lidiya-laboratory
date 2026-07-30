@@ -1,0 +1,11 @@
+{
+  "active_assignments": {},
+  "completed_assignments": {
+    "WAKE-0001::BOOTSTRAP-0001": {
+      "final_state": "WAIT_TRIGGER",
+      "highest_progress_token": "WAKE-0001:BOOTSTRAP-0001:P0004",
+      "result_hash": "EXAMPLE_SHA256_RESULT_HASH",
+      "status": "COMPLETED"
+    }
+  }
+}

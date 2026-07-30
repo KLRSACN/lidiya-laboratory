@@ -1,0 +1,51 @@
+{
+  "base_frozen_commit": "0d2767a147a18850591e0aa5bc7500e59bc885aa",
+  "capabilities": {
+    "checkpoint_recovery": "IMPLEMENTED_AND_TESTED",
+    "duplicate_side_effect_protection": "IMPLEMENTED_AND_TESTED",
+    "idempotency": "IMPLEMENTED_AND_TESTED",
+    "token_regression_protection": "IMPLEMENTED_AND_TESTED"
+  },
+  "files": [
+    {
+      "path": "simulate_wake_v0.2.py",
+      "sha256": "a5dac04f22bbdb626cb86783aa07debe20e92c33b957a9a6e8acf369e23266a6",
+      "size_bytes": 12087
+    },
+    {
+      "path": "test_wake_v0.2.py",
+      "sha256": "dac319f9956a1094304598e61f500373ac7388853561ad4952bde04d0a598597",
+      "size_bytes": 6681
+    },
+    {
+      "path": "wake_runtime_state.example.json",
+      "sha256": "fa2debec5120de46fab3a3a9f6cf324f44d390c008f7121a5d1eb16670125e67",
+      "size_bytes": 288
+    },
+    {
+      "path": "checkpoint_v0.2.example.json",
+      "sha256": "40f7a9c435862cbbd305198105b74fe0a0fa97cf08dbc6cdbfd2fee0b038aca2",
+      "size_bytes": 455
+    },
+    {
+      "path": "test_result.json",
+      "sha256": "96797e6df3b5463b7d464982a8ea0b70bf17abb615aacb80434fb2959b1cc82c",
+      "size_bytes": 721
+    },
+    {
+      "path": "test_output.log",
+      "sha256": "7f6e2cda39af9b6c9b957dec5db5421d518f379f4dcc3a4ebecb8acb4fa0158f",
+      "size_bytes": 707
+    }
+  ],
+  "generation": 1,
+  "mission_id": "WAKE-0001-CORRECTION",
+  "parent_mission_id": "WAKE-0001-REAUDIT",
+  "test_summary": {
+    "exit_code": 0,
+    "failed": 0,
+    "passed": 11,
+    "total": 11
+  },
+  "token": "BOOTSTRAP-0002"
+}

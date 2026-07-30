@@ -1,0 +1,18 @@
+{
+  "checkpoint_hash": "EXAMPLE_SHA256_CHECKPOINT_HASH",
+  "completed_steps": [
+    "ENTER_RUNNING",
+    "ARTIFACT_PLAN_CONFIRMED",
+    "RELAY_PREPARED"
+  ],
+  "current_state": "RELAY_READY",
+  "highest_progress_token": "WAKE-0001:BOOTSTRAP-0001:P0003",
+  "mission_id": "WAKE-0001",
+  "next_action": "RESET_TO_WAIT_TRIGGER",
+  "pending_steps": [
+    "RESET_TO_WAIT_TRIGGER"
+  ],
+  "recoverable": true,
+  "result_hash": null,
+  "token": "BOOTSTRAP-0001"
+}
