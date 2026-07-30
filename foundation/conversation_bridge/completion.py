@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from .contracts import CapturedResponse, CompletionDecision, ConversationState
+try:
+    from .contracts import CapturedResponse, CompletionDecision, ConversationState
+except ImportError:  # direct test execution from this directory
+    from contracts import CapturedResponse, CompletionDecision, ConversationState
 
 
 class CompletionDetector:
