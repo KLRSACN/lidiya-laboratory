@@ -1,0 +1,26 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "matrix_version": "1.0",
+  "tests": [
+    {"id":"F01","name":"atomic_claim_race","processes":2,"expected":"exactly_one_claim_success","severity":"critical"},
+    {"id":"F02","name":"worker_crash_after_claim","expected":"running_preserved_then_recoverable_after_lease","severity":"critical"},
+    {"id":"F03","name":"lease_not_expired","expected":"recovery_rejected","severity":"critical"},
+    {"id":"F04","name":"lease_expired","expected":"recovery_allowed","severity":"critical"},
+    {"id":"F05","name":"stale_owner_commit","expected":"completion_rejected","severity":"critical"},
+    {"id":"F06","name":"heartbeat_extends_lease","expected":"new_expiry_greater_than_old","severity":"high"},
+    {"id":"F07","name":"duplicate_delivery","expected":"no_side_effect_and_outbox_hash_unchanged","severity":"critical"},
+    {"id":"F08","name":"process_restart_restore","expected":"disk_state_restored","severity":"critical"},
+    {"id":"F09","name":"retry_exhaustion","expected":"failed_at_max_attempts_not_requeued","severity":"critical"},
+    {"id":"F10","name":"truncated_json","expected":"quarantine_before_running","severity":"high"},
+    {"id":"F11","name":"non_json","expected":"quarantine_before_running","severity":"high"},
+    {"id":"F12","name":"missing_fields","expected":"quarantine_before_running","severity":"high"},
+    {"id":"F13","name":"wrong_types","expected":"quarantine_before_running","severity":"high"},
+    {"id":"F14","name":"hash_mismatch","expected":"quarantine_before_running","severity":"critical"},
+    {"id":"F15","name":"path_traversal","expected":"quarantine_before_running","severity":"critical"},
+    {"id":"F16","name":"partial_write_visibility","expected":"temporary_file_not_scanned","severity":"critical"},
+    {"id":"F17","name":"concurrent_dispatcher_restart","expected":"valid_lease_not_reclaimed","severity":"critical"},
+    {"id":"F18","name":"result_atomic_commit","expected":"no_completed_outbox_divergence","severity":"critical"}
+  ]
+}
