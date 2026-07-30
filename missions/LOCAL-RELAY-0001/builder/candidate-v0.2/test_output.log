@@ -1,0 +1,29 @@
+test_18_crash_after_outbox_before_registry (__main__.CrashConsistencyTests.test_18_crash_after_outbox_before_registry) ... ok
+test_19_restart_recovers_outbox_only (__main__.CrashConsistencyTests.test_19_restart_recovers_outbox_only) ... ok
+test_20_registry_only_repairs_outbox (__main__.CrashConsistencyTests.test_20_registry_only_repairs_outbox) ... ok
+test_21_stale_owner_cannot_commit_after_expiry (__main__.CrashConsistencyTests.test_21_stale_owner_cannot_commit_after_expiry) ... ok
+test_22_prepared_journal_restart_prevents_duplicate_effect (__main__.CrashConsistencyTests.test_22_prepared_journal_restart_prevents_duplicate_effect) ... ok
+test_23_conflicting_registry_and_outbox_blocks (__main__.CrashConsistencyTests.test_23_conflicting_registry_and_outbox_blocks) ... ok
+test_24_runtime_root_constraint_preserved (__main__.CrashConsistencyTests.test_24_runtime_root_constraint_preserved) ... ok
+test_01_single_normal_task (__main__.RelayV01RegressionTests.test_01_single_normal_task) ... ok
+test_02_two_workers_atomic_claim (__main__.RelayV01RegressionTests.test_02_two_workers_atomic_claim) ... ok
+test_03_duplicate_completed (__main__.RelayV01RegressionTests.test_03_duplicate_completed) ... ok
+test_04_worker_crash_leaves_running (__main__.RelayV01RegressionTests.test_04_worker_crash_leaves_running) ... ok
+test_05_lease_expiry_recovery (__main__.RelayV01RegressionTests.test_05_lease_expiry_recovery) ... ok
+test_06_unexpired_lease_not_recovered (__main__.RelayV01RegressionTests.test_06_unexpired_lease_not_recovered) ... ok
+test_07_heartbeat_extends_lease (__main__.RelayV01RegressionTests.test_07_heartbeat_extends_lease) ... ok
+test_08_retry_limit (__main__.RelayV01RegressionTests.test_08_retry_limit) ... ok
+test_09_corrupt_json_quarantine (__main__.RelayV01RegressionTests.test_09_corrupt_json_quarantine) ... ok
+test_10_missing_field_quarantine (__main__.RelayV01RegressionTests.test_10_missing_field_quarantine) ... ok
+test_11_restart_recovery (__main__.RelayV01RegressionTests.test_11_restart_recovery) ... ok
+test_12_partial_temp_file_ignored (__main__.RelayV01RegressionTests.test_12_partial_temp_file_ignored) ... ok
+test_13_path_traversal_rejected (__main__.RelayV01RegressionTests.test_13_path_traversal_rejected) ... ok
+test_14_outbox_persistence (__main__.RelayV01RegressionTests.test_14_outbox_persistence) ... ok
+test_15_different_token_independent (__main__.RelayV01RegressionTests.test_15_different_token_independent) ... ok
+test_16_hash_mismatch_quarantine (__main__.RelayV01RegressionTests.test_16_hash_mismatch_quarantine) ... ok
+test_17_unsupported_action_quarantine (__main__.RelayV01RegressionTests.test_17_unsupported_action_quarantine) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.304s
+
+OK
