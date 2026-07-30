@@ -1,0 +1,8 @@
+{
+  "runtime_root": "./runtime",
+  "worker_id": "WINDOW-01",
+  "supported_actions": ["WRITE_TEXT"],
+  "directories": ["inbox", "running", "outbox", "failed", "checkpoints", "quarantine", "state"],
+  "single_pass_worker": true,
+  "external_network_access": false
+}
