@@ -1,0 +1,19 @@
+{
+  "candidate": "auditor-candidate-v0.2",
+  "files": [
+    "audit_requirements_v0.2.json",
+    "auditor_adapter_contract.json",
+    "crash_boundary_matrix.json",
+    "fault_injection_harness.py",
+    "lease_fencing_harness.py",
+    "manifest_verifier.py"
+  ],
+  "generation": 1,
+  "hash_status": "PENDING_RETARGET_AND_FINAL_MATERIALIZATION",
+  "manifest_self_entry": "ABSENT",
+  "mission_id": "LOCAL-RELAY-0001",
+  "source_builder_frozen_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "status": "AUDIT_PREPARATION_PUBLISHED",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "warning": "This manifest records preparation tools only and is not an AUDITOR_APPROVED verdict. Byte-size and SHA-256 verification must be produced after retargeting the new Builder Candidate Commit."
+}
