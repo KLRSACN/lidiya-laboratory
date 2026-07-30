@@ -1,0 +1,28 @@
+{
+  "mission_id": "WAKE-0001",
+  "token": "BOOTSTRAP-0001",
+  "source_worker": "WORKER-01",
+  "recommended_next_worker": "WORKER-02",
+  "relay_checkpoint": "WAKE-0001:BOOTSTRAP-0001:P0003",
+  "reset_checkpoint": "WAKE-0001:BOOTSTRAP-0001:P0004",
+  "verified_transition": [
+    "WAIT_TRIGGER",
+    "RUNNING",
+    "RELAY_READY",
+    "WAIT_TRIGGER"
+  ],
+  "verified_final_state": "WAIT_TRIGGER",
+  "known_limitations": [
+    "Local deterministic simulation only",
+    "No external window wake event tested",
+    "No GitHub polling tested",
+    "No cross-process persistence tested"
+  ],
+  "next_tests": [
+    "Invalid trigger with missing fields",
+    "Wrong target trigger",
+    "Duplicate mission/token idempotency",
+    "BLOCKED recovery path",
+    "Persistent checkpoint recovery"
+  ]
+}
