@@ -1,0 +1,69 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "candidate_version": "v0.2",
+  "base_frozen_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "control_commit": "c6564a0ad25076e916357b272e4f8cc98caf8f47",
+  "files": [
+    {
+      "path": "local_relay_dispatcher_v0_2.py",
+      "size_bytes": 356,
+      "sha256": "c1a29d9dce8b0f493fa96fcf85d5cf98294d40f72271533306f8a89eaa58b3b8"
+    },
+    {
+      "path": "relay_common_v0_2.py",
+      "size_bytes": 1336,
+      "sha256": "2c42c0ba8293d1f01b4677e159d5cfcc1b88416adb8df0a4b2b9aea5a0cb675c"
+    },
+    {
+      "path": "relay_storage_v0_2.py",
+      "size_bytes": 8904,
+      "sha256": "1b07fc992179f2b9dba7556dab966f76e4bfe6aad563979e3dc55621eddce85f"
+    },
+    {
+      "path": "relay_transaction_v0_2.py",
+      "size_bytes": 4824,
+      "sha256": "a7243c491762a91b6badd108fdc6fcd0b19fef601d21eb2324032819d1222fa7"
+    },
+    {
+      "path": "relay_recovery_v0_2.py",
+      "size_bytes": 6892,
+      "sha256": "492c8bbe90b40f6c62169bbfe6b52c8178411aac8dc05b179b44a64c6ab830a1"
+    },
+    {
+      "path": "relay_worker_stub_v0_2.py",
+      "size_bytes": 525,
+      "sha256": "714d5f6b2730e586d0c965f7894f5c240d2158cdfa531cbfbb8e5319d8160a9a"
+    },
+    {
+      "path": "test_local_relay_v0_2.py",
+      "size_bytes": 10824,
+      "sha256": "31dc4bdd2e3ad4f46da7663de0661452a3d38ab7a90479df77604be00a0cbddf"
+    },
+    {
+      "path": "task_packet.example.json",
+      "size_bytes": 562,
+      "sha256": "571786da1956e403d028839273313dededfcb392dc8e43136ec143325c957a70"
+    },
+    {
+      "path": "dispatcher_config.example.json",
+      "size_bytes": 283,
+      "sha256": "1f91f9ee7fb8e539d4cdc1b4df4667fa11227a2ffb3009309854bb0f1539c21d"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 1126,
+      "sha256": "0e2550bbdd1cb54dafaf5592abd77add843dfb2ec7646e411558cdc7f4d009e2"
+    },
+    {
+      "path": "test_result.json",
+      "size_bytes": 879,
+      "sha256": "608877ef74800d87976ff7504c7d8b4791633f88d321c0b23c646e0b435bc7a8"
+    },
+    {
+      "path": "test_output.log",
+      "size_bytes": 2785,
+      "sha256": "413b3152400a8a4509dbac5f558bf73e4d3913801ff213639020e668fd49998a"
+    }
+  ]
+}
