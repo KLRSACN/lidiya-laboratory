@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.1",
+  "status": "CANDIDATE",
+  "default_model": "gemma3n:e2b",
+  "supervisor_model": "hermes3:latest",
+  "supervisor_endpoint": "http://127.0.0.1:11434/api/chat",
+  "supervisor_timeout_seconds": 90,
+  "supervisor_max_plan_steps": 6,
+  "max_attempts_per_task": 3,
+  "max_steps_per_session": 20,
+  "allowed_tools": [
+    "fs.list",
+    "fs.mkdir",
+    "fs.copy",
+    "fs.move",
+    "fs.sha256",
+    "fs.write_text"
+  ],
+  "blocked_capabilities": [
+    "arbitrary_shell",
+    "credential_read",
+    "system_write",
+    "external_publish",
+    "permanent_delete"
+  ],
+  "cron_enabled": true,
+  "session_store": "runtime.db",
+  "skill_directory": "skills",
+  "workspace_directory": "workspace",
+  "log_directory": "logs",
+  "quarantine_directory": "quarantine"
+}

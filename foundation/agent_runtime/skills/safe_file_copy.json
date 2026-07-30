@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "name": "safe_file_copy",
+  "description": "Copy one approved file inside the autonomous zone and verify the destination hash.",
+  "steps": [
+    {
+      "tool": "fs.copy",
+      "arguments": {
+        "source": "{{arguments.source}}",
+        "destination": "{{arguments.destination}}"
+      }
+    },
+    {
+      "tool": "fs.sha256",
+      "arguments": {
+        "path": "{{arguments.destination}}"
+      }
+    }
+  ]
+}
