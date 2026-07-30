@@ -1,0 +1,74 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "state": "PARALLEL_PREPARATION",
+  "canonical_repository": "KLRSACN/lidiya-laboratory",
+  "base_wake_core_commit": "f1f116fa92ebfc45987fb3b3f74f295b3a497d6a",
+  "windows": {
+    "WINDOW-00": {
+      "role": "MAIN_LIDIYA_INTEGRATOR",
+      "workstream": "control_specification_integration",
+      "write_scope": "missions/LOCAL-RELAY-0001/control/"
+    },
+    "WINDOW-01": {
+      "role": "BUILDER",
+      "workstream": "dispatcher_implementation",
+      "write_scope": "missions/LOCAL-RELAY-0001/builder/"
+    },
+    "WINDOW-02": {
+      "role": "CONTINUITY_PROTOCOL",
+      "workstream": "schemas_state_machine_static_validation",
+      "write_scope": "missions/LOCAL-RELAY-0001/continuity/"
+    },
+    "WINDOW-03": {
+      "role": "AUDITOR_TEST_DESIGN",
+      "workstream": "fault_injection_concurrency_recovery_tests",
+      "write_scope": "missions/LOCAL-RELAY-0001/auditor/"
+    }
+  },
+  "write_policy": {
+    "single_writer_per_path": true,
+    "cross_window_file_edits": false,
+    "builder_candidate_freeze_required": true,
+    "formal_approval_order": [
+      "BUILDER_PUBLISHED",
+      "CONTINUITY_VERIFIED",
+      "AUDITOR_APPROVED",
+      "MAIN_APPROVED"
+    ]
+  },
+  "parallel_policy": {
+    "window_01_may_implement": true,
+    "window_02_may_prepare_protocol_before_builder_freeze": true,
+    "window_03_may_prepare_test_harness_before_builder_freeze": true,
+    "window_02_and_03_must_retarget_frozen_commit_before_final_verdict": true
+  },
+  "scope": {
+    "included": [
+      "filesystem_queue_directories",
+      "atomic_task_claim",
+      "lease_and_heartbeat",
+      "bounded_retry",
+      "crash_recovery",
+      "duplicate_claim_protection",
+      "corrupt_packet_quarantine",
+      "persistent_dispatcher_state",
+      "structured_result_and_manifest"
+    ],
+    "excluded": [
+      "live_chatgpt_trigger",
+      "browser_control",
+      "github_issue_polling",
+      "external_ai_api_worker",
+      "notification_delivery",
+      "home_document_modification_by_workers"
+    ]
+  },
+  "current_stage": {
+    "WINDOW-00": "CONTROL_CREATED",
+    "WINDOW-01": "READY_FOR_DISPATCH",
+    "WINDOW-02": "READY_FOR_DISPATCH",
+    "WINDOW-03": "READY_FOR_DISPATCH"
+  }
+}
