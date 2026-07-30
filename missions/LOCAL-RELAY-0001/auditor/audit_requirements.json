@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LOCAL-RELAY-0001",
+  "required_test_count": 18,
+  "process_concurrency_required": true,
+  "isolated_copy_required": true,
+  "frozen_commit_required": true,
+  "required_evidence": [
+    "exact_commands",
+    "process_ids",
+    "exit_codes",
+    "stdout",
+    "stderr",
+    "before_after_sha256",
+    "directory_snapshots",
+    "lease_timestamps",
+    "registry_snapshots"
+  ],
+  "hard_fail_conditions": [
+    "more_than_one_atomic_claim_success",
+    "unexpired_lease_reclaimed",
+    "stale_owner_result_accepted",
+    "duplicate_side_effect",
+    "corrupt_packet_entered_running",
+    "retry_exhausted_task_requeued",
+    "partial_file_claimed",
+    "completed_registry_outbox_conflict"
+  ],
+  "non_goals": [
+    "browser_control",
+    "live_chatgpt_trigger",
+    "github_issue_polling",
+    "external_ai_api",
+    "home_document_modification"
+  ]
+}
