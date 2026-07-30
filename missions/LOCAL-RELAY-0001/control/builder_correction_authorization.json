@@ -1,0 +1,31 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "issued_by": "WINDOW-00-MAIN-LIDIYA",
+  "state": "BUILDER_CORRECTION_AUTHORIZED",
+  "source_builder_frozen_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "continuity_report_commit": "16ed1986813eff2234bc808a27384aef60d1fa5f",
+  "protocol_candidate_commit": "a0ad0fed0580291e96f94704dac8f4ef21cbdff0",
+  "authorized_target_scope": "missions/LOCAL-RELAY-0001/builder/candidate-v0.2/",
+  "required_corrections": [
+    "Align Task Packet action, target-worker, additional-properties, lease bounds and required-field validation with the protocol, or publish an explicitly versioned protocol amendment for WINDOW-00 review",
+    "Add claim_id, lease_generation and recovery_count",
+    "Reject expired or stale claims during heartbeat and result submission",
+    "Persist canonical task states and enforce allowed and forbidden transitions",
+    "Produce protocol-compatible checkpoint and dispatcher-state records with hashes and recovery metadata",
+    "Add outbox_path to completed records",
+    "Implement deterministic crash reconciliation for the Outbox-before-Registry boundary",
+    "Add exact fault-injection and restart-reconciliation tests",
+    "Retain and pass all previous Builder tests",
+    "Publish a new immutable candidate commit with complete manifest, byte sizes and SHA-256 values"
+  ],
+  "constraints": [
+    "Do not modify or rewrite the original Builder frozen commit",
+    "Do not modify continuity, auditor, control, Wake Core or HOME paths",
+    "Do not start Live Trigger or Trigger Adapter",
+    "Do not declare the correction formally approved",
+    "Return the new candidate commit to WINDOW-00 for independent verification and WINDOW-02 revalidation"
+  ],
+  "next_expected_state": "CORRECTION_CANDIDATE_PUBLISHED"
+}
