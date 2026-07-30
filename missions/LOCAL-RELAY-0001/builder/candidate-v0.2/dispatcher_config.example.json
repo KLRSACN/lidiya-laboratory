@@ -1,0 +1,9 @@
+{
+  "runtime_root": "./runtime",
+  "worker_id": "WINDOW-01",
+  "supported_actions": ["WRITE_TEXT"],
+  "atomic_claim": "os.replace same-filesystem",
+  "transaction_journal": "runtime/state/journal",
+  "reconcile_on_startup": true,
+  "stale_owner_fencing": "claim_id + lease expiry"
+}
