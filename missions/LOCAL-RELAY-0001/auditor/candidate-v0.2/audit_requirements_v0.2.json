@@ -1,0 +1,31 @@
+{
+  "approval_prohibition": "No AUDITOR_APPROVED may be issued against the old frozen commit or preparation harness alone.",
+  "fault_modes": [
+    "before_function",
+    "after_function",
+    "os._exit",
+    "partial_write",
+    "fsync_failure",
+    "atomic_replace_failure",
+    "checkpoint_update_failure",
+    "after_outbox_before_registry",
+    "after_registry_before_running_cleanup"
+  ],
+  "generation": 1,
+  "mission_id": "LOCAL-RELAY-0001",
+  "required_capabilities": [
+    "independent_process atomic claim race",
+    "crash retention and expired lease recovery",
+    "lease heartbeat extension and generation fencing",
+    "duplicate delivery stable outbox hash",
+    "process restart disk persistence",
+    "bounded retry exhaustion",
+    "corrupt packet quarantine",
+    "partial write invisibility",
+    "concurrent dispatcher restart",
+    "atomic result/registry consistency"
+  ],
+  "retarget_required": true,
+  "source_builder_frozen_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "status": "PREPARATION_ONLY"
+}
