@@ -1,0 +1,22 @@
+test_01_single_normal_task (__main__.RelayTests.test_01_single_normal_task) ... ok
+test_02_two_workers_atomic_claim (__main__.RelayTests.test_02_two_workers_atomic_claim) ... ok
+test_03_duplicate_completed (__main__.RelayTests.test_03_duplicate_completed) ... ok
+test_04_worker_crash_leaves_running (__main__.RelayTests.test_04_worker_crash_leaves_running) ... ok
+test_05_lease_expiry_recovery (__main__.RelayTests.test_05_lease_expiry_recovery) ... ok
+test_06_unexpired_lease_not_recovered (__main__.RelayTests.test_06_unexpired_lease_not_recovered) ... ok
+test_07_heartbeat_extends_lease (__main__.RelayTests.test_07_heartbeat_extends_lease) ... ok
+test_08_retry_limit (__main__.RelayTests.test_08_retry_limit) ... ok
+test_09_corrupt_json_quarantine (__main__.RelayTests.test_09_corrupt_json_quarantine) ... ok
+test_10_missing_field_quarantine (__main__.RelayTests.test_10_missing_field_quarantine) ... ok
+test_11_restart_recovery (__main__.RelayTests.test_11_restart_recovery) ... ok
+test_12_partial_temp_file_ignored (__main__.RelayTests.test_12_partial_temp_file_ignored) ... ok
+test_13_path_traversal_rejected (__main__.RelayTests.test_13_path_traversal_rejected) ... ok
+test_14_outbox_persistence (__main__.RelayTests.test_14_outbox_persistence) ... ok
+test_15_different_token_independent (__main__.RelayTests.test_15_different_token_independent) ... ok
+test_16_hash_mismatch_quarantine (__main__.RelayTests.test_16_hash_mismatch_quarantine) ... ok
+test_17_unsupported_action_quarantine (__main__.RelayTests.test_17_unsupported_action_quarantine) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.103s
+
+OK
