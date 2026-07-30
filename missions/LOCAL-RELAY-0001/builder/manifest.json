@@ -1,0 +1,48 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "base_wake_core_commit": "f1f116fa92ebfc45987fb3b3f74f295b3a497d6a",
+  "files": [
+    {
+      "path": "local_relay_dispatcher.py",
+      "size_bytes": 7413,
+      "sha256": "63d24c62fb39bd4dfe7b2dd3e43263824e00cbb08fbc19c32ded2dc282f0ef13"
+    },
+    {
+      "path": "relay_worker_stub.py",
+      "size_bytes": 695,
+      "sha256": "173cf8f6227497aa72b7975dea850ccf546bdfa8f8d44bd0e8b9309f34136786"
+    },
+    {
+      "path": "test_local_relay.py",
+      "size_bytes": 7440,
+      "sha256": "1b21e1b412ed02d0c4f68a78c61abab69a74f8d87f8232f1bb4be1a14a7aef0e"
+    },
+    {
+      "path": "task_packet.example.json",
+      "size_bytes": 595,
+      "sha256": "7d8b5fc17b735325953c73e115be50dc311ae6b9ecf5b2ddca762bed462717ca"
+    },
+    {
+      "path": "dispatcher_config.example.json",
+      "size_bytes": 264,
+      "sha256": "0f80e15151797433a4a231f3daf0de2deacc99248c1ffad9fd04d3f180583a71"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 868,
+      "sha256": "43f0c792e7267b6f9eec2b1b47171e8c1e855a1bbe90d8db53bdb0de24b022fb"
+    },
+    {
+      "path": "test_result.json",
+      "size_bytes": 191,
+      "sha256": "27866513365c44d75145780e4c1bbbf607da1c71e0dafc6ab2674d7646e29254"
+    },
+    {
+      "path": "test_output.log",
+      "size_bytes": 1660,
+      "sha256": "c0290e3dc2613d6c75ef3cc9b51a2902a23da1c28a46b6adcbaab35ce9649c02"
+    }
+  ]
+}
