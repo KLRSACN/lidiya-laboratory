@@ -1,0 +1,36 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "handoff_state": "MAIN_HANDOFF_ACCEPTED",
+  "accepted_by": "WINDOW-00",
+  "accepted_at": "2026-07-31T04:19:00+08:00",
+  "handoff_commit": "db52b61d122bbb361abbb3ce5ab083636abec133",
+  "wake_core": {
+    "status": "APPROVED_BY_AUTHORITY_REFERENCE",
+    "frozen_commit": "f1f116fa92ebfc45987fb3b3f74f295b3a497d6a",
+    "path": "missions/WAKE-0001/correction-v0.2/",
+    "warning": "Directory-level reference confirmed; successor MAIN has not yet re-read every Wake Core artifact from the frozen commit. Perform explicit file-level verification at the next practical validation point."
+  },
+  "window_states": {
+    "WINDOW-01": "WORKING",
+    "WINDOW-02": "WORKING",
+    "WINDOW-03": "WORKING"
+  },
+  "control_precedence": {
+    "current_status_source": "main_handoff.json",
+    "older_control_status": "READY_FOR_DISPATCH",
+    "effective_status": "WORKING",
+    "reason": "Newer handoff state supersedes the older control snapshot without changing mission identity or authority chain."
+  },
+  "mandatory_validation_rule": "WINDOW-02 and WINDOW-03 final approval must target the exact same WINDOW-01 Builder Frozen Commit. Candidate branches, local working copies, and pasted summaries are not approval evidence.",
+  "next_action": "WAIT_FOR_FIRST_STRUCTURED_REPORT",
+  "restrictions": [
+    "LIVE_TRIGGER_NOT_STARTED",
+    "NO_BROWSER_CONTROL",
+    "NO_CHATGPT_WINDOW_CONTROL",
+    "NO_EXTERNAL_AI_API",
+    "NO_HOME_MODIFICATION",
+    "NO_APPROVAL_FROM_PASTED_TEXT_ALONE"
+  ],
+  "previous_main_state": "HANDOFF_COMPLETE_AND_RETIRED",
+  "handoff_valid": true
+}
