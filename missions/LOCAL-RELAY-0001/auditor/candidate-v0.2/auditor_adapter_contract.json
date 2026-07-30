@@ -1,0 +1,64 @@
+{
+  "common_args": [
+    "--root",
+    "<isolated_root>"
+  ],
+  "contract_version": "0.2",
+  "fencing_requirements": [
+    "Every mutating operation must validate owner, claim_id, and lease_generation.",
+    "A newer lease_generation permanently fences older owners.",
+    "Expired claims cannot heartbeat or submit.",
+    "Exactly one completed record and one stable outbox hash per task."
+  ],
+  "injection_environment": {
+    "AUDIT_INJECT_EXIT_CODE": "integer for os._exit",
+    "AUDIT_INJECT_MODE": [
+      "raise",
+      "os_exit",
+      "partial_write",
+      "fsync_fail",
+      "replace_fail"
+    ],
+    "AUDIT_INJECT_POINT": "symbolic injection point",
+    "AUDIT_START_BARRIER": "path used to synchronize independent processes"
+  },
+  "mission_id": "LOCAL-RELAY-0001",
+  "operations": {
+    "claim": {
+      "args": ["claim", "--packet", "<path>", "--owner", "<id>"],
+      "stdout_json_required": ["status", "claim_id", "lease_generation", "lease_expires_at"],
+      "success_exit_code": 0
+    },
+    "heartbeat": {
+      "args": ["heartbeat", "--task-id", "<id>", "--owner", "<id>", "--claim-id", "<id>", "--lease-generation", "<n>"],
+      "stdout_json_required": ["status", "lease_expires_at"],
+      "success_exit_code": 0
+    },
+    "read_checkpoint": {
+      "args": ["read-checkpoint", "--task-id", "<id>"],
+      "stdout_json_required": ["task_id", "highest_progress_token"],
+      "success_exit_code": 0
+    },
+    "read_completed_record": {
+      "args": ["read-completed-record", "--task-id", "<id>"],
+      "stdout_json_required": ["task_id", "status", "outbox_hash"],
+      "success_exit_code": 0
+    },
+    "read_task_state": {
+      "args": ["read-task-state", "--task-id", "<id>"],
+      "stdout_json_required": ["task_id", "state"],
+      "success_exit_code": 0
+    },
+    "recover": {
+      "args": ["recover", "--now", "<epoch>"],
+      "stdout_json_required": ["status", "recovered_tasks"],
+      "success_exit_code": 0
+    },
+    "submit_result": {
+      "args": ["submit-result", "--task-id", "<id>", "--owner", "<id>", "--claim-id", "<id>", "--lease-generation", "<n>", "--result", "<path>"],
+      "stdout_json_required": ["status", "outbox_hash"],
+      "success_exit_code": 0
+    }
+  },
+  "transport": "CLI_JSON"
+}
