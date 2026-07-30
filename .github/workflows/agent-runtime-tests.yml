@@ -6,6 +6,7 @@ on:
       - foundation/phase2c-v0.4
     paths:
       - "foundation/agent_runtime/**"
+      - "foundation/conversation_bridge/**"
       - ".github/workflows/agent-runtime-tests.yml"
   workflow_dispatch:
 
@@ -34,11 +35,15 @@ jobs:
           test -z "${GEMINI_API_KEY:-}"
           test -z "${LIDIYA_BRIDGE_TOKEN:-}"
 
-      - name: Compile all Agent Runtime modules
-        run: python -m compileall -q foundation/agent_runtime
+      - name: Compile candidate modules
+        run: python -m compileall -q foundation/agent_runtime foundation/conversation_bridge
 
-      - name: Run complete unit-test suite
+      - name: Run Agent Runtime unit tests
         working-directory: foundation/agent_runtime
+        run: python -m unittest discover -s . -p "test_*.py" -v
+
+      - name: Run Conversation Bridge contract tests
+        working-directory: foundation/conversation_bridge
         run: python -m unittest discover -s . -p "test_*.py" -v
 
       - name: Run isolated demo
@@ -55,7 +60,7 @@ jobs:
         run: |
           set -euo pipefail
           test ! -e "$HOME/.lidiya"
-          echo "AGENT_RUNTIME_CI_PASS"
+          echo "AGENT_RUNTIME_AND_CONVERSATION_BRIDGE_CI_PASS"
 
   windows-service-control:
     runs-on: windows-2025
@@ -73,12 +78,17 @@ jobs:
             throw "Credential input must remain empty"
           }
 
-      - name: Compile all Agent Runtime modules
+      - name: Compile candidate modules
         shell: pwsh
-        run: python -m compileall -q foundation/agent_runtime
+        run: python -m compileall -q foundation/agent_runtime foundation/conversation_bridge
 
-      - name: Run complete Windows unit-test suite
+      - name: Run complete Windows Agent Runtime suite
         working-directory: foundation/agent_runtime
+        shell: pwsh
+        run: python -m unittest discover -s . -p "test_*.py" -v
+
+      - name: Run Windows Conversation Bridge contract suite
+        working-directory: foundation/conversation_bridge
         shell: pwsh
         run: python -m unittest discover -s . -p "test_*.py" -v
 
