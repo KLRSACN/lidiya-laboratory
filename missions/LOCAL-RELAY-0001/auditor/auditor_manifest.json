@@ -1,0 +1,30 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "role": "AUDITOR_TEST_DESIGN",
+  "control_commit": "52f6b3b063d518e7cc162546ae7ab60d979b254f",
+  "status": "AUDIT_HARNESS_PUBLISHED",
+  "test_matrix_count": 18,
+  "waiting_for_builder_frozen_commit": true,
+  "write_scope": "missions/LOCAL-RELAY-0001/auditor/",
+  "files": [
+    "audit_plan.md",
+    "fault_matrix.json",
+    "concurrency_harness.py",
+    "crash_worker.py",
+    "corrupt_packet_generator.py",
+    "audit_requirements.json",
+    "auditor_manifest.json"
+  ],
+  "publication_commits": {
+    "audit_plan.md": "11f71d54a217245ff879aa3f8025727b19efe911",
+    "fault_matrix.json": "f9765b2759eb75d19c88a691880d3c5aa1ac5ffe",
+    "concurrency_harness.py": "126d22d7ee2f540473de41de28ee95c655d84375",
+    "crash_worker.py": "5d3f18a1342ea74857cc17b5ad6e59e01f07d5da",
+    "corrupt_packet_generator.py": "8ee835336efef4a9c5c5a3d614dae0246b45f8ef",
+    "audit_requirements.json": "8fe344fdbc28081bdd4f800d7cabc5fc625b95bd"
+  },
+  "builder_approval": "NOT_EVALUATED",
+  "final_verdict": "PENDING_BUILDER_FROZEN_COMMIT"
+}
