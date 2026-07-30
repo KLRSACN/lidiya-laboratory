@@ -64,6 +64,17 @@ class ServiceControlTests(unittest.TestCase):
             self.assertEqual(result["status"], "STALE_PID_REMOVED")
             self.assertFalse(pid_path.exists())
 
+    def test_windows_liveness_uses_windows_api(self) -> None:
+        with patch.object(service_control.os, "name", "nt"):
+            with patch.object(service_control, "_is_running_windows", return_value=True) as check:
+                self.assertTrue(service_control._is_running(11436))
+        check.assert_called_once_with(11436)
+
+    def test_invalid_pid_never_calls_platform_probe(self) -> None:
+        with patch.object(service_control, "_is_running_windows") as check:
+            self.assertFalse(service_control._is_running(0))
+        check.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()
