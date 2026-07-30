@@ -1,0 +1,22 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "candidate_version": "v0.2",
+  "base_frozen_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "control_commit": "c6564a0ad25076e916357b272e4f8cc98caf8f47",
+  "tests": {
+    "total": 24,
+    "passed": 24,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "features": {
+    "crash_consistency_strategy": "PREPARED/COMMITTED durable journal with startup reconciliation",
+    "outbox_only_recovery": "registry repaired from validated outbox/journal",
+    "registry_only_recovery": "outbox rebuilt from validated registry",
+    "stale_owner_protection": "owner + claim_id fencing + lease expiry validation",
+    "duplicate_side_effect_protection": "prepared journal resumes publication without rewriting effect",
+    "runtime_root_constraint": "all paths resolved beneath runtime root"
+  }
+}
