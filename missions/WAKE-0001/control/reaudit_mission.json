@@ -1,0 +1,51 @@
+{
+  "mission_id": "WAKE-0001-REAUDIT",
+  "parent_mission_id": "WAKE-0001",
+  "token": "BOOTSTRAP-0001-REAUDIT",
+  "generation": 1,
+  "status": "DISPATCHED",
+  "objective": "Transfer the five Wake Mechanism v0.1 artifacts to one canonical GitHub commit and independently re-audit them.",
+  "repository": "KLRSACN/lidiya-laboratory",
+  "required_paths": [
+    "missions/WAKE-0001/builder/wake_mechanism_v0.1.md",
+    "missions/WAKE-0001/builder/simulate_wake.py",
+    "missions/WAKE-0001/builder/simulation_result.json",
+    "missions/WAKE-0001/builder/state_transition.log",
+    "missions/WAKE-0001/continuity/worker02_checkpoint.json"
+  ],
+  "worker_order": [
+    "WORKER-01",
+    "WORKER-02",
+    "WORKER-03",
+    "MAIN-LIDIYA"
+  ],
+  "acceptance": {
+    "builder": [
+      "publish all five files",
+      "provide one frozen commit SHA",
+      "provide per-file size and SHA-256",
+      "do not rewrite results after audit begins"
+    ],
+    "continuity": [
+      "read all files from the frozen commit",
+      "verify manifest completeness",
+      "verify checkpoint fields and progress-token continuity",
+      "do not modify builder artifacts"
+    ],
+    "auditor": [
+      "read from the same frozen commit",
+      "run simulate_wake.py independently",
+      "capture stdout stderr and exit code",
+      "cross-check JSON log checkpoint and final state",
+      "test invalid trigger and checkpoint recovery where supported",
+      "return APPROVED NEEDS_CORRECTION or BLOCKED"
+    ]
+  },
+  "safety": {
+    "no_live_trigger": true,
+    "no_browser_driver": true,
+    "no_home_baseline_modification": true,
+    "no_automatic_window_close": true,
+    "github_is_canonical_artifact_store": true
+  }
+}
