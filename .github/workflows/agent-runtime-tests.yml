@@ -56,5 +56,34 @@ jobs:
           set -euo pipefail
           test ! -e "$HOME/.lidiya"
           echo "AGENT_RUNTIME_CI_PASS"
-          echo "Complete test discovery enabled."
-          echo "No model calls, credential reads, installations, publishing, or formal-system writes were requested."
+
+  windows-service-control:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Confirm no credential inputs
+        shell: pwsh
+        run: |
+          if ($env:OPENAI_API_KEY -or $env:GEMINI_API_KEY -or $env:LIDIYA_BRIDGE_TOKEN) {
+            throw "Credential input must remain empty"
+          }
+
+      - name: Compile all Agent Runtime modules
+        shell: pwsh
+        run: python -m compileall -q foundation/agent_runtime
+
+      - name: Run complete Windows unit-test suite
+        working-directory: foundation/agent_runtime
+        shell: pwsh
+        run: python -m unittest discover -s . -p "test_*.py" -v
+
+      - name: Run Windows PID smoke test
+        working-directory: foundation/agent_runtime
+        shell: pwsh
+        run: |
+          python -c "import os, service_control; assert service_control._is_running(os.getpid()); assert not service_control._is_running(-1); print('WINDOWS_PID_SMOKE_PASS')"
