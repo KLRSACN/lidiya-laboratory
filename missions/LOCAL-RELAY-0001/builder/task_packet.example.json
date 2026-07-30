@@ -1,0 +1,19 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "task_id": "EXAMPLE-001",
+  "target_worker": "WINDOW-01",
+  "action": "WRITE_TEXT",
+  "objective": "Create a deterministic local artifact",
+  "created_at": "2026-07-31T00:00:00Z",
+  "attempt": 0,
+  "max_attempts": 3,
+  "lease_seconds": 30,
+  "payload": {
+    "relative_output_path": "outputs/example.txt",
+    "text": "LIDIYA_LOCAL_RELAY_OK"
+  },
+  "success_criteria": ["Output exists", "SHA-256 recorded"],
+  "evidence_required": ["Outbox result JSON"],
+  "packet_sha256": "CALCULATE_WITH_packet_hash_BEFORE_ENQUEUE"
+}
