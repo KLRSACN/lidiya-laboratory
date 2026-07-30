@@ -1,0 +1,70 @@
+{
+  "validation": "VALID",
+  "transition_sequence": [
+    "WAIT_TRIGGER",
+    "RUNNING",
+    "RELAY_READY",
+    "WAIT_TRIGGER"
+  ],
+  "final_state": "WAIT_TRIGGER",
+  "final_heartbeat": "READY",
+  "relay_checkpoint": "WAKE-0001:BOOTSTRAP-0001:P0003",
+  "reset_checkpoint": "WAKE-0001:BOOTSTRAP-0001:P0004",
+  "artifacts": [
+    "wake_mechanism_v0.1.md",
+    "simulate_wake.py",
+    "simulation_result.json",
+    "state_transition.log",
+    "worker02_checkpoint.json"
+  ],
+  "log": [
+    {
+      "event": "BOOT",
+      "state": "WAIT_TRIGGER",
+      "heartbeat": "READY",
+      "mission_id": null,
+      "token": null,
+      "progress_token": null
+    },
+    {
+      "event": "TRIGGER_VALIDATED",
+      "state": "WAIT_TRIGGER",
+      "heartbeat": "READY",
+      "mission_id": "WAKE-0001",
+      "token": "BOOTSTRAP-0001",
+      "progress_token": "WAKE-0001:BOOTSTRAP-0001:P0000"
+    },
+    {
+      "event": "ENTER_RUNNING",
+      "state": "RUNNING",
+      "heartbeat": "BUSY",
+      "mission_id": "WAKE-0001",
+      "token": "BOOTSTRAP-0001",
+      "progress_token": "WAKE-0001:BOOTSTRAP-0001:P0001"
+    },
+    {
+      "event": "MINIMUM_ARTIFACTS_CREATED",
+      "state": "RUNNING",
+      "heartbeat": "BUSY",
+      "mission_id": "WAKE-0001",
+      "token": "BOOTSTRAP-0001",
+      "progress_token": "WAKE-0001:BOOTSTRAP-0001:P0002"
+    },
+    {
+      "event": "RELAY_PREPARED",
+      "state": "RELAY_READY",
+      "heartbeat": "WAIT",
+      "mission_id": "WAKE-0001",
+      "token": "BOOTSTRAP-0001",
+      "progress_token": "WAKE-0001:BOOTSTRAP-0001:P0003"
+    },
+    {
+      "event": "RESET_TO_WAIT_TRIGGER",
+      "state": "WAIT_TRIGGER",
+      "heartbeat": "READY",
+      "mission_id": "WAKE-0001",
+      "token": "BOOTSTRAP-0001",
+      "progress_token": "WAKE-0001:BOOTSTRAP-0001:P0004"
+    }
+  ]
+}
