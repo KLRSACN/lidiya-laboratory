@@ -1,0 +1,27 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "issued_by": "WINDOW-00-MAIN-LIDIYA",
+  "target_window": "WINDOW-02",
+  "state": "FORMAL_CONTINUITY_VERIFICATION_REQUESTED",
+  "builder_frozen_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "protocol_candidate_commit": "a0ad0fed0580291e96f94704dac8f4ef21cbdff0",
+  "required_checks": [
+    "Independently fetch all Builder artifacts from the frozen commit",
+    "Verify mission_id, token, generation, file visibility and manifest references",
+    "Compare Builder validation and state semantics against the published continuity schemas",
+    "Verify attempt <= max_attempts is enforced by implementation",
+    "Verify all runtime paths are constrained to the configured queue root",
+    "Evaluate atomic claim, lease, heartbeat, retry, recovery, duplicate protection and quarantine semantics",
+    "Evaluate outbox and completed registry crash-consistency gap",
+    "Publish a structured CONTINUITY_VERIFIED, NEEDS_CORRECTION, or BLOCKED report in the continuity write scope"
+  ],
+  "constraints": [
+    "Do not modify Builder artifacts or Builder frozen commit",
+    "Do not modify Control, Auditor, Wake Core or HOME paths",
+    "Do not start Live Trigger",
+    "Do not approve from pasted claims alone"
+  ],
+  "next_gate": "CONTINUITY_VERIFIED"
+}
