@@ -1,0 +1,18 @@
+{
+  "mission_id":"LOCAL-RELAY-0001",
+  "token":"RELAY-BOOTSTRAP-0001",
+  "generation":1,
+  "builder_candidate_commit":"35988ad594d725aed4e5f907ba1d050385135a6f",
+  "continuity_preparation_commit":"abd8d2c7848d85dfaf2fd460c82f3abc451c7e93",
+  "verdict":"BLOCKED_UNVERIFIABLE",
+  "files":[
+    "continuity_retarget_report.md",
+    "compatibility_matrix_result.json",
+    "manifest_verification_result.json",
+    "validator_execution_result.json",
+    "crash_recovery_verification.json",
+    "test_execution_result.json"
+  ],
+  "write_scope":"missions/LOCAL-RELAY-0001/continuity/retarget-v0.2/",
+  "protected_paths_modified":false
+}
