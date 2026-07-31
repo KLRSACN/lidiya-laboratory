@@ -1,0 +1,12 @@
+{
+  "candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "adapter_mapping": {
+    "claim()": {"implementation":"StorageMixin.claim_next(worker_id, now=None)","file":"relay_storage_v0_2.py","returns":"Claim | None"},
+    "heartbeat()": {"implementation":"StorageMixin.heartbeat(claim, worker_id, now=None)","file":"relay_storage_v0_2.py"},
+    "submit_result()": {"implementation":"TransactionMixin.execute_claim(claim, worker_id, now=None, fault=None)","file":"relay_transaction_v0_2.py"},
+    "recover()": {"implementation":["RecoveryMixin.reconcile()","RecoveryMixin.recover_expired(now=None)"],"file":"relay_recovery_v0_2.py"},
+    "read_task_state()": {"implementation":"StorageMixin.read_json(path) plus runtime-directory inspection","file":"relay_storage_v0_2.py","note":"no dedicated public alias"},
+    "read_checkpoint()": {"implementation":"StorageMixin.checkpoint_path(running_path) then StorageMixin.read_json(path)","file":"relay_storage_v0_2.py","note":"no dedicated public alias"},
+    "read_completed_record()": {"implementation":"StorageMixin.completed_record(packet)","file":"relay_storage_v0_2.py"}
+  }
+}
