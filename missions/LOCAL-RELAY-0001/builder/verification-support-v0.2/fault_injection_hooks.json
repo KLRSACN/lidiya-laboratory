@@ -1,0 +1,11 @@
+{
+  "candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "hooks": [
+    {"hook":"after_journal_before_outbox","injection":"execute_claim(..., fault='after_journal_before_outbox')","expected_recovery":"PREPARED journal completes publication only; output effect is not repeated","test":"test_22_prepared_journal_restart_prevents_duplicate_effect"},
+    {"hook":"after_outbox_before_registry","injection":"execute_claim(..., fault='after_outbox_before_registry')","expected_recovery":"restart reconciles outbox into completed registry","tests":["test_18_crash_after_outbox_before_registry","test_19_restart_recovers_outbox_only"]},
+    {"hook":"after_registry_before_journal_commit","injection":"execute_claim(..., fault='after_registry_before_journal_commit')","expected_recovery":"restart verifies registry and outbox then promotes journal to COMMITTED","test_status":"implemented hook; standalone targeted test recommended"},
+    {"hook":"checkpoint_failure","injection":"fault or corrupt checkpoint atomic write during claim","expected_recovery":"running claim remains authority; invalid checkpoint cannot authorize execution","test_status":"support mapping only; targeted test recommended if Continuity requires"},
+    {"hook":"lease_recovery_race","injection":"recover_expired followed by competing claim_next calls","expected_recovery":"atomic rename permits one new owner only","tests":["test_02_two_workers_atomic_claim","test_05_lease_expiry_recovery","test_21_stale_owner_cannot_commit_after_expiry"]},
+    {"hook":"stale_owner_submission","injection":"old Claim submits after expiry and reassignment","expected_recovery":"_validate_live_claim rejects missing claim, owner mismatch, claim_id mismatch, or expired lease","test":"test_21_stale_owner_cannot_commit_after_expiry"}
+  ]
+}
