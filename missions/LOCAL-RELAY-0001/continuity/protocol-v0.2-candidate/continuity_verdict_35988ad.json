@@ -1,0 +1,57 @@
+{
+  "state": "NEEDS_CORRECTION",
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "builder_candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "protocol_candidate_commit": "abd8d2c7848d85dfaf2fd460c82f3abc451c7e93",
+  "source_continuity_report_commit": "16ed1986813eff2234bc808a27384aef60d1fa5f",
+  "window00_control_commit_requested": "a8df9d30fd36cf25f0daab24b1a685f141963997",
+  "builder_manifest_control_commit": "c6564a0ad25076e916357b272e4f8cc98caf8f47",
+  "files_read": 13,
+  "manifest_verification": {
+    "listed_files": 12,
+    "size_matches": 12,
+    "sha256_matches": 12,
+    "validator_exit_code": 0,
+    "validator_status": "PASS",
+    "validator_stderr_note": "unrelated spreadsheet runtime warmup diagnostic"
+  },
+  "test_claim": {"total":24,"passed":24,"failed":0,"exit_code":0,"executed_by_continuity":false},
+  "compatibility_matrix": {"pass":6,"fail":9},
+  "lease_fencing": {
+    "owner": "PASS",
+    "claim_id": "PASS",
+    "lease_expiry": "PASS",
+    "lease_generation": "MISSING",
+    "recovery_count": "MISSING",
+    "verdict": "INCOMPLETE"
+  },
+  "state_persistence": {
+    "checkpoint": "INCOMPATIBLE_WITH_PROTOCOL_V0_2",
+    "dispatcher_state": "INCOMPATIBLE_WITH_PROTOCOL_V0_2",
+    "completed_registry_result_hash": "PRESENT",
+    "completed_registry_outbox_path": "MISSING",
+    "task_state_model": "PARTIAL"
+  },
+  "crash_reconciliation": {
+    "prepared_journal": "PRESENT",
+    "committed_journal": "PRESENT",
+    "outbox_only_recovery": "PRESENT",
+    "registry_only_recovery": "PRESENT",
+    "prepared_journal_recovery": "PRESENT",
+    "hash_conflict": "BLOCKED_WITH_QUARANTINE_DIAGNOSTIC",
+    "static_verdict": "PASS"
+  },
+  "open_issues": [
+    "Manifest control_commit differs from the control commit supplied for this verification request.",
+    "lease_seconds accepts values from 1 and has no 3600 upper bound; protocol requires 5..3600.",
+    "Required identity/objective strings and created_at are not fully validated for non-empty and ISO 8601 semantics.",
+    "Action and target_worker validation do not match Protocol v0.2 rules.",
+    "Runtime Root is contained internally but is not checked against an authorized root allowlist.",
+    "lease_generation and recovery_count are not persisted or fenced.",
+    "Checkpoint and Dispatcher State lack Protocol v0.2 required fields and explicit task-state persistence.",
+    "Completed Registry uses output_path and lacks required outbox_path."
+  ],
+  "verdict": "RETURN_TO_BUILDER"
+}
