@@ -1,0 +1,18 @@
+{
+  "method":"static inspection only",
+  "cases":[
+    {"case":"before_prepared","status":"PARTIAL","notes":"No independent execution."},
+    {"case":"prepared_before_side_effect","status":"NOT_EXPLICITLY_MODELED","notes":"Implementation writes side effect before PREPARED."},
+    {"case":"side_effect_before_durable_result","status":"RISK_REDUCED_BY_DETERMINISTIC_OUTPUT","notes":"PREPARED is written after effect."},
+    {"case":"durable_result_before_outbox","status":"PASS_STATIC","notes":"PREPARED journal can publish outbox."},
+    {"case":"outbox_only","status":"PASS_STATIC","notes":"Registry repair present."},
+    {"case":"registry_only","status":"PASS_STATIC","notes":"Outbox repair present."},
+    {"case":"before_committed","status":"PASS_STATIC","notes":"Reconciliation marks COMMITTED."},
+    {"case":"conflict_or_hash_mismatch","status":"PASS_STATIC","notes":"BLOCKED diagnostic/quarantine path present."}
+  ],
+  "total":8,
+  "passed_static":5,
+  "failed":0,
+  "blocked_or_partial":3,
+  "overall":"BLOCKED_UNVERIFIABLE_WITHOUT_EXECUTION"
+}
