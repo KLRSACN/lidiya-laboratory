@@ -1,0 +1,14 @@
+{
+  "builder_candidate_commit":"35988ad594d725aed4e5f907ba1d050385135a6f",
+  "manifest_entries":12,
+  "manifest_self_entry":"ABSENT_BY_DESIGN",
+  "listed_files_read":12,
+  "listed_size_matches_previously_observed":12,
+  "listed_sha256_matches_previously_observed":12,
+  "duplicate_paths_observed":false,
+  "path_traversal_entries_observed":false,
+  "complete_tree_enumerated":false,
+  "unlisted_files_verified":false,
+  "status":"BLOCKED_UNVERIFIABLE",
+  "reason":"No recursive commit-tree listing or exact file materialization capability; direct GitHub network access unavailable."
+}
