@@ -1,0 +1,60 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "builder_candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "status": "STATIC_BINDING_PREPARED",
+  "builder_class": "LocalRelayDispatcherV02",
+  "module": "local_relay_dispatcher_v0_2",
+  "bindings": {
+    "claim": {
+      "target": "claim_next(worker_id, now=None)",
+      "return": "Claim | None"
+    },
+    "heartbeat": {
+      "target": "heartbeat(claim, worker_id, now=None)",
+      "return": "updated packet"
+    },
+    "submit_result": {
+      "target": "execute_claim(claim, worker_id, now=None, fault=None)",
+      "return": "result record"
+    },
+    "recover": {
+      "target": "reconcile() followed by recover_expired(now=None)",
+      "return": "reconciliation and recovery actions"
+    },
+    "read_task_state": {
+      "target": "read_json(claim.path) when running; directory inspection otherwise",
+      "adapter_required": true
+    },
+    "read_checkpoint": {
+      "target": "read_json(checkpoint_path(claim.path))",
+      "adapter_required": true
+    },
+    "read_completed_record": {
+      "target": "completed_record(packet)",
+      "return": "completed registry record or null"
+    }
+  },
+  "fault_hooks": {
+    "after_journal_before_outbox": "DIRECT",
+    "after_outbox_before_registry": "DIRECT",
+    "after_registry_before_journal_commit": "DIRECT",
+    "checkpoint_failure": "MONKEYPATCH atomic_json_write when destination is checkpoints/",
+    "fsync_failure": "MONKEYPATCH os.fsync",
+    "atomic_replace_failure": "MONKEYPATCH os.replace",
+    "partial_write": "SUBPROCESS writes non-.json temporary file then atomic replace",
+    "lease_recovery_race": "MULTIPROCESS recover_expired plus claim_next",
+    "stale_owner_submission": "DIRECT using old Claim after recovery and new claim"
+  },
+  "lease_fencing": {
+    "implemented_token": "claim_id UUID plus owner plus lease expiry",
+    "explicit_numeric_generation": false,
+    "precheck_assessment": "SEMANTIC_FENCING_PRESENT_EXPLICIT_GENERATION_ABSENT",
+    "formal_audit_requirement": "prove only current claim_id can heartbeat or submit after recovery"
+  },
+  "limitations": [
+    "No final verdict is issued by this binding file.",
+    "Builder does not expose the contract method names directly; a thin independent adapter is required.",
+    "read_task_state and read_checkpoint require adapter-level filesystem reads under the isolated runtime root."
+  ]
+}
