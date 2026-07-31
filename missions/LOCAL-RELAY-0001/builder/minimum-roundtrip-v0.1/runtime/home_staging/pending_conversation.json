@@ -1,0 +1,6 @@
+{
+  "conversation_request_file": "/mnt/data/local_relay_minimum_roundtrip/runtime/home_staging/conversation_request.json",
+  "response_file": "/mnt/data/local_relay_minimum_roundtrip/response.txt",
+  "status": "COMPLETED",
+  "task_id": "MINIMUM-ROUNDTRIP-001"
+}
