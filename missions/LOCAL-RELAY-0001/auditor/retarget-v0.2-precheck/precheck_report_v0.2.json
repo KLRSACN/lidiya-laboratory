@@ -1,0 +1,70 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "builder_candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "audit_preparation_commit": "d41ddebf8dbdfe61451638737cccead2d109f7a2",
+  "protocol_candidate_commit": "abd8d2c7848d85dfaf2fd460c82f3abc451c7e93",
+  "continuity_retarget_control_commit": "a8df9d30fd36cf25f0daab24b1a685f141963997",
+  "status": "NON_FINAL_STATIC_PRECHECK_COMPLETE",
+  "manifest": {
+    "entry_count": 12,
+    "artifact_count_including_manifest": 13,
+    "duplicate_paths": [],
+    "manifest_self_entry": "ABSENT",
+    "self_entry_assessment": "EXPLICITLY_RECORDED_NON_FINAL",
+    "existence_check": "READABLE_AT_FROZEN_COMMIT",
+    "size_sha256_recompute": "DEFERRED_TO_FORMAL_ISOLATED_MATERIALIZATION",
+    "reason": "This retarget preparation does not elevate connector reads or manifest declarations into a final byte-integrity verdict."
+  },
+  "adapter": {
+    "claim": "BOUND_TO_claim_next",
+    "heartbeat": "BOUND_DIRECTLY",
+    "submit_result": "BOUND_TO_execute_claim",
+    "recover": "BOUND_TO_reconcile_AND_recover_expired",
+    "read_task_state": "THIN_ADAPTER_REQUIRED",
+    "read_checkpoint": "THIN_ADAPTER_REQUIRED",
+    "read_completed_record": "BOUND_TO_completed_record"
+  },
+  "fault_hooks": {
+    "after_journal_before_outbox": "AVAILABLE_DIRECT",
+    "after_outbox_before_registry": "AVAILABLE_DIRECT",
+    "after_registry_before_journal_commit": "AVAILABLE_DIRECT",
+    "checkpoint_failure": "AVAILABLE_BY_ISOLATED_MONKEYPATCH",
+    "lease_recovery_race": "AVAILABLE_BY_MULTIPROCESS_HARNESS",
+    "stale_owner_submission": "AVAILABLE_DIRECT"
+  },
+  "special_checks": {
+    "lease_fencing": {
+      "claim_a_generation_1": "MODEL_AS_CLAIM_ID_A",
+      "claim_b_generation_2": "MODEL_AS_CLAIM_ID_B_AFTER_EXPIRY",
+      "old_heartbeat_rejected": "STATIC_PATH_PRESENT",
+      "old_submit_rejected": "STATIC_PATH_PRESENT",
+      "current_submit_unique": "REQUIRES_FORMAL_MULTIPROCESS_EXECUTION",
+      "explicit_numeric_generation": false
+    },
+    "crash_reconciliation": {
+      "prepared_journal_restart": "STATIC_PATH_PRESENT",
+      "outbox_only_backfill": "STATIC_PATH_PRESENT",
+      "registry_only_rebuild": "STATIC_PATH_PRESENT",
+      "registry_before_journal_commit": "STATIC_PATH_PRESENT",
+      "hash_conflict_blocked_quarantine": "STATIC_PATH_PRESENT",
+      "dynamic_verdict": "PENDING_FORMAL_AUDIT"
+    }
+  },
+  "smoke_checks": {
+    "python_structure": "INSPECTED",
+    "imports_and_class_composition": "CONSISTENT",
+    "official_tests": "READ_ONLY_INSPECTED_NOT_ADOPTED_AS_INDEPENDENT_EVIDENCE",
+    "live_trigger": "NOT_STARTED",
+    "external_connections": "NOT_USED"
+  },
+  "open_issues": [
+    "Manifest byte-size and SHA-256 must be independently recomputed from a fully materialized frozen commit during formal audit.",
+    "Numeric lease generation is absent; fencing currently relies on owner, UUID claim_id, path existence and lease expiry.",
+    "Concurrent A/B submit uniqueness must be demonstrated with independent processes, not the Builder threading test.",
+    "Checkpoint write failure behavior must be fault-injected; claim_next may leave a running artifact after checkpoint failure and must remain recoverable without false completion."
+  ],
+  "final_verdict": "NOT_ISSUED",
+  "ready_for_formal_retarget": true
+}
