@@ -1,0 +1,11 @@
+{
+  "completed_at": "2026-07-31T05:50:21.058151Z",
+  "mission_id": "LOCAL-RELAY-0001",
+  "outbox_path": "/mnt/data/local_relay_minimum_roundtrip/runtime/outbox/LOCAL-RELAY-0001__RELAY-BOOTSTRAP-0001__MINIMUM-ROUNDTRIP-001.result.json",
+  "response_import_file": "/mnt/data/local_relay_minimum_roundtrip/response.txt",
+  "response_sha256": "2942868d1b49a2884571729bf6fa73dfbcbf019f78c0c29edc60713f622f3aea",
+  "response_text": "LIDIYA_MINIMUM_ROUNDTRIP_OK\n",
+  "status": "COMPLETED",
+  "task_id": "MINIMUM-ROUNDTRIP-001",
+  "token": "RELAY-BOOTSTRAP-0001"
+}
