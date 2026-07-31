@@ -1,0 +1,13 @@
+{
+  "command":null,
+  "environment":{"os":"Linux","python_version":null,"runtime":"not created"},
+  "total":0,
+  "passed":0,
+  "failed":0,
+  "skipped":0,
+  "exit_code":null,
+  "stderr":"Exact candidate-v0.2 snapshot could not be materialized from the frozen commit.",
+  "duration_seconds":0,
+  "original_17_behaviors_coverage":"Static test source previously showed 17 regression tests, but independent execution was not possible.",
+  "status":"BLOCKED_UNVERIFIABLE"
+}
