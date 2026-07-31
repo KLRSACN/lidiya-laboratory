@@ -1,0 +1,9 @@
+{
+  "validator":"continuity_validator.py",
+  "target_commit":"35988ad594d725aed4e5f907ba1d050385135a6f",
+  "executed":false,
+  "exit_code":null,
+  "status":"BLOCKED_UNVERIFIABLE",
+  "stderr":"Exact frozen snapshot could not be materialized in the local runtime.",
+  "environment":{"os":"Linux","network":"github.com DNS unavailable","gh_cli":"unavailable"}
+}
