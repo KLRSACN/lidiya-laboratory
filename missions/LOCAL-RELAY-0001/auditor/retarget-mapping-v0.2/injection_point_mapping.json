@@ -1,0 +1,24 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "source_builder_candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "points": [
+    {"id":"before_function","mapping":"Adapter process boundary before operation dispatch","classification":"ADAPTER_LEVEL","testable":true},
+    {"id":"after_function","mapping":"Adapter process boundary after Builder return before stdout emission","classification":"ADAPTER_LEVEL","testable":true},
+    {"id":"os_exit_forced","mapping":"Adapter or crash_worker calls os._exit at the configured boundary","classification":"PROCESS_LEVEL","testable":true},
+    {"id":"partial_write","mapping":"Isolated monkeypatch of StorageMixin.atomic_write_bytes before os.replace","file":"relay_storage_v0_2.py","classification":"ISOLATED_MONKEYPATCH","testable":true},
+    {"id":"fsync_failure","mapping":"Isolated monkeypatch of os.fsync used by atomic_write_bytes","file":"relay_storage_v0_2.py","classification":"ISOLATED_MONKEYPATCH","testable":true},
+    {"id":"atomic_replace_failure","mapping":"Isolated monkeypatch of os.replace used by atomic writes, claim and quarantine","file":"relay_storage_v0_2.py","classification":"ISOLATED_MONKEYPATCH","testable":true},
+    {"id":"checkpoint_update_failure","mapping":"Intercept atomic_json_write when destination parent is checkpoints","file":"relay_storage_v0_2.py","classification":"ISOLATED_MONKEYPATCH","testable":true,"limitation":"No dedicated checkpoint hook exists."},
+    {"id":"after_journal_before_outbox","mapping":"execute_claim fault=after_journal_before_outbox","file":"relay_transaction_v0_2.py","classification":"DIRECT_HOOK","testable":true},
+    {"id":"after_outbox_before_registry","mapping":"execute_claim fault=after_outbox_before_registry","file":"relay_transaction_v0_2.py","classification":"DIRECT_HOOK","testable":true},
+    {"id":"after_registry_before_journal_commit","mapping":"execute_claim fault=after_registry_before_journal_commit","file":"relay_transaction_v0_2.py","classification":"DIRECT_HOOK","testable":true},
+    {"id":"after_registry_before_running_cleanup","mapping":"No exact hook after COMMITTED journal and before running unlink","file":"relay_transaction_v0_2.py","classification":"UNTESTABLE_EXACT_BOUNDARY","testable":false},
+    {"id":"lease_recovery_race","mapping":"Run recover_expired(now) and claim_next(worker) in independent processes","file":"relay_recovery_v0_2.py","classification":"PROCESS_RACE","testable":true},
+    {"id":"stale_owner_submission","mapping":"_validate_live_claim followed by execute_claim","file":"relay_storage_v0_2.py","classification":"DIRECT_BEHAVIOR","testable":true},
+    {"id":"result_hash_conflict","mapping":"_reconcile_assignment compares journal, outbox and registry records","file":"relay_recovery_v0_2.py","classification":"DIRECT_BEHAVIOR","testable":true}
+  ],
+  "untestable": [
+    "Exact after-registry-and-journal-commit before running cleanup boundary",
+    "Numeric lease_generation fencing because candidate v0.2 has no lease_generation"
+  ]
+}
