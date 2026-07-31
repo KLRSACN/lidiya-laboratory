@@ -1,0 +1,20 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "status": "AUDITOR_V0_3_RETARGET_READY",
+  "source_precheck_commit": "24111aa15b33fd2467e6701bc1fec04056cbfe18",
+  "source_builder_v0_2_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "continuity_verdict_commit": "38ab4a9d023f9e6022224daaf88f3c0866a06daa",
+  "next_expected_builder_version": "candidate-v0.3",
+  "delta_test_count": 15,
+  "files": [
+    "delta_test_plan_v0.3.json",
+    "adapter_contract_v0.3.json",
+    "v0_3_delta_harness.py",
+    "auditor_manifest_v0.3.json"
+  ],
+  "formal_audit_executed": false,
+  "auditor_approved": false,
+  "ready_for_new_builder_commit": true
+}
