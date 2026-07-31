@@ -1,0 +1,6 @@
+from relay_common_v0_3 import Claim,FaultInjected,Invalid,Unsafe,UnsafePath,packet_hash
+from relay_storage_v0_3 import StorageMixin
+from relay_transaction_v0_3 import TransactionMixin
+from relay_recovery_v0_3 import RecoveryMixin
+class LocalRelayDispatcherV03(StorageMixin,TransactionMixin,RecoveryMixin): pass
+LocalRelayDispatcher=LocalRelayDispatcherV03
