@@ -6,17 +6,19 @@
   "five_round_control_commit": "7a48f5b9b43ad604b734b0151bde4c903c9118cf",
   "continuity_matrix": {
     "requirements_total": 15,
-    "p0_blockers": 0,
+    "p0_blockers_observed": 0,
     "result": "PASS_WITH_BACKLOG"
   },
   "manifest_verification": {
     "artifact_count_total": 13,
     "manifest_entries": 12,
-    "size_matches": 12,
-    "sha256_matches": 12,
-    "continuity_validator_exit_code": 0
+    "connector_reads_completed": 13,
+    "manifest_hash_mismatch_observed": false,
+    "exact_full_materialization": false,
+    "continuity_validator_execution": "NOT_COMPLETED_AGAINST_EXACT_13_ARTIFACT_SNAPSHOT"
   },
   "local_run": {
+    "source_basis": "connector-fetched v0.3 runtime source reconstructed in an isolated local directory",
     "os": "Linux-6.12.13-x86_64-with-glibc2.41",
     "python_version": "3.13.5",
     "working_directory": "/mnt/data/local-relay-v03-gate",
@@ -38,7 +40,7 @@
     "duplicate_side_effect": false
   },
   "backlog": [
-    "Manifest control_commit differs from the Five Round control commit supplied to this gate; no P0 behavior impact observed.",
-    "Local materialization used connector-fetched frozen source content because gh CLI and direct network access were unavailable."
+    "Exact full 13-artifact materialization and continuity_validator execution remain uncompleted because gh CLI and direct network access were unavailable; connector reads found no manifest hash mismatch.",
+    "Manifest control lineage differs from the Five Round control commit supplied to this gate; no P0 runtime behavior impact was observed."
   ]
 }
