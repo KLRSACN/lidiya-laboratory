@@ -1,0 +1,18 @@
+{
+  "total": 36,
+  "passed": 36,
+  "failed": 0,
+  "exit_code": 0,
+  "regression_tests_retained": 24,
+  "protocol_v0_3_tests_added": 12,
+  "features": {
+    "durable_journal": "PASS",
+    "crash_reconciliation": "PASS",
+    "duplicate_side_effect_protection": "PASS",
+    "hash_conflict_blocked_quarantine": "PASS",
+    "lease_generation_fencing": "PASS",
+    "protocol_checkpoint": "PASS",
+    "protocol_dispatcher_state": "PASS",
+    "completed_registry_outbox_path": "PASS"
+  }
+}
