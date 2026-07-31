@@ -1,0 +1,45 @@
+{
+  "state": "FIVE_ROUND_INTEGRATION_RUN_AUTHORIZED",
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "builder_candidate_commit": "2afef1be70e371d5aa1e1d51e856e7bb9e57e033",
+  "round_limit": 5,
+  "rounds": [
+    {"round": 1, "goal": "freeze builder v0.3", "status": "COMPLETE"},
+    {"round": 2, "goal": "single continuity gate and local isolated execution", "status": "AUTHORIZED"},
+    {"round": 3, "goal": "single dynamic audit and live-trigger dry run", "status": "AUTHORIZED_AFTER_ROUND_2_PASS"},
+    {"round": 4, "goal": "conversation bridge loop and HOME staging integration", "status": "AUTHORIZED_IF_NO_P0"},
+    {"round": 5, "goal": "publish concrete run report, error report, and next direction", "status": "MANDATORY"}
+  ],
+  "stop_rules": {
+    "new_requirements": false,
+    "new_protocol_versions": false,
+    "new_candidate_versions": false,
+    "max_builder_corrections": 0,
+    "non_p0_to_backlog": true,
+    "p0_only_blockers": [
+      "duplicate_side_effect",
+      "task_loss",
+      "stale_worker_submit_success",
+      "runtime_root_escape",
+      "unrecoverable_state_corruption",
+      "manifest_hash_mismatch"
+    ]
+  },
+  "required_final_evidence": [
+    "commands",
+    "exit_codes",
+    "timestamps",
+    "runtime_root",
+    "input_task",
+    "output_artifact",
+    "outbox_record",
+    "completed_registry_record",
+    "trigger_attempt",
+    "conversation_attempt",
+    "home_integration_attempt",
+    "errors",
+    "next_direction"
+  ]
+}
