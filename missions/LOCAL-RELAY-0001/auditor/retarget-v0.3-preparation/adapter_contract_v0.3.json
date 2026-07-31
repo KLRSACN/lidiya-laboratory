@@ -1,0 +1,25 @@
+{
+  "contract_version": "0.3",
+  "status": "PENDING_BINDING",
+  "required_methods": {
+    "claim": {"returns":["task_identity","owner","claim_id","lease_generation","lease_expires_at"]},
+    "heartbeat": {"requires":["owner","claim_id","lease_generation"],"rejects_stale_generation":true},
+    "submit_result": {"requires":["owner","claim_id","lease_generation","result_hash"],"single_commit":true},
+    "recover": {"returns":["new_lease_generation","recovery_count","canonical_task_state"]},
+    "read_task_state": {"returns":["canonical_task_state","filesystem_location","lease_generation","recovery_count"]},
+    "read_checkpoint": {"returns":["schema_version","task_identity","lease_generation","recovery_count","completed_steps","pending_steps","checkpoint_hash"]},
+    "read_completed_record": {"returns":["task_identity","outbox_path","result_hash","final_lease_generation","final_state"]}
+  },
+  "fencing_rules": [
+    "lease_generation is persisted and strictly increasing",
+    "stale generation cannot heartbeat",
+    "stale generation cannot submit",
+    "only current generation can atomically commit"
+  ],
+  "runtime_root_rules": [
+    "root must be in an explicit allowlist",
+    "resolved path must remain under authorized root",
+    "symlink escape is rejected",
+    "path traversal is rejected before mutation"
+  ]
+}
