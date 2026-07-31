@@ -1,0 +1,13 @@
+COMMAND=python /mnt/data/local_relay_minimum_roundtrip/run_minimum_roundtrip.py /mnt/data/local_relay_minimum_roundtrip
+EXIT_CODE=0
+INBOX_CREATED=/mnt/data/local_relay_minimum_roundtrip/runtime/inbox/LOCAL-RELAY-0001__RELAY-BOOTSTRAP-0001__MINIMUM-ROUNDTRIP-001.json
+INBOX_AT_COMPLETION=MOVED_TO_RUNNING_AND_CONSUMED
+CONVERSATION_REQUEST=/mnt/data/local_relay_minimum_roundtrip/runtime/home_staging/conversation_request.json
+HOME_STAGING=/mnt/data/local_relay_minimum_roundtrip/runtime/home_staging/pending_conversation.json
+RESPONSE_IMPORT=/mnt/data/local_relay_minimum_roundtrip/response.txt
+OUTBOX=/mnt/data/local_relay_minimum_roundtrip/runtime/outbox/LOCAL-RELAY-0001__RELAY-BOOTSTRAP-0001__MINIMUM-ROUNDTRIP-001.result.json
+COMPLETED_RECORD=LOCAL-RELAY-0001::RELAY-BOOTSTRAP-0001::MINIMUM-ROUNDTRIP-001
+JOURNAL=/mnt/data/local_relay_minimum_roundtrip/runtime/state/journal/LOCAL-RELAY-0001__RELAY-BOOTSTRAP-0001__MINIMUM-ROUNDTRIP-001.journal.json
+STDOUT=ROUNDTRIP_COMPLETE
+STDERR=Spreadsheet runtime warmup failed during Python startup: hydrateCrdtFromProto requires an empty collaborative document. This external diagnostic did not change Exit Code 0.
+MANUAL_RESPONSE_NOTE=response.txt contained a locally supplied manual test response; no browser automation or online window control was used.
