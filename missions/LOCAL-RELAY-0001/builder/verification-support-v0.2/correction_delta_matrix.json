@@ -1,0 +1,50 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "baseline_commit": "9ca051a4bd5e4a4e6aa293a215d19b4f235042f5",
+  "continuity_gaps": [
+    {
+      "requirement_id": "CRASH-CONSISTENCY-001",
+      "gap": "Outbox written before completed registry could leave split state",
+      "v0_1": "execute() writes outbox then registry directly",
+      "v0_2_files": ["relay_transaction_v0_2.py", "relay_recovery_v0_2.py"],
+      "functions": ["TransactionMixin._write_journal", "TransactionMixin.execute_claim", "RecoveryMixin._reconcile_assignment", "RecoveryMixin.reconcile"],
+      "tests": ["test_18_crash_after_outbox_before_registry", "test_19_restart_recovers_outbox_only"]
+    },
+    {
+      "requirement_id": "REGISTRY-REPAIR-001",
+      "gap": "Registry-only state had no deterministic outbox repair",
+      "v0_2_files": ["relay_recovery_v0_2.py"],
+      "functions": ["RecoveryMixin._reconcile_assignment", "RecoveryMixin.reconcile"],
+      "tests": ["test_20_registry_only_repairs_outbox"]
+    },
+    {
+      "requirement_id": "STALE-OWNER-001",
+      "gap": "Lease expiry was not checked at result submission",
+      "v0_2_files": ["relay_storage_v0_2.py", "relay_transaction_v0_2.py"],
+      "functions": ["StorageMixin._validate_live_claim", "StorageMixin.claim_next", "TransactionMixin.execute_claim"],
+      "tests": ["test_21_stale_owner_cannot_commit_after_expiry"]
+    },
+    {
+      "requirement_id": "DUPLICATE-EFFECT-001",
+      "gap": "No durable PREPARED record prevented effect replay after crash",
+      "v0_2_files": ["relay_transaction_v0_2.py", "relay_recovery_v0_2.py"],
+      "functions": ["TransactionMixin._write_journal", "TransactionMixin.execute_claim", "RecoveryMixin.reconcile"],
+      "tests": ["test_22_prepared_journal_restart_prevents_duplicate_effect"]
+    },
+    {
+      "requirement_id": "CONFLICT-BLOCK-001",
+      "gap": "Conflicting registry and outbox records were not explicitly blocked",
+      "v0_2_files": ["relay_transaction_v0_2.py", "relay_recovery_v0_2.py"],
+      "functions": ["TransactionMixin._validate_result", "TransactionMixin._commit_registry", "RecoveryMixin._reconcile_assignment", "RecoveryMixin.reconcile"],
+      "tests": ["test_23_conflicting_registry_and_outbox_blocks"]
+    },
+    {
+      "requirement_id": "ROOT-CONFINEMENT-001",
+      "gap": "Runtime-root confinement must remain enforced after transaction split",
+      "v0_2_files": ["relay_storage_v0_2.py"],
+      "functions": ["StorageMixin.safe_path", "StorageMixin._assert_under_root", "StorageMixin.atomic_json_write"],
+      "tests": ["test_13_path_traversal_rejected", "test_24_runtime_root_constraint_preserved"]
+    }
+  ]
+}
