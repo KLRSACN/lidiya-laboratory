@@ -1,0 +1,30 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "issued_by": "WINDOW-00-MAIN-LIDIYA",
+  "state": "CONTINUITY_RETARGET_V0_2_REQUESTED",
+  "builder_candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "protocol_v0_2_candidate_commit": "abd8d2c7848d85dfaf2fd460c82f3abc451c7e93",
+  "source_continuity_report_commit": "16ed1986813eff2234bc808a27384aef60d1fa5f",
+  "required_checks": [
+    "Independently fetch all 13 Builder candidate-v0.2 artifacts from the specified commit",
+    "Recompute or independently verify every manifest byte size and SHA-256 where connector access permits",
+    "Run the read-only continuity validator against the materialized Builder candidate",
+    "Update all 15 compatibility-matrix requirements with evidence and final status",
+    "Verify Task Packet, Runtime Envelope, Action subset, target_worker, additionalProperties, lease bounds and required field validation",
+    "Verify claim_id, lease_generation, recovery_count, expiry checks and stale-owner fencing",
+    "Verify persistent task state, checkpoint, dispatcher state and completed registry including outbox_path",
+    "Verify PREPARED/COMMITTED journal and deterministic startup reconciliation for outbox-only, registry-only and prepared-journal states",
+    "Verify conflict or hash mismatch is blocked and quarantined",
+    "Confirm the original 17 tests remain represented and the total 24-test evidence is internally consistent",
+    "Publish CONTINUITY_VERIFIED, NEEDS_CORRECTION or BLOCKED from the continuity write scope"
+  ],
+  "constraints": [
+    "Do not modify Builder candidate or Builder paths",
+    "Do not modify Auditor, Control, Wake Core or HOME paths",
+    "Do not start Live Trigger",
+    "Do not approve from pasted claims alone"
+  ],
+  "next_gate": "CONTINUITY_VERIFIED_V0_2"
+}
