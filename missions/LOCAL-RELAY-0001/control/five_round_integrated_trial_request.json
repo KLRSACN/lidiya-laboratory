@@ -1,0 +1,65 @@
+{
+  "state": "FIVE_ROUND_INTEGRATED_TRIAL_AUTHORIZED",
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "round_limit": 5,
+  "objective": "Within five conversation rounds, perform one complete evidence-producing pass of isolated local execution, Live Trigger wake attempt, online-window conversation attempt, and HOME integration attempt, or return concrete blocking evidence for each stage.",
+  "frozen_requirements": true,
+  "no_new_requirements": true,
+  "execution_order": [
+    "isolated_local_trial",
+    "live_trigger_attempt",
+    "online_window_conversation_attempt",
+    "home_integration_attempt",
+    "consolidated_report"
+  ],
+  "roles": {
+    "WINDOW-01": "Primary executor. Build or use the latest authorized candidate, run the actual local isolated pass, then attempt the remaining integration stages. Produce commands, timestamps, exit codes, logs, evidence paths and errors.",
+    "WINDOW-02": "Continuity observer only. Do not add requirements. Record whether state and evidence survive each stage and identify only P0 continuity failures.",
+    "WINDOW-03": "Dynamic fault observer only. Do not add harness work. Capture runtime errors, race or crash evidence, and classify blockers without delaying execution."
+  },
+  "mandatory_evidence_per_stage": [
+    "start_time",
+    "end_time",
+    "exact_command_or_action",
+    "exit_code_or_result",
+    "stdout_log_path",
+    "stderr_log_path",
+    "runtime_artifact_paths",
+    "observed_state_transition",
+    "error_class",
+    "root_cause_or_best_supported_hypothesis",
+    "next_action"
+  ],
+  "stage_rules": {
+    "isolated_local_trial": {
+      "must_execute": true,
+      "minimum": "Create an isolated runtime root, submit one real WRITE_TEXT task, claim it, execute it, persist result/outbox/registry/journal, restart the relay, and confirm no duplicate side effect."
+    },
+    "live_trigger_attempt": {
+      "must_attempt": true,
+      "minimum": "Attempt one concrete local wake trigger against the relay. If no trigger implementation exists, produce the exact missing executable/module/interface and the shortest implementation direction."
+    },
+    "online_window_conversation_attempt": {
+      "must_attempt": true,
+      "minimum": "Attempt one concrete send-and-capture cycle to an online conversation window. If blocked by unavailable browser/window control, report the exact control boundary, missing adapter, target window evidence and safest next integration method."
+    },
+    "home_integration_attempt": {
+      "must_attempt": true,
+      "minimum": "Attempt a non-destructive HOME bridge read/write handshake in an isolated candidate path. Do not modify authoritative HOME content. If blocked, report the exact HOME interface/path/permission dependency."
+    }
+  },
+  "stop_conditions": [
+    "Do not create new protocol requirements.",
+    "Do not open another correction version solely for non-P0 findings.",
+    "Do not claim success without runtime evidence.",
+    "A blocked stage counts as completed only when concrete commands, errors and evidence paths are provided.",
+    "Do not modify authoritative HOME, Wake Core or production browser state without explicit existing authorization."
+  ],
+  "required_final_state": [
+    "INTEGRATED_TRIAL_COMPLETED",
+    "INTEGRATED_TRIAL_PARTIAL_WITH_BLOCKERS",
+    "INTEGRATED_TRIAL_BLOCKED"
+  ]
+}
