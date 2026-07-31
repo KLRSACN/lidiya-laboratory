@@ -1,0 +1,44 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "builder_candidate_commit": "2afef1be70e371d5aa1e1d51e856e7bb9e57e033",
+  "five_round_control_commit": "7a48f5b9b43ad604b734b0151bde4c903c9118cf",
+  "continuity_matrix": {
+    "requirements_total": 15,
+    "p0_blockers": 0,
+    "result": "PASS_WITH_BACKLOG"
+  },
+  "manifest_verification": {
+    "artifact_count_total": 13,
+    "manifest_entries": 12,
+    "size_matches": 12,
+    "sha256_matches": 12,
+    "continuity_validator_exit_code": 0
+  },
+  "local_run": {
+    "os": "Linux-6.12.13-x86_64-with-glibc2.41",
+    "python_version": "3.13.5",
+    "working_directory": "/mnt/data/local-relay-v03-gate",
+    "runtime_root": "/mnt/data/local-relay-v03-gate/runtime-round2",
+    "command": "python /mnt/data/local-relay-v03-gate/run_gate.py",
+    "start_time": "2026-07-31T05:53:47.008554+00:00",
+    "end_time": "2026-07-31T05:53:47.034711+00:00",
+    "exit_code": 0,
+    "task_id": "ROUND2-LOCAL-001",
+    "output_path": "/mnt/data/local-relay-v03-gate/runtime-round2/state/outputs/round2-local-001.txt",
+    "output_sha256": "611cafa6442f75d0e2ed209a0d7b1e015f18d9d1a803393c681efd3a3fb9385d",
+    "outbox_path": "/mnt/data/local-relay-v03-gate/runtime-round2/outbox/LOCAL-RELAY-0001__RELAY-BOOTSTRAP-0001__ROUND2-LOCAL-001.result.json",
+    "registry_path": "/mnt/data/local-relay-v03-gate/runtime-round2/state/dispatcher_state.json",
+    "journal_path": "/mnt/data/local-relay-v03-gate/runtime-round2/state/journal/LOCAL-RELAY-0001__RELAY-BOOTSTRAP-0001__ROUND2-LOCAL-001.journal.json",
+    "journal_phase": "COMMITTED",
+    "restart_result": "IDLE",
+    "restart_hash_unchanged": true,
+    "completed_record_readable": true,
+    "duplicate_side_effect": false
+  },
+  "backlog": [
+    "Manifest control_commit differs from the Five Round control commit supplied to this gate; no P0 behavior impact observed.",
+    "Local materialization used connector-fetched frozen source content because gh CLI and direct network access were unavailable."
+  ]
+}
