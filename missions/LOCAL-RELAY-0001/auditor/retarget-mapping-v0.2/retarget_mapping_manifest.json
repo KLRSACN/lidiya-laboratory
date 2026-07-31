@@ -1,0 +1,19 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "state": "AUDIT_RETARGET_MAPPING_COMPLETED",
+  "source_builder_candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "audit_preparation_commit": "d41ddebf8dbdfe61451638737cccead2d109f7a2",
+  "files": [
+    "builder_adapter_mapping.json",
+    "injection_point_mapping.json",
+    "audit_retarget_plan.md"
+  ],
+  "manifest_self_entry_rule": "retarget_mapping_manifest.json is excluded from its own files array to avoid recursive hashing",
+  "final_verdict_issued": false,
+  "wait_conditions": [
+    "WINDOW-02 CONTINUITY_APPROVED",
+    "WINDOW-00 publication of a new Builder Frozen Commit"
+  ]
+}
