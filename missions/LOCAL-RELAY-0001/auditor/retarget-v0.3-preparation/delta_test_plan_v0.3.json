@@ -1,0 +1,23 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "status": "PENDING_BUILDER_V0_3",
+  "tests": [
+    {"id":"V03-01","name":"lease_generation_fencing","pass_condition":"expired generation 1 cannot heartbeat or submit after generation 2 claim; generation 2 uniquely commits"},
+    {"id":"V03-02","name":"recovery_count_monotonic","pass_condition":"recovery_count strictly increases once per accepted recovery and never regresses"},
+    {"id":"V03-03","name":"authorized_runtime_root_allowlist","pass_condition":"unauthorized roots, symlink escapes and traversal are rejected before mutation"},
+    {"id":"V03-04","name":"checkpoint_schema_validation","pass_condition":"identity, schema version, generation, recovery_count, task state and hash are validated"},
+    {"id":"V03-05","name":"checkpoint_write_failure_recovery","pass_condition":"no false completion; running remains recoverable; side effect is not duplicated"},
+    {"id":"V03-06","name":"canonical_task_state","pass_condition":"dispatcher state and filesystem location resolve to one canonical state"},
+    {"id":"V03-07","name":"completed_registry_outbox_path","pass_condition":"completed record contains valid outbox_path and matching result hash"},
+    {"id":"V03-08","name":"multiprocess_claim_race","pass_condition":"exactly one independent process claims the task"},
+    {"id":"V03-09","name":"multiprocess_submit_race","pass_condition":"only the current lease generation can commit"},
+    {"id":"V03-10","name":"process_restart_persistence","pass_condition":"new process restores running, retry, completed, generation and recovery_count from disk"},
+    {"id":"V03-11","name":"manifest_integrity","pass_condition":"all frozen artifacts match byte size and SHA-256; missing, extra and duplicate paths are reported"},
+    {"id":"V03-12","name":"checkpoint_hash_conflict","pass_condition":"tampered checkpoint is BLOCKED and quarantined without task mutation"},
+    {"id":"V03-13","name":"stale_owner_heartbeat","pass_condition":"generation 1 heartbeat is rejected after generation 2 recovery"},
+    {"id":"V03-14","name":"stale_owner_submit","pass_condition":"generation 1 submit is rejected after generation 2 recovery"},
+    {"id":"V03-15","name":"checkpoint_failure_after_side_effect","pass_condition":"restart reconciles one side effect into one result without false completion"}
+  ]
+}
