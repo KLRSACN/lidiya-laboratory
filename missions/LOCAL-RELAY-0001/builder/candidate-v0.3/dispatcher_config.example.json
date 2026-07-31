@@ -1,0 +1,11 @@
+{
+  "runtime_root": "./runtime",
+  "authorized_runtime_roots": [
+    "./runtime"
+  ],
+  "supported_actions": [
+    "WRITE_TEXT"
+  ],
+  "lease_seconds_min": 5,
+  "lease_seconds_max": 3600
+}
