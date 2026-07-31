@@ -1,0 +1,51 @@
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py", line 30820, in hydrate_crdt_from_proto
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py", line 749, in __call__
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+test_25_lease_min (test_local_relay_v0_3.ProtocolV03.test_25_lease_min) ... ok
+test_26_lease_max (test_local_relay_v0_3.ProtocolV03.test_26_lease_max) ... ok
+test_27_empty_identity (test_local_relay_v0_3.ProtocolV03.test_27_empty_identity) ... ok
+test_28_bad_created_at (test_local_relay_v0_3.ProtocolV03.test_28_bad_created_at) ... ok
+test_29_bad_target (test_local_relay_v0_3.ProtocolV03.test_29_bad_target) ... ok
+test_30_runtime_allowlist (test_local_relay_v0_3.ProtocolV03.test_30_runtime_allowlist) ... ok
+test_31_generation_increment (test_local_relay_v0_3.ProtocolV03.test_31_generation_increment) ... ok
+test_32_generation_fencing (test_local_relay_v0_3.ProtocolV03.test_32_generation_fencing) ... ok
+test_33_recovery_count (test_local_relay_v0_3.ProtocolV03.test_33_recovery_count) ... ok
+test_34_checkpoint_schema (test_local_relay_v0_3.ProtocolV03.test_34_checkpoint_schema) ... ok
+test_35_state_schema (test_local_relay_v0_3.ProtocolV03.test_35_state_schema) ... ok
+test_36_registry_outbox_path (test_local_relay_v0_3.ProtocolV03.test_36_registry_outbox_path) ... ok
+test_01_single_normal_task (test_local_relay_v0_3.Regression24.test_01_single_normal_task) ... ok
+test_02_two_workers_atomic_claim (test_local_relay_v0_3.Regression24.test_02_two_workers_atomic_claim) ... ok
+test_03_duplicate_completed (test_local_relay_v0_3.Regression24.test_03_duplicate_completed) ... ok
+test_04_worker_crash (test_local_relay_v0_3.Regression24.test_04_worker_crash) ... ok
+test_05_lease_expiry (test_local_relay_v0_3.Regression24.test_05_lease_expiry) ... ok
+test_06_unexpired (test_local_relay_v0_3.Regression24.test_06_unexpired) ... ok
+test_07_heartbeat (test_local_relay_v0_3.Regression24.test_07_heartbeat) ... ok
+test_08_retry_limit (test_local_relay_v0_3.Regression24.test_08_retry_limit) ... ok
+test_09_corrupt (test_local_relay_v0_3.Regression24.test_09_corrupt) ... ok
+test_10_missing (test_local_relay_v0_3.Regression24.test_10_missing) ... ok
+test_11_restart (test_local_relay_v0_3.Regression24.test_11_restart) ... ok
+test_12_partial_ignored (test_local_relay_v0_3.Regression24.test_12_partial_ignored) ... ok
+test_13_traversal (test_local_relay_v0_3.Regression24.test_13_traversal) ... ok
+test_14_outbox_persistence (test_local_relay_v0_3.Regression24.test_14_outbox_persistence) ... ok
+test_15_different_token (test_local_relay_v0_3.Regression24.test_15_different_token) ... ok
+test_16_hash_mismatch (test_local_relay_v0_3.Regression24.test_16_hash_mismatch) ... ok
+test_17_action (test_local_relay_v0_3.Regression24.test_17_action) ... ok
+test_18_crash_outbox_registry (test_local_relay_v0_3.Regression24.test_18_crash_outbox_registry) ... ok
+test_19_restart_outbox_only (test_local_relay_v0_3.Regression24.test_19_restart_outbox_only) ... ok
+test_20_registry_only (test_local_relay_v0_3.Regression24.test_20_registry_only) ... ok
+test_21_stale_owner (test_local_relay_v0_3.Regression24.test_21_stale_owner) ... ok
+test_22_prepared_restart (test_local_relay_v0_3.Regression24.test_22_prepared_restart) ... ok
+test_23_conflict_blocked (test_local_relay_v0_3.Regression24.test_23_conflict_blocked) ... ok
+test_24_root_constraint (test_local_relay_v0_3.Regression24.test_24_root_constraint) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.414s
+
+OK
