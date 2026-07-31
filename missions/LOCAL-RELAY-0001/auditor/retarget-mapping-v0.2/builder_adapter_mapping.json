@@ -1,0 +1,61 @@
+{
+  "mission_id": "LOCAL-RELAY-0001",
+  "token": "RELAY-BOOTSTRAP-0001",
+  "generation": 1,
+  "source_builder_candidate_commit": "35988ad594d725aed4e5f907ba1d050385135a6f",
+  "audit_preparation_commit": "d41ddebf8dbdfe61451638737cccead2d109f7a2",
+  "builder_entrypoint": {
+    "class": "LocalRelayDispatcherV02",
+    "file": "local_relay_dispatcher_v0_2.py"
+  },
+  "methods": {
+    "claim": {
+      "classification": "THIN_ADAPTER_REQUIRED",
+      "builder_method": "claim_next(worker_id, now=None)",
+      "file": "relay_storage_v0_2.py",
+      "notes": "Adapter must place the packet in the isolated inbox, invoke claim_next, and normalize Claim to CLI JSON. Candidate v0.2 has no lease_generation field."
+    },
+    "heartbeat": {
+      "classification": "DIRECT",
+      "builder_method": "heartbeat(claim, worker_id, now=None)",
+      "file": "relay_storage_v0_2.py",
+      "notes": "Direct Python method; a CLI JSON transport wrapper is still required by the Auditor harness."
+    },
+    "submit_result": {
+      "classification": "THIN_ADAPTER_REQUIRED",
+      "builder_method": "execute_claim(claim, worker_id, now=None, fault=None)",
+      "file": "relay_transaction_v0_2.py",
+      "notes": "Normalize execute_claim output. Contract lease_generation cannot be supplied because v0.2 Claim has only claim_id."
+    },
+    "recover": {
+      "classification": "THIN_ADAPTER_REQUIRED",
+      "builder_method": "reconcile() then recover_expired(now=None)",
+      "file": "relay_recovery_v0_2.py",
+      "notes": "Adapter combines reconciliation and expired-lease recovery and normalizes recovered_tasks."
+    },
+    "read_task_state": {
+      "classification": "MISSING",
+      "builder_method": null,
+      "file": null,
+      "notes": "v0.2 dispatcher state has completed_assignments and reconciliation_log but no canonical per-task state registry."
+    },
+    "read_checkpoint": {
+      "classification": "UNSAFE_CONTRACT_MISMATCH",
+      "builder_method": "read_json(checkpoint_path(running_path))",
+      "file": "relay_storage_v0_2.py",
+      "notes": "Checkpoint is readable but lacks task_id and highest_progress_token required by the Auditor contract. Adapter must not invent them."
+    },
+    "read_completed_record": {
+      "classification": "THIN_READ_ONLY_ADAPTER",
+      "builder_method": "completed_record(packet)",
+      "file": "relay_storage_v0_2.py",
+      "notes": "Requires packet identity lookup and output normalization. outbox_hash is not a native v0.2 field."
+    }
+  },
+  "summary": {
+    "direct": ["heartbeat"],
+    "wrapped": ["claim", "submit_result", "recover", "read_completed_record"],
+    "missing": ["read_task_state"],
+    "cannot_safely_test": ["read_checkpoint contract fields", "lease_generation fencing"]
+  }
+}
