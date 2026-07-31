@@ -1,0 +1,31 @@
+{
+  "total": 24,
+  "baseline_tests": 17,
+  "new_tests": 7,
+  "tests": [
+    {"index":1,"test_name":"test_01_single_normal_task","suite":"regression","requirement_id":"BASE-NORMAL-001","expected":"COMPLETED","coverage":"normal enqueue claim execute"},
+    {"index":2,"test_name":"test_02_two_workers_atomic_claim","suite":"regression","requirement_id":"ATOMIC-CLAIM-001","expected":"one claim only","coverage":"concurrent atomic rename"},
+    {"index":3,"test_name":"test_03_duplicate_completed","suite":"regression","requirement_id":"DUPLICATE-001","expected":"second run IDLE and outbox hash unchanged","coverage":"completed duplicate protection"},
+    {"index":4,"test_name":"test_04_worker_crash_leaves_running","suite":"regression","requirement_id":"CRASH-BASE-001","expected":"running remains and no outbox","coverage":"pre-result crash state"},
+    {"index":5,"test_name":"test_05_lease_expiry_recovery","suite":"regression","requirement_id":"LEASE-RECOVERY-001","expected":"REQUEUED","coverage":"expired lease recovery"},
+    {"index":6,"test_name":"test_06_unexpired_lease_not_recovered","suite":"regression","requirement_id":"LEASE-FENCE-001","expected":"no recovery action","coverage":"unexpired lease ownership"},
+    {"index":7,"test_name":"test_07_heartbeat_extends_lease","suite":"regression","requirement_id":"HEARTBEAT-001","expected":"lease_expires_at extended","coverage":"heartbeat"},
+    {"index":8,"test_name":"test_08_retry_limit","suite":"regression","requirement_id":"RETRY-BOUND-001","expected":"FAILED at max attempts","coverage":"bounded retry"},
+    {"index":9,"test_name":"test_09_corrupt_json_quarantine","suite":"regression","requirement_id":"QUARANTINE-JSON-001","expected":"quarantined","coverage":"invalid JSON"},
+    {"index":10,"test_name":"test_10_missing_field_quarantine","suite":"regression","requirement_id":"QUARANTINE-SCHEMA-001","expected":"quarantined","coverage":"missing fields"},
+    {"index":11,"test_name":"test_11_restart_recovery","suite":"regression","requirement_id":"RESTART-001","expected":"REQUEUED after restart","coverage":"disk recovery"},
+    {"index":12,"test_name":"test_12_partial_temp_file_ignored","suite":"regression","requirement_id":"ATOMIC-WRITE-001","expected":"temp file ignored","coverage":"half-write avoidance"},
+    {"index":13,"test_name":"test_13_path_traversal_rejected","suite":"regression","requirement_id":"ROOT-CONFINEMENT-001","expected":"FAILED and no escape file","coverage":"path traversal"},
+    {"index":14,"test_name":"test_14_outbox_persistence","suite":"regression","requirement_id":"OUTBOX-PERSIST-001","expected":"record and outbox survive restart","coverage":"persistence"},
+    {"index":15,"test_name":"test_15_different_token_independent","suite":"regression","requirement_id":"TOKEN-ISOLATION-001","expected":"both COMPLETED","coverage":"token isolation"},
+    {"index":16,"test_name":"test_16_hash_mismatch_quarantine","suite":"regression","requirement_id":"QUARANTINE-HASH-001","expected":"quarantined","coverage":"packet hash"},
+    {"index":17,"test_name":"test_17_unsupported_action_quarantine","suite":"regression","requirement_id":"QUARANTINE-ACTION-001","expected":"quarantined","coverage":"action allowlist"},
+    {"index":18,"test_name":"test_18_crash_after_outbox_before_registry","suite":"fault_injection_restart","requirement_id":"CRASH-CONSISTENCY-001","expected":"outbox exists and registry absent","coverage":"fault after outbox"},
+    {"index":19,"test_name":"test_19_restart_recovers_outbox_only","suite":"fault_injection_restart","requirement_id":"CRASH-CONSISTENCY-002","expected":"registry repaired on restart","coverage":"outbox-only reconciliation"},
+    {"index":20,"test_name":"test_20_registry_only_repairs_outbox","suite":"fault_injection_restart","requirement_id":"REGISTRY-REPAIR-001","expected":"outbox recreated equal to registry","coverage":"registry-only reconciliation"},
+    {"index":21,"test_name":"test_21_stale_owner_cannot_commit_after_expiry","suite":"fault_injection_restart","requirement_id":"STALE-OWNER-001","expected":"old owner rejected and new owner completes","coverage":"lease fencing"},
+    {"index":22,"test_name":"test_22_prepared_journal_restart_prevents_duplicate_effect","suite":"fault_injection_restart","requirement_id":"DUPLICATE-EFFECT-001","expected":"effect hash unchanged and records repaired","coverage":"PREPARED journal"},
+    {"index":23,"test_name":"test_23_conflicting_registry_and_outbox_blocks","suite":"fault_injection_restart","requirement_id":"CONFLICT-BLOCK-001","expected":"BLOCKED action recorded","coverage":"conflict detection"},
+    {"index":24,"test_name":"test_24_runtime_root_constraint_preserved","suite":"fault_injection_restart","requirement_id":"ROOT-CONFINEMENT-002","expected":"UnsafePath raised","coverage":"transaction-layer confinement"}
+  ]
+}
