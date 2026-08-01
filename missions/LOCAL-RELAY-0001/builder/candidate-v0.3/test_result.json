@@ -1,18 +1,17 @@
 {
-  "total": 36,
-  "passed": 36,
-  "failed": 0,
+  "duration_seconds": 1.421777,
+  "ended_at": "2026-08-01T08:52:12.414821Z",
   "exit_code": 0,
-  "regression_tests_retained": 24,
-  "protocol_v0_3_tests_added": 12,
-  "features": {
-    "durable_journal": "PASS",
-    "crash_reconciliation": "PASS",
-    "duplicate_side_effect_protection": "PASS",
-    "hash_conflict_blocked_quarantine": "PASS",
-    "lease_generation_fencing": "PASS",
-    "protocol_checkpoint": "PASS",
-    "protocol_dispatcher_state": "PASS",
-    "completed_registry_outbox_path": "PASS"
-  }
+  "failed": 0,
+  "original_17_behaviors_preserved": true,
+  "passed": 50,
+  "python_version": "3.13.5",
+  "skipped": 0,
+  "started_at": "2026-08-01T08:52:10.993043Z",
+  "stderr": "test_01_normal (test_local_relay_v0_3.Tests.test_01_normal) ... ok\ntest_02_atomic_claim (test_local_relay_v0_3.Tests.test_02_atomic_claim) ... ok\ntest_03_duplicate (test_local_relay_v0_3.Tests.test_03_duplicate) ... ok\ntest_04_crash_running (test_local_relay_v0_3.Tests.test_04_crash_running) ... ok\ntest_05_expiry (test_local_relay_v0_3.Tests.test_05_expiry) ... ok\ntest_06_unexpired (test_local_relay_v0_3.Tests.test_06_unexpired) ... ok\ntest_07_heartbeat (test_local_relay_v0_3.Tests.test_07_heartbeat) ... ok\ntest_08_retry_limit (test_local_relay_v0_3.Tests.test_08_retry_limit) ... ok\ntest_09_corrupt (test_local_relay_v0_3.Tests.test_09_corrupt) ... ok\ntest_10_missing (test_local_relay_v0_3.Tests.test_10_missing) ... ok\ntest_11_restart (test_local_relay_v0_3.Tests.test_11_restart) ... ok\ntest_12_partial (test_local_relay_v0_3.Tests.test_12_partial) ... ok\ntest_13_traversal (test_local_relay_v0_3.Tests.test_13_traversal) ... ok\ntest_14_outbox_persist (test_local_relay_v0_3.Tests.test_14_outbox_persist) ... ok\ntest_15_tokens (test_local_relay_v0_3.Tests.test_15_tokens) ... ok\ntest_16_hash (test_local_relay_v0_3.Tests.test_16_hash) ... ok\ntest_17_action (test_local_relay_v0_3.Tests.test_17_action) ... ok\ntest_18_prepared_fault (test_local_relay_v0_3.Tests.test_18_prepared_fault) ... ok\ntest_19_side_effect_fault (test_local_relay_v0_3.Tests.test_19_side_effect_fault) ... ok\ntest_20_result_fault (test_local_relay_v0_3.Tests.test_20_result_fault) ... ok\ntest_21_outbox_fault (test_local_relay_v0_3.Tests.test_21_outbox_fault) ... ok\ntest_22_registry_fault (test_local_relay_v0_3.Tests.test_22_registry_fault) ... ok\ntest_23_cleanup_fault (test_local_relay_v0_3.Tests.test_23_cleanup_fault) ... ok\ntest_24_outbox_only (test_local_relay_v0_3.Tests.test_24_outbox_only) ... ok\ntest_25_registry_only (test_local_relay_v0_3.Tests.test_25_registry_only) ... ok\ntest_26_whitespace (test_local_relay_v0_3.Tests.test_26_whitespace) ... ok\ntest_27_timestamp (test_local_relay_v0_3.Tests.test_27_timestamp) ... ok\ntest_28_lease_low (test_local_relay_v0_3.Tests.test_28_lease_low) ... ok\ntest_29_lease_high (test_local_relay_v0_3.Tests.test_29_lease_high) ... ok\ntest_30_empty_allowlist (test_local_relay_v0_3.Tests.test_30_empty_allowlist) ... ok\ntest_31_sibling_prefix (test_local_relay_v0_3.Tests.test_31_sibling_prefix) ... ok\ntest_32_unknown_field (test_local_relay_v0_3.Tests.test_32_unknown_field) ... ok\ntest_33_array_elements (test_local_relay_v0_3.Tests.test_33_array_elements) ... ok\ntest_34_bad_target (test_local_relay_v0_3.Tests.test_34_bad_target) ... ok\ntest_35_generation_first (test_local_relay_v0_3.Tests.test_35_generation_first) ... ok\ntest_36_generation_restart (test_local_relay_v0_3.Tests.test_36_generation_restart) ... ok\ntest_37_recovery_count (test_local_relay_v0_3.Tests.test_37_recovery_count) ... ok\ntest_38_stale_claim (test_local_relay_v0_3.Tests.test_38_stale_claim) ... ok\ntest_39_stale_generation (test_local_relay_v0_3.Tests.test_39_stale_generation) ... ok\ntest_40_cancelled (test_local_relay_v0_3.Tests.test_40_cancelled) ... ok\ntest_41_completed_regression (test_local_relay_v0_3.Tests.test_41_completed_regression) ... ok\ntest_42_checkpoint (test_local_relay_v0_3.Tests.test_42_checkpoint) ... ok\ntest_43_checkpoint_monotonic (test_local_relay_v0_3.Tests.test_43_checkpoint_monotonic) ... ok\ntest_44_dispatcher_state (test_local_relay_v0_3.Tests.test_44_dispatcher_state) ... ok\ntest_45_registry_fields (test_local_relay_v0_3.Tests.test_45_registry_fields) ... ok\ntest_46_adapter (test_local_relay_v0_3.Tests.test_46_adapter) ... ok\ntest_47_conflict_blocked (test_local_relay_v0_3.Tests.test_47_conflict_blocked) ... ok\ntest_48_schema (test_local_relay_v0_3.Tests.test_48_schema) ... ok\ntest_49_symlink_escape (test_local_relay_v0_3.Tests.test_49_symlink_escape) ... ok\ntest_50_outbox_exact (test_local_relay_v0_3.Tests.test_50_outbox_exact) ... ok\n\n----------------------------------------------------------------------\nRan 50 tests in 0.841s\n\nOK\n",
+  "stdout": "",
+  "test_command": "/opt/pyvenv/bin/python -m unittest -v test_local_relay_v0_3.py",
+  "test_list": ["test_01_normal","test_02_atomic_claim","test_03_duplicate","test_04_crash_running","test_05_expiry","test_06_unexpired","test_07_heartbeat","test_08_retry_limit","test_09_corrupt","test_10_missing","test_11_restart","test_12_partial","test_13_traversal","test_14_outbox_persist","test_15_tokens","test_16_hash","test_17_action","test_18_prepared_fault","test_19_side_effect_fault","test_20_result_fault","test_21_outbox_fault","test_22_registry_fault","test_23_cleanup_fault","test_24_outbox_only","test_25_registry_only","test_26_whitespace","test_27_timestamp","test_28_lease_low","test_29_lease_high","test_30_empty_allowlist","test_31_sibling_prefix","test_32_unknown_field","test_33_array_elements","test_34_bad_target","test_35_generation_first","test_36_generation_restart","test_37_recovery_count","test_38_stale_claim","test_39_stale_generation","test_40_cancelled","test_41_completed_regression","test_42_checkpoint","test_43_checkpoint_monotonic","test_44_dispatcher_state","test_45_registry_fields","test_46_adapter","test_47_conflict_blocked","test_48_schema","test_49_symlink_escape","test_50_outbox_exact"],
+  "total": 50,
+  "working_directory_model": "fresh temporary isolated copy"
 }

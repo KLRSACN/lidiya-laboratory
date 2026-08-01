@@ -1,51 +1,55 @@
-Spreadsheet runtime warmup failed during python startup
-Traceback (most recent call last):
-  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
-  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
-  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
-  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
-  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py", line 30820, in hydrate_crdt_from_proto
-  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py", line 749, in __call__
-  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py", line 150, in call
-artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
-test_25_lease_min (test_local_relay_v0_3.ProtocolV03.test_25_lease_min) ... ok
-test_26_lease_max (test_local_relay_v0_3.ProtocolV03.test_26_lease_max) ... ok
-test_27_empty_identity (test_local_relay_v0_3.ProtocolV03.test_27_empty_identity) ... ok
-test_28_bad_created_at (test_local_relay_v0_3.ProtocolV03.test_28_bad_created_at) ... ok
-test_29_bad_target (test_local_relay_v0_3.ProtocolV03.test_29_bad_target) ... ok
-test_30_runtime_allowlist (test_local_relay_v0_3.ProtocolV03.test_30_runtime_allowlist) ... ok
-test_31_generation_increment (test_local_relay_v0_3.ProtocolV03.test_31_generation_increment) ... ok
-test_32_generation_fencing (test_local_relay_v0_3.ProtocolV03.test_32_generation_fencing) ... ok
-test_33_recovery_count (test_local_relay_v0_3.ProtocolV03.test_33_recovery_count) ... ok
-test_34_checkpoint_schema (test_local_relay_v0_3.ProtocolV03.test_34_checkpoint_schema) ... ok
-test_35_state_schema (test_local_relay_v0_3.ProtocolV03.test_35_state_schema) ... ok
-test_36_registry_outbox_path (test_local_relay_v0_3.ProtocolV03.test_36_registry_outbox_path) ... ok
-test_01_single_normal_task (test_local_relay_v0_3.Regression24.test_01_single_normal_task) ... ok
-test_02_two_workers_atomic_claim (test_local_relay_v0_3.Regression24.test_02_two_workers_atomic_claim) ... ok
-test_03_duplicate_completed (test_local_relay_v0_3.Regression24.test_03_duplicate_completed) ... ok
-test_04_worker_crash (test_local_relay_v0_3.Regression24.test_04_worker_crash) ... ok
-test_05_lease_expiry (test_local_relay_v0_3.Regression24.test_05_lease_expiry) ... ok
-test_06_unexpired (test_local_relay_v0_3.Regression24.test_06_unexpired) ... ok
-test_07_heartbeat (test_local_relay_v0_3.Regression24.test_07_heartbeat) ... ok
-test_08_retry_limit (test_local_relay_v0_3.Regression24.test_08_retry_limit) ... ok
-test_09_corrupt (test_local_relay_v0_3.Regression24.test_09_corrupt) ... ok
-test_10_missing (test_local_relay_v0_3.Regression24.test_10_missing) ... ok
-test_11_restart (test_local_relay_v0_3.Regression24.test_11_restart) ... ok
-test_12_partial_ignored (test_local_relay_v0_3.Regression24.test_12_partial_ignored) ... ok
-test_13_traversal (test_local_relay_v0_3.Regression24.test_13_traversal) ... ok
-test_14_outbox_persistence (test_local_relay_v0_3.Regression24.test_14_outbox_persistence) ... ok
-test_15_different_token (test_local_relay_v0_3.Regression24.test_15_different_token) ... ok
-test_16_hash_mismatch (test_local_relay_v0_3.Regression24.test_16_hash_mismatch) ... ok
-test_17_action (test_local_relay_v0_3.Regression24.test_17_action) ... ok
-test_18_crash_outbox_registry (test_local_relay_v0_3.Regression24.test_18_crash_outbox_registry) ... ok
-test_19_restart_outbox_only (test_local_relay_v0_3.Regression24.test_19_restart_outbox_only) ... ok
-test_20_registry_only (test_local_relay_v0_3.Regression24.test_20_registry_only) ... ok
-test_21_stale_owner (test_local_relay_v0_3.Regression24.test_21_stale_owner) ... ok
-test_22_prepared_restart (test_local_relay_v0_3.Regression24.test_22_prepared_restart) ... ok
-test_23_conflict_blocked (test_local_relay_v0_3.Regression24.test_23_conflict_blocked) ... ok
-test_24_root_constraint (test_local_relay_v0_3.Regression24.test_24_root_constraint) ... ok
+test_01_normal (test_local_relay_v0_3.Tests.test_01_normal) ... ok
+test_02_atomic_claim (test_local_relay_v0_3.Tests.test_02_atomic_claim) ... ok
+test_03_duplicate (test_local_relay_v0_3.Tests.test_03_duplicate) ... ok
+test_04_crash_running (test_local_relay_v0_3.Tests.test_04_crash_running) ... ok
+test_05_expiry (test_local_relay_v0_3.Tests.test_05_expiry) ... ok
+test_06_unexpired (test_local_relay_v0_3.Tests.test_06_unexpired) ... ok
+test_07_heartbeat (test_local_relay_v0_3.Tests.test_07_heartbeat) ... ok
+test_08_retry_limit (test_local_relay_v0_3.Tests.test_08_retry_limit) ... ok
+test_09_corrupt (test_local_relay_v0_3.Tests.test_09_corrupt) ... ok
+test_10_missing (test_local_relay_v0_3.Tests.test_10_missing) ... ok
+test_11_restart (test_local_relay_v0_3.Tests.test_11_restart) ... ok
+test_12_partial (test_local_relay_v0_3.Tests.test_12_partial) ... ok
+test_13_traversal (test_local_relay_v0_3.Tests.test_13_traversal) ... ok
+test_14_outbox_persist (test_local_relay_v0_3.Tests.test_14_outbox_persist) ... ok
+test_15_tokens (test_local_relay_v0_3.Tests.test_15_tokens) ... ok
+test_16_hash (test_local_relay_v0_3.Tests.test_16_hash) ... ok
+test_17_action (test_local_relay_v0_3.Tests.test_17_action) ... ok
+test_18_prepared_fault (test_local_relay_v0_3.Tests.test_18_prepared_fault) ... ok
+test_19_side_effect_fault (test_local_relay_v0_3.Tests.test_19_side_effect_fault) ... ok
+test_20_result_fault (test_local_relay_v0_3.Tests.test_20_result_fault) ... ok
+test_21_outbox_fault (test_local_relay_v0_3.Tests.test_21_outbox_fault) ... ok
+test_22_registry_fault (test_local_relay_v0_3.Tests.test_22_registry_fault) ... ok
+test_23_cleanup_fault (test_local_relay_v0_3.Tests.test_23_cleanup_fault) ... ok
+test_24_outbox_only (test_local_relay_v0_3.Tests.test_24_outbox_only) ... ok
+test_25_registry_only (test_local_relay_v0_3.Tests.test_25_registry_only) ... ok
+test_26_whitespace (test_local_relay_v0_3.Tests.test_26_whitespace) ... ok
+test_27_timestamp (test_local_relay_v0_3.Tests.test_27_timestamp) ... ok
+test_28_lease_low (test_local_relay_v0_3.Tests.test_28_lease_low) ... ok
+test_29_lease_high (test_local_relay_v0_3.Tests.test_29_lease_high) ... ok
+test_30_empty_allowlist (test_local_relay_v0_3.Tests.test_30_empty_allowlist) ... ok
+test_31_sibling_prefix (test_local_relay_v0_3.Tests.test_31_sibling_prefix) ... ok
+test_32_unknown_field (test_local_relay_v0_3.Tests.test_32_unknown_field) ... ok
+test_33_array_elements (test_local_relay_v0_3.Tests.test_33_array_elements) ... ok
+test_34_bad_target (test_local_relay_v0_3.Tests.test_34_bad_target) ... ok
+test_35_generation_first (test_local_relay_v0_3.Tests.test_35_generation_first) ... ok
+test_36_generation_restart (test_local_relay_v0_3.Tests.test_36_generation_restart) ... ok
+test_37_recovery_count (test_local_relay_v0_3.Tests.test_37_recovery_count) ... ok
+test_38_stale_claim (test_local_relay_v0_3.Tests.test_38_stale_claim) ... ok
+test_39_stale_generation (test_local_relay_v0_3.Tests.test_39_stale_generation) ... ok
+test_40_cancelled (test_local_relay_v0_3.Tests.test_40_cancelled) ... ok
+test_41_completed_regression (test_local_relay_v0_3.Tests.test_41_completed_regression) ... ok
+test_42_checkpoint (test_local_relay_v0_3.Tests.test_42_checkpoint) ... ok
+test_43_checkpoint_monotonic (test_local_relay_v0_3.Tests.test_43_checkpoint_monotonic) ... ok
+test_44_dispatcher_state (test_local_relay_v0_3.Tests.test_44_dispatcher_state) ... ok
+test_45_registry_fields (test_local_relay_v0_3.Tests.test_45_registry_fields) ... ok
+test_46_adapter (test_local_relay_v0_3.Tests.test_46_adapter) ... ok
+test_47_conflict_blocked (test_local_relay_v0_3.Tests.test_47_conflict_blocked) ... ok
+test_48_schema (test_local_relay_v0_3.Tests.test_48_schema) ... ok
+test_49_symlink_escape (test_local_relay_v0_3.Tests.test_49_symlink_escape) ... ok
+test_50_outbox_exact (test_local_relay_v0_3.Tests.test_50_outbox_exact) ... ok
 
 ----------------------------------------------------------------------
-Ran 36 tests in 0.414s
+Ran 50 tests in 0.841s
 
 OK

@@ -1,11 +1,13 @@
 {
-  "runtime_root": "./runtime",
   "authorized_runtime_roots": [
-    "./runtime"
+    "/absolute/path/to"
   ],
+  "dispatcher_id": "LOCAL-RELAY-DISPATCHER-01",
+  "fault_injection_enabled": false,
+  "generation": 1,
+  "runtime_root": "/absolute/path/to/runtime",
+  "schema_version": "LOCAL_RELAY_CONFIG_V0.3",
   "supported_actions": [
     "WRITE_TEXT"
-  ],
-  "lease_seconds_min": 5,
-  "lease_seconds_max": 3600
+  ]
 }

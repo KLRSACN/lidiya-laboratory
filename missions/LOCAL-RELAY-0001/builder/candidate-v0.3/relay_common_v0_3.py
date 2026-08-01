@@ -3,41 +3,31 @@ import hashlib, json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-
-REQ = {'mission_id','token','task_id','target_worker','action','objective','created_at','attempt','max_attempts','lease_seconds','payload','success_criteria','evidence_required'}
-DIRS = ('inbox','running','outbox','failed','checkpoints','quarantine','state')
-SUPPORTED_ACTIONS = {'WRITE_TEXT'}
-NONEMPTY_FIELDS = ('mission_id','token','task_id','target_worker','action','objective','created_at')
+REQ={'schema_version','mission_id','token','task_id','target_worker','action','objective','created_at','attempt','max_attempts','lease_seconds','payload','success_criteria','evidence_required'}
+ALLOWED_FIELDS=REQ|{'packet_sha256','lease_generation','recovery_count','lease'}
+ACTIONS={'WRITE_TEXT'}
+STATES={'pending','running','completed','failed','blocked','cancelled'}
 class Invalid(Exception): pass
 class Unsafe(Exception): pass
 class FaultInjected(Exception): pass
-UnsafePath = Unsafe
-
-@dataclass
+UnsafePath=Unsafe
+@dataclass(frozen=True)
 class Claim:
-    path: Path
-    packet: dict
-    worker_id: str
-    claim_id: str
-    lease_generation: int
+    path: Path; packet: dict; worker_id: str; claim_id: str; lease_generation: int
 
 def utc_now(): return datetime.now(timezone.utc)
-def iso(value): return value.astimezone(timezone.utc).isoformat().replace('+00:00','Z')
-def parse_dt(value):
-    if not isinstance(value, str) or not value.strip(): raise Invalid('created_at/lease timestamp')
-    try:
-        parsed = datetime.fromisoformat(value.replace('Z','+00:00'))
-    except ValueError as exc:
-        raise Invalid('invalid ISO 8601') from exc
-    if parsed.tzinfo is None: raise Invalid('timezone required')
-    return parsed.astimezone(timezone.utc)
-def canonical(value): return json.dumps(value, sort_keys=True, separators=(',',':'), ensure_ascii=False).encode()
-def sha256_bytes(value): return hashlib.sha256(value).hexdigest()
-def packet_hash(packet):
-    value = dict(packet)
-    for field in ('packet_sha256','lease','failure_reason','recovery_count','lease_generation'):
-        value.pop(field, None)
-    value.pop('attempt', None)
-    return sha256_bytes(canonical(value))
-def assignment_key(packet): return f"{packet['mission_id']}::{packet['token']}::{packet['task_id']}"
-def assignment_slug(packet): return f"{packet['mission_id']}__{packet['token']}__{packet['task_id']}"
+def iso(v): return v.astimezone(timezone.utc).isoformat().replace('+00:00','Z')
+def parse_iso(v):
+    if not isinstance(v,str) or not v.strip(): raise Invalid('timestamp')
+    try: d=datetime.fromisoformat(v.replace('Z','+00:00'))
+    except ValueError as e: raise Invalid('timestamp') from e
+    if d.tzinfo is None: raise Invalid('timestamp timezone')
+    return d.astimezone(timezone.utc)
+def canonical(v): return json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
+def sha256_bytes(v): return hashlib.sha256(v).hexdigest()
+def assignment_key(p): return f"{p['mission_id']}::{p['token']}::{p['task_id']}"
+def slug(p): return f"{p['mission_id']}__{p['token']}__{p['task_id']}"
+def packet_hash(p):
+    q={k:v for k,v in p.items() if k not in {'packet_sha256','lease_generation','recovery_count','lease','failure_reason','attempt'}}
+    return sha256_bytes(canonical(q))
+def progress_token(p,step): return f"{p['mission_id']}:{p['token']}:{p['task_id']}:P{step:04d}"

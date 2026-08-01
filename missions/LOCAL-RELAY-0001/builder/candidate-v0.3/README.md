@@ -1,11 +1,19 @@
 # Local Relay Dispatcher candidate v0.3
 
-Protocol-alignment candidate based on v0.2. Adds strict packet validation, authorized runtime-root allowlisting, lease-generation fencing, recovery counters, protocol checkpoint/state schemas, and completed-registry `outbox_path`.
+Reconstructed from committed v0.2 and review mappings. Supports only local `WRITE_TEXT`; no live trigger.
 
-Run:
+## Run
 
-```bash
-python -m unittest -v test_local_relay_v0_3.py
-```
+`python -m unittest -v test_local_relay_v0_3.py`
 
-Expected: 36 tests, all passing. This is a candidate only.
+## Auditor mapping
+
+- `claim()` -> `LocalRelayDispatcherV03.claim`
+- `heartbeat()` -> `LocalRelayDispatcherV03.heartbeat`
+- `submit_result()` -> `LocalRelayDispatcherV03.submit_result`
+- `recover()` -> `LocalRelayDispatcherV03.recover`
+- `read_task_state()` -> same name
+- `read_checkpoint()` -> same name
+- `read_completed_record()` -> same name
+
+Fault injection is disabled unless the explicit test-only `fault` argument is supplied.

@@ -1,198 +1,149 @@
 from __future__ import annotations
 import json, os, tempfile, uuid
-from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any
+from datetime import timedelta
 from relay_common_v0_3 import *
-
 class StorageMixin:
-    STATE_SCHEMA_VERSION = 'LOCAL_RELAY_STATE_V0.3'
-    CHECKPOINT_SCHEMA_VERSION = 'LOCAL_RELAY_CHECKPOINT_V0.3'
-
-    def __init__(self, runtime_root: str | Path, authorized_runtime_roots=None):
-        requested = Path(runtime_root).resolve()
-        allowlist = [Path(x).resolve() for x in (authorized_runtime_roots or [requested])]
-        if not any(requested == root or requested.is_relative_to(root) for root in allowlist):
-            raise Unsafe('runtime root not authorized')
-        self.root = requested
-        self.authorized_runtime_roots = allowlist
-        self.root.mkdir(parents=True, exist_ok=True)
-        for directory in DIRS:
-            self.safe_path(directory).mkdir(parents=True, exist_ok=True)
-        self.safe_path('state','journal').mkdir(parents=True, exist_ok=True)
-        self.state_path = self.safe_path('state','dispatcher_state.json')
-        if not self.state_path.exists():
-            self._write_state(self._default_state())
-        else:
-            self._validate_dispatcher_state(self.read_json(self.state_path))
+    STATE_VERSION='LOCAL_RELAY_DISPATCHER_STATE_V0.3'
+    CHECKPOINT_VERSION='LOCAL_RELAY_CHECKPOINT_V0.3'
+    def __init__(self,runtime_root,authorized_runtime_roots,dispatcher_id='LOCAL-RELAY-DISPATCHER-01',generation=1):
+        if not authorized_runtime_roots: raise Unsafe('empty runtime root allowlist')
+        self.root=Path(runtime_root).resolve(); self.allowlist=[Path(x).resolve() for x in authorized_runtime_roots]
+        if not any(self.root==a or self.root.is_relative_to(a) for a in self.allowlist): raise Unsafe('runtime root not authorized')
+        for a in self.allowlist:
+            if not a.is_absolute(): raise Unsafe('allowlist must be absolute')
+        self.dispatcher_id=dispatcher_id; self.generation=generation
+        self.root.mkdir(parents=True,exist_ok=True)
+        for d in ('inbox','running','outbox','failed','checkpoints','quarantine','state','state/journal','state/tasks'): self.safe_path(d).mkdir(parents=True,exist_ok=True)
+        self.state_path=self.safe_path('state','dispatcher_state.json')
+        if not self.state_path.exists(): self._write_state(self._default_state())
+        else: self._validate_state(self.read_json(self.state_path))
         self.reconcile()
-
     def _default_state(self):
-        return {
-            'schema_version': self.STATE_SCHEMA_VERSION,
-            'runtime_root': str(self.root),
-            'authorized_runtime_roots': [str(x) for x in self.authorized_runtime_roots],
-            'completed_assignments': {},
-            'task_states': {},
-            'reconciliation_log': [],
-            'updated_at': iso(utc_now()),
-        }
-
-    def _validate_dispatcher_state(self, state):
-        required = {'schema_version','runtime_root','authorized_runtime_roots','completed_assignments','task_states','reconciliation_log','updated_at'}
-        if required - set(state): raise Invalid('dispatcher state schema')
-        if state['schema_version'] != self.STATE_SCHEMA_VERSION: raise Invalid('dispatcher state version')
-        if Path(state['runtime_root']).resolve() != self.root: raise Invalid('dispatcher runtime root mismatch')
-        parse_dt(state['updated_at'])
-
-    def safe_path(self, *parts):
-        path = self.root.joinpath(*parts).resolve()
-        try: path.relative_to(self.root)
-        except ValueError as exc: raise Unsafe('path escape') from exc
-        return path
-
-    def _assert_under_root(self, path):
-        resolved = Path(path).resolve()
-        try: resolved.relative_to(self.root)
-        except ValueError as exc: raise Unsafe('path escape') from exc
-        return resolved
-
-    def atomic_write_bytes(self, path, data):
-        path = self._assert_under_root(path); path.parent.mkdir(parents=True, exist_ok=True)
-        fd, temp_name = tempfile.mkstemp(prefix=f'.{path.name}.', suffix='.tmp', dir=path.parent)
+        return {'schema_version':self.STATE_VERSION,'dispatcher_id':self.dispatcher_id,'generation':self.generation,'runtime_root_allowlist_digest':sha256_bytes(canonical([str(x) for x in self.allowlist])),'last_reconciliation_at':None,'highest_progress_token':None,'counters':{s:0 for s in STATES},'completed_assignments':{},'task_index':{},'updated_at':iso(utc_now())}
+    def _validate_state(self,s):
+        need={'schema_version','dispatcher_id','generation','runtime_root_allowlist_digest','last_reconciliation_at','highest_progress_token','counters','completed_assignments','task_index','updated_at'}
+        if need-set(s): raise Invalid('dispatcher state schema')
+        if s['schema_version']!=self.STATE_VERSION: raise Invalid('dispatcher state version')
+    def safe_path(self,*parts):
+        p=self.root.joinpath(*parts).resolve()
+        try:p.relative_to(self.root)
+        except ValueError as e: raise Unsafe('path escape') from e
+        return p
+    def _inside(self,p):
+        p=Path(p).resolve()
+        try:p.relative_to(self.root)
+        except ValueError as e: raise Unsafe('path escape') from e
+        return p
+    def atomic_write(self,p,b):
+        p=self._inside(p);p.parent.mkdir(parents=True,exist_ok=True);fd,t=tempfile.mkstemp(prefix='.'+p.name+'.',suffix='.tmp',dir=p.parent)
         try:
-            with os.fdopen(fd,'wb') as handle:
-                handle.write(data); handle.flush(); os.fsync(handle.fileno())
-            os.replace(temp_name, path)
+            with os.fdopen(fd,'wb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+            os.replace(t,p)
         finally:
-            if os.path.exists(temp_name): os.unlink(temp_name)
-
-    def atomic_json_write(self, path, value):
-        self.atomic_write_bytes(path, (json.dumps(value,indent=2,sort_keys=True,ensure_ascii=False)+'\n').encode())
-
-    def read_json(self, path):
-        path = self._assert_under_root(path)
-        with path.open(encoding='utf-8') as handle: value = json.load(handle)
-        if not isinstance(value, dict): raise Invalid('root not object')
-        return value
-
-    def validate_packet(self, packet):
-        missing = REQ - set(packet)
-        if missing: raise Invalid('missing:'+','.join(sorted(missing)))
-        for field in NONEMPTY_FIELDS:
-            if not isinstance(packet[field], str) or not packet[field].strip(): raise Invalid('empty:'+field)
-        parse_dt(packet['created_at'])
-        if packet['action'] not in SUPPORTED_ACTIONS: raise Invalid('unsupported action')
-        target = packet['target_worker']
-        if target != 'ANY' and (not target.startswith('W') or not target[1:].isdigit()): raise Invalid('target_worker')
-        if not isinstance(packet['payload'],dict): raise Invalid('payload')
-        if not isinstance(packet['success_criteria'],list) or not packet['success_criteria']: raise Invalid('success_criteria')
-        if not isinstance(packet['evidence_required'],list) or not packet['evidence_required']: raise Invalid('evidence_required')
-        if not isinstance(packet['attempt'],int) or packet['attempt'] < 0: raise Invalid('attempt')
-        if not isinstance(packet['max_attempts'],int) or packet['max_attempts'] < 1 or packet['attempt'] > packet['max_attempts']: raise Invalid('max_attempts')
-        if not isinstance(packet['lease_seconds'],int) or not 5 <= packet['lease_seconds'] <= 3600: raise Invalid('lease_seconds range')
-        if not isinstance(packet.get('lease_generation',0),int) or packet.get('lease_generation',0) < 0: raise Invalid('lease_generation')
-        if not isinstance(packet.get('recovery_count',0),int) or packet.get('recovery_count',0) < 0: raise Invalid('recovery_count')
-        if packet.get('packet_sha256') and packet['packet_sha256'] != packet_hash(packet): raise Invalid('hash')
-
-    def enqueue(self, packet, name=None):
-        packet = dict(packet); packet.setdefault('lease_generation',0); packet.setdefault('recovery_count',0)
-        self.validate_packet(packet)
-        name = name or f'{assignment_slug(packet)}.json'
-        if Path(name).name != name: raise Unsafe('filename')
-        destination = self.safe_path('inbox',name); self.atomic_json_write(destination,packet)
-        self._set_task_state(packet,'QUEUED',None)
-        return destination
-
-    def dispatcher_state(self): return self.read_json(self.state_path)
-    def _write_state(self, state):
-        state['updated_at'] = iso(utc_now()); self._validate_dispatcher_state(state) if self.state_path.exists() else None
-        self.atomic_json_write(self.state_path,state)
-    def outbox_path(self, packet): return self.safe_path('outbox',f'{assignment_slug(packet)}.result.json')
-    def journal_path(self, packet): return self.safe_path('state','journal',f'{assignment_slug(packet)}.journal.json')
-    def checkpoint_path(self, running_path): return self.safe_path('checkpoints',f'{running_path.stem}.checkpoint.json')
-    def completed_record(self, packet): return self.dispatcher_state()['completed_assignments'].get(assignment_key(packet))
-
-    def _set_task_state(self, packet, status, details):
-        state = self.dispatcher_state()
-        state['task_states'][assignment_key(packet)] = {
-            'mission_id': packet['mission_id'], 'token': packet['token'], 'task_id': packet['task_id'],
-            'status': status, 'attempt': packet['attempt'],
-            'lease_generation': packet.get('lease_generation',0), 'recovery_count': packet.get('recovery_count',0),
-            'details': details, 'updated_at': iso(utc_now())
-        }
-        self._write_state(state)
-
-    def _write_checkpoint(self, running_path, packet, current_state, next_action, completed_steps, pending_steps):
-        lease = packet.get('lease',{})
-        checkpoint = {
-            'schema_version': self.CHECKPOINT_SCHEMA_VERSION,
-            'assignment_key': assignment_key(packet),
-            'mission_id': packet['mission_id'], 'token': packet['token'], 'task_id': packet['task_id'],
-            'current_state': current_state, 'owner': lease.get('owner'), 'claim_id': lease.get('claim_id'),
-            'lease_generation': packet.get('lease_generation',0), 'recovery_count': packet.get('recovery_count',0),
-            'attempt': packet['attempt'], 'lease_expires_at': lease.get('lease_expires_at'),
-            'next_action': next_action, 'completed_steps': completed_steps, 'pending_steps': pending_steps,
-            'recoverable': True, 'updated_at': iso(utc_now())
-        }
-        self.atomic_json_write(self.checkpoint_path(running_path),checkpoint)
-
-    def read_checkpoint(self, running_path): return self.read_json(self.checkpoint_path(Path(running_path)))
-    def read_task_state(self, packet): return self.dispatcher_state()['task_states'].get(assignment_key(packet))
-    def read_completed_record(self, packet): return self.completed_record(packet)
-
-    def _quarantine_path(self, source, reason):
-        source = self._assert_under_root(source); target = self.safe_path('quarantine',source.name)
-        if target.exists(): target=self.safe_path('quarantine',f'{source.stem}.{uuid.uuid4().hex}.json')
-        os.replace(source,target); self.atomic_json_write(self.safe_path('quarantine',f'{target.name}.reason.json'),{'reason':reason})
-        return target
-
-    def claim_next(self, worker_id, now=None):
-        current = now or utc_now()
-        for source in sorted(self.safe_path('inbox').glob('*.json')):
-            claim_id=uuid.uuid4().hex; running=self.safe_path('running',f'{source.stem}.__owner__{worker_id}.__claim__{claim_id}.json')
-            try: os.replace(source,running)
-            except OSError: continue
-            try:
-                packet=self.read_json(running); self.validate_packet(packet)
-                if packet['target_worker'] not in (worker_id,'ANY'): os.replace(running,source); continue
-                if self.completed_record(packet) or self.outbox_path(packet).exists():
-                    duplicate=self.safe_path('outbox',f'{source.stem}.duplicate.json')
-                    if not duplicate.exists(): self.atomic_json_write(duplicate,{'status':'DUPLICATE_COMPLETED','assignment_key':assignment_key(packet)})
-                    running.unlink(missing_ok=True); return None
-                packet['lease_generation']=packet.get('lease_generation',0)+1
-                packet.setdefault('recovery_count',0)
-                lease={'owner':worker_id,'claim_id':claim_id,'lease_generation':packet['lease_generation'],'claimed_at':iso(current),'heartbeat_at':iso(current),'lease_expires_at':iso(current+timedelta(seconds=packet['lease_seconds']))}
-                packet['lease']=lease; self.atomic_json_write(running,packet)
-                self._write_checkpoint(running,packet,'RUNNING','execute_claim',['atomic_claim'],['execute','commit'])
-                self._set_task_state(packet,'RUNNING',{'owner':worker_id,'claim_id':claim_id,'lease_expires_at':lease['lease_expires_at']})
-                return Claim(running,packet,worker_id,claim_id,packet['lease_generation'])
-            except (json.JSONDecodeError,UnicodeDecodeError,Invalid,Unsafe) as exc: self._quarantine_path(running,str(exc))
-        return None
-
-    def _validate_live_claim(self, claim, worker_id, now=None):
+            if os.path.exists(t):os.unlink(t)
+    def write_json(self,p,v): self.atomic_write(p,(json.dumps(v,indent=2,sort_keys=True,ensure_ascii=False)+'\n').encode())
+    def read_json(self,p):
+        with self._inside(p).open(encoding='utf-8') as f:v=json.load(f)
+        if not isinstance(v,dict): raise Invalid('root not object')
+        return v
+    def _write_state(self,s): s['updated_at']=iso(utc_now());self.write_json(self.state_path,s)
+    def state(self): return self.read_json(self.state_path)
+    def task_path(self,task_id): return self.safe_path('state','tasks',f'{task_id}.json')
+    def checkpoint_file(self,task_id): return self.safe_path('checkpoints',f'{task_id}.checkpoint.json')
+    def outbox_path(self,p): return self.safe_path('outbox',slug(p)+'.result.json')
+    def journal_path(self,p): return self.safe_path('state','journal',slug(p)+'.journal.json')
+    def validate_packet(self,p):
+        if not isinstance(p,dict): raise Invalid('packet object')
+        unknown=set(p)-ALLOWED_FIELDS
+        if unknown: raise Invalid('unknown fields:'+','.join(sorted(unknown)))
+        miss=REQ-set(p)
+        if miss: raise Invalid('missing:'+','.join(sorted(miss)))
+        for k in ('schema_version','mission_id','token','task_id','target_worker','action','objective','created_at'):
+            if not isinstance(p[k],str) or not p[k].strip(): raise Invalid('empty:'+k)
+        if p['schema_version']!='LOCAL_RELAY_TASK_V0.3': raise Invalid('schema_version')
+        parse_iso(p['created_at'])
+        if p['action'] not in ACTIONS: raise Invalid('unsupported action')
+        if p['target_worker']!='ANY' and not (p['target_worker'].startswith('W') and p['target_worker'][1:].isdigit()): raise Invalid('target_worker')
+        if not isinstance(p['payload'],dict): raise Invalid('payload')
+        for k in ('success_criteria','evidence_required'):
+            if not isinstance(p[k],list) or not p[k] or any(not isinstance(x,str) or not x.strip() for x in p[k]): raise Invalid(k)
+        if not isinstance(p['attempt'],int) or p['attempt']<0: raise Invalid('attempt')
+        if not isinstance(p['max_attempts'],int) or p['max_attempts']<1 or p['attempt']>p['max_attempts']: raise Invalid('max_attempts')
+        if not isinstance(p['lease_seconds'],int) or not 5<=p['lease_seconds']<=3600: raise Invalid('lease_seconds')
+        for k in ('lease_generation','recovery_count'):
+            if not isinstance(p.get(k,0),int) or p.get(k,0)<0: raise Invalid(k)
+        if p.get('packet_sha256') and p['packet_sha256']!=packet_hash(p): raise Invalid('hash')
+    def _task_record(self,p,state,**kw):
+        if state not in STATES: raise Invalid('state')
+        old=self.read_task_state(p['task_id'])
+        if old and old.get('token')==p.get('token') and old['state']=='completed' and state in {'pending','running'}: raise Invalid('completed regression')
+        if old and old['state']=='cancelled' and state not in {'cancelled'}: raise Invalid('cancelled execution')
+        rec={'schema_version':'LOCAL_RELAY_TASK_STATE_V0.3','mission_id':p['mission_id'],'token':p['token'],'task_id':p['task_id'],'generation':self.generation,'state':state,'action':p['action'],'attempt':p['attempt'],'lease_generation':p.get('lease_generation',0),'recovery_count':p.get('recovery_count',0),'highest_progress_token':kw.pop('highest_progress_token',old.get('highest_progress_token') if old else progress_token(p,0)),'updated_at':iso(utc_now()),**kw}
+        self.write_json(self.task_path(p['task_id']),rec)
+        s=self.state();s['task_index'][p['task_id']]=state;s['counters']={x:sum(1 for v in s['task_index'].values() if v==x) for x in STATES};s['highest_progress_token']=rec['highest_progress_token'];self._write_state(s)
+        return rec
+    def read_task_state(self,task_id):
+        p=self.task_path(task_id);return self.read_json(p) if p.exists() else None
+    def _checkpoint(self,p,state,worker_id=None,claim_id=None,result_hash=None,step=0):
+        old=self.read_checkpoint(p['task_id']); token=progress_token(p,step)
+        if old and token<old['highest_progress_token']: token=old['highest_progress_token']
+        cp={'schema_version':self.CHECKPOINT_VERSION,'mission_id':p['mission_id'],'task_id':p['task_id'],'token':p['token'],'generation':self.generation,'state':state,'worker_id':worker_id,'claim_id':claim_id,'lease_generation':p.get('lease_generation',0),'recovery_count':p.get('recovery_count',0),'highest_progress_token':token,'updated_at':iso(utc_now()),'result_hash':result_hash,'runtime_root_authorization':{'root':str(self.root),'allowlist_digest':self.state()['runtime_root_allowlist_digest'],'authorized':True}}
+        self.write_json(self.checkpoint_file(p['task_id']),cp);return cp
+    def read_checkpoint(self,task_id):
+        p=self.checkpoint_file(task_id);return self.read_json(p) if p.exists() else None
+    def enqueue(self,p,name=None):
+        p=dict(p);p.setdefault('lease_generation',0);p.setdefault('recovery_count',0);self.validate_packet(p)
+        old=self.read_task_state(p['task_id'])
+        if old and old.get('token')==p.get('token') and old['state'] in {'cancelled','completed'}: return None
+        n=name or slug(p)+'.json'
+        if Path(n).name!=n: raise Unsafe('filename')
+        dest=self.safe_path('inbox',n);self.write_json(dest,p);self._task_record(p,'pending',highest_progress_token=progress_token(p,0));self._checkpoint(p,'pending',step=0);return dest
+    def cancel_task(self,task_id):
+        r=self.read_task_state(task_id)
+        if not r: raise Invalid('unknown task')
+        if r['state']=='completed': raise Invalid('completed cannot cancel')
+        p={'mission_id':r['mission_id'],'token':r['token'],'task_id':task_id,'action':r['action'],'attempt':r['attempt'],'lease_generation':r['lease_generation'],'recovery_count':r['recovery_count']}
+        return self._task_record(p,'cancelled',highest_progress_token=r['highest_progress_token'])
+    def claim_next(self,worker_id,now=None):
         current=now or utc_now()
-        if isinstance(claim,Claim):
-            path=claim.path; expected_claim_id=claim.claim_id; expected_generation=claim.lease_generation
-        else:
-            path=Path(claim); expected_claim_id=None; expected_generation=None
-        path=self._assert_under_root(path)
-        if not path.exists(): raise Invalid('stale owner: claim no longer exists')
-        packet=self.read_json(path); self.validate_packet(packet); lease=packet.get('lease') or {}
-        if lease.get('owner') != worker_id: raise Invalid('stale owner: owner mismatch')
-        if expected_claim_id and lease.get('claim_id') != expected_claim_id: raise Invalid('stale owner: claim id mismatch')
-        if expected_generation is not None and lease.get('lease_generation') != expected_generation: raise Invalid('stale owner: generation mismatch')
-        if lease.get('lease_generation') != packet.get('lease_generation'): raise Invalid('lease generation mismatch')
-        if not lease.get('lease_expires_at') or parse_dt(lease['lease_expires_at']) <= current: raise Invalid('stale owner: lease expired')
-        return path,packet
-
-    def heartbeat(self, claim, worker_id, now=None):
-        current=now or utc_now(); path,packet=self._validate_live_claim(claim,worker_id,current)
-        packet['lease']['heartbeat_at']=iso(current); packet['lease']['lease_expires_at']=iso(current+timedelta(seconds=packet['lease_seconds']))
-        self.atomic_json_write(path,packet); self._write_checkpoint(path,packet,'RUNNING','execute_claim',['atomic_claim','heartbeat'],['execute','commit'])
-        return packet
-
-    def _safe_output_path(self, packet):
-        relative=packet['payload'].get('relative_output_path','outputs/result.txt')
-        if not isinstance(relative,str) or Path(relative).is_absolute() or '..' in Path(relative).parts: raise Unsafe('path traversal')
-        return self.safe_path('state',relative)
+        for src in sorted(self.safe_path('inbox').glob('*.json')):
+            cid=uuid.uuid4().hex;run=self.safe_path('running',src.stem+f'.__owner__{worker_id}.__claim__{cid}.json')
+            try:os.replace(src,run)
+            except OSError:continue
+            try:
+                p=self.read_json(run);self.validate_packet(p)
+                tr=self.read_task_state(p['task_id'])
+                if tr and tr['state']=='cancelled':run.unlink();continue
+                if p['target_worker'] not in (worker_id,'ANY'):os.replace(run,src);continue
+                if self.completed_record(p) or self.outbox_path(p).exists():run.unlink();return None
+                p['lease_generation']=p.get('lease_generation',0)+1
+                p['lease']={'worker_id':worker_id,'claim_id':cid,'lease_generation':p['lease_generation'],'claimed_at':iso(current),'heartbeat_at':iso(current),'lease_expires_at':iso(current+timedelta(seconds=p['lease_seconds']))}
+                self.write_json(run,p);self._task_record(p,'running',worker_id=worker_id,claim_id=cid,highest_progress_token=progress_token(p,1));self._checkpoint(p,'running',worker_id,cid,step=1)
+                return Claim(run,p,worker_id,cid,p['lease_generation'])
+            except Exception as e:self.quarantine(run,str(e))
+        return None
+    def _live(self,claim,worker_id,lease_generation=None,now=None):
+        current=now or utc_now();path=claim.path if isinstance(claim,Claim) else Path(claim);path=self._inside(path)
+        if not path.exists():raise Invalid('stale claim')
+        p=self.read_json(path);self.validate_packet(p);l=p.get('lease') or {}
+        expected=claim.claim_id if isinstance(claim,Claim) else None;gen=lease_generation if lease_generation is not None else (claim.lease_generation if isinstance(claim,Claim) else None)
+        if l.get('worker_id')!=worker_id:raise Invalid('worker')
+        if expected and l.get('claim_id')!=expected:raise Invalid('claim_id')
+        if gen is not None and l.get('lease_generation')!=gen:raise Invalid('lease_generation')
+        if l.get('lease_generation')!=p.get('lease_generation'):raise Invalid('generation mismatch')
+        if parse_iso(l['lease_expires_at'])<=current:raise Invalid('lease expired')
+        return path,p
+    def heartbeat(self,claim,worker_id,lease_generation=None,now=None):
+        current=now or utc_now();path,p=self._live(claim,worker_id,lease_generation,current);p['lease']['heartbeat_at']=iso(current);p['lease']['lease_expires_at']=iso(current+timedelta(seconds=p['lease_seconds']));self.write_json(path,p);self._checkpoint(p,'running',worker_id,p['lease']['claim_id'],step=2);return p
+    def quarantine(self,path,reason):
+        path=self._inside(path);q=self.safe_path('quarantine',path.name)
+        if q.exists():q=self.safe_path('quarantine',path.stem+'.'+uuid.uuid4().hex+'.json')
+        os.replace(path,q);self.write_json(self.safe_path('quarantine',q.name+'.reason.json'),{'reason':reason});return q
+    def completed_record(self,p_or_task):
+        key=p_or_task if isinstance(p_or_task,str) and '::' in p_or_task else assignment_key(p_or_task)
+        return self.state()['completed_assignments'].get(key)
+    def read_completed_record(self,task_id):
+        r=self.read_task_state(task_id)
+        if not r:return None
+        return self.completed_record(f"{r['mission_id']}::{r['token']}::{task_id}")
