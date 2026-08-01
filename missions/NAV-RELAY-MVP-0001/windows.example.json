@@ -1,0 +1,26 @@
+{
+  "mission_id": "NAV-RELAY-MVP-0001",
+  "poll_interval_seconds": 5,
+  "stable_text_seconds": 3,
+  "max_rounds": 20,
+  "windows": [
+    {
+      "window_id": "WINDOW-00",
+      "role": "COORDINATOR",
+      "debug_port": 9222,
+      "marker": "[LIDIYA:WINDOW-00]"
+    },
+    {
+      "window_id": "WINDOW-01",
+      "role": "BUILDER",
+      "debug_port": 9223,
+      "marker": "[LIDIYA:WINDOW-01]"
+    },
+    {
+      "window_id": "WINDOW-02",
+      "role": "REVIEWER",
+      "debug_port": 9224,
+      "marker": "[LIDIYA:WINDOW-02]"
+    }
+  ]
+}
