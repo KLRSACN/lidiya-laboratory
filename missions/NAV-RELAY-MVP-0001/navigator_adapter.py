@@ -2,10 +2,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import sqlite3
 import time
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Any, Protocol
 
 from relay_mvp import RelayStore
@@ -18,7 +16,6 @@ class NavigatorError(RuntimeError):
 
 class PageLike(Protocol):
     def locator(self, selector: str) -> Any: ...
-    def content(self) -> str: ...
 
 
 @dataclass(frozen=True)
@@ -110,8 +107,7 @@ class NavigatorAdapter:
     @staticmethod
     def _first_visible(page: Any, selector: str) -> Any:
         locator = page.locator(selector)
-        count = locator.count()
-        for index in range(count):
+        for index in range(locator.count()):
             item = locator.nth(index)
             try:
                 if item.is_visible():
@@ -130,8 +126,7 @@ class NavigatorAdapter:
             page.keyboard.type(text)
 
         try:
-            send = self._first_visible(page, DEFAULT_SELECTORS["send"])
-            send.click()
+            self._first_visible(page, DEFAULT_SELECTORS["send"]).click()
         except NavigatorError:
             page.keyboard.press("Enter")
 
@@ -162,7 +157,6 @@ class NavigatorAdapter:
         while time.monotonic() < deadline:
             text = self.latest_assistant_text(page)
             generating = self.is_generating(page)
-
             if text and text != previous_text and text == last_text and not generating:
                 if stable_since is None:
                     stable_since = time.monotonic()
@@ -170,7 +164,6 @@ class NavigatorAdapter:
                     return text
             else:
                 stable_since = None
-
             last_text = text
             time.sleep(self.poll_seconds)
 
@@ -195,25 +188,16 @@ class NavigatorAdapter:
                 "response": response,
             }
         finally:
-            browser.close()
+            # manager.stop() disconnects Playwright. Do not call browser.close(),
+            # because Chrome is owned by the user and must stay open for later wakes.
             manager.stop()
 
-    def ingest_response(
-        self,
-        mission_id: str,
-        source_window_id: str,
-        response_text: str,
-    ) -> str:
+    def ingest_response(self, mission_id: str, source_window_id: str, response_text: str) -> str:
         envelope = parse_relay_output(response_text)
         return self.store.enqueue(mission_id, source_window_id, envelope)
 
 
-def run_loop(
-    db_path: str,
-    window_ids: list[str],
-    mission_id: str,
-    interval_seconds: float,
-) -> None:
+def run_loop(db_path: str, window_ids: list[str], mission_id: str, interval_seconds: float) -> None:
     store = RelayStore(db_path)
     adapter = NavigatorAdapter(store)
     while True:
