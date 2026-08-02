@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "source_branch": "generated/open-source-radar",
+  "snapshot_path": "foundation/open_source/LATEST_SNAPSHOT.json",
+  "human_summary_path": "foundation/open_source/OPEN_SOURCE_RADAR.md",
+  "expected_update_cadence": "daily at 08:30 Asia/Taipei",
+  "stale_after_hours": 48,
+  "fallback": "Use the last approved registry and mark RADAR_STALE. Do not infer a latest version.",
+  "automatic_actions": ["read GitHub metadata", "score curated candidates", "update generated data branch"],
+  "forbidden_automatic_actions": ["download", "install", "execute third-party code", "merge", "release", "publish", "change authoritative Home files"]
+}

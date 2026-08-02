@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-23T00:00:00+08:00",
+  "source": "bootstrap_registry",
+  "discovery_only": true,
+  "status": "PENDING_FIRST_GITHUB_ACTION_RUN",
+  "projects": [],
+  "failures": [],
+  "note": "首次排程或手動執行 update_radar.py 後，將以 GitHub API 真實資料覆寫。本檔不得被當成最新版本證據。"
+}

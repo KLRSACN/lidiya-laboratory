@@ -1,0 +1,36 @@
+# Local secrets and provider credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*token*
+*secret*
+approved_reports.json
+
+# Local runtime evidence and reports
+runtime/
+reports/
+events/
+*.jsonl
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local models and large generated assets
+*.gguf
+*.safetensors
+*.onnx
+models/
+artifacts/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
