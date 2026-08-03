@@ -126,9 +126,42 @@ class RelayStore:
         ).fetchone()
 
     def mark_delivered(self, message_id: str) -> None:
+        """Record that the message was sent and is awaiting a response."""
         self.connection.execute(
-            "UPDATE messages SET status='DELIVERED', delivered_at=? WHERE message_id=?",
+            """
+            UPDATE messages
+            SET status='AWAITING_RESPONSE', delivered_at=?
+            WHERE message_id=?
+            """,
             (self.now(), message_id),
+        )
+        self.connection.commit()
+
+    def mark_completed(self, message_id: str) -> None:
+        """Record that a complete response was successfully received."""
+        self.connection.execute(
+            """
+            UPDATE messages
+            SET status='COMPLETED', completed_at=?
+            WHERE message_id=?
+            """,
+            (self.now(), message_id),
+        )
+        self.connection.commit()
+
+    def mark_timed_out(self, message_id: str) -> None:
+        """Record a response timeout without making the message resendable."""
+        self.connection.execute(
+            "UPDATE messages SET status='TIMED_OUT' WHERE message_id=?",
+            (message_id,),
+        )
+        self.connection.commit()
+
+    def mark_failed(self, message_id: str) -> None:
+        """Record a navigation or send failure without automatic resending."""
+        self.connection.execute(
+            "UPDATE messages SET status='FAILED' WHERE message_id=?",
+            (message_id,),
         )
         self.connection.commit()
 

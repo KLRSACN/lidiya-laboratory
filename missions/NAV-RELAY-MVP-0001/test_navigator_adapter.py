@@ -47,6 +47,83 @@ Please continue.
     def test_deliver_one_returns_none_without_message(self) -> None:
         self.assertIsNone(self.adapter.deliver_one("WINDOW-01"))
 
+    def test_mark_failed_prevents_automatic_resend(self) -> None:
+        envelope = RelayEnvelope(
+            target="WINDOW-01",
+            action="SEND",
+            payload="Task",
+            wake_after_seconds=None,
+        )
+        message_id = self.store.enqueue(
+            "NAV-RELAY-MVP-0001",
+            "WINDOW-00",
+            envelope,
+        )
+
+        self.store.mark_failed(message_id)
+
+        row = self.store.connection.execute(
+            "SELECT status FROM messages WHERE message_id=?",
+            (message_id,),
+        ).fetchone()
+
+        self.assertIsNotNone(row)
+        self.assertEqual(row["status"], "FAILED")
+        self.assertIsNone(self.store.next_message("WINDOW-01"))
+
+    def test_delivery_lifecycle_states(self) -> None:
+        envelope = RelayEnvelope(
+            target="WINDOW-01",
+            action="SEND",
+            payload="Task",
+            wake_after_seconds=None,
+        )
+        message_id = self.store.enqueue(
+            "NAV-RELAY-MVP-0001",
+            "WINDOW-00",
+            envelope,
+        )
+
+        self.store.mark_delivered(message_id)
+        row = self.store.connection.execute(
+            "SELECT status, delivered_at FROM messages WHERE message_id=?",
+            (message_id,),
+        ).fetchone()
+        self.assertEqual(row["status"], "AWAITING_RESPONSE")
+        self.assertIsNotNone(row["delivered_at"])
+
+        self.store.mark_completed(message_id)
+        row = self.store.connection.execute(
+            "SELECT status, completed_at FROM messages WHERE message_id=?",
+            (message_id,),
+        ).fetchone()
+        self.assertEqual(row["status"], "COMPLETED")
+        self.assertIsNotNone(row["completed_at"])
+
+    def test_timeout_prevents_automatic_resend(self) -> None:
+        envelope = RelayEnvelope(
+            target="WINDOW-01",
+            action="SEND",
+            payload="Task",
+            wake_after_seconds=None,
+        )
+        message_id = self.store.enqueue(
+            "NAV-RELAY-MVP-0001",
+            "WINDOW-00",
+            envelope,
+        )
+
+        self.store.mark_delivered(message_id)
+        self.store.mark_timed_out(message_id)
+
+        row = self.store.connection.execute(
+            "SELECT status FROM messages WHERE message_id=?",
+            (message_id,),
+        ).fetchone()
+
+        self.assertEqual(row["status"], "TIMED_OUT")
+        self.assertIsNone(self.store.next_message("WINDOW-01"))
+
     def test_enqueue_message_remains_pending_before_navigation(self) -> None:
         envelope = RelayEnvelope(target="WINDOW-01", action="SEND", payload="Task", wake_after_seconds=None)
         message_id = self.store.enqueue("NAV-RELAY-MVP-0001", "WINDOW-00", envelope)

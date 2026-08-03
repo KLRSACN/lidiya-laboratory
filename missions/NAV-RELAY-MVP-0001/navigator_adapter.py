@@ -40,7 +40,7 @@ class NavigatorAdapter:
         store: RelayStore,
         stable_seconds: float = 3.0,
         poll_seconds: float = 0.5,
-        response_timeout_seconds: float = 900.0,
+        response_timeout_seconds: float = 300.0,
     ) -> None:
         self.store = store
         self.stable_seconds = stable_seconds
@@ -90,19 +90,37 @@ class NavigatorAdapter:
             raise NavigatorError("no browser pages found on the CDP port")
 
         marker_lower = marker.lower()
+        window_token = marker_lower.removeprefix("[lidiya:").removesuffix("]")
+        chatgpt_pages: list[Any] = []
+
+        # Prefer ChatGPT conversation pages whose title contains either the
+        # full marker or its stable window token, such as WINDOW-01.
         for page in pages:
             try:
-                title = page.title().lower()
                 url = page.url.lower()
-                body = page.locator("body").inner_text(timeout=2000).lower()
+                if not url.startswith("https://chatgpt.com/"):
+                    continue
+
+                chatgpt_pages.append(page)
+                title = page.title().lower()
+                if marker_lower in title or window_token in title:
+                    return page
             except Exception:
                 continue
-            if marker_lower in title or marker_lower in url or marker_lower in body:
-                return page
 
-        if len(pages) == 1:
-            return pages[0]
-        raise NavigatorError(f"no page contains marker: {marker}")
+        # Fallback only for ChatGPT pages whose title has not updated yet.
+        for page in chatgpt_pages:
+            try:
+                body = page.locator("body").inner_text(timeout=2000).lower()
+                if marker_lower in body:
+                    return page
+            except Exception:
+                continue
+
+        if len(chatgpt_pages) == 1:
+            return chatgpt_pages[0]
+
+        raise NavigatorError(f"no ChatGPT page contains marker: {marker}")
 
     @staticmethod
     def _first_visible(page: Any, selector: str) -> Any:
@@ -149,21 +167,28 @@ class NavigatorAdapter:
                 continue
         return False
 
-    def wait_for_complete_response(self, page: Any, previous_text: str = "") -> str:
+    @staticmethod
+    def assistant_message_count(page: Any) -> int:
+        return page.locator(DEFAULT_SELECTORS["assistant_messages"]).count()
+
+    def wait_for_complete_response(self, page: Any, previous_count: int = 0) -> str:
         deadline = time.monotonic() + self.response_timeout_seconds
         stable_since: float | None = None
-        last_text = previous_text
+        last_text = ""
 
         while time.monotonic() < deadline:
+            count = self.assistant_message_count(page)
             text = self.latest_assistant_text(page)
             generating = self.is_generating(page)
-            if text and text != previous_text and text == last_text and not generating:
+
+            if count > previous_count and text and text == last_text and not generating:
                 if stable_since is None:
                     stable_since = time.monotonic()
                 elif time.monotonic() - stable_since >= self.stable_seconds:
                     return text
             else:
                 stable_since = None
+
             last_text = text
             time.sleep(self.poll_seconds)
 
@@ -174,38 +199,84 @@ class NavigatorAdapter:
         if row is None:
             return None
 
-        window = self.get_window(target_window_id)
-        manager, browser = self._connect_playwright(window.debug_port)
+        manager: Any | None = None
+        sent = False
+
         try:
+            window = self.get_window(target_window_id)
+            manager, browser = self._connect_playwright(window.debug_port)
             page = self.find_page(browser, window.marker)
-            previous = self.latest_assistant_text(page)
+            previous_count = self.assistant_message_count(page)
             self.paste_and_send(page, row["payload"])
             self.store.mark_delivered(row["message_id"])
-            response = self.wait_for_complete_response(page, previous)
+            sent = True
+
+            try:
+                response = self.wait_for_complete_response(page, previous_count)
+            except NavigatorError as exc:
+                if str(exc) == "response timeout":
+                    self.store.mark_timed_out(row["message_id"])
+                else:
+                    self.store.mark_failed(row["message_id"])
+                raise
+            except Exception:
+                self.store.mark_failed(row["message_id"])
+                raise
+
+            self.store.mark_completed(row["message_id"])
             return {
                 "message_id": row["message_id"],
                 "target": target_window_id,
                 "response": response,
             }
+        except Exception:
+            if not sent:
+                self.store.mark_failed(row["message_id"])
+            raise
         finally:
             # manager.stop() disconnects Playwright. Do not call browser.close(),
             # because Chrome is owned by the user and must stay open for later wakes.
-            manager.stop()
+            if manager is not None:
+                manager.stop()
 
     def ingest_response(self, mission_id: str, source_window_id: str, response_text: str) -> str:
         envelope = parse_relay_output(response_text)
         return self.store.enqueue(mission_id, source_window_id, envelope)
 
 
-def run_loop(db_path: str, window_ids: list[str], mission_id: str, interval_seconds: float) -> None:
+def run_loop(
+    db_path: str,
+    window_ids: list[str],
+    mission_id: str,
+    interval_seconds: float,
+    response_timeout_seconds: float = 300.0,
+) -> None:
     store = RelayStore(db_path)
-    adapter = NavigatorAdapter(store)
+    adapter = NavigatorAdapter(
+        store,
+        response_timeout_seconds=response_timeout_seconds,
+    )
     while True:
         handled = False
         for window_id in window_ids:
-            result = adapter.deliver_one(window_id)
+            try:
+                result = adapter.deliver_one(window_id)
+            except Exception as exc:
+                handled = True
+                print(
+                    json.dumps(
+                        {
+                            "delivery_error": str(exc),
+                            "window_id": window_id,
+                        },
+                        ensure_ascii=False,
+                    )
+                )
+                continue
+
             if result is None:
                 continue
+
             handled = True
             print(json.dumps(result, ensure_ascii=False))
             try:
@@ -226,9 +297,21 @@ def main() -> None:
     parser.add_argument("--db", default="nav_relay_mvp.sqlite3")
     parser.add_argument("--mission-id", default="NAV-RELAY-MVP-0001")
     parser.add_argument("--interval", type=float, default=5.0)
+    parser.add_argument(
+        "--response-timeout",
+        type=float,
+        default=300.0,
+        help="maximum seconds to wait for one ChatGPT response",
+    )
     parser.add_argument("window_ids", nargs="+", help="registered relay window IDs")
     args = parser.parse_args()
-    run_loop(args.db, args.window_ids, args.mission_id, args.interval)
+    run_loop(
+        args.db,
+        args.window_ids,
+        args.mission_id,
+        args.interval,
+        args.response_timeout,
+    )
 
 
 if __name__ == "__main__":
