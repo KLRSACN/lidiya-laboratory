@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 
@@ -44,6 +44,7 @@ class RelayTests(unittest.TestCase):
             self.assertIsNotNone(row)
             self.assertEqual(row["message_id"], message_id)
             self.assertEqual(row["status"], "PENDING")
+            store.connection.close()
 
     def test_wake_is_scheduled(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -51,6 +52,7 @@ class RelayTests(unittest.TestCase):
             store.enqueue("NAV-RELAY-MVP-0001", "WINDOW-01", parse_relay_output(VALID))
             count = store.connection.execute("SELECT COUNT(*) FROM schedules").fetchone()[0]
             self.assertEqual(count, 1)
+            store.connection.close()
 
 
 class CoordinatorTests(unittest.TestCase):
@@ -65,3 +67,4 @@ class CoordinatorTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+

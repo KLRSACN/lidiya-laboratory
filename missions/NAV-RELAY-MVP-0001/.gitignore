@@ -1,0 +1,7 @@
+﻿__pycache__/
+*.pyc
+nav_relay_mvp.sqlite3
+nav_relay_mvp.sqlite3-shm
+nav_relay_mvp.sqlite3-wal
+test_mvp.py.backup
+.venv/
