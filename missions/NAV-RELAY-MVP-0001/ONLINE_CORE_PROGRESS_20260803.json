@@ -1,0 +1,21 @@
+{
+  "saved_at": "2026-08-03T09:27:00+08:00",
+  "mission_id": "NAV-RELAY-MVP-0001",
+  "state": "ROUNDTRIP_CONFIRMED",
+  "home_root": "D:/lidiya",
+  "repository": "KLRSACN/lidiya-laboratory",
+  "branch": "nav-relay-mvp-0001",
+  "window_00": "COORDINATOR_READY_PORT_9222",
+  "window_01": "BUILDER_READY_PORT_9223",
+  "scheduler": "RUNNING",
+  "navigator": "RUNNING",
+  "roundtrip": "SUCCESS",
+  "tests": "12_OF_12_OK",
+  "python": "3.14.6",
+  "git": "2.47.1.windows.1",
+  "playwright": "1.62.0",
+  "operator_mode": "SINGLE_STEP_CONFIRMATION",
+  "mvp_percent": 70,
+  "known_local_change": "test_mvp.py closes SQLite connections in two RelayTests; verify and commit locally",
+  "next_checkpoint": "VERIFY_LOCAL_GIT_STATUS_AND_COMMIT_SQLITE_TEST_FIX"
+}
