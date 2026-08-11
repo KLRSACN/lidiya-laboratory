@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 2,
+  "role": "LCR-B",
+  "result": "BUILT_NOT_VERIFIED",
+  "built_at_taipei": "2026-08-12T00:40:00+08:00",
+  "parent_packet_sha256": "a751d3582c637894d356a5183ea7172b7b81a018643118ba1d05386f6777c0df",
+  "candidate_files": [
+    "golden_triangle_orchestrator.py",
+    "test_golden_triangle_orchestrator.py",
+    "control_console_metabolism.py",
+    "test_control_console_metabolism.py",
+    ".github/workflows/lcr-0003-golden-triangle.yml"
+  ],
+  "builder_checks": {
+    "three_slot_guard": "IMPLEMENTED",
+    "same_slot_takeover_guard": "IMPLEMENTED",
+    "restart_replay_guard": "IMPLEMENTED",
+    "two_backup_guard": "IMPLEMENTED",
+    "control_plane_metadata_only_compaction": "IMPLEMENTED",
+    "sensitive_path_quarantine_without_value_retention": "IMPLEMENTED",
+    "protected_evidence_keep": "IMPLEMENTED",
+    "branch_local_workflow_contents_permission": "read",
+    "behavioral_assertions": "CORE ASSERTIONS PASS; FULL INDEPENDENT SUITE RESERVED FOR LCR-C"
+  },
+  "workflow_note": "Candidate workflow is branch-local only. This Builder does not claim a real GitHub-hosted cloud run because workflow activation from default branch is outside current authorization.",
+  "main_default_write": false,
+  "full_backup_groups_created": 0,
+  "physical_cleanup": "NONE",
+  "secrets_read_or_persisted": false,
+  "verdict": "BUILT_NOT_VERIFIED"
+}
