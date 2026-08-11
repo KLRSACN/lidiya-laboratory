@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "mission_id": "CLOUD-RELAY-V2-ROUNDTRIP-0001",
+  "step_id": 1,
+  "role": "COORDINATOR",
+  "action": "DISPATCH_TO_BUILDER",
+  "timestamp": "2026-08-11T15:30:00+08:00",
+  "evidence_inspected": [
+    "Drive GOVERNANCE.md: local/candidate data cannot override formal core; low-risk reversible work is allowed; high-risk actions require Boxuan approval",
+    "Drive APPROVED_MEMORY.md: unverified inference and credentials must not be promoted",
+    "Drive LOCAL_HANDOFF.md: prior incident requires executable evidence before completion claims",
+    "Drive CHATGPT_HANDOFF.md: completion claims require readback/cross-check; Drive presence alone is not proof of automatic loading",
+    "GitHub control/START.json sha 386e71bc4af330179be6974921bb97fd32bcb83f",
+    "GitHub state/MISSION_STATE.json sha 127f8cc82496c8e2ab1ed62d104838ec9f5abf80",
+    "GitHub state/RELAY_PACKET.json sha ba89883d0a7b8dfcecb41000c69a9433962b1bea"
+  ],
+  "checks": {
+    "start_requested": true,
+    "packet_target_was_coordinator": true,
+    "packet_consumed_before_run": false,
+    "active_lease_present": false,
+    "development_branch_only": true,
+    "high_risk_action_required": false
+  },
+  "result": "STEP_1_DISPATCHED",
+  "target": "BUILDER",
+  "packet_id": "PKT-A2B-20260811-1530",
+  "packet_input_hash": "7ad99806ab26210ecd957e274fe6c0ce1a960f88c49ff2ca25464a9a6884a562",
+  "blockers": [
+    "Exact canonical CURRENT_STATE.json was not returned by Drive search during this wake; no branch-local candidate was used as a substitute. This does not authorize any core or governance mutation."
+  ],
+  "next_expected_state": "BUILDER consumes PKT-A2B-20260811-1530, persists Builder evidence, and emits one unconsumed packet to VERIFIER."
+}
