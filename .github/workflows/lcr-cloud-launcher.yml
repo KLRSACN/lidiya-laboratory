@@ -14,7 +14,7 @@ on:
 
 permissions:
   contents: read
-  models: read
+  copilot-requests: write
 
 concurrency:
   group: lcr-cloud-activation-proof
@@ -47,26 +47,24 @@ jobs:
           print('authorization=VALID')
           PY
 
-      - name: LCR-A cloud model authentication proof
-        id: model_a
-        uses: actions/ai-inference@v2.1.1
-        with:
-          token: ${{ github.token }}
-          model: openai/gpt-4o
-          temperature: '0'
-          max-completion-tokens: '16'
-          system-prompt: 'Return only the requested activation token. Do not add punctuation or explanation.'
-          prompt: 'Return exactly LCR-A-CLOUD-READY'
+      - name: Install current Copilot CLI
+        run: |
+          npm install -g @github/copilot
+          copilot --version | tee copilot-version.txt
+
+      - name: LCR-A keyless Copilot authentication proof
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          copilot -p 'Return exactly LCR-A-CLOUD-READY and nothing else.' -s --no-ask-user > a-response.txt
 
       - name: Validate A model response and emit evidence
-        env:
-          MODEL_RESPONSE: ${{ steps.model_a.outputs.response }}
         run: |
           python - <<'PY'
           import json
           import os
           from pathlib import Path
-          content = os.environ['MODEL_RESPONSE'].strip()
+          content = Path('a-response.txt').read_text(encoding='utf-8').strip()
           if content != 'LCR-A-CLOUD-READY':
               raise SystemExit(f'unexpected coordinator model response: {content!r}')
           evidence = {
@@ -75,8 +73,9 @@ jobs:
               'run_id': os.environ['GITHUB_RUN_ID'],
               'role': 'LCR-A',
               'result': 'COORDINATOR_READY',
-              'model_auth': 'GITHUB_TOKEN/models:read',
-              'model': 'openai/gpt-4o',
+              'model_auth': 'GITHUB_TOKEN/copilot-requests:write',
+              'engine': 'GitHub Copilot CLI',
+              'copilot_cli_version': Path('copilot-version.txt').read_text(encoding='utf-8').strip(),
               'model_response': content
           }
           Path('a-start.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
@@ -178,26 +177,24 @@ jobs:
           print(f'candidate_sha256={actual_sha}')
           PY
 
-      - name: LCR-C independent cloud model authentication proof
-        id: model_c
-        uses: actions/ai-inference@v2.1.1
-        with:
-          token: ${{ github.token }}
-          model: openai/gpt-4o
-          temperature: '0'
-          max-completion-tokens: '16'
-          system-prompt: 'Return only the requested verification token. Do not add punctuation or explanation.'
-          prompt: 'Return exactly LCR-C-MODEL-ONLINE'
+      - name: Install current Copilot CLI independently
+        run: |
+          npm install -g @github/copilot
+          copilot --version | tee copilot-version.txt
+
+      - name: LCR-C independent keyless Copilot authentication proof
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          copilot -p 'Return exactly LCR-C-MODEL-ONLINE and nothing else.' -s --no-ask-user > c-response.txt
 
       - name: Validate C model response and emit verdict
-        env:
-          MODEL_RESPONSE: ${{ steps.model_c.outputs.response }}
         run: |
           python - <<'PY'
           import json
           import os
           from pathlib import Path
-          content = os.environ['MODEL_RESPONSE'].strip()
+          content = Path('c-response.txt').read_text(encoding='utf-8').strip()
           if content != 'LCR-C-MODEL-ONLINE':
               raise SystemExit(f'unexpected verifier model response: {content!r}')
           sha = Path('verified-sha.txt').read_text(encoding='utf-8').strip()
@@ -209,8 +206,9 @@ jobs:
               'result': 'VERIFIED_PASS',
               'deterministic_candidate_check': True,
               'candidate_sha256': sha,
-              'independent_model_auth': 'GITHUB_TOKEN/models:read',
-              'model': 'openai/gpt-4o',
+              'independent_model_auth': 'GITHUB_TOKEN/copilot-requests:write',
+              'engine': 'GitHub Copilot CLI',
+              'copilot_cli_version': Path('copilot-version.txt').read_text(encoding='utf-8').strip(),
               'model_response': content
           }
           Path('c-verdict.json').write_text(json.dumps(verdict, indent=2) + '\n', encoding='utf-8')
@@ -254,7 +252,7 @@ jobs:
               'role_chain': ['LCR-A', 'LCR-B', 'LCR-C', 'LCR-A'],
               'builder_verifier_separated': True,
               'cloud_model_auth_verified': True,
-              'cloud_model_auth_method': 'GitHub Models via actions/ai-inference and ephemeral GITHUB_TOKEN with models: read',
+              'cloud_model_auth_method': 'GitHub Copilot CLI via ephemeral GITHUB_TOKEN with copilot-requests: write',
               'candidate_sha256': c['candidate_sha256'],
               'result': 'PASS',
               'completion_claim': 'CLOUD_A_B_C_A_ROUNDTRIP_VERIFIED',
