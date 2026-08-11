@@ -1,4 +1,4 @@
-name: LCR State Tests
+name: LCR State + Autonomy Tests
 
 on:
   push:
@@ -28,14 +28,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile state engine
+      - name: Compile relay and autonomy engines
         id: compile
         continue-on-error: true
-        run: python -m py_compile cloud_relay_state.py
-      - name: Run relay state tests
+        run: python -m py_compile cloud_relay_state.py autonomy_signal.py
+      - name: Run relay and autonomy tests
         id: relay_tests
         continue-on-error: true
-        run: python -m unittest -v test_cloud_relay_state.py
+        run: python -m unittest -v test_cloud_relay_state.py test_autonomy_signal.py
       - name: Emit machine-readable evidence
         if: always()
         env:
@@ -56,12 +56,12 @@ jobs:
           evidence = {
               'schema_version': '1.0',
               'mission_id': 'LCR-AUTONOMY-0002',
-              'evidence_type': 'github_actions_state_tests',
+              'evidence_type': 'github_actions_relay_and_autonomy_tests',
               'commit_sha': os.environ['COMMIT_SHA'],
               'ref': os.environ['GITHUB_REF_VALUE'],
               'ref_name': os.environ['GITHUB_REF_NAME_VALUE'],
-              'compile_command': 'python -m py_compile cloud_relay_state.py',
-              'test_command': 'python -m unittest -v test_cloud_relay_state.py',
+              'compile_command': 'python -m py_compile cloud_relay_state.py autonomy_signal.py',
+              'test_command': 'python -m unittest -v test_cloud_relay_state.py test_autonomy_signal.py',
               'compile_status': compile_status,
               'test_status': test_status,
               'status': overall,
