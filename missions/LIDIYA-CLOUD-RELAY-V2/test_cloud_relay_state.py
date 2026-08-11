@@ -10,6 +10,7 @@ from cloud_relay_state import (
     consume_once,
     packet,
     retry_step,
+    set_pending_packet,
     transition,
 )
 
@@ -27,6 +28,7 @@ def base_state(status: str = "IDLE") -> dict:
         "next_role": "LCR-A",
         "candidate_ref": "lidiya-cloud-relay-v2",
         "last_packet_sha256": None,
+        "pending_packet": None,
         "lease": None,
     }
 
@@ -98,6 +100,40 @@ class PacketTests(unittest.TestCase):
         self.assertEqual(consumed["last_packet_sha256"], value["packet_sha256"])
         with self.assertRaises(RelayStateError):
             consume_once(consumed, value)
+
+    def test_pending_outbound_does_not_preconsume_packet(self):
+        state = base_state("READY_FOR_BUILDER")
+        inbound = packet(
+            state=state,
+            run_id="RUN-REPAIR",
+            source_role="LCR-C",
+            target_role="LCR-B",
+            status="READY_FOR_BUILDER",
+            task="repair consume semantics",
+            acceptance=["recipient can consume outbound once"],
+        )
+        state = consume_once(state, inbound)
+        last_consumed = state["last_packet_sha256"]
+
+        outbound = packet(
+            state=state,
+            run_id="RUN-REPAIR",
+            source_role="LCR-B",
+            target_role="LCR-C",
+            status="READY_FOR_VERIFY",
+            task="verify repaired consume semantics",
+            acceptance=["consume succeeds once and replay fails"],
+        )
+        emitted = set_pending_packet(state, "packets/B-TO-C.json")
+
+        self.assertEqual(emitted["last_packet_sha256"], last_consumed)
+        self.assertEqual(emitted["pending_packet"], "packets/B-TO-C.json")
+        self.assertNotEqual(emitted["last_packet_sha256"], outbound["packet_sha256"])
+
+        consumed = consume_once(emitted, outbound)
+        self.assertEqual(consumed["last_packet_sha256"], outbound["packet_sha256"])
+        with self.assertRaises(RelayStateError):
+            consume_once(consumed, outbound)
 
     def test_tampered_packet_is_rejected(self):
         state, value = self.make_packet()
