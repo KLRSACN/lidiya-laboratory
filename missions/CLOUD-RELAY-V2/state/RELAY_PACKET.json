@@ -1,19 +1,20 @@
 {
   "schema_version": 2,
-  "packet_id": "PKT-B2V-LCR-AUTONOMY-0002-2",
+  "packet_id": "PKT-V2C-LCR-AUTONOMY-0002-3",
   "mission_id": "LCR-AUTONOMY-0002",
   "run_id": "RUN-LCR-AUTONOMY-0002",
-  "step_id": 2,
-  "source": "BUILDER",
-  "target": "VERIFIER",
-  "action": "VERIFY_BUILDER_EVIDENCE",
+  "step_id": 3,
+  "source": "VERIFIER",
+  "target": "COORDINATOR",
+  "action": "RETURN_VERIFIED_PASS",
   "status": "READY",
   "payload": {
-    "evidence": "state/EVIDENCE/STEP-2-BUILDER.json"
+    "evidence": "state/EVIDENCE/STEP-3-VERIFIER.json",
+    "verdict": "PASS"
   },
-  "parent_packet_id": "PKT-C2B-LCR-AUTONOMY-0002-1",
-  "created_at": "2026-08-11T10:25:27.370049+00:00",
+  "parent_packet_id": "PKT-B2V-LCR-AUTONOMY-0002-2",
+  "created_at": "2026-08-11T10:25:36.063340+00:00",
   "consumed": false,
   "consumed_at": null,
-  "input_hash": "79fe8ff8b16cd87ffce9dcaead860f8dc4e9df579a76713bd2f2469f579e0f94"
+  "input_hash": "eed874235d708a8d9b6483d971c528eb072f765e01dc749c75c9164191154494"
 }
