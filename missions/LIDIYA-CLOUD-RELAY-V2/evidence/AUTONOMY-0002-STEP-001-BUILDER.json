@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "step_id": 1,
+  "role": "LCR-B",
+  "status": "BUILT_NOT_VERIFIED",
+  "parent_packet_sha256": "c0cf8b968c7a1bd7d4be664e5969227282c8037f8a699254310a78e34c96907d",
+  "lease_owner": "LCR-B-CHATGPT-20260811T1508+08",
+  "changed": [
+    ".github/workflows/lcr-state-tests.yml"
+  ],
+  "candidate_commit": "9427943cc5b6a996755cc534ca95b4476c4e0850",
+  "checks": {
+    "input_packet_hash_verified": true,
+    "authorization_scope_verified": true,
+    "main_modified": false,
+    "secrets_added_or_handled": false,
+    "builder_declared_pass": false
+  },
+  "expected_reality_evidence": {
+    "artifact_name": "lcr-state-tests-evidence",
+    "file": "lcr-state-tests-evidence.json",
+    "required_fields": [
+      "commit_sha",
+      "ref",
+      "ref_name",
+      "compile_command",
+      "test_command",
+      "compile_status",
+      "test_status",
+      "status"
+    ]
+  },
+  "next_role": "LCR-C",
+  "lesson": "Preserve CI failure semantics while emitting machine-readable evidence by recording step outcomes, uploading evidence with always(), then enforcing failure at the end."
+}
