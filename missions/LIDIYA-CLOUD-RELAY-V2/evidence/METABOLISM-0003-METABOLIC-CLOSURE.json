@@ -1,8 +1,9 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-METABOLISM-0003",
   "closure_type": "METABOLIC_CLOSURE",
   "closed_at_taipei": "2026-08-12T02:28:00+08:00",
+  "state_committed_at_taipei": "2026-08-12T02:29:00+08:00",
   "result": "PASS",
   "status": "CLOSED_PASS_RETURNED_TO_BASELINE",
   "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
@@ -22,7 +23,7 @@
     "same_slot_worker_replacement_without_slot4": "PASS",
     "primary_control_console_external_self_metabolism": "PASS",
     "real_github_cloud_a_b_c_a_cleanup_roundtrip": "PASS",
-    "metabolic_closure_returns_idle_pass": "PASS_PENDING_STATE_COMMIT_IN_THIS_CLOSURE"
+    "metabolic_closure_returns_idle_pass": "PASS"
   },
   "authoritative_reality": {
     "step5_evidence": "evidence/METABOLISM-0003-STEP-005-CLOUD-ROUNDTRIP-PASS.json",
@@ -50,47 +51,13 @@
     "full_backup_created_by_closure": false
   },
   "metabolic_disposition": {
-    "KEEP": [
-      "Stage-2 authorization and consumed completion marker",
-      "current durable state and worker roster",
-      "verified metabolism/continuous-control source and tests",
-      "minimal Builder/Verifier/Coordinator Evidence",
-      "authoritative STEP-005 Reality anchor",
-      "same-slot handoff proof",
-      "rollback anchor nav-relay-mvp-0001",
-      "root-cause lessons from verifier FAILs"
-    ],
-    "WASTE": [
-      "temporary ephemeral fixture contents after GitHub runner teardown",
-      "raw runner logs after evidence extraction",
-      "duplicate verifier attempts that skipped after durable verdict already existed",
-      "superseded duplicate Phase1 workstream material not selected as authoritative",
-      "redundant proof artifacts beyond authoritative hashes, subject to provider TTL"
-    ],
-    "QUARANTINE": [
-      "secret-like cleanup candidates",
-      "ambiguous provenance material",
-      "unreproducible material",
-      "protected/unique/durable-referenced material presented as cleanup candidates"
-    ]
+    "KEEP": ["Stage-2 authorization and consumed completion marker","current durable state and worker roster","verified metabolism/continuous-control source and tests","minimal Builder/Verifier/Coordinator Evidence","authoritative STEP-005 Reality anchor","same-slot handoff proof","rollback anchor nav-relay-mvp-0001","root-cause lessons from verifier FAILs"],
+    "WASTE": ["temporary ephemeral fixture contents after GitHub runner teardown","raw runner logs after evidence extraction","duplicate verifier attempts that skipped after durable verdict already existed","superseded duplicate Phase1 workstream material not selected as authoritative","redundant proof artifacts beyond authoritative hashes, subject to provider TTL"],
+    "QUARANTINE": ["secret-like cleanup candidates","ambiguous provenance material","unreproducible material","protected/unique/durable-referenced material presented as cleanup candidates"]
   },
-  "artifact_retention": {
-    "provider_ttl_preferred": true,
-    "step5_artifact_retention_days": 2,
-    "manual_destructive_artifact_cleanup_required": false,
-    "retain_raw_worksite": false
-  },
-  "safety": {
-    "real_user_data_deleted": false,
-    "secret_values_recorded": false,
-    "identity_kernel_modified": false,
-    "personality_modified": false,
-    "governance_modified": false,
-    "production_deployed": false,
-    "account_or_money_action": false,
-    "privilege_expansion": false,
-    "bulk_irreversible_delete": false
-  },
+  "artifact_retention": {"provider_ttl_preferred":true,"step5_artifact_retention_days":2,"manual_destructive_artifact_cleanup_required":false,"retain_raw_worksite":false},
+  "safety": {"real_user_data_deleted":false,"secret_values_recorded":false,"identity_kernel_modified":false,"personality_modified":false,"governance_modified":false,"production_deployed":false,"account_or_money_action":false,"privilege_expansion":false,"bulk_irreversible_delete":false},
+  "final_durable_state": {"ref":"state/MISSION_STATE.json","status":"IDLE","mission_result":"PASS","current_role":"LCR-A","pending_packet":null,"lease":null,"human_gate":null,"next_authorized_mission":null},
   "next_authorized_mission": null,
   "post_closure_rule": "No new mission, candidate, repository mutation or autonomous development may start until a new explicit mission authorization exists. The three formal workers may remain standby and only observe IDLE/PASS consistency."
 }
