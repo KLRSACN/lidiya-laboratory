@@ -8,10 +8,11 @@ class MetabolismTests(unittest.TestCase):
         self.assertEqual(classify({'path':'scratch/credential.txt','kind':'progress_event','reproducible':True}),'QUARANTINE')
     def test_protected_evidence_is_kept(self):
         self.assertEqual(classify({'path':'evidence/pass.json','kind':'progress_event','reproducible':True}),'KEEP')
-    def test_content_not_retained(self):
+    def test_content_value_not_retained(self):
         out=compact([{'id':'1','path':'scratch/a','kind':'progress_event','reproducible':True,'duplicate':True,'content':'discard-me'}])
         self.assertFalse(out['raw_content_retained'])
-        self.assertNotIn('content',str(out))
+        self.assertNotIn('discard-me',str(out))
+        self.assertNotIn('content',out['summary'][0])
     def test_deterministic_dedupe(self):
         item={'id':'1','path':'scratch/a','kind':'progress_event','reproducible':True,'duplicate':True}
         self.assertEqual(compact([item,item]),compact([item]))
