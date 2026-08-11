@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "mission_id": "LCR-V2-ROUNDTRIP-0001",
+  "packet_id": null,
+  "step_id": 1,
+  "source": "LCR-A",
+  "target": "LCR-B",
+  "status": "EMPTY",
+  "task": null,
+  "acceptance": [],
+  "evidence_refs": [],
+  "created_at": null,
+  "lease_until": null
+}
