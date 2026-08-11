@@ -3,9 +3,9 @@
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "CLOUD-RELAY-V2",
   "cycle": 2,
-  "step_id": 1,
-  "owner": "BUILDER",
-  "status": "AWAITING_BUILDER",
+  "step_id": 2,
+  "owner": "VERIFIER",
+  "status": "AWAITING_VERIFIER",
   "goal": "Verify GitHub-cloud A->B->C->A under one-time Activation Gate, then Metabolic Closure.",
   "activation_gate": {
     "id": "LCR-AUTONOMY-0002",
@@ -24,9 +24,10 @@
   },
   "completed_steps": [
     "ACTIVATION_GATE_ACCEPTED",
-    "A_DISPATCHED_TO_B"
+    "A_DISPATCHED_TO_B",
+    "B_HANDOFF_TO_C"
   ],
-  "updated_at": "2026-08-11T10:25:20.809478+00:00",
-  "last_packet_id": "PKT-C2B-LCR-AUTONOMY-0002-1",
-  "last_packet_hash": "407b88ca7ce49e708ba9c30f3296345c75499d676a3ffe132f798004ace020c2"
+  "updated_at": "2026-08-11T10:25:27.370224+00:00",
+  "last_packet_id": "PKT-B2V-LCR-AUTONOMY-0002-2",
+  "last_packet_hash": "79fe8ff8b16cd87ffce9dcaead860f8dc4e9df579a76713bd2f2469f579e0f94"
 }
