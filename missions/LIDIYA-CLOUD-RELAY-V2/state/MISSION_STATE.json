@@ -1,0 +1,30 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-ROUNDTRIP-0001",
+  "project_id": "LIDIYA-CLOUD-RELAY-V2",
+  "status": "IDLE",
+  "step_id": 0,
+  "attempt": 0,
+  "current_role": "LCR-A",
+  "next_role": "LCR-A",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "stable_ref": "nav-relay-mvp-0001",
+  "last_packet_sha256": null,
+  "lease": null,
+  "human_gate": null,
+  "metabolism": {
+    "retain_lessons": true,
+    "retain_evidence": true,
+    "retain_scratch": false,
+    "candidate_ttl_hours": 24
+  },
+  "acceptance": [
+    "A creates exactly one task packet for B",
+    "B claims and executes a harmless deterministic candidate exactly once",
+    "C independently verifies content/hash and returns PASS or FAIL",
+    "PASS returns control to A and marks mission done",
+    "duplicate delivery cannot execute the same step twice",
+    "expired lease can be reclaimed by a replacement worker",
+    "no second human message is required after START"
+  ]
+}
