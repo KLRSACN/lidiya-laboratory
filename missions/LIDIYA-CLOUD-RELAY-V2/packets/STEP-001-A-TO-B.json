@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-ROUNDTRIP-0001",
+  "run_id": "LCR-BOOTSTRAP-001",
+  "step_id": 1,
+  "attempt": 0,
+  "source_role": "LCR-A",
+  "target_role": "LCR-B",
+  "status": "READY_FOR_BUILDER",
+  "parent_packet_sha256": null,
+  "created_at": "2026-08-11T00:57:58.233609+00:00",
+  "lease_owner": "BOOTSTRAP-CHATGPT",
+  "lease_expires_at": "2026-08-11T01:12:58.233609+00:00",
+  "task": "Create proof/ROUNDTRIP.txt with exactly the authorized deterministic proof content; do not modify any other mission implementation file.",
+  "acceptance": [
+    "Create missions/LIDIYA-CLOUD-RELAY-V2/proof/ROUNDTRIP.txt on branch lidiya-cloud-relay-v2",
+    "File content is exactly: LIDIYA_CLOUD_RELAY_OK\\nmission=LCR-ROUNDTRIP-0001\\nstep=1\\n",
+    "Record SHA-256 of the proof file in a minimal evidence artifact",
+    "Do not modify main, identity, personality, governance, or unrelated files",
+    "Return READY_FOR_VERIFY; Builder must not declare PASS"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [],
+  "result": null,
+  "lesson": null,
+  "disposition": "candidate",
+  "packet_sha256": "3f5d5c92776f63c5894c0625a8f5e33dcd4be4fb69bf14152771146ebc5e9228"
+}
