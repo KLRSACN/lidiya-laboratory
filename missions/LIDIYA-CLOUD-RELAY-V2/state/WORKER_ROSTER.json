@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
+  "max_slots": 3,
+  "registry": {
+    "LCR-A": {"worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL", "generation": 0},
+    "LCR-B": {"worker_id": "ONLINE-LIDIYA-BUILDER", "generation": 0},
+    "LCR-C": {"worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER", "generation": 0}
+  },
+  "replacement_policy": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
+  "fourth_slot": "FORBIDDEN",
+  "authoritative_state_ref": "state/MISSION_STATE.json",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "full_backup_created": false
+}
