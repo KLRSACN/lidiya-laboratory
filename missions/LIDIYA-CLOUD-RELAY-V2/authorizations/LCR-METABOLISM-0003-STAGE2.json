@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "project_id": "LIDIYA-CLOUD-RELAY-V2",
+  "authorization_type": "STAGE_2_GOLDEN_TRIANGLE_METABOLISM",
+  "status": "ACTIVE_BRANCH_LOCAL",
+  "authorized_at": "2026-08-11T19:08:00+08:00",
+  "deadline_target": "2026-08-13T19:08:00+08:00",
+  "authorized_by": "博玄",
+  "goal": "Build and independently verify autonomous staged cognitive/artifact garbage metabolism, enforce a two-backup maximum, and prove a three-slot Golden Triangle can coordinate cleanup without contaminating durable state.",
+  "slot_policy": {
+    "max_authorized_slots_including_primary": 3,
+    "topology": "GOLDEN_TRIANGLE",
+    "slots": [
+      {
+        "slot": "LCR-A",
+        "role": "COORDINATOR_ABSORBER",
+        "responsibilities": [
+          "read canonical durable state before action",
+          "issue exactly one smallest authorized task packet",
+          "receive only independently verified metabolism summaries",
+          "enforce two-backup invariant",
+          "perform final Metabolic Closure"
+        ],
+        "forbidden": ["self-verify Builder changes", "perform bulk cleanup directly"]
+      },
+      {
+        "slot": "LCR-B",
+        "role": "METABOLISM_WORKER",
+        "responsibilities": [
+          "inventory stage-local garbage",
+          "classify KEEP/QUARANTINE/WASTE/DELETE_CANDIDATE",
+          "self-clear only low-risk stage garbage after guards pass",
+          "emit before/after manifest, hashes, reclaimed-count/size evidence, and BUILT_NOT_VERIFIED handoff"
+        ],
+        "forbidden": ["declare PASS", "modify Recovery Baseline", "modify Identity Kernel/personality/Governance"]
+      },
+      {
+        "slot": "LCR-C",
+        "role": "GUARDIAN_VERIFIER",
+        "responsibilities": [
+          "independently verify B manifests and hashes",
+          "verify backup_count <= 2",
+          "verify no live references or unique evidence were deleted",
+          "run recovery/regression checks",
+          "return PASS/FAIL/DEFER/HUMAN_GATE to A"
+        ],
+        "forbidden": ["silently repair B output while verifying", "self-promote candidate to Stable"]
+      }
+    ]
+  },
+  "backup_policy": {
+    "max_full_backup_groups": 2,
+    "groups": [
+      {
+        "name": "RECOVERY_BASELINE",
+        "mode": "READ_ONLY",
+        "purpose": "known-good rollback/recovery material",
+        "mutation": "forbidden during a cleanup cycle"
+      },
+      {
+        "name": "WORKING_EXCHANGE",
+        "mode": "MUTABLE_COLLABORATION",
+        "purpose": "the only full working copy that another authorized slot/window may modify or transform",
+        "mutation": "allowed only on authorized candidate/development scope"
+      }
+    ],
+    "third_full_backup": "FORBIDDEN",
+    "historical_retention": "use git refs/commits, diffs, hashes, minimal Evidence and Lessons instead of additional full backup copies",
+    "rotation_rule": "never materialize a third full backup; replace/rotate WORKING_EXCHANGE only after verifier confirms recoverability and reference safety"
+  },
+  "metabolism_policy": {
+    "auto_clear_allowed_classes": [
+      "stage scratch",
+      "temporary request/response files",
+      "duplicate generated artifacts",
+      "expired TTL artifacts with no references",
+      "superseded intermediate candidates reproducible from retained source/config",
+      "duplicate proof outputs already represented by authoritative evidence"
+    ],
+    "must_quarantine_or_escalate": [
+      "unique human-created material",
+      "credential or secret material",
+      "active rollback anchors",
+      "current Stable/Recovery Baseline",
+      "files referenced by current durable state",
+      "unreproducible artifacts",
+      "Identity Kernel/personality/Governance material",
+      "ambiguous ownership or conflicting provenance"
+    ],
+    "deletion_guards": [
+      "Reachability Check",
+      "Uniqueness Check",
+      "Reproducibility Check",
+      "Recovery Check",
+      "Verifier post-check for any nontrivial cleanup"
+    ],
+    "self_clear_rule": "B may physically remove only low-risk stage garbage when all machine-checkable guards pass; otherwise move to quarantine/mark WASTE_CANDIDATE and hand to C",
+    "evidence_retention": "retain minimal manifest/hash/lesson, not full raw worksite logs"
+  },
+  "worker_spawn_requirement": {
+    "objective": "A must be able to instantiate or activate B and C without the user manually maintaining visible browser windows",
+    "acceptable_implementation": [
+      "separate GitHub-hosted Actions jobs/runners",
+      "separate bounded ChatGPT automation worker slots",
+      "another equivalent isolated cloud worker mechanism with durable-state handoff"
+    ],
+    "visible_chat_window_required": false,
+    "reason": "the required property is replaceable isolated workers with durable handoff, not UI window ownership",
+    "max_simultaneous_or_authorized_slots": 3
+  },
+  "main_default_branch": {
+    "current_permission": "NO_WRITE_UNDER_THIS_BRANCH_LOCAL_ACTIVATION",
+    "allowed_preparation": "prepare and independently review a launcher revision on the candidate branch",
+    "write_gate": "a main/default-branch launcher revision requires an explicit reviewed sub-gate before write; no other main content may be modified"
+  },
+  "acceptance": [
+    "backup invariant proves no more than two full backup groups at any time",
+    "B can autonomously classify and clear a controlled fixture of stage garbage without deleting protected material",
+    "C independently detects at least one intentionally unsafe deletion candidate and blocks/fails it",
+    "A receives a verified compact metabolism report and does not ingest raw worksite garbage",
+    "three isolated authorized slots can hand off durable state without duplicate consumption",
+    "worker loss/restart does not lose mission state",
+    "real cloud execution evidence proves A→B→C→A for a cleanup cycle",
+    "Metabolic Closure returns mission to IDLE/PASS with explicit KEEP/WASTE/QUARANTINE dispositions"
+  ],
+  "stop_conditions": [
+    "secret access/value handling is required",
+    "main/default-branch write is required before explicit reviewed sub-gate",
+    "backup_count would exceed 2",
+    "unique or unreproducible material could be deleted",
+    "Identity Kernel/personality/Governance would be modified",
+    "production deployment, money/account action, privilege expansion, or irreversible high-risk deletion is required",
+    "state/provenance conflict cannot be reconciled"
+  ],
+  "success_disposition": "METABOLIZE_AND_RETURN_TO_BASELINE",
+  "next_mission_after_success": "must not auto-create; autonomy expansion requires a separately authorized next mission"
+}
