@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "step_id": 1,
+  "attempt": 1,
+  "role": "LCR-B",
+  "status": "BUILT_NOT_VERIFIED",
+  "saved_before_modify": true,
+  "home_revision_after_save": "AIroW36FXo2QgrUK-t7_Ykii9NvjSTrLt6JUCgrSiMQvvlCX_LYT85Kj2QbLygfO4eT70EDwDOpCvy96xwQVWFv40XgYoaUAMgRlb86hCr4",
+  "inbound_repair_packet": "packets/AUTONOMY-0002-STEP-001-C-TO-B-REPAIR.json",
+  "inbound_repair_packet_sha256": "fb507977a127aa6280f2ac6a6d3e7ee47e95f4483d043f9520e8604a53947b81",
+  "input_packet_hash_verified": true,
+  "consumed_inbound_before_emitting_outbound": true,
+  "changed": [
+    "missions/LIDIYA-CLOUD-RELAY-V2/cloud_relay_state.py",
+    "missions/LIDIYA-CLOUD-RELAY-V2/test_cloud_relay_state.py"
+  ],
+  "candidate_commits": [
+    "46e0b42be9e908e54ecc17e26c714007507683f2",
+    "7f1d7214f3c61dd7d9a433d75ab54d4a2711e5bd"
+  ],
+  "readback_blob_shas": {
+    "cloud_relay_state.py": "b0c859c8720e6c8ea28e092dfdd08cf246e45a70",
+    "test_cloud_relay_state.py": "b188fa65ac3f0a79ccf33bbc958a5d5e302c5c3a"
+  },
+  "repair": {
+    "new_api": "set_pending_packet(state, packet_path)",
+    "invariant": "setting an unconsumed outbound pending_packet must not change last_packet_sha256",
+    "regression_test": "test_pending_outbound_does_not_preconsume_packet"
+  },
+  "builder_reproducible_test": {
+    "compile_command": "python -m py_compile cloud_relay_state.py",
+    "compile_status": "PASS",
+    "test_command": "python -m unittest -v test_cloud_relay_state.py",
+    "tests_run": 10,
+    "tests_passed": 10,
+    "tests_failed": 0,
+    "includes": [
+      "transition checks",
+      "lease collision",
+      "expired lease reclaim",
+      "tamper rejection",
+      "single consumption and replay rejection",
+      "outbound pending packet pre-consume regression"
+    ]
+  },
+  "checks": {
+    "write_target_branch": "lidiya-cloud-relay-v2",
+    "main_modified_by_builder": false,
+    "secrets_added_or_handled": false,
+    "identity_or_governance_modified": false,
+    "builder_declared_pass": false
+  },
+  "cloud_ci_reality_evidence": "PENDING_INDEPENDENT_VERIFIER",
+  "lesson": "Outbound emission and inbound consumption are different state events. Preserve last_packet_sha256 as the last successfully consumed inbound packet and track unconsumed outbound work only through pending_packet.",
+  "next_role": "LCR-C"
+}
