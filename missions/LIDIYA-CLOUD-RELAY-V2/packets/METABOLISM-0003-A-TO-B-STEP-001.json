@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 1,
+  "attempt": 0,
+  "source": "LCR-A",
+  "target": "LCR-B",
+  "action": "BUILD_METABOLISM_GUARDRAILS",
+  "status": "READY",
+  "consumed": false,
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "task": {
+    "goal": "Implement the smallest branch-local metabolism engine and fixtures needed to prove two-backup enforcement and safe staged garbage cleanup.",
+    "required_candidate_scope": [
+      "missions/LIDIYA-CLOUD-RELAY-V2/metabolism_guard.py",
+      "missions/LIDIYA-CLOUD-RELAY-V2/test_metabolism_guard.py"
+    ],
+    "required_behaviors": [
+      "represent exactly RECOVERY_BASELINE and WORKING_EXCHANGE as the only allowed full backup groups",
+      "reject creation/materialization of a third full backup group",
+      "classify fixture artifacts as KEEP, QUARANTINE, WASTE, or DELETE_CANDIDATE",
+      "allow auto-clear only when reachability, uniqueness, reproducibility and recovery guards all pass",
+      "protect current stable/recovery, unique, referenced, unreproducible and governance/identity material",
+      "produce deterministic before/after manifest hashes and a compact metabolism report"
+    ],
+    "negative_tests": [
+      "third backup creation is rejected",
+      "referenced artifact deletion is rejected",
+      "unique artifact deletion is rejected",
+      "unreproducible artifact deletion is rejected",
+      "protected recovery baseline mutation/deletion is rejected"
+    ]
+  },
+  "acceptance": [
+    "compile/tests are reproducible",
+    "all negative tests pass",
+    "Builder output is marked BUILT_NOT_VERIFIED",
+    "no main/default branch changes",
+    "no secret access",
+    "no real protected user material deleted",
+    "B emits one compact Evidence file and one B→C packet only"
+  ],
+  "forbidden": [
+    "declare PASS",
+    "modify main/default branch",
+    "modify Identity Kernel/personality/Governance",
+    "delete real non-fixture protected data",
+    "create more than two full backup groups"
+  ]
+}
