@@ -11,6 +11,7 @@ import json
 from typing import Any, Mapping
 
 FORMAL_SLOTS = ("LCR-A", "LCR-B", "LCR-C")
+SAME_SLOT_HANDOFF_ACTION = "SAME_SLOT_DURABLE_HANDOFF"
 PROTECTED_CONTROL_FIELDS = (
     "mission_id",
     "status",
@@ -126,19 +127,31 @@ def same_slot_durable_handoff(
     registry: Mapping[str, Any],
     state: Mapping[str, Any],
     handoff: Mapping[str, Any],
+    *,
+    trusted_authorization_ref: str,
 ) -> dict[str, dict[str, Any]]:
-    """Replace one worker only with an explicitly authorized, state-bound handoff."""
+    """Replace one worker only with an explicit, durable-authority-bound handoff.
+
+    ``trusted_authorization_ref`` must come from independently read durable mission
+    authorization state. The caller cannot self-authorize with a boolean flag.
+    """
     current = normalize_registry(registry)
     slot = handoff.get("slot")
     if slot not in FORMAL_SLOTS:
         raise ControlGuardError("slot 4 rejected")
+    if handoff.get("action") != SAME_SLOT_HANDOFF_ACTION:
+        raise ControlGuardError("explicit SAME_SLOT_DURABLE_HANDOFF action required")
+    if not trusted_authorization_ref or not isinstance(trusted_authorization_ref, str):
+        raise ControlGuardError("trusted durable authorization reference required")
+    if handoff.get("authorization_ref") != trusted_authorization_ref:
+        raise ControlGuardError("handoff authorization reference mismatch")
+
     entry = current[slot]
     expected_generation = entry["generation"] + 1
     expected_fingerprint = durable_state_fingerprint(state)
     required = {
         "from": entry["worker_id"],
         "slot": slot,
-        "authorized": True,
         "generation": expected_generation,
         "state_fingerprint": expected_fingerprint,
     }
