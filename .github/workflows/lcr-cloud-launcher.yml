@@ -1,4 +1,4 @@
-name: LCR 0003 Golden Triangle Wake
+name: LCR 0003 Golden Triangle Cloud Roundtrip
 
 on:
   push:
@@ -14,110 +14,85 @@ permissions:
   contents: read
 
 concurrency:
-  group: lcr-0003-golden-triangle-wake
+  group: lcr-0003-golden-triangle-roundtrip
   cancel-in-progress: true
 
 env:
   LCR_CANDIDATE_REF: lidiya-cloud-relay-v2
-  LCR_MISSION_ROOT: missions/LIDIYA-CLOUD-RELAY-V2
+  LCR_ROOT: missions/LIDIYA-CLOUD-RELAY-V2
 
 jobs:
-  lcr-a-router:
-    name: LCR-A Control Router
+  lcr-a-start:
+    name: LCR-A Coordinator Start
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 4
     outputs:
-      active_role: ${{ steps.route.outputs.active_role }}
-      state_status: ${{ steps.route.outputs.state_status }}
-      step_id: ${{ steps.route.outputs.step_id }}
-      pending_sha: ${{ steps.route.outputs.pending_sha }}
+      armed: ${{ steps.arm.outputs.armed }}
+      request_sha: ${{ steps.arm.outputs.request_sha }}
     steps:
-      - name: Checkout authoritative candidate state
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ env.LCR_CANDIDATE_REF }}
           persist-credentials: false
 
-      - name: Validate authorization, topology, state and packet
-        id: route
-        shell: bash
+      - name: Validate durable mission and arm STEP-005
+        id: arm
         run: |
           python - <<'PY'
           import hashlib, json, os
           from datetime import datetime, timezone
           from pathlib import Path
 
-          root = Path(os.environ['LCR_MISSION_ROOT'])
-          state = json.loads((root/'state/MISSION_STATE.json').read_text(encoding='utf-8'))
-          auth = json.loads((root/'authorizations/LCR-METABOLISM-0003-STAGE2.json').read_text(encoding='utf-8'))
-          spawn_auth = json.loads((root/'authorizations/LCR-METABOLISM-0003-CLOUD-SPAWN-SUBGATE.json').read_text(encoding='utf-8'))
+          root=Path(os.environ['LCR_ROOT'])
+          state=json.loads((root/'state/MISSION_STATE.json').read_text(encoding='utf-8'))
+          roster=json.loads((root/'state/WORKER_ROSTER.json').read_text(encoding='utf-8'))
+          auth=json.loads((root/'authorizations/LCR-METABOLISM-0003-STAGE2.json').read_text(encoding='utf-8'))
+          spawn=json.loads((root/'authorizations/LCR-METABOLISM-0003-CLOUD-SPAWN-SUBGATE.json').read_text(encoding='utf-8'))
+          req=json.loads((root/'packets/METABOLISM-0003-A-CLOUD-ROUNDTRIP-STEP-005.json').read_text(encoding='utf-8'))
 
-          assert state['mission_id'] == 'LCR-METABOLISM-0003'
-          assert auth['status'] == 'ACTIVE_BRANCH_LOCAL'
-          assert spawn_auth['status'] == 'ACTIVE'
-          assert int(state['slot_policy']['max_slots']) <= 3
-          assert int(state['backup_policy']['max_full_backup_groups']) <= 2
-          assert state['backup_policy']['third_full_backup'] == 'FORBIDDEN'
-          assert datetime.fromisoformat(state['deadline_target']).astimezone(timezone.utc) > datetime.now(timezone.utc)
+          assert state['mission_id']=='LCR-METABOLISM-0003'
+          assert state['status']=='COORDINATING' and state['step_id']==5 and state['current_role']=='LCR-A'
+          assert state['lease'] is None and state['human_gate'] is None
+          assert auth['status']=='ACTIVE_BRANCH_LOCAL' and spawn['status']=='ACTIVE'
+          assert datetime.fromisoformat(state['deadline_target']).astimezone(timezone.utc)>datetime.now(timezone.utc)
+          assert state['slot_policy']['max_slots']==3 and state['backup_policy']['max_full_backup_groups']==2
+          assert state['backup_policy']['third_full_backup']=='FORBIDDEN'
+          assert roster['formal_slots']==['LCR-A','LCR-B','LCR-C'] and roster['max_slots']==3
+          assert roster['registry']['LCR-A']=={'worker_id':'ONLINE-LIDIYA-PRIMARY-CONTROL','generation':0}
+          assert roster['registry']['LCR-B']=={'worker_id':'ONLINE-LIDIYA-SECONDARY-INTEGRATOR','generation':1}
+          assert roster['registry']['LCR-C']=={'worker_id':'ONLINE-LIDIYA-GUARDIAN-VERIFIER','generation':0}
 
-          role = state['current_role']
-          assert role in {'LCR-A','LCR-B','LCR-C','HUMAN'}
-          pending_path = state.get('pending_packet')
-          pending_sha = state.get('pending_packet_sha256') or ''
-          if role in {'LCR-B','LCR-C'}:
-              assert pending_path and pending_sha
-              packet = json.loads((root/pending_path).read_text(encoding='utf-8'))
-              payload = dict(packet); claimed = payload.pop('packet_sha256')
-              actual = hashlib.sha256(json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
-              assert claimed == actual == pending_sha
-              assert actual not in set(state.get('consumed_packet_sha256') or [])
+          payload=dict(req); claimed=payload.pop('request_sha256')
+          actual=hashlib.sha256(json.dumps(payload,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert claimed==actual==state['cloud_roundtrip']['request_sha256']=='dfecdb8cefa73461739a0f46740862eabf5897a8d5bb361e68f1eff913b84f9c'
 
-          ack = {
-              'schema_version':'1.2','mission_id':'LCR-METABOLISM-0003','evidence_type':'golden_triangle_wake_ack',
-              'state_status':state['status'],'step_id':state['step_id'],'attempt':state['attempt'],'active_role':role,
-              'pending_packet':pending_path,'pending_packet_sha256':pending_sha or None,
-              'max_slots':state['slot_policy']['max_slots'],'max_full_backup_groups':state['backup_policy']['max_full_backup_groups'],
-              'repository_write_permission':False,'secret_values_recorded':False,'raw_worksite_retained':False,'result':'WAKE_ROUTED'
+          start={
+            'schema_version':'1.0','mission_id':'LCR-METABOLISM-0003','step_id':5,'role':'LCR-A',
+            'worker_id':'ONLINE-LIDIYA-PRIMARY-CONTROL','generation':0,'request_sha256':actual,
+            'expected_b':'ONLINE-LIDIYA-SECONDARY-INTEGRATOR','expected_b_generation':1,
+            'expected_c':'ONLINE-LIDIYA-GUARDIAN-VERIFIER','expected_c_generation':0,
+            'formal_slot_count':3,'max_full_backup_groups':2,'repository_write_permission':False,
+            'result':'A_START_PASS'
           }
-          Path('lcr-0003-wake-ack.json').write_text(json.dumps(ack, ensure_ascii=False, sort_keys=True, indent=2)+'\n', encoding='utf-8')
-          with Path(os.environ['GITHUB_OUTPUT']).open('a', encoding='utf-8') as out:
-              out.write(f"active_role={role}\nstate_status={state['status']}\nstep_id={state['step_id']}\npending_sha={pending_sha}\n")
-          print(json.dumps(ack, ensure_ascii=False, sort_keys=True))
+          start_sha=hashlib.sha256(json.dumps(start,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          start['a_start_sha256']=start_sha
+          Path('lcr-step5-a-start.json').write_text(json.dumps(start,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf-8')
+          with Path(os.environ['GITHUB_OUTPUT']).open('a',encoding='utf-8') as out:
+              out.write(f'armed=true\nrequest_sha={actual}\n')
+          print(json.dumps(start,ensure_ascii=False,sort_keys=True))
           PY
 
-      - name: Upload non-scheduled wake ACK
-        if: github.event_name != 'schedule'
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: lcr-0003-wake-ack
-          path: lcr-0003-wake-ack.json
+          name: lcr-step5-a-start
+          path: lcr-step5-a-start.json
           if-no-files-found: error
           retention-days: 2
 
-  lcr-b-slot:
-    name: LCR-B Metabolism Worker Slot
-    needs: lcr-a-router
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ env.LCR_CANDIDATE_REF }}
-          persist-credentials: false
-      - name: B slot wake ACK
-        env:
-          ACTIVE_ROLE: ${{ needs.lcr-a-router.outputs.active_role }}
-        run: |
-          python - <<'PY'
-          import json, os
-          state=json.load(open('missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json',encoding='utf-8'))
-          assert state['current_role']==os.environ['ACTIVE_ROLE']
-          print(json.dumps({'slot':'LCR-B','mode':'ACTIVE' if os.environ['ACTIVE_ROLE']=='LCR-B' else 'STANDBY','step_id':state['step_id'],'repository_write_permission':False},sort_keys=True))
-          PY
-
-  lcr-c-slot:
-    name: LCR-C Guardian Verifier Slot
-    needs: lcr-a-router
+  lcr-b-secondary-cleanup:
+    name: LCR-B Secondary Metabolism Worker
+    needs: lcr-a-start
+    if: needs.lcr-a-start.outputs.armed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -125,102 +100,195 @@ jobs:
         with:
           ref: ${{ env.LCR_CANDIDATE_REF }}
           persist-credentials: false
-
-      - name: C slot wake ACK
-        env:
-          ACTIVE_ROLE: ${{ needs.lcr-a-router.outputs.active_role }}
-        run: |
-          python - <<'PY'
-          import json, os
-          state=json.load(open('missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json',encoding='utf-8'))
-          assert state['current_role']==os.environ['ACTIVE_ROLE']
-          print(json.dumps({'slot':'LCR-C','mode':'ACTIVE' if os.environ['ACTIVE_ROLE']=='LCR-C' else 'STANDBY','step_id':state['step_id'],'repository_write_permission':False},sort_keys=True))
-          PY
-
-      - name: Independently verify STEP-004 real Secondary-B takeover
-        if: needs.lcr-a-router.outputs.active_role == 'LCR-C' && needs.lcr-a-router.outputs.step_id == '4'
+      - uses: actions/download-artifact@v4
+        with:
+          name: lcr-step5-a-start
+      - name: Perform actual ephemeral safe cleanup
         working-directory: missions/LIDIYA-CLOUD-RELAY-V2
         run: |
-          python - <<'PY'
-          import hashlib, json, subprocess
+          PYTHONPATH=. python - <<'PY'
+          import hashlib, json, tempfile
           from pathlib import Path
-          from continuous_control import ControlGuardError, authorize_worker_action, durable_state_fingerprint, validate_formal_roster
+          from metabolism_guard import Artifact, GuardRejected, cleanup_fixture, validate_backup_groups
 
-          root=Path('.')
-          state=json.loads((root/'state/MISSION_STATE.json').read_text(encoding='utf-8'))
-          roster=json.loads((root/'state/WORKER_ROSTER.json').read_text(encoding='utf-8'))
-          handoff=json.loads((root/'handoffs/METABOLISM-0003-B-TO-SECONDARY-STEP-004.json').read_text(encoding='utf-8'))
-          b_evidence=json.loads((root/'evidence/METABOLISM-0003-STEP-004-SECONDARY-B-ACTIVATION.json').read_text(encoding='utf-8'))
-          a_evidence=json.loads((root/'evidence/METABOLISM-0003-STEP-004-A-SAME-SLOT-HANDOFF.json').read_text(encoding='utf-8'))
-          step3_c=json.loads((root/'evidence/METABOLISM-0003-STEP-003-VERIFIER-PASS-002.json').read_text(encoding='utf-8'))
-          packet=json.loads((root/state['pending_packet']).read_text(encoding='utf-8'))
+          a=json.loads(Path('../../lcr-step5-a-start.json').read_text(encoding='utf-8'))
+          a_payload=dict(a); a_sha=a_payload.pop('a_start_sha256')
+          assert hashlib.sha256(json.dumps(a_payload,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()==a_sha
+          assert a['expected_b']=='ONLINE-LIDIYA-SECONDARY-INTEGRATOR' and a['expected_b_generation']==1
 
-          result={'schema_version':'1.0','mission_id':'LCR-METABOLISM-0003','step_id':4,'role':'LCR-C_GITHUB_HOSTED_INDEPENDENT_VERIFIER','checks':{},'repository_write_permission':False,'secret_values_recorded':False,'raw_worksite_retained':False}
-          def canonical_sha(obj, hash_field=None):
-              value=dict(obj)
-              if hash_field: value.pop(hash_field,None)
-              return hashlib.sha256(json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          def expect_reject(name, fn):
-              try: fn()
-              except ControlGuardError:
-                  result['checks'][name]='PASS'; return
-              raise AssertionError(name+' did not reject')
+          third_backup_rejected=False
+          validate_backup_groups({'RECOVERY_BASELINE':'READ_ONLY','WORKING_EXCHANGE':'MUTABLE_COLLABORATION'})
+          try:
+              validate_backup_groups({'RECOVERY_BASELINE':'READ_ONLY','WORKING_EXCHANGE':'MUTABLE_COLLABORATION','EXTRA':'MUTABLE_COLLABORATION'})
+          except GuardRejected:
+              third_backup_rejected=True
+          assert third_backup_rejected
 
-          # Current packet integrity / replay state.
-          packet_sha=canonical_sha(packet,'packet_sha256')
-          assert packet_sha==packet['packet_sha256']==state['pending_packet_sha256']=='c800a59cb15c76c3bccd2fec7b0385d6e95aa1527de74b2213ae1ba11fcfac21'
-          assert packet_sha not in set(state.get('consumed_packet_sha256') or [])
-          assert '7df532c2e7b0333c4d8290560963bfad630f1abc4f97b75e865400f9b240b6f9' in set(state.get('consumed_packet_sha256') or [])
-          result['checks']['packet_integrity_and_consumption_state']='PASS'
+          with tempfile.TemporaryDirectory() as tmp:
+              root=Path(tmp); (root/'scratch').mkdir(); (root/'recovery_baseline').mkdir()
+              (root/'scratch/safe.tmp').write_text('disposable-fixture',encoding='utf-8')
+              (root/'scratch/unique.tmp').write_text('human-value-fixture',encoding='utf-8')
+              (root/'scratch/api_token.tmp').write_text('DO-NOT-LOG-SECRET-FIXTURE',encoding='utf-8')
+              (root/'recovery_baseline/core.snapshot').write_text('rollback-anchor-fixture',encoding='utf-8')
+              artifacts=[
+                Artifact('scratch/safe.tmp','stage_scratch',reproducible=True,recovery_ok=True),
+                Artifact('scratch/unique.tmp','stage_scratch',unique=True,human_created=True,reproducible=True,recovery_ok=True),
+                Artifact('scratch/api_token.tmp','stage_scratch',reproducible=True,recovery_ok=True),
+                Artifact('recovery_baseline/core.snapshot','stage_scratch',reproducible=True,recovery_ok=True,protected=True),
+              ]
+              report=cleanup_fixture(root,artifacts,apply=True)
+              assert not (root/'scratch/safe.tmp').exists()
+              assert (root/'scratch/unique.tmp').exists()
+              assert (root/'scratch/api_token.tmp').exists()
+              assert (root/'recovery_baseline/core.snapshot').exists()
+              assert report['deleted']==['scratch/safe.tmp'] and report['deleted_count']==1
+              assert report['raw_worksite_retained'] is False
+              assert 'DO-NOT-LOG-SECRET-FIXTURE' not in json.dumps(report,ensure_ascii=False)
 
-          # Roster remains exactly three formal slots; real B identity is Secondary gen1.
-          registry=roster['registry']; validate_formal_roster(registry)
-          assert roster['formal_slots']==['LCR-A','LCR-B','LCR-C'] and roster['max_slots']==3
-          assert registry['LCR-B']=={'worker_id':'ONLINE-LIDIYA-SECONDARY-INTEGRATOR','generation':1}
-          assert roster['replaced_worker']=={'worker_id':'ONLINE-LIDIYA-BUILDER','slot':'LCR-B','generation':0,'status':'STALE_AFTER_HANDOFF'}
-          expect_reject('slot4_rejected',lambda:validate_formal_roster({**registry,'LCR-D':{'worker_id':'D1','generation':0}}))
-          assert authorize_worker_action(registry,'LCR-B','ONLINE-LIDIYA-SECONDARY-INTEGRATOR',1)
-          expect_reject('old_builder_gen0_stale_rejected',lambda:authorize_worker_action(registry,'LCR-B','ONLINE-LIDIYA-BUILDER',0))
-          expect_reject('secondary_wrong_generation_rejected',lambda:authorize_worker_action(registry,'LCR-B','ONLINE-LIDIYA-SECONDARY-INTEGRATOR',0))
-          result['checks']['roster_and_generation']='PASS'
-
-          # Handoff integrity, explicit action/auth and historical state binding.
-          handoff_sha=canonical_sha(handoff,'handoff_sha256')
-          assert handoff_sha==handoff['handoff_sha256']=='e6167f892a39df57156655ac014bb46ae5935272cd2ae153a85674e84df03f62'
-          assert handoff['action']=='SAME_SLOT_DURABLE_HANDOFF'
-          assert handoff['authorization_ref']==state['authorization_ref']=='authorizations/LCR-METABOLISM-0003-STAGE2.json'
-          assert (handoff['slot'],handoff['from'],handoff['to'],handoff['generation'])==('LCR-B','ONLINE-LIDIYA-BUILDER','ONLINE-LIDIYA-SECONDARY-INTEGRATOR',1)
-          historical={'mission_id':'LCR-METABOLISM-0003','status':'COORDINATING','step_id':4,'current_role':'LCR-A','pending_packet':None,'pending_packet_sha256':None,'lease':None}
-          fp=durable_state_fingerprint(historical)
-          assert fp==handoff['state_fingerprint']=='048132a0065d984567556decbe2887cb630b0ceca75142cecdc26ed5a8f967a1'
-          tampered=dict(handoff); tampered['to']='ATTACKER'; assert canonical_sha(tampered,'handoff_sha256')!=handoff['handoff_sha256']
-          tampered=dict(handoff); tampered['authorization_ref']='authorizations/forged.json'; assert canonical_sha(tampered,'handoff_sha256')!=handoff['handoff_sha256']
-          result['checks']['handoff_integrity_and_historical_binding']='PASS'
-
-          # Independent no-candidate-change check: exact control code blobs remain at STEP-003 C-verified values.
-          for path,expected in step3_c['exact_branch_blobs'].items():
-              actual=subprocess.check_output(['git','hash-object',path],text=True).strip(); assert actual==expected,(path,actual,expected)
-          result['checks']['candidate_code_unchanged_since_step3_c_pass']='PASS'
-
-          # Cross-check compact B/A evidence without promoting Builder self-report to verdict.
-          assert b_evidence['worker_id']=='ONLINE-LIDIYA-SECONDARY-INTEGRATOR' and b_evidence['generation']==1
-          assert b_evidence['handoff_sha256']==handoff_sha and b_evidence['self_authorized'] is True and b_evidence['old_worker_stale_rejected'] is True
-          assert b_evidence['formal_slot_count']==3 and b_evidence['candidate_code_modified'] is False and b_evidence['main_modified'] is False and b_evidence['full_backup_created'] is False and b_evidence['secret_values_recorded'] is False
-          assert a_evidence['platform']['automation_id']=='6a7ac8d3dc70819185c9aab17d4da0e0'
-          assert a_evidence['platform']['same_platform_task_reused'] is True and a_evidence['platform']['new_task_created_for_replacement'] is False
-          assert a_evidence['formal_slot_count_before']==a_evidence['formal_slot_count_after']==3 and a_evidence['fourth_slot_created'] is False and a_evidence['full_backup_created'] is False
-          result['checks']['activation_and_platform_reuse_evidence']='PASS'
-
-          result['verdict']='PASS'
-          Path('lcr-0003-step4-hosted-c-evidence.json').write_text(json.dumps(result,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf-8')
-          print(json.dumps(result,ensure_ascii=False,sort_keys=True))
+          b={
+            'schema_version':'1.0','mission_id':'LCR-METABOLISM-0003','step_id':5,'role':'LCR-B',
+            'worker_id':'ONLINE-LIDIYA-SECONDARY-INTEGRATOR','generation':1,'a_start_sha256':a_sha,
+            'request_sha256':a['request_sha256'],'report':report,'third_backup_rejected':third_backup_rejected,
+            'safe_fixture_physically_deleted':True,'unique_fixture_survived':True,'secret_like_fixture_survived':True,
+            'recovery_baseline_fixture_survived':True,'secret_value_recorded':False,'real_user_data_touched':False,
+            'repository_write_permission':False,'result':'BUILT_NOT_VERIFIED'
+          }
+          b_sha=hashlib.sha256(json.dumps(b,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest(); b['b_artifact_sha256']=b_sha
+          Path('../../lcr-step5-b-cleanup.json').write_text(json.dumps(b,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps({'result':b['result'],'b_artifact_sha256':b_sha,'deleted':report['deleted'],'third_backup_rejected':True},sort_keys=True))
           PY
 
-      - name: Upload STEP-004 hosted C Reality evidence
-        if: needs.lcr-a-router.outputs.active_role == 'LCR-C' && needs.lcr-a-router.outputs.step_id == '4' && always()
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: lcr-0003-step4-hosted-c-evidence
-          path: missions/LIDIYA-CLOUD-RELAY-V2/lcr-0003-step4-hosted-c-evidence.json
+          name: lcr-step5-b-cleanup
+          path: lcr-step5-b-cleanup.json
+          if-no-files-found: error
+          retention-days: 2
+
+  lcr-c-independent-verify:
+    name: LCR-C Guardian Independent Verify
+    needs: [lcr-a-start, lcr-b-secondary-cleanup]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_CANDIDATE_REF }}
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: lcr-step5-a-start
+      - uses: actions/download-artifact@v4
+        with:
+          name: lcr-step5-b-cleanup
+      - name: Independently reproduce and verify cleanup
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+        run: |
+          PYTHONPATH=. python - <<'PY'
+          import hashlib, json, tempfile
+          from pathlib import Path
+          from metabolism_guard import Artifact, GuardRejected, cleanup_fixture, validate_backup_groups
+
+          a=json.loads(Path('../../lcr-step5-a-start.json').read_text(encoding='utf-8'))
+          b=json.loads(Path('../../lcr-step5-b-cleanup.json').read_text(encoding='utf-8'))
+          b_payload=dict(b); b_sha=b_payload.pop('b_artifact_sha256')
+          assert hashlib.sha256(json.dumps(b_payload,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()==b_sha
+          assert b['result']=='BUILT_NOT_VERIFIED' and b['worker_id']=='ONLINE-LIDIYA-SECONDARY-INTEGRATOR' and b['generation']==1
+          assert b['request_sha256']==a['request_sha256']=='dfecdb8cefa73461739a0f46740862eabf5897a8d5bb361e68f1eff913b84f9c'
+          assert b['safe_fixture_physically_deleted'] and b['unique_fixture_survived'] and b['secret_like_fixture_survived'] and b['recovery_baseline_fixture_survived']
+          assert b['third_backup_rejected'] and not b['secret_value_recorded'] and not b['real_user_data_touched']
+          assert 'DO-NOT-LOG-SECRET-FIXTURE' not in json.dumps(b,ensure_ascii=False)
+
+          third_backup_rejected=False
+          try:
+              validate_backup_groups({'RECOVERY_BASELINE':'READ_ONLY','WORKING_EXCHANGE':'MUTABLE_COLLABORATION','EXTRA':'MUTABLE_COLLABORATION'})
+          except GuardRejected:
+              third_backup_rejected=True
+          assert third_backup_rejected
+
+          with tempfile.TemporaryDirectory() as tmp:
+              root=Path(tmp); (root/'scratch').mkdir(); (root/'recovery_baseline').mkdir()
+              (root/'scratch/safe.tmp').write_text('disposable-fixture',encoding='utf-8')
+              (root/'scratch/unique.tmp').write_text('human-value-fixture',encoding='utf-8')
+              (root/'scratch/api_token.tmp').write_text('DO-NOT-LOG-SECRET-FIXTURE',encoding='utf-8')
+              (root/'recovery_baseline/core.snapshot').write_text('rollback-anchor-fixture',encoding='utf-8')
+              artifacts=[
+                Artifact('scratch/safe.tmp','stage_scratch',reproducible=True,recovery_ok=True),
+                Artifact('scratch/unique.tmp','stage_scratch',unique=True,human_created=True,reproducible=True,recovery_ok=True),
+                Artifact('scratch/api_token.tmp','stage_scratch',reproducible=True,recovery_ok=True),
+                Artifact('recovery_baseline/core.snapshot','stage_scratch',reproducible=True,recovery_ok=True,protected=True),
+              ]
+              independent=cleanup_fixture(root,artifacts,apply=True)
+              assert independent['report_sha256']==b['report']['report_sha256']
+              assert independent['before_manifest_sha256']==b['report']['before_manifest_sha256']
+              assert independent['after_manifest_sha256']==b['report']['after_manifest_sha256']
+              assert not (root/'scratch/safe.tmp').exists()
+              assert (root/'scratch/unique.tmp').exists() and (root/'scratch/api_token.tmp').exists() and (root/'recovery_baseline/core.snapshot').exists()
+              assert 'DO-NOT-LOG-SECRET-FIXTURE' not in json.dumps(independent,ensure_ascii=False)
+
+          c={
+            'schema_version':'1.0','mission_id':'LCR-METABOLISM-0003','step_id':5,'role':'LCR-C',
+            'worker_id':'ONLINE-LIDIYA-GUARDIAN-VERIFIER','generation':0,'request_sha256':a['request_sha256'],
+            'b_artifact_sha256':b_sha,'independent_report_sha256':independent['report_sha256'],
+            'safe_deletion_reproduced':True,'protected_survival_reproduced':True,'third_backup_rejected':True,
+            'secret_value_recorded':False,'repository_write_permission':False,'verdict':'PASS'
+          }
+          c_sha=hashlib.sha256(json.dumps(c,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest(); c['c_artifact_sha256']=c_sha
+          Path('../../lcr-step5-c-verify.json').write_text(json.dumps(c,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps({'verdict':'PASS','c_artifact_sha256':c_sha,'b_artifact_sha256':b_sha},sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lcr-step5-c-verify
+          path: lcr-step5-c-verify.json
+          if-no-files-found: error
+          retention-days: 2
+
+  lcr-a-finish:
+    name: LCR-A Coordinator Finish
+    needs: [lcr-a-start, lcr-b-secondary-cleanup, lcr-c-independent-verify]
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: lcr-step5-a-start
+      - uses: actions/download-artifact@v4
+        with:
+          name: lcr-step5-b-cleanup
+      - uses: actions/download-artifact@v4
+        with:
+          name: lcr-step5-c-verify
+      - name: Accept only independent C PASS and close cloud proof
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          a=json.loads(Path('lcr-step5-a-start.json').read_text(encoding='utf-8'))
+          b=json.loads(Path('lcr-step5-b-cleanup.json').read_text(encoding='utf-8'))
+          c=json.loads(Path('lcr-step5-c-verify.json').read_text(encoding='utf-8'))
+          bp=dict(b); b_claim=bp.pop('b_artifact_sha256'); b_actual=hashlib.sha256(json.dumps(bp,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest(); assert b_claim==b_actual
+          cp=dict(c); c_claim=cp.pop('c_artifact_sha256'); c_actual=hashlib.sha256(json.dumps(cp,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest(); assert c_claim==c_actual
+          assert c['verdict']=='PASS' and c['b_artifact_sha256']==b_actual
+          assert a['request_sha256']==b['request_sha256']==c['request_sha256']=='dfecdb8cefa73461739a0f46740862eabf5897a8d5bb361e68f1eff913b84f9c'
+          final={
+            'schema_version':'1.0','mission_id':'LCR-METABOLISM-0003','step_id':5,
+            'evidence_type':'REAL_GITHUB_CLOUD_A_B_C_A_CLEANUP_ROUNDTRIP','github_run_id':os.environ['GITHUB_RUN_ID'],'github_sha':os.environ['GITHUB_SHA'],
+            'role_chain':['LCR-A','LCR-B','LCR-C','LCR-A'],'b_worker':'ONLINE-LIDIYA-SECONDARY-INTEGRATOR','b_generation':1,
+            'c_worker':'ONLINE-LIDIYA-GUARDIAN-VERIFIER','c_generation':0,'request_sha256':a['request_sha256'],
+            'a_start_sha256':a['a_start_sha256'],'b_artifact_sha256':b_actual,'c_artifact_sha256':c_actual,
+            'safe_fixture_physically_deleted':True,'independent_c_reproduction':True,'protected_fixtures_survived':True,'third_full_backup_rejected':True,
+            'repository_write_permission':False,'real_user_data_touched':False,'secret_values_recorded':False,'result':'PASS'
+          }
+          final_sha=hashlib.sha256(json.dumps(final,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest(); final['final_evidence_sha256']=final_sha
+          Path('lcr-step5-roundtrip-final.json').write_text(json.dumps(final,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(final,ensure_ascii=False,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lcr-step5-roundtrip-final
+          path: lcr-step5-roundtrip-final.json
           if-no-files-found: error
           retention-days: 2
