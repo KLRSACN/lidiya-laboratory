@@ -7,28 +7,32 @@
 ## Current authoritative mirror
 
 - Mission: `LCR-METABOLISM-0003`
-- Step: `3`, attempt: `0`
-- State: `READY_FOR_BUILDER`
-- Current role: `LCR-B / METABOLISM_WORKER`
-- Pending packet: `packets/METABOLISM-0003-A-TO-B-STEP-003.json`
-- Pending packet SHA-256: `c0529834b8b6c801acba5721a38bcb84d33581c1c5a90c5b7ff4d7fc71909018`
-- Last verified handoff: STEP-002 C PASS at `2026-08-12 01:23:45 Asia/Taipei`
+- Step: `3`, attempt: `2`
+- State: `READY_FOR_VERIFY`
+- Current role: `LCR-C / GUARDIAN_VERIFIER`
+- Pending packet: `packets/METABOLISM-0003-B-TO-C-STEP-003-REPAIR-001.json`
+- Pending packet SHA-256: `b6ff4b05080636b6565676dcbeb8888970b90cf60ed7165cc06eef9c8a53b1ab`
+- Builder repair handoff: `2026-08-12 01:46:00 Asia/Taipei`
+- Builder Evidence: `evidence/METABOLISM-0003-STEP-003-BUILDER-REPAIR-001.json`
+- Builder result: `BUILT_NOT_VERIFIED`
 - Branch: `lidiya-cloud-relay-v2`
 - Max formal slots: `3`; full-backup maximum: `2`
 - Recovery baseline: `READ_ONLY`; Working exchange: `MUTABLE_COLLABORATION`; third full backup: `FORBIDDEN`
 
-## STEP-003 objective
+## STEP-003 repair candidate
 
-Machine-enforce the continuous-control rules requested for the Golden Triangle:
+C previously failed the first STEP-003 candidate because same-slot takeover did not require an explicit handoff action marker and authorization was only a caller-supplied boolean.
 
-1. Formal roster is exactly `LCR-A / LCR-B / LCR-C`; slot 4 is rejected.
-2. A new authorized worker/window may replace B or C only through `SAME_SLOT_DURABLE_HANDOFF` with generation + durable-state fingerprint; the former worker becomes stale and cannot act afterward.
-3. Incoming owner/user/collaborator control input must not reset `mission_id / status / step / current_role / pending packet/hash / lease`.
-4. Durable control-input records keep metadata/fingerprint only; the raw message body is not persisted as control-state truth.
-5. Primary control-console self-metabolism is limited to controllable external relay/workspace metadata. Compact durable output keeps current Mission, latest verified Evidence pointer, pending packet/hash, Lease, rollback, blocker and root-cause lesson; raw chat, duplicate self-reports, stale panels and raw logs are excluded.
-6. Hidden model/system state is not a cleanup target. Secrets, protected evidence, rollback/stable, durable-referenced, unique human work, unreproducible material, Identity/Personality/Governance and ambiguous provenance fail closed.
+B repaired only `continuous_control.py` + `test_continuous_control.py`:
 
-Builder scope is only `continuous_control.py` + `test_continuous_control.py`. B may return only `BUILT_NOT_VERIFIED`; independent C verification is mandatory.
+1. Handoff now requires explicit action exactly `SAME_SLOT_DURABLE_HANDOFF`.
+2. Handoff `authorization_ref` must equal an independently supplied trusted durable authorization reference; bare `authorized=true` has no authority.
+3. Missing/wrong action, forged bare boolean, missing/wrong authorization reference, bad state fingerprint, stale former worker and slot 4 are fail-closed.
+4. Owner/user/collaborator input still cannot reset durable mission-control fields and raw body is not persisted.
+5. Compact control truth still excludes raw chat/log/stale panels/duplicate self-reports.
+6. External self-metabolism remains limited to allowlisted reproducible relay/workspace artifacts; protected/secret/hidden model/governance material quarantines.
+
+Builder reproducible checks: `py_compile PASS`, `unittest 17/17 PASS`; exact local Git blob hashes match branch blobs. Independent C verification is now mandatory.
 
 ## Platform wake / worker proof
 
