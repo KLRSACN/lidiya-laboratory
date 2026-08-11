@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 3,
+  "attempt": 1,
+  "role": "LCR-C",
+  "result": "FAIL",
+  "verified_at_taipei": "2026-08-12T01:39:14+08:00",
+  "inbound_packet": "packets/METABOLISM-0003-B-TO-C-STEP-003.json",
+  "inbound_packet_sha256": "bb601c432e9de34c67527479818f854f60be53e06f2c8e2e40823b5ddc10ed67",
+  "packet_hash_recomputed": true,
+  "exact_candidate_blobs": {
+    "continuous_control.py": "3385391f3884074a15f12cc695a51d3f19a88883",
+    "test_continuous_control.py": "ccb2000f9be7cb1713f10e01d5e9923391cf046f"
+  },
+  "checks": {
+    "formal_slots_static": "PASS",
+    "slot4_rejection_static": "PASS",
+    "generation_binding_static": "PASS",
+    "state_fingerprint_binding_static": "PASS",
+    "stale_worker_rejection_static": "PASS",
+    "owner_control_fields_preserved_static": "PASS",
+    "raw_body_not_persisted_static": "PASS",
+    "compact_snapshot_excludes_noise_static": "PASS",
+    "self_clear_fail_closed_static": "PASS",
+    "explicit_same_slot_handoff_marker_required": "FAIL",
+    "authorization_bound_to_durable_authority": "FAIL"
+  },
+  "verifier_owned_regression": {
+    "scenario": "READY_FOR_VERIFY owner control body requests reset/stop",
+    "result": "PASS_BY_EXACT_CODE_REVIEW",
+    "reason": "record_control_input ignores control-input mission-control overrides, preserves protected fields, and persists only source/kind/received_at/body_sha256 metadata; raw body is not stored"
+  },
+  "root_causes": [
+    "same_slot_durable_handoff does not require an explicit SAME_SLOT_DURABLE_HANDOFF action/type marker; a mapping with matching fields is accepted without proving handoff intent",
+    "handoff authorization is only a caller-supplied boolean authorized=true and is not bound to an authorization identity/reference, so the acceptance requirement for authorization is not independently enforceable"
+  ],
+  "repair_acceptance": [
+    "require explicit handoff action/type exactly SAME_SLOT_DURABLE_HANDOFF",
+    "bind authorization to a durable authorization reference or verifier-checkable authorization identity, not a bare boolean",
+    "add negative tests proving missing/wrong action and forged bare authorized=true are rejected",
+    "retain generation and durable-state fingerprint binding, stale-worker rejection, owner-input non-reset behavior, compact snapshot, and self-metabolism fail-closed guards"
+  ],
+  "builder_candidate_modified_by_verifier": false,
+  "verdict": "FAIL"
+}
