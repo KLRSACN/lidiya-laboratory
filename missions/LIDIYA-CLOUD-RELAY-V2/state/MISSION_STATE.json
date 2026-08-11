@@ -2,16 +2,21 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "READY_FOR_BUILDER",
+  "status": "BUILDING",
   "step_id": 2,
   "attempt": 0,
   "current_role": "LCR-B",
   "next_role": "LCR-B",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
-  "last_packet_sha256": "eccc6d7323527d6c64a14815c24fca8f60d1ecb6ca40ec6190e9354f24b0f85c",
-  "pending_packet": "packets/AUTONOMY-0002-STEP-002-A-TO-B.json",
-  "lease": null,
+  "last_packet_sha256": "c3f971b55a6a1b0ac2a6b6b183e62b9ee36503bac59148721539dc7e8006946a",
+  "pending_packet": null,
+  "lease": {
+    "role": "LCR-B",
+    "owner": "LCR-B-CHATGPT-20260811T1722+08",
+    "claimed_at": "2026-08-11T09:22:09+00:00",
+    "expires_at": "2026-08-11T09:37:09+00:00"
+  },
   "human_gate": null,
   "deferred_human_gate": {
     "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
@@ -37,7 +42,8 @@
     "STEP_DONE",
     "HUMAN_GATE",
     "COORDINATING",
-    "READY_FOR_BUILDER"
+    "READY_FOR_BUILDER",
+    "BUILDING"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
@@ -49,7 +55,7 @@
   "coordinator_evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
   "cloud_activation": {
     "chatgpt_hourly_controller": "PAUSED_DURING_STEP_002_BUILD",
-    "github_state_ci": "REPAIR_VERIFIED; AUTONOMY_SIGNAL_STEP_ASSIGNED",
+    "github_state_ci": "REPAIR_VERIFIED; AUTONOMY_SIGNAL_BUILDING",
     "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
