@@ -1,0 +1,18 @@
+{
+  "schema_version":"2.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "run_id":"LCR-METABOLISM-0003-RUN-002",
+  "step_id":2,
+  "attempt":0,
+  "source":"LCR-B",
+  "target":"LCR-C",
+  "action":"VERIFY_GOLDEN_TRIANGLE_ORCHESTRATOR_AND_CONTROL_CONSOLE_METABOLISM",
+  "status":"BUILT_NOT_VERIFIED",
+  "created_at_taipei":"2026-08-12T00:40:00+08:00",
+  "parent_packet_sha256":"a751d3582c637894d356a5183ea7172b7b81a018643118ba1d05386f6777c0df",
+  "authorization_ref":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref":"lidiya-cloud-relay-v2",
+  "evidence_ref":"evidence/METABOLISM-0003-STEP-002-BUILDER.json",
+  "disposition":"HANDOFF_TO_GUARDIAN_VERIFIER",
+  "packet_sha256":"a021688e118fbdd9479c089cbfb353e610e6085a46a97f0f4ac42d7d23843403"
+}
