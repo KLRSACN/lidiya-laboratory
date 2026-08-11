@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "step_id": 1,
+  "role": "LCR-C",
+  "verdict": "FAIL",
+  "verified_at": "2026-08-11T08:00:28+00:00",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "input_packet": "packets/AUTONOMY-0002-STEP-001-B-TO-C.json",
+  "input_packet_sha256": "486263d0de5dafd15886c61ec50c5044a606c15a135c87bd64484dd4a79d54e6",
+  "checks": {
+    "authorization_scope_valid": true,
+    "workflow_branch_scoped": true,
+    "workflow_contents_read_only": true,
+    "workflow_has_no_model_or_secret_invocation": true,
+    "compile_and_unit_tests_remain_required": true,
+    "independent_compile_pass": true,
+    "independent_unit_tests_pass": true,
+    "independent_unit_test_count": 9,
+    "actual_actions_artifact_observed": false,
+    "packet_consumption_invariant_valid": false,
+    "main_modified": false,
+    "identity_or_governance_modified": false,
+    "credentials_handled": false
+  },
+  "failure": {
+    "type": "STATE_INTEGRITY_DUPLICATE_SEMANTICS",
+    "observed": "MISSION_STATE.pending_packet points to AUTONOMY-0002-STEP-001-B-TO-C.json while MISSION_STATE.last_packet_sha256 already equals that pending packet's packet_sha256.",
+    "impact": "cloud_relay_state.consume_once() rejects any packet whose hash already equals state.last_packet_sha256, so LCR-C cannot consume the pending B→C packet once; it appears duplicated before recipient consumption.",
+    "required_repair": "Keep last_packet_sha256 as the last successfully consumed inbound packet. Do not set it to a newly emitted outbound pending packet. Add a regression test proving recipient first-consume succeeds and replay fails only after consumption."
+  },
+  "reality_checks": [
+    "python -m py_compile cloud_relay_state.py => PASS",
+    "python -m unittest -v test_cloud_relay_state.py => 9 tests PASS",
+    "GitHub commit workflow-run lookup for candidate commit returned no observable run through the available PR-filtered workflow-run connector",
+    "GitHub combined commit statuses returned no statuses"
+  ],
+  "next_target": "LCR-B",
+  "lesson": "Packet identity must distinguish emitted/pending from consumed. Reusing last_packet_sha256 for an outbound packet causes false duplicate detection at the next worker.",
+  "disposable_traces": "local verifier scratch only; do not retain"
+}
