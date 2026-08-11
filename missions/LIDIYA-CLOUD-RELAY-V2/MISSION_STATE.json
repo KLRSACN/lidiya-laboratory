@@ -1,0 +1,13 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-V2-ROUNDTRIP-0001",
+  "project": "LIDIYA-CLOUD-RELAY-V2",
+  "state": "READY",
+  "phase": "ROUNDTRIP_BOOTSTRAP",
+  "current_slot": "LCR-A",
+  "next_slot": "LCR-B",
+  "step": 1,
+  "goal": "Prove START -> A -> B -> C -> A -> MISSION_DONE without a second human message.",
+  "requires_boxuan_approval": false,
+  "last_verified_step": 0
+}
