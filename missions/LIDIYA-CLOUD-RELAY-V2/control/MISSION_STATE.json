@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "mission_id": "LCR-V2-ROUNDTRIP-0001",
+  "branch": "cloud-relay-v2",
+  "status": "WAITING_START",
+  "current_step_id": 1,
+  "current_owner": "LCR-A",
+  "last_verified_step_id": 0,
+  "last_packet_id": null,
+  "project_done": false,
+  "blocked": false,
+  "requires_boxuan_approval": false,
+  "updated_at": "2026-08-11T15:05:00+08:00",
+  "next_action": "LCR-A consumes control/START.json and emits queue/A_TO_B.json"
+}
