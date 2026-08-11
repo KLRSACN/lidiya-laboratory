@@ -3,7 +3,7 @@
   "start_token": "START-CLOUD-RELAY-V2-20260811-1529",
   "mission_id": "CLOUD-RELAY-V2-ROUNDTRIP-0001",
   "mode": "CLOUD",
-  "status": "START_REQUESTED",
+  "status": "CONSUMED",
   "human_reentry_required": false,
   "auto_next_low_risk_mission": true,
   "safety": {
@@ -13,5 +13,7 @@
     "no_secrets": true,
     "high_risk_requires_boxuan": true
   },
-  "requested_at": "2026-08-11T15:29:00+08:00"
+  "requested_at": "2026-08-11T15:29:00+08:00",
+  "consumed_at": "2026-08-11T15:30:00+08:00",
+  "consumed_by": "LCR-A-COORDINATOR"
 }
