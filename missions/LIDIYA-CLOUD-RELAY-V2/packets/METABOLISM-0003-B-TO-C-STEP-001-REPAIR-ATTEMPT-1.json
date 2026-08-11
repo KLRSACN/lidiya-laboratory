@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "run_id": "LCR-METABOLISM-0003-RUN-001",
+  "step_id": 1,
+  "attempt": 1,
+  "source": "LCR-B",
+  "target": "LCR-C",
+  "action": "VERIFY_REPLAY_SAFETY_REPAIR",
+  "status": "READY_FOR_VERIFY",
+  "created_at_taipei": "2026-08-11T23:05:10+08:00",
+  "parent_packet_sha256": "c19cb136bc965809dde3a29935f7f7950ca5aecc9336ad1d5868a8166b347bf1",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/METABOLISM-0003-STEP-001-BUILDER-REPAIR-ATTEMPT-1.json",
+  "builder_result": "BUILT_NOT_VERIFIED",
+  "task": {
+    "repair": ["bounded consumed packet SHA history (64)", "legacy last_packet migration", "non-adjacent replay rejection", "symlink escape regression"],
+    "verification_required": ["consume P1, consume P2, replay P1 => RelayStateError", "run relay + metabolism guard regression suite", "independently inspect exact branch bytes"]
+  },
+  "deadline_taipei": "2026-08-13T20:00:00+08:00",
+  "disposition": "HANDOFF_TO_GUARDIAN",
+  "packet_sha256": "8201b111e22ed17ee1bbf3e6ca3250e8c551e98c221f962d56dd79708e9689db"
+}
