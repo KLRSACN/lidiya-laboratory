@@ -2,16 +2,20 @@
   "schema_version": "2.0",
   "mission_id": "LCR-ROUNDTRIP-0001",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "READY_FOR_VERIFY",
+  "status": "VERIFYING",
   "step_id": 1,
   "attempt": 0,
   "current_role": "LCR-C",
-  "next_role": "LCR-C",
+  "next_role": "LCR-A",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
   "last_packet_sha256": "3f5d5c92776f63c5894c0625a8f5e33dcd4be4fb69bf14152771146ebc5e9228",
   "pending_packet": "packets/STEP-001-B-TO-C.json",
-  "lease": null,
+  "lease": {
+    "owner": "AUTOMATION-LCR-C-20260811T0158Z",
+    "role": "LCR-C",
+    "expires_at": "2026-08-11T02:13:04+00:00"
+  },
   "human_gate": null,
   "cloud_activation": {
     "chatgpt_hourly_controller": "ENABLED",
