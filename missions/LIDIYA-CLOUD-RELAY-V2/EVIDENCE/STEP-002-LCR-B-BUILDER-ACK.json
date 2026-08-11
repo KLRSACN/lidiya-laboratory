@@ -1,0 +1,8 @@
+{
+  "mission_id": "LCR-V2-ROUNDTRIP-0001",
+  "slot": "LCR-B",
+  "input_packet_id": "LCR-V2-ROUNDTRIP-0001-STEP-001",
+  "result": "BUILDER_ACK",
+  "handoff_target": "LCR-C",
+  "expected_next_response": "VERIFIER_PASS"
+}
