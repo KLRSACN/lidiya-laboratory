@@ -1,27 +1,40 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-AUTONOMY-0002",
   "evidence_type": "activation_failure_nutrition",
-  "workflow_run_id": 31482474187,
-  "workflow_run_conclusion": "failure",
-  "failed_role": "LCR-A",
-  "failed_job_id": 93750349768,
+  "runs": [
+    {
+      "workflow_run_id": 31482474187,
+      "failed_job_id": 93750349768,
+      "failed_role": "LCR-A",
+      "transport": "manual GitHub Models REST",
+      "http_status": 410
+    },
+    {
+      "workflow_run_id": 31482643034,
+      "failed_job_id": 93750868570,
+      "failed_role": "LCR-A",
+      "transport": "actions/ai-inference@v2.1.1 using GitHub Models",
+      "http_status": 410,
+      "platform_message": "GitHub Models is temporarily unavailable as part of a scheduled retirement brownout."
+    }
+  ],
   "authorization_validation": "PASS",
   "observed_token_permissions": {
     "contents": "read",
     "models": "read"
   },
-  "failure": {
-    "step": "LCR-A cloud model authentication proof",
-    "http_status": 410,
-    "root_cause_class": "manual GitHub Models REST invocation incompatible with current runtime endpoint behavior",
+  "root_cause": {
+    "class": "UPSTREAM_SERVICE_RETIRED",
+    "service": "GitHub Models",
+    "official_retirement_date": "2026-07-30",
     "secret_exposed": false
   },
   "repair": {
     "main_file": ".github/workflows/lcr-cloud-launcher.yml",
-    "strategy": "replace manual REST inference calls with GitHub-maintained actions/ai-inference@v2.1.1 while preserving models: read and role separation",
-    "main_commit": "b85e316234343dde31ddaa0594f243448c6dfb1e"
+    "strategy": "migrate the activation proof to GitHub Copilot CLI with ephemeral GITHUB_TOKEN and copilot-requests: write; do not grant repository write permissions",
+    "main_commit": "7f7cf057a496ed16498b374ded47007443e979f0"
   },
-  "lesson": "Authentication permission and inference transport are separate concerns. Prove token permissions from runner logs, retain the failure, and prefer GitHub's maintained inference action over a hand-coded endpoint when the platform API changes.",
-  "disposition": "retain_minimal_failure_lesson"
+  "lesson": "Do not repeatedly repair client code when independent transports return the same platform retirement signal. Treat the upstream service as obsolete, retain one failure lesson, and migrate to the vendor-supported successor without carrying deprecated assumptions forward.",
+  "disposition": "retain_minimal_failure_lesson; raw failed-run scratch remains disposable"
 }
