@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "READY_FOR_BUILDER",
+  "status": "BUILDING",
   "step_id": 1,
   "attempt": 0,
   "current_role": "LCR-B",
@@ -11,13 +11,19 @@
   "stable_ref": "nav-relay-mvp-0001",
   "last_packet_sha256": "c0cf8b968c7a1bd7d4be664e5969227282c8037f8a699254310a78e34c96907d",
   "pending_packet": "packets/AUTONOMY-0002-STEP-001-A-TO-B.json",
-  "lease": null,
+  "lease": {
+    "role": "LCR-B",
+    "owner": "LCR-B-CHATGPT-20260811T1508+08",
+    "claimed_at": "2026-08-11T07:08:00+00:00",
+    "expires_at": "2026-08-11T07:23:00+00:00"
+  },
   "human_gate": null,
   "mission_result": null,
   "transition_path": [
     "IDLE",
     "COORDINATING",
-    "READY_FOR_BUILDER"
+    "READY_FOR_BUILDER",
+    "BUILDING"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
