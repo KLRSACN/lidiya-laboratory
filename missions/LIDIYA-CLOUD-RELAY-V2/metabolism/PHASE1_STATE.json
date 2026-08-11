@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-PHASE1-0003",
+  "status": "IN_PROGRESS",
+  "owner_role": "METABOLIC_MAINTAINER",
+  "authorization": {
+    "authorized_by": "Boxuan",
+    "authorized_at": "2026-08-11T18:47:00+08:00",
+    "scope": "autonomous discussion and cleanup of disposable candidate/sandbox/CI development waste",
+    "main_or_canonical_delete_authorized": false,
+    "high_risk_boundaries_unchanged": true
+  },
+  "completed": [
+    "METABOLIC_POLICY_CREATED",
+    "FAIL_CLOSED_CLEANUP_ENGINE_CREATED",
+    "SANDBOX_TESTS_LOCAL_8_PASS",
+    "ALLOWLISTED_SANDBOX_FILE_ACTUALLY_DELETED_IN_TEST",
+    "PROTECTED_PATH_RETENTION_TESTED",
+    "TRAVERSAL_AND_SYMLINK_ESCAPE_REFUSAL_TESTED",
+    "SECRET_LIKE_PATH_NO_HASH_NO_DELETE_TESTED",
+    "CANDIDATE_CI_WIRED_TO_METABOLISM"
+  ],
+  "pending": [
+    "CANDIDATE_GITHUB_CI_REALITY_PASS",
+    "PHASE1_METABOLIC_CLOSURE"
+  ],
+  "cleanup_mode": "DRY_RUN_DEFAULT_APPLY_ALLOWLIST_ONLY",
+  "active_cleanup_lease": null,
+  "pending_cleanup_manifest": null,
+  "rollback": {
+    "branch": "lidiya-cloud-relay-v2",
+    "recoverability": "Git history for candidate code; provider TTL for Actions artifacts",
+    "main_modified_by_phase1": false
+  },
+  "next_step": "Obtain and independently read back candidate GitHub CI PASS for metabolism tests, then close Phase 1 if no orphan cleanup/lease remains."
+}
