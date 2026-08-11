@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "LCR-AUTONOMY-0002-RUN-001",
+  "step_id": 1,
+  "attempt": 0,
+  "source_role": "LCR-B",
+  "target_role": "LCR-C",
+  "status": "READY_FOR_VERIFY",
+  "parent_packet_sha256": "c0cf8b968c7a1bd7d4be664e5969227282c8037f8a699254310a78e34c96907d",
+  "created_at": "2026-08-11T07:09:00+00:00",
+  "lease_owner": "LCR-B-CHATGPT-20260811T1508+08",
+  "lease_expires_at": "2026-08-11T07:23:00+00:00",
+  "task": "Independently verify the development-branch LCR CI evidence change. Confirm workflow scope/permissions, ensure required compile and unit tests still govern job failure, and verify an actual GitHub Actions run produces the machine-readable evidence artifact with the required fields and no secrets. Do not trust Builder self-report.",
+  "acceptance": [
+    "Verifier independently reads .github/workflows/lcr-state-tests.yml from lidiya-cloud-relay-v2",
+    "Workflow remains branch-scoped to lidiya-cloud-relay-v2 with contents: read and no credential/model invocation",
+    "Compile and relay state unit tests remain required; failed compile/test must still fail the job",
+    "Actual GitHub Actions evidence for the candidate commit or a subsequent evidence-only branch commit is inspected; artifact contains commit SHA, ref/ref_name, test command, compile/test outcomes, and overall PASS/FAIL",
+    "No main write, deployment, Identity Kernel/personality/governance change, or credential handling occurred",
+    "Return PASS/FAIL/DEFER/HUMAN_GATE only; do not perform Builder repair in the same verifier turn"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [
+    {
+      "type": "authorization",
+      "ref": "authorizations/LCR-AUTONOMY-0002-L2.json"
+    },
+    {
+      "type": "builder_evidence",
+      "ref": "evidence/AUTONOMY-0002-STEP-001-BUILDER.json"
+    },
+    {
+      "type": "candidate_commit",
+      "ref": "9427943cc5b6a996755cc534ca95b4476c4e0850"
+    }
+  ],
+  "result": "BUILT_NOT_VERIFIED",
+  "lesson": "Machine-readable CI evidence was added without granting repository write permission or handling credentials.",
+  "disposition": "candidate",
+  "packet_sha256": "486263d0de5dafd15886c61ec50c5044a606c15a135c87bd64484dd4a79d54e6"
+}
