@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 2,
+  "role": "LCR-A",
+  "result": "VERIFIED_RESULT_ABSORBED",
+  "absorbed_at_taipei": "2026-08-12T01:28:00+08:00",
+  "verifier_evidence": "evidence/METABOLISM-0003-STEP-002-VERIFIER-PASS-REPAIR-001.json",
+  "verifier_packet": "packets/METABOLISM-0003-C-TO-A-STEP-002-PASS-REPAIR-001.json",
+  "verifier_packet_sha256": "ec02591cfb1ab563bf60fbcc3ca2ca51031067e46be74b5c9a55b5fd0e512483",
+  "absorbed_facts": [
+    "packet canonical SHA must be derived from packet content",
+    "mutated packet with stale claimed hash is rejected",
+    "exact next pending packet path/hash is durable restart state",
+    "non-adjacent replay is rejected",
+    "formal slots are exactly A/B/C and third full backup is rejected",
+    "STEP-002 repair passed independent C verification"
+  ],
+  "raw_worksite_absorbed": false,
+  "raw_runner_logs_retained": false,
+  "secret_values_recorded": false,
+  "main_modified": false,
+  "rollback_anchor": "nav-relay-mvp-0001",
+  "next_step": 3
+}
