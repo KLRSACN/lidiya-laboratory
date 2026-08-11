@@ -1,0 +1,56 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "LCR-AUTONOMY-0002-RUN-002",
+  "step_id": 2,
+  "attempt": 0,
+  "source_role": "LCR-B",
+  "target_role": "LCR-C",
+  "status": "READY_FOR_VERIFY",
+  "parent_packet_sha256": "c3f971b55a6a1b0ac2a6b6b183e62b9ee36503bac59148721539dc7e8006946a",
+  "created_at": "2026-08-11T09:29:00+00:00",
+  "lease_owner": "LCR-B-CHATGPT-20260811T1722+08",
+  "lease_expires_at": "2026-08-11T09:37:09+00:00",
+  "task": "Independently verify the branch-local Autonomy Signal generator, its deterministic next-issue/progress behavior, generated JSON/Markdown signal, and read-only branch CI integration. Do not trust Builder self-report. This step can PASS without claiming full cloud-agent activation; the deferred activation gate must remain visible.",
+  "acceptance": [
+    "Verifier independently reads autonomy_signal.py, test_autonomy_signal.py, the generated signal files, and .github/workflows/lcr-state-tests.yml from lidiya-cloud-relay-v2",
+    "Recompute the generated signal from an equivalent current-state snapshot and confirm next_issue dedupe_key and signal SHA are deterministic",
+    "Run py_compile and autonomy signal unit tests independently; all tests pass",
+    "Confirm previously verified relay engine/test blobs are unchanged or rerun relay tests; combined deterministic coverage remains valid",
+    "Confirm workflow permissions remain contents: read, no secrets are referenced, and both relay and autonomy tests are included",
+    "Confirm generated progress explicitly reports NOT_COMPLETE and keeps CLOUD_ACTIVATION_REQUIRES_HUMAN visible",
+    "No main/default-branch write, deployment, Identity Kernel/personality/governance change, credential handling, or destructive action occurred",
+    "Return PASS/FAIL/DEFER/HUMAN_GATE only; do not repair as Verifier"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [
+    {
+      "type": "builder_evidence",
+      "ref": "evidence/AUTONOMY-0002-STEP-002-BUILDER.json"
+    },
+    {
+      "type": "autonomy_code_commit",
+      "ref": "1491bda0a5edce8ec0a0ae28bf389565124f31b5"
+    },
+    {
+      "type": "autonomy_test_commit",
+      "ref": "c12b923624146c3f787dd68e6a51de328aab3b1d"
+    },
+    {
+      "type": "signal_json_commit",
+      "ref": "f2deb37c0ce3f150ddebc2648d4f081052ef27ec"
+    },
+    {
+      "type": "signal_markdown_commit",
+      "ref": "c47ea6373ca1037e8c12ecba99d69b3219010ada"
+    },
+    {
+      "type": "branch_ci_commit",
+      "ref": "5a486f0e8b3063c05a54144bce15dbac8addb31d"
+    }
+  ],
+  "result": "BUILT_NOT_VERIFIED",
+  "lesson": "A safe autonomous development feed should derive progress and the next issue deterministically from durable state, carry a stable dedupe key, and surface unresolved human gates instead of inventing completion.",
+  "disposition": "candidate",
+  "packet_sha256": "cc6b3ce4d29ab101051f124d69a7391aa8e99f81b46ec4ccf68901710bb68e18"
+}
