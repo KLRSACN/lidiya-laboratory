@@ -1,0 +1,62 @@
+{
+  "schema_version":"2.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "run_id":"LCR-METABOLISM-0003-RUN-003-A-ASSIGN",
+  "step_id":3,
+  "attempt":0,
+  "source":"LCR-A",
+  "target":"LCR-B",
+  "action":"BUILD_CONTINUOUS_CONTROL_HANDOFF_AND_SELF_METABOLISM_GUARDS",
+  "status":"READY",
+  "created_at_taipei":"2026-08-12T01:28:00+08:00",
+  "parent_packet_sha256":"ec02591cfb1ab563bf60fbcc3ca2ca51031067e46be74b5c9a55b5fd0e512483",
+  "authorization_ref":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref":"lidiya-cloud-relay-v2",
+  "task":{
+    "goal":"Machine-enforce continuous A/B/C control while owner messages and replacement workers arrive, without resetting the durable mission, and add bounded external control-console self-metabolism.",
+    "required_candidate_scope":["continuous_control.py","test_continuous_control.py"],
+    "required_behaviors":[
+      "represent exactly three formal slots LCR-A/LCR-B/LCR-C and reject a fourth slot",
+      "support SAME_SLOT_DURABLE_HANDOFF replacement with generation/state fingerprint and explicit from/to/slot authorization",
+      "after accepted replacement, reject stale former-worker actions for that slot",
+      "owner/user/collaborator control input must not change mission_id/status/step/current_role/pending_packet/pending_packet_sha256/lease",
+      "control-input durable record must store metadata/fingerprint only and never raw message body",
+      "control-console metabolism must retain current mission, latest verified evidence pointer, pending packet/hash, lease, rollback, blocker and root-cause lesson while excluding raw chat, duplicate self-reports, stale panels and raw logs",
+      "external waste cleanup/classification must remain bounded to allowlisted relay/workspace metadata and must never target hidden model/system state, secrets, protected evidence, rollback/stable, durable-referenced, unique human work, unreproducible, Identity/Personality/Governance material",
+      "emit deterministic compact snapshot/hash suitable for restart and handoff"
+    ],
+    "negative_tests":[
+      "fourth formal slot rejected",
+      "replacement without durable handoff rejected",
+      "stale worker rejected after takeover",
+      "incoming control input cannot reset BUILDING/READY_FOR_VERIFY/STEP_DONE state",
+      "raw owner message body is not persisted by control-input record",
+      "raw chat/log/stale-panel fields are excluded from compact self-metabolism output",
+      "protected or secret-like material is never classified as self-clearable"
+    ],
+    "reality_evidence":[
+      "GitHub-hosted wake run 31516866778 instantiated A/B/C jobs with read-only permissions",
+      "Issue #3 CONNECT_ACK nonce LCR-LINK-20260811-2342-7F3A proved cross-window handoff signaling",
+      "During continued owner messages, durable state advanced B repair -> C verification -> A without reset"
+    ]
+  },
+  "acceptance":[
+    "compile/tests reproducible",
+    "all negative tests pass",
+    "Builder result BUILT_NOT_VERIFIED",
+    "no main/default branch changes in this Builder step",
+    "no secret access or raw message persistence",
+    "no physical cleanup of real protected user data",
+    "B emits exactly one compact Evidence and one B->C packet"
+  ],
+  "forbidden":[
+    "declare PASS",
+    "modify main/default branch",
+    "modify Identity Kernel/personality/Governance",
+    "create slot 4",
+    "create third full backup",
+    "attempt to erase ChatGPT hidden/model/system state",
+    "delete real non-fixture protected data"
+  ],
+  "packet_sha256":"c0529834b8b6c801acba5721a38bcb84d33581c1c5a90c5b7ff4d7fc71909018"
+}
