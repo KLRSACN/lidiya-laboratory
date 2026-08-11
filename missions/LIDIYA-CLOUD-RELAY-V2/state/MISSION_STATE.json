@@ -2,21 +2,16 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "BUILDING",
+  "status": "READY_FOR_VERIFY",
   "step_id": 1,
   "attempt": 1,
-  "current_role": "LCR-B",
-  "next_role": "LCR-B",
+  "current_role": "LCR-C",
+  "next_role": "LCR-C",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
   "last_packet_sha256": "fb507977a127aa6280f2ac6a6d3e7ee47e95f4483d043f9520e8604a53947b81",
-  "pending_packet": null,
-  "lease": {
-    "role": "LCR-B",
-    "owner": "LCR-B-CHATGPT-20260811T1636+08",
-    "claimed_at": "2026-08-11T08:36:00+00:00",
-    "expires_at": "2026-08-11T08:51:00+00:00"
-  },
+  "pending_packet": "packets/AUTONOMY-0002-STEP-001-B-TO-C-REPAIR.json",
+  "lease": null,
   "human_gate": null,
   "mission_result": null,
   "transition_path": [
@@ -27,16 +22,18 @@
     "READY_FOR_VERIFY",
     "VERIFYING",
     "READY_FOR_BUILDER",
-    "BUILDING"
+    "BUILDING",
+    "READY_FOR_VERIFY"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
   "authorization_level": "L2_DEVELOPMENT",
   "next_authorized_mission": null,
   "verifier_evidence": "evidence/AUTONOMY-0002-STEP-001-VERIFY-FAIL.json",
+  "builder_evidence": "evidence/AUTONOMY-0002-STEP-001-REPAIR-BUILDER.json",
   "cloud_activation": {
     "chatgpt_hourly_controller": "ENABLED",
-    "github_state_ci": "BUILDER_REPAIR_IN_PROGRESS",
+    "github_state_ci": "REPAIR_CANDIDATE_READY_FOR_VERIFY",
     "agentic_engine": "PENDING_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
@@ -48,7 +45,7 @@
     "candidate_ttl_hours": 24,
     "closure": "OPEN",
     "stable_promoted": false,
-    "waste_disposition": "verifier local scratch disposable; retained failure lesson and evidence only",
+    "waste_disposition": "verifier local scratch and builder local scratch disposable; retained failure lesson, repair evidence, and regression test only",
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
