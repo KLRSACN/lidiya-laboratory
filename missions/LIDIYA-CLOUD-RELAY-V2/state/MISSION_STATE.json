@@ -2,21 +2,16 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "VERIFYING",
+  "status": "STEP_DONE",
   "step_id": 2,
   "attempt": 0,
-  "current_role": "LCR-C",
-  "next_role": "LCR-C",
+  "current_role": "LCR-A",
+  "next_role": "LCR-A",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
   "last_packet_sha256": "cc6b3ce4d29ab101051f124d69a7391aa8e99f81b46ec4ccf68901710bb68e18",
-  "pending_packet": null,
-  "lease": {
-    "role": "LCR-C",
-    "owner": "LCR-C-CHATGPT-20260811T1732+08",
-    "claimed_at": "2026-08-11T09:32:00+00:00",
-    "expires_at": "2026-08-11T09:47:00+00:00"
-  },
+  "pending_packet": "packets/AUTONOMY-0002-STEP-002-C-TO-A-PASS.json",
+  "lease": null,
   "human_gate": null,
   "deferred_human_gate": {
     "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
@@ -45,25 +40,26 @@
     "READY_FOR_BUILDER",
     "BUILDING",
     "READY_FOR_VERIFY",
-    "VERIFYING"
+    "VERIFYING",
+    "STEP_DONE"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
   "authorization_level": "L2_DEVELOPMENT",
   "authorization_amendment": "authorizations/LCR-AUTONOMY-0002-L2-AMENDMENT-20260811.json",
   "next_authorized_mission": null,
-  "verifier_evidence": "evidence/AUTONOMY-0002-STEP-001-REPAIR-VERIFY-PASS.json",
+  "verifier_evidence": "evidence/AUTONOMY-0002-STEP-002-VERIFY-PASS.json",
   "builder_evidence": "evidence/AUTONOMY-0002-STEP-002-BUILDER.json",
   "coordinator_evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
   "cloud_activation": {
-    "chatgpt_hourly_controller": "PAUSED_DURING_STEP_002_VERIFY",
-    "github_state_ci": "AUTONOMY_SIGNAL_VERIFYING; BRANCH_CI_PUSHED_PENDING_OBSERVATION",
+    "chatgpt_hourly_controller": "PAUSED_PENDING_PROGRESS_FEED_ACTIVATION",
+    "github_state_ci": "AUTONOMY_SIGNAL_VERIFIED_STEP_DONE; ACTIONS_RUN_NOT_OBSERVED_VIA_AVAILABLE_STATUS_QUERY",
     "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
   },
   "progress_feed": {
-    "status": "BUILT_NOT_VERIFIED",
+    "status": "VERIFIED_PENDING_PUBLICATION",
     "issue_number": null,
     "latest_signal": "signals/AUTONOMY-0002-LATEST.json",
     "latest_markdown": "signals/AUTONOMY-0002-LATEST.md",
@@ -77,7 +73,7 @@
     "candidate_ttl_hours": 24,
     "closure": "OPEN_WITH_DEFERRED_ACTIVATION_GATE",
     "stable_promoted": false,
-    "waste_disposition": "retain verified repair and human-gate evidence; step-002 verifier scratch disposable after disposition",
+    "waste_disposition": "retain step-002 builder/verifier evidence and verified signal; local test scratch disposable",
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
