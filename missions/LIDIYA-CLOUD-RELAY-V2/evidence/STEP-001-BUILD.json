@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-ROUNDTRIP-0001",
+  "step_id": 1,
+  "role": "LCR-B",
+  "status": "BUILT_NOT_VERIFIED",
+  "proof_path": "missions/LIDIYA-CLOUD-RELAY-V2/proof/ROUNDTRIP.txt",
+  "proof_sha256": "dc35b9e60b28dcee842adb2e7089b319a2cbf2bf25319698aacfb706b754ab99",
+  "git_blob_sha": "19bc405798d6fa6ab86ab33a6775773596484121",
+  "builder_commit": "77216ff21b3fe56d5403d48fa81c2a6edfe02732",
+  "builder_observation": "Fetched branch content exactly matches the Coordinator-authorized deterministic bytes.",
+  "verification_authority": "LCR-C",
+  "lesson": "Persist only the deterministic artifact hash and provenance; independent PASS remains with Verifier.",
+  "disposition": "retain_until_metabolic_closure"
+}
