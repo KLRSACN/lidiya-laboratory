@@ -111,6 +111,15 @@ def clear_lease(state: dict[str, Any], owner: str | None = None) -> dict[str, An
     return updated
 
 
+def set_pending_packet(state: dict[str, Any], packet_path: str) -> dict[str, Any]:
+    """Point at an unconsumed outbound packet without marking it consumed."""
+    if not packet_path:
+        raise RelayStateError("pending packet path is required")
+    updated = dict(state)
+    updated["pending_packet"] = packet_path
+    return updated
+
+
 def packet(
     *,
     state: dict[str, Any],
