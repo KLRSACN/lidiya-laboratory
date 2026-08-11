@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 3,
+  "attempt": 2,
+  "role": "LCR-B",
+  "result": "BUILT_NOT_VERIFIED",
+  "built_at_taipei": "2026-08-12T01:46:00+08:00",
+  "inbound_packet": "packets/METABOLISM-0003-C-TO-B-STEP-003-FAIL-001.json",
+  "inbound_packet_sha256": "ae88b00ec05431a49471f520e38ad1be214de7237fdac79c481b4fdbb3b0425c",
+  "candidate_blobs": {
+    "continuous_control.py": "3cbfb6cee78bfa8211c83d175a6ea823249b135b",
+    "test_continuous_control.py": "347224fe978bd4ec0c8fbdcf6cdc3f7c25ca5151"
+  },
+  "repair": {
+    "explicit_action_required": "SAME_SLOT_DURABLE_HANDOFF",
+    "authorization_binding": "handoff.authorization_ref must equal independently supplied trusted_authorization_ref",
+    "bare_authorized_boolean_effect": "NONE"
+  },
+  "tests": {
+    "python_compile": "PASS",
+    "unit_tests": "17/17 PASS",
+    "exact_local_git_blob_match": true,
+    "negative_cases": [
+      "missing handoff action rejected",
+      "wrong handoff action rejected",
+      "forged bare authorized=true rejected",
+      "missing authorization_ref rejected",
+      "wrong authorization_ref rejected",
+      "missing trusted authorization ref rejected",
+      "wrong durable-state fingerprint rejected",
+      "former worker rejected after same-slot takeover",
+      "slot4 rejected"
+    ],
+    "regression_cases": [
+      "owner input cannot reset BUILDING/READY_FOR_VERIFY/STEP_DONE",
+      "raw owner body is not persisted",
+      "compact snapshot excludes raw chat/log/stale panels/duplicate self reports",
+      "protected/secret/hidden model/governance artifacts quarantine",
+      "allowlisted reproducible scratch remains self-clearable",
+      "restart handoff deterministic"
+    ]
+  },
+  "scope": ["continuous_control.py", "test_continuous_control.py"],
+  "main_default_write": false,
+  "physical_protected_cleanup": false,
+  "secret_value_handling": false,
+  "builder_self_pass": false,
+  "verdict": "BUILT_NOT_VERIFIED"
+}
