@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "LCR-AUTONOMY-0002-RUN-002",
+  "step_id": 2,
+  "attempt": 0,
+  "source_role": "LCR-A",
+  "target_role": "LCR-B",
+  "status": "READY_FOR_BUILDER",
+  "parent_packet_sha256": "eccc6d7323527d6c64a14815c24fca8f60d1ecb6ca40ec6190e9354f24b0f85c",
+  "created_at": "2026-08-11T09:20:30+00:00",
+  "lease_owner": null,
+  "lease_expires_at": null,
+  "task": "Build the branch-local Autonomy Signal generator that derives a machine-readable progress report and a deduplicated next-issue proposal from durable LCR state. Produce JSON and Markdown outputs and tests. This step must not publish externally, modify main/default branch, configure credentials, deploy, or touch Identity Kernel/personality/governance.",
+  "acceptance": [
+    "Create missions/LIDIYA-CLOUD-RELAY-V2/autonomy_signal.py using only Python standard library",
+    "Signal output includes mission/status/step/current_role, rollback anchor, evidence pointers, cloud activation state, and a concise progress summary",
+    "Signal output derives a stable dedupe_key and next_issue from state; activation-gate states produce a requires_human issue without inventing completion",
+    "Pending-handoff state produces an actionable non-human handoff issue; IDLE with mission_result PASS produces no next issue",
+    "Create test_autonomy_signal.py with at least four deterministic tests covering HUMAN_GATE/deferred activation, pending handoff, IDLE PASS, and stable dedupe behavior",
+    "Generate signals/AUTONOMY-0002-LATEST.json and signals/AUTONOMY-0002-LATEST.md from the real current state snapshot",
+    "Builder runs py_compile and unittest for both relay state and autonomy signal tests, records exact counts, and returns BUILT_NOT_VERIFIED to LCR-C",
+    "No main/default-branch write, deployment, Identity Kernel/personality/governance change, credential/secret use, or destructive action"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [
+    {
+      "type": "human_direction",
+      "ref": "authorizations/LCR-AUTONOMY-0002-L2-AMENDMENT-20260811.json"
+    },
+    {
+      "type": "prior_verifier_pass",
+      "ref": "evidence/AUTONOMY-0002-STEP-001-REPAIR-VERIFY-PASS.json"
+    },
+    {
+      "type": "activation_gate",
+      "ref": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json"
+    }
+  ],
+  "result": "TASK_ASSIGNED",
+  "lesson": "Autonomy should surface its own state-derived next issue and progress before adding a generative cloud model; deterministic signals provide a verifiable baseline.",
+  "disposition": "candidate",
+  "packet_sha256": "c3f971b55a6a1b0ac2a6b6b183e62b9ee36503bac59148721539dc7e8006946a"
+}
