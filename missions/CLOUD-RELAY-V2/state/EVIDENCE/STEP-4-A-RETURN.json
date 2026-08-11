@@ -1,0 +1,17 @@
+{
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "RUN-LCR-AUTONOMY-0002",
+  "github_run_id": "31482112393",
+  "github_run_attempt": "1",
+  "github_job": "a_return",
+  "recorded_at": "2026-08-11T10:25:43.740652+00:00",
+  "slot": "A",
+  "result": "ROUNDTRIP_PASS",
+  "consumed_packet": "PKT-V2C-LCR-AUTONOMY-0002-3",
+  "path": [
+    "A",
+    "B",
+    "C",
+    "A"
+  ]
+}

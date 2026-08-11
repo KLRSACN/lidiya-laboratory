@@ -14,7 +14,7 @@
   },
   "parent_packet_id": "PKT-B2V-LCR-AUTONOMY-0002-2",
   "created_at": "2026-08-11T10:25:36.063340+00:00",
-  "consumed": false,
-  "consumed_at": null,
+  "consumed": true,
+  "consumed_at": "2026-08-11T10:25:43.740380+00:00",
   "input_hash": "eed874235d708a8d9b6483d971c528eb072f765e01dc749c75c9164191154494"
 }
