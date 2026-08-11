@@ -1,0 +1,19 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "step_id":2,
+  "attempt":1,
+  "role":"LCR-C",
+  "result":"PASS",
+  "verified_at_taipei":"2026-08-12T01:23:45+08:00",
+  "inbound_packet":"packets/METABOLISM-0003-B-TO-C-STEP-002-REPAIR-001.json",
+  "inbound_packet_sha256":"9aa639937330108f30ea806e3261fbe7222b67154b29980761a5a272b3aad2bf",
+  "independent_checks":{"packet_canonical_sha_recomputed":"PASS","mutated_packet_with_stale_hash_rejected":"PASS","duplicate_packet_replay_rejected":"PASS","exact_next_pending_path_hash_persisted":"PASS","durable_state_only_restart_recovery":"PASS","exact_three_slots":"PASS","third_full_backup_rejected":"PASS","status_panel_matches_current_handoff":"PASS","authorization_active_branch_local":"PASS","lease_conflict":"NONE"},
+  "candidate_blob_sha":{"golden_triangle_orchestrator.py":"58c57353d1dcf298810fb93f69dd60c6ab8be97b","test_golden_triangle_orchestrator.py":"2b05207674f2a976e4bfcff700f7991ec5386db9"},
+  "scope_note":"This verifier pass covers STEP-002 repair acceptance only. STEP-001 metabolism deletion guards remain separately evidenced; no physical cleanup was performed in this verifier turn.",
+  "main_default_write":false,
+  "full_backup_groups_created":0,
+  "physical_cleanup":"NONE",
+  "secrets_read_or_persisted":false,
+  "verdict":"PASS"
+}
