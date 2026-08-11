@@ -1,0 +1,19 @@
+{
+  "schema_version":"2.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "run_id":"LCR-METABOLISM-0003-RUN-002-REPAIR-001",
+  "step_id":2,
+  "attempt":1,
+  "source":"LCR-B",
+  "target":"LCR-C",
+  "action":"VERIFY_STEP_002_REPAIR",
+  "status":"READY",
+  "created_at_taipei":"2026-08-12T01:18:00+08:00",
+  "parent_packet_sha256":"dd849ebaa593fd0fca5ec239e151e17a8f93228855ef5a17759616fdd97b6b01",
+  "authorization_ref":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref":"lidiya-cloud-relay-v2",
+  "evidence_ref":"evidence/METABOLISM-0003-STEP-002-BUILDER-REPAIR-001.json",
+  "acceptance":["recompute canonical packet SHA excluding packet_sha256 and reject stale hash mutation","persist exact next pending packet path/hash for durable restart recovery","negative stale-hash mutation test present","durable-state-only restart recovery test present","status panel mirrors current durable handoff"],
+  "builder_verdict":"BUILT_NOT_VERIFIED",
+  "packet_sha256":"9aa639937330108f30ea806e3261fbe7222b67154b29980761a5a272b3aad2bf"
+}
