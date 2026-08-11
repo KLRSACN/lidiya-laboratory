@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-08-11T09:25:00+00:00",
+  "source_ref": "state/MISSION_STATE.json",
+  "mission": {
+    "mission_id": "LCR-AUTONOMY-0002",
+    "status": "BUILDING",
+    "step_id": 2,
+    "attempt": 0,
+    "current_role": "LCR-B",
+    "next_role": "LCR-B",
+    "mission_result": null
+  },
+  "progress": {
+    "summary": "LCR-AUTONOMY-0002 step=2 attempt=0 status=BUILDING role=LCR-B. Activation gate: CLOUD_ACTIVATION_REQUIRES_HUMAN (DEFERRED_NOT_OVERRIDDEN). Rollback anchor: nav-relay-mvp-0001.",
+    "pending_packet": null,
+    "rollback_anchor": "nav-relay-mvp-0001",
+    "evidence_refs": [
+      "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
+      "evidence/AUTONOMY-0002-STEP-001-REPAIR-BUILDER.json",
+      "evidence/AUTONOMY-0002-STEP-001-REPAIR-VERIFY-PASS.json"
+    ],
+    "cloud_activation": {
+      "chatgpt_hourly_controller": "PAUSED_DURING_STEP_002_BUILD",
+      "github_state_ci": "REPAIR_VERIFIED; AUTONOMY_SIGNAL_BUILDING",
+      "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
+      "preferred_engine": "gemini",
+      "edge_starter": "雪璃"
+    },
+    "activation_gate": {
+      "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
+      "blocker": "Unattended GitHub cloud A→B→C→A execution still requires cloud model/agent authentication and an authorized default-branch launcher/entrypoint.",
+      "required_action": "Explicitly authorize the deferred action before execution.",
+      "status": "DEFERRED_NOT_OVERRIDDEN"
+    },
+    "completion_claim": "NOT_COMPLETE"
+  },
+  "next_issue": {
+    "dedupe_key": "lcr-f1dd9b43f7f948e1e583",
+    "kind": "activation_gate",
+    "priority": "P0",
+    "title": "LCR-AUTONOMY-0002: resolve CLOUD_ACTIVATION_REQUIRES_HUMAN",
+    "summary": "Unattended GitHub cloud A→B→C→A execution still requires cloud model/agent authentication and an authorized default-branch launcher/entrypoint.",
+    "acceptance": [
+      "Explicitly authorize the deferred action before execution."
+    ],
+    "requires_human": true,
+    "can_auto_execute": false
+  },
+  "signal_sha256": "16d14693e3013bad62f2851a1240cb118b71d7c946877bb67b20811468eba4a7"
+}
