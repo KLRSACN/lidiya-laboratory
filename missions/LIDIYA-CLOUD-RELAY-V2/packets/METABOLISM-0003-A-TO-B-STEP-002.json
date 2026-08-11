@@ -1,0 +1,56 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "run_id": "LCR-METABOLISM-0003-RUN-002",
+  "step_id": 2,
+  "attempt": 0,
+  "source": "LCR-A",
+  "target": "LCR-B",
+  "action": "BUILD_GOLDEN_TRIANGLE_ORCHESTRATOR_AND_CONTROL_CONSOLE_METABOLISM",
+  "status": "READY_FOR_BUILDER",
+  "created_at_taipei": "2026-08-11T23:38:00+08:00",
+  "parent_packet_sha256": "dda0d5318e8b4ecbfa165a299743fabf0ce19f4646b7d21b6aa5c85f1f04df4d",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "task": {
+    "goal": "Build branch-local three-slot Golden Triangle orchestration plus control-console self-metabolism without main writes.",
+    "required_candidate_scope": [
+      "missions/LIDIYA-CLOUD-RELAY-V2/golden_triangle_orchestrator.py",
+      "missions/LIDIYA-CLOUD-RELAY-V2/test_golden_triangle_orchestrator.py",
+      "missions/LIDIYA-CLOUD-RELAY-V2/control_console_metabolism.py",
+      "missions/LIDIYA-CLOUD-RELAY-V2/test_control_console_metabolism.py",
+      ".github/workflows/lcr-0003-golden-triangle.yml"
+    ],
+    "required_behaviors": [
+      "exactly three logical slots A/B/C; slot 4 is rejected",
+      "new authorized window/worker takes over an existing slot via durable handoff and never increments slot count",
+      "A can dispatch B and C by durable packet/lease without visible browser window dependency",
+      "worker restart resumes from durable state and rejects already-consumed packets",
+      "branch-local workflow proves A->B->C->A with separate jobs and artifacts while contents permission remains read-only",
+      "control-console self-metabolism compacts duplicate/transient control-plane events into deterministic summary and WASTE/QUARANTINE dispositions",
+      "self-metabolism never reads or deletes secret-like content, protected evidence, rollback anchor, Identity/Personality/Governance, or user chat history",
+      "full backup groups remain exactly RECOVERY_BASELINE and WORKING_EXCHANGE only"
+    ],
+    "negative_tests": [
+      "fourth slot rejected",
+      "duplicate worker registration does not create slot",
+      "takeover without valid handoff rejected",
+      "replay packet rejected after restart",
+      "secret-like control-plane item quarantined without content retention",
+      "protected/rollback/evidence item retained",
+      "third full backup rejected"
+    ]
+  },
+  "acceptance": [
+    "compile and unit tests reproducibly pass",
+    "Builder result is BUILT_NOT_VERIFIED",
+    "no main/default branch write",
+    "no secret access/value persistence",
+    "no fourth slot or third full backup",
+    "one compact Evidence and one B->C packet",
+    "workflow candidate is branch-local and read-only"
+  ],
+  "deadline_taipei": "2026-08-13T20:00:00+08:00",
+  "disposition": "HANDOFF_TO_METABOLISM_WORKER",
+  "packet_sha256": "a751d3582c637894d356a5183ea7172b7b81a018643118ba1d05386f6777c0df"
+}
