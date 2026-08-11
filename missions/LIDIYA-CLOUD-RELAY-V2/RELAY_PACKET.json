@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-V2-ROUNDTRIP-0001",
+  "packet_id": "LCR-V2-ROUNDTRIP-0001-STEP-001",
+  "source": "LCR-A",
+  "target": "LCR-B",
+  "action": "ROUNDTRIP_ACK",
+  "status": "READY",
+  "consumed": false,
+  "attempt": 0,
+  "lease_owner": null,
+  "lease_until": null,
+  "payload": {"expected_response": "BUILDER_ACK", "then_target": "LCR-C"}
+}
