@@ -3,6 +3,7 @@ import unittest
 
 from continuous_control import (
     ControlGuardError,
+    SAME_SLOT_HANDOFF_ACTION,
     authorize_worker_action,
     classify_external_artifact,
     compact_control_snapshot,
@@ -12,6 +13,8 @@ from continuous_control import (
     same_slot_durable_handoff,
     validate_formal_roster,
 )
+
+AUTH_REF = "authorizations/LCR-METABOLISM-0003-STAGE2.json"
 
 
 def state(status="BUILDING"):
@@ -38,6 +41,19 @@ def registry():
     }
 
 
+def valid_handoff(s=None):
+    s = s or state()
+    return {
+        "action": SAME_SLOT_HANDOFF_ACTION,
+        "authorization_ref": AUTH_REF,
+        "slot": "LCR-B",
+        "from": "B1",
+        "to": "B2",
+        "generation": 3,
+        "state_fingerprint": durable_state_fingerprint(s),
+    }
+
+
 class ContinuousControlTests(unittest.TestCase):
     def test_exact_three_slots_and_slot4_rejected(self):
         self.assertTrue(validate_formal_roster(registry()))
@@ -46,25 +62,51 @@ class ContinuousControlTests(unittest.TestCase):
 
     def test_replacement_requires_durable_handoff(self):
         with self.assertRaises(ControlGuardError):
-            same_slot_durable_handoff(registry(), state(), {"slot": "LCR-B", "from": "B1", "to": "B2"})
+            same_slot_durable_handoff(
+                registry(), state(), {"slot": "LCR-B", "from": "B1", "to": "B2"},
+                trusted_authorization_ref=AUTH_REF,
+            )
+
+    def test_missing_handoff_action_rejected(self):
+        handoff = valid_handoff(); handoff.pop("action")
+        with self.assertRaises(ControlGuardError):
+            same_slot_durable_handoff(registry(), state(), handoff, trusted_authorization_ref=AUTH_REF)
+
+    def test_wrong_handoff_action_rejected(self):
+        handoff = valid_handoff(); handoff["action"] = "REPLACE_WORKER"
+        with self.assertRaises(ControlGuardError):
+            same_slot_durable_handoff(registry(), state(), handoff, trusted_authorization_ref=AUTH_REF)
+
+    def test_forged_bare_authorized_true_rejected(self):
+        handoff = valid_handoff(); handoff.pop("authorization_ref"); handoff["authorized"] = True
+        with self.assertRaises(ControlGuardError):
+            same_slot_durable_handoff(registry(), state(), handoff, trusted_authorization_ref=AUTH_REF)
+
+    def test_missing_authorization_ref_rejected(self):
+        handoff = valid_handoff(); handoff.pop("authorization_ref")
+        with self.assertRaises(ControlGuardError):
+            same_slot_durable_handoff(registry(), state(), handoff, trusted_authorization_ref=AUTH_REF)
+
+    def test_wrong_authorization_ref_rejected(self):
+        handoff = valid_handoff(); handoff["authorization_ref"] = "authorizations/forged.json"
+        with self.assertRaises(ControlGuardError):
+            same_slot_durable_handoff(registry(), state(), handoff, trusted_authorization_ref=AUTH_REF)
+
+    def test_missing_trusted_authorization_ref_rejected(self):
+        with self.assertRaises(ControlGuardError):
+            same_slot_durable_handoff(registry(), state(), valid_handoff(), trusted_authorization_ref="")
 
     def test_same_slot_takeover_and_stale_worker_rejected(self):
         s = state(); r = registry()
-        handoff = {
-            "slot": "LCR-B", "from": "B1", "to": "B2", "authorized": True,
-            "generation": 3, "state_fingerprint": durable_state_fingerprint(s),
-        }
-        replaced = same_slot_durable_handoff(r, s, handoff)
+        replaced = same_slot_durable_handoff(r, s, valid_handoff(s), trusted_authorization_ref=AUTH_REF)
         self.assertEqual(replaced["LCR-B"], {"worker_id": "B2", "generation": 3})
         with self.assertRaises(ControlGuardError): authorize_worker_action(replaced, "LCR-B", "B1", 2)
         self.assertTrue(authorize_worker_action(replaced, "LCR-B", "B2", 3))
 
     def test_handoff_wrong_state_fingerprint_rejected(self):
+        handoff = valid_handoff(); handoff["state_fingerprint"] = "wrong"
         with self.assertRaises(ControlGuardError):
-            same_slot_durable_handoff(registry(), state(), {
-                "slot": "LCR-B", "from": "B1", "to": "B2", "authorized": True,
-                "generation": 3, "state_fingerprint": "wrong",
-            })
+            same_slot_durable_handoff(registry(), state(), handoff, trusted_authorization_ref=AUTH_REF)
 
     def test_control_input_never_resets_active_states(self):
         for status in ("BUILDING", "READY_FOR_VERIFY", "STEP_DONE"):
