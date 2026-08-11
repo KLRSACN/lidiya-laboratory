@@ -1,0 +1,33 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-ROUNDTRIP-0001",
+  "run_id": "LCR-BOOTSTRAP-001",
+  "step_id": 1,
+  "attempt": 0,
+  "source_role": "LCR-C",
+  "target_role": "LCR-A",
+  "status": "VERIFIED_PASS",
+  "parent_packet_sha256": "6cb45e44a0368712c564fc18fde639e6b1318c45b4714dccf6c9d93d14ae24b3",
+  "created_at": "2026-08-11T01:58:04+00:00",
+  "lease_owner": "AUTOMATION-LCR-C-20260811T0158Z",
+  "lease_expires_at": "2026-08-11T02:13:04+00:00",
+  "task": "Coordinator must consume independent Verifier PASS, decide whether LCR-ROUNDTRIP-0001 meets mission completion criteria, and if complete enter PROJECT_DONE then Metabolic Closure in a later Coordinator-owned step.",
+  "acceptance": [
+    "Verifier evidence status is PASS",
+    "Observed proof SHA-256 equals Coordinator acceptance",
+    "Builder evidence remains BUILT_NOT_VERIFIED",
+    "Coordinator alone decides mission completion; Verifier does not mark PROJECT_DONE"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [
+    {
+      "path": "evidence/STEP-001-VERIFY.json",
+      "proof_sha256": "dc35b9e60b28dcee842adb2e7089b319a2cbf2bf25319698aacfb706b754ab99",
+      "evidence_commit": "422d8e8038038ebf3466784dfebad54e9d362101"
+    }
+  ],
+  "result": "PASS",
+  "lesson": "Independent verification confirmed deterministic proof and packet provenance without modifying Builder evidence.",
+  "disposition": "candidate",
+  "packet_sha256": "82c49a755a706019116ab440a2dd59cb738c3746464c3b44e2b3476bec1e26a5"
+}
