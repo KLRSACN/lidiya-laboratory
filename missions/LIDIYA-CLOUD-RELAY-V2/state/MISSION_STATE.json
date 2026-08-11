@@ -2,30 +2,21 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "COORDINATING",
+  "status": "HUMAN_GATE",
   "step_id": 2,
   "attempt": 0,
-  "current_role": "LCR-A",
-  "next_role": "LCR-A",
+  "current_role": "HUMAN",
+  "next_role": "HUMAN",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
   "last_packet_sha256": "0a872d0f47de913efece05b5f4ba200ed0de85040650c002e1ca1d7624488c9f",
   "pending_packet": null,
-  "lease": {
-    "role": "LCR-A",
-    "owner": "LCR-A-CHATGPT-20260811T1738+08",
-    "claimed_at": "2026-08-11T09:38:00+00:00",
-    "expires_at": "2026-08-11T09:53:00+00:00"
-  },
-  "human_gate": null,
-  "deferred_human_gate": {
+  "lease": null,
+  "human_gate": {
     "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
-    "status": "DEFERRED_NOT_OVERRIDDEN",
     "blocker": "Unattended GitHub cloud A→B→C→A execution still requires cloud model/agent authentication and an authorized default-branch launcher/entrypoint.",
-    "not_authorized": [
-      "main/default-branch write",
-      "cloud model credential/secret configuration"
-    ]
+    "required_action": "Authorize a reviewed default-branch launcher and configure cloud model authentication outside L2 without sharing secret values in chat, then return control to LCR-A.",
+    "evidence": "evidence/AUTONOMY-0002-STEP-002-COORDINATOR-PROGRESS-FEED.json"
   },
   "mission_result": null,
   "transition_path": [
@@ -47,7 +38,8 @@
     "READY_FOR_VERIFY",
     "VERIFYING",
     "STEP_DONE",
-    "COORDINATING"
+    "COORDINATING",
+    "HUMAN_GATE"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
@@ -56,30 +48,31 @@
   "next_authorized_mission": null,
   "verifier_evidence": "evidence/AUTONOMY-0002-STEP-002-VERIFY-PASS.json",
   "builder_evidence": "evidence/AUTONOMY-0002-STEP-002-BUILDER.json",
-  "coordinator_evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
+  "coordinator_evidence": "evidence/AUTONOMY-0002-STEP-002-COORDINATOR-PROGRESS-FEED.json",
   "cloud_activation": {
-    "chatgpt_hourly_controller": "PAUSED_DURING_PROGRESS_FEED_ACTIVATION",
-    "github_state_ci": "AUTONOMY_SIGNAL_VERIFIED; PROGRESS_FEED_ACTIVATING",
+    "chatgpt_hourly_controller": "ENABLED_PROGRESS_FEED_HUMAN_GATE",
+    "github_state_ci": "AUTONOMY_SIGNAL_VERIFIED; ACTIONS_RUN_NOT_OBSERVED_VIA_AVAILABLE_STATUS_QUERY",
     "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
   },
   "progress_feed": {
-    "status": "VERIFIED_PENDING_PUBLICATION",
-    "issue_number": null,
+    "status": "ACTIVE_VERIFIED",
+    "issue_number": 4,
+    "issue_url": "https://github.com/KLRSACN/lidiya-laboratory/issues/4",
     "latest_signal": "signals/AUTONOMY-0002-LATEST.json",
     "latest_markdown": "signals/AUTONOMY-0002-LATEST.md",
     "dedupe_key": "lcr-f1dd9b43f7f948e1e583",
-    "signal_sha256": "16d14693e3013bad62f2851a1240cb118b71d7c946877bb67b20811468eba4a7"
+    "signal_sha256": "c54a6d68bedc89c78c6abd9d3d7705e54b2e6fcb58b3caff3ed8710bab8d8795"
   },
   "metabolism": {
     "retain_lessons": true,
     "retain_evidence": true,
     "retain_scratch": false,
     "candidate_ttl_hours": 24,
-    "closure": "OPEN_WITH_DEFERRED_ACTIVATION_GATE",
+    "closure": "OPEN_BLOCKED_AT_ACTIVATION_GATE_WITH_VERIFIED_PROGRESS_FEED",
     "stable_promoted": false,
-    "waste_disposition": "retain step-002 verified signal/evidence; publication scratch disposable",
+    "waste_disposition": "retain verified STEP-001/STEP-002 evidence, signal, and progress feed reference; local scratch disposable; do not create duplicate issues",
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
