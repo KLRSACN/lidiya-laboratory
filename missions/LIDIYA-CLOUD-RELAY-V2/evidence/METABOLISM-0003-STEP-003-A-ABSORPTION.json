@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 3,
+  "role": "LCR-A",
+  "result": "VERIFIED_RESULT_ABSORBED",
+  "absorbed_at_taipei": "2026-08-12T01:59:00+08:00",
+  "verifier_evidence": "evidence/METABOLISM-0003-STEP-003-VERIFIER-PASS-002.json",
+  "hosted_reality_anchor": "evidence/METABOLISM-0003-STEP-003-HOSTED-C-REALITY.json",
+  "c_to_a_packet": "packets/METABOLISM-0003-C-TO-A-STEP-003-PASS-002.json",
+  "c_to_a_packet_sha256": "7a82406ab5dbaf0f36e8e040329b08167c2f2385a5d16a6334e9e9661ecc722f",
+  "absorbed_facts": [
+    "formal slots are exactly LCR-A/LCR-B/LCR-C and slot4 is rejected",
+    "same-slot replacement requires explicit SAME_SLOT_DURABLE_HANDOFF",
+    "handoff authorization_ref must match independently trusted durable authorization reference",
+    "generation and state fingerprint bind the takeover and former worker becomes stale",
+    "owner/user/collaborator control input does not reset durable mission fields and raw body is not persisted",
+    "external control-console self-metabolism is fail-closed and excludes hidden model/system state"
+  ],
+  "raw_worksite_absorbed": false,
+  "duplicate_verdict_retained": false,
+  "secret_values_recorded": false,
+  "main_modified": false,
+  "rollback_anchor": "nav-relay-mvp-0001",
+  "next_step": 4
+}
