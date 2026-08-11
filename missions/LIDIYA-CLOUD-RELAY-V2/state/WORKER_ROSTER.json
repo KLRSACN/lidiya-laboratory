@@ -1,19 +1,23 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "mission_id": "LCR-METABOLISM-0003",
   "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
   "max_slots": 3,
   "registry": {
-    "LCR-A": {"worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL", "generation": 0},
-    "LCR-B": {"worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR", "generation": 1},
-    "LCR-C": {"worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER", "generation": 0}
+    "LCR-A": {"worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL", "generation": 0, "mode": "STANDBY_CONTROL"},
+    "LCR-B": {"worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR", "generation": 1, "mode": "STANDBY"},
+    "LCR-C": {"worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER", "generation": 0, "mode": "STANDBY"}
   },
+  "mission_status": "IDLE",
+  "mission_result": "PASS",
   "replacement_policy": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
   "fourth_slot": "FORBIDDEN",
   "authoritative_state_ref": "state/MISSION_STATE.json",
   "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "authorization_status": "CONSUMED_PASS",
   "last_handoff_ref": "handoffs/METABOLISM-0003-B-TO-SECONDARY-STEP-004.json",
   "last_handoff_sha256": "e6167f892a39df57156655ac014bb46ae5935272cd2ae153a85674e84df03f62",
   "replaced_worker": {"worker_id": "ONLINE-LIDIYA-BUILDER", "slot": "LCR-B", "generation": 0, "status": "STALE_AFTER_HANDOFF"},
-  "full_backup_created": false
+  "full_backup_created": false,
+  "post_closure_rule": "All three formal slots remain registered but must not create or mutate work until a new explicit mission authorization exists."
 }
