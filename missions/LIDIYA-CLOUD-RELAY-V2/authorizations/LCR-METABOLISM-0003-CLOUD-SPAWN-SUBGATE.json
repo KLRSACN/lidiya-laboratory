@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "authorization_type": "TASK_SCOPED_CLOUD_SPAWN_SUBGATE",
+  "status": "ACTIVE",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-12T01:16:00+08:00",
+  "base_authorization": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "user_intent": [
+    "authorize permissions needed by the mission rather than permanent privilege",
+    "keep the Golden Triangle running while the primary control console receives new messages",
+    "enable the platform execution connection/trigger for worker activation",
+    "new windows/workers replace an existing slot through handoff instead of creating a fourth slot"
+  ],
+  "main_scope": {
+    "allowed_path": ".github/workflows/lcr-cloud-launcher.yml",
+    "other_main_paths": "FORBIDDEN",
+    "purpose": "enable a reviewed mission-specific read-only wake/spawn heartbeat and Reality ACK for LCR-METABOLISM-0003",
+    "merge_or_release": "FORBIDDEN"
+  },
+  "launcher_permissions": {
+    "contents": "read",
+    "secrets": "FORBIDDEN",
+    "repository_mutation_from_launcher": "FORBIDDEN",
+    "candidate_mutation": "must remain in separately authorized B worker scope"
+  },
+  "topology": {
+    "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
+    "max_slots": 3,
+    "new_worker_policy": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
+    "fourth_worker": "FORBIDDEN"
+  },
+  "wake_acceptance": [
+    "a real GitHub-hosted workflow run is created from the reviewed launcher",
+    "the runner reads the authoritative development branch state",
+    "A/B/C isolated jobs are instantiated without repository write permission",
+    "the active role validates current pending packet canonical SHA when applicable",
+    "wake evidence records state/role/packet identity but no secret values or raw worksite content",
+    "the launcher remains fail-closed for deadline, mission mismatch, backup>2, slot>3, packet tamper or consumed replay"
+  ],
+  "expiration": "consume/dormancy-lock after LCR-METABOLISM-0003 reaches IDLE/PASS, terminal HUMAN_GATE requiring new authorization, or explicit revocation"
+}
