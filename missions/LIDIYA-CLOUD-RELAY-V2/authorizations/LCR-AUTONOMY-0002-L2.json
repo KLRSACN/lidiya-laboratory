@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "L2-20260811-LCR-AUTONOMY-0002",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "authorized_at": "2026-08-11T15:01:00+08:00",
+  "authorization_level": "L2_DEVELOPMENT",
+  "authorized_by": "博玄",
+  "goal": "讓 Cloud Relay 可以在 GitHub 雲端完成 A→B→C→A 自主循環，並驗證工作機關閉後仍可繼續。",
+  "allowed": [
+    "lidiya-cloud-relay-v2 branch",
+    "GitHub Actions on development branch",
+    "sandbox/test/evidence files",
+    "minimal reversible code/workflow changes needed for cloud relay development",
+    "automatic low-risk progression within mission state machine"
+  ],
+  "forbidden": [
+    "merge or direct write to main",
+    "production deployment or release",
+    "Identity Kernel/personality/governance modification",
+    "credential creation, disclosure, copying, or storage in source control",
+    "financial/account actions",
+    "irreversible bulk deletion"
+  ],
+  "success": [
+    "GitHub cloud completes at least one A→B→C→A autonomous cycle",
+    "Builder and Verifier remain role-separated",
+    "state can resume after worker loss",
+    "real executable tests pass",
+    "rollback/recovery evidence exists",
+    "Metabolic Closure completes"
+  ],
+  "stop_conditions": [
+    "PASS",
+    "HUMAN_GATE",
+    "unsafe or irreversible action required",
+    "main/default-branch write required",
+    "cloud model authentication or secret configuration required",
+    "state contradiction or insufficient permissions"
+  ],
+  "authorization_sha256": "8d31cdfaac063dae210c134ee8d691404d14a0f660487afbc89ec680ea034317"
+}
