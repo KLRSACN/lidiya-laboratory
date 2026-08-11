@@ -42,39 +42,31 @@ jobs:
           assert data['mission_id'] == 'LCR-AUTONOMY-0002'
           assert data['authorization_type'] == 'ONE_TIME_ACTIVATION_GATE'
           assert '.github/workflows/lcr-cloud-launcher.yml' in data['allowed']['default_branch_write_scope']
+          assert data['validation_carrier']['pull_request'] == 5
+          assert data['validation_carrier']['merge_authorized'] is False
           print('authorization=VALID')
           PY
 
       - name: LCR-A cloud model authentication proof
+        id: model_a
+        uses: actions/ai-inference@v2.1.1
+        with:
+          token: ${{ github.token }}
+          model: openai/gpt-4o
+          temperature: '0'
+          max-completion-tokens: '16'
+          system-prompt: 'Return only the requested activation token. Do not add punctuation or explanation.'
+          prompt: 'Return exactly LCR-A-CLOUD-READY'
+
+      - name: Validate A model response and emit evidence
         env:
-          GH_MODEL_TOKEN: ${{ github.token }}
+          MODEL_RESPONSE: ${{ steps.model_a.outputs.response }}
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          request = {
-              'model': 'openai/gpt-4.1',
-              'temperature': 0,
-              'max_tokens': 16,
-              'messages': [{
-                  'role': 'user',
-                  'content': 'You are LCR-A Coordinator for an activation proof. Return exactly LCR-A-CLOUD-READY and nothing else.'
-              }]
-          }
-          Path('a-request.json').write_text(json.dumps(request), encoding='utf-8')
-          PY
-          curl --fail-with-body --silent --show-error \
-            'https://models.github.ai/inference/chat/completions' \
-            -H 'Content-Type: application/json' \
-            -H "Authorization: Bearer ${GH_MODEL_TOKEN}" \
-            --data-binary @a-request.json \
-            -o a-response.json
           python - <<'PY'
           import json
           import os
           from pathlib import Path
-          raw = json.loads(Path('a-response.json').read_text(encoding='utf-8'))
-          content = raw['choices'][0]['message']['content'].strip()
+          content = os.environ['MODEL_RESPONSE'].strip()
           if content != 'LCR-A-CLOUD-READY':
               raise SystemExit(f'unexpected coordinator model response: {content!r}')
           evidence = {
@@ -84,7 +76,7 @@ jobs:
               'role': 'LCR-A',
               'result': 'COORDINATOR_READY',
               'model_auth': 'GITHUB_TOKEN/models:read',
-              'model': 'openai/gpt-4.1',
+              'model': 'openai/gpt-4o',
               'model_response': content
           }
           Path('a-start.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
@@ -187,35 +179,25 @@ jobs:
           PY
 
       - name: LCR-C independent cloud model authentication proof
+        id: model_c
+        uses: actions/ai-inference@v2.1.1
+        with:
+          token: ${{ github.token }}
+          model: openai/gpt-4o
+          temperature: '0'
+          max-completion-tokens: '16'
+          system-prompt: 'Return only the requested verification token. Do not add punctuation or explanation.'
+          prompt: 'Return exactly LCR-C-MODEL-ONLINE'
+
+      - name: Validate C model response and emit verdict
         env:
-          GH_MODEL_TOKEN: ${{ github.token }}
+          MODEL_RESPONSE: ${{ steps.model_c.outputs.response }}
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          request = {
-              'model': 'openai/gpt-4.1',
-              'temperature': 0,
-              'max_tokens': 16,
-              'messages': [{
-                  'role': 'user',
-                  'content': 'You are LCR-C Verifier for an activation proof. Return exactly LCR-C-MODEL-ONLINE and nothing else.'
-              }]
-          }
-          Path('c-request.json').write_text(json.dumps(request), encoding='utf-8')
-          PY
-          curl --fail-with-body --silent --show-error \
-            'https://models.github.ai/inference/chat/completions' \
-            -H 'Content-Type: application/json' \
-            -H "Authorization: Bearer ${GH_MODEL_TOKEN}" \
-            --data-binary @c-request.json \
-            -o c-response.json
           python - <<'PY'
           import json
           import os
           from pathlib import Path
-          raw = json.loads(Path('c-response.json').read_text(encoding='utf-8'))
-          content = raw['choices'][0]['message']['content'].strip()
+          content = os.environ['MODEL_RESPONSE'].strip()
           if content != 'LCR-C-MODEL-ONLINE':
               raise SystemExit(f'unexpected verifier model response: {content!r}')
           sha = Path('verified-sha.txt').read_text(encoding='utf-8').strip()
@@ -228,7 +210,7 @@ jobs:
               'deterministic_candidate_check': True,
               'candidate_sha256': sha,
               'independent_model_auth': 'GITHUB_TOKEN/models:read',
-              'model': 'openai/gpt-4.1',
+              'model': 'openai/gpt-4o',
               'model_response': content
           }
           Path('c-verdict.json').write_text(json.dumps(verdict, indent=2) + '\n', encoding='utf-8')
@@ -272,7 +254,7 @@ jobs:
               'role_chain': ['LCR-A', 'LCR-B', 'LCR-C', 'LCR-A'],
               'builder_verifier_separated': True,
               'cloud_model_auth_verified': True,
-              'cloud_model_auth_method': 'GitHub Models via ephemeral GITHUB_TOKEN with models: read',
+              'cloud_model_auth_method': 'GitHub Models via actions/ai-inference and ephemeral GITHUB_TOKEN with models: read',
               'candidate_sha256': c['candidate_sha256'],
               'result': 'PASS',
               'completion_claim': 'CLOUD_A_B_C_A_ROUNDTRIP_VERIFIED',
