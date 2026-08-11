@@ -28,14 +28,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile relay, autonomy, and activation guard engines
+      - name: Compile relay, autonomy, activation guard, and metabolism engines
         id: compile
         continue-on-error: true
-        run: python -m py_compile cloud_relay_state.py autonomy_signal.py activation_gate_guard.py
-      - name: Run relay, autonomy, and activation guard tests
+        run: python -m py_compile cloud_relay_state.py autonomy_signal.py activation_gate_guard.py metabolism/metabolic_cleanup.py
+      - name: Run relay, autonomy, activation guard, and metabolism tests
         id: relay_tests
         continue-on-error: true
-        run: python -m unittest -v test_cloud_relay_state.py test_autonomy_signal.py test_activation_gate_guard.py
+        env:
+          PYTHONPATH: .:metabolism
+        run: python -m unittest -v test_cloud_relay_state.py test_autonomy_signal.py test_activation_gate_guard.py metabolism/test_metabolic_cleanup.py
       - name: Emit machine-readable evidence
         if: always()
         env:
@@ -55,16 +57,19 @@ jobs:
           overall = 'PASS' if compile_status == 'success' and test_status == 'success' else 'FAIL'
           evidence = {
               'schema_version': '1.0',
-              'mission_id': 'LCR-AUTONOMY-0002',
-              'evidence_type': 'github_actions_relay_autonomy_and_activation_guard_tests',
+              'mission_id': 'LCR-METABOLISM-PHASE1-0003',
+              'evidence_type': 'github_actions_relay_autonomy_activation_guard_and_metabolism_tests',
               'commit_sha': os.environ['COMMIT_SHA'],
               'ref': os.environ['GITHUB_REF_VALUE'],
               'ref_name': os.environ['GITHUB_REF_NAME_VALUE'],
-              'compile_command': 'python -m py_compile cloud_relay_state.py autonomy_signal.py activation_gate_guard.py',
-              'test_command': 'python -m unittest -v test_cloud_relay_state.py test_autonomy_signal.py test_activation_gate_guard.py',
+              'compile_command': 'python -m py_compile cloud_relay_state.py autonomy_signal.py activation_gate_guard.py metabolism/metabolic_cleanup.py',
+              'test_command': 'python -m unittest -v test_cloud_relay_state.py test_autonomy_signal.py test_activation_gate_guard.py metabolism/test_metabolic_cleanup.py',
               'compile_status': compile_status,
               'test_status': test_status,
               'status': overall,
+              'cleanup_mode': 'sandbox-test-only',
+              'main_modified': False,
+              'secret_values_recorded': False,
           }
           path = Path('evidence/lcr-state-tests-evidence.json')
           path.parent.mkdir(parents=True, exist_ok=True)
