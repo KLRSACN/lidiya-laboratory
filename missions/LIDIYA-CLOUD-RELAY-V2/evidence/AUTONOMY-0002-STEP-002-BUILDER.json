@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "step_id": 2,
+  "attempt": 0,
+  "role": "LCR-B",
+  "status": "BUILT_NOT_VERIFIED",
+  "inbound_packet": "packets/AUTONOMY-0002-STEP-002-A-TO-B.json",
+  "inbound_packet_sha256": "c3f971b55a6a1b0ac2a6b6b183e62b9ee36503bac59148721539dc7e8006946a",
+  "input_packet_hash_verified": true,
+  "consumed_inbound_before_emitting_outbound": true,
+  "changed": [
+    "missions/LIDIYA-CLOUD-RELAY-V2/autonomy_signal.py",
+    "missions/LIDIYA-CLOUD-RELAY-V2/test_autonomy_signal.py",
+    "missions/LIDIYA-CLOUD-RELAY-V2/signals/AUTONOMY-0002-LATEST.json",
+    "missions/LIDIYA-CLOUD-RELAY-V2/signals/AUTONOMY-0002-LATEST.md",
+    ".github/workflows/lcr-state-tests.yml"
+  ],
+  "candidate_commits": {
+    "autonomy_signal": "1491bda0a5edce8ec0a0ae28bf389565124f31b5",
+    "autonomy_tests": "c12b923624146c3f787dd68e6a51de328aab3b1d",
+    "signal_json": "f2deb37c0ce3f150ddebc2648d4f081052ef27ec",
+    "signal_markdown": "c47ea6373ca1037e8c12ecba99d69b3219010ada",
+    "branch_ci": "5a486f0e8b3063c05a54144bce15dbac8addb31d"
+  },
+  "readback_blob_shas": {
+    "autonomy_signal.py": "b65bedfb372a93aa760db7d830899985c210433c",
+    "test_autonomy_signal.py": "1b013351945b398540df58f6597883d37f955a6b",
+    ".github/workflows/lcr-state-tests.yml": "edf541f096a8696b92968f8943242dce38bbcebe"
+  },
+  "builder_reproducible_test": {
+    "compile_command": "python -m py_compile autonomy_signal.py",
+    "compile_exit_code": 0,
+    "test_command": "python -m unittest -v test_autonomy_signal.py",
+    "tests_run": 6,
+    "tests_passed": 6,
+    "tests_failed": 0
+  },
+  "generated_signal": {
+    "json_ref": "signals/AUTONOMY-0002-LATEST.json",
+    "markdown_ref": "signals/AUTONOMY-0002-LATEST.md",
+    "dedupe_key": "lcr-f1dd9b43f7f948e1e583",
+    "next_issue_kind": "activation_gate",
+    "next_issue_requires_human": true,
+    "completion_claim": "NOT_COMPLETE",
+    "signal_sha256": "16d14693e3013bad62f2851a1240cb118b71d7c946877bb67b20811468eba4a7"
+  },
+  "branch_ci": {
+    "permissions": "contents: read",
+    "compile_command": "python -m py_compile cloud_relay_state.py autonomy_signal.py",
+    "test_command": "python -m unittest -v test_cloud_relay_state.py test_autonomy_signal.py",
+    "expected_combined_test_count": 16,
+    "push_commit": "5a486f0e8b3063c05a54144bce15dbac8addb31d",
+    "external_run_observation": "PENDING_OR_NOT_VISIBLE_VIA_AVAILABLE_STATUS_QUERY",
+    "builder_did_not_claim_cloud_ci_pass": true
+  },
+  "environment_note": "A separate container attempt could not resolve github.com; this is treated as a test-environment network limitation, not as product PASS/FAIL evidence. GitHub connector readback was used for source integrity.",
+  "checks": {
+    "write_target_branch": "lidiya-cloud-relay-v2",
+    "main_or_default_branch_modified": false,
+    "deployment_performed": false,
+    "secrets_added_used_or_exposed": false,
+    "identity_personality_governance_modified": false,
+    "destructive_action_performed": false,
+    "builder_declared_pass": false
+  },
+  "lesson": "Autonomy can safely begin with deterministic state-derived progress and issue generation: a stable dedupe key prevents issue spam, while deferred activation gates remain explicit instead of being optimized away.",
+  "next_role": "LCR-C"
+}
