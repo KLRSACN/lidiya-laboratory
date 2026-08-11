@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 3,
+  "attempt": 2,
+  "evidence_type": "GITHUB_HOSTED_C_REALITY_ANCHOR",
+  "durable_verdict_ref": "evidence/METABOLISM-0003-STEP-003-VERIFIER-PASS-002.json",
+  "durable_verdict": "PASS",
+  "github_run_id": 31520071009,
+  "github_c_job_id": 93874704289,
+  "launcher_commit": "a79318476bab62aab99636f60f06135e35f36cec",
+  "artifact": {
+    "name": "lcr-0003-c-verifier-evidence",
+    "artifact_id": 9112657633,
+    "digest": "sha256:5a29a3d2d3799ee4ae001f82011ee74a03c5820aa28a3db0ffe503c0e6d6128d",
+    "retention_days": 2
+  },
+  "runner_permissions": {
+    "contents": "read",
+    "metadata": "read",
+    "repository_write_permission": false
+  },
+  "verified_pending_packet": "packets/METABOLISM-0003-B-TO-C-STEP-003-REPAIR-001.json",
+  "verified_pending_packet_sha256": "b6ff4b05080636b6565676dcbeb8888970b90cf60ed7165cc06eef9c8a53b1ab",
+  "checks": {
+    "packet_canonical_sha": "PASS",
+    "exact_git_blob_match": "PASS",
+    "compile": "PASS",
+    "unit_tests": "PASS",
+    "slot4_rejected": "PASS",
+    "missing_action_rejected": "PASS",
+    "wrong_action_rejected": "PASS",
+    "bare_authorized_true_rejected": "PASS",
+    "forged_authorization_ref_rejected": "PASS",
+    "wrong_trusted_authority_rejected": "PASS",
+    "valid_durable_handoff": "PASS",
+    "former_worker_stale_rejected": "PASS",
+    "incoming_control_non_interrupt": "PASS",
+    "external_self_metabolism_fail_closed": "PASS"
+  },
+  "secret_values_recorded": false,
+  "raw_worksite_retained": false,
+  "competing_verdict_created": false,
+  "disposition": "RETAIN_REALITY_ANCHOR_ONLY"
+}
