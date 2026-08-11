@@ -2,17 +2,22 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "STEP_DONE",
+  "status": "HUMAN_GATE",
   "step_id": 1,
   "attempt": 1,
-  "current_role": "LCR-A",
-  "next_role": "LCR-A",
+  "current_role": "HUMAN",
+  "next_role": "HUMAN",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
-  "last_packet_sha256": "bf3dcfe97769f0d2e07c3c294c8e18e83de97c8772a9578b2ca987d39edc5648",
-  "pending_packet": "packets/AUTONOMY-0002-STEP-001-C-TO-A-PASS.json",
+  "last_packet_sha256": "eccc6d7323527d6c64a14815c24fca8f60d1ecb6ca40ec6190e9354f24b0f85c",
+  "pending_packet": null,
   "lease": null,
-  "human_gate": null,
+  "human_gate": {
+    "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
+    "blocker": "Unattended GitHub cloud A→B→C→A execution cannot be proven until cloud model/agent authentication exists and an authorized default-branch launcher/entrypoint is available.",
+    "required_action": "Human must configure/authorize cloud model credentials and/or authorize the required default-branch launcher change outside current L2 boundaries, then return control to LCR-A.",
+    "evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json"
+  },
   "mission_result": null,
   "transition_path": [
     "IDLE",
@@ -25,7 +30,8 @@
     "BUILDING",
     "READY_FOR_VERIFY",
     "VERIFYING",
-    "STEP_DONE"
+    "STEP_DONE",
+    "HUMAN_GATE"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
@@ -33,10 +39,11 @@
   "next_authorized_mission": null,
   "verifier_evidence": "evidence/AUTONOMY-0002-STEP-001-REPAIR-VERIFY-PASS.json",
   "builder_evidence": "evidence/AUTONOMY-0002-STEP-001-REPAIR-BUILDER.json",
+  "coordinator_evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
   "cloud_activation": {
     "chatgpt_hourly_controller": "ENABLED",
-    "github_state_ci": "REPAIR_VERIFIED_STEP_DONE; CLOUD_ACTIONS_RUN_NOT_OBSERVED_VIA_AVAILABLE_QUERY",
-    "agentic_engine": "PENDING_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
+    "github_state_ci": "REPAIR_VERIFIED; CLOUD_ACTIONS_REALITY_RUN_NOT_OBSERVED",
+    "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
   },
@@ -45,9 +52,9 @@
     "retain_evidence": true,
     "retain_scratch": false,
     "candidate_ttl_hours": 24,
-    "closure": "OPEN",
+    "closure": "OPEN_BLOCKED_AT_ACTIVATION_GATE",
     "stable_promoted": false,
-    "waste_disposition": "verifier local scratch and builder local scratch disposable; retained failure lesson, repair evidence, verifier pass evidence, and regression test only",
+    "waste_disposition": "no new work generated; retain verified repair evidence and activation-gate evidence; local diagnostic scratch disposable",
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
