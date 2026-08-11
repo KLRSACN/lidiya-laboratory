@@ -1,0 +1,17 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "step_id":5,
+  "action":"REAL_GITHUB_CLOUD_METABOLISM_ROUNDTRIP",
+  "status":"AUTHORIZED_READY",
+  "created_at_taipei":"2026-08-12T02:22:00+08:00",
+  "authorization_ref":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "cloud_spawn_authorization_ref":"authorizations/LCR-METABOLISM-0003-CLOUD-SPAWN-SUBGATE.json",
+  "worker_roster_ref":"state/WORKER_ROSTER.json",
+  "role_chain":["LCR-A","LCR-B","LCR-C","LCR-A"],
+  "expected_workers":{"LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0},"LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1},"LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0}},
+  "task":{"goal":"prove one real GitHub-hosted A→Secondary-B→C→A cleanup roundtrip on ephemeral controlled fixtures","builder_fixture":["allowlisted reproducible stage scratch file must be physically deleted","unique/human-value fixture must survive","secret-like fixture must survive and content must not be hashed/logged","Recovery Baseline fixture must survive","third full backup creation must be rejected"],"verifier_required":["download and verify A-start and B artifacts","recompute B artifact canonical SHA","independently recreate deterministic fixture and reproduce cleanup result","verify unsafe/protected fixtures survive and secret-like content is absent from evidence","verify third backup rejection","return PASS/FAIL artifact only; no repo write"],"a_finish_required":["accept only C PASS artifact with hash chain matching B artifact and request SHA","emit final roundtrip artifact with role_chain A→B→C→A","no repo write from workflow"]},
+  "boundaries":{"repository_permissions":"contents:read","repo_write":false,"secret_access":false,"real_user_data_cleanup":false,"fixture_scope":"ephemeral GitHub-hosted runner only","formal_slots_max":3,"full_backups_max":2,"third_full_backup":"FORBIDDEN","identity_personality_governance_change":false},
+  "acceptance":["real GitHub-hosted A→B→C→A jobs all succeed","B performs actual safe fixture deletion","C independently reproduces and verifies the cleanup","protected/unique/secret/recovery fixtures survive","third full backup is rejected","final A artifact chains request, B evidence and C verdict hashes","workflow uses read-only repository permission"],
+  "request_sha256":"dfecdb8cefa73461739a0f46740862eabf5897a8d5bb361e68f1eff913b84f9c"
+}
