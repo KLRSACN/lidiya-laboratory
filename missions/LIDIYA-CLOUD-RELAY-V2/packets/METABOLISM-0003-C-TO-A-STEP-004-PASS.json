@@ -1,0 +1,29 @@
+{
+  "schema_version": "3.1",
+  "mission_id": "LCR-METABOLISM-0003",
+  "run_id": "LCR-METABOLISM-0003-RUN-004-C-TO-A",
+  "step_id": 4,
+  "attempt": 0,
+  "source": "LCR-C",
+  "target": "LCR-A",
+  "action": "ABSORB_VERIFIED_SECONDARY_B_TAKEOVER",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T02:16:00+08:00",
+  "parent_packet_sha256": "c800a59cb15c76c3bccd2fec7b0385d6e95aa1527de74b2213ae1ba11fcfac21",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "verifier_evidence": "evidence/METABOLISM-0003-STEP-004-VERIFIER-PASS.json",
+  "verdict": "PASS",
+  "acceptance": [
+    "A absorbs verified same-slot B replacement proof",
+    "formal roster remains exactly A/B/C",
+    "old B worker remains stale after takeover"
+  ],
+  "forbidden": [
+    "create fourth formal slot",
+    "self-promote stable",
+    "modify main/default branch",
+    "secret access"
+  ],
+  "packet_sha256": "f3234d72df69cc4002b1262fd792434092c152d183059814f88d06d9d773f4a6"
+}
