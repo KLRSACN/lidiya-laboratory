@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 1,
+  "attempt": 0,
+  "role": "LCR-B",
+  "status": "BUILT_NOT_VERIFIED",
+  "timestamp_taipei": "2026-08-11T20:12:31+08:00",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "inbound_packet": "packets/METABOLISM-0003-A-TO-B-STEP-001.json",
+  "inbound_packet_sha256": "96ac32ee819d28265fb36adab4e0684c83d2ad84d3112e3a2bd14bcbeb20d901",
+  "candidate": {
+    "files": [
+      {
+        "path": "metabolism_guard.py",
+        "commit": "c16fc2784d2365579951d1926170de1e9eaa1070",
+        "blob_sha": "e9669e8599771e4b6e0ba5fc2792f357b11dffb5"
+      },
+      {
+        "path": "test_metabolism_guard.py",
+        "commit": "6eab5c63a9cea13eaab0da817a235bd7a4e8ed4a",
+        "blob_sha": "e6066fc0652230945a3f6cd0956ae29ec91c130d"
+      }
+    ],
+    "scope_respected": true,
+    "main_modified": false,
+    "secret_access": false
+  },
+  "builder_checks": {
+    "compile_exit_code": 0,
+    "unit_tests": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0
+    },
+    "test_mode": "independent local reproduction of GitHub-readback guard semantics; C must execute exact GitHub bytes independently",
+    "fixture_apply": {
+      "safe_stage_file_deleted": true,
+      "unique_fixture_retained": true
+    },
+    "backup_invariant": {
+      "two_authorized_groups_accept": true,
+      "third_full_backup_rejected": true,
+      "recovery_baseline_mutation_rejected": true
+    },
+    "negative_guards": {
+      "referenced_kept": true,
+      "unique_kept": true,
+      "unreproducible_quarantined": true,
+      "recovery_failure_quarantined": true,
+      "secret_like_quarantined": true,
+      "traversal_rejected": true
+    }
+  },
+  "legacy_candidate_disposition": "metabolism/PHASE1_* remains WORKING_EXCHANGE candidate nutrition; no third full backup created",
+  "lesson": "Enforce backup count and deletion safety as machine invariants before cleanup; keep Builder evidence compact and require Guardian verification on exact repository bytes.",
+  "next_role": "LCR-C"
+}
