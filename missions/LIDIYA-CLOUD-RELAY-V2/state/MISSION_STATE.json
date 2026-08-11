@@ -2,21 +2,25 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "HUMAN_GATE",
-  "step_id": 1,
-  "attempt": 1,
-  "current_role": "HUMAN",
-  "next_role": "HUMAN",
+  "status": "READY_FOR_BUILDER",
+  "step_id": 2,
+  "attempt": 0,
+  "current_role": "LCR-B",
+  "next_role": "LCR-B",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
   "last_packet_sha256": "eccc6d7323527d6c64a14815c24fca8f60d1ecb6ca40ec6190e9354f24b0f85c",
-  "pending_packet": null,
+  "pending_packet": "packets/AUTONOMY-0002-STEP-002-A-TO-B.json",
   "lease": null,
-  "human_gate": {
+  "human_gate": null,
+  "deferred_human_gate": {
     "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
-    "blocker": "Unattended GitHub cloud A→B→C→A execution cannot be proven until cloud model/agent authentication exists and an authorized default-branch launcher/entrypoint is available.",
-    "required_action": "Human must configure/authorize cloud model credentials and/or authorize the required default-branch launcher change outside current L2 boundaries, then return control to LCR-A.",
-    "evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json"
+    "status": "DEFERRED_NOT_OVERRIDDEN",
+    "blocker": "Unattended GitHub cloud A→B→C→A execution still requires cloud model/agent authentication and an authorized default-branch launcher/entrypoint.",
+    "not_authorized": [
+      "main/default-branch write",
+      "cloud model credential/secret configuration"
+    ]
   },
   "mission_result": null,
   "transition_path": [
@@ -31,30 +35,39 @@
     "READY_FOR_VERIFY",
     "VERIFYING",
     "STEP_DONE",
-    "HUMAN_GATE"
+    "HUMAN_GATE",
+    "COORDINATING",
+    "READY_FOR_BUILDER"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
   "authorization_level": "L2_DEVELOPMENT",
+  "authorization_amendment": "authorizations/LCR-AUTONOMY-0002-L2-AMENDMENT-20260811.json",
   "next_authorized_mission": null,
   "verifier_evidence": "evidence/AUTONOMY-0002-STEP-001-REPAIR-VERIFY-PASS.json",
   "builder_evidence": "evidence/AUTONOMY-0002-STEP-001-REPAIR-BUILDER.json",
   "coordinator_evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
   "cloud_activation": {
-    "chatgpt_hourly_controller": "ENABLED",
-    "github_state_ci": "REPAIR_VERIFIED; CLOUD_ACTIONS_REALITY_RUN_NOT_OBSERVED",
+    "chatgpt_hourly_controller": "PAUSED_DURING_STEP_002_BUILD",
+    "github_state_ci": "REPAIR_VERIFIED; AUTONOMY_SIGNAL_STEP_ASSIGNED",
     "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
+  },
+  "progress_feed": {
+    "status": "PLANNED",
+    "issue_number": null,
+    "latest_signal": null,
+    "dedupe_key": null
   },
   "metabolism": {
     "retain_lessons": true,
     "retain_evidence": true,
     "retain_scratch": false,
     "candidate_ttl_hours": 24,
-    "closure": "OPEN_BLOCKED_AT_ACTIVATION_GATE",
+    "closure": "OPEN_WITH_DEFERRED_ACTIVATION_GATE",
     "stable_promoted": false,
-    "waste_disposition": "no new work generated; retain verified repair evidence and activation-gate evidence; local diagnostic scratch disposable",
+    "waste_disposition": "retain verified repair and human-gate evidence; step-002 scratch disposable after verification",
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
