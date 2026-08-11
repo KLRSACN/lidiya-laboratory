@@ -1,32 +1,32 @@
 # Lidiya Cloud Relay — Development Progress
 
-- Generated: `2026-08-11T09:42:00+00:00`
+- Generated: `2026-08-11T10:42:00+00:00`
 - Mission: `LCR-AUTONOMY-0002`
-- State: `HUMAN_GATE`
-- Step / attempt: `2` / `0`
-- Current role: `HUMAN`
-- Completion claim: `NOT_COMPLETE`
+- State: `IDLE`
+- Step / attempt: `3` / `0`
+- Current role: `LCR-A`
+- Completion claim: `PASS`
 
 ## Progress
-LCR-AUTONOMY-0002 step=2 attempt=0 status=HUMAN_GATE role=HUMAN. Activation gate: CLOUD_ACTIVATION_REQUIRES_HUMAN (ACTIVE). Rollback anchor: nav-relay-mvp-0001.
+LCR-AUTONOMY-0002 step=3 attempt=0 status=IDLE role=LCR-A. Rollback anchor: nav-relay-mvp-0001.
 
 ### Evidence
-- `evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json`
+- `evidence/AUTONOMY-0002-CLOUD-ACTIVATION-CLOSURE.json`
 - `evidence/AUTONOMY-0002-STEP-002-BUILDER.json`
 - `evidence/AUTONOMY-0002-STEP-002-VERIFY-PASS.json`
 
+### Cloud activation
+- Default-branch launcher: `VERIFIED`
+- Real GitHub Actions run: `31482832715` — `success`
+- Role chain: `LCR-A → LCR-B → LCR-C → LCR-A`
+- Builder / Verifier separation: `verified`
+- Cloud engine: `GitHub Copilot CLI`
+- Authentication: ephemeral `GITHUB_TOKEN` with `copilot-requests: write`
+- Persistent credential: `none`
+- Candidate SHA-256: `d862a1f32df216b9a3a05767196d2f114e3e996241f17d9839a24fe11482df9b`
+- Metabolic Closure: `CLOSED_PASS_RETURNED_TO_BASELINE`
+
 ## Next issue
-**LCR-AUTONOMY-0002: resolve CLOUD_ACTIVATION_REQUIRES_HUMAN**
+No next issue: mission is at verified PASS / IDLE and no next mission is authorized.
 
-- Key: `lcr-f1dd9b43f7f948e1e583`
-- Kind: `activation_gate`
-- Priority: `P0`
-- Requires human: `true`
-- Auto-executable: `false`
-
-Unattended GitHub cloud A→B→C→A execution still requires cloud model/agent authentication and an authorized default-branch launcher/entrypoint.
-
-### Acceptance
-- Authorize a reviewed default-branch launcher and configure cloud model authentication outside L2 without sharing secret values in chat, then return control to LCR-A.
-
-Signal SHA-256: `c54a6d68bedc89c78c6abd9d3d7705e54b2e6fcb58b3caff3ed8710bab8d8795`
+Signal SHA-256: `4fba3e99b7b965fdd4c479002bf78eb2689be42e4d9c0f512649ecdf7a3b81a7`
