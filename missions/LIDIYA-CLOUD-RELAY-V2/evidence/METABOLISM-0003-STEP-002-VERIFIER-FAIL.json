@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 2,
+  "attempt": 0,
+  "role": "LCR-C",
+  "result": "FAIL",
+  "verified_at_taipei": "2026-08-12T01:01:30+08:00",
+  "inbound_packet": "packets/METABOLISM-0003-B-TO-C-STEP-002.json",
+  "inbound_packet_sha256": "a021688e118fbdd9479c089cbfb353e610e6085a46a97f0f4ac42d7d23843403",
+  "checks": {
+    "authorization_active_branch_local": true,
+    "current_role_is_LCR-C": true,
+    "pending_target_is_LCR-C": true,
+    "pending_packet_sha_recomputed_matches": true,
+    "max_slots_is_3": true,
+    "backup_policy_max_2_present": true,
+    "workflow_permissions_contents_read_only": true,
+    "builder_did_not_self_pass": true,
+    "packet_content_integrity_guard": false,
+    "worker_restart_exact_next_handoff_recovery": false,
+    "status_panel_matches_durable_state": false,
+    "real_github_cloud_roundtrip": "NOT_CLAIMED_BY_BUILDER_AND_NOT_VERIFIED"
+  },
+  "root_causes": [
+    "golden_triangle_orchestrator.consume_and_dispatch trusts packet['packet_sha256'] and compares only that claimed value to durable pending_packet_sha256; it does not recompute the digest from packet content. A mutated packet retaining the old claimed hash can therefore pass this guard.",
+    "consume_and_dispatch changes current_role/next_role but does not persist or return the exact next pending packet path/hash. The current candidate therefore does not itself prove restart recovery of the next handoff from durable state.",
+    "status/LCR-METABOLISM-0003-STATUS.md is stale: it still mirrors STEP-001 and an old B→C hash while durable state is STEP-002 with pending SHA a021688e...3403. Durable state remains authoritative, but the required human-facing mirror is inconsistent."
+  ],
+  "repair_acceptance": [
+    "Recompute canonical SHA-256 from packet content excluding packet_sha256 inside consume_and_dispatch and reject stale/mutated packet content.",
+    "Persist or return exact next pending packet identity/path/hash as part of dispatch so restart can recover the next handoff deterministically.",
+    "Add negative test for mutated packet with stale claimed hash and a restart-recovery test using durable state only.",
+    "Refresh the status panel from current durable state.",
+    "Do not claim real cloud A→B→C→A until GitHub-hosted execution evidence exists; default-branch activation remains a separate HUMAN sub-gate if required."
+  ],
+  "main_default_write": false,
+  "builder_files_modified_by_verifier": false,
+  "verdict": "FAIL"
+}
