@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-ROUNDTRIP-0001",
+  "role": "LCR-A",
+  "result": "PASS",
+  "consumed_packet": "packets/STEP-001-C-TO-A.json",
+  "consumed_packet_sha256": "82c49a755a706019116ab440a2dd59cb738c3746464c3b44e2b3476bec1e26a5",
+  "verifier_evidence": "evidence/STEP-001-VERIFY.json",
+  "proof_sha256": "dc35b9e60b28dcee842adb2e7089b319a2cbf2bf25319698aacfb706b754ab99",
+  "coordinator_checks": {
+    "c_to_a_packet_hash_valid": true,
+    "verifier_status_pass": true,
+    "proof_hash_matches_acceptance": true,
+    "builder_did_not_self_verify": true,
+    "active_lease_blocks_second_worker": true,
+    "expired_lease_can_be_reclaimed": true,
+    "duplicate_packet_is_rejected": true,
+    "tampered_packet_is_rejected": true,
+    "a_b_c_a_roundtrip_complete": true,
+    "no_human_gate_required": true
+  },
+  "reality_evidence": {
+    "source": "missions/LIDIYA-CLOUD-RELAY-V2/cloud_relay_state.py",
+    "test_contract": "missions/LIDIYA-CLOUD-RELAY-V2/test_cloud_relay_state.py",
+    "independent_runtime_recheck": "PASS",
+    "checks_executed": 5
+  },
+  "metabolic_closure": {
+    "stable_ref": "nav-relay-mvp-0001",
+    "candidate_ref": "lidiya-cloud-relay-v2",
+    "promotion": "NOT_PROMOTED",
+    "reason": "Proof mission passed, but cloud agentic engine authentication and default-branch launcher remain an explicit Activation Gate.",
+    "retain": [
+      "cloud_relay_state.py",
+      "test_cloud_relay_state.py",
+      "ROUNDTRIP proof hash",
+      "Builder/Verifier/Coordinator minimal evidence",
+      "packet provenance chain",
+      "rollback anchor nav-relay-mvp-0001"
+    ],
+    "waste": {
+      "scratch_conversations": "discard",
+      "duplicate_intermediate_outputs": "discard",
+      "debug_traces": "discard_unless_incident",
+      "obsolete_candidate_copies": "none_created"
+    }
+  },
+  "lesson": "A durable-state A→B→C→A relay can complete without treating workers as identity; completion evidence can be reduced to hashes, tests, provenance, and rollback metadata.",
+  "next_authorized_mission": null,
+  "disposition": "retain_as_proof_evidence"
+}
