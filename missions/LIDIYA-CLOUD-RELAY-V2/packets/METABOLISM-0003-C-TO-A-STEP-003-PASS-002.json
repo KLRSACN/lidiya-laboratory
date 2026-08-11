@@ -1,0 +1,19 @@
+{
+  "schema_version":"2.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "run_id":"LCR-METABOLISM-0003-RUN-003-C-PASS-002",
+  "step_id":3,
+  "attempt":2,
+  "source":"LCR-C",
+  "target":"LCR-A",
+  "action":"ABSORB_VERIFIED_CONTINUOUS_CONTROL",
+  "status":"READY",
+  "created_at_taipei":"2026-08-12T01:57:00+08:00",
+  "parent_packet_sha256":"b6ff4b05080636b6565676dcbeb8888970b90cf60ed7165cc06eef9c8a53b1ab",
+  "authorization_ref":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref":"lidiya-cloud-relay-v2",
+  "evidence_ref":"evidence/METABOLISM-0003-STEP-003-VERIFIER-PASS-002.json",
+  "verdict":"PASS",
+  "compact_result":{"formal_slots":3,"same_slot_handoff":"PASS","owner_input_non_interrupt":"PASS","external_self_metabolism":"PASS","authorization_binding":"PASS"},
+  "packet_sha256":"7a82406ab5dbaf0f36e8e040329b08167c2f2385a5d16a6334e9e9661ecc722f"
+}
