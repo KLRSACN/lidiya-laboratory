@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "authorization_type": "ONE_TIME_ACTIVATION_GATE",
+  "authorized_at": "2026-08-11T10:20:00+00:00",
+  "authorized_by": "博玄",
+  "allowed": {
+    "default_branch": "main",
+    "default_branch_write_scope": [
+      ".github/workflows/lcr-cloud-launcher.yml"
+    ],
+    "cloud_model_auth": [
+      "GitHub Models via ephemeral GITHUB_TOKEN with models: read",
+      "provider secret presence/setup contracts that never reveal secret values"
+    ],
+    "verification": [
+      "real GitHub-hosted Actions execution",
+      "separate LCR-A, LCR-B, LCR-C, LCR-A jobs",
+      "independent deterministic verifier checks",
+      "workflow artifact evidence",
+      "Metabolic Closure after verified PASS"
+    ]
+  },
+  "forbidden": [
+    "modify any other main/default-branch file",
+    "merge unrelated candidate changes into main",
+    "contents write permission inside the launcher",
+    "production deployment or irreversible publication",
+    "Identity Kernel/personality/Governance modification",
+    "API key/PAT/secret value in source, chat, logs, evidence, or artifacts",
+    "destructive deletion, money movement, or account privilege expansion"
+  ],
+  "secret_policy": "Use GitHub-provided ephemeral credentials only when possible. Never print, persist, hash, or otherwise record credential values.",
+  "rollback": {
+    "stable_anchor": "nav-relay-mvp-0001",
+    "launcher_rollback": "delete only .github/workflows/lcr-cloud-launcher.yml from main if activation proof fails or is revoked"
+  },
+  "expires_after": "one successful verified activation proof and Metabolic Closure"
+}
