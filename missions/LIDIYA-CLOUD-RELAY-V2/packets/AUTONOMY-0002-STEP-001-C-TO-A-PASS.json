@@ -1,0 +1,45 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "LCR-AUTONOMY-0002-RUN-001",
+  "step_id": 1,
+  "attempt": 1,
+  "source_role": "LCR-C",
+  "target_role": "LCR-A",
+  "status": "STEP_DONE",
+  "parent_packet_sha256": "bf3dcfe97769f0d2e07c3c294c8e18e83de97c8772a9578b2ca987d39edc5648",
+  "created_at": "2026-08-11T08:57:00+00:00",
+  "lease_owner": "LCR-C-CHATGPT-20260811T1653+08",
+  "lease_expires_at": "2026-08-11T09:08:00+00:00",
+  "task": "Coordinator review the independently verified packet-consumption repair and decide the next smallest L2 mission step. The repair step is verified; overall LCR-AUTONOMY-0002 is not yet PROJECT_DONE because GitHub cloud agent activation remains gated.",
+  "acceptance": [
+    "Treat STEP-001 repair as independently verified PASS",
+    "Do not repeat the repaired Builder step unless new contradictory evidence appears",
+    "Preserve rollback anchor nav-relay-mvp-0001 and the retained failure lesson",
+    "Choose only the next smallest authorized L2 step; do not merge main or configure secrets",
+    "If default-branch launcher or cloud model authentication is required, stop at HUMAN_GATE"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [
+    {
+      "type": "verifier_evidence",
+      "ref": "evidence/AUTONOMY-0002-STEP-001-REPAIR-VERIFY-PASS.json"
+    },
+    {
+      "type": "builder_repair_evidence",
+      "ref": "evidence/AUTONOMY-0002-STEP-001-REPAIR-BUILDER.json"
+    },
+    {
+      "type": "code_commit",
+      "ref": "46e0b42be9e908e54ecc17e26c714007507683f2"
+    },
+    {
+      "type": "test_commit",
+      "ref": "7f1d7214f3c61dd7d9a433d75ab54d4a2711e5bd"
+    }
+  ],
+  "result": "VERIFIED_PASS",
+  "lesson": "Durable relay state must distinguish the last consumed inbound packet from the currently pending outbound packet; independent replay testing is required at role handoff boundaries.",
+  "disposition": "verified_candidate",
+  "packet_sha256": "eccc6d7323527d6c64a14815c24fca8f60d1ecb6ca40ec6190e9354f24b0f85c"
+}
