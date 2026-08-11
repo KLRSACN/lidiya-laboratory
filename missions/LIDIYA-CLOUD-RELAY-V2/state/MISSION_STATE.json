@@ -2,16 +2,21 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "STEP_DONE",
+  "status": "COORDINATING",
   "step_id": 2,
   "attempt": 0,
   "current_role": "LCR-A",
   "next_role": "LCR-A",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
-  "last_packet_sha256": "cc6b3ce4d29ab101051f124d69a7391aa8e99f81b46ec4ccf68901710bb68e18",
-  "pending_packet": "packets/AUTONOMY-0002-STEP-002-C-TO-A-PASS.json",
-  "lease": null,
+  "last_packet_sha256": "0a872d0f47de913efece05b5f4ba200ed0de85040650c002e1ca1d7624488c9f",
+  "pending_packet": null,
+  "lease": {
+    "role": "LCR-A",
+    "owner": "LCR-A-CHATGPT-20260811T1738+08",
+    "claimed_at": "2026-08-11T09:38:00+00:00",
+    "expires_at": "2026-08-11T09:53:00+00:00"
+  },
   "human_gate": null,
   "deferred_human_gate": {
     "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
@@ -41,7 +46,8 @@
     "BUILDING",
     "READY_FOR_VERIFY",
     "VERIFYING",
-    "STEP_DONE"
+    "STEP_DONE",
+    "COORDINATING"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
@@ -52,8 +58,8 @@
   "builder_evidence": "evidence/AUTONOMY-0002-STEP-002-BUILDER.json",
   "coordinator_evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
   "cloud_activation": {
-    "chatgpt_hourly_controller": "PAUSED_PENDING_PROGRESS_FEED_ACTIVATION",
-    "github_state_ci": "AUTONOMY_SIGNAL_VERIFIED_STEP_DONE; ACTIONS_RUN_NOT_OBSERVED_VIA_AVAILABLE_STATUS_QUERY",
+    "chatgpt_hourly_controller": "PAUSED_DURING_PROGRESS_FEED_ACTIVATION",
+    "github_state_ci": "AUTONOMY_SIGNAL_VERIFIED; PROGRESS_FEED_ACTIVATING",
     "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
@@ -73,7 +79,7 @@
     "candidate_ttl_hours": 24,
     "closure": "OPEN_WITH_DEFERRED_ACTIVATION_GATE",
     "stable_promoted": false,
-    "waste_disposition": "retain step-002 builder/verifier evidence and verified signal; local test scratch disposable",
+    "waste_disposition": "retain step-002 verified signal/evidence; publication scratch disposable",
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
