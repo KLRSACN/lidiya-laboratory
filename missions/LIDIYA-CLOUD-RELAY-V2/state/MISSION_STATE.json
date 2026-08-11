@@ -2,16 +2,21 @@
   "schema_version": "2.0",
   "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "READY_FOR_VERIFY",
+  "status": "VERIFYING",
   "step_id": 2,
   "attempt": 0,
   "current_role": "LCR-C",
   "next_role": "LCR-C",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
-  "last_packet_sha256": "c3f971b55a6a1b0ac2a6b6b183e62b9ee36503bac59148721539dc7e8006946a",
-  "pending_packet": "packets/AUTONOMY-0002-STEP-002-B-TO-C.json",
-  "lease": null,
+  "last_packet_sha256": "cc6b3ce4d29ab101051f124d69a7391aa8e99f81b46ec4ccf68901710bb68e18",
+  "pending_packet": null,
+  "lease": {
+    "role": "LCR-C",
+    "owner": "LCR-C-CHATGPT-20260811T1732+08",
+    "claimed_at": "2026-08-11T09:32:00+00:00",
+    "expires_at": "2026-08-11T09:47:00+00:00"
+  },
   "human_gate": null,
   "deferred_human_gate": {
     "code": "CLOUD_ACTIVATION_REQUIRES_HUMAN",
@@ -39,7 +44,8 @@
     "COORDINATING",
     "READY_FOR_BUILDER",
     "BUILDING",
-    "READY_FOR_VERIFY"
+    "READY_FOR_VERIFY",
+    "VERIFYING"
   ],
   "closure_evidence": null,
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
@@ -51,7 +57,7 @@
   "coordinator_evidence": "evidence/AUTONOMY-0002-COORDINATOR-HUMAN-GATE.json",
   "cloud_activation": {
     "chatgpt_hourly_controller": "PAUSED_DURING_STEP_002_VERIFY",
-    "github_state_ci": "AUTONOMY_SIGNAL_BUILT_NOT_VERIFIED; BRANCH_CI_PUSHED_PENDING_OBSERVATION",
+    "github_state_ci": "AUTONOMY_SIGNAL_VERIFYING; BRANCH_CI_PUSHED_PENDING_OBSERVATION",
     "agentic_engine": "HUMAN_GATE_AUTH_AND_DEFAULT_BRANCH_LAUNCHER",
     "preferred_engine": "gemini",
     "edge_starter": "雪璃"
@@ -71,7 +77,7 @@
     "candidate_ttl_hours": 24,
     "closure": "OPEN_WITH_DEFERRED_ACTIVATION_GATE",
     "stable_promoted": false,
-    "waste_disposition": "retain verified repair and human-gate evidence; step-002 builder scratch disposable after verifier disposition",
+    "waste_disposition": "retain verified repair and human-gate evidence; step-002 verifier scratch disposable after disposition",
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
