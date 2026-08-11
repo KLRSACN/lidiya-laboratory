@@ -1,271 +1,42 @@
-name: LCR Cloud Activation Proof
+name: LCR Cloud Launcher — Dormant After Verified Proof
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/lcr-cloud-launcher.yml'
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
   contents: read
   copilot-requests: write
 
-concurrency:
-  group: lcr-cloud-activation-proof
-  cancel-in-progress: false
-
 jobs:
-  lcr-a-start:
-    name: LCR-A Coordinator Start
-    if: github.event_name != 'pull_request' || github.head_ref == 'lidiya-cloud-relay-v2'
+  authorization-gate:
+    name: One-time authorization guard
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 2
     steps:
-      - name: Checkout candidate branch
+      - name: Checkout canonical candidate branch
         uses: actions/checkout@v4
         with:
           ref: lidiya-cloud-relay-v2
 
-      - name: Validate one-time authorization
+      - name: Refuse consumed authorization
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path('missions/LIDIYA-CLOUD-RELAY-V2/authorizations/LCR-AUTONOMY-0002-ACTIVATION-GATE-20260811.json')
-          data = json.loads(p.read_text(encoding='utf-8'))
-          assert data['mission_id'] == 'LCR-AUTONOMY-0002'
-          assert data['authorization_type'] == 'ONE_TIME_ACTIVATION_GATE'
-          assert '.github/workflows/lcr-cloud-launcher.yml' in data['allowed']['default_branch_write_scope']
-          assert data['validation_carrier']['pull_request'] == 5
-          assert data['validation_carrier']['merge_authorized'] is False
-          print('authorization=VALID')
-          PY
 
-      - name: Install current Copilot CLI
-        run: |
-          npm install -g @github/copilot
-          copilot --version | tee copilot-version.txt
+          path = Path('missions/LIDIYA-CLOUD-RELAY-V2/authorizations/LCR-AUTONOMY-0002-ACTIVATION-GATE-20260811.json')
+          auth = json.loads(path.read_text(encoding='utf-8'))
 
-      - name: LCR-A keyless Copilot authentication proof
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          copilot -p 'Return exactly LCR-A-CLOUD-READY and nothing else.' -s --no-ask-user > a-response.txt
+          assert auth['mission_id'] == 'LCR-AUTONOMY-0002'
+          assert auth['authorization_type'] == 'ONE_TIME_ACTIVATION_GATE'
+          if auth.get('status') != 'ACTIVE':
+              raise SystemExit(
+                  'LCR-AUTONOMY-0002 one-time Activation Gate is consumed. '
+                  'A new explicit authorization and reviewed launcher revision are required before another cloud mission.'
+              )
 
-      - name: Validate A model response and emit evidence
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          content = Path('a-response.txt').read_text(encoding='utf-8').strip()
-          if content != 'LCR-A-CLOUD-READY':
-              raise SystemExit(f'unexpected coordinator model response: {content!r}')
-          evidence = {
-              'schema_version': '1.0',
-              'mission_id': 'LCR-AUTONOMY-0002',
-              'run_id': os.environ['GITHUB_RUN_ID'],
-              'role': 'LCR-A',
-              'result': 'COORDINATOR_READY',
-              'model_auth': 'GITHUB_TOKEN/copilot-requests:write',
-              'engine': 'GitHub Copilot CLI',
-              'copilot_cli_version': Path('copilot-version.txt').read_text(encoding='utf-8').strip(),
-              'model_response': content
-          }
-          Path('a-start.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
-          PY
-
-      - name: Upload A evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: lcr-a-start
-          path: a-start.json
-          retention-days: 7
-
-  lcr-b:
-    name: LCR-B Builder
-    needs: lcr-a-start
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Download A evidence
-        uses: actions/download-artifact@v4
-        with:
-          name: lcr-a-start
-          path: inbound
-
-      - name: Build deterministic candidate
-        run: |
-          python - <<'PY'
-          import hashlib
-          import json
-          import os
-          from pathlib import Path
-          a = json.loads(Path('inbound/a-start.json').read_text(encoding='utf-8'))
-          assert a['mission_id'] == 'LCR-AUTONOMY-0002'
-          assert a['role'] == 'LCR-A'
-          assert a['result'] == 'COORDINATOR_READY'
-          run_id = os.environ['GITHUB_RUN_ID']
-          text = (
-              'LCR_CLOUD_ACTIVATION_CANDIDATE\n'
-              'mission=LCR-AUTONOMY-0002\n'
-              f'run_id={run_id}\n'
-              'builder=LCR-B\n'
+          raise SystemExit(
+              'Authorization is ACTIVE but this post-proof launcher is intentionally dormant. '
+              'A reviewed mission-specific launcher revision is required before execution.'
           )
-          Path('candidate.txt').write_text(text, encoding='utf-8')
-          sha = hashlib.sha256(text.encode('utf-8')).hexdigest()
-          evidence = {
-              'schema_version': '1.0',
-              'mission_id': 'LCR-AUTONOMY-0002',
-              'run_id': run_id,
-              'role': 'LCR-B',
-              'result': 'BUILT_NOT_VERIFIED',
-              'candidate': 'candidate.txt',
-              'candidate_sha256': sha,
-              'parent_role': 'LCR-A'
-          }
-          Path('b-evidence.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
-          PY
-
-      - name: Upload B candidate
-        uses: actions/upload-artifact@v4
-        with:
-          name: lcr-b-candidate
-          path: |
-            candidate.txt
-            b-evidence.json
-          retention-days: 7
-
-  lcr-c:
-    name: LCR-C Verifier
-    needs: lcr-b
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Download B candidate
-        uses: actions/download-artifact@v4
-        with:
-          name: lcr-b-candidate
-          path: inbound
-
-      - name: Independently verify Builder artifact
-        run: |
-          python - <<'PY'
-          import hashlib
-          import json
-          import os
-          from pathlib import Path
-          evidence = json.loads(Path('inbound/b-evidence.json').read_text(encoding='utf-8'))
-          text = Path('inbound/candidate.txt').read_text(encoding='utf-8')
-          expected = (
-              'LCR_CLOUD_ACTIVATION_CANDIDATE\n'
-              'mission=LCR-AUTONOMY-0002\n'
-              f"run_id={os.environ['GITHUB_RUN_ID']}\n"
-              'builder=LCR-B\n'
-          )
-          assert evidence['result'] == 'BUILT_NOT_VERIFIED'
-          assert text == expected
-          actual_sha = hashlib.sha256(text.encode('utf-8')).hexdigest()
-          assert actual_sha == evidence['candidate_sha256']
-          Path('verified-sha.txt').write_text(actual_sha + '\n', encoding='utf-8')
-          print(f'candidate_sha256={actual_sha}')
-          PY
-
-      - name: Install current Copilot CLI independently
-        run: |
-          npm install -g @github/copilot
-          copilot --version | tee copilot-version.txt
-
-      - name: LCR-C independent keyless Copilot authentication proof
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          copilot -p 'Return exactly LCR-C-MODEL-ONLINE and nothing else.' -s --no-ask-user > c-response.txt
-
-      - name: Validate C model response and emit verdict
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          content = Path('c-response.txt').read_text(encoding='utf-8').strip()
-          if content != 'LCR-C-MODEL-ONLINE':
-              raise SystemExit(f'unexpected verifier model response: {content!r}')
-          sha = Path('verified-sha.txt').read_text(encoding='utf-8').strip()
-          verdict = {
-              'schema_version': '1.0',
-              'mission_id': 'LCR-AUTONOMY-0002',
-              'run_id': os.environ['GITHUB_RUN_ID'],
-              'role': 'LCR-C',
-              'result': 'VERIFIED_PASS',
-              'deterministic_candidate_check': True,
-              'candidate_sha256': sha,
-              'independent_model_auth': 'GITHUB_TOKEN/copilot-requests:write',
-              'engine': 'GitHub Copilot CLI',
-              'copilot_cli_version': Path('copilot-version.txt').read_text(encoding='utf-8').strip(),
-              'model_response': content
-          }
-          Path('c-verdict.json').write_text(json.dumps(verdict, indent=2) + '\n', encoding='utf-8')
-          PY
-
-      - name: Upload C verdict
-        uses: actions/upload-artifact@v4
-        with:
-          name: lcr-c-verdict
-          path: c-verdict.json
-          retention-days: 7
-
-  lcr-a-finish:
-    name: LCR-A Coordinator Finish
-    needs: lcr-c
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Download C verdict
-        uses: actions/download-artifact@v4
-        with:
-          name: lcr-c-verdict
-          path: inbound
-
-      - name: Close cloud roundtrip proof
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          c = json.loads(Path('inbound/c-verdict.json').read_text(encoding='utf-8'))
-          assert c['mission_id'] == 'LCR-AUTONOMY-0002'
-          assert c['role'] == 'LCR-C'
-          assert c['result'] == 'VERIFIED_PASS'
-          assert c['deterministic_candidate_check'] is True
-          result = {
-              'schema_version': '1.0',
-              'mission_id': 'LCR-AUTONOMY-0002',
-              'run_id': os.environ['GITHUB_RUN_ID'],
-              'workflow_run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
-              'role_chain': ['LCR-A', 'LCR-B', 'LCR-C', 'LCR-A'],
-              'builder_verifier_separated': True,
-              'cloud_model_auth_verified': True,
-              'cloud_model_auth_method': 'GitHub Copilot CLI via ephemeral GITHUB_TOKEN with copilot-requests: write',
-              'candidate_sha256': c['candidate_sha256'],
-              'result': 'PASS',
-              'completion_claim': 'CLOUD_A_B_C_A_ROUNDTRIP_VERIFIED',
-              'secret_value_recorded': False,
-              'main_write_scope': '.github/workflows/lcr-cloud-launcher.yml'
-          }
-          Path('lcr-cloud-roundtrip.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
-          print(json.dumps(result, indent=2))
-          PY
-
-      - name: Upload final cloud evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: lcr-cloud-roundtrip-evidence
-          path: lcr-cloud-roundtrip.json
-          retention-days: 14
+PY
