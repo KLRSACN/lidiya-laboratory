@@ -2,17 +2,26 @@
   "schema_version": "2.0",
   "mission_id": "LCR-ROUNDTRIP-0001",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "COORDINATING",
+  "status": "IDLE",
   "step_id": 1,
   "attempt": 0,
   "current_role": "LCR-A",
   "next_role": "LCR-A",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
-  "last_packet_sha256": "6cb45e44a0368712c564fc18fde639e6b1318c45b4714dccf6c9d93d14ae24b3",
-  "pending_packet": "packets/STEP-001-C-TO-A.json",
+  "last_packet_sha256": "82c49a755a706019116ab440a2dd59cb738c3746464c3b44e2b3476bec1e26a5",
+  "pending_packet": null,
   "lease": null,
   "human_gate": null,
+  "mission_result": "PASS",
+  "transition_path": [
+    "COORDINATING",
+    "PROJECT_DONE",
+    "METABOLIZE",
+    "IDLE"
+  ],
+  "closure_evidence": "evidence/LCR-ROUNDTRIP-0001-CLOSURE.json",
+  "next_authorized_mission": null,
   "cloud_activation": {
     "chatgpt_hourly_controller": "ENABLED",
     "github_state_ci": "BOOTSTRAPPED",
@@ -24,7 +33,11 @@
     "retain_lessons": true,
     "retain_evidence": true,
     "retain_scratch": false,
-    "candidate_ttl_hours": 24
+    "candidate_ttl_hours": 24,
+    "closure": "COMPLETE",
+    "stable_promoted": false,
+    "waste_disposition": "SCRATCH_AND_DUPLICATE_INTERMEDIATES_DISCARD",
+    "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
     "A creates exactly one task packet for B",
