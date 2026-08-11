@@ -1,35 +1,98 @@
 {
-  "schema_version": "2.5",
+  "schema_version": "2.6",
   "mission_id": "LCR-METABOLISM-0003",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "READY_FOR_VERIFY",
+  "status": "STEP_DONE",
   "step_id": 1,
   "attempt": 1,
-  "current_role": "LCR-C",
-  "next_role": "LCR-C",
+  "current_role": "LCR-A",
+  "next_role": "LCR-A",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
   "previous_mission": {"mission_id": "LCR-AUTONOMY-0002", "result": "PASS", "closure_evidence": "evidence/AUTONOMY-0002-CLOUD-ACTIVATION-CLOSURE.json"},
-  "consumed_packet_sha256": ["96ac32ee819d28265fb36adab4e0684c83d2ad84d3112e3a2bd14bcbeb20d901", "1cc809872754c518f4f721c738bb4cad622bf94d9bb6bdbb314500c323911252", "c19cb136bc965809dde3a29935f7f7950ca5aecc9336ad1d5868a8166b347bf1"],
-  "last_packet_sha256": "c19cb136bc965809dde3a29935f7f7950ca5aecc9336ad1d5868a8166b347bf1",
-  "pending_packet": "packets/METABOLISM-0003-B-TO-C-STEP-001-REPAIR-ATTEMPT-1.json",
-  "pending_packet_sha256": "8201b111e22ed17ee1bbf3e6ca3250e8c551e98c221f962d56dd79708e9689db",
+  "consumed_packet_sha256": [
+    "96ac32ee819d28265fb36adab4e0684c83d2ad84d3112e3a2bd14bcbeb20d901",
+    "1cc809872754c518f4f721c738bb4cad622bf94d9bb6bdbb314500c323911252",
+    "c19cb136bc965809dde3a29935f7f7950ca5aecc9336ad1d5868a8166b347bf1",
+    "8201b111e22ed17ee1bbf3e6ca3250e8c551e98c221f962d56dd79708e9689db"
+  ],
+  "last_packet_sha256": "8201b111e22ed17ee1bbf3e6ca3250e8c551e98c221f962d56dd79708e9689db",
+  "pending_packet": "packets/METABOLISM-0003-C-TO-A-STEP-001-PASS-ATTEMPT-1.json",
+  "pending_packet_sha256": "dda0d5318e8b4ecbfa165a299743fabf0ce19f4646b7d21b6aa5c85f1f04df4d",
   "lease": null,
   "human_gate": null,
   "mission_result": null,
   "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
   "authorization_level": "STAGE_2_GOLDEN_TRIANGLE_METABOLISM",
   "builder_evidence": "evidence/METABOLISM-0003-STEP-001-BUILDER-REPAIR-ATTEMPT-1.json",
-  "verifier_evidence": "evidence/METABOLISM-0003-STEP-001-VERIFIER-FAIL.json",
-  "time_authority": {"timezone": "Asia/Taipei", "started_at": "2026-08-11T20:00:00+08:00", "deadline_target": "2026-08-13T20:00:00+08:00", "status_panel_clock": "TAIWAN_TIME_REQUIRED", "last_builder_handoff": "2026-08-11T23:05:10+08:00"},
+  "verifier_evidence": "evidence/METABOLISM-0003-STEP-001-VERIFIER-PASS-ATTEMPT-1.json",
+  "time_authority": {
+    "timezone": "Asia/Taipei",
+    "started_at": "2026-08-11T20:00:00+08:00",
+    "deadline_target": "2026-08-13T20:00:00+08:00",
+    "status_panel_clock": "TAIWAN_TIME_REQUIRED",
+    "last_builder_handoff": "2026-08-11T23:05:10+08:00",
+    "last_verifier_handoff": "2026-08-11T23:36:00+08:00"
+  },
   "deadline_target": "2026-08-13T20:00:00+08:00",
-  "transition_path": ["IDLE", "COORDINATING", "READY_FOR_BUILDER", "BUILDING", "READY_FOR_VERIFY", "VERIFYING", "READY_FOR_BUILDER", "BUILDING", "READY_FOR_VERIFY"],
-  "slot_policy": {"max_slots": 3, "primary": "LCR-A", "metabolism_worker": "LCR-B", "guardian_verifier": "LCR-C", "visible_browser_windows_required": false, "durable_handoff_required": true},
-  "backup_policy": {"max_full_backup_groups": 2, "recovery_baseline": "READ_ONLY", "working_exchange": "MUTABLE_COLLABORATION", "third_full_backup": "FORBIDDEN", "historical_retention": "REF_DIFF_HASH_LESSON_ONLY", "verifier_check": "REPLAY_SAFETY_REPAIR_PENDING_C_VERIFY"},
-  "metabolism": {"phase": "VERIFY_REPLAY_SAFETY_REPAIR", "self_clear_stage_garbage": "BUILDER_FIXTURE_PROVEN_NOT_VERIFIED", "guardian_verification": "PENDING_ATTEMPT_1", "retain_raw_worksite": false, "stable_promoted": false, "rollback_anchor": "nav-relay-mvp-0001"},
-  "worker_spawn": {"objective": "A can activate isolated B/C workers without user-maintained visible windows", "implementation_status": "B_AND_C_BOUNDED_WORKERS_DEPLOYED; CLOUD_A_ORCHESTRATION_PENDING_VERIFY", "max_slots": 3},
-  "main_default_branch": {"write_status": "HUMAN_SUB_GATE_REQUIRED", "candidate_launcher_preparation": "AUTHORIZED_BRANCH_LOCAL", "allowed_main_path_if_later_authorized": ".github/workflows/lcr-cloud-launcher.yml", "other_main_paths": "FORBIDDEN"},
-  "progress_feed": {"issue_number": 4, "status": "STEP_001_REPLAY_SAFETY_REPAIRED_PENDING_C_VERIFY", "dedupe_key": "lcr-metabolism-0003-step-001-attempt-1-repair", "taipei_deadline": "2026-08-13 20:00 Asia/Taipei", "panel_ref": "status/LCR-METABOLISM-0003-STATUS.md"},
+  "transition_path": [
+    "IDLE", "COORDINATING", "READY_FOR_BUILDER", "BUILDING", "READY_FOR_VERIFY",
+    "VERIFYING", "READY_FOR_BUILDER", "BUILDING", "READY_FOR_VERIFY", "VERIFYING", "STEP_DONE"
+  ],
+  "slot_policy": {
+    "max_slots": 3,
+    "primary": "LCR-A",
+    "metabolism_worker": "LCR-B",
+    "guardian_verifier": "LCR-C",
+    "visible_browser_windows_required": false,
+    "durable_handoff_required": true,
+    "handoff_on_new_window": true
+  },
+  "backup_policy": {
+    "max_full_backup_groups": 2,
+    "recovery_baseline": "READ_ONLY",
+    "working_exchange": "MUTABLE_COLLABORATION",
+    "third_full_backup": "FORBIDDEN",
+    "historical_retention": "REF_DIFF_HASH_LESSON_ONLY",
+    "verifier_check": "STEP_001_REPLAY_SAFETY_VERIFIED_PASS"
+  },
+  "metabolism": {
+    "phase": "STEP_001_VERIFIED; COORDINATE_CLOUD_ORCHESTRATION",
+    "self_clear_stage_garbage": "CONTROLLED_FIXTURE_VERIFIED",
+    "guardian_verification": "PASS_ATTEMPT_1",
+    "retain_raw_worksite": false,
+    "stable_promoted": false,
+    "rollback_anchor": "nav-relay-mvp-0001",
+    "control_console_self_metabolism": "PENDING_IMPLEMENTATION"
+  },
+  "worker_spawn": {
+    "objective": "A can activate isolated B/C workers without user-maintained visible windows",
+    "implementation_status": "B_AND_C_BOUNDED_WORKERS_ENABLED; A_CLOUD_ORCHESTRATOR_NEXT",
+    "max_slots": 3,
+    "new_window_policy": "NEW_AUTHORIZED_WINDOW_REPLACES_OR_TAKES_OVER_AN_EXISTING_SLOT_BY_DURABLE_HANDOFF; NEVER_CREATES_SLOT_4"
+  },
+  "main_default_branch": {
+    "write_status": "HUMAN_SUB_GATE_REQUIRED",
+    "candidate_launcher_preparation": "AUTHORIZED_BRANCH_LOCAL",
+    "allowed_main_path_if_later_authorized": ".github/workflows/lcr-cloud-launcher.yml",
+    "other_main_paths": "FORBIDDEN"
+  },
+  "progress_feed": {
+    "issue_number": 4,
+    "status": "STEP_001_VERIFIED_PASS_COORDINATOR_NEXT",
+    "dedupe_key": "lcr-metabolism-0003-step-001-verified-pass-attempt-1",
+    "taipei_deadline": "2026-08-13 20:00 Asia/Taipei",
+    "panel_ref": "status/LCR-METABOLISM-0003-STATUS.md"
+  },
   "next_authorized_mission": null,
-  "acceptance": ["backup_count <= 2 is machine-enforced", "B safely clears controlled stage garbage fixtures", "C independently blocks unsafe deletion candidates", "A receives only verified compact metabolism output", "three isolated slots hand off durable state without duplicate consumption", "worker restart recovery is proven", "real cloud A→B→C→A cleanup cycle is proven", "Metabolic Closure returns to IDLE/PASS"]
+  "acceptance": [
+    "backup_count <= 2 is machine-enforced",
+    "B safely clears controlled stage garbage fixtures",
+    "C independently blocks unsafe deletion candidates",
+    "A receives only verified compact metabolism output",
+    "three isolated slots hand off durable state without duplicate consumption",
+    "worker restart recovery is proven",
+    "real cloud A→B→C→A cleanup cycle is proven",
+    "Metabolic Closure returns to IDLE/PASS"
+  ]
 }
