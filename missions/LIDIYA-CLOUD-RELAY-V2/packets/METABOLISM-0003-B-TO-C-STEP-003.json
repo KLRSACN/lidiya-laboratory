@@ -1,0 +1,20 @@
+{
+  "schema_version":"2.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "run_id":"LCR-METABOLISM-0003-RUN-003-B-HANDOFF",
+  "step_id":3,
+  "attempt":0,
+  "source":"LCR-B",
+  "target":"LCR-C",
+  "action":"VERIFY_CONTINUOUS_CONTROL_HANDOFF_AND_SELF_METABOLISM_GUARDS",
+  "status":"READY",
+  "created_at_taipei":"2026-08-12T01:36:05+08:00",
+  "parent_packet_sha256":"c0529834b8b6c801acba5721a38bcb84d33581c1c5a90c5b7ff4d7fc71909018",
+  "authorization_ref":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref":"lidiya-cloud-relay-v2",
+  "evidence_ref":"evidence/METABOLISM-0003-STEP-003-BUILDER.json",
+  "builder_result":"BUILT_NOT_VERIFIED",
+  "candidate_scope":["continuous_control.py","test_continuous_control.py"],
+  "acceptance_to_verify":["exactly three formal slots and slot4 rejection","state-fingerprint-bound SAME_SLOT_DURABLE_HANDOFF with generation increment","former worker stale action rejected after takeover","owner/user/collaborator control input cannot reset mission control fields","raw control message body is not persisted; metadata fingerprint only","compact self-metabolism retains durable control truth and excludes raw chat/log/stale panel noise","external self-clear classifier is allowlist-only and fail-closed for protected/secret/hidden/system material","deterministic compact restart/handoff snapshot and hash","compile and 11 unit tests reproduce on exact branch bytes"],
+  "packet_sha256":"bb601c432e9de34c67527479818f854f60be53e06f2c8e2e40823b5ddc10ed67"
+}
