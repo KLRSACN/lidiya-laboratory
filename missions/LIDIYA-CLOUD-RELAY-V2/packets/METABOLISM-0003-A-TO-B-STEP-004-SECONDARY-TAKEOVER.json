@@ -1,0 +1,23 @@
+{
+  "schema_version":"3.1",
+  "mission_id":"LCR-METABOLISM-0003",
+  "run_id":"LCR-METABOLISM-0003-RUN-004-A-TO-SECONDARY-B",
+  "step_id":4,
+  "attempt":0,
+  "source":"LCR-A",
+  "target":"LCR-B",
+  "action":"PROVE_SECONDARY_B_TAKEOVER",
+  "status":"READY",
+  "created_at_taipei":"2026-08-12T02:01:00+08:00",
+  "parent_packet_sha256":"7a82406ab5dbaf0f36e8e040329b08167c2f2385a5d16a6334e9e9661ecc722f",
+  "authorization_ref":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref":"lidiya-cloud-relay-v2",
+  "worker_roster_ref":"state/WORKER_ROSTER.json",
+  "handoff_ref":"handoffs/METABOLISM-0003-B-TO-SECONDARY-STEP-004.json",
+  "handoff_sha256":"e6167f892a39df57156655ac014bb46ae5935272cd2ae153a85674e84df03f62",
+  "expected_worker":{"slot":"LCR-B","worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1},
+  "task":{"goal":"prove the newly handed-off Secondary worker can act as formal B while the former B identity is stale, without creating a fourth slot","required_actions":["fresh-read durable state, worker roster, handoff and authorization","recompute handoff state fingerprint and handoff SHA","authorize current Secondary B identity at generation 1 using continuous_control guard","prove old ONLINE-LIDIYA-BUILDER generation 0 is rejected as stale","record only compact activation evidence; do not modify candidate code","consume this A->B packet once and hand exactly one B->C verification packet"]},
+  "acceptance":["formal slot count remains exactly 3","roster B equals ONLINE-LIDIYA-SECONDARY-INTEGRATOR generation 1","old Builder generation 0 stale action is rejected","Secondary B action is authorized","no new automation/task slot is created; existing B platform task identity is replaced","no main/default change, no secret access, no full backup creation, no candidate code change","result is BUILT_NOT_VERIFIED and independent C verification required"],
+  "forbidden":["declare PASS","create fourth formal slot","create third full backup","modify main/default branch","modify continuous_control.py","modify test_continuous_control.py","secret access","Identity/Personality/Governance change"],
+  "packet_sha256":"7df532c2e7b0333c4d8290560963bfad630f1abc4f97b75e865400f9b240b6f9"
+}
