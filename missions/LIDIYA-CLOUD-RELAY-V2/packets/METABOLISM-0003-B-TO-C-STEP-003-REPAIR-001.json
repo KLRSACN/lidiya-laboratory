@@ -1,0 +1,27 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "run_id": "LCR-METABOLISM-0003-RUN-003-B-REPAIR-001",
+  "step_id": 3,
+  "attempt": 2,
+  "source": "LCR-B",
+  "target": "LCR-C",
+  "action": "VERIFY_CONTINUOUS_CONTROL_HANDOFF_AUTH_REPAIR",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T01:46:00+08:00",
+  "parent_packet_sha256": "ae88b00ec05431a49471f520e38ad1be214de7237fdac79c481b4fdbb3b0425c",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/METABOLISM-0003-STEP-003-BUILDER-REPAIR-001.json",
+  "builder_result": "BUILT_NOT_VERIFIED",
+  "acceptance": [
+    "explicit handoff action must equal SAME_SLOT_DURABLE_HANDOFF",
+    "handoff authorization_ref must equal independently supplied trusted durable authorization ref",
+    "bare authorized=true must not authorize",
+    "missing/wrong action and missing/wrong/forged authorization ref must be rejected",
+    "generation/state fingerprint/stale-worker guards must remain enforced",
+    "owner-input non-reset and external self-metabolism fail-closed regressions must remain passing",
+    "C must independently re-read exact branch bytes and verify; B does not PASS itself"
+  ],
+  "packet_sha256": "b6ff4b05080636b6565676dcbeb8888970b90cf60ed7165cc06eef9c8a53b1ab"
+}
