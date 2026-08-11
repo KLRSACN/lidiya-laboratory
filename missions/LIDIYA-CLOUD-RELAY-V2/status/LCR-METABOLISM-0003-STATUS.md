@@ -4,59 +4,41 @@
 **Stage-2 start:** 2026-08-11 20:00  
 **Hard deadline:** 2026-08-13 20:00  
 
-## Current authoritative state
+## Current authoritative mirror
 
 - Mission: `LCR-METABOLISM-0003`
+- Step: `2`, repair attempt: `1`
 - State: `READY_FOR_VERIFY`
 - Current role: `LCR-C / GUARDIAN_VERIFIER`
 - Builder result: `BUILT_NOT_VERIFIED`
-- B→C packet SHA-256: `1cc809872754c518f4f721c738bb4cad622bf94d9bb6bdbb314500c323911252`
+- Pending packet: `packets/METABOLISM-0003-B-TO-C-STEP-002-REPAIR-001.json`
+- Pending packet SHA-256: `9aa639937330108f30ea806e3261fbe7222b67154b29980761a5a272b3aad2bf`
 - Branch: `lidiya-cloud-relay-v2`
-- Max slots: `3`
-- Full-backup maximum: `2`
-- Recovery baseline: `READ_ONLY`
-- Working exchange: `MUTABLE_COLLABORATION`
-- Third full backup: `FORBIDDEN`
+- Max slots: `3`; full-backup maximum: `2`
+- Recovery baseline: `READ_ONLY`; Working exchange: `MUTABLE_COLLABORATION`; third full backup: `FORBIDDEN`
 - Main/default branch: `NO WRITE without explicit HUMAN sub-gate`
 
-## STEP-001 Builder evidence
+## STEP-002 repair
 
-- Candidate: `metabolism_guard.py` + `test_metabolism_guard.py`
-- GitHub readback blob SHAs: `e9669e8599771e4b6e0ba5fc2792f357b11dffb5` / `e6066fc0652230945a3f6cd0956ae29ec91c130d`
-- Builder reproduction: `py_compile=0`, `13/13 tests PASS`
-- Safe fixture deletion: observed
-- Unique/protected fixture retention: observed
-- Third full backup rejection: observed
-- Builder did **not** declare PASS. Exact repository-byte verification is assigned to LCR-C.
+LCR-C previously failed STEP-002 because packet integrity trusted a claimed hash, restart recovery did not retain the exact next handoff identity, and this panel was stale. LCR-B repair attempt 1 now derives packet SHA-256 from canonical packet content excluding `packet_sha256`, rejects mutated content carrying a stale claimed hash, persists exact next pending packet path/hash during dispatch, and exposes durable-state-only restart recovery. Focused Builder reproduction for the two repaired failure modes: `2/2 PASS`. Full independent verification remains assigned to LCR-C.
+
+Candidate blob SHAs:
+- `golden_triangle_orchestrator.py`: `58c57353d1dcf298810fb93f69dd60c6ab8be97b`
+- `test_golden_triangle_orchestrator.py`: `2b05207674f2a976e4bfcff700f7991ec5386db9`
 
 ## Golden Triangle
 
 `LCR-A Coordinator/Absorber → LCR-B Metabolism Worker → LCR-C Guardian Verifier → LCR-A`
 
-Workers are replaceable. Durable State + Packet + Lease + Hash + Evidence is the subject.
+New authorized windows replace an existing slot only through durable same-slot handoff; they never create slot 4. Workers are replaceable. Durable State + Packet + Lease + Hash + Evidence is authoritative.
 
 ## Time checkpoints (Asia/Taipei)
 
-- T0: `2026-08-11 20:00` — authorization clock starts.
-- T+24h: `2026-08-12 20:00` — midpoint health/recoverability checkpoint.
-- T+42h: `2026-08-13 14:00` — final integration window; unresolved main/credential gates must already be explicit.
-- T+48h: `2026-08-13 20:00` — deadline. Only verified `IDLE/PASS` counts as complete.
-
-## First-stage formation acceptance
-
-1. Machine-enforce `backup_count <= 2` — **BUILT, awaiting C verification**.
-2. B autonomously classifies/clears controlled low-risk stage garbage — **fixture BUILT, awaiting C verification**.
-3. C independently blocks unsafe deletion — **pending**.
-4. A absorbs only verified compact metabolism output — pending.
-5. Three isolated slots hand off without duplicate consumption — in progress.
-6. Worker loss/restart recovery is proven — pending.
-7. Real cloud `A→B→C→A` cleanup cycle is proven — pending.
-8. Metabolic Closure returns to `IDLE/PASS` — pending.
-
-## Candidate nutrition already present
-
-A prior `LCR-METABOLISM-PHASE1-0003` workstream is **not a second authoritative mission**. It remains `WORKING_EXCHANGE` candidate nutrition and must be revalidated under `LCR-METABOLISM-0003`; duplicated or superseded pieces become Waste/Quarantine only after verification.
+- T0: `2026-08-11 20:00`
+- T+24h: `2026-08-12 20:00`
+- T+42h: `2026-08-13 14:00`
+- T+48h: `2026-08-13 20:00` — only verified `IDLE/PASS` counts as complete.
 
 ## Update rule
 
-Every worker wakeup must read `state/MISSION_STATE.json` first. This panel is a human-facing mirror; if it conflicts with durable state, durable state wins and this panel must be corrected.
+Every worker wakeup reads `state/MISSION_STATE.json` first. This file is only a human-facing mirror; durable state wins on conflict and the next authorized worker must correct the mirror.
