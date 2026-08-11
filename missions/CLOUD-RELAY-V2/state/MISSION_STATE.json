@@ -4,8 +4,8 @@
   "project_id": "CLOUD-RELAY-V2",
   "cycle": 1,
   "step_id": 1,
-  "owner": "COORDINATOR",
-  "status": "READY",
+  "owner": "BUILDER",
+  "status": "AWAITING_BUILDER",
   "goal": "Prove one autonomous A -> B -> C -> A cloud relay round-trip without a second human message.",
   "acceptance": [
     "Coordinator dispatches exactly one packet to Builder.",
@@ -14,11 +14,14 @@
     "A consumed packet is never processed twice.",
     "No merge, deployment, production write, secret handling, permission expansion, financial action, bulk deletion, or core-personality change occurs."
   ],
-  "last_packet_id": null,
-  "last_packet_hash": null,
+  "last_packet_id": "PKT-A2B-20260811-1530",
+  "last_packet_hash": "7ad99806ab26210ecd957e274fe6c0ce1a960f88c49ff2ca25464a9a6884a562",
   "lease_owner": null,
   "lease_until": null,
-  "updated_at": "2026-08-11T15:29:00+08:00",
-  "completed_steps": [],
+  "updated_at": "2026-08-11T15:30:00+08:00",
+  "completed_steps": [
+    "START_CONSUMED",
+    "COORDINATOR_DISPATCHED_STEP_1"
+  ],
   "next_project_hint": "After round-trip proof, harden GitHub-state concurrency and add offline mirror queue."
 }
