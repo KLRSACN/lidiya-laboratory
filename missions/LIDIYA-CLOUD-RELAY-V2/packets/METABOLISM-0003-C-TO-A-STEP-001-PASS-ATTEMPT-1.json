@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "run_id": "LCR-METABOLISM-0003-RUN-001",
+  "step_id": 1,
+  "attempt": 1,
+  "source": "LCR-C",
+  "target": "LCR-A",
+  "action": "STEP_001_VERIFIED_PASS",
+  "status": "STEP_DONE",
+  "created_at_taipei": "2026-08-11T23:36:00+08:00",
+  "parent_packet_sha256": "8201b111e22ed17ee1bbf3e6ca3250e8c551e98c221f962d56dd79708e9689db",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/METABOLISM-0003-STEP-001-VERIFIER-PASS-ATTEMPT-1.json",
+  "verdict": "PASS",
+  "verified": {
+    "packet_sha256_recomputed": true,
+    "regression_tests": "26/26 PASS",
+    "non_adjacent_replay_rejected": true,
+    "legacy_replay_migration": true,
+    "backup_count_max_two": true,
+    "unsafe_deletion_blocked": true,
+    "protected_unique_unreproducible_secret_blocked": true,
+    "fixture_safe_delete_observed": true,
+    "symlink_escape_rejected": true
+  },
+  "deadline_taipei": "2026-08-13T20:00:00+08:00",
+  "disposition": "HANDOFF_TO_COORDINATOR",
+  "packet_sha256": "dda0d5318e8b4ecbfa165a299743fabf0ce19f4646b7d21b6aa5c85f1f04df4d"
+}
