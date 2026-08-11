@@ -4,6 +4,11 @@
   "authorization_type": "ONE_TIME_ACTIVATION_GATE",
   "authorized_at": "2026-08-11T10:20:00+00:00",
   "authorized_by": "博玄",
+  "validation_carrier": {
+    "pull_request": 5,
+    "mode": "draft_validation_only",
+    "merge_authorized": false
+  },
   "allowed": {
     "default_branch": "main",
     "default_branch_write_scope": [
@@ -24,6 +29,7 @@
   "forbidden": [
     "modify any other main/default-branch file",
     "merge unrelated candidate changes into main",
+    "merge validation PR 5",
     "contents write permission inside the launcher",
     "production deployment or irreversible publication",
     "Identity Kernel/personality/Governance modification",
