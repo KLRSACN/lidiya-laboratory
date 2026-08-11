@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 4,
+  "action": "SAME_SLOT_DURABLE_HANDOFF",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "slot": "LCR-B",
+  "from": "ONLINE-LIDIYA-BUILDER",
+  "to": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation": 1,
+  "state_fingerprint": "048132a0065d984567556decbe2887cb630b0ceca75142cecdc26ed5a8f967a1",
+  "created_at_taipei": "2026-08-12T02:00:00+08:00",
+  "reason": "replace the existing B worker with the authorized Secondary Integrator without creating a fourth formal slot",
+  "handoff_sha256": "e6167f892a39df57156655ac014bb46ae5935272cd2ae153a85674e84df03f62"
+}
