@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "activation_gate_id": "LCR-AUTONOMY-0002",
+  "authorized_by": "BOXUAN",
+  "authorized_scope": {
+    "default_branch": {
+      "allowed": true,
+      "constraint": "Create or update only the reviewed LCR launcher workflow; do not modify any other main content."
+    },
+    "cloud_model_authentication": {
+      "allowed": true,
+      "constraint": "Implement architecture and setup flow only; secret values must never appear in chat, source, logs, evidence, Drive, or handoffs."
+    },
+    "cloud_roundtrip": {
+      "required": true,
+      "path": ["A", "B", "C", "A"]
+    },
+    "metabolic_closure_after_verified_roundtrip": true
+  },
+  "unchanged_prohibitions": [
+    "No unrelated main modifications",
+    "No production deployment",
+    "No irreversible publishing",
+    "No account or permission expansion",
+    "No financial actions",
+    "No bulk deletion",
+    "No formal personality or governance mutation"
+  ],
+  "status": "AUTHORIZED_ONCE",
+  "authorized_at": "2026-08-11T18:20:00+08:00"
+}
