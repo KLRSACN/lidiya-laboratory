@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "authorization_level": "L2_DEVELOPMENT",
+  "authorized_at": "2026-08-11T09:20:00+00:00",
+  "authorized_by": "博玄",
+  "direction": "Continue today and produce visible development results. Add a branch-local capability that derives and surfaces its own next issue and current progress from durable state, and validate it today.",
+  "allowed_extension": [
+    "lidiya-cloud-relay-v2 branch-local Python code",
+    "tests and evidence",
+    "machine-readable autonomy signal outputs",
+    "a GitHub development progress feed driven from verified signal output",
+    "update the existing canonical Cloud Relay automation so it refreshes the feed only on substantive state changes"
+  ],
+  "explicitly_not_authorized": [
+    "main/default-branch write or merge",
+    "cloud model credential or secret configuration",
+    "production deployment or irreversible publication",
+    "Identity Kernel/personality/Governance changes",
+    "destructive deletion or permission expansion"
+  ],
+  "activation_gate_status": "DEFERRED_NOT_OVERRIDDEN",
+  "rollback_anchor": "nav-relay-mvp-0001"
+}
