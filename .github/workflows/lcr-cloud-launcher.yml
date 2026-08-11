@@ -1,42 +1,196 @@
-name: LCR Cloud Launcher — Dormant After Verified Proof
+name: LCR 0003 Golden Triangle Wake
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/lcr-cloud-launcher.yml'
   workflow_dispatch:
+  schedule:
+    - cron: '*/15 * * * *'
 
 permissions:
   contents: read
-  copilot-requests: write
+
+concurrency:
+  group: lcr-0003-golden-triangle-wake
+  cancel-in-progress: true
+
+env:
+  LCR_CANDIDATE_REF: lidiya-cloud-relay-v2
+  LCR_MISSION_ROOT: missions/LIDIYA-CLOUD-RELAY-V2
 
 jobs:
-  authorization-gate:
-    name: One-time authorization guard
+  lcr-a-router:
+    name: LCR-A Control Router
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      active_role: ${{ steps.route.outputs.active_role }}
+      state_status: ${{ steps.route.outputs.state_status }}
+      step_id: ${{ steps.route.outputs.step_id }}
+      pending_sha: ${{ steps.route.outputs.pending_sha }}
+    steps:
+      - name: Checkout authoritative candidate state
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_CANDIDATE_REF }}
+          persist-credentials: false
+
+      - name: Validate authorization, topology, state and packet
+        id: route
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          root = Path(os.environ['LCR_MISSION_ROOT'])
+          state_path = root / 'state' / 'MISSION_STATE.json'
+          auth_path = root / 'authorizations' / 'LCR-METABOLISM-0003-STAGE2.json'
+          spawn_auth_path = root / 'authorizations' / 'LCR-METABOLISM-0003-CLOUD-SPAWN-SUBGATE.json'
+
+          state = json.loads(state_path.read_text(encoding='utf-8'))
+          auth = json.loads(auth_path.read_text(encoding='utf-8'))
+          spawn_auth = json.loads(spawn_auth_path.read_text(encoding='utf-8'))
+
+          if state.get('mission_id') != 'LCR-METABOLISM-0003':
+              raise SystemExit('mission mismatch')
+          if auth.get('status') != 'ACTIVE_BRANCH_LOCAL':
+              raise SystemExit('Stage-2 authorization is not active')
+          if spawn_auth.get('status') != 'ACTIVE':
+              raise SystemExit('cloud spawn sub-gate is not active')
+
+          slot_policy = state.get('slot_policy') or {}
+          backup_policy = state.get('backup_policy') or {}
+          if int(slot_policy.get('max_slots', 99)) > 3:
+              raise SystemExit('formal slot count exceeds 3')
+          if int(backup_policy.get('max_full_backup_groups', 99)) > 2:
+              raise SystemExit('full backup count policy exceeds 2')
+          if backup_policy.get('third_full_backup') != 'FORBIDDEN':
+              raise SystemExit('third full backup guard is not active')
+
+          deadline = datetime.fromisoformat(state['deadline_target'])
+          now = datetime.now(timezone.utc)
+          if deadline.astimezone(timezone.utc) <= now:
+              raise SystemExit('LCR-METABOLISM-0003 deadline expired; refuse autonomous wake')
+
+          role = state.get('current_role')
+          if role not in {'LCR-A', 'LCR-B', 'LCR-C', 'HUMAN'}:
+              raise SystemExit(f'unknown current role: {role}')
+
+          pending_sha = state.get('pending_packet_sha256') or ''
+          pending_path = state.get('pending_packet')
+          if role in {'LCR-B', 'LCR-C'}:
+              if not pending_path or not pending_sha:
+                  raise SystemExit('active worker role requires exact pending packet path/hash')
+              packet_path = root / pending_path
+              packet = json.loads(packet_path.read_text(encoding='utf-8'))
+              claimed = packet.get('packet_sha256')
+              payload = dict(packet)
+              payload.pop('packet_sha256', None)
+              canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+              actual = hashlib.sha256(canonical.encode('utf-8')).hexdigest()
+              if not claimed or claimed != actual or pending_sha != actual:
+                  raise SystemExit('pending packet canonical SHA mismatch')
+              if actual in set(state.get('consumed_packet_sha256') or []):
+                  raise SystemExit('pending packet already consumed; replay refused')
+
+          ack = {
+              'schema_version': '1.0',
+              'mission_id': 'LCR-METABOLISM-0003',
+              'evidence_type': 'golden_triangle_wake_ack',
+              'state_status': state.get('status'),
+              'step_id': state.get('step_id'),
+              'attempt': state.get('attempt'),
+              'active_role': role,
+              'pending_packet': pending_path,
+              'pending_packet_sha256': pending_sha or None,
+              'max_slots': slot_policy.get('max_slots'),
+              'max_full_backup_groups': backup_policy.get('max_full_backup_groups'),
+              'new_window_policy': (state.get('worker_spawn') or {}).get('new_window_policy'),
+              'repository_write_permission': False,
+              'secret_values_recorded': False,
+              'raw_worksite_retained': False,
+              'result': 'WAKE_ROUTED',
+          }
+          Path('lcr-0003-wake-ack.json').write_text(
+              json.dumps(ack, ensure_ascii=False, sort_keys=True, indent=2) + '\n',
+              encoding='utf-8',
+          )
+
+          with Path(os.environ['GITHUB_OUTPUT']).open('a', encoding='utf-8') as out:
+              out.write(f"active_role={role}\n")
+              out.write(f"state_status={state.get('status')}\n")
+              out.write(f"step_id={state.get('step_id')}\n")
+              out.write(f"pending_sha={pending_sha}\n")
+
+          print(json.dumps(ack, ensure_ascii=False, sort_keys=True))
+          PY
+
+      - name: Upload first-run/manual wake Reality ACK
+        if: github.event_name != 'schedule'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-0003-wake-ack
+          path: lcr-0003-wake-ack.json
+          if-no-files-found: error
+          retention-days: 2
+
+  lcr-b-slot:
+    name: LCR-B Metabolism Worker Slot
+    needs: lcr-a-router
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Checkout canonical candidate branch
+      - name: Checkout authoritative candidate state
         uses: actions/checkout@v4
         with:
-          ref: lidiya-cloud-relay-v2
-
-      - name: Refuse consumed authorization
+          ref: ${{ env.LCR_CANDIDATE_REF }}
+          persist-credentials: false
+      - name: B slot wake ACK
+        shell: bash
+        env:
+          ACTIVE_ROLE: ${{ needs.lcr-a-router.outputs.active_role }}
+          STATE_STATUS: ${{ needs.lcr-a-router.outputs.state_status }}
+          STEP_ID: ${{ needs.lcr-a-router.outputs.step_id }}
+          PENDING_SHA: ${{ needs.lcr-a-router.outputs.pending_sha }}
         run: |
           python - <<'PY'
-          import json
-          from pathlib import Path
+          import json, os
+          state = json.load(open('missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json', encoding='utf-8'))
+          mode = 'ACTIVE' if os.environ['ACTIVE_ROLE'] == 'LCR-B' else 'STANDBY'
+          assert state['current_role'] == os.environ['ACTIVE_ROLE']
+          print(json.dumps({'slot':'LCR-B','mode':mode,'step_id':state['step_id'],'status':state['status'],'repository_write_permission':False}, sort_keys=True))
+          PY
 
-          path = Path('missions/LIDIYA-CLOUD-RELAY-V2/authorizations/LCR-AUTONOMY-0002-ACTIVATION-GATE-20260811.json')
-          auth = json.loads(path.read_text(encoding='utf-8'))
-
-          assert auth['mission_id'] == 'LCR-AUTONOMY-0002'
-          assert auth['authorization_type'] == 'ONE_TIME_ACTIVATION_GATE'
-          if auth.get('status') != 'ACTIVE':
-              raise SystemExit(
-                  'LCR-AUTONOMY-0002 one-time Activation Gate is consumed. '
-                  'A new explicit authorization and reviewed launcher revision are required before another cloud mission.'
-              )
-
-          raise SystemExit(
-              'Authorization is ACTIVE but this post-proof launcher is intentionally dormant. '
-              'A reviewed mission-specific launcher revision is required before execution.'
-          )
+  lcr-c-slot:
+    name: LCR-C Guardian Verifier Slot
+    needs: lcr-a-router
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout authoritative candidate state
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_CANDIDATE_REF }}
+          persist-credentials: false
+      - name: C slot wake ACK
+        shell: bash
+        env:
+          ACTIVE_ROLE: ${{ needs.lcr-a-router.outputs.active_role }}
+          STATE_STATUS: ${{ needs.lcr-a-router.outputs.state_status }}
+          STEP_ID: ${{ needs.lcr-a-router.outputs.step_id }}
+          PENDING_SHA: ${{ needs.lcr-a-router.outputs.pending_sha }}
+        run: |
+          python - <<'PY'
+          import json, os
+          state = json.load(open('missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json', encoding='utf-8'))
+          mode = 'ACTIVE' if os.environ['ACTIVE_ROLE'] == 'LCR-C' else 'STANDBY'
+          assert state['current_role'] == os.environ['ACTIVE_ROLE']
+          print(json.dumps({'slot':'LCR-C','mode':mode,'step_id':state['step_id'],'status':state['status'],'repository_write_permission':False}, sort_keys=True))
           PY
