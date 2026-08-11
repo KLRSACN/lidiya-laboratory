@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "step_id": 1,
+  "attempt": 1,
+  "role": "LCR-C",
+  "verdict": "PASS",
+  "saved_before_verify": true,
+  "home_revision_before_verify": "AIroW37Krykmng4XKRZbnOkqflTLj5IetsMzJZYxhStrsHuMPOL2rbnRCgd0fhlIku3jc8yzSTLh-3exjGqfFE4GZrldWbzAAu9Qg_QVKT8",
+  "inbound_packet": "packets/AUTONOMY-0002-STEP-001-B-TO-C-REPAIR.json",
+  "inbound_packet_sha256": "bf3dcfe97769f0d2e07c3c294c8e18e83de97c8772a9578b2ca987d39edc5648",
+  "packet_hash_recomputed": true,
+  "preconsume_last_packet_sha256": "fb507977a127aa6280f2ac6a6d3e7ee47e95f4483d043f9520e8604a53947b81",
+  "first_consume": "PASS",
+  "replay_rejected_as_duplicate": true,
+  "readback": {
+    "cloud_relay_state_blob_sha": "b0c859c8720e6c8ea28e092dfdd08cf246e45a70",
+    "test_cloud_relay_state_blob_sha": "b188fa65ac3f0a79ccf33bbc958a5d5e302c5c3a"
+  },
+  "independent_reproducible_test": {
+    "compile_command": "python -m py_compile cloud_relay_state.py",
+    "compile_exit_code": 0,
+    "test_command": "python -m unittest -v test_cloud_relay_state.py",
+    "test_exit_code": 0,
+    "tests_run": 10,
+    "tests_passed": 10,
+    "tests_failed": 0,
+    "regression_test": "test_pending_outbound_does_not_preconsume_packet",
+    "regression_status": "PASS"
+  },
+  "scope_audit": {
+    "code_commit": "46e0b42be9e908e54ecc17e26c714007507683f2",
+    "code_commit_files": ["missions/LIDIYA-CLOUD-RELAY-V2/cloud_relay_state.py"],
+    "test_commit": "7f1d7214f3c61dd7d9a433d75ab54d4a2711e5bd",
+    "test_commit_files": ["missions/LIDIYA-CLOUD-RELAY-V2/test_cloud_relay_state.py"],
+    "main_write_observed": false,
+    "deployment_observed": false,
+    "identity_personality_governance_change_observed": false,
+    "credential_handling_observed": false
+  },
+  "github_actions_reality_evidence": {
+    "query_commit": "7f1d7214f3c61dd7d9a433d75ab54d4a2711e5bd",
+    "workflow_runs_returned": 0,
+    "disposition": "NOT_OBSERVED_VIA_AVAILABLE_COMMIT_RUN_QUERY; not used as basis for this repair-step PASS"
+  },
+  "result": "VERIFIED_PASS",
+  "lesson": "A relay handoff is safe only when outbound pending state and inbound consumption history are distinct and replay behavior is independently executable-tested.",
+  "next_role": "LCR-A"
+}
