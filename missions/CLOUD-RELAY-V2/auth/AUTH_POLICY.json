@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "activation_gate": "LCR-AUTONOMY-0002",
+  "provider_selector": "LCR_MODEL_PROVIDER",
+  "supported_providers": {
+    "openai": "OPENAI_API_KEY",
+    "gemini": "GEMINI_API_KEY",
+    "anthropic": "ANTHROPIC_API_KEY"
+  },
+  "rules": [
+    "Secrets may exist only in GitHub Actions Secrets or equivalent secret stores.",
+    "Secret values must never be printed, committed, persisted to Drive, included in artifacts, or copied into handoffs.",
+    "Runtime code may only test whether the selected provider secret is present; it must not serialize the value.",
+    "Missing authentication must fail closed for model-dependent tasks, but does not block relay transport self-tests that do not call a model.",
+    "Provider selection may be configured by a non-secret repository variable named LCR_MODEL_PROVIDER."
+  ],
+  "status_output": "auth/AUTH_STATUS.json",
+  "secret_value_logging": false
+}
