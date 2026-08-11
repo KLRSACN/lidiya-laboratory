@@ -1,0 +1,19 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "step_id":3,
+  "attempt":2,
+  "role":"LCR-C",
+  "verdict":"PASS",
+  "verified_at_taipei":"2026-08-12T01:56:00+08:00",
+  "inbound_packet":"packets/METABOLISM-0003-B-TO-C-STEP-003-REPAIR-001.json",
+  "inbound_packet_sha256":"b6ff4b05080636b6565676dcbeb8888970b90cf60ed7165cc06eef9c8a53b1ab",
+  "packet_hash_recomputed":true,
+  "authorization_ref_independently_read":"authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "exact_branch_blobs":{"continuous_control.py":"3cbfb6cee78bfa8211c83d175a6ea823249b135b","test_continuous_control.py":"347224fe978bd4ec0c8fbdcf6cdc3f7c25ca5151"},
+  "independent_checks":{"missing_action_rejected":true,"wrong_action_rejected":true,"exact_same_slot_action_required":true,"bare_authorized_true_rejected":true,"missing_authorization_ref_rejected":true,"wrong_authorization_ref_rejected":true,"missing_trusted_authorization_ref_rejected":true,"wrong_trusted_authorization_ref_rejected":true,"correct_durable_authorization_ref_accepted":true,"generation_and_state_fingerprint_bound":true,"former_worker_stale_after_takeover":true,"slot4_rejected":true,"owner_input_does_not_reset_active_state":true,"raw_owner_body_not_persisted":true,"compact_snapshot_excludes_raw_noise":true,"hidden_model_system_state_not_cleanup_target":true,"protected_secret_governance_fail_closed":true,"allowlisted_reproducible_external_scratch_self_clearable":true,"restart_handoff_deterministic":true},
+  "verifier_adversarial":{"authorized_true_plus_forged_ref":"REJECTED","exact_action_plus_wrong_trusted_ref":"REJECTED","correct_action_ref_generation_fingerprint":"ACCEPTED_AND_OLD_WORKER_STALE","ready_for_verify_reset_stop_owner_input":"CONTROL_FIELDS_UNCHANGED_RAW_BODY_NOT_PERSISTED"},
+  "governance":{"formal_slots":["LCR-A","LCR-B","LCR-C"],"fourth_slot":false,"main_default_write":false,"secret_value_handling":false,"protected_physical_cleanup":false,"identity_personality_governance_modified":false},
+  "note":"Verifier independently re-read exact branch blobs and durable authorization. Connector runtime does not expose repository files as an executable checkout, so verification used exact-byte source inspection plus verifier-owned adversarial evaluation of the deterministic guard paths; no Builder claim was promoted without independent checks.",
+  "result":"PASS"
+}
