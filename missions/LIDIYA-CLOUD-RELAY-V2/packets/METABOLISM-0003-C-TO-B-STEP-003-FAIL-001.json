@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "run_id": "LCR-METABOLISM-0003-RUN-003-C-FAIL-001",
+  "step_id": 3,
+  "attempt": 1,
+  "source": "LCR-C",
+  "target": "LCR-B",
+  "action": "REPAIR_CONTINUOUS_CONTROL_HANDOFF_AUTHENTICATION",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T01:39:14+08:00",
+  "parent_packet_sha256": "bb601c432e9de34c67527479818f854f60be53e06f2c8e2e40823b5ddc10ed67",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/METABOLISM-0003-STEP-003-VERIFIER-FAIL-001.json",
+  "verdict": "FAIL",
+  "root_causes": [
+    "same_slot_durable_handoff does not require an explicit SAME_SLOT_DURABLE_HANDOFF action/type marker; a mapping with matching fields is accepted without proving handoff intent",
+    "handoff authorization is only a caller-supplied boolean authorized=true and is not bound to an authorization identity/reference, so the acceptance requirement for authorization is not independently enforceable"
+  ],
+  "repair_acceptance": [
+    "require explicit handoff action/type exactly SAME_SLOT_DURABLE_HANDOFF",
+    "bind authorization to a durable authorization reference or verifier-checkable authorization identity, not a bare boolean",
+    "add negative tests proving missing/wrong action and forged bare authorized=true are rejected",
+    "retain generation and durable-state fingerprint binding, stale-worker rejection, owner-input non-reset behavior, compact snapshot, and self-metabolism fail-closed guards"
+  ],
+  "packet_sha256": "ae88b00ec05431a49471f520e38ad1be214de7237fdac79c481b4fdbb3b0425c"
+}
