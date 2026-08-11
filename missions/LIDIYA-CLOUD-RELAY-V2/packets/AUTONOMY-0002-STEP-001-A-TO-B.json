@@ -1,0 +1,33 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "LCR-AUTONOMY-0002-RUN-001",
+  "step_id": 1,
+  "attempt": 0,
+  "source_role": "LCR-A",
+  "target_role": "LCR-B",
+  "status": "READY_FOR_BUILDER",
+  "parent_packet_sha256": "82c49a755a706019116ab440a2dd59cb738c3746464c3b44e2b3476bec1e26a5",
+  "created_at": "2026-08-11T07:01:00+00:00",
+  "lease_owner": "LCR-A-AUTH-20260811",
+  "lease_expires_at": "2026-08-11T07:16:00+00:00",
+  "task": "Close the first cloud-readiness gap without secrets or main changes: enhance the development-branch LCR state-test workflow to emit a minimal machine-readable test evidence artifact after running the existing relay state tests. Keep the workflow branch-scoped/read-only except artifact upload; do not add any model credential or agent invocation yet.",
+  "acceptance": [
+    "Only modify .github/workflows/lcr-state-tests.yml and/or add minimal evidence helper files under missions/LIDIYA-CLOUD-RELAY-V2/",
+    "Existing Python compile and relay state unit tests remain required and unchanged in meaning",
+    "Workflow emits a minimal machine-readable evidence artifact containing commit SHA, branch/ref, test command, and pass/fail status without secrets",
+    "No write to main, no deployment, no Identity Kernel/personality/governance changes, and no credential handling",
+    "Return READY_FOR_VERIFY; Builder must not declare PASS"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [
+    {
+      "type": "authorization",
+      "ref": "authorizations/LCR-AUTONOMY-0002-L2.json"
+    }
+  ],
+  "result": null,
+  "lesson": null,
+  "disposition": "candidate",
+  "packet_sha256": "c0cf8b968c7a1bd7d4be664e5969227282c8037f8a699254310a78e34c96907d"
+}
