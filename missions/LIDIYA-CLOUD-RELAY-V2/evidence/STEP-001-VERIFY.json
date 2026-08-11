@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-ROUNDTRIP-0001",
+  "step_id": 1,
+  "role": "LCR-C",
+  "status": "PASS",
+  "input_packet_sha256": "6cb45e44a0368712c564fc18fde639e6b1318c45b4714dccf6c9d93d14ae24b3",
+  "proof_path": "missions/LIDIYA-CLOUD-RELAY-V2/proof/ROUNDTRIP.txt",
+  "expected_content": "LIDIYA_CLOUD_RELAY_OK\nmission=LCR-ROUNDTRIP-0001\nstep=1\n",
+  "observed_sha256": "dc35b9e60b28dcee842adb2e7089b319a2cbf2bf25319698aacfb706b754ab99",
+  "expected_sha256": "dc35b9e60b28dcee842adb2e7089b319a2cbf2bf25319698aacfb706b754ab99",
+  "git_blob_sha": "19bc405798d6fa6ab86ab33a6775773596484121",
+  "builder_evidence_status": "BUILT_NOT_VERIFIED",
+  "checks": {
+    "content_exact": true,
+    "sha256_match": true,
+    "builder_did_not_self_verify": true,
+    "packet_hash_valid": true,
+    "packet_target_is_lcr_c": true,
+    "mission_step_match": true
+  },
+  "verifier_observation": "Independent fetch and SHA-256 recomputation matched Coordinator acceptance. Builder evidence remained BUILT_NOT_VERIFIED.",
+  "lesson": "Independent verification can retain only the proof hash, blob provenance, and acceptance result; no scratch transcript is needed.",
+  "disposition": "retain_until_metabolic_closure"
+}
