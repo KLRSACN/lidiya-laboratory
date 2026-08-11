@@ -1,27 +1,32 @@
 {
-  "schema_version": 1,
-  "mission_id": "CLOUD-RELAY-V2-ROUNDTRIP-0001",
+  "schema_version": 2,
+  "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "CLOUD-RELAY-V2",
-  "cycle": 1,
+  "cycle": 2,
   "step_id": 1,
   "owner": "BUILDER",
   "status": "AWAITING_BUILDER",
-  "goal": "Prove one autonomous A -> B -> C -> A cloud relay round-trip without a second human message.",
-  "acceptance": [
-    "Coordinator dispatches exactly one packet to Builder.",
-    "Builder persists evidence before handing off to Verifier.",
-    "Verifier independently returns PASS to Coordinator.",
-    "A consumed packet is never processed twice.",
-    "No merge, deployment, production write, secret handling, permission expansion, financial action, bulk deletion, or core-personality change occurs."
-  ],
-  "last_packet_id": "PKT-A2B-20260811-1530",
-  "last_packet_hash": "7ad99806ab26210ecd957e274fe6c0ce1a960f88c49ff2ca25464a9a6884a562",
-  "lease_owner": null,
-  "lease_until": null,
-  "updated_at": "2026-08-11T15:30:00+08:00",
+  "goal": "Verify GitHub-cloud A->B->C->A under one-time Activation Gate, then Metabolic Closure.",
+  "activation_gate": {
+    "id": "LCR-AUTONOMY-0002",
+    "default_branch_launcher_only": true,
+    "cloud_model_auth_architecture_allowed": true,
+    "secret_values_must_never_be_logged": true,
+    "other_L2_prohibitions_unchanged": true
+  },
+  "auth": {
+    "schema_version": 1,
+    "provider": "none",
+    "secret_env": null,
+    "configured": false,
+    "secret_value_logged": false,
+    "checked_at": "2026-08-11T10:25:20.808926+00:00"
+  },
   "completed_steps": [
-    "START_CONSUMED",
-    "COORDINATOR_DISPATCHED_STEP_1"
+    "ACTIVATION_GATE_ACCEPTED",
+    "A_DISPATCHED_TO_B"
   ],
-  "next_project_hint": "After round-trip proof, harden GitHub-state concurrency and add offline mirror queue."
+  "updated_at": "2026-08-11T10:25:20.809478+00:00",
+  "last_packet_id": "PKT-C2B-LCR-AUTONOMY-0002-1",
+  "last_packet_hash": "407b88ca7ce49e708ba9c30f3296345c75499d676a3ffe132f798004ace020c2"
 }

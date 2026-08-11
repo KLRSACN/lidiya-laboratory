@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "provider": "none",
+  "secret_env": null,
+  "configured": false,
+  "secret_value_logged": false,
+  "checked_at": "2026-08-11T10:25:20.808926+00:00"
+}
