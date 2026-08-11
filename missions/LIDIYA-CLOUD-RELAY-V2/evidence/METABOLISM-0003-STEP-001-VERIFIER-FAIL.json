@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 1,
+  "attempt": 0,
+  "role": "LCR-C",
+  "status": "FAIL",
+  "timestamp_taipei": "2026-08-11T22:06:05+08:00",
+  "inbound_packet_sha256_verified": true,
+  "inbound_packet_sha256": "1cc809872754c518f4f721c738bb4cad622bf94d9bb6bdbb314500c323911252",
+  "candidate_blob_readback": {
+    "metabolism_guard.py": "e9669e8599771e4b6e0ba5fc2792f357b11dffb5",
+    "test_metabolism_guard.py": "e6066fc0652230945a3f6cd0956ae29ec91c130d",
+    "matches_builder_evidence": true
+  },
+  "verified_by_inspection": {
+    "backup_max_two_guard_present": true,
+    "recovery_baseline_read_only_guard_present": true,
+    "referenced_unique_unreproducible_secret_recovery_protected_guards_present": true,
+    "safe_fixture_physical_delete_test_present": true,
+    "protected_fixture_retention_test_present": true,
+    "deterministic_manifest_hash_test_present": true,
+    "traversal_fail_closed_test_present": true,
+    "symlink_fail_closed_implementation_present": true,
+    "explicit_symlink_regression_test_present": false
+  },
+  "blocking_failure": {
+    "component": "cloud_relay_state.consume_once",
+    "finding": "Replay protection remembers only last_packet_sha256. An older consumed packet can be accepted again after a different packet becomes last_packet_sha256.",
+    "acceptance_violated": "three isolated authorized slots can hand off durable state without duplicate consumption",
+    "severity": "BLOCKING_FOR_STEP_PASS"
+  },
+  "repair_acceptance": [
+    "durably reject any previously consumed packet, not only the immediately previous packet",
+    "regression: consume P1, consume P2, replay P1 must raise RelayStateError",
+    "keep replay memory compact/bounded and do not create full backup/log copies",
+    "add explicit symlink-escape regression test for metabolism guard",
+    "rerun relay-state and metabolism-guard tests and hand back BUILT_NOT_VERIFIED"
+  ],
+  "main_modified": false,
+  "builder_repaired_by_verifier": false,
+  "verdict": "FAIL"
+}
