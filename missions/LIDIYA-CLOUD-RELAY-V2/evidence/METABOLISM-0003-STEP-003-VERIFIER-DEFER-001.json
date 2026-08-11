@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 3,
+  "attempt": 2,
+  "role": "LCR-C",
+  "verdict": "DEFER",
+  "verified_at_taipei": "2026-08-12T01:51:00+08:00",
+  "inbound_packet": "packets/METABOLISM-0003-B-TO-C-STEP-003-REPAIR-001.json",
+  "inbound_packet_sha256": "b6ff4b05080636b6565676dcbeb8888970b90cf60ed7165cc06eef9c8a53b1ab",
+  "packet_canonical_sha_recomputed": "b6ff4b05080636b6565676dcbeb8888970b90cf60ed7165cc06eef9c8a53b1ab",
+  "state_pending_sha_match": true,
+  "packet_already_consumed": false,
+  "lease_conflict": false,
+  "authorization_ref_verified": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_blobs": {
+    "continuous_control.py": "3cbfb6cee78bfa8211c83d175a6ea823249b135b",
+    "test_continuous_control.py": "347224fe978bd4ec0c8fbdcf6cdc3f7c25ca5151"
+  },
+  "static_independent_review": {
+    "explicit_same_slot_action_guard_present": true,
+    "durable_authorization_ref_binding_present": true,
+    "bare_authorized_boolean_has_no_effect": true,
+    "generation_and_state_fingerprint_binding_present": true,
+    "stale_worker_guard_present": true,
+    "slot4_guard_present": true,
+    "owner_input_protected_fields_unchanged_by_design": true,
+    "raw_owner_body_not_persisted_by_design": true,
+    "compact_snapshot_excludes_transient_noise_by_design": true,
+    "hidden_model_system_state_quarantined_by_design": true,
+    "allowlisted_reproducible_external_scratch_self_clearable_by_design": true,
+    "restart_handoff_deterministic_by_design": true
+  },
+  "defer_reason": "The verifier independently re-read the exact branch blobs and recomputed the packet SHA, but this connector runtime does not expose the private repository as an executable checkout. A network git clone from the execution container is unavailable, and no workflow run on the current candidate commit executes test_continuous_control.py. Therefore the mandated fresh py_compile + full unittest rerun cannot be truthfully claimed in this cycle.",
+  "required_to_resume": "Provide verifier-owned executable evidence against the exact candidate blobs, e.g. a bounded read-only GitHub-hosted test job that checks out lidiya-cloud-relay-v2 and runs py_compile plus test_continuous_control.py, without modifying Builder candidate bytes or widening main/default permissions.",
+  "prohibited_actions": {
+    "builder_candidate_modified": false,
+    "main_default_write": false,
+    "secret_value_handling": false,
+    "physical_protected_cleanup": false,
+    "fourth_slot": false,
+    "third_full_backup": false
+  }
+}
