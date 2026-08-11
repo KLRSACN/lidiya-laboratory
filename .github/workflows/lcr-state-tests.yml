@@ -29,6 +29,56 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile state engine
+        id: compile
+        continue-on-error: true
         run: python -m py_compile cloud_relay_state.py
       - name: Run relay state tests
+        id: relay_tests
+        continue-on-error: true
         run: python -m unittest -v test_cloud_relay_state.py
+      - name: Emit machine-readable evidence
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          TEST_OUTCOME: ${{ steps.relay_tests.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          GITHUB_REF_VALUE: ${{ github.ref }}
+          GITHUB_REF_NAME_VALUE: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          compile_status = os.environ['COMPILE_OUTCOME']
+          test_status = os.environ['TEST_OUTCOME']
+          overall = 'PASS' if compile_status == 'success' and test_status == 'success' else 'FAIL'
+          evidence = {
+              'schema_version': '1.0',
+              'mission_id': 'LCR-AUTONOMY-0002',
+              'evidence_type': 'github_actions_state_tests',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'ref': os.environ['GITHUB_REF_VALUE'],
+              'ref_name': os.environ['GITHUB_REF_NAME_VALUE'],
+              'compile_command': 'python -m py_compile cloud_relay_state.py',
+              'test_command': 'python -m unittest -v test_cloud_relay_state.py',
+              'compile_status': compile_status,
+              'test_status': test_status,
+              'status': overall,
+          }
+          path = Path('evidence/lcr-state-tests-evidence.json')
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(path.read_text(encoding='utf-8'))
+          PY
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-state-tests-evidence
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/lcr-state-tests-evidence.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Enforce required checks
+        if: always() && (steps.compile.outcome != 'success' || steps.relay_tests.outcome != 'success')
+        run: exit 1
