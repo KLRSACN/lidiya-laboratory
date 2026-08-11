@@ -1,26 +1,27 @@
 {
   "schema_version": "2.0",
-  "mission_id": "LCR-ROUNDTRIP-0001",
+  "mission_id": "LCR-AUTONOMY-0002",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "IDLE",
+  "status": "READY_FOR_BUILDER",
   "step_id": 1,
   "attempt": 0,
-  "current_role": "LCR-A",
-  "next_role": "LCR-A",
+  "current_role": "LCR-B",
+  "next_role": "LCR-B",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
-  "last_packet_sha256": "82c49a755a706019116ab440a2dd59cb738c3746464c3b44e2b3476bec1e26a5",
-  "pending_packet": null,
+  "last_packet_sha256": "c0cf8b968c7a1bd7d4be664e5969227282c8037f8a699254310a78e34c96907d",
+  "pending_packet": "packets/AUTONOMY-0002-STEP-001-A-TO-B.json",
   "lease": null,
   "human_gate": null,
-  "mission_result": "PASS",
+  "mission_result": null,
   "transition_path": [
+    "IDLE",
     "COORDINATING",
-    "PROJECT_DONE",
-    "METABOLIZE",
-    "IDLE"
+    "READY_FOR_BUILDER"
   ],
-  "closure_evidence": "evidence/LCR-ROUNDTRIP-0001-CLOSURE.json",
+  "closure_evidence": null,
+  "authorization_ref": "authorizations/LCR-AUTONOMY-0002-L2.json",
+  "authorization_level": "L2_DEVELOPMENT",
   "next_authorized_mission": null,
   "cloud_activation": {
     "chatgpt_hourly_controller": "ENABLED",
@@ -34,18 +35,17 @@
     "retain_evidence": true,
     "retain_scratch": false,
     "candidate_ttl_hours": 24,
-    "closure": "COMPLETE",
+    "closure": "OPEN",
     "stable_promoted": false,
-    "waste_disposition": "SCRATCH_AND_DUPLICATE_INTERMEDIATES_DISCARD",
+    "waste_disposition": null,
     "rollback_anchor": "nav-relay-mvp-0001"
   },
   "acceptance": [
-    "A creates exactly one task packet for B",
-    "B claims and executes a harmless deterministic candidate exactly once",
-    "C independently verifies content/hash and returns PASS or FAIL",
-    "PASS returns control to A and marks mission done",
-    "duplicate delivery cannot execute the same step twice",
-    "expired lease can be reclaimed by a replacement worker",
-    "no second human message is required after START"
+    "GitHub cloud completes at least one A→B→C→A autonomous cycle",
+    "Builder and Verifier remain role-separated",
+    "state can resume after worker loss",
+    "real executable tests pass",
+    "rollback/recovery evidence exists",
+    "Metabolic Closure completes"
   ]
 }
