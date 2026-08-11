@@ -1,0 +1,20 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "step_id":2,
+  "attempt":1,
+  "role":"LCR-B",
+  "worker":"ONLINE-LIDIYA-BUILDER",
+  "result":"BUILT_NOT_VERIFIED",
+  "built_at_taipei":"2026-08-12T01:18:00+08:00",
+  "inbound_packet":"packets/METABOLISM-0003-C-TO-B-STEP-002-FAIL.json",
+  "inbound_packet_sha256":"dd849ebaa593fd0fca5ec239e151e17a8f93228855ef5a17759616fdd97b6b01",
+  "candidate_files":{"golden_triangle_orchestrator.py":"58c57353d1dcf298810fb93f69dd60c6ab8be97b","test_golden_triangle_orchestrator.py":"2b05207674f2a976e4bfcff700f7991ec5386db9"},
+  "repairs":{"content_derived_packet_hash":"IMPLEMENTED","stale_claimed_hash_rejection":"IMPLEMENTED","exact_next_pending_path_hash_persistence":"IMPLEMENTED","durable_state_only_restart_recovery":"IMPLEMENTED","status_panel_refresh":"IN_THIS_HANDOFF"},
+  "builder_reproduction":{"focused_stale_hash_and_restart_tests":"2/2 PASS","note":"Independent full-suite verification reserved for LCR-C"},
+  "main_default_write":false,
+  "full_backup_groups_created":0,
+  "physical_cleanup":"NONE",
+  "secrets_read_or_persisted":false,
+  "verdict":"BUILT_NOT_VERIFIED"
+}
