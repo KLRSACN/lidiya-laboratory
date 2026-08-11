@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-PHASE1-0003",
+  "authorization": "Boxuan authorized autonomous discussion and cleanup of disposable development data on 2026-08-11; canonical/main/high-risk boundaries remain unchanged.",
+  "dispositions": {
+    "PROTECTED": "Never delete automatically.",
+    "RETAIN": "Keep because it is outside the disposable allowlist or is required evidence/nutrition.",
+    "TTL": "Keep only for a bounded provider/runtime retention period; prefer platform expiry over custom deletion.",
+    "DISPOSABLE": "May be deleted only inside allowlisted candidate/sandbox work areas after dry-run classification."
+  },
+  "allowlisted_top_level_work_areas": [
+    "scratch",
+    "workbench",
+    "tmp",
+    "temp",
+    "cache",
+    "debug"
+  ],
+  "protected_path_markers": [
+    "authorizations",
+    "state",
+    "governance",
+    "identity",
+    "identity_kernel",
+    "approved_memory",
+    "current_state",
+    "handoff",
+    "closure"
+  ],
+  "secret_like_markers": [
+    "secret",
+    "token",
+    "apikey",
+    "api_key",
+    "password",
+    "credential",
+    "cookie",
+    "private_key"
+  ],
+  "rules": [
+    "Dry-run is the default.",
+    "Apply may delete only an explicitly classified DISPOSABLE path under an allowlisted work area.",
+    "Path traversal and symlink escape fail closed.",
+    "Non-empty directories fail closed; cleanup must enumerate files explicitly before directory removal.",
+    "Canonical evidence, authorization, state, closure, governance, identity and handoff anchors are never automatic cleanup targets.",
+    "Secret-like paths are protected and their contents must not be read, hashed, logged, copied or persisted by the cleanup engine.",
+    "For safe disposable files, the cleanup manifest may retain path, reason, size and SHA-256, but never file contents.",
+    "GitHub Actions artifacts should use provider TTL/retention-days instead of custom destructive deletion when possible.",
+    "No main/default-branch write, PR merge, deployment, publication, account/permission expansion, money movement or canonical Drive deletion is authorized by this policy."
+  ],
+  "phase1_definition_of_done": [
+    "deterministic classifier exists",
+    "dry-run manifest exists",
+    "sandbox apply deletion is tested",
+    "protected-path refusal is tested",
+    "path traversal and symlink escape are tested",
+    "candidate CI passes cleanup tests",
+    "phase-1 closure records retained nutrition, disposed waste and next candidate"
+  ]
+}
