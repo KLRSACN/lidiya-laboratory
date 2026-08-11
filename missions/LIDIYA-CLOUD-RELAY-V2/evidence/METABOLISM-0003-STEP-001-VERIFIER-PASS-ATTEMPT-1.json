@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 1,
+  "attempt": 1,
+  "role": "LCR-C",
+  "worker_identity": "PRIMARY_CONTROL_CONSOLE_AS_GUARDIAN_VERIFIER",
+  "result": "PASS",
+  "created_at_taipei": "2026-08-11T23:36:00+08:00",
+  "inbound_packet": "packets/METABOLISM-0003-B-TO-C-STEP-001-REPAIR-ATTEMPT-1.json",
+  "inbound_packet_sha256": "8201b111e22ed17ee1bbf3e6ca3250e8c551e98c221f962d56dd79708e9689db",
+  "packet_hash_recomputed": true,
+  "exact_branch_files_re_read": [
+    "cloud_relay_state.py",
+    "test_cloud_relay_state.py",
+    "metabolism_guard.py",
+    "test_metabolism_guard.py"
+  ],
+  "independent_regression": {
+    "command": "python -m unittest -v test_cloud_relay_state.py test_metabolism_guard.py",
+    "tests_run": 26,
+    "tests_passed": 26,
+    "tests_failed": 0,
+    "non_adjacent_replay_rejected": true,
+    "legacy_last_packet_migration_verified": true,
+    "pending_outbound_not_preconsumed": true,
+    "third_backup_rejected": true,
+    "recovery_baseline_read_only": true,
+    "referenced_unique_unreproducible_secret_candidates_blocked": true,
+    "controlled_safe_fixture_deleted": true,
+    "protected_fixture_retained": true,
+    "symlink_escape_rejected_and_external_target_survived": true
+  },
+  "backup_policy": {
+    "max_full_backup_groups": 2,
+    "third_full_backup": "FORBIDDEN",
+    "new_full_backup_created_by_verifier": false
+  },
+  "main_modified": false,
+  "secret_values_recorded": false,
+  "verifier_repaired_builder_code": false,
+  "verdict": "PASS",
+  "disposition": "HANDOFF_TO_LCR_A"
+}
