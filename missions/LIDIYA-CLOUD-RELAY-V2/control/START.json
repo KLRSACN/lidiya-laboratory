@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "signal_id": "START-LCRV2-20260811-1505",
+  "signal": "START",
+  "mission_id": "LCR-V2-ROUNDTRIP-0001",
+  "created_at": "2026-08-11T15:05:00+08:00",
+  "created_by": "BOXUAN",
+  "status": "READY",
+  "consumed_by": null,
+  "consumed_at": null,
+  "resume_allowed": true
+}
