@@ -6,6 +6,10 @@ on:
       - main
     paths:
       - '.github/workflows/lcr-cloud-launcher.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -19,6 +23,7 @@ concurrency:
 jobs:
   lcr-a-start:
     name: LCR-A Coordinator Start
+    if: github.event_name != 'pull_request' || github.head_ref == 'lidiya-cloud-relay-v2'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
