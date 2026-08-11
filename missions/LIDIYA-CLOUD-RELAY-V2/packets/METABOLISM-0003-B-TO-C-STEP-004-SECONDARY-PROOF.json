@@ -1,0 +1,38 @@
+{
+  "schema_version": "3.1",
+  "mission_id": "LCR-METABOLISM-0003",
+  "run_id": "LCR-METABOLISM-0003-RUN-004-SECONDARY-B-TO-C",
+  "step_id": 4,
+  "attempt": 0,
+  "source": "LCR-B",
+  "target": "LCR-C",
+  "action": "VERIFY_SECONDARY_B_TAKEOVER",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T02:07:00+08:00",
+  "parent_packet_sha256": "7df532c2e7b0333c4d8290560963bfad630f1abc4f97b75e865400f9b240b6f9",
+  "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "worker_roster_ref": "state/WORKER_ROSTER.json",
+  "handoff_ref": "handoffs/METABOLISM-0003-B-TO-SECONDARY-STEP-004.json",
+  "handoff_sha256": "e6167f892a39df57156655ac014bb46ae5935272cd2ae153a85674e84df03f62",
+  "builder_evidence": "evidence/METABOLISM-0003-STEP-004-SECONDARY-B-ACTIVATION.json",
+  "builder_result": "BUILT_NOT_VERIFIED",
+  "acceptance": [
+    "independently recompute inbound and handoff canonical SHA-256",
+    "verify handoff state fingerprint against the historical STEP-004 COORDINATING durable state",
+    "verify formal roster remains exactly A/B/C with max_slots=3",
+    "verify current B is ONLINE-LIDIYA-SECONDARY-INTEGRATOR generation 1",
+    "verify old ONLINE-LIDIYA-BUILDER generation 0 is stale/rejected",
+    "verify no candidate code, main/default, full backup, secret, Identity/Personality/Governance changes occurred"
+  ],
+  "forbidden": [
+    "verifier repairs Builder output",
+    "declare Builder self-PASS",
+    "create fourth formal slot",
+    "create third full backup",
+    "modify candidate code",
+    "modify main/default branch",
+    "secret access"
+  ],
+  "packet_sha256": "c800a59cb15c76c3bccd2fec7b0385d6e95aa1527de74b2213ae1ba11fcfac21"
+}
