@@ -1,0 +1,145 @@
+name: LCR Autonomy Launcher
+
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Optional cloud model provider selector (none/openai/gemini/anthropic)
+        required: false
+        default: none
+        type: choice
+        options:
+          - none
+          - openai
+          - gemini
+          - anthropic
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/lcr-autonomy-launcher.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lcr-autonomy-0002
+  cancel-in-progress: false
+
+env:
+  LCR_BRANCH: cloud-relay-v2
+  LCR_ROOT: missions/CLOUD-RELAY-V2
+  LCR_MODEL_PROVIDER: ${{ github.event.inputs.provider || vars.LCR_MODEL_PROVIDER || 'none' }}
+
+jobs:
+  a_start:
+    name: A - Coordinator activation
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_BRANCH }}
+          fetch-depth: 0
+      - name: Run A start
+        run: python "$LCR_ROOT/lcr_slot.py" a-start
+      - name: Persist A evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$LCR_ROOT"
+          git commit -m "lcr(0002): A dispatches to B [run $GITHUB_RUN_ID]"
+          git push origin HEAD:"$LCR_BRANCH"
+
+  builder:
+    name: B - Builder
+    needs: a_start
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_BRANCH }}
+          fetch-depth: 0
+      - name: Run Builder
+        run: python "$LCR_ROOT/lcr_slot.py" builder
+      - name: Persist B evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$LCR_ROOT"
+          git commit -m "lcr(0002): B hands off to C [run $GITHUB_RUN_ID]"
+          git push origin HEAD:"$LCR_BRANCH"
+
+  verifier:
+    name: C - Verifier
+    needs: builder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_BRANCH }}
+          fetch-depth: 0
+      - name: Run Verifier
+        run: python "$LCR_ROOT/lcr_slot.py" verifier
+      - name: Persist C evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$LCR_ROOT"
+          git commit -m "lcr(0002): C returns verified PASS to A [run $GITHUB_RUN_ID]"
+          git push origin HEAD:"$LCR_BRANCH"
+
+  a_return:
+    name: A - Coordinator return
+    needs: verifier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_BRANCH }}
+          fetch-depth: 0
+      - name: Run A return
+        run: python "$LCR_ROOT/lcr_slot.py" a-return
+      - name: Persist A return evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$LCR_ROOT"
+          git commit -m "lcr(0002): A receives verified roundtrip [run $GITHUB_RUN_ID]"
+          git push origin HEAD:"$LCR_BRANCH"
+
+  metabolic_closure:
+    name: Metabolic Closure
+    needs: a_return
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LCR_BRANCH }}
+          fetch-depth: 0
+      - name: Close only after verified roundtrip
+        run: python "$LCR_ROOT/lcr_slot.py" closure
+      - name: Persist closure
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$LCR_ROOT"
+          git commit -m "lcr(0002): metabolic closure after verified A-B-C-A [run $GITHUB_RUN_ID]"
+          git push origin HEAD:"$LCR_BRANCH"
+      - name: Verify terminal state
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('missions/CLOUD-RELAY-V2/state')
+          state = json.loads((root / 'MISSION_STATE.json').read_text())
+          closure = json.loads((root / 'METABOLIC_CLOSURE.json').read_text())
+          assert state['roundtrip_verified'] is True
+          assert state['roundtrip_path'] == ['A', 'B', 'C', 'A']
+          assert state['status'] == 'PROJECT_DONE'
+          assert closure['status'] == 'METABOLIC_CLOSED'
+          print('LCR_AUTONOMY_0002_VERIFIED')
+          PY
