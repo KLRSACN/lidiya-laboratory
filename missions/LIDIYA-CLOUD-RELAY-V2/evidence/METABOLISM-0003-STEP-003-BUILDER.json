@@ -1,0 +1,44 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "step_id":3,
+  "attempt":0,
+  "role":"LCR-B",
+  "worker_id":"ONLINE-LIDIYA-BUILDER",
+  "result":"BUILT_NOT_VERIFIED",
+  "built_at_taipei":"2026-08-12T01:36:05+08:00",
+  "inbound_packet":"packets/METABOLISM-0003-A-TO-B-STEP-003.json",
+  "inbound_packet_sha256":"c0529834b8b6c801acba5721a38bcb84d33581c1c5a90c5b7ff4d7fc71909018",
+  "candidate_files":{
+    "continuous_control.py":{"blob_sha":"3385391f3884074a15f12cc695a51d3f19a88883"},
+    "test_continuous_control.py":{"blob_sha":"ccb2000f9be7cb1713f10e01d5e9923391cf046f"}
+  },
+  "tests":{
+    "py_compile":"PASS",
+    "unittest":"11/11 PASS",
+    "slot4_rejected":true,
+    "replacement_without_durable_handoff_rejected":true,
+    "stale_worker_after_takeover_rejected":true,
+    "owner_input_preserves_BUILDING_READY_FOR_VERIFY_STEP_DONE":true,
+    "raw_owner_body_not_persisted":true,
+    "raw_chat_logs_stale_panels_excluded":true,
+    "protected_secret_hidden_system_material_not_self_clearable":true,
+    "allowlisted_reproducible_external_scratch_self_clearable":true,
+    "deterministic_restart_handoff":true
+  },
+  "sample_deterministic_hashes":{
+    "state_fingerprint":"a0d5ab82f1aed2354a6c8bdf643c220ce2ee66120bf6959e057a3df28b5a8a01",
+    "control_snapshot_sha256":"b1d8e5d540a7464263005ce670af30ab99ce4cf3597b669bfc1713ba05fb12e7",
+    "handoff_sha256":"acd186479b7fd293ced39f5756636738a2d6b0d865c6bedcc87880f2a09ab58b"
+  },
+  "safety":{
+    "main_default_modified":false,
+    "secret_values_accessed_or_recorded":false,
+    "real_protected_user_data_physically_deleted":false,
+    "third_full_backup_created":false,
+    "identity_personality_governance_modified":false,
+    "hidden_model_or_system_state_targeted":false
+  },
+  "verifier_required":true,
+  "verdict":"BUILT_NOT_VERIFIED"
+}
