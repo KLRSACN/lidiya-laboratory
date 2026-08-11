@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.1",
+  "schema_version": "2.2",
   "mission_id": "LCR-METABOLISM-0003",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
   "status": "READY_FOR_BUILDER",
@@ -9,11 +9,7 @@
   "next_role": "LCR-C",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
-  "previous_mission": {
-    "mission_id": "LCR-AUTONOMY-0002",
-    "result": "PASS",
-    "closure_evidence": "evidence/AUTONOMY-0002-CLOUD-ACTIVATION-CLOSURE.json"
-  },
+  "previous_mission": {"mission_id": "LCR-AUTONOMY-0002", "result": "PASS", "closure_evidence": "evidence/AUTONOMY-0002-CLOUD-ACTIVATION-CLOSURE.json"},
   "last_packet_sha256": null,
   "pending_packet": "packets/METABOLISM-0003-A-TO-B-STEP-001.json",
   "pending_packet_sha256": "96ac32ee819d28265fb36adab4e0684c83d2ad84d3112e3a2bd14bcbeb20d901",
@@ -22,12 +18,14 @@
   "mission_result": null,
   "authorization_ref": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
   "authorization_level": "STAGE_2_GOLDEN_TRIANGLE_METABOLISM",
-  "deadline_target": "2026-08-13T19:08:00+08:00",
-  "transition_path": [
-    "IDLE",
-    "COORDINATING",
-    "READY_FOR_BUILDER"
-  ],
+  "time_authority": {
+    "timezone": "Asia/Taipei",
+    "started_at": "2026-08-11T20:00:00+08:00",
+    "deadline_target": "2026-08-13T20:00:00+08:00",
+    "status_panel_clock": "TAIWAN_TIME_REQUIRED"
+  },
+  "deadline_target": "2026-08-13T20:00:00+08:00",
+  "transition_path": ["IDLE", "COORDINATING", "READY_FOR_BUILDER"],
   "slot_policy": {
     "max_slots": 3,
     "primary": "LCR-A",
@@ -49,7 +47,13 @@
     "guardian_verification": "REQUIRED",
     "retain_raw_worksite": false,
     "stable_promoted": false,
-    "rollback_anchor": "nav-relay-mvp-0001"
+    "rollback_anchor": "nav-relay-mvp-0001",
+    "legacy_phase1_candidate": {
+      "state": "metabolism/PHASE1_STATE.json",
+      "policy": "metabolism/METABOLIC_POLICY.json",
+      "engine": "metabolism/metabolic_cleanup.py",
+      "disposition": "WORKING_EXCHANGE_CANDIDATE_REQUIRES_0003_REVALIDATION"
+    }
   },
   "worker_spawn": {
     "objective": "A can activate isolated B/C workers without user-maintained visible windows",
@@ -65,7 +69,9 @@
   "progress_feed": {
     "issue_number": 4,
     "status": "MISSION_0003_STARTED",
-    "dedupe_key": "lcr-metabolism-0003-step-001"
+    "dedupe_key": "lcr-metabolism-0003-step-001",
+    "taipei_deadline": "2026-08-13 20:00 Asia/Taipei",
+    "panel_ref": "status/LCR-METABOLISM-0003-STATUS.md"
   },
   "next_authorized_mission": null,
   "acceptance": [
