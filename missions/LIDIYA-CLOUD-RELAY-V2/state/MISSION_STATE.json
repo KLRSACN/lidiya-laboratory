@@ -71,7 +71,7 @@
     "latest_signal": "signals/AUTONOMY-0002-LATEST.json",
     "latest_markdown": "signals/AUTONOMY-0002-LATEST.md",
     "dedupe_key": "lcr-autonomy-0002-complete",
-    "signal_sha256": null
+    "signal_sha256": "4fba3e99b7b965fdd4c479002bf78eb2689be42e4d9c0f512649ecdf7a3b81a7"
   },
   "metabolism": {
     "retain_lessons": true,
