@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "evidence_type": "activation_failure_nutrition",
+  "workflow_run_id": 31482474187,
+  "workflow_run_conclusion": "failure",
+  "failed_role": "LCR-A",
+  "failed_job_id": 93750349768,
+  "authorization_validation": "PASS",
+  "observed_token_permissions": {
+    "contents": "read",
+    "models": "read"
+  },
+  "failure": {
+    "step": "LCR-A cloud model authentication proof",
+    "http_status": 410,
+    "root_cause_class": "manual GitHub Models REST invocation incompatible with current runtime endpoint behavior",
+    "secret_exposed": false
+  },
+  "repair": {
+    "main_file": ".github/workflows/lcr-cloud-launcher.yml",
+    "strategy": "replace manual REST inference calls with GitHub-maintained actions/ai-inference@v2.1.1 while preserving models: read and role separation",
+    "main_commit": "b85e316234343dde31ddaa0594f243448c6dfb1e"
+  },
+  "lesson": "Authentication permission and inference transport are separate concerns. Prove token permissions from runner logs, retain the failure, and prefer GitHub's maintained inference action over a hand-coded endpoint when the platform API changes.",
+  "disposition": "retain_minimal_failure_lesson"
+}
