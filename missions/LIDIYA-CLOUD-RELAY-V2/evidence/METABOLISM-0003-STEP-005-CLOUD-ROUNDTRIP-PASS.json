@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "step_id": 5,
+  "evidence_type": "REAL_GITHUB_CLOUD_A_B_C_A_CLEANUP_ROUNDTRIP",
+  "verdict": "VERIFIED_PASS",
+  "github": {
+    "run_id": 31522639107,
+    "run_conclusion": "success",
+    "launcher_commit": "576f9f27ed4e3900743a7b49ab730f7b64e91eb1",
+    "jobs": {
+      "LCR-A Coordinator Start": {"job_id": 93883236219, "conclusion": "success"},
+      "LCR-B Secondary Metabolism Worker": {"job_id": 93883278028, "conclusion": "success"},
+      "LCR-C Guardian Independent Verify": {"job_id": 93883363242, "conclusion": "success"},
+      "LCR-A Coordinator Finish": {"job_id": 93883429880, "conclusion": "success"}
+    },
+    "repository_permissions": "contents:read",
+    "repository_write_permission": false
+  },
+  "artifacts": {
+    "a_start": {"artifact_id": 9113637354, "digest": "sha256:c7805c7f60f3636f08eda1f2de439b7fba94e6e32a1009f8d5e8a1cc986d660c", "a_start_sha256": "8a756a38c0379959f29c4e051403a27866e9527d56ac3a1ec251653479116965"},
+    "b_cleanup": {"artifact_id": 9113646554, "digest": "sha256:2db90a8183bcd370f109b1e0af5ba133e9fe1cd00635a8e278620afad310a95c", "b_artifact_sha256": "030255cfc57748a95d336e4746a0bd1a210cebe18c5c46ba447f5b7ce0a2bd27"},
+    "c_verify": {"artifact_id": 9113653927, "digest": "sha256:97b48332350da1fee50a038be70e3445ddd46e1c9b8842ba0fe4d73feaaa1e67", "c_artifact_sha256": "8246322ab8b6572c4e7de682368bbb8462d8695b3adf6cecec4cee2fe573275d"},
+    "final": {"artifact_id": 9113660970, "digest": "sha256:21964cb44d05d8ad69d8da3c05ca8bdcbb8013a23eca94efe6aa9c510b458598", "final_evidence_sha256": "399df1c287ae10419fcb8ba79f456f51a47cdae2355bb93e6b796cde6094255f"}
+  },
+  "request": {
+    "ref": "packets/METABOLISM-0003-A-CLOUD-ROUNDTRIP-STEP-005.json",
+    "request_sha256": "dfecdb8cefa73461739a0f46740862eabf5897a8d5bb361e68f1eff913b84f9c"
+  },
+  "role_chain": ["LCR-A", "LCR-B", "LCR-C", "LCR-A"],
+  "workers": {
+    "LCR-A": {"worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL", "generation": 0},
+    "LCR-B": {"worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR", "generation": 1},
+    "LCR-C": {"worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER", "generation": 0}
+  },
+  "cleanup": {
+    "fixture_scope": "EPHEMERAL_GITHUB_HOSTED_RUNNER_ONLY",
+    "safe_fixture_physically_deleted": true,
+    "deleted": ["scratch/safe.tmp"],
+    "deleted_count": 1,
+    "reclaimed_bytes": 18,
+    "before_manifest_sha256": "2e734b4c82a23b761f77b5d86cff3ac758cd9b62356df4e1ab009063e7bd73b6",
+    "after_manifest_sha256": "ae25ef8a3aff8848fd4c5a68707f873bf19c1a6edb1a516dac165b5b1b13b432",
+    "report_sha256": "081306d7ee3998ea43b70bc134df9df7fe3f1ddd84e320ead3a053c36f54a00b",
+    "unique_human_fixture_survived": true,
+    "secret_like_fixture_survived": true,
+    "recovery_baseline_fixture_survived": true,
+    "third_full_backup_rejected": true,
+    "secret_value_recorded": false,
+    "real_user_data_touched": false
+  },
+  "independent_verification": {
+    "c_recreated_fixture_on_separate_job": true,
+    "c_reproduced_safe_deletion": true,
+    "c_reproduced_protected_survival": true,
+    "c_reproduced_third_backup_rejection": true,
+    "c_independent_report_sha256": "081306d7ee3998ea43b70bc134df9df7fe3f1ddd84e320ead3a053c36f54a00b",
+    "matches_builder_report_sha256": true
+  },
+  "boundaries": {
+    "main_changes_during_roundtrip": false,
+    "repository_write_from_jobs": false,
+    "secret_access": false,
+    "real_protected_user_data_cleanup": false,
+    "fourth_formal_slot": false,
+    "third_full_backup": false,
+    "identity_personality_governance_change": false
+  },
+  "raw_runner_logs_retained_as_durable_truth": false,
+  "disposition": "AUTHORITATIVE_REALITY_ANCHOR"
+}
