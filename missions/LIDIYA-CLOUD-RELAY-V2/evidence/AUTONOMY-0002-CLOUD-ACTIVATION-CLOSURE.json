@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "result": "PASS",
+  "completion_claim": "CLOUD_A_B_C_A_ROUNDTRIP_VERIFIED",
+  "authorization_ref": "authorizations/LCR-AUTONOMY-0002-ACTIVATION-GATE-20260811.json",
+  "activation": {
+    "default_branch_launcher": ".github/workflows/lcr-cloud-launcher.yml",
+    "launcher_commit": "7f7cf057a496ed16498b374ded47007443e979f0",
+    "main_write_scope_verified": [
+      ".github/workflows/lcr-cloud-launcher.yml"
+    ],
+    "validation_pull_request": 5,
+    "validation_pr_mode": "draft_validation_only",
+    "validation_pr_merged": false,
+    "workflow_run_id": 31482832715,
+    "workflow_run_attempt": 1,
+    "workflow_conclusion": "success",
+    "head_branch": "lidiya-cloud-relay-v2",
+    "head_sha": "bf94f72a8de4bbcc71da6071d799e0628d1bbb3a"
+  },
+  "role_chain": [
+    {
+      "role": "LCR-A",
+      "phase": "Coordinator Start",
+      "job_id": 93751631101,
+      "conclusion": "success"
+    },
+    {
+      "role": "LCR-B",
+      "phase": "Builder",
+      "job_id": 93751727894,
+      "conclusion": "success",
+      "builder_result": "BUILT_NOT_VERIFIED"
+    },
+    {
+      "role": "LCR-C",
+      "phase": "Verifier",
+      "job_id": 93751747217,
+      "conclusion": "success",
+      "verifier_result": "VERIFIED_PASS"
+    },
+    {
+      "role": "LCR-A",
+      "phase": "Coordinator Finish",
+      "job_id": 93751883694,
+      "conclusion": "success"
+    }
+  ],
+  "authentication": {
+    "engine": "GitHub Copilot CLI",
+    "copilot_cli_version_observed_in_a": "1.0.79",
+    "copilot_cli_version_observed_in_c": "1.0.79",
+    "credential_source": "ephemeral GITHUB_TOKEN",
+    "runner_permissions_observed": {
+      "contents": "read",
+      "copilot_requests": "write",
+      "metadata": "read"
+    },
+    "a_model_authentication_proof": "success",
+    "c_independent_model_authentication_proof": "success",
+    "secret_value_recorded": false
+  },
+  "verification": {
+    "builder_verifier_separated": true,
+    "candidate_sha256": "d862a1f32df216b9a3a05767196d2f114e3e996241f17d9839a24fe11482df9b",
+    "verifier_exact_byte_check": true,
+    "verifier_sha256_check": true,
+    "final_evidence_json_sha256": "a8d6027405ae69bb1e381f7b54fe3d9616730935e690727a90ca19ddf1b8bf05"
+  },
+  "artifacts": [
+    {
+      "name": "lcr-a-start",
+      "artifact_id": 9097930164,
+      "digest": "sha256:329a1da92e019f2aebf262a730a47d02e9ad2416cd8c37041add7a4bbbb8814e"
+    },
+    {
+      "name": "lcr-b-candidate",
+      "artifact_id": 9097933444,
+      "digest": "sha256:532443f09307aea0cf662e5fbcd0fb94b06be4992eb8533ad149e1855bc5e2ff"
+    },
+    {
+      "name": "lcr-c-verdict",
+      "artifact_id": 9097948815,
+      "digest": "sha256:bcf188aac9a2cc5d28f3bb8f1776756ba70c7257a240145c3b1799bd1da195bb"
+    },
+    {
+      "name": "lcr-cloud-roundtrip-evidence",
+      "artifact_id": 9097951825,
+      "digest": "sha256:16026176052a64ea6002da7d59a524dd4a36384f69721681ed2c3737a8313c5d"
+    }
+  ],
+  "failure_nutrition": {
+    "ref": "evidence/AUTONOMY-0002-ACTIVATION-RUN-31482474187-FAIL.json",
+    "retained_lesson": "GitHub Models was retired; repeated 410 retirement evidence was metabolized and the cloud engine migrated to the supported keyless Copilot Actions path instead of preserving obsolete transport assumptions."
+  },
+  "rollback": {
+    "stable_anchor": "nav-relay-mvp-0001",
+    "launcher_rollback": "remove only .github/workflows/lcr-cloud-launcher.yml from main if the one-time activation infrastructure is later revoked",
+    "candidate_branch_promoted_to_main": false
+  },
+  "metabolic_closure": {
+    "stable_promoted": false,
+    "verified_infrastructure": ".github/workflows/lcr-cloud-launcher.yml",
+    "retain": [
+      "one-time authorization",
+      "verified launcher commit",
+      "final workflow run ID and job results",
+      "artifact digests",
+      "final evidence JSON SHA-256",
+      "minimal upstream-retirement failure lesson",
+      "rollback anchor"
+    ],
+    "waste_disposition": "raw runner logs, inference scratch responses, request files, and intermediate downloaded artifacts are disposable/TTL-bound; retain hashes and minimal evidence instead of complete worksite traces",
+    "returned_to_baseline": true
+  }
+}
