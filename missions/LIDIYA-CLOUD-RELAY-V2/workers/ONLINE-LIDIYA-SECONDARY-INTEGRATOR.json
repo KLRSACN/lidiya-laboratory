@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "display_role": "Secondary Integrator / Metabolic Maintainer / Independent Verifier",
+  "authorization_scope": "MISSION_SCOPED",
+  "authorized_by": "博玄",
+  "registered_at": "2026-08-11T23:31:00+08:00",
+  "time_authority": "Asia/Taipei",
+  "slot_binding": {
+    "topology": "GOLDEN_TRIANGLE",
+    "max_total_slots": 3,
+    "adds_new_slot": false,
+    "eligible_slots": ["LCR-B", "LCR-C"],
+    "binding_rule": "the worker occupies exactly one leased role for a given candidate/verification cycle"
+  },
+  "capabilities": [
+    "secondary integration of branch-local candidate work",
+    "metabolic maintenance under the mission cleanup guards",
+    "independent verification when assigned LCR-C",
+    "read durable state, packets, minimal evidence, status panels and authorized candidate files",
+    "handoff through durable packet/hash/lease rather than chat-history authority"
+  ],
+  "role_separation_invariant": {
+    "rule": "A worker that authored, modified, repaired, or physically cleaned a candidate in a cycle MUST NOT independently verify that same candidate in that cycle.",
+    "if_worker_acts_as_LCR_B": "verifier must be a different worker identity/runner",
+    "if_worker_acts_as_LCR_C": "worker must remain read-only with respect to the candidate under verification and must not silently repair it",
+    "self_pass": "FORBIDDEN"
+  },
+  "wakefulness_contract": {
+    "before_every_action": [
+      "re-read canonical durable state",
+      "re-read mission authorization",
+      "verify current_role and target",
+      "verify Lease ownership/expiry",
+      "recompute or verify packet hash and duplicate-consumption state",
+      "check Asia/Taipei deadline",
+      "check allowed write scope and two-backup invariant"
+    ],
+    "chat_memory_authority": false,
+    "state_is_subject": true
+  },
+  "forbidden": [
+    "create a fourth Golden Triangle slot",
+    "create a third full backup group",
+    "verify own candidate changes",
+    "Builder self-PASS",
+    "modify main/default branch without a new explicit reviewed sub-gate",
+    "read, expose, persist or hash secret values",
+    "modify Identity Kernel/personality/Governance",
+    "production deployment, account/money action or privilege expansion",
+    "unguarded irreversible deletion"
+  ],
+  "expiration": "expires when LCR-METABOLISM-0003 reaches IDLE/PASS, terminal HUMAN_GATE requiring a new authorization, or is explicitly revoked"
+}
