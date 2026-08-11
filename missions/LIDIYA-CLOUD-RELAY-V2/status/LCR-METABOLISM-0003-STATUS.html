@@ -1,31 +1,9 @@
 <!doctype html>
-<html lang="zh-Hant">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LCR-METABOLISM-0003 Status</title>
-<style>
-body{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;max-width:980px;margin:40px auto;padding:0 20px;line-height:1.55}code{background:#eee;padding:2px 5px;border-radius:4px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.card{border:1px solid #bbb;border-radius:10px;padding:14px}.big{font-size:1.35rem;font-weight:700}.warn{font-weight:700}.muted{opacity:.72}</style>
-</head>
-<body>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCR-METABOLISM-0003 Status</title><style>body{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;max-width:980px;margin:40px auto;padding:0 20px;line-height:1.55}code{background:#eee;padding:2px 5px;border-radius:4px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.card{border:1px solid #bbb;border-radius:10px;padding:14px}.big{font-size:1.35rem;font-weight:700}.warn{font-weight:700}.muted{opacity:.72}</style></head><body>
 <h1>LCR-METABOLISM-0003｜金三角代謝面板</h1>
-<p class="big">台灣時間：<span id="clock">--</span></p>
-<p>起算：<code>2026-08-11 20:00 Asia/Taipei</code><br>截止：<code>2026-08-13 20:00 Asia/Taipei</code></p>
-<div class="grid">
-<div class="card"><b>Mission</b><br><code>LCR-METABOLISM-0003</code></div>
-<div class="card"><b>Current state snapshot</b><br><code>READY_FOR_BUILDER / LCR-B</code></div>
-<div class="card"><b>Golden Triangle</b><br>A Coordinator<br>B Metabolism Worker<br>C Guardian Verifier</div>
-<div class="card"><b>Worker limit</b><br><code>3 max</code></div>
-<div class="card"><b>Full backups</b><br><code>2 max</code><br>RECOVERY_BASELINE + WORKING_EXCHANGE</div>
-<div class="card"><b>Main branch</b><br><span class="warn">NO WRITE without HUMAN sub-gate</span></div>
-</div>
-<h2>時間檢查點</h2>
-<ul><li>2026-08-12 20:00：24h recoverability checkpoint</li><li>2026-08-13 14:00：final integration checkpoint</li><li>2026-08-13 20:00：hard deadline；只有 verified IDLE/PASS 算完成</li></ul>
-<h2>權威順序</h2>
-<p><code>state/MISSION_STATE.json</code> → authorization → Evidence → Issue #4 / 本面板。面板與 durable state 衝突時，以 durable state 為準。</p>
-<p class="muted">此 HTML 是 branch-local browser-readable panel source，不是 production deployment。</p>
-<script>
-function tick(){document.getElementById('clock').textContent=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',dateStyle:'medium',timeStyle:'medium',hour12:false}).format(new Date())}
-tick();setInterval(tick,1000);
-</script>
-</body></html>
+<p class="big">台灣時間：<span id="clock">--</span></p><p>起算：<code>2026-08-11 20:00 Asia/Taipei</code><br>截止：<code>2026-08-13 20:00 Asia/Taipei</code></p>
+<div class="grid"><div class="card"><b>Mission</b><br><code>LCR-METABOLISM-0003</code></div><div class="card"><b>Current state</b><br><code>READY_FOR_VERIFY / LCR-C</code></div><div class="card"><b>Builder</b><br><code>BUILT_NOT_VERIFIED</code><br>13/13 reproduction PASS</div><div class="card"><b>Golden Triangle</b><br>A Coordinator<br>B Metabolism Worker<br>C Guardian Verifier</div><div class="card"><b>Worker limit</b><br><code>3 max</code></div><div class="card"><b>Full backups</b><br><code>2 max</code><br>RECOVERY_BASELINE + WORKING_EXCHANGE</div><div class="card"><b>Main branch</b><br><span class="warn">NO WRITE without HUMAN sub-gate</span></div></div>
+<h2>Current handoff</h2><p>B→C packet: <code>1cc809872754c518f4f721c738bb4cad622bf94d9bb6bdbb314500c323911252</code>. Guardian must independently execute the exact GitHub bytes before PASS.</p>
+<h2>時間檢查點</h2><ul><li>2026-08-12 20:00：24h recoverability checkpoint</li><li>2026-08-13 14:00：final integration checkpoint</li><li>2026-08-13 20:00：hard deadline；只有 verified IDLE/PASS 算完成</li></ul>
+<h2>權威順序</h2><p><code>state/MISSION_STATE.json</code> → authorization → Evidence → Issue #4 / 本面板。衝突時，以 durable state 為準。</p><p class="muted">Branch-local browser-readable panel source；不是 production deployment。</p>
+<script>function tick(){document.getElementById('clock').textContent=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',dateStyle:'medium',timeStyle:'medium',hour12:false}).format(new Date())}tick();setInterval(tick,1000);</script></body></html>
