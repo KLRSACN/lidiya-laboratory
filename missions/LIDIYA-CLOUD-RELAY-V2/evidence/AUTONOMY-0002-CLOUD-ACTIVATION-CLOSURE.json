@@ -1,18 +1,20 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-AUTONOMY-0002",
   "result": "PASS",
   "completion_claim": "CLOUD_A_B_C_A_ROUNDTRIP_VERIFIED",
   "authorization_ref": "authorizations/LCR-AUTONOMY-0002-ACTIVATION-GATE-20260811.json",
   "activation": {
     "default_branch_launcher": ".github/workflows/lcr-cloud-launcher.yml",
-    "launcher_commit": "7f7cf057a496ed16498b374ded47007443e979f0",
+    "verified_proof_launcher_commit": "7f7cf057a496ed16498b374ded47007443e979f0",
+    "post_proof_dormancy_commit": "228d98649a3e547ab12387996b88632689d7e368",
+    "post_proof_launcher_state": "WORKFLOW_DISPATCH_ONLY_AND_CONSUMED_AUTHORIZATION_GUARD",
     "main_write_scope_verified": [
       ".github/workflows/lcr-cloud-launcher.yml"
     ],
     "validation_pull_request": 5,
     "validation_pr_mode": "draft_validation_only",
-    "validation_pr_merged": false,
+    "validation_pr_final_state": "CLOSED_UNMERGED",
     "workflow_run_id": 31482832715,
     "workflow_run_attempt": 1,
     "workflow_conclusion": "success",
@@ -94,24 +96,37 @@
     "ref": "evidence/AUTONOMY-0002-ACTIVATION-RUN-31482474187-FAIL.json",
     "retained_lesson": "GitHub Models was retired; repeated 410 retirement evidence was metabolized and the cloud engine migrated to the supported keyless Copilot Actions path instead of preserving obsolete transport assumptions."
   },
+  "duplicate_run_disposition": {
+    "cause": "closure commits synchronized the still-open validation PR before it was closed",
+    "non_authoritative_success_runs": [
+      31483269973,
+      31483298602,
+      31483385873
+    ],
+    "cancelled_run": 31483371715,
+    "disposition": "WASTE_DUPLICATE_PROOF; do not promote, index, or use as additional learning evidence",
+    "prevention": "validation PR 5 closed unmerged; main launcher changed to workflow_dispatch-only; one-time authorization status set to CONSUMED_PASS"
+  },
   "rollback": {
     "stable_anchor": "nav-relay-mvp-0001",
-    "launcher_rollback": "remove only .github/workflows/lcr-cloud-launcher.yml from main if the one-time activation infrastructure is later revoked",
+    "launcher_rollback": "remove only .github/workflows/lcr-cloud-launcher.yml from main if activation infrastructure is later revoked",
     "candidate_branch_promoted_to_main": false
   },
   "metabolic_closure": {
     "stable_promoted": false,
     "verified_infrastructure": ".github/workflows/lcr-cloud-launcher.yml",
+    "authorization_final_state": "CONSUMED_PASS",
     "retain": [
-      "one-time authorization",
-      "verified launcher commit",
-      "final workflow run ID and job results",
+      "one-time authorization and consumed state",
+      "verified proof launcher commit",
+      "post-proof dormancy commit",
+      "authoritative workflow run ID 31482832715 and four job results",
       "artifact digests",
       "final evidence JSON SHA-256",
       "minimal upstream-retirement failure lesson",
       "rollback anchor"
     ],
-    "waste_disposition": "raw runner logs, inference scratch responses, request files, and intermediate downloaded artifacts are disposable/TTL-bound; retain hashes and minimal evidence instead of complete worksite traces",
+    "waste_disposition": "raw runner logs, inference scratch responses, request files, intermediate downloaded artifacts, and duplicate post-proof workflow runs are disposable/TTL-bound; retain hashes and minimal evidence instead of complete worksite traces",
     "returned_to_baseline": true
   }
 }
