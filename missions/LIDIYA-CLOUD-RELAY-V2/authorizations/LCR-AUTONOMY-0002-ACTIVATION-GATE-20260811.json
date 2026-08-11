@@ -1,13 +1,21 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-AUTONOMY-0002",
   "authorization_type": "ONE_TIME_ACTIVATION_GATE",
+  "status": "CONSUMED_PASS",
   "authorized_at": "2026-08-11T10:20:00+00:00",
   "authorized_by": "博玄",
+  "consumed_by": {
+    "workflow_run_id": 31482832715,
+    "workflow_run_attempt": 1,
+    "completion_claim": "CLOUD_A_B_C_A_ROUNDTRIP_VERIFIED",
+    "closure_evidence": "evidence/AUTONOMY-0002-CLOUD-ACTIVATION-CLOSURE.json"
+  },
   "validation_carrier": {
     "pull_request": 5,
     "mode": "draft_validation_only",
-    "merge_authorized": false
+    "merge_authorized": false,
+    "final_state": "CLOSED_UNMERGED"
   },
   "allowed": {
     "default_branch": "main",
@@ -15,8 +23,8 @@
       ".github/workflows/lcr-cloud-launcher.yml"
     ],
     "cloud_model_auth": [
-      "GitHub Models via ephemeral GITHUB_TOKEN with models: read",
-      "provider secret presence/setup contracts that never reveal secret values"
+      "ephemeral GitHub-provided credentials only",
+      "no persistent secret value in source, chat, logs, evidence, or artifacts"
     ],
     "verification": [
       "real GitHub-hosted Actions execution",
@@ -27,6 +35,7 @@
     ]
   },
   "forbidden": [
+    "reuse this consumed authorization for another mission or another activation proof",
     "modify any other main/default-branch file",
     "merge unrelated candidate changes into main",
     "merge validation PR 5",
@@ -39,7 +48,7 @@
   "secret_policy": "Use GitHub-provided ephemeral credentials only when possible. Never print, persist, hash, or otherwise record credential values.",
   "rollback": {
     "stable_anchor": "nav-relay-mvp-0001",
-    "launcher_rollback": "delete only .github/workflows/lcr-cloud-launcher.yml from main if activation proof fails or is revoked"
+    "launcher_rollback": "delete only .github/workflows/lcr-cloud-launcher.yml from main if activation infrastructure is later revoked"
   },
-  "expires_after": "one successful verified activation proof and Metabolic Closure"
+  "expires_after": "CONSUMED_PASS — authorization exhausted after successful verified activation proof and Metabolic Closure"
 }
