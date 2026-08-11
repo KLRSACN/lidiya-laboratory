@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "packet_id": "PKT-START-20260811-1529",
+  "mission_id": "CLOUD-RELAY-V2-ROUNDTRIP-0001",
+  "run_id": "RUN-START-20260811-1529",
+  "step_id": 1,
+  "source": "COORDINATOR",
+  "target": "COORDINATOR",
+  "action": "START",
+  "status": "READY",
+  "payload": {
+    "start_token": "START-CLOUD-RELAY-V2-20260811-1529",
+    "instruction": "Consume START.json, read authoritative governance/memory context, then dispatch exactly one minimal round-trip task to BUILDER."
+  },
+  "input_hash": "e70b2e41a56871583d7c2d321a61d5d95dd541a8197612753c2a06ce67cffbe3",
+  "created_at": "2026-08-11T15:29:00+08:00",
+  "consumed": false,
+  "consumed_at": null
+}
