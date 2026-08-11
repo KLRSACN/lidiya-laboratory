@@ -1,0 +1,23 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-METABOLISM-0003",
+  "step_id":4,
+  "role":"LCR-A",
+  "result":"VERIFIED_RESULT_ABSORBED",
+  "absorbed_at_taipei":"2026-08-12T02:22:00+08:00",
+  "verifier_evidence":"evidence/METABOLISM-0003-STEP-004-VERIFIER-PASS.json",
+  "c_to_a_packet":"packets/METABOLISM-0003-C-TO-A-STEP-004-PASS.json",
+  "c_to_a_packet_sha256":"f3234d72df69cc4002b1262fd792434092c152d183059814f88d06d9d773f4a6",
+  "absorbed_facts":[
+    "formal roster remains exactly A/B/C",
+    "LCR-B is ONLINE-LIDIYA-SECONDARY-INTEGRATOR generation 1",
+    "former ONLINE-LIDIYA-BUILDER generation 0 is stale and rejected",
+    "same platform B task was reused without creating a fourth formal slot",
+    "replacement handoff action/auth/state fingerprint integrity independently passed"
+  ],
+  "raw_worksite_absorbed":false,
+  "secret_values_recorded":false,
+  "full_backup_created":false,
+  "rollback_anchor":"nav-relay-mvp-0001",
+  "next_step":5
+}
