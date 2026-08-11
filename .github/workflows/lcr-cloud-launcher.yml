@@ -39,4 +39,4 @@ jobs:
               'Authorization is ACTIVE but this post-proof launcher is intentionally dormant. '
               'A reviewed mission-specific launcher revision is required before execution.'
           )
-PY
+          PY
