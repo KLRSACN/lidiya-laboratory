@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "RUN-LCR-AUTONOMY-0002",
+  "status": "METABOLIC_CLOSED",
+  "closed_at": "2026-08-11T10:25:50.604759+00:00",
+  "consumed_energy": [
+    "activation gate",
+    "A->B packet",
+    "B evidence",
+    "C verification",
+    "C->A PASS"
+  ],
+  "retained_long_term": [
+    "relay protocol v2",
+    "auth secret-boundary pattern",
+    "evidence-first closure"
+  ],
+  "discarded_transient": [
+    "runner workspace",
+    "ephemeral job state",
+    "secret values"
+  ],
+  "next_mission_candidate": "LCR-AUTONOMY-0003-CONCURRENCY-HARDENING",
+  "requires_boxuan_approval": false
+}

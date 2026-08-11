@@ -1,0 +1,11 @@
+{
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "RUN-LCR-AUTONOMY-0002",
+  "github_run_id": "31482112393",
+  "github_run_attempt": "1",
+  "github_job": "metabolic_closure",
+  "recorded_at": "2026-08-11T10:25:50.605134+00:00",
+  "slot": "SYSTEM",
+  "result": "CLOSED",
+  "next_mission_candidate": "LCR-AUTONOMY-0003-CONCURRENCY-HARDENING"
+}

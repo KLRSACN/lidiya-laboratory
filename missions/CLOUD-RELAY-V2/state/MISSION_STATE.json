@@ -5,7 +5,7 @@
   "cycle": 2,
   "step_id": 4,
   "owner": "COORDINATOR",
-  "status": "ROUNDTRIP_VERIFIED",
+  "status": "PROJECT_DONE",
   "goal": "Verify GitHub-cloud A->B->C->A under one-time Activation Gate, then Metabolic Closure.",
   "activation_gate": {
     "id": "LCR-AUTONOMY-0002",
@@ -27,9 +27,10 @@
     "A_DISPATCHED_TO_B",
     "B_HANDOFF_TO_C",
     "C_RETURNED_PASS_TO_A",
-    "A_RECEIVED_VERIFIED_PASS"
+    "A_RECEIVED_VERIFIED_PASS",
+    "METABOLIC_CLOSURE_COMPLETED"
   ],
-  "updated_at": "2026-08-11T10:25:43.740889+00:00",
+  "updated_at": "2026-08-11T10:25:50.604946+00:00",
   "last_packet_id": "PKT-V2C-LCR-AUTONOMY-0002-3",
   "last_packet_hash": "eed874235d708a8d9b6483d971c528eb072f765e01dc749c75c9164191154494",
   "roundtrip_verified": true,
@@ -38,5 +39,6 @@
     "B",
     "C",
     "A"
-  ]
+  ],
+  "metabolic_closure": "state/METABOLIC_CLOSURE.json"
 }
