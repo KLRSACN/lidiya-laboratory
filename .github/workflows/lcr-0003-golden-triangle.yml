@@ -1,0 +1,39 @@
+name: LCR 0003 Golden Triangle Candidate
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  slot-a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python missions/LIDIYA-CLOUD-RELAY-V2/golden_triangle_orchestrator.py
+      - run: mkdir -p out && printf '{"slot":"LCR-A","handoff":"LCR-B"}\n' > out/a.json
+      - uses: actions/upload-artifact@v4
+        with: {name: slot-a, path: out/a.json}
+  slot-b:
+    needs: slot-a
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cd missions/LIDIYA-CLOUD-RELAY-V2 && python -m unittest test_golden_triangle_orchestrator.py test_control_console_metabolism.py
+      - run: mkdir -p out && printf '{"slot":"LCR-B","handoff":"LCR-C","result":"BUILT_NOT_VERIFIED"}\n' > out/b.json
+      - uses: actions/upload-artifact@v4
+        with: {name: slot-b, path: out/b.json}
+  slot-c:
+    needs: slot-b
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cd missions/LIDIYA-CLOUD-RELAY-V2 && python -m unittest test_golden_triangle_orchestrator.py test_control_console_metabolism.py
+      - run: mkdir -p out && printf '{"slot":"LCR-C","handoff":"LCR-A","verdict":"INDEPENDENT_VERIFY_REQUIRED"}\n' > out/c.json
+      - uses: actions/upload-artifact@v4
+        with: {name: slot-c, path: out/c.json}
+  return-a:
+    needs: slot-c
+    runs-on: ubuntu-latest
+    steps:
+      - run: mkdir -p out && printf '{"slot":"LCR-A","cycle":"A-B-C-A","status":"CANDIDATE_ONLY"}\n' > out/return-a.json
+      - uses: actions/upload-artifact@v4
+        with: {name: return-a, path: out/return-a.json}
