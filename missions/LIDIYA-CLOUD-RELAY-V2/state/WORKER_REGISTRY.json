@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "updated_at_taipei": "2026-08-11T23:47:00+08:00",
+  "max_slots": 3,
+  "slot_invariant": "A/B/C only; a new authorized worker must take over an existing slot by durable handoff and can never create slot 4",
+  "slots": {
+    "LCR-A": {
+      "role": "COORDINATOR_ABSORBER_CONTROL_CONSOLE",
+      "active_worker": "PRIMARY-ONLINE-LIDIYA-CONTROL-CONSOLE",
+      "status": "ACTIVE",
+      "responsibilities": [
+        "consume verified C handoffs",
+        "dispatch exactly one smallest authorized packet",
+        "maintain Taiwan-time deadline and progress surfaces",
+        "absorb only verified compact summaries",
+        "metabolize duplicate/transient control-plane metadata without touching user chat history or protected evidence"
+      ]
+    },
+    "LCR-B": {
+      "role": "METABOLISM_WORKER",
+      "active_worker": "LCR-B-0003-BOUNDED-WORKER",
+      "status": "ENABLED",
+      "handoff_source": "durable state + pending packet + lease + packet hash"
+    },
+    "LCR-C": {
+      "role": "GUARDIAN_VERIFIER",
+      "active_worker": "LCR-C-0003-BOUNDED-WORKER",
+      "status": "ENABLED",
+      "takeover_candidate": {
+        "worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+        "declared_role": "Secondary Integrator / Metabolic Maintainer / Independent Verifier",
+        "status": "AUTHORIZED_AWAITING_DURABLE_HANDOFF",
+        "rule": "if this worker modified the current candidate, it cannot verify that same candidate; assign verification to the other independent C implementation/run"
+      }
+    }
+  },
+  "handoff_protocol": {
+    "required": [
+      "mission_id match",
+      "current_role/target slot match",
+      "pending packet SHA recomputation",
+      "packet not already consumed",
+      "lease null/expired or explicit same-slot transfer",
+      "previous active worker yields write authority before replacement writes"
+    ],
+    "on_success": "replace active_worker in the same slot; preserve durable state; old worker becomes STANDBY",
+    "on_failure": "no takeover; no fourth slot; quarantine conflicting report and keep current active worker"
+  },
+  "continuity_rule": "user messages and collaborator reports are external control events; they must not reset or cancel unrelated active B/C work. Only a valid durable handoff changes slot ownership.",
+  "self_metabolism_boundary": {
+    "allowed": "dedupe/compact/TTL/disposition for LCR-created transient control-plane metadata, duplicate progress/event envelopes and reproducible scratch",
+    "forbidden": "delete or rewrite user chat history, platform-hidden model context, secrets, protected evidence, rollback anchors, stable state, Identity Kernel, personality or Governance"
+  }
+}
