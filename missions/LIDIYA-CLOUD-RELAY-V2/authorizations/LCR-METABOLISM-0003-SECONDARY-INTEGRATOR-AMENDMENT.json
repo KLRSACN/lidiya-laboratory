@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-METABOLISM-0003",
+  "authorization_type": "MISSION_SCOPED_SECONDARY_INTEGRATOR_AMENDMENT",
+  "status": "ACTIVE",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-11T23:31:00+08:00",
+  "base_authorization": "authorizations/LCR-METABOLISM-0003-STAGE2.json",
+  "worker_ref": "workers/ONLINE-LIDIYA-SECONDARY-INTEGRATOR.json",
+  "worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "display_role": "Secondary Integrator / Metabolic Maintainer / Independent Verifier",
+  "authorization_model": "TASK_AND_MISSION_SCOPED_NOT_PERMANENT_PRIVILEGE",
+  "authorized_operations": [
+    "participate in LCR-METABOLISM-0003 branch-local integration and metabolism work when assigned by durable state/packet",
+    "occupy LCR-B or LCR-C as a replaceable worker identity, one role at a time",
+    "perform low-risk reversible cleanup only under existing four deletion guards and two-backup invariant",
+    "perform independent verification when assigned LCR-C and when the candidate was authored by another worker identity",
+    "write minimal Evidence/Lesson/packet/state updates inside the authorized candidate scope"
+  ],
+  "wakefulness_core": "Before every action, re-read durable state, authorization, current role, Lease, packet hash/dedup, Asia/Taipei time/deadline, backup count and allowed write scope. Previous chat context is never sufficient authority.",
+  "role_separation": {
+    "same_worker_author_and_verifier_for_same_candidate": "FORBIDDEN",
+    "same_worker_repair_during_verification": "FORBIDDEN",
+    "builder_self_pass": "FORBIDDEN",
+    "required_verifier": "different worker identity or isolated runner from the candidate author/repair worker"
+  },
+  "slot_limit": {
+    "golden_triangle_max": 3,
+    "this_amendment_adds_slot": false,
+    "fourth_worker": "FORBIDDEN"
+  },
+  "unchanged_forbidden_boundaries": [
+    "third full backup",
+    "main/default-branch write without explicit reviewed HUMAN sub-gate",
+    "secret value access/exposure/persistence",
+    "Identity Kernel/personality/Governance modification",
+    "production deployment",
+    "account/money action or privilege expansion",
+    "unguarded irreversible/high-risk deletion"
+  ],
+  "expires_when": [
+    "LCR-METABOLISM-0003 reaches IDLE/PASS",
+    "mission reaches terminal HUMAN_GATE that requires a new authorization",
+    "authorization is explicitly revoked"
+  ]
+}
