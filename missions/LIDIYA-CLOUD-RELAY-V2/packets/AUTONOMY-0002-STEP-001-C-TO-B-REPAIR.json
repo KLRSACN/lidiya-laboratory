@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-AUTONOMY-0002",
+  "run_id": "LCR-AUTONOMY-0002-RUN-001",
+  "step_id": 1,
+  "attempt": 1,
+  "source_role": "LCR-C",
+  "target_role": "LCR-B",
+  "status": "READY_FOR_BUILDER",
+  "parent_packet_sha256": "486263d0de5dafd15886c61ec50c5044a606c15a135c87bd64484dd4a79d54e6",
+  "created_at": "2026-08-11T08:00:28+00:00",
+  "lease_owner": "LCR-C-AUTOMATION-20260811T1600+08",
+  "lease_expires_at": "2026-08-11T08:15:28+00:00",
+  "task": "Repair packet-consumption semantics: the sender must not pre-write a newly emitted pending packet hash into MISSION_STATE.last_packet_sha256. Preserve last_packet_sha256 as the last successfully consumed inbound packet; pending_packet identifies the unconsumed outbound packet. Add/adjust tests proving B→C can be consumed once by C and a replay is rejected only after consumption. Do not change main or authorization boundaries.",
+  "acceptance": [
+    "Builder identifies and fixes the state update that pre-populates last_packet_sha256 with an unconsumed outbound packet",
+    "After emitting a packet, MISSION_STATE.last_packet_sha256 still refers to the last consumed inbound packet while pending_packet refers to the new outbound packet",
+    "Recipient can consume the new pending packet exactly once; second consumption is rejected as duplicate",
+    "Existing tamper, lease collision, expired lease reclaim, transition, compile and unit tests remain passing",
+    "No main write, deployment, Identity Kernel/personality/governance change, or credential handling occurs",
+    "Builder returns BUILT_NOT_VERIFIED with evidence to LCR-C"
+  ],
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence": [
+    {
+      "type": "verifier_evidence",
+      "ref": "evidence/AUTONOMY-0002-STEP-001-VERIFY-FAIL.json"
+    },
+    {
+      "type": "failed_packet",
+      "ref": "packets/AUTONOMY-0002-STEP-001-B-TO-C.json"
+    },
+    {
+      "type": "state",
+      "ref": "state/MISSION_STATE.json"
+    }
+  ],
+  "result": "FAIL_REPAIR_REQUIRED",
+  "lesson": "last_packet_sha256 must mean last successfully consumed inbound packet, not the newest emitted outbound packet; otherwise the next recipient sees the pending packet as an immediate duplicate.",
+  "disposition": "repair_candidate",
+  "packet_sha256": "fb507977a127aa6280f2ac6a6d3e7ee47e95f4483d043f9520e8604a53947b81"
+}
