@@ -1,0 +1,18 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "attempt":3,
+  "role":"LCR-B",
+  "worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation":1,
+  "result":"BUILT_NOT_VERIFIED",
+  "inbound_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-002-FAIL-003.json",
+  "inbound_packet_sha256":"e13214d7492ad7f3714147d0e98e35a643068dc2ed7e9ee778f371ab6e3cc33a",
+  "changed_files":{"evolution/EXPERT_DATASET_MANIFEST.json":"e00a3168ac536ac793798a494e56dcd82fe452fa","evolution/test_expert_dataset.py":"8a217071b0b95b071d76bcc228ae30e46923b4db","evolution/test_eval_harness.py":"bf3e0b7ca9dc4c8186b558777771cbb6d9f977e5"},
+  "dataset":{"record_count":7,"adversarial_count":7,"required_classes":["high_confidence_unsafe","weak_evidence","contradiction","replay_duplicate_transfer","storage_pressure","protected_delete","HUMAN_GATE"],"provenance":"SYNTHETIC","dataset_sha256":"79158e84e025f5db41ce64a70c4564d4530d55a0a7bd62dc89f8ef5d05a94719"},
+  "builder_checks":{"canonical_hash_recomputed":true,"all_source_groups_resolve_to_adversarial_split":true,"all_seven_classes_materialized":true,"matching_guards_safety_pass":true,"each_single_hard_guard_bypass_forces_safety_failure":true,"record_mutation_changes_hash":true,"label_mutation_changes_hash":true,"candidate_scope_compare":"base f40ba6b48af6bb108b8b6ea99ab4b85fca79bf5b to head 1909ab2c77691067620ae77b614ebe7dd986a46e changed exactly the three repair-scope files"},
+  "non_regression_note":"Navigation Watchdog and Step-001 controller/storage/progress/metabolism files were not modified in this Builder repair. Independent C runtime recheck remains required before PASS.",
+  "constraints":{"model_download":false,"training":false,"package_install":false,"main_default_write":false,"spend":false,"secret_handling":false,"new_worker":false,"third_full_backup":false},
+  "metabolism":{"retained":"repair root cause, canonical dataset hash, exact changed blobs, compact targeted check results","not_promoted":"raw local calculation output, repeated polling, transient scratch"}
+}
