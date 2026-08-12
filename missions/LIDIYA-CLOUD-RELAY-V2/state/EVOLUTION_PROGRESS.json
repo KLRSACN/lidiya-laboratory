@@ -1,20 +1,20 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "2.1",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-12T18:10:00+08:00",
+  "saved_at": "2026-08-12T18:28:00+08:00",
   "time_authority": "Asia/Taipei",
-  "mission_status": "READY_FOR_BUILDER",
+  "mission_status": "BUILDING",
   "current_role": "LCR-B",
   "step_id": 2,
-  "attempt": 0,
+  "attempt": 1,
   "verified_evidence": [
-    "Step-001 deterministic gearbox foundation independently verified PASS by LCR-C with exact suite 21/21 PASS plus verifier-owned adversarial replay/idempotency/downshift cases.",
-    "Verifier Evidence=evidence/EVOLUTION-0005-STEP-001-VERIFIER-PASS-003.json SHA=06fff7eb44e2972d89791530078acb16c127ad2742f55f858b66c0d6269c0930.",
-    "A consumed C->A PASS packet SHA=9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101 exactly once and advanced to Step-002 without model download/training.",
-    "Owner navigation-resilience control was saved to Home section 46 and a durable addendum was created: authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json SHA-256=b1cf73e74da2096bbaf416410b51373d0cd4041e34182408cfbaf4a6ce0b1f3c.",
-    "Because the Step-002 A->B packet was still unconsumed, navigation watchdog scope was folded into the same packet without resetting the mission or creating a new step/worker.",
-    "Current unconsumed Step-002 packet=packets/EVOLUTION-0005-A-TO-B-STEP-002.json SHA=0375827c9e9ced03611f29208b16f77701bbcd8c22150d9a16c01d45ef5cb0dd.",
-    "A/B/C formal slots remain exactly three; no main/default write, model download, training, package installation, spend, secret handling or third full backup occurred."
+    "Step-001 deterministic gearbox remains independently verified PASS by LCR-C; exactly-once transfer, RPM continuity and lower-guard-first downshift are retained baseline requirements.",
+    "Step-002 initial Builder produced dataset/eval/baseline plus Navigation Watchdog candidate as BUILT_NOT_VERIFIED and handed B->C packet SHA=b159aaed163e858cdc313149dc82794c773cf4a1ac9d9d31188336c483399707.",
+    "LCR-C independently returned FAIL evidence=evidence/EVOLUTION-0005-STEP-002-VERIFIER-FAIL-001.json because Watchdog trusted caller authority annotations instead of deriving full packet/hash/role/lease authority from durable state, and route_next could authorize arbitrary LCR-D.",
+    "C consumed the B->C packet once and created repair packet packets/EVOLUTION-0005-C-TO-B-STEP-002-FAIL-001.json SHA=b579f0d4f503c0315b8db94860e4635565216b3039936a277705e61a311c2075; mission continued rather than stopping.",
+    "Two real derived-state drift incidents were diagnosed and recovered without altering authoritative mission control: WORKER_ROSTER lagged MISSION_STATE after A->B Step-002 and again after C FAIL->B repair. Recovery ids NAVREC-0005-STEP002-ROSTER-001 and NAVREC-0005-STEP002-ROSTER-002 rebuilt only derived roster and preserved exactly three formal slots.",
+    "Current B repair Lease is active: ONLINE-LIDIYA-SECONDARY-INTEGRATOR/LCR-B generation1 claimed 2026-08-12T18:26:00+08:00 and expires 18:46; B is repairing only navigation_watchdog.py/test per C acceptance.",
+    "No model download, training, package install, main/default write, monetary spend, secret handling, new formal worker or third full backup has occurred."
   ],
   "blocker": null,
   "storage_ledger": {
@@ -22,73 +22,74 @@
     "known_used_bytes": 0,
     "ceiling_bytes": 1000000000000,
     "known_ratio": 0.0,
-    "note": "No model/dataset/checkpoint admitted yet. Step-002 remains code/tests/manifest only."
+    "note": "No admitted model/checkpoint. Step-002 remains small code/tests/manifest work; storage pressure is absent."
   },
   "package_radar_delta": {
     "ref": "evolution/PACKAGE_RADAR.json",
-    "status": "NO_MATERIAL_DELTA; no package/model promotion is allowed until Step-002 C verification."
+    "status": "NO_MATERIAL_DELTA; runtime resilience repair takes priority and package/model promotion remains blocked until C PASS."
   },
   "evolution_suggestions": [
-    "Treat recoverable navigation/tool failures as downshift-and-recover events, not mission termination.",
-    "Keep Navigation Continuity Watchdog deterministic and smaller than the future micro-expert layer so recovery authority never depends on model confidence.",
-    "Only after watchdog + eval harness C PASS should 0.8B/2B model benchmarking begin.",
-    "Use compact root-cause lessons and recovery outcomes as nutrition; raw logs, stale derived panels and duplicate retries remain metabolic waste."
+    "Promote derived-state synchronization into the Navigation Watchdog acceptance: role transitions must rebuild/validate roster and progress mirrors from MISSION_STATE rather than trusting stale mirrors.",
+    "Keep authoritative-state validation inside the deterministic watchdog: models or callers may suggest recovery but cannot assert packet/hash/lease/route authority.",
+    "Retain platform torque handoff: after a durable B/C/A handoff, retime the existing receiver task instead of waiting an hour or creating another window.",
+    "Use these two real stale-roster incidents as adversarial regression fixtures rather than merely storing raw logs."
   ],
   "self_review": {
     "strengths": [
-      "Owner interruption was absorbed into an unconsumed packet without resetting mission state, demonstrating the intended RPM continuity control pattern.",
-      "The new recovery scope does not add a worker or broaden into main/secrets/spend.",
-      "Step-001 hard gearbox guard remains the authority beneath the planned watchdog."
+      "The mission did not reset when C found a defect; it automatically downshifted to B repair.",
+      "A diagnosed and corrected two stale derived rosters without mutating authoritative mission state or adding a worker.",
+      "The real incidents were converted into compact root-cause lessons and test requirements, matching runtime metabolism intent."
     ],
     "gaps": [
-      "Navigation Continuity Watchdog is authorized and routed but not yet built or C-verified.",
-      "Dataset/eval harness is not yet built or C-verified.",
-      "No micro-expert model candidate exists yet; Reality Evidence and Metabolic Closure remain pending."
+      "Navigation Watchdog has not yet passed C; current repair is actively building.",
+      "The platform-level receiver retime behavior has been configured but still needs repeated evidence across B->C/C->B/C->A transitions.",
+      "Dataset/eval harness remains BUILT_NOT_VERIFIED until C rechecks the repaired Step-002 candidate.",
+      "No micro-expert model candidate has started; Reality Evidence and final Metabolic Closure remain pending."
     ],
-    "risk": "A recovery utility that silently invents packet/lease/authorization state would be more dangerous than stopping.",
-    "correction": "Recover only derived/transient state; authority contradictions fail closed. Retries are bounded, deduplicated and idempotent."
+    "risk": "A watchdog that repairs derived state but fails to distinguish authority contradictions from stale mirrors could continue in the wrong direction.",
+    "correction": "Only derived/transient state is self-repairable; missing/mismatched packet/hash/authorization/lease/legal-role authority must remain non-executing and fail closed."
   },
   "next_autonomous_action": {
     "role": "LCR-B",
-    "packet": "packets/EVOLUTION-0005-A-TO-B-STEP-002.json",
-    "packet_sha256": "0375827c9e9ced03611f29208b16f77701bbcd8c22150d9a16c01d45ef5cb0dd",
-    "task": "Build dataset/eval deterministic foundation plus Navigation Continuity Watchdog; test bounded retry, derived-state rebuild, idempotent recovery, authority-contradiction fail-closed and runtime waste classification; return BUILT_NOT_VERIFIED to LCR-C."
+    "packet": "packets/EVOLUTION-0005-C-TO-B-STEP-002-FAIL-001.json",
+    "packet_sha256": "b579f0d4f503c0315b8db94860e4635565216b3039936a277705e61a311c2075",
+    "task": "Finish the bounded authority-validation repair of Navigation Watchdog, preserve all prior Step-002 dataset/eval work and verified Step-001 guards, then hand BUILT_NOT_VERIFIED to LCR-C for independent verification."
   },
   "gearbox": {
     "ref": "evolution/GEARBOX_ARCHITECTURE.json",
     "model_codename_zh": "第一型『變速箱自主模型』",
     "model_codename_en": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
-    "current_control_state": "STEP_002_NAVIGATION_RECOVERY_AND_EVAL_GEAR_ENGAGED",
+    "current_control_state": "DOWNSHIFTED_TO_DETERMINISTIC_REPAIR_GEAR",
     "formal_workers": 3,
     "gear_count": 6,
-    "rpm_continuity": "INDEPENDENT_PASS_STEP_001",
-    "upshift_overlap": "INDEPENDENT_PASS_EXACTLY_ONCE",
-    "downshift_overlap": "INDEPENDENT_PASS_LOWER_GUARD_FIRST",
-    "navigation_watchdog": "AUTHORIZED_ROUTED_NOT_YET_VERIFIED"
+    "rpm_continuity": "MAINTAINED_DURING_C_FAIL_AND_REPAIR",
+    "upshift_overlap": "STEP_001_VERIFIED_EXACTLY_ONCE",
+    "downshift_overlap": "ACTIVE_C_FAIL_TO_B_REPAIR",
+    "navigation_watchdog": "REPAIR_BUILDING_NOT_VERIFIED"
   },
   "continuity": {
     "formal_slot_added": false,
     "current_atomic_work_preserved": true,
-    "new_owner_control_did_not_reset_mission": true,
-    "handoff_payload": "COMPACT_DURABLE_CONTROL_STATE_NO_RAW_CHAT",
-    "scheduled_existing_slots": {
-      "B_next": "2026-08-12T18:12:00+08:00",
-      "C_next": "2026-08-12T18:22:00+08:00",
-      "A_next": "2026-08-12T18:32:00+08:00"
-    }
+    "owner_control_did_not_reset_mission": true,
+    "real_recoveries": [
+      {"recovery_id":"NAVREC-0005-STEP002-ROSTER-001","type":"REBUILD_DERIVED_STATE","authoritative_state_changed":false},
+      {"recovery_id":"NAVREC-0005-STEP002-ROSTER-002","type":"REBUILD_DERIVED_STATE","authoritative_state_changed":false}
+    ],
+    "platform_torque_handoff": "REUSE_EXISTING_A_B_C_TASK_IDS_AND_RETIME_RECEIVER_AFTER_DURABLE_HANDOFF"
   },
   "information_waste_status": {
     "previous_stage_0003": "VERIFIED_CLOSED_WITH_PHYSICAL_SAFE_FIXTURE_DISPOSAL_AND_KEEP_WASTE_QUARANTINE",
-    "current_0005_step_001": "LOGICAL_METABOLISM_COMPLETE_FOR_PHASE; no persisted safe disposable artifact existed, so no physical delete was required",
-    "runtime_metabolism_target_step_002": "Navigation Watchdog will classify reproducible unreferenced cache/debug/temp/stale derived metadata for quarantine/waste while preserving authoritative/protected material",
-    "keep": "durable state/progress/authorizations/verified code+tests/PASS evidence/root-cause lessons/rollback",
-    "waste": "raw test execution, duplicate retries, redundant raw logs/scratch, stale derived panels when reproducible",
-    "quarantine": "secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, Identity/Personality/Governance",
-    "next_physical_cleanup_checkpoint": "after Step-002 C verdict and before any model artifact admission"
+    "current_0005_runtime": "ACTIVE_METABOLISM_IN_PROGRESS",
+    "nutrition_retained": "C FAIL root cause, repair acceptance, two stale-roster recovery lessons, authoritative packet/hash/state/evidence pointers",
+    "waste_not_promoted": "raw test/provider execution, repeated polling, stale roster content after authoritative rebuild, duplicate retry attempts, raw logs/scratch",
+    "physical_disposal": "NO_PROTECTED_OR_PERSISTED_USER_DATA_DELETED; stale derived roster was overwritten from authoritative state rather than archived as a new copy",
+    "quarantine": "secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, verified evidence/rollback/stable, Identity/Personality/Governance",
+    "next_cleanup_checkpoint": "after Step-002 C verdict; compact failed-candidate residue and derived-state noise before any model artifact admission"
   },
   "owner_help_needed": {
     "now": "NONE",
-    "future_possible_gate": "Ask only if a later zero-cost model benchmark requires user-side compute/runtime that connected tools cannot access."
+    "reason": "Current failure is a development defect with an authorized low-risk repair path; B is actively building and C remains the independent verifier.",
+    "future_possible_gate": "Ask only for a precise user action if later zero-cost model benchmarking requires compute/runtime or permission unavailable to connected tools."
   },
   "report_policy": "Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
 }
