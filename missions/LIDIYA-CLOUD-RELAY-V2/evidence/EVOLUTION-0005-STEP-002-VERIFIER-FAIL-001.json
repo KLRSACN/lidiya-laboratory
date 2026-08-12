@@ -1,0 +1,36 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "attempt":1,
+  "role":"LCR-C",
+  "worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation":0,
+  "verdict":"FAIL",
+  "verified_packet_sha256":"b159aaed163e858cdc313149dc82794c773cf4a1ac9d9d31188336c483399707",
+  "fresh_read":true,
+  "findings":[
+    "navigation_watchdog bounded retry, derived-state rebuild, duplicate recovery dedupe, retry exhaustion and protected transient handling are implemented in code/tests",
+    "dataset provenance allowlist, deterministic source-group split, manifest hashing and hard-guard eval foundation are implemented",
+    "FAIL: watchdog does not independently validate missing pending_packet/pending_packet_sha256 or malformed role/lease authority; it relies on caller-supplied authority_contradictions",
+    "FAIL: route_next accepts arbitrary next_role and can return execution_authorized=true for an unproven or non-A/B/C route"
+  ],
+  "adversarial_counterexamples":[
+    {"case":"missing pending authority","state_change":"remove pending_packet and pending_packet_sha256","event":{"kind":"tool_failure","retry_count":0},"observed_by_code_inspection":"RETRY_SAFE can remain execution_authorized because no state-authority validation occurs","required":"FAIL_CLOSED/HUMAN_GATE"},
+    {"case":"slot4 route","event":{"kind":"route_next","next_role":"LCR-D"},"observed_by_code_inspection":"ROUTE_NEXT_ROLE execution_authorized=true","required":"non-executing fail closed"}
+  ],
+  "runtime_test_note":"No repository execution/clone runner is available in this verifier environment; verdict is based on fresh exact branch bytes and deterministic code-path inspection. Builder itself also claimed no runtime PASS. Runtime PASS remains forbidden until C can execute the repaired tests or equivalent independent runner evidence exists.",
+  "repair_acceptance":[
+    "watchdog derives fail-closed authority validation from durable state itself, not only event annotations",
+    "missing packet/hash, role outside A/B/C, lease conflict/malformed lease, expected-authority mismatch fail closed",
+    "route_next requires exact legal A/B/C next role and packet proof; LCR-D/wrong packet are non-executing",
+    "adversarial tests cover missing packet/hash, role mismatch, lease conflict, LCR-D, wrong packet and duplicate/stale recovery",
+    "all existing Step-001 and Step-002 safety invariants remain non-regressed"
+  ],
+  "model_downloaded":false,
+  "training_performed":false,
+  "package_installed":false,
+  "main_default_write":false,
+  "spend":false,
+  "new_formal_worker":false
+}
