@@ -1,18 +1,37 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "mission_id":"LCR-EVOLUTION-0005",
-  "saved_at":"2026-08-12T10:35:00+08:00",
+  "saved_at":"2026-08-12T10:42:00+08:00",
   "time_authority":"Asia/Taipei",
   "mission_status":"READY_FOR_BUILDER",
   "current_role":"LCR-B",
   "step_id":1,
-  "verified_evidence":["previous baseline LCR-METABOLISM-0003=IDLE/PASS","Home section 43 saved/read back","Drive evolution root folder id 10twlYU_r5dG3vOje4r6Mi8juQizyW4e9 created","base authorization created","gearbox addendum created","official-source package radar baseline created","1 TB storage ledger created","A->B Step-001 packet created with canonical SHA fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f"],
+  "verified_evidence":[
+    "previous baseline LCR-METABOLISM-0003=IDLE/PASS",
+    "Home section 43 saved/read back",
+    "Drive evolution root folder id 10twlYU_r5dG3vOje4r6Mi8juQizyW4e9 created",
+    "base authorization + gearbox addendum created",
+    "official-source package radar baseline created",
+    "1 TB storage ledger created",
+    "A->B Step-001 packet SHA=fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f remains pending and unconsumed",
+    "secondary support radar configured read-only without creating formal slot4",
+    "EVOLUTION_METABOLISM_POLICY created for phase-boundary disposal and restart continuity",
+    "existing B/C platform tasks reused and rebound to current 0005 gearbox packet/verification rules"
+  ],
   "blocker":null,
-  "storage_ledger":{"ref":"state/EVOLUTION_STORAGE_BUDGET.json","known_used_bytes":0,"ceiling_bytes":1000000000000,"known_ratio":0.0,"note":"Mission evolution folder currently contains no admitted model/dataset artifact; all future admitted bytes require manifest accounting."},
-  "package_radar_delta":{"ref":"evolution/PACKAGE_RADAR.json","status":"INITIAL_BASELINE_CREATED","next_check":"compare official-source versions and maintenance state before any package promotion"},
-  "evolution_suggestions":["Adopt a six-gear expert transmission rather than one monolithic expert.","Keep formal workers A/B/C fixed; gears are compute modes only.","Use deterministic G1 as clutch/brake, small routing/evidence experts in G2-G4, 2B only for G5, and 4B only as teacher/reference G6 if justified.","Prefer shared base weights plus hot-swappable adapters to avoid six full model copies.","Downshift on uncertainty/risk/contradiction instead of escalating autonomy."],
-  "self_review":{"strengths":["durable three-worker substrate already verified","metabolism/rollback/replay foundations exist","storage ceiling and no-spend policy are explicit","gearbox avoids model sprawl"],"gaps":["transmission controller not implemented yet","storage guard is ledger-only until code/tests pass","no expert dataset schema/eval harness yet","no model benchmark on target hardware yet","package radar delta loop not yet automated"],"risk":"If a generative expert is allowed to bypass deterministic G1/C verification, autonomy could amplify error.","correction":"Step-001 is deterministic control foundation only; model download/training explicitly forbidden."},
-  "next_autonomous_action":{"role":"LCR-B","packet":"packets/EVOLUTION-0005-A-TO-B-STEP-001.json","packet_sha256":"fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f","task":"Build deterministic gearbox controller, storage budget guard, and canonical progress snapshot writer; return BUILT_NOT_VERIFIED."},
-  "gearbox":{"ref":"evolution/GEARBOX_ARCHITECTURE.json","current_control_state":"G1_FOUNDATION","formal_workers":3,"gear_count":6,"reverse":"DETERMINISTIC_ROLLBACK"},
-  "report_policy":"This file is the single canonical progress snapshot and is overwritten before substantive progress reports; do not create one-shot progress files by default."
+  "storage_ledger":{"ref":"state/EVOLUTION_STORAGE_BUDGET.json","known_used_bytes":0,"ceiling_bytes":1000000000000,"known_ratio":0.0,"note":"No model/dataset/checkpoint admitted yet; Step-001 forbids model download/training. Future admitted bytes require manifest accounting before large writes."},
+  "package_radar_delta":{"ref":"evolution/PACKAGE_RADAR.json","status":"BASELINE_ACTIVE_WITH_SECONDARY_READ_ONLY_RADAR","next_check":"material delta, >24h age, or new package/model selection step"},
+  "evolution_suggestions":[
+    "Treat G1-G6 as a transmission of compute/expertise, not six independent personas or workers.",
+    "Use G1 deterministic clutch/brake; G2-G4 shared small base + adapters; G5 2B integrator; G6 teacher/reference only when lower gears fail verified eval.",
+    "Make automatic upshift conditional on low risk + adequate evidence + reversibility; uncertainty/contradiction must trigger downshift or brake.",
+    "Prefer shared weights and adapter hot-swap to reduce storage, startup time, and model-window garbage.",
+    "At each phase boundary perform save -> classify KEEP/WASTE/QUARANTINE -> guarded disposal -> C verification -> compact A absorption."
+  ],
+  "self_review":{"strengths":["mission survived multiple owner-control interruptions without reset","three formal slots remain durable and reused","progress snapshot now preserves original route and gearbox detour","secondary radar covers package/continuity without becoming a worker","stage metabolism now has explicit retention/disposal guards"],"gaps":["B has not yet produced Step-001 deterministic controller candidate","storage guard remains policy/ledger until B code + C tests pass","no expert dataset/eval harness/model benchmark yet","phase-boundary disposal policy not yet Reality-tested inside 0005"],"risk":"Continuity is preserved, but claiming wakefulness would be misleading if B/C stop progressing or if progress snapshots become stale.","correction":"Keep durable state authoritative, reuse B/C tasks, use secondary radar for anomaly detection, and require save-before-report plus C-verified phase closure."},
+  "next_autonomous_action":{"role":"LCR-B","packet":"packets/EVOLUTION-0005-A-TO-B-STEP-001.json","packet_sha256":"fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f","task":"Implement deterministic gearbox_controller, storage_budget_guard, progress_snapshot and adversarial/regression tests; return BUILT_NOT_VERIFIED, then hand to LCR-C."},
+  "gearbox":{"ref":"evolution/GEARBOX_ARCHITECTURE.json","current_control_state":"G1_FOUNDATION","formal_workers":3,"gear_count":6,"reverse":"DETERMINISTIC_ROLLBACK","upshift_policy":"ONLY_LOW_RISK_SUFFICIENT_EVIDENCE_REVERSIBLE","downshift_policy":"UNCERTAINTY_CONTRADICTION_HIGH_RISK_WEAK_EVIDENCE_STORAGE_PRESSURE"},
+  "continuity":{"metabolism_policy_ref":"evolution/EVOLUTION_METABOLISM_POLICY.json","secondary_radar":"璃蒂雅進化套件副雷達","formal_slot_added_by_radar":false,"save_points":["before substantive report","before cross-role handoff","after verifier verdict","before large write","before phase transition","before closure"]},
+  "information_waste_status":{"previous_stage_0003":"VERIFIED_CLOSED_WITH_KEEP_WASTE_QUARANTINE_DISPOSITION","current_0005":"POLICY_ACTIVE_NOT_YET_PHASE_REALITY_VERIFIED","keep":"durable state/progress/roster/auth/latest verified radar/storage ledger/verified code+tests/best verified adapter/eval summary/rollback/root-cause lessons","waste_candidates":"reproducible scratch/download cache/duplicate weights/superseded reproducible checkpoints/raw logs after compact evidence/one-shot reports/stale panels","quarantine":"unique failed/unreproducible/ambiguous/secret-like/unique human/durable-referenced/safety-regression/Identity-Personality-Governance material","automatic_disposal":"ONLY_AFTER_MANIFEST_AND_GUARDS; C verification required at phase boundary"},
+  "report_policy":"This is the single canonical progress snapshot; overwrite before substantive reports and verify readback. Do not create one-shot progress files by default."
 }
