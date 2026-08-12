@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 1,
+  "attempt": 2,
+  "role": "LCR-B",
+  "worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation": 1,
+  "created_at_taipei": "2026-08-12T12:59:00+08:00",
+  "result": "BUILT_NOT_VERIFIED",
+  "inbound_packet": "packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-002.json",
+  "inbound_packet_sha256": "f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6",
+  "candidate_files": {
+    "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
+    "evolution/test_gearbox_controller.py": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e"
+  },
+  "repair": [
+    "ACK-capable completion now fails closed with IDEMPOTENCY_STATE_REQUIRED when caller-owned authoritative consumed-transfer state is absent.",
+    "ACK-capable completion now fails closed with TRANSFER_IDENTITY_REQUIRED when receiver_transfer_id is absent.",
+    "Wrong/stale receiver transfer identity is non-executing TRANSFER_IDENTITY_MISMATCH.",
+    "Replay with authoritative consumed state remains non-executing ALREADY_TRANSFERRED.",
+    "Downshift fail-closed paths keep lower guard engaged and higher gear unreleased."
+  ],
+  "builder_checks": {
+    "py_compile": "PASS for repaired gearbox and isolated regression harness modules",
+    "gearbox_targeted_plus_extra_checks": "PASS_20",
+    "continuous_control_regression": "PASS_17",
+    "cloud_relay_state_regression": "PASS_9",
+    "metabolism_guard_regression": "PASS_6",
+    "storage_and_progress_regression": "PASS_6",
+    "total_builder_isolated_checks": 58,
+    "exact_branch_C_rerun": "REQUIRED; Builder does not promote its own harness to PASS"
+  },
+  "safety": {
+    "model_downloaded": false,
+    "training_performed": false,
+    "package_installed": false,
+    "main_default_write": false,
+    "secret_values_recorded": false,
+    "identity_personality_governance_modified": false,
+    "formal_slot_added": false,
+    "large_storage_write": false,
+    "real_user_protected_data_touched": false
+  },
+  "next": "LCR-C fresh-read exact branch bytes and independently verify missing-state/missing-identity/duplicate/stale/wrong-identity ACK cases plus regressions.",
+  "evidence_sha256": "209104e2df3c44cac155e9789d6382928aa9d51e60441a6cb03f939201317fe1"
+}
