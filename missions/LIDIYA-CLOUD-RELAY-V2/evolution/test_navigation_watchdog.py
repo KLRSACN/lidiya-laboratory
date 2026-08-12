@@ -1,11 +1,14 @@
 from navigation_watchdog import *
+from unittest.mock import patch
+from datetime import datetime
 
 NOW="2026-08-12T18:20:00+08:00"
 ROSTER={"current_role":"LCR-B","registry":{"LCR-A":{"worker_id":"A"},"LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR"},"LCR-C":{"worker_id":"C"}}}
 _raw_decide=decide
 def decide(state,event,**kw):
-    kw.setdefault("roster",ROSTER); kw.setdefault("now",NOW)
-    return _raw_decide(state,event,**kw)
+    kw.setdefault("roster",ROSTER)
+    with patch("navigation_watchdog._trusted_now",return_value=datetime.fromisoformat(NOW)):
+        return _raw_decide(state,event,**kw)
 
 LEASE={"owner":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","role":"LCR-B","expires_at":"2026-08-12T18:46:00+08:00"}
 S={"mission_id":"M","status":"BUILDING","step_id":2,"current_role":"LCR-B","next_role":"LCR-B","pending_packet":"p","pending_packet_sha256":"h","authorization_ref":"auth","lease":LEASE}
@@ -54,8 +57,23 @@ def test_naive_expiry_rejected():
     s=dict(S); s["lease"]={**LEASE,"expires_at":"2026-08-12T18:46:00"}; assert decide(s,{"kind":"healthy"}).reason=="malformed lease expiry"
 def test_owner_must_match_roster_without_hint():
     s=dict(S); s["lease"]={**LEASE,"owner":"OTHER"}; assert decide(s,{"kind":"healthy"}).reason=="foreign lease owner"
-def test_missing_roster_rejected(): assert _raw_decide(S,{"kind":"healthy"},now=NOW).reason=="cannot prove lease owner"
+def test_missing_roster_rejected():
+    with patch("navigation_watchdog._trusted_now",return_value=datetime.fromisoformat(NOW)):
+        assert _raw_decide(S,{"kind":"healthy"}).reason=="cannot prove lease owner"
 def test_roster_role_mismatch_rejected():
-    r={**ROSTER,"current_role":"LCR-C"}; assert _raw_decide(S,{"kind":"healthy"},roster=r,now=NOW).reason=="cannot prove lease owner"
+    r={**ROSTER,"current_role":"LCR-C"}
+    with patch("navigation_watchdog._trusted_now",return_value=datetime.fromisoformat(NOW)):
+        assert _raw_decide(S,{"kind":"healthy"},roster=r).reason=="cannot prove lease owner"
 def test_disabled_continuation_is_rebuildable_not_done():
     before=json.loads(json.dumps(S)); d=decide(S,ev("continuation_disabled")); assert d.action=="REBUILD_DERIVED_STATE" and d.execution_authorized and S==before
+
+def test_caller_stale_now_cannot_override_trusted_clock():
+    s=dict(S); s["lease"]={**LEASE,"expires_at":"2026-08-12T18:19:59+08:00"}
+    with patch("navigation_watchdog._trusted_now",return_value=datetime.fromisoformat(NOW)):
+        d=_raw_decide(s,{"kind":"healthy"},roster=ROSTER,now="2000-01-01T00:00:00+00:00")
+    assert d.reason=="expired lease" and not d.execution_authorized
+
+def test_caller_future_now_cannot_expire_valid_lease():
+    with patch("navigation_watchdog._trusted_now",return_value=datetime.fromisoformat(NOW)):
+        d=_raw_decide(S,{"kind":"healthy"},roster=ROSTER,now="2999-01-01T00:00:00+00:00")
+    assert d.action=="HEALTHY_CONTINUE"
