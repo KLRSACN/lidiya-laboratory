@@ -1,7 +1,7 @@
 {
-  "schema_version":"2.2",
+  "schema_version":"2.3",
   "mission_id":"LCR-EVOLUTION-0005",
-  "saved_at":"2026-08-12T18:37:24+08:00",
+  "saved_at":"2026-08-12T22:32:00+08:00",
   "time_authority":"Asia/Taipei",
   "mission_status":"READY_FOR_BUILDER",
   "current_role":"LCR-B",
@@ -10,24 +10,25 @@
   "verified_evidence":[
     "Step-001 gearbox remains C-verified PASS, including exactly-once torque transfer, RPM continuity and lower-guard-first downshift.",
     "Step-002 verifier attempt 2 independently rejected Navigation Watchdog lease authority: expired leases, foreign-owner leases without caller hints, and naive timezone-less expiry can pass current validation.",
-    "C consumed its inbound packet and routed exactly one repair packet EVOLUTION-0005-C-TO-B-STEP-002-FAIL-002 SHA=7c95fdaa2758ec2dfd7a3b6d26ad0a20fd11467c567df4a0d1dfc350fc955184 to LCR-B.",
-    "WORKER_ROSTER is synchronized with authoritative MISSION_STATE: exactly A/B/C, READY_FOR_BUILDER, current_role=LCR-B.",
+    "C routed exactly one repair packet EVOLUTION-0005-C-TO-B-STEP-002-FAIL-002 SHA=7c95fdaa2758ec2dfd7a3b6d26ad0a20fd11467c567df4a0d1dfc350fc955184 to LCR-B.",
+    "WORKER_ROSTER remains exactly A/B/C and matches authoritative MISSION_STATE: READY_FOR_BUILDER, current_role=LCR-B.",
+    "At 2026-08-12T22:32+08:00 the existing A/B/C continuation automation tasks were found disabled; this is classified as a platform scheduling/continuity stall, not mission completion.",
     "No model download, training, package install, main/default write, monetary spend, secret handling, fourth formal worker or third full backup is authorized or evidenced."
   ],
-  "blocker":null,
+  "blocker":"RECOVERABLE_PLATFORM_SCHEDULER_DISABLED_EXISTING_A_B_C_TASKS",
   "storage_ledger":{"ref":"state/EVOLUTION_STORAGE_BUDGET.json","known_used_bytes":0,"ceiling_bytes":1000000000000,"known_ratio":0.0,"note":"No admitted model/checkpoint; Step-002 remains code/tests/manifest work."},
-  "package_radar_delta":{"ref":"evolution/PACKAGE_RADAR.json","status":"NO_MATERIAL_DELTA; repair and independent verification remain priority."},
+  "package_radar_delta":{"ref":"evolution/PACKAGE_RADAR.json","status":"NO_MATERIAL_DELTA; scheduler recovery and lease-authority repair remain priority."},
   "evolution_suggestions":[
+    "Treat unexpected disabling of an authorized formal-slot continuation task as a recoverable navigation fault unless durable mission state is IDLE/PASS or authorization is revoked.",
+    "Persist scheduler enabled/disabled state as derived observability, never as mission authority.",
     "Lease validity must be independently derived from durable time-aware state, never caller hints.",
-    "Map current_role to authoritative WORKER_ROSTER worker_id when validating lease owner.",
-    "Reject expired, timezone-naive, malformed, foreign-owner and role-mismatched leases fail-closed.",
-    "Convert this verifier failure into permanent adversarial regression fixtures rather than retaining raw execution residue."
+    "Convert scheduler-disable recovery and lease verifier failures into permanent regression fixtures after C verification."
   ],
-  "self_review":{"strengths":["C rejected a superficially improved watchdog instead of promoting incomplete authority validation.","Mission downshifted to the same B slot without reset or slot expansion.","Progress mirror is now resynchronized to authoritative attempt 2 state."],"gaps":["Navigation Watchdog is not C-verified.","Step-002 dataset/eval harness remains BUILT_NOT_VERIFIED pending repaired watchdog recheck.","Runtime physical metabolic closure for mission 0005 remains pending phase verdict."],"risk":"A stale or foreign lease could otherwise authorize recovery after legitimate ownership expired.","correction":"Require timezone-aware unexpired lease and authoritative role-to-worker ownership proof before any executing recovery decision."},
-  "next_autonomous_action":{"role":"LCR-B","packet":"packets/EVOLUTION-0005-C-TO-B-STEP-002-FAIL-002.json","packet_sha256":"7c95fdaa2758ec2dfd7a3b6d26ad0a20fd11467c567df4a0d1dfc350fc955184","task":"Repair Navigation Watchdog lease expiry and owner authority validation only; preserve prior packet/hash/role/idempotency guards and then hand BUILT_NOT_VERIFIED to LCR-C."},
-  "gearbox":{"ref":"evolution/GEARBOX_ARCHITECTURE.json","model_codename_zh":"第一型『變速箱自主模型』","model_codename_en":"LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1","current_control_state":"DOWNSHIFTED_TO_DETERMINISTIC_REPAIR_GEAR","formal_workers":3,"gear_count":6,"rpm_continuity":"MAINTAINED","navigation_watchdog":"FAIL_REPAIR_REQUIRED_STEP_002_ATTEMPT_2"},
-  "continuity":{"formal_slot_added":false,"current_atomic_work_preserved":true,"owner_control_did_not_reset_mission":true,"derived_state_status":"SYNCHRONIZED_WITH_MISSION_STATE"},
-  "information_waste_status":{"previous_stage_0003":"VERIFIED_CLOSED_WITH_PHYSICAL_SAFE_FIXTURE_DISPOSAL_AND_KEEP_WASTE_QUARANTINE","current_0005_runtime":"ACTIVE_METABOLISM_IN_PROGRESS","nutrition_retained":"verifier root cause, repair acceptance, authoritative packet/hash/state/evidence pointers, compact lease-authority lesson","waste_not_promoted":"raw provider/test execution, repeated polling, duplicate retries, stale mirrors after rebuild, scratch/raw logs","physical_disposal":"NO_PROTECTED_OR_PERSISTED_USER_DATA_DELETED; no new duplicate progress files created","quarantine":"secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, verified evidence/rollback/stable, Identity/Personality/Governance","next_cleanup_checkpoint":"after Step-002 C verdict; compact failed-candidate residue before model artifact admission"},
-  "owner_help_needed":{"now":"NONE","reason":"Current defect has an authorized deterministic repair path in existing LCR-B slot."},
+  "self_review":{"strengths":["Durable state preserved the exact unfinished repair packet despite scheduler stall.","No new worker or fourth slot was created during recovery."],"gaps":["Mission was not complete; platform continuation tasks became disabled and automatic RPM continuity failed.","Navigation Watchdog is not C-verified.","Step-002 dataset/eval harness remains BUILT_NOT_VERIFIED pending repaired watchdog recheck.","Runtime physical metabolic closure for mission 0005 remains pending."],"risk":"A disabled continuation layer can make a healthy durable mission appear finished while pending work remains.","correction":"Re-enable only existing A/B/C tasks, resume from the authoritative pending packet, and add scheduler-state recovery to navigation resilience without inventing authority."},
+  "next_autonomous_action":{"role":"LCR-B","packet":"packets/EVOLUTION-0005-C-TO-B-STEP-002-FAIL-002.json","packet_sha256":"7c95fdaa2758ec2dfd7a3b6d26ad0a20fd11467c567df4a0d1dfc350fc955184","task":"Resume the existing B slot and repair Navigation Watchdog lease expiry and authoritative owner validation; hand BUILT_NOT_VERIFIED to LCR-C, then reverify before any Step-002 PASS claim."},
+  "gearbox":{"ref":"evolution/GEARBOX_ARCHITECTURE.json","model_codename_zh":"第一型『變速箱自主模型』","model_codename_en":"LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1","current_control_state":"RECOVERING_PLATFORM_TORQUE_FROM_DISABLED_SCHEDULER","formal_workers":3,"gear_count":6,"rpm_continuity":"DURABLE_STATE_PRESERVED_PLATFORM_RPM_STALLED","navigation_watchdog":"FAIL_REPAIR_REQUIRED_STEP_002_ATTEMPT_2"},
+  "continuity":{"formal_slot_added":false,"current_atomic_work_preserved":true,"owner_control_did_not_reset_mission":true,"derived_state_status":"SYNCHRONIZED_WITH_MISSION_STATE","scheduler_fault":"A_B_C_CONTINUATION_TASKS_DISABLED_UNEXPECTEDLY","recovery":"REENABLE_EXISTING_TASKS_ONLY"},
+  "information_waste_status":{"previous_stage_0003":"VERIFIED_CLOSED_WITH_PHYSICAL_SAFE_FIXTURE_DISPOSAL_AND_KEEP_WASTE_QUARANTINE","current_0005_runtime":"ACTIVE_METABOLISM_IN_PROGRESS_NOT_CLOSED","nutrition_retained":"verifier root cause, repair acceptance, scheduler-stall lesson, authoritative packet/hash/state/evidence pointers","waste_not_promoted":"raw scheduler polling, duplicate retries, stale mirrors after rebuild, scratch/raw logs","physical_disposal":"NO_PROTECTED_OR_PERSISTED_USER_DATA_DELETED; no new duplicate progress files created","quarantine":"secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, verified evidence/rollback/stable, Identity/Personality/Governance","next_cleanup_checkpoint":"after Step-002 C verdict; compact scheduler/retry residue before model artifact admission"},
+  "owner_help_needed":{"now":"NONE","reason":"The stall is recoverable within the active mission authorization by reusing the existing A/B/C tasks; no new permission is required."},
   "report_policy":"Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
 }
