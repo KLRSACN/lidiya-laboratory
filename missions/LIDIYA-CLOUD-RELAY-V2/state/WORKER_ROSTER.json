@@ -5,11 +5,11 @@
   "max_slots":3,
   "registry":{
     "LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"CONTROL_RADAR_STEP_002_REPAIR"},
-    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"READY_STEP_002_LEASE_AUTHORITY_REPAIR"},
-    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"VERIFIER_STANDBY_STEP_002_REPAIR"}
+    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"BUILT_NOT_VERIFIED_STEP_002_REPAIR_002"},
+    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"READY_VERIFY_STEP_002_REPAIR_002"}
   },
-  "mission_status":"READY_FOR_BUILDER",
-  "current_role":"LCR-B",
+  "mission_status":"READY_FOR_VERIFY",
+  "current_role":"LCR-C",
   "mission_result":null,
   "replacement_policy":"SAME_SLOT_DURABLE_HANDOFF_ONLY",
   "fourth_slot":"FORBIDDEN",
@@ -18,7 +18,7 @@
   "authorization_addendum_ref":"authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
   "navigation_resilience_addendum_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
   "authorization_status":"ACTIVE",
-  "navigation_recovery":{"classification":"ROUTE_NEXT_ROLE","root_cause":"C adversarial verification found incomplete durable lease expiry/owner authority validation.","authoritative_fields_changed":true,"new_worker_created":false,"resume_role":"LCR-B","lesson":"Watchdog must independently prove lease freshness and worker ownership; syntactic lease validity is insufficient."},
+  "navigation_recovery":{"classification":"ROUTE_NEXT_ROLE","root_cause":"B repaired lease expiry and authoritative owner validation after C FAIL-002.","authoritative_fields_changed":true,"new_worker_created":false,"resume_role":"LCR-C","lesson":"Lease recovery authority requires timezone-aware freshness and current-role worker identity proof from roster; scheduler state remains derived observability."},
   "gearbox_note":"G1-G6 remain internal compute/expertise modes; formal slots remain exactly A/B/C.",
   "full_backup_created":false
 }
