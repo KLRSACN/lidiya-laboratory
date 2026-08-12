@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "run_id": "LCR-EVOLUTION-0005-RUN-001-B-REPAIR-002",
+  "step_id": 1,
+  "attempt": 2,
+  "source": "LCR-B",
+  "target": "LCR-C",
+  "action": "VERIFY_GEARBOX_FAIL_CLOSED_IDEMPOTENCY_REPAIR",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T12:59:00+08:00",
+  "parent_packet_sha256": "f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/EVOLUTION-0005-STEP-001-BUILDER-REPAIR-002.json",
+  "result": "BUILT_NOT_VERIFIED",
+  "task": "Independently verify fail-closed exactly-once torque transfer repair on exact branch bytes.",
+  "acceptance": [
+    "Missing authoritative consumed-transfer/idempotency state cannot authorize ACK-capable completion.",
+    "Missing receiver_transfer_id cannot authorize SHIFT_COMPLETE or DOWNSHIFT_COMPLETE.",
+    "Wrong or stale transfer identity is non-executing.",
+    "Duplicate ACK/replay is non-executing ALREADY_TRANSFERRED or reject.",
+    "RPM continuity, compact no-raw-chat handoff and lower-guard-first downshift remain intact.",
+    "Three-slot topology, storage, progress and metabolism protections do not regress."
+  ],
+  "packet_sha256": "5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989"
+}
