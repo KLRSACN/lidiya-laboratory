@@ -95,33 +95,64 @@ def transfer_identity(*, active_state: Mapping[str, Any], from_gear: str, to_gea
     compact = compact_torque_state(active_state)
     return _canonical_sha256({"mission_id": active_state.get("mission_id"), "step_id": active_state.get("step_id"), "from_gear": from_gear, "to_gear": to_gear, "state_fingerprint": compact["state_fingerprint"], "handoff_sequence": str(handoff_sequence)})
 
+def _nonexecuting_shift(*, from_gear: str, to_gear: str, status: str, transfer_id: str,
+                        compact: Mapping[str, Any], fingerprint_acked: bool,
+                        downshift: bool) -> dict[str, Any]:
+    base: dict[str, Any] = {
+        "from_gear": from_gear,
+        "to_gear": to_gear,
+        "shift_status": status,
+        "transfer_id": transfer_id,
+        "execution_authorized": False,
+        "receiver_acknowledged": False,
+        "compact_state": dict(compact),
+    }
+    if downshift:
+        base.update({"lower_guard_engaged": True, "higher_gear_released": False, "original_atomic_work_alive": True})
+    else:
+        base.update({"sender_torque_held": True, "original_atomic_work_alive": True})
+    if fingerprint_acked:
+        base["state_fingerprint_acknowledged"] = True
+    return base
+
 def overlap_shift(*, active_state: Mapping[str, Any], from_gear: str, to_gear: str,
                   receiver_state_fingerprint: str | None = None, downshift: bool = False,
                   handoff_sequence: str | int = 0, consumed_transfer_ids: MutableSet[str] | None = None,
                   receiver_transfer_id: str | None = None) -> dict[str, Any]:
-    """Clutch overlap with exactly-once torque transfer.
+    """Clutch overlap with fail-closed exactly-once torque transfer.
 
-    `consumed_transfer_ids` is authoritative caller-owned durable/idempotency state. A completed
-    transfer is added exactly once; replay is non-executing ALREADY_TRANSFERRED.
+    The pre-ACK overlap phase may be observed without idempotency state. Any ACK-capable
+    completion, however, requires caller-owned authoritative ``consumed_transfer_ids`` and
+    an exact ``receiver_transfer_id``. Missing authority/identity never authorizes execution.
     """
     if from_gear not in VALID_GEARS or to_gear not in VALID_GEARS or from_gear in {"N", "R"} or to_gear in {"N", "R"}:
         raise GearboxGuardError("overlap shift requires G1..G6")
+    if downshift:
+        if int(to_gear[1:]) >= int(from_gear[1:]):
+            raise GearboxGuardError("downshift target must be a lower gear")
+    elif int(to_gear[1:]) <= int(from_gear[1:]):
+        raise GearboxGuardError("upshift target must be a higher gear")
+
     compact = compact_torque_state(active_state)
     fingerprint = compact["state_fingerprint"]
     transfer_id = transfer_identity(active_state=active_state, from_gear=from_gear, to_gear=to_gear, handoff_sequence=handoff_sequence)
-    consumed = consumed_transfer_ids if consumed_transfer_ids is not None else set()
-    replay = transfer_id in consumed
     fingerprint_acked = receiver_state_fingerprint == fingerprint
-    identity_acked = receiver_transfer_id in {None, transfer_id}
-    acked = fingerprint_acked and identity_acked
+
+    if fingerprint_acked and consumed_transfer_ids is None:
+        return _nonexecuting_shift(from_gear=from_gear, to_gear=to_gear, status="IDEMPOTENCY_STATE_REQUIRED", transfer_id=transfer_id, compact=compact, fingerprint_acked=True, downshift=downshift)
+    if fingerprint_acked and receiver_transfer_id is None:
+        return _nonexecuting_shift(from_gear=from_gear, to_gear=to_gear, status="TRANSFER_IDENTITY_REQUIRED", transfer_id=transfer_id, compact=compact, fingerprint_acked=True, downshift=downshift)
     if receiver_transfer_id is not None and receiver_transfer_id != transfer_id:
-        acked = False
-    if replay:
-        return {"from_gear": from_gear, "to_gear": to_gear, "shift_status": "ALREADY_TRANSFERRED", "transfer_id": transfer_id, "execution_authorized": False, "receiver_acknowledged": bool(fingerprint_acked), "compact_state": compact}
+        return _nonexecuting_shift(from_gear=from_gear, to_gear=to_gear, status="TRANSFER_IDENTITY_MISMATCH", transfer_id=transfer_id, compact=compact, fingerprint_acked=fingerprint_acked, downshift=downshift)
+
+    consumed = consumed_transfer_ids
+    if consumed is not None and transfer_id in consumed:
+        return _nonexecuting_shift(from_gear=from_gear, to_gear=to_gear, status="ALREADY_TRANSFERRED", transfer_id=transfer_id, compact=compact, fingerprint_acked=fingerprint_acked, downshift=downshift)
+
+    acked = fingerprint_acked and receiver_transfer_id == transfer_id and consumed is not None
+    if acked:
+        consumed.add(transfer_id)
+
     if downshift:
-        if int(to_gear[1:]) >= int(from_gear[1:]): raise GearboxGuardError("downshift target must be a lower gear")
-        if acked: consumed.add(transfer_id)
-        return {"from_gear": from_gear, "to_gear": to_gear, "shift_status": "DOWNSHIFT_COMPLETE" if acked else "DOWNSHIFT_OVERLAP", "transfer_id": transfer_id, "execution_authorized": bool(acked), "lower_guard_engaged": True, "higher_gear_released": bool(acked), "original_atomic_work_alive": not acked, "compact_state": compact}
-    if int(to_gear[1:]) <= int(from_gear[1:]): raise GearboxGuardError("upshift target must be a higher gear")
-    if acked: consumed.add(transfer_id)
+        return {"from_gear": from_gear, "to_gear": to_gear, "shift_status": "DOWNSHIFT_COMPLETE" if acked else "DOWNSHIFT_OVERLAP", "transfer_id": transfer_id, "execution_authorized": bool(acked), "receiver_acknowledged": bool(acked), "lower_guard_engaged": True, "higher_gear_released": bool(acked), "original_atomic_work_alive": not acked, "compact_state": compact}
     return {"from_gear": from_gear, "to_gear": to_gear, "shift_status": "SHIFT_COMPLETE" if acked else "CLUTCH_OVERLAP", "transfer_id": transfer_id, "execution_authorized": bool(acked), "sender_torque_held": not acked, "receiver_acknowledged": bool(acked), "original_atomic_work_alive": not acked, "compact_state": compact}
