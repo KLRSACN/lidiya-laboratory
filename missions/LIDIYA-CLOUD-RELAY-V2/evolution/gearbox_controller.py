@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import Any, Mapping
+from typing import Any, Mapping, MutableSet
 
 FORMAL_SLOTS = ("LCR-A", "LCR-B", "LCR-C")
 VALID_GEARS = ("N", "R", "G1", "G2", "G3", "G4", "G5", "G6")
@@ -54,43 +54,21 @@ def select_gear(*, risk: str, uncertainty: float, evidence_quality: float, task_
     storage_pressure_ratio = _norm_float(storage_pressure_ratio, name="storage_pressure_ratio")
     if isinstance(proposed_autonomy, bool) or not isinstance(proposed_autonomy, int) or not 0 <= proposed_autonomy <= 6:
         raise GearboxGuardError("proposed_autonomy must be integer 0..6")
-    if standby:
-        return _decision("N", "explicit standby", "HOLD", "new valid task/control input")
-    if rollback_required:
-        return _decision("R", "verified rollback requested", "ROLLBACK", "verified recovery checkpoint restored")
-    if hard_safety_conflict:
-        return _decision("G1", "hard safety conflict", "HUMAN_GATE", "conflict resolved by deterministic policy/human gate")
-    if risk in HARD_RISK:
-        return _decision("G1", f"{risk.lower()} risk", "BRAKE", "risk reduced and re-evaluated")
-    if contradiction:
-        return _decision("G1", "contradictory inputs/evidence", "BRAKE", "contradiction independently resolved")
-    if storage_pressure_ratio >= 0.95:
-        return _decision("G1", "storage pressure >=95%", "HUMAN_GATE", "storage below 95% or large-write gate resolved")
-    if uncertainty >= 0.60:
-        return _decision("G1", "uncertainty too high", "BRAKE", "uncertainty below 0.60 with stronger evidence")
-    if evidence_quality < 0.40:
-        return _decision("G1", "evidence too weak", "BRAKE", "evidence quality >=0.40")
-    if reversibility is not True:
-        return _decision("G1", "action is not reversible", "HUMAN_GATE", "reversible plan or explicit human authorization")
+    if standby: return _decision("N", "explicit standby", "HOLD", "new valid task/control input")
+    if rollback_required: return _decision("R", "verified rollback requested", "ROLLBACK", "verified recovery checkpoint restored")
+    if hard_safety_conflict: return _decision("G1", "hard safety conflict", "HUMAN_GATE", "conflict resolved by deterministic policy/human gate")
+    if risk in HARD_RISK: return _decision("G1", f"{risk.lower()} risk", "BRAKE", "risk reduced and re-evaluated")
+    if contradiction: return _decision("G1", "contradictory inputs/evidence", "BRAKE", "contradiction independently resolved")
+    if storage_pressure_ratio >= 0.95: return _decision("G1", "storage pressure >=95%", "HUMAN_GATE", "storage below 95% or large-write gate resolved")
+    if uncertainty >= 0.60: return _decision("G1", "uncertainty too high", "BRAKE", "uncertainty below 0.60 with stronger evidence")
+    if evidence_quality < 0.40: return _decision("G1", "evidence too weak", "BRAKE", "evidence quality >=0.40")
+    if reversibility is not True: return _decision("G1", "action is not reversible", "HUMAN_GATE", "reversible plan or explicit human authorization")
     cap = 4 if storage_pressure_ratio >= 0.85 else 6
-    if risk not in {"LOW", "NONE"}:
-        cap = min(cap, 3)
-    if uncertainty >= 0.35 or evidence_quality < 0.65:
-        cap = min(cap, 3)
-    if task_complexity < 0.20:
-        desired = 2
-    elif task_complexity < 0.45:
-        desired = 3
-    elif task_complexity < 0.70:
-        desired = 4
-    elif task_complexity < 0.90:
-        desired = 5
-    else:
-        desired = 6
-    if proposed_autonomy > 0:
-        desired = min(desired, proposed_autonomy)
-    selected = max(2, min(desired, cap))
-    return _decision(f"G{selected}", "guarded deterministic selection", "CLEAR", "downshift on uncertainty/contradiction/risk/evidence/storage change")
+    if risk not in {"LOW", "NONE"}: cap = min(cap, 3)
+    if uncertainty >= 0.35 or evidence_quality < 0.65: cap = min(cap, 3)
+    desired = 2 if task_complexity < 0.20 else 3 if task_complexity < 0.45 else 4 if task_complexity < 0.70 else 5 if task_complexity < 0.90 else 6
+    if proposed_autonomy > 0: desired = min(desired, proposed_autonomy)
+    return _decision(f"G{max(2, min(desired, cap))}", "guarded deterministic selection", "CLEAR", "downshift on uncertainty/contradiction/risk/evidence/storage change")
 
 def _canonical_sha256(value: object) -> str:
     import hashlib, json
@@ -98,51 +76,52 @@ def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 def compact_torque_state(active_state: Mapping[str, Any]) -> dict[str, Any]:
-    """Transmit compact control torque, never raw chat/worksite context."""
     import copy
     compact = {key: copy.deepcopy(active_state.get(key)) for key in TORQUE_FIELDS if key in active_state}
     compact["state_fingerprint"] = _canonical_sha256({key: active_state.get(key) for key in RPM_CONTROL_FIELDS})
     return compact
 
 def capture_owner_input_without_rpm_drop(active_state: Mapping[str, Any], owner_input: Mapping[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Fingerprint a new owner control message while preserving active mission RPM."""
     import copy, hashlib
     preserved = copy.deepcopy(dict(active_state))
     before = {key: copy.deepcopy(active_state.get(key)) for key in RPM_CONTROL_FIELDS}
     raw = str(owner_input.get("body", owner_input.get("raw_body", "")))
-    meta = {
-        "source": str(owner_input.get("source", "owner")),
-        "kind": str(owner_input.get("kind", "control_input")),
-        "body_sha256": hashlib.sha256(raw.encode("utf-8")).hexdigest(),
-    }
-    after = {key: copy.deepcopy(preserved.get(key)) for key in RPM_CONTROL_FIELDS}
-    if before != after:
+    meta = {"source": str(owner_input.get("source", "owner")), "kind": str(owner_input.get("kind", "control_input")), "body_sha256": hashlib.sha256(raw.encode("utf-8")).hexdigest()}
+    if before != {key: copy.deepcopy(preserved.get(key)) for key in RPM_CONTROL_FIELDS}:
         raise GearboxGuardError("incoming control dropped active mission RPM")
     return preserved, meta
 
-def overlap_shift(*, active_state: Mapping[str, Any], from_gear: str, to_gear: str,
-                  receiver_state_fingerprint: str | None = None, downshift: bool = False) -> dict[str, Any]:
-    """Model clutch overlap: sender keeps torque until receiver ACK matches compact state.
+def transfer_identity(*, active_state: Mapping[str, Any], from_gear: str, to_gear: str, handoff_sequence: str | int) -> str:
+    compact = compact_torque_state(active_state)
+    return _canonical_sha256({"mission_id": active_state.get("mission_id"), "step_id": active_state.get("step_id"), "from_gear": from_gear, "to_gear": to_gear, "state_fingerprint": compact["state_fingerprint"], "handoff_sequence": str(handoff_sequence)})
 
-    During a downshift, the lower-gear guard is engaged before higher autonomy is released.
+def overlap_shift(*, active_state: Mapping[str, Any], from_gear: str, to_gear: str,
+                  receiver_state_fingerprint: str | None = None, downshift: bool = False,
+                  handoff_sequence: str | int = 0, consumed_transfer_ids: MutableSet[str] | None = None,
+                  receiver_transfer_id: str | None = None) -> dict[str, Any]:
+    """Clutch overlap with exactly-once torque transfer.
+
+    `consumed_transfer_ids` is authoritative caller-owned durable/idempotency state. A completed
+    transfer is added exactly once; replay is non-executing ALREADY_TRANSFERRED.
     """
     if from_gear not in VALID_GEARS or to_gear not in VALID_GEARS or from_gear in {"N", "R"} or to_gear in {"N", "R"}:
         raise GearboxGuardError("overlap shift requires G1..G6")
     compact = compact_torque_state(active_state)
     fingerprint = compact["state_fingerprint"]
-    acked = receiver_state_fingerprint == fingerprint
+    transfer_id = transfer_identity(active_state=active_state, from_gear=from_gear, to_gear=to_gear, handoff_sequence=handoff_sequence)
+    consumed = consumed_transfer_ids if consumed_transfer_ids is not None else set()
+    replay = transfer_id in consumed
+    fingerprint_acked = receiver_state_fingerprint == fingerprint
+    identity_acked = receiver_transfer_id in {None, transfer_id}
+    acked = fingerprint_acked and identity_acked
+    if receiver_transfer_id is not None and receiver_transfer_id != transfer_id:
+        acked = False
+    if replay:
+        return {"from_gear": from_gear, "to_gear": to_gear, "shift_status": "ALREADY_TRANSFERRED", "transfer_id": transfer_id, "execution_authorized": False, "receiver_acknowledged": bool(fingerprint_acked), "compact_state": compact}
     if downshift:
-        if int(to_gear[1:]) >= int(from_gear[1:]):
-            raise GearboxGuardError("downshift target must be a lower gear")
-        return {
-            "from_gear": from_gear, "to_gear": to_gear, "shift_status": "DOWNSHIFT_COMPLETE" if acked else "DOWNSHIFT_OVERLAP",
-            "lower_guard_engaged": True, "higher_gear_released": bool(acked), "original_atomic_work_alive": not acked,
-            "compact_state": compact,
-        }
-    if int(to_gear[1:]) <= int(from_gear[1:]):
-        raise GearboxGuardError("upshift target must be a higher gear")
-    return {
-        "from_gear": from_gear, "to_gear": to_gear, "shift_status": "SHIFT_COMPLETE" if acked else "CLUTCH_OVERLAP",
-        "sender_torque_held": not acked, "receiver_acknowledged": bool(acked), "original_atomic_work_alive": not acked,
-        "compact_state": compact,
-    }
+        if int(to_gear[1:]) >= int(from_gear[1:]): raise GearboxGuardError("downshift target must be a lower gear")
+        if acked: consumed.add(transfer_id)
+        return {"from_gear": from_gear, "to_gear": to_gear, "shift_status": "DOWNSHIFT_COMPLETE" if acked else "DOWNSHIFT_OVERLAP", "transfer_id": transfer_id, "execution_authorized": bool(acked), "lower_guard_engaged": True, "higher_gear_released": bool(acked), "original_atomic_work_alive": not acked, "compact_state": compact}
+    if int(to_gear[1:]) <= int(from_gear[1:]): raise GearboxGuardError("upshift target must be a higher gear")
+    if acked: consumed.add(transfer_id)
+    return {"from_gear": from_gear, "to_gear": to_gear, "shift_status": "SHIFT_COMPLETE" if acked else "CLUTCH_OVERLAP", "transfer_id": transfer_id, "execution_authorized": bool(acked), "sender_torque_held": not acked, "receiver_acknowledged": bool(acked), "original_atomic_work_alive": not acked, "compact_state": compact}
