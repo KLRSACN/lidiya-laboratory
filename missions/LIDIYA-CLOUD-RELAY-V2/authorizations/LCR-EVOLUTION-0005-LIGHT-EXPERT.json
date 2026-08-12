@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "project_id": "LIDIYA-CLOUD-RELAY-V2",
+  "authorization": "LIGHT_EXPERT_AUTONOMOUS_EVOLUTION",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-12T10:24:00+08:00",
+  "status": "ACTIVE",
+  "goal": [
+    "Persist one canonical progress snapshot before every substantive progress report.",
+    "Maintain official-source package radar and propose evolution changes without auto-promoting unverified dependencies.",
+    "Self-review progress, blockers, drift, storage pressure, and next autonomous action.",
+    "Build and independently verify a lightweight expert model for routing, risk, evidence scoring, metabolism disposition, next-action proposal, and HUMAN_GATE decisions."
+  ],
+  "storage_budget": {
+    "drive_root_folder_id": "10twlYU_r5dG3vOje4r6Mi8juQizyW4e9",
+    "drive_root_title": "璃蒂雅進化實驗室",
+    "user_declared_total_cloud_capacity_tb": 5,
+    "mission_ceiling_bytes": 1000000000000,
+    "monetary_spend_authorized": false,
+    "thresholds": {
+      "compact_at_ratio": 0.7,
+      "stop_large_checkpoint_at_ratio": 0.85,
+      "freeze_large_writes_human_gate_at_ratio": 0.95,
+      "hard_reject_at_ratio": 1.0
+    },
+    "full_backup_policy": {
+      "max_groups": 2,
+      "groups": ["RECOVERY_BASELINE", "WORKING_EXCHANGE"],
+      "third_full_backup": "FORBIDDEN"
+    }
+  },
+  "formal_slots": {
+    "max": 3,
+    "A": "CONTROL_RADAR_COORDINATOR",
+    "B": "SECONDARY_INTEGRATOR_BUILDER",
+    "C": "GUARDIAN_INDEPENDENT_VERIFIER",
+    "slot4": "FORBIDDEN"
+  },
+  "model_scope": {
+    "candidate_family": ["Qwen3.5-0.8B", "Qwen3.5-2B", "Qwen3.5-4B"],
+    "initial_preference": {
+      "expert_candidate": "Qwen3.5-2B",
+      "fast_student": "Qwen3.5-0.8B",
+      "teacher_reference": "Qwen3.5-4B"
+    },
+    "selection_not_final": true,
+    "expert_tasks": ["task_routing", "risk_classification", "evidence_scoring", "metabolism_disposition", "next_action_proposal", "human_gate_decision"],
+    "personality_or_identity_training": "FORBIDDEN",
+    "direct_durable_state_write_by_model": "FORBIDDEN_UNTIL_DETERMINISTIC_GUARD_AND_C_VERIFICATION"
+  },
+  "package_policy": {
+    "official_or_first_party_sources_only": true,
+    "pipeline": ["RADAR", "SANDBOX", "VERIFY", "PROMOTE"],
+    "auto_install_to_stable": "FORBIDDEN",
+    "package_radar_ref": "evolution/PACKAGE_RADAR.json"
+  },
+  "progress_policy": {
+    "single_canonical_snapshot": "state/EVOLUTION_PROGRESS.json",
+    "save_before_report": true,
+    "append_only_progress_files": "FORBIDDEN_BY_DEFAULT",
+    "required_fields": ["mission_status", "current_role", "verified_evidence", "blocker", "storage_ledger", "package_radar_delta", "evolution_suggestions", "self_review", "next_autonomous_action"]
+  },
+  "allowed": [
+    "development-branch code/tests/evidence within explicit packets",
+    "Drive evolution-lab folders/files within 1 TB ledger and existing safety guards",
+    "free/open-source package research and sandboxing",
+    "dataset curation from authorized/verified project evidence and synthetic fixtures",
+    "parameter-efficient training/adapters and local/cloud-free inference where available",
+    "reversible low-risk autonomous progression through A/B/C"
+  ],
+  "forbidden": [
+    "new monetary spend or paid API commitment",
+    "main/default branch writes without a new explicit sub-gate",
+    "secrets/credentials exposure or persistence",
+    "production deployment",
+    "financial/account actions",
+    "fourth formal worker",
+    "third full backup",
+    "Identity Kernel/personality/Governance modification",
+    "unverified model decisions becoming durable truth",
+    "irreversible or ambiguous-provenance deletion"
+  ],
+  "human_gate": ["any paid service", "main/default write", "credential requirement", "legal ambiguity", "storage >=95% with large-write need", "safety regression", "identity/personality/governance scope", "irreversible high-risk operation"],
+  "success_criteria": [
+    "progress-before-report persistence is reproducible",
+    "package radar tracks official source/version/status/delta",
+    "project storage ledger enforces <=1 TB",
+    "at least one 0.8B/2B-class expert candidate completes reproducible task specialization proof",
+    "held-out and adversarial evals produce structured decisions",
+    "safety hard limits do not regress vs deterministic guard baseline",
+    "A can use expert proposal for low-risk next action only behind deterministic guard and C verification",
+    "Reality Evidence and Metabolic Closure complete"
+  ],
+  "next_authorized_mission": null,
+  "authorization_sha256": "b104bce5b6ffc72a67f9b87999d36a301a979c5c4bd22f16d0c8da75d96125a4"
+}
