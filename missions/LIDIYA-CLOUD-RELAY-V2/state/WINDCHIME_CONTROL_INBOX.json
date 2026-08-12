@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "channel_code": "FL-A1/GT3/RELAY-20260812-0838",
+  "target_slot": "LCR-A",
+  "status": "EMPTY",
+  "sequence": 0,
+  "control_id": null,
+  "control_fingerprint_sha256": null,
+  "source_window_alias": null,
+  "source_generation": null,
+  "intent_summary": null,
+  "priority_hint": null,
+  "requested_at": null,
+  "expires_at": null,
+  "raw_body_persisted": false,
+  "ack": {
+    "status": "NONE",
+    "acked_at": null,
+    "acked_by": null,
+    "result_ref": null
+  },
+  "dedupe_rule": "same control_fingerprint_sha256 + sequence must not execute twice",
+  "authorization_ref": "authorizations/LCR-WINDCHIME-0004-CONTROL.json"
+}
