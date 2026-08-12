@@ -2,11 +2,11 @@
   "schema_version": "5.0",
   "mission_id": "LCR-EVOLUTION-0005",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
-  "status": "STEP_DONE",
-  "step_id": 1,
-  "attempt": 2,
-  "current_role": "LCR-A",
-  "next_role": "LCR-A",
+  "status": "READY_FOR_BUILDER",
+  "step_id": 2,
+  "attempt": 0,
+  "current_role": "LCR-B",
+  "next_role": "LCR-B",
   "candidate_ref": "lidiya-cloud-relay-v2",
   "stable_ref": "nav-relay-mvp-0001",
   "mission_result": null,
@@ -21,11 +21,12 @@
     "33f86bd7036f05d0d3549923cce1f974f52407ae237f2d8d4b4eb2040d02e5fd",
     "0b457fc273b61ff77cf51ebda94d1a27fccac9f0abf9d3067ef1510f2cd0de5d",
     "f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6",
-    "5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989"
+    "5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989",
+    "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101"
   ],
-  "last_packet_sha256": "5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989",
-  "pending_packet": "packets/EVOLUTION-0005-C-TO-A-STEP-001-PASS-003.json",
-  "pending_packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101",
+  "last_packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101",
+  "pending_packet": "packets/EVOLUTION-0005-A-TO-B-STEP-002.json",
+  "pending_packet_sha256": "8120c6a030ed1d98b57e483e52c096d410a69a58cb5555fc665892be30a7e430",
   "lease": null,
   "human_gate": null,
   "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
@@ -50,7 +51,9 @@
     "BUILDING",
     "READY_FOR_VERIFY",
     "VERIFYING",
-    "STEP_DONE"
+    "STEP_DONE",
+    "COORDINATING",
+    "READY_FOR_BUILDER"
   ],
   "slot_policy": {
     "max_slots": 3,
@@ -84,16 +87,16 @@
     "codename": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
     "gear_count": 6,
     "control_states": ["N", "R"],
-    "current_phase": "STEP_001_DETERMINISTIC_GEARBOX_VERIFIED_PASS",
-    "model_downloads_in_step_1": "FORBIDDEN",
-    "training_in_step_1": "FORBIDDEN",
+    "current_phase": "STEP_002_DATASET_EVAL_HARNESS_FOUNDATION",
+    "model_downloads_in_step_2": "FORBIDDEN",
+    "training_in_step_2": "FORBIDDEN",
     "direct_durable_state_write": "FORBIDDEN"
   },
   "route": {
     "original_goal": "Build autonomous evolution radar, progress persistence, self-review, and lightweight expert decision system.",
-    "current_goal": "Step-001 deterministic gearbox foundation independently verified PASS; return to A for next minimal authorized dataset/eval/model benchmarking step.",
-    "detour_reason": "C FAIL-001/002 exposed replay/idempotency weaknesses; repairs are now independently verified without widening scope.",
-    "return_condition": "LCR-A consumes C->A PASS packet and plans Step-002 under the existing authorization; no model output may bypass deterministic guard or C verification."
+    "current_goal": "Build a provenance-safe deterministic dataset/eval harness and baseline before selecting or downloading any 0.8B/2B model candidate.",
+    "detour_reason": "Step-001 deterministic gearbox is independently verified PASS; the safest next gear is evaluation infrastructure so future model outputs can be measured without bypassing hard guards.",
+    "return_condition": "After Step-002 C PASS, LCR-A selects a zero-cost 0.8B/2B candidate benchmark path using the verified dataset/eval harness and existing deterministic gearbox guard."
   },
   "acceptance_status": {
     "progress_before_report": "VERIFIED_STEP_001",
@@ -101,11 +104,11 @@
     "storage_ledger": "VERIFIED_STEP_001",
     "six_gear_controller": "VERIFIED_PASS",
     "rpm_continuity_overlap": "VERIFIED_PASS",
-    "expert_dataset": "PENDING",
+    "expert_dataset": "IN_PROGRESS_STEP_002",
     "expert_candidate_training": "PENDING",
-    "held_out_adversarial_eval": "PENDING",
-    "deterministic_guard_non_regression": "VERIFIED_PASS_STEP_001",
-    "C_independent_verification": "PASS_003",
+    "held_out_adversarial_eval": "HARNESS_IN_PROGRESS_STEP_002",
+    "deterministic_guard_non_regression": "VERIFIED_PASS_STEP_001_RECHECK_REQUIRED_STEP_002",
+    "C_independent_verification": "PENDING_STEP_002",
     "reality_evidence": "PENDING",
     "metabolic_closure": "PENDING"
   },
