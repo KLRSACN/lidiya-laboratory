@@ -1,0 +1,18 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "attempt":2,
+  "role":"LCR-C",
+  "worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation":0,
+  "result":"FAIL",
+  "inbound_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-002-REPAIR-001.json",
+  "inbound_packet_sha256":"6c93a38fc2d519cf194fa487412ce71b03bf43690a2ca4ef4f9eb3e68cdea515",
+  "verified_candidate_blobs":{"evolution/navigation_watchdog.py":"369fa725ad7f2c339b1ee5c77ff0d223b237b76d","evolution/test_navigation_watchdog.py":"7127c7411800c589af2d87e1eea89cd9eb15d9e8"},
+  "passed_by_exact_read":["current_role and next_role constrained to A/B/C","missing pending packet/hash fail closed in active states","expected packet/hash/authorization mismatch fail closed","malformed lease shape/role/expiry syntax fail closed","route_next requires exact role/packet/hash","duplicate recovery_id is non-executing","stale roster only rebuilds derived state"],
+  "independent_failure":{"root_cause":"Lease authority validation is incomplete: an expired but syntactically valid lease is accepted, and lease owner authority is only compared when caller supplies expected_lease_owner. The watchdog therefore cannot independently prove that a durable lease is currently valid and owned by the authoritative worker for the role.","adversarial_cases":["state lease expires_at in the past with otherwise valid ISO timestamp is accepted by _authority_error","state lease owner arbitrary but role matches current_role is accepted when expected_lease_owner is omitted","naive ISO expiry without timezone is accepted by datetime.fromisoformat"],"risk":"A stale or foreign lease can survive watchdog authority validation and allow a recovery decision to proceed without independent durable lease authority proof."},
+  "repair_acceptance":["expired lease must fail closed against authoritative current time","lease owner must map to authoritative worker identity for current role without relying on caller hints","lease expiry must be timezone-aware and parseable","existing packet/hash/role/idempotency protections must remain green"],
+  "verification_note":"GitHub exact bytes and Builder evidence were fresh-read. Repository clone/test execution was unavailable from the verifier runtime because private-repository git authentication was not exposed; therefore no broad PASS claim is made. The failure is established directly from the exact candidate control flow and is sufficient to reject the candidate fail-closed.",
+  "constraints":{"candidate_modified_by_C":false,"new_worker":false,"model_download":false,"training":false,"main_default_write":false,"spend":false}
+}
