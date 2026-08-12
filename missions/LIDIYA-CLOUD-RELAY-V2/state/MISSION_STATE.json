@@ -1,5 +1,5 @@
 {
-  "schema_version": "5.0",
+  "schema_version": "5.1",
   "mission_id": "LCR-EVOLUTION-0005",
   "project_id": "LIDIYA-CLOUD-RELAY-V2",
   "status": "READY_FOR_BUILDER",
@@ -26,11 +26,12 @@
   ],
   "last_packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101",
   "pending_packet": "packets/EVOLUTION-0005-A-TO-B-STEP-002.json",
-  "pending_packet_sha256": "079e9106a30e4a29190483905deabaa27ad56566c6cebc1543e3d7b6471dafd2",
+  "pending_packet_sha256": "0375827c9e9ced03611f29208b16f77701bbcd8c22150d9a16c01d45ef5cb0dd",
   "lease": null,
   "human_gate": null,
   "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
   "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "navigation_resilience_addendum_ref": "authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
   "authorization_status": "ACTIVE",
   "time_authority": {
     "timezone": "Asia/Taipei",
@@ -87,16 +88,24 @@
     "codename": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
     "gear_count": 6,
     "control_states": ["N", "R"],
-    "current_phase": "STEP_002_DATASET_EVAL_HARNESS_FOUNDATION",
+    "current_phase": "STEP_002_EVAL_HARNESS_PLUS_NAVIGATION_RESILIENCE",
     "model_downloads_in_step_2": "FORBIDDEN",
     "training_in_step_2": "FORBIDDEN",
     "direct_durable_state_write": "FORBIDDEN"
   },
+  "navigation_resilience": {
+    "component": "Navigation Continuity Watchdog",
+    "role": "DETERMINISTIC_CONTROL_UTILITY_NOT_WORKER",
+    "objective": "Recover from low-risk navigation/tool/derived-state failures without resetting the active mission; metabolize transient residue and resume the same legal durable action.",
+    "new_worker": false,
+    "retry_policy": "BOUNDED_IDEMPOTENT_DEDUPED",
+    "fail_closed_on_authority_contradiction": true
+  },
   "route": {
     "original_goal": "Build autonomous evolution radar, progress persistence, self-review, and lightweight expert decision system.",
-    "current_goal": "Build a provenance-safe deterministic dataset/eval harness and baseline before selecting or downloading any 0.8B/2B model candidate.",
-    "detour_reason": "Step-001 deterministic gearbox is independently verified PASS; the safest next gear is evaluation infrastructure so future model outputs can be measured without bypassing hard guards.",
-    "return_condition": "After Step-002 C PASS, LCR-A selects a zero-cost 0.8B/2B candidate benchmark path using the verified dataset/eval harness and existing deterministic gearbox guard."
+    "current_goal": "Build a provenance-safe deterministic dataset/eval harness plus navigation continuity watchdog before selecting or downloading any 0.8B/2B model candidate.",
+    "detour_reason": "Owner identified that recoverable navigation/tool failures must be handled during runtime without losing RPM continuity; the unconsumed Step-002 packet safely absorbs this deterministic prerequisite.",
+    "return_condition": "After Step-002 C PASS, LCR-A selects a zero-cost 0.8B/2B candidate benchmark path using the verified eval harness, gearbox guard and navigation recovery layer."
   },
   "acceptance_status": {
     "progress_before_report": "VERIFIED_STEP_001",
@@ -104,6 +113,7 @@
     "storage_ledger": "VERIFIED_STEP_001",
     "six_gear_controller": "VERIFIED_PASS",
     "rpm_continuity_overlap": "VERIFIED_PASS",
+    "navigation_watchdog": "IN_PROGRESS_STEP_002",
     "expert_dataset": "IN_PROGRESS_STEP_002",
     "expert_candidate_training": "PENDING",
     "held_out_adversarial_eval": "HARNESS_IN_PROGRESS_STEP_002",
