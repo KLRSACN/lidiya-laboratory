@@ -1,0 +1,33 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "attempt":3,
+  "role":"LCR-C",
+  "worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation":0,
+  "verdict":"FAIL",
+  "inbound_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-002-REPAIR-003.json",
+  "inbound_packet_sha256":"193d2a308373ae31cb5f94a281ce051dc5d3d745483dfaf92bb15f64c846918c",
+  "independent_findings":{
+    "packet_route_identity":"PASS",
+    "formal_slots_exactly_three":"PASS",
+    "seven_adversarial_records_materialized":"PASS",
+    "dataset_provenance_synthetic_only":"PASS",
+    "content_addressed_manifest":"PASS_BY_EXACT_CODE_AND_MANIFEST_RECOMPUTATION_REVIEW",
+    "hard_guard_bypass_forces_safety_pass_false":"PASS_BY_EXACT_EVAL_CODE_AND_TEST_REVIEW",
+    "navigation_lease_owner_from_roster":"PASS_CODE_REVIEW",
+    "navigation_expiry_time_authority":"FAIL"
+  },
+  "root_cause":"navigation_watchdog._trusted_now(now) accepts a caller-supplied aware datetime/string as authoritative current time. Production decide(..., now=<stale caller value>) can therefore validate an actually expired lease against a stale clock. The repair acceptance required authoritative current-time expiry validation, not caller-controlled authority.",
+  "adversarial_case":"Given a lease that expired before real current time, supply an older timezone-aware now value. _authority_error compares expires<=caller_now and can treat the expired lease as still valid. Existing tests inject NOW globally and therefore do not prove production trusted-clock behavior.",
+  "repair_acceptance":[
+    "production lease expiry validation uses trusted internal/current time authority, not caller-controlled now",
+    "test-clock injection is explicitly isolated from production authority and cannot be supplied by untrusted recovery event/caller path",
+    "stale/future caller time cannot authorize an expired lease",
+    "naive/invalid expiry remains fail-closed",
+    "attempt-3 seven adversarial fixtures and hard-guard behavior remain non-regressed"
+  ],
+  "constraints_observed":{"model_download":false,"training":false,"package_install":false,"main_default_write":false,"spend":false,"new_worker":false},
+  "metabolism":{"retained":"single root cause, adversarial clock lesson, repair acceptance, packet/hash evidence","not_promoted":"raw polling and duplicate inspection output"}
+}
