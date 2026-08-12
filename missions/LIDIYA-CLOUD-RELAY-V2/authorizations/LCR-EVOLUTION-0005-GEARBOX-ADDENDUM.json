@@ -1,11 +1,14 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-EVOLUTION-0005",
   "parent_authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
   "authorized_by": "博玄",
   "authorized_at": "2026-08-12T10:24:00+08:00",
+  "updated_at": "2026-08-12T10:47:00+08:00",
   "status": "ACTIVE",
-  "instruction": "Develop a mutually composable mini-model gearbox with gears 1-6 without interrupting the current mission.",
+  "model_codename_zh": "第一型『變速箱自主模型』",
+  "model_codename_en": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
+  "instruction": "Develop a mutually composable mini-model gearbox with gears 1-6 without interrupting the current mission; new owner input must be caught while existing work keeps rotating until a verified clutch/handoff point.",
   "constraints": {
     "formal_worker_slots_remain": 3,
     "six_gears_are_compute_expertise_levels_not_chat_personas": true,
@@ -13,12 +16,36 @@
     "duplicate_full_model_weights_without_manifested_reason": "FORBIDDEN",
     "direct_model_write_to_durable_truth": "FORBIDDEN",
     "downshift_on_uncertainty_or_risk": true,
-    "reverse_is_deterministic_rollback_not_a_generative_model": true
+    "reverse_is_deterministic_rollback_not_a_generative_model": true,
+    "owner_message_is_control_input_not_stop_event": true,
+    "new_message_must_not_zero_active_mission_rpm": true,
+    "new_formal_window_for_load_shedding": "FORBIDDEN_BY_DEFAULT",
+    "overflow_load_preference": "USE_EXISTING_B_C_OR_MICRO_EXPERT_GEAR_BEFORE_NEW_WINDOW"
+  },
+  "transmission_semantics": {
+    "rpm_continuity": "Preserve active mission state, pending packet, lease, evidence pointers, route and return condition while owner input is classified.",
+    "clutch_overlap": "Old gear/worker continues the already authorized atomic task while A captures and classifies new input. No state reset. Shift completes only after the receiving gear has enough compact state to continue deterministically.",
+    "torque_handoff": "Transfer compact durable control state rather than raw chat: mission_id, step, current route, pending work, evidence pointer, rollback, blocker, priority, return condition, and state fingerprint.",
+    "upshift_overlap": "G1 remains safety clutch until G2 acknowledges route state; G2 remains route holder until G3/G4 acknowledges specialist state; higher gear never invalidates lower-gear safety control.",
+    "downshift_overlap": "On uncertainty/risk/contradiction, lower gear is engaged before higher-gear autonomy is released; brake/rollback remains available throughout transition.",
+    "owner_input_flow": [
+      "CAPTURE_MINIMAL_CONTROL_FINGERPRINT",
+      "KEEP_CURRENT_ATOMIC_WORK_RUNNING",
+      "CLASSIFY_NEW_INPUT_IN_LOW_GEAR",
+      "ROUTE_TO_EXISTING_B_C_OR_MICRO_EXPERT",
+      "ACK_RECEIVER_STATE_FINGERPRINT",
+      "SHIFT_OR_QUEUE_WITH_RETURN_CONDITION",
+      "A_RETAKES_CONTROL_WHEN_CURRENT_ATOMIC_WORK_REACHES_SAFE_CHECKPOINT"
+    ]
   },
   "success_additions": [
     "machine-testable gear selection and upshift/downshift rules",
     "at least one shared-base multi-adapter proof or equivalent composable specialist proof",
     "high-risk or low-confidence events downshift to stricter deterministic control instead of escalating autonomy",
-    "gear changes are recorded in compact progress state and independently verifiable by LCR-C"
+    "gear changes are recorded in compact progress state and independently verifiable by LCR-C",
+    "incoming owner control during active work does not reset mission RPM/state",
+    "a simulated G1->G2 overlap keeps the original atomic task alive until receiver ACK then transfers compact state without duplicate execution",
+    "a simulated G2->G1 downshift engages lower-gear guard before higher-gear release",
+    "load shedding uses existing B/C or micro-expert gears before considering any new formal window"
   ]
 }
