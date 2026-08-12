@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "checked_at": "2026-08-12T10:24:00+08:00",
+  "source_policy": "OFFICIAL_OR_FIRST_PARTY_ONLY",
+  "packages": [
+    {"name":"LangGraph","observed_version":"1.2.9","observed_date":"2026-07-10","source":"https://github.com/langchain-ai/langgraph/releases","status":"SANDBOX_CANDIDATE","fit":["durable orchestration","checkpoint/resume"],"note":"Strong fit for stateful orchestration; do not replace existing relay until replay/lease semantics are mapped."},
+    {"name":"Pydantic AI","observed_version":"1.104.0 stable; 2.0.0b4 prerelease","observed_date":"2026-05-28","source":"https://github.com/pydantic/pydantic-ai/releases","status":"SANDBOX_CANDIDATE","fit":["typed decision schema","model-agnostic agents"],"note":"Prefer stable v1 line initially; keep v2 beta on radar."},
+    {"name":"smolagents","observed_version":"1.26.0","observed_date":"2026-05-29","source":"https://github.com/huggingface/smolagents/releases","status":"RADAR_ONLY","fit":["minimal agent loops","tool calling"],"note":"Docs label API experimental; useful comparison, not control-plane core."},
+    {"name":"PEFT","observed_version":"0.19.1","observed_date":"2026-04-16","source":"https://github.com/huggingface/peft/releases","status":"CORE_CANDIDATE","fit":["LoRA","parameter-efficient fine-tuning"],"note":"Primary low-storage adaptation layer."},
+    {"name":"TRL","observed_version":"1.6.0","observed_date":"2026-06-11","source":"https://github.com/huggingface/trl","status":"CORE_CANDIDATE","fit":["SFT","DPO","GRPO","post-training"],"note":"Use SFT first; RL only after deterministic eval baseline."},
+    {"name":"llama.cpp","observed_version":"rolling commit pin","observed_date":"2026-05-27 observed","source":"https://github.com/ggml-org/llama.cpp","status":"CORE_CANDIDATE","fit":["GGUF quantized inference","local CPU/GPU"],"note":"Pin tested commit instead of unbounded latest."},
+    {"name":"Ollama","observed_version":"0.30.8","observed_date":"2026-06-12","source":"https://github.com/ollama/ollama/releases","status":"CORE_CANDIDATE","fit":["local model service","OpenAI-like app integration"],"note":"Good service boundary for local expert inference."},
+    {"name":"Unsloth","observed_version":"0.1.42-beta","observed_date":"2026-05-26","source":"https://github.com/unslothai/unsloth/releases","status":"SANDBOX_ONLY","fit":["memory-efficient fine-tuning","GGUF inference/tool calling"],"note":"Project announced major revamp; avoid single-point dependency."}
+  ],
+  "models": [
+    {"name":"Qwen3.5-0.8B","source":"https://huggingface.co/Qwen/Qwen3.5-0.8B","status":"FAST_STUDENT_CANDIDATE","parameters":"0.8B","context":"262144 native","license":"Apache-2.0"},
+    {"name":"Qwen3.5-2B","source":"https://huggingface.co/Qwen/Qwen3.5-2B","status":"PRIMARY_EXPERT_CANDIDATE","parameters":"2B","context":"262144 native","license":"Apache-2.0"},
+    {"name":"Qwen3.5-4B","source":"https://huggingface.co/Qwen/Qwen3.5-4B","status":"TEACHER_REFERENCE_CANDIDATE","parameters":"4B","context":"262144 native","license":"Apache-2.0"}
+  ],
+  "promotion_rule": "RADAR->SANDBOX->VERIFY->PROMOTE; no package or model becomes stable from radar alone",
+  "delta_since_previous": "INITIAL_BASELINE",
+  "radar_sha256": "bac176bbb369c4a093c587b0d3c26a09acf31062ce9f98e21d340b1cd297ee50"
+}
