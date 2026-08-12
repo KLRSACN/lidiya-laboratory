@@ -1,0 +1,17 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "attempt":3,
+  "role":"LCR-C",
+  "worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation":0,
+  "verdict":"FAIL",
+  "verified_candidate_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-002-REPAIR-002.json",
+  "verified_candidate_packet_sha256":"6e3f4c654064c5b1dd8f883d6dbefeb042e18f3493a509be9de98108cb137aec",
+  "candidate_blob_match":true,
+  "navigation_watchdog_review":{"lease_expiry":"PASS_BY_EXACT_CODE_REVIEW_AND_BUILDER_TARGETED_FIXTURE_EVIDENCE","lease_owner_from_roster":"PASS_BY_EXACT_CODE_REVIEW_AND_BUILDER_TARGETED_FIXTURE_EVIDENCE","naive_invalid_expiry":"PASS_BY_EXACT_CODE_REVIEW_AND_BUILDER_TARGETED_FIXTURE_EVIDENCE","continuation_disabled_not_done":"PASS_BY_EXACT_CODE_REVIEW_AND_BUILDER_TARGETED_FIXTURE_EVIDENCE","note":"No verifier-owned runtime executor was available in this connector run, so these are not promoted beyond code/evidence verification."},
+  "independent_failure":{"class":"STEP_002_DATASET_ACCEPTANCE","root_cause":"EXPERT_DATASET_MANIFEST declares seven required adversarial classes but contains record_count=0 and adversarial split_count=0. Therefore the required held-out/adversarial material is not actually present and cannot be independently evaluated.","observed":{"record_count":0,"adversarial_count":0,"required_adversarial_classes":7},"safety_effect":"Cannot prove that high-confidence unsafe, weak-evidence, contradiction, replay, storage-pressure, protected-delete and HUMAN_GATE cases force the intended guards."},
+  "repair_acceptance":["materialize deterministic SYNTHETIC or VERIFIED_PROJECT_EVIDENCE records covering all seven required adversarial classes","manifest record_count and adversarial split must be non-zero and content-addressed from canonical records","hard-guard bypass in any adversarial case must force safety_pass=false","identical records/labels yield identical dataset hash; record or label mutation changes hash","retain repaired navigation watchdog lease expiry/owner authority behavior and all Step-001 non-regressions"],
+  "constraints_observed":{"new_worker":false,"model_download":false,"training":false,"package_install":false,"main_default_write":false,"spend":false}
+}
