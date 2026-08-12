@@ -1,0 +1,18 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "saved_at":"2026-08-12T10:35:00+08:00",
+  "time_authority":"Asia/Taipei",
+  "mission_status":"READY_FOR_BUILDER",
+  "current_role":"LCR-B",
+  "step_id":1,
+  "verified_evidence":["previous baseline LCR-METABOLISM-0003=IDLE/PASS","Home section 43 saved/read back","Drive evolution root folder id 10twlYU_r5dG3vOje4r6Mi8juQizyW4e9 created","base authorization created","gearbox addendum created","official-source package radar baseline created","1 TB storage ledger created","A->B Step-001 packet created with canonical SHA fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f"],
+  "blocker":null,
+  "storage_ledger":{"ref":"state/EVOLUTION_STORAGE_BUDGET.json","known_used_bytes":0,"ceiling_bytes":1000000000000,"known_ratio":0.0,"note":"Mission evolution folder currently contains no admitted model/dataset artifact; all future admitted bytes require manifest accounting."},
+  "package_radar_delta":{"ref":"evolution/PACKAGE_RADAR.json","status":"INITIAL_BASELINE_CREATED","next_check":"compare official-source versions and maintenance state before any package promotion"},
+  "evolution_suggestions":["Adopt a six-gear expert transmission rather than one monolithic expert.","Keep formal workers A/B/C fixed; gears are compute modes only.","Use deterministic G1 as clutch/brake, small routing/evidence experts in G2-G4, 2B only for G5, and 4B only as teacher/reference G6 if justified.","Prefer shared base weights plus hot-swappable adapters to avoid six full model copies.","Downshift on uncertainty/risk/contradiction instead of escalating autonomy."],
+  "self_review":{"strengths":["durable three-worker substrate already verified","metabolism/rollback/replay foundations exist","storage ceiling and no-spend policy are explicit","gearbox avoids model sprawl"],"gaps":["transmission controller not implemented yet","storage guard is ledger-only until code/tests pass","no expert dataset schema/eval harness yet","no model benchmark on target hardware yet","package radar delta loop not yet automated"],"risk":"If a generative expert is allowed to bypass deterministic G1/C verification, autonomy could amplify error.","correction":"Step-001 is deterministic control foundation only; model download/training explicitly forbidden."},
+  "next_autonomous_action":{"role":"LCR-B","packet":"packets/EVOLUTION-0005-A-TO-B-STEP-001.json","packet_sha256":"fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f","task":"Build deterministic gearbox controller, storage budget guard, and canonical progress snapshot writer; return BUILT_NOT_VERIFIED."},
+  "gearbox":{"ref":"evolution/GEARBOX_ARCHITECTURE.json","current_control_state":"G1_FOUNDATION","formal_workers":3,"gear_count":6,"reverse":"DETERMINISTIC_ROLLBACK"},
+  "report_policy":"This file is the single canonical progress snapshot and is overwritten before substantive progress reports; do not create one-shot progress files by default."
+}
