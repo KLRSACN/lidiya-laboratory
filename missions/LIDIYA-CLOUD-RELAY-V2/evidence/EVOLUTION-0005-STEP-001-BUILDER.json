@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 1,
+  "attempt": 0,
+  "role": "LCR-B",
+  "worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation": 1,
+  "created_at_taipei": "2026-08-12T10:49:47+08:00",
+  "result": "BUILT_NOT_VERIFIED",
+  "inbound_packet": "packets/EVOLUTION-0005-A-TO-B-STEP-001.json",
+  "inbound_packet_sha256": "fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f",
+  "candidate_files": {
+    "evolution/gearbox_controller.py": "67282adbe1ef69d83cfcc224902d39549f73a1b9",
+    "evolution/test_gearbox_controller.py": "06f7614417098fb9f9176f712c1bee9a0da74cf4",
+    "evolution/storage_budget_guard.py": "b0bd1a67c95261faa7b620171a66a963dd37c273",
+    "evolution/test_storage_budget_guard.py": "77ef999c662f4b6f260275962653a73c8851f179",
+    "evolution/progress_snapshot.py": "ed16331a0b69479e2fc699d56c35219efce1fa8f",
+    "evolution/test_progress_snapshot.py": "c27a99304edf31793d540b8ac325d8eaa6863a49"
+  },
+  "implemented": [
+    "deterministic G1-G6/N/R GearDecision foundation",
+    "risk/uncertainty/contradiction/weak-evidence/storage brakes and no LCR-D roster guard",
+    "1 TB storage ceiling with 70/85/95/100 thresholds, two-backup guard, content-addressed duplicate-base rule",
+    "single canonical EVOLUTION_PROGRESS writer with required fields and stale-overwrite refusal",
+    "Type-1 Autonomous Gearbox RPM continuity: owner input fingerprint without mission reset",
+    "compact torque-state transfer excluding raw chat",
+    "G1->G2 clutch overlap holds sender until receiver state-fingerprint ACK",
+    "G2->G1 downshift engages lower guard before higher gear release"
+  ],
+  "builder_checks": {
+    "candidate_unit_suite_expected_cases": 32,
+    "local_isolated_equivalent_harness": "PASS_24_BEFORE_FINAL_RPM_EXTENSION",
+    "exact_branch_new_suite": "NOT_CLAIMED_PASS_REQUIRES_C_EXECUTION",
+    "existing_relay_metabolism_continuous_control": "UNCHANGED_FILES_PRIOR_VERIFIED_ANCHORS_ONLY; C_MUST_RERUN",
+    "reason": "Connector-backed Builder can mutate/read GitHub exact bytes but has no authorized branch workflow entry that executes the new evolution tests; Builder therefore does not elevate its own result beyond BUILT_NOT_VERIFIED."
+  },
+  "safety": {
+    "model_downloaded": false,
+    "training_performed": false,
+    "package_installed": false,
+    "main_default_write": false,
+    "secret_values_recorded": false,
+    "identity_personality_governance_modified": false,
+    "formal_slot_added": false,
+    "real_user_protected_data_touched": false
+  },
+  "next": "LCR-C independently fresh-read exact branch bytes and execute new + relay/metabolism/continuous-control regressions.",
+  "evidence_sha256": "4855432ec1063b4c5a0a1c0c9cd6c067b0aefb379d5c39875e7350787cf39fbb"
+}
