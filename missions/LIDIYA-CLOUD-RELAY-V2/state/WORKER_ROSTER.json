@@ -1,14 +1,14 @@
 {
-  "schema_version": "1.3",
+  "schema_version": "1.4",
   "mission_id": "LCR-EVOLUTION-0005",
   "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
   "max_slots": 3,
   "registry": {
     "LCR-A": {"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"COORDINATOR_STANDBY"},
-    "LCR-B": {"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"STANDBY_AFTER_REPAIR_HANDOFF"},
-    "LCR-C": {"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"ACTIVE_VERIFY_REPAIR_PENDING_PACKET"}
+    "LCR-B": {"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"ACTIVE_REPAIR_FAIL_CLOSED_IDEMPOTENCY"},
+    "LCR-C": {"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"STANDBY_AFTER_FAIL_002"}
   },
-  "mission_status": "READY_FOR_VERIFY",
+  "mission_status": "READY_FOR_BUILDER",
   "mission_result": null,
   "replacement_policy": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
   "fourth_slot": "FORBIDDEN",
