@@ -26,7 +26,7 @@
   ],
   "last_packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101",
   "pending_packet": "packets/EVOLUTION-0005-A-TO-B-STEP-002.json",
-  "pending_packet_sha256": "8120c6a030ed1d98b57e483e52c096d410a69a58cb5555fc665892be30a7e430",
+  "pending_packet_sha256": "079e9106a30e4a29190483905deabaa27ad56566c6cebc1543e3d7b6471dafd2",
   "lease": null,
   "human_gate": null,
   "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
