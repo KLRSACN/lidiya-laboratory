@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 1,
+  "attempt": 1,
+  "role": "LCR-C",
+  "worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation": 0,
+  "verified_at_taipei": "2026-08-12T12:04:00+08:00",
+  "verdict": "FAIL",
+  "inbound_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-001-REPAIR-001.json",
+  "inbound_packet_sha256": "0b457fc273b61ff77cf51ebda94d1a27fccac9f0abf9d3067ef1510f2cd0de5d",
+  "independent_checks": {
+    "home_and_authorization_fresh_read": "PASS",
+    "packet_canonical_sha256": "PASS",
+    "candidate_blob_ids_match_builder_evidence": "PASS",
+    "formal_slots_exactly_abc": "PASS",
+    "authorization_active_and_scope_zero_spend": "PASS",
+    "storage_ceiling_and_backup_policy_unchanged": "PASS",
+    "gearbox_exact_bytes_fresh_read": "PASS",
+    "repair_with_explicit_consumed_transfer_state": "PASS_BY_CODE_AND_BUILDER_TEST_CASES_NOT_PROMOTED_AS_FINAL",
+    "verifier_owned_missing_consumed_state_replay": "FAIL"
+  },
+  "verifier_owned_fixture": {
+    "scenario": "Call G1->G2 ACK completion twice with identical mission/step/state fingerprint/transfer_id/handoff sequence while omitting consumed_transfer_ids, which the public overlap_shift API currently permits.",
+    "observed": "Both acknowledged calls return SHIFT_COMPLETE with execution_authorized=true because consumed_transfer_ids=None creates a fresh ephemeral set on every call.",
+    "expected": "Exactly-once torque transfer must be machine-enforced. The API must require authoritative idempotency state or otherwise persist/derive a durable consume token; omission must fail closed rather than silently degrade to replayable execution."
+  },
+  "root_cause": [
+    "`overlap_shift(..., consumed_transfer_ids=None)` silently substitutes a new local set(), so completed-transfer consumption is lost between calls.",
+    "Exactly-once safety therefore depends on every caller remembering to pass durable idempotency state; the function itself permits a replayable unsafe mode.",
+    "`receiver_transfer_id` is also optional, so the repaired path remains permissive rather than fail-closed at the transfer boundary."
+  ],
+  "repair_acceptance": [
+    "Make authoritative consumed-transfer/idempotency state mandatory for any ACK-capable shift completion; if missing, fail closed with GearboxGuardError or equivalent non-executing result.",
+    "Require receiver_transfer_id for completion after receiver ACK; missing identity must not authorize SHIFT_COMPLETE/DOWNSHIFT_COMPLETE.",
+    "Keep deterministic transfer_id binding to mission_id, step_id, from_gear, to_gear, state_fingerprint and handoff_sequence.",
+    "Add verifier-visible tests for missing consumed state, missing receiver transfer identity, duplicate ACK replay, stale ACK and wrong transfer identity.",
+    "Preserve RPM continuity, compact no-raw-chat handoff, lower-guard-first downshift, exact A/B/C topology, storage/progress/metabolism guards."
+  ],
+  "candidate_modified_by_verifier": false,
+  "main_default_write": false,
+  "model_downloaded": false,
+  "training_performed": false,
+  "package_installed": false,
+  "secret_values_recorded": false,
+  "identity_personality_governance_modified": false,
+  "outbound_packet": "packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-002.json",
+  "outbound_packet_sha256": "f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6",
+  "evidence_sha256": "fd8e5bc482f63bd2400c52ad39dbc2dae0f62cf62d918e0084863a8ceb4ad5e4"
+}
