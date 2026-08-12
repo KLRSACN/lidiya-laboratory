@@ -1,0 +1,18 @@
+{
+  "schema_version":"2.1",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "packet_id":"EVOLUTION-0005-C-TO-B-STEP-002-FAIL-001",
+  "step_id":2,
+  "attempt":1,
+  "source_role":"LCR-C",
+  "target_role":"LCR-B",
+  "action":"REPAIR_NAVIGATION_WATCHDOG_AUTHORITY_VALIDATION",
+  "status":"FAIL_REPAIR_REQUIRED",
+  "parent_packet_sha256":"b159aaed163e858cdc313149dc82794c773cf4a1ac9d9d31188336c483399707",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "navigation_resilience_addendum_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
+  "verifier_evidence_ref":"evidence/EVOLUTION-0005-STEP-002-VERIFIER-FAIL-001.json",
+  "root_causes":["navigation_watchdog trusts event.authority_contradictions instead of independently validating missing pending packet/hash/lease/role authority from durable state","route_next accepts arbitrary next_role and can authorize routing outside existing A/B/C or to a role not proven legal for the current packet"],
+  "repair_acceptance":["derive authority validation from state itself: missing pending_packet or pending_packet_sha256, role outside A/B/C, malformed/conflicting lease, or supplied expected authority mismatch must fail closed","route_next must allow only A/B/C and must require proof that requested next role/packet is the exact legal next route; arbitrary LCR-D or mismatched packet must be non-executing","add adversarial tests for missing pending packet, missing hash, role mismatch, lease conflict, LCR-D route, wrong packet, stale/duplicate recovery_id","preserve all already-passing bounded retry, dedupe, protected residue, dataset/eval, gearbox exactly-once, storage/progress/metabolism regressions"],
+  "packet_sha256":"b579f0d4f503c0315b8db94860e4635565216b3039936a277705e61a311c2075"
+}
