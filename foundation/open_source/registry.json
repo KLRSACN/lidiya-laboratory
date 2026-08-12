@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "owner": "雷博玄",
+  "updated_at": "2026-07-23T00:00:00+08:00",
+  "policy": "Discovery does not equal approval. Installation and production use require evidence and authorization.",
+  "projects": [
+    {
+      "repo": "NousResearch/hermes-agent",
+      "category": "agent_runtime",
+      "purpose": "工具型代理、技能、記憶、子代理與工作流候選",
+      "fit": ["local_body", "tool_orchestration", "skill_growth"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "observe_and_sandbox",
+      "portable_priority": false
+    },
+    {
+      "repo": "ollama/ollama",
+      "category": "local_inference",
+      "purpose": "本地模型管理與推論服務",
+      "fit": ["local_models", "hardware_aware_routing"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "existing_read_only_integration",
+      "portable_priority": false
+    },
+    {
+      "repo": "ggml-org/llama.cpp",
+      "category": "local_inference",
+      "purpose": "可攜式 GGUF 推論、函式呼叫與本地服務",
+      "fit": ["portable_runtime", "offline_fallback", "model_adapter"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "candidate",
+      "portable_priority": true
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "category": "coding_agent",
+      "purpose": "程式開發、專案操作與 MCP 工具坐駕",
+      "fit": ["coding", "google_ecosystem", "tool_worker"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "existing_adapter_candidate",
+      "portable_priority": false
+    },
+    {
+      "repo": "modelcontextprotocol/servers",
+      "category": "tool_protocol",
+      "purpose": "MCP 參考伺服器與工具介面樣本",
+      "fit": ["mcp", "tool_contracts"],
+      "trust_tier": "official_reference",
+      "adoption_state": "reference_only",
+      "portable_priority": false
+    },
+    {
+      "repo": "astral-sh/uv",
+      "category": "python_toolchain",
+      "purpose": "快速、隔離且可鎖定版本的 Python 環境",
+      "fit": ["portable_python", "dependency_lock", "tool_packaging"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "candidate",
+      "portable_priority": true
+    },
+    {
+      "repo": "google/osv-scanner",
+      "category": "supply_chain_security",
+      "purpose": "依賴與已知漏洞掃描",
+      "fit": ["security_gate", "offline_audit"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "candidate",
+      "portable_priority": true
+    },
+    {
+      "repo": "sigstore/cosign",
+      "category": "supply_chain_security",
+      "purpose": "成品、容器與 Release 簽章驗證",
+      "fit": ["signature_verification", "artifact_trust"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "candidate",
+      "portable_priority": true
+    },
+    {
+      "repo": "rclone/rclone",
+      "category": "file_sync",
+      "purpose": "可攜式檔案同步與候選封包搬運",
+      "fit": ["home_sync", "portable_transfer"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "observe_and_sandbox",
+      "portable_priority": true
+    },
+    {
+      "repo": "yt-dlp/yt-dlp",
+      "category": "media_tooling",
+      "purpose": "公開媒體資訊與素材工作流候選；不得繞過權限或下載無授權內容",
+      "fit": ["media_metadata", "research"],
+      "trust_tier": "official_upstream",
+      "adoption_state": "deferred_auth_e",
+      "portable_priority": true
+    }
+  ]
+}

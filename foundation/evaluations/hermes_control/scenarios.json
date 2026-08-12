@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "defaults": {
+    "contract_revision": 3,
+    "active_contract_revision": 3,
+    "tool_limit": 10,
+    "allowed_scope": ["read_candidate_files", "write_candidate_report"],
+    "provider_models": ["model-a", "model-b"]
+  },
+  "scenarios": [
+    {
+      "id": "normal_under_limit",
+      "event": "TOOL_REQUEST",
+      "tool_calls_this_turn": 4,
+      "requested_scope": ["read_candidate_files"],
+      "expected": "ALLOW_TOOL"
+    },
+    {
+      "id": "tool_limit_reached",
+      "event": "TOOL_REQUEST",
+      "tool_calls_this_turn": 10,
+      "requested_scope": ["read_candidate_files"],
+      "expected": "STOP_TOOL_LIMIT"
+    },
+    {
+      "id": "redirect_during_wait",
+      "event": "USER_REDIRECT",
+      "phase": "PROVIDER_WAIT",
+      "redirect_scope": ["read_candidate_files"],
+      "expected": "CANCEL_AND_REPLAN"
+    },
+    {
+      "id": "redirect_expands_scope",
+      "event": "USER_REDIRECT",
+      "phase": "TOOL_EXECUTION",
+      "redirect_scope": ["read_candidate_files", "publish_external_content"],
+      "expected": "REQUIRE_REVIEW"
+    },
+    {
+      "id": "safe_stop_wins_over_redirect",
+      "event": "USER_REDIRECT",
+      "phase": "TOOL_EXECUTION",
+      "safe_stop": true,
+      "redirect_scope": ["read_candidate_files"],
+      "expected": "SAFE_STOP"
+    },
+    {
+      "id": "provider_timeout_fallback",
+      "event": "PROVIDER_ERROR",
+      "provider_error": "TIMEOUT",
+      "current_model": "model-a",
+      "expected": "FALLBACK_NEXT_MODEL"
+    },
+    {
+      "id": "provider_401_skip_provider",
+      "event": "PROVIDER_ERROR",
+      "provider_error": "401",
+      "current_model": "model-a",
+      "expected": "SKIP_PROVIDER"
+    },
+    {
+      "id": "provider_402_skip_provider",
+      "event": "PROVIDER_ERROR",
+      "provider_error": "402",
+      "current_model": "model-a",
+      "expected": "SKIP_PROVIDER"
+    },
+    {
+      "id": "stale_contract",
+      "event": "TOOL_REQUEST",
+      "contract_revision": 2,
+      "active_contract_revision": 3,
+      "tool_calls_this_turn": 0,
+      "requested_scope": ["read_candidate_files"],
+      "expected": "BLOCK_STALE_CONTRACT"
+    },
+    {
+      "id": "unknown_event",
+      "event": "UNKNOWN",
+      "expected": "REQUIRE_REVIEW"
+    }
+  ]
+}

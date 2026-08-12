@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "project": "Lidiya Foundation",
+  "candidate_branch": "foundation/phase2c-v0.4",
+  "generated_radar_branch": "generated/open-source-radar",
+  "status": "DRAFT_PR_PENDING",
+  "home_authority": "Google Drive authoritative memory remains primary",
+  "github_role": "public engineering, searchable open-source radar, version evidence and candidate growth node",
+  "local_execution": "PENDING_PHASE2B_EVIDENCE",
+  "formal_core_modified": false,
+  "high_risk_actions_unlocked": false
+}

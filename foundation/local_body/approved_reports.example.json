@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "authorized": false,
+  "owner": "雷博玄",
+  "note": "Copy to approved_reports.json on the local machine, replace placeholders with approved absolute paths, then set authorized=true. Never commit the authorized local copy.",
+  "approved_roots": [
+    "D:\\REPLACE_WITH_APPROVED_LIDIYA_CANDIDATE_ROOT"
+  ],
+  "reports": {
+    "phase2b": {
+      "path": "D:\\REPLACE_WITH_APPROVED_LIDIYA_CANDIDATE_ROOT\\runtime\\reports\\PHASE2B_READONLY_REPORT.json",
+      "expected_sha256": null
+    },
+    "phase2b_events_summary": {
+      "path": "D:\\REPLACE_WITH_APPROVED_LIDIYA_CANDIDATE_ROOT\\runtime\\reports\\PHASE2B_EVENTS_SUMMARY.json",
+      "expected_sha256": null
+    }
+  }
+}

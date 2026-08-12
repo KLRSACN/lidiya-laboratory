@@ -1,0 +1,68 @@
+name: Open-source candidate
+about: 登錄可能有助於璃蒂雅小窩的新開源專案
+labels: ["open-source-radar", "candidate"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        此表單只用於發現與評估，不代表核准下載、安裝或正式部署。請勿填入 API Key、Token、密碼、私鑰或私人資料。
+  - type: input
+    id: repository
+    attributes:
+      label: Repository
+      description: 請填 owner/name 或官方 Repository URL
+      placeholder: owner/project
+    validations:
+      required: true
+  - type: textarea
+    id: need
+    attributes:
+      label: 對家的具體用途
+      description: 說明它能降低哪一項 Token、時間、人工介入或失敗率
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: 類別
+      options:
+        - Agent／工作流
+        - 本地模型／推論
+        - MCP／外掛／工具
+        - 程式開發
+        - 檔案同步／備份
+        - 媒體流程
+        - 資安／供應鏈
+        - 機器人／IoT
+        - 其他
+    validations:
+      required: true
+  - type: checkboxes
+    id: evidence
+    attributes:
+      label: 初步證據
+      options:
+        - label: 已確認是官方上游或可辨識的可信維護者
+        - label: 已確認授權條款
+        - label: 可以固定 Release、tag 或 commit
+        - label: 可以計算下載成品 SHA256
+        - label: 可以在沙盒或候選區測試
+        - label: 具備移除或回退方案
+  - type: textarea
+    id: risks
+    attributes:
+      label: 風險與權限需求
+      description: 是否需要管理員權限、網路、帳號、API、正式檔案寫入或實體設備
+    validations:
+      required: true
+  - type: dropdown
+    id: recommendation
+    attributes:
+      label: 初步建議
+      options:
+        - 忽略
+        - 觀察
+        - 沙盒評測
+        - 候選導入
+    validations:
+      required: true

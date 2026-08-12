@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "owner": "雷博玄",
+  "granted_at": "2026-07-23T00:00:00+08:00",
+  "expires_at": "2026-10-21T23:59:59+08:00",
+  "status": "ACTIVE_LIMITED",
+  "authorized_domains": {
+    "AUTH-A": {
+      "name": "HOME_CLOUD",
+      "allowed": [
+        "read_home_candidate_and_authoritative_indexes",
+        "create_candidate_documents",
+        "save_version_and_evidence_records"
+      ]
+    },
+    "AUTH-B": {
+      "name": "CODE_SUPPLY",
+      "allowed": [
+        "read_github",
+        "create_foundation_candidate_branches",
+        "write_only_under_foundation_and_workflow_candidate_paths",
+        "create_draft_pull_requests",
+        "maintain_generated_open_source_radar_branch"
+      ]
+    },
+    "AUTH-C": {
+      "name": "MODEL_PROVIDERS",
+      "allowed": [
+        "limited_inference",
+        "health_and_usage_read",
+        "environment_variable_or_local_secret_manager_references_only"
+      ]
+    },
+    "AUTH-D": {
+      "name": "LOCAL_BODY",
+      "allowed": [
+        "approved_path_read_only_probe",
+        "candidate_workspace_write",
+        "localhost_only_bridge",
+        "event_and_evidence_logging"
+      ]
+    },
+    "AUTH-E": {
+      "name": "MEDIA_CHANNELS",
+      "status": "DEFERRED"
+    },
+    "AUTH-F": {
+      "name": "ROBOT_IOT",
+      "allowed": [
+        "observe",
+        "simulate",
+        "digital_twin",
+        "safe_stop"
+      ]
+    }
+  },
+  "always_requires_single_action_unlock": [
+    "merge_pull_request",
+    "delete_or_overwrite_authoritative_data",
+    "publish_or_send_external_content",
+    "release_or_change_repository_visibility",
+    "download_or_update_models",
+    "install_software_or_restart_services",
+    "payment_or_quota_change",
+    "credential_rotation_or_export",
+    "modify_authoritative_home_core",
+    "physical_actuation_or_robot_motion"
+  ],
+  "permanently_forbidden": [
+    "store_raw_credentials_in_git_drive_logs_or_chat",
+    "disable_monitoring_or_emergency_stop",
+    "arbitrary_shell_outside_allowlist",
+    "public_inbound_local_body_listener",
+    "self_approve_privilege_expansion"
+  ]
+}
