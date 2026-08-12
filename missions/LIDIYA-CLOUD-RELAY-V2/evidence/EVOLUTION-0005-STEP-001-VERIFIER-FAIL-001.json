@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 1,
+  "attempt": 0,
+  "role": "LCR-C",
+  "worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation": 0,
+  "verified_at_taipei": "2026-08-12T11:09:31+08:00",
+  "verdict": "FAIL",
+  "inbound_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-001.json",
+  "inbound_packet_sha256": "97d5ed610ae16a006a1e22c22fedf7ba5f85ba9dd18b6c85b29de66cee120048",
+  "independent_checks": {
+    "packet_canonical_sha256": "PASS",
+    "candidate_blob_ids_match_builder_evidence": "PASS",
+    "new_exact_evolution_tests": "PASS_32_OF_32",
+    "owner_input_rpm_fields_preserved": "PASS",
+    "compact_torque_state_excludes_raw_chat": "PASS",
+    "g1_to_g2_holds_sender_before_ack": "PASS",
+    "g2_to_g1_lower_guard_first": "PASS",
+    "storage_thresholds_and_backup_guards": "PASS",
+    "canonical_progress_single_file_and_stale_reject": "PASS",
+    "formal_slots_exactly_abc": "PASS",
+    "duplicate_torque_transfer_resistance": "FAIL"
+  },
+  "verifier_owned_fixture": {
+    "scenario": "Call G1->G2 overlap twice with the same acknowledged state fingerprint after first SHIFT_COMPLETE.",
+    "observed": "Second and third calls both return SHIFT_COMPLETE with identical output; no shift_id/transfer token/consumed handoff fingerprint or durable transfer state exists to reject replay.",
+    "expected": "After one receiver ACK and torque transfer, replay of the same handoff must be rejected or deterministically return ALREADY_TRANSFERRED without authorizing duplicate execution."
+  },
+  "root_cause": [
+    "overlap_shift is stateless with respect to completed transfer and treats any matching receiver_state_fingerprint as a fresh valid completion.",
+    "The success requirement explicitly forbids duplicate execution after ACK, but the candidate has no single-transfer idempotency/consume guard."
+  ],
+  "repair_acceptance": [
+    "Introduce a deterministic shift/transfer identity bound to mission_id, step_id, from_gear, to_gear, state_fingerprint and handoff sequence/nonce.",
+    "Persist or pass an authoritative consumed-transfer set/token state so an acknowledged transfer can complete exactly once.",
+    "Replay of the same completed transfer must be rejected or return a non-executing ALREADY_TRANSFERRED result.",
+    "Add tests for duplicate ACK/replay, stale ACK after state-fingerprint change, and ACK for a different shift identity.",
+    "Keep existing RPM preservation, compact no-raw-chat handoff, lower-guard-first downshift, three-slot topology, storage and progress protections unchanged."
+  ],
+  "candidate_modified_by_verifier": false,
+  "main_default_write": false,
+  "model_downloaded": false,
+  "training_performed": false,
+  "secret_values_recorded": false,
+  "identity_personality_governance_modified": false,
+  "outbound_packet": "packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-001.json",
+  "outbound_packet_sha256": "33f86bd7036f05d0d3549923cce1f974f52407ae237f2d8d4b4eb2040d02e5fd",
+  "evidence_sha256": "7f403afb2669f94513f978274608e2f52e05fa137d4a012af59084074ffda229"
+}
