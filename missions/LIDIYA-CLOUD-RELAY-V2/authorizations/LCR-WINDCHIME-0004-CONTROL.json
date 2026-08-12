@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "LCR-WINDCHIME-0004-CONTROL",
+  "authorized_at": "2026-08-12T08:38:00+08:00",
+  "time_authority": "Asia/Taipei",
+  "authorized_by": "博玄",
+  "scope": "Golden Triangle continuity, duplicate-window suppression, same-slot handoff routing, guardian supervision, hourly control radar, and external relay self-metabolism",
+  "operational_alias": "lidiya 風鈴（開發先驅1型）",
+  "channel_code": "FL-A1/GT3/RELAY-20260812-0838",
+  "channel_code_is_secret": false,
+  "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
+  "max_formal_slots": 3,
+  "replacement_policy": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
+  "guardian_required_from_mission_start": true,
+  "radar_required": true,
+  "radar_minimum_frequency": "HOURLY",
+  "task_reuse_required": true,
+  "new_duplicate_task_for_same_slot": "FORBIDDEN",
+  "priority_rubric": {
+    "zero_new_cost_preferred": true,
+    "legal_only": true,
+    "reversible_preferred": true,
+    "verifiable_preferred": true,
+    "development_growth_profit_enablement_preferred": true,
+    "temporary_priority_detour_allowed": true,
+    "detour_requires_recorded_reason_and_return_condition": true
+  },
+  "priority_rubric_not_authorized_for": [
+    "financial_transactions",
+    "investment_trades",
+    "account_actions",
+    "credential_or_secret_changes",
+    "production_deployment",
+    "permission_expansion",
+    "Identity Kernel changes",
+    "personality changes",
+    "Governance changes",
+    "irreversible or high-risk deletion"
+  ],
+  "allowed": [
+    "development-branch control registry files",
+    "reuse/edit of existing A/B/C scheduled task identities",
+    "read-only supervision and route checks",
+    "durable relay metadata and dedupe fingerprints",
+    "same-slot generation handoff records",
+    "external controllable scratch/duplicate/stale metadata classification"
+  ],
+  "forbidden": [
+    "slot4",
+    "new same-role duplicate scheduled tasks while reusable task exists",
+    "third full backup",
+    "main/default branch mutation",
+    "secret handling or disclosure",
+    "raw chat as durable truth",
+    "hidden model/system state cleanup",
+    "protected/unique/unreproducible/durable-referenced evidence deletion"
+  ],
+  "owner_control_non_interruption": true,
+  "status": "ACTIVE_CONTROL_AUTHORIZATION"
+}
