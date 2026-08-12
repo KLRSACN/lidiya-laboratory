@@ -1,0 +1,21 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "role":"LCR-B",
+  "worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation":1,
+  "result":"BUILT_NOT_VERIFIED",
+  "inbound_packet_sha256":"0375827c9e9ced03611f29208b16f77701bbcd8c22150d9a16c01d45ef5cb0dd",
+  "built_files":["evolution/expert_dataset.py","evolution/test_expert_dataset.py","evolution/eval_harness.py","evolution/test_eval_harness.py","evolution/deterministic_baseline.py","evolution/test_deterministic_baseline.py","evolution/navigation_watchdog.py","evolution/test_navigation_watchdog.py","evolution/EXPERT_DATASET_MANIFEST.json"],
+  "claims":["provenance allowlist and forbidden dataset tags implemented","deterministic source-group split and content-addressed manifest implemented","structured eval with hard guard failures implemented","deterministic gearbox baseline adapter implemented without durable mutation","navigation watchdog implements bounded retry, derived-state rebuild, transient quarantine, legal routing and fail-closed HUMAN_GATE"],
+  "execution_note":"Builder environment had no network path for repository clone and no workflow-trigger action; therefore no runtime PASS is claimed. C must fresh-read exact branch bytes and independently execute all Step-002 plus regression tests before PASS.",
+  "model_downloaded":false,
+  "training_performed":false,
+  "package_installed":false,
+  "main_default_write":false,
+  "spend":false,
+  "new_formal_worker":false,
+  "third_full_backup":false,
+  "raw_logs_promoted":false
+}
