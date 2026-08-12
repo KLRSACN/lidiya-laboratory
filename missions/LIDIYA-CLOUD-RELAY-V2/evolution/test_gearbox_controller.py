@@ -4,7 +4,7 @@ from gearbox_controller import GearboxGuardError, capture_owner_input_without_rp
 
 BASE = dict(risk="LOW", uncertainty=0.1, evidence_quality=0.9, task_complexity=0.5, reversibility=True, contradiction=False, hard_safety_conflict=False, rollback_required=False, standby=False, storage_pressure_ratio=0.1, proposed_autonomy=6)
 def ACTIVE_STATE():
-    return {"mission_id":"LCR-EVOLUTION-0005","status":"READY_FOR_BUILDER","step_id":1,"current_role":"LCR-B","pending_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-001.json","pending_packet_sha256":"b"*64,"lease":None,"route":{"current_goal":"repair gearbox"},"latest_verified_evidence":"evidence/previous.json","rollback_anchor":"nav-relay-mvp-0001","blocker":None,"priority":"NORMAL","return_condition":"C PASS then benchmark models","raw_chat":"must not transfer"}
+    return {"mission_id":"LCR-EVOLUTION-0005","status":"READY_FOR_BUILDER","step_id":1,"current_role":"LCR-B","pending_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-002.json","pending_packet_sha256":"b"*64,"lease":None,"route":{"current_goal":"repair gearbox"},"latest_verified_evidence":"evidence/previous.json","rollback_anchor":"nav-relay-mvp-0001","blocker":None,"priority":"NORMAL","return_condition":"C PASS then benchmark models","raw_chat":"must not transfer"}
 
 class GearboxTests(unittest.TestCase):
     def test_same_input_is_deterministic(self): self.assertEqual(select_gear(**BASE), select_gear(**BASE))
@@ -33,6 +33,16 @@ class GearboxTests(unittest.TestCase):
         self.assertEqual(first["shift_status"],"CLUTCH_OVERLAP"); self.assertTrue(first["sender_torque_held"])
         second=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",receiver_state_fingerprint=first["compact_state"]["state_fingerprint"],receiver_transfer_id=first["transfer_id"],handoff_sequence=1,consumed_transfer_ids=consumed)
         self.assertEqual(second["shift_status"],"SHIFT_COMPLETE"); self.assertTrue(second["execution_authorized"])
+    def test_missing_authoritative_idempotency_state_fails_closed(self):
+        state=ACTIVE_STATE(); first=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",handoff_sequence=6)
+        ack=first["compact_state"]["state_fingerprint"]
+        for _ in range(2):
+            result=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",receiver_state_fingerprint=ack,receiver_transfer_id=first["transfer_id"],handoff_sequence=6)
+            self.assertEqual(result["shift_status"],"IDEMPOTENCY_STATE_REQUIRED"); self.assertFalse(result["execution_authorized"]); self.assertTrue(result["sender_torque_held"])
+    def test_missing_receiver_transfer_identity_fails_closed(self):
+        state=ACTIVE_STATE(); consumed=set(); first=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",handoff_sequence=61,consumed_transfer_ids=consumed); ack=first["compact_state"]["state_fingerprint"]
+        result=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",receiver_state_fingerprint=ack,handoff_sequence=61,consumed_transfer_ids=consumed)
+        self.assertEqual(result["shift_status"],"TRANSFER_IDENTITY_REQUIRED"); self.assertFalse(result["execution_authorized"]); self.assertNotIn(first["transfer_id"],consumed)
     def test_duplicate_ack_is_non_executing(self):
         state=ACTIVE_STATE(); consumed=set(); first=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",handoff_sequence=7,consumed_transfer_ids=consumed); ack=first["compact_state"]["state_fingerprint"]
         done=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",receiver_state_fingerprint=ack,receiver_transfer_id=first["transfer_id"],handoff_sequence=7,consumed_transfer_ids=consumed)
@@ -40,17 +50,23 @@ class GearboxTests(unittest.TestCase):
         self.assertEqual(done["shift_status"],"SHIFT_COMPLETE"); self.assertEqual(replay["shift_status"],"ALREADY_TRANSFERRED"); self.assertFalse(replay["execution_authorized"])
     def test_stale_ack_after_state_change_does_not_complete(self):
         state=ACTIVE_STATE(); consumed=set(); first=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",handoff_sequence=8,consumed_transfer_ids=consumed); stale=first["compact_state"]["state_fingerprint"]
-        changed={**state,"pending_packet_sha256":"c"*64}; result=overlap_shift(active_state=changed,from_gear="G1",to_gear="G2",receiver_state_fingerprint=stale,handoff_sequence=8,consumed_transfer_ids=consumed)
-        self.assertEqual(result["shift_status"],"CLUTCH_OVERLAP"); self.assertFalse(result["execution_authorized"])
+        changed={**state,"pending_packet_sha256":"c"*64}; result=overlap_shift(active_state=changed,from_gear="G1",to_gear="G2",receiver_state_fingerprint=stale,receiver_transfer_id=first["transfer_id"],handoff_sequence=8,consumed_transfer_ids=consumed)
+        self.assertEqual(result["shift_status"],"TRANSFER_IDENTITY_MISMATCH"); self.assertFalse(result["execution_authorized"])
     def test_ack_for_different_shift_identity_does_not_complete(self):
         state=ACTIVE_STATE(); consumed=set(); first=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",handoff_sequence=9,consumed_transfer_ids=consumed); ack=first["compact_state"]["state_fingerprint"]
         wrong=transfer_identity(active_state=state,from_gear="G1",to_gear="G2",handoff_sequence=10)
         result=overlap_shift(active_state=state,from_gear="G1",to_gear="G2",receiver_state_fingerprint=ack,receiver_transfer_id=wrong,handoff_sequence=9,consumed_transfer_ids=consumed)
-        self.assertEqual(result["shift_status"],"CLUTCH_OVERLAP"); self.assertFalse(result["execution_authorized"])
+        self.assertEqual(result["shift_status"],"TRANSFER_IDENTITY_MISMATCH"); self.assertFalse(result["execution_authorized"])
     def test_g2_to_g1_downshift_engages_lower_guard_before_release(self):
         state=ACTIVE_STATE(); consumed=set(); first=overlap_shift(active_state=state,from_gear="G2",to_gear="G1",downshift=True,handoff_sequence=11,consumed_transfer_ids=consumed)
         self.assertTrue(first["lower_guard_engaged"]); self.assertFalse(first["higher_gear_released"])
         second=overlap_shift(active_state=state,from_gear="G2",to_gear="G1",receiver_state_fingerprint=first["compact_state"]["state_fingerprint"],receiver_transfer_id=first["transfer_id"],downshift=True,handoff_sequence=11,consumed_transfer_ids=consumed)
         self.assertTrue(second["lower_guard_engaged"]); self.assertTrue(second["higher_gear_released"]); self.assertEqual(second["shift_status"],"DOWNSHIFT_COMPLETE")
+    def test_downshift_missing_identity_or_state_never_releases_higher_gear(self):
+        state=ACTIVE_STATE(); first=overlap_shift(active_state=state,from_gear="G2",to_gear="G1",downshift=True,handoff_sequence=12); ack=first["compact_state"]["state_fingerprint"]
+        missing_state=overlap_shift(active_state=state,from_gear="G2",to_gear="G1",receiver_state_fingerprint=ack,receiver_transfer_id=first["transfer_id"],downshift=True,handoff_sequence=12)
+        self.assertEqual(missing_state["shift_status"],"IDEMPOTENCY_STATE_REQUIRED"); self.assertFalse(missing_state["higher_gear_released"])
+        consumed=set(); missing_id=overlap_shift(active_state=state,from_gear="G2",to_gear="G1",receiver_state_fingerprint=ack,downshift=True,handoff_sequence=12,consumed_transfer_ids=consumed)
+        self.assertEqual(missing_id["shift_status"],"TRANSFER_IDENTITY_REQUIRED"); self.assertFalse(missing_id["higher_gear_released"])
 
 if __name__ == "__main__": unittest.main()
