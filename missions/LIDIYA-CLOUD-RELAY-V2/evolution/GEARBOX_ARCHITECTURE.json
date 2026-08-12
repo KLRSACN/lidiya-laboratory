@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "architecture": "LIDIYA_MICRO_EXPERT_GEARBOX",
+  "control_states": {
+    "N": "standby/no new action",
+    "R": "deterministic rollback to verified checkpoint; not a generative model"
+  },
+  "shared_principles": [
+    "three formal workers only: A/B/C",
+    "gears are compute/expertise modes, not additional workers",
+    "prefer one shared base plus multiple adapters over duplicated full weights",
+    "expert output is proposal only until deterministic guard and C verification",
+    "downshift on uncertainty, contradiction, safety risk, storage pressure, or missing evidence"
+  ],
+  "gears": [
+    {
+      "gear": 1,
+      "name": "START_AND_BRAKE",
+      "primary_engine": "deterministic rules + tiny classifier",
+      "function": ["intent triage","hard safety gates","state validity","basic metabolism disposition"],
+      "design_goal": "high torque / low freedom / fastest recovery",
+      "upshift_when": "input classified, state valid, risk low, evidence sufficient",
+      "downshift_action": "HOLD/HUMAN_GATE/ROLLBACK"
+    },
+    {
+      "gear": 2,
+      "name": "ROUTER",
+      "primary_engine": "micro classifier or shared 0.8B base with routing adapter",
+      "function": ["specialist routing","priority class","tool/package selection proposal"],
+      "upshift_when": "route confidence above threshold and no hard guard conflict",
+      "downshift_action": "return to G1 for stricter classification"
+    },
+    {
+      "gear": 3,
+      "name": "EVIDENCE_AND_METABOLISM",
+      "primary_engine": "shared 0.8B base with evidence/metabolism adapter + deterministic hash checks",
+      "function": ["evidence scoring","KEEP/QUARANTINE/WASTE proposal","dedupe/relevance scoring"],
+      "upshift_when": "evidence graph coherent and action remains reversible",
+      "downshift_action": "return to G2/G1 on contradiction or provenance ambiguity"
+    },
+    {
+      "gear": 4,
+      "name": "ROUTINE_PLANNER",
+      "primary_engine": "shared 0.8B base with planning adapter",
+      "function": ["next-action proposal","small task decomposition","low-risk autonomous sequence"],
+      "upshift_when": "multi-step integration needed and C route policy allows",
+      "downshift_action": "collapse plan to one verified next step"
+    },
+    {
+      "gear": 5,
+      "name": "INTEGRATOR",
+      "primary_engine": "2B expert candidate",
+      "function": ["multi-domain synthesis","ambiguity resolution proposal","longer-horizon planning"],
+      "upshift_when": "problem genuinely exceeds lower-gear eval threshold",
+      "downshift_action": "decompose into G3/G4 subproblems"
+    },
+    {
+      "gear": 6,
+      "name": "CLIMB_AND_TEACH",
+      "primary_engine": "4B teacher/reference or strongest zero-cost authorized model available",
+      "function": ["hard-case teacher labels","distillation targets","complex exception analysis"],
+      "upshift_when": "none; top gear",
+      "downshift_action": "distill verified result into lower gear; never remain default runtime"
+    }
+  ],
+  "transmission_controller": {
+    "owner": "LCR-A",
+    "inputs": ["risk","uncertainty","latency_budget","storage_budget","reversibility","evidence_quality","task_complexity"],
+    "outputs": ["selected_gear","specialist_adapter","reason","return_condition","expected_cost_class"],
+    "guardian": "LCR-C",
+    "builder": "LCR-B",
+    "no_direct_state_mutation": true
+  },
+  "storage_strategy": {
+    "G1": "rules/classifier only",
+    "G2_G3_G4": "share one 0.8B base; separate small adapters if eval supports it",
+    "G5": "one 2B base/expert adapter",
+    "G6": "4B teacher/reference stored only if justified by eval and budget",
+    "content_addressed_manifests": true,
+    "avoid_six_full_weight_copies": true
+  },
+  "first_build_target": "deterministic transmission controller + structured gear-decision schema + adversarial tests before any fine-tuning",
+  "promotion_path": ["SIMULATE", "SANDBOX", "C_VERIFY", "LIMITED_RUNTIME", "PROMOTE"]
+}
