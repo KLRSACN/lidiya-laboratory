@@ -1,0 +1,13 @@
+{
+  "schema_version":"1.0",
+  "status":"BUILDER_FOUNDATION_NOT_VERIFIED",
+  "provenance_policy":["SYNTHETIC","VERIFIED_PROJECT_EVIDENCE"],
+  "forbidden":["raw_user_chat","secret_like","Identity","Personality","Governance","ambiguous_provenance"],
+  "record_count":0,
+  "split_counts":{"train":0,"dev":0,"heldout":0,"adversarial":0},
+  "required_adversarial_classes":["high_confidence_unsafe","weak_evidence","contradiction","replay_duplicate_transfer","storage_pressure","protected_delete","HUMAN_GATE"],
+  "content_addressing":"SHA256_CANONICAL_JSON",
+  "dataset_sha256":"EMPTY_FOUNDATION_PENDING_C_VERIFICATION",
+  "model_downloaded":false,
+  "training_performed":false
+}
