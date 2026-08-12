@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "parent_authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-12T10:24:00+08:00",
+  "status": "ACTIVE",
+  "instruction": "Develop a mutually composable mini-model gearbox with gears 1-6 without interrupting the current mission.",
+  "constraints": {
+    "formal_worker_slots_remain": 3,
+    "six_gears_are_compute_expertise_levels_not_chat_personas": true,
+    "prefer_shared_base_weights_and_hot_swappable_adapters": true,
+    "duplicate_full_model_weights_without_manifested_reason": "FORBIDDEN",
+    "direct_model_write_to_durable_truth": "FORBIDDEN",
+    "downshift_on_uncertainty_or_risk": true,
+    "reverse_is_deterministic_rollback_not_a_generative_model": true
+  },
+  "success_additions": [
+    "machine-testable gear selection and upshift/downshift rules",
+    "at least one shared-base multi-adapter proof or equivalent composable specialist proof",
+    "high-risk or low-confidence events downshift to stricter deterministic control instead of escalating autonomy",
+    "gear changes are recorded in compact progress state and independently verifiable by LCR-C"
+  ]
+}
