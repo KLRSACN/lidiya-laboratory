@@ -1,20 +1,20 @@
 {
-  "schema_version": "1.9",
+  "schema_version": "2.0",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-12T17:58:00+08:00",
+  "saved_at": "2026-08-12T18:10:00+08:00",
   "time_authority": "Asia/Taipei",
   "mission_status": "READY_FOR_BUILDER",
   "current_role": "LCR-B",
   "step_id": 2,
   "attempt": 0,
   "verified_evidence": [
-    "Step-001 deterministic gearbox foundation independently verified PASS by LCR-C.",
+    "Step-001 deterministic gearbox foundation independently verified PASS by LCR-C with exact suite 21/21 PASS plus verifier-owned adversarial replay/idempotency/downshift cases.",
     "Verifier Evidence=evidence/EVOLUTION-0005-STEP-001-VERIFIER-PASS-003.json SHA=06fff7eb44e2972d89791530078acb16c127ad2742f55f858b66c0d6269c0930.",
-    "Exact fetched gearbox suite py_compile PASS and 21/21 PASS; verifier-owned replay/stale/wrong-identity/idempotency/downshift cases all PASS.",
-    "RPM continuity, compact no-raw-chat handoff, exactly-once torque transfer, lower-guard-first downshift, A/B/C three-slot topology, storage/progress/metabolism guards remain verified.",
-    "A consumed C->A PASS packet SHA=9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101 exactly once.",
-    "Step-002 A->B packet exists and remains unconsumed: packets/EVOLUTION-0005-A-TO-B-STEP-002.json SHA=079e9106a30e4a29190483905deabaa27ad56566c6cebc1543e3d7b6471dafd2.",
-    "Home section 45 saved/read back before Step-002 mutation; no main/default write, model download, training, package installation, spend, secret handling or new formal slot occurred."
+    "A consumed C->A PASS packet SHA=9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101 exactly once and advanced to Step-002 without model download/training.",
+    "Owner navigation-resilience control was saved to Home section 46 and a durable addendum was created: authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json SHA-256=b1cf73e74da2096bbaf416410b51373d0cd4041e34182408cfbaf4a6ce0b1f3c.",
+    "Because the Step-002 A->B packet was still unconsumed, navigation watchdog scope was folded into the same packet without resetting the mission or creating a new step/worker.",
+    "Current unconsumed Step-002 packet=packets/EVOLUTION-0005-A-TO-B-STEP-002.json SHA=0375827c9e9ced03611f29208b16f77701bbcd8c22150d9a16c01d45ef5cb0dd.",
+    "A/B/C formal slots remain exactly three; no main/default write, model download, training, package installation, spend, secret handling or third full backup occurred."
   ],
   "blocker": null,
   "storage_ledger": {
@@ -22,69 +22,73 @@
     "known_used_bytes": 0,
     "ceiling_bytes": 1000000000000,
     "known_ratio": 0.0,
-    "note": "No model/dataset/checkpoint admitted yet. Step-002 is code/manifest harness only and large writes remain forbidden."
+    "note": "No model/dataset/checkpoint admitted yet. Step-002 remains code/tests/manifest only."
   },
   "package_radar_delta": {
     "ref": "evolution/PACKAGE_RADAR.json",
-    "status": "NO_MATERIAL_DELTA; package/model selection is intentionally deferred until Step-002 eval harness is C-verified."
+    "status": "NO_MATERIAL_DELTA; no package/model promotion is allowed until Step-002 C verification."
   },
   "evolution_suggestions": [
-    "Do not ask the owner for compute or credentials yet; first finish a zero-cost deterministic dataset/eval harness.",
-    "Use synthetic fixtures plus verified project evidence references only; raw chat and personality/governance material are not training data.",
-    "Require future 0.8B/2B candidates to match deterministic safety baseline before any limited runtime promotion.",
-    "Keep model output proposal-only behind verified gearbox/idempotency guards and C independent verification."
+    "Treat recoverable navigation/tool failures as downshift-and-recover events, not mission termination.",
+    "Keep Navigation Continuity Watchdog deterministic and smaller than the future micro-expert layer so recovery authority never depends on model confidence.",
+    "Only after watchdog + eval harness C PASS should 0.8B/2B model benchmarking begin.",
+    "Use compact root-cause lessons and recovery outcomes as nutrition; raw logs, stale derived panels and duplicate retries remain metabolic waste."
   ],
   "self_review": {
     "strengths": [
-      "Step-001 survived two verifier FAIL cycles and now enforces replay-safe exactly-once transfer rather than accepting a superficial pass.",
-      "Owner messages and reporting did not reset the mission; three formal slots remain unchanged.",
-      "No model/download/storage expansion occurred before the control foundation was verified."
+      "Owner interruption was absorbed into an unconsumed packet without resetting mission state, demonstrating the intended RPM continuity control pattern.",
+      "The new recovery scope does not add a worker or broaden into main/secrets/spend.",
+      "Step-001 hard gearbox guard remains the authority beneath the planned watchdog."
     ],
     "gaps": [
-      "Dataset/eval harness is not built yet.",
-      "No micro-expert model candidate has been downloaded, trained or benchmarked.",
-      "Mission 0005 Reality Evidence and Metabolic Closure remain pending."
+      "Navigation Continuity Watchdog is authorized and routed but not yet built or C-verified.",
+      "Dataset/eval harness is not yet built or C-verified.",
+      "No micro-expert model candidate exists yet; Reality Evidence and Metabolic Closure remain pending."
     ],
-    "risk": "Training before provenance-safe held-out/adversarial evaluation exists would make apparent improvement impossible to distinguish from leakage or guard regression.",
-    "correction": "Step-002 builds evaluation infrastructure first; model work remains blocked until C PASS."
+    "risk": "A recovery utility that silently invents packet/lease/authorization state would be more dangerous than stopping.",
+    "correction": "Recover only derived/transient state; authority contradictions fail closed. Retries are bounded, deduplicated and idempotent."
   },
   "next_autonomous_action": {
     "role": "LCR-B",
     "packet": "packets/EVOLUTION-0005-A-TO-B-STEP-002.json",
-    "packet_sha256": "079e9106a30e4a29190483905deabaa27ad56566c6cebc1543e3d7b6471dafd2",
-    "task": "Build provenance-safe deterministic expert dataset schema, held-out/adversarial eval harness, content-addressed manifest and deterministic baseline; no model download/training; return BUILT_NOT_VERIFIED to LCR-C."
+    "packet_sha256": "0375827c9e9ced03611f29208b16f77701bbcd8c22150d9a16c01d45ef5cb0dd",
+    "task": "Build dataset/eval deterministic foundation plus Navigation Continuity Watchdog; test bounded retry, derived-state rebuild, idempotent recovery, authority-contradiction fail-closed and runtime waste classification; return BUILT_NOT_VERIFIED to LCR-C."
   },
   "gearbox": {
     "ref": "evolution/GEARBOX_ARCHITECTURE.json",
     "model_codename_zh": "第一型『變速箱自主模型』",
     "model_codename_en": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
-    "current_control_state": "STEP_002_EVAL_HARNESS_GEAR_ENGAGED",
+    "current_control_state": "STEP_002_NAVIGATION_RECOVERY_AND_EVAL_GEAR_ENGAGED",
     "formal_workers": 3,
     "gear_count": 6,
-    "rpm_continuity": "INDEPENDENT_PASS",
+    "rpm_continuity": "INDEPENDENT_PASS_STEP_001",
     "upshift_overlap": "INDEPENDENT_PASS_EXACTLY_ONCE",
     "downshift_overlap": "INDEPENDENT_PASS_LOWER_GUARD_FIRST",
-    "step_1_verdict": "PASS_003"
+    "navigation_watchdog": "AUTHORIZED_ROUTED_NOT_YET_VERIFIED"
   },
   "continuity": {
     "formal_slot_added": false,
     "current_atomic_work_preserved": true,
+    "new_owner_control_did_not_reset_mission": true,
     "handoff_payload": "COMPACT_DURABLE_CONTROL_STATE_NO_RAW_CHAT",
-    "save_points": ["before substantive report", "before cross-role handoff", "after verifier verdict", "before large write", "before phase transition", "before closure"]
+    "scheduled_existing_slots": {
+      "B_next": "2026-08-12T18:12:00+08:00",
+      "C_next": "2026-08-12T18:22:00+08:00",
+      "A_next": "2026-08-12T18:32:00+08:00"
+    }
   },
   "information_waste_status": {
     "previous_stage_0003": "VERIFIED_CLOSED_WITH_PHYSICAL_SAFE_FIXTURE_DISPOSAL_AND_KEEP_WASTE_QUARANTINE",
-    "current_0005_step_001": "LOGICAL_METABOLISM_COMPLETE_FOR_PHASE; verified nutrition retained, transient execution not promoted",
-    "physical_disposal": "NONE_REQUIRED_OR_PERFORMED_IN_0005_STEP_001",
-    "reason": "Step-001 produced code/evidence plus ephemeral test execution; no persisted allowlisted disposable artifact was identified for safe physical deletion.",
-    "keep": "durable state/progress/authorization/verified code+tests/PASS evidence/FAIL root-cause lessons/rollback",
-    "waste": "non-persisted raw test execution, duplicate replay attempts, redundant raw logs/scratch",
+    "current_0005_step_001": "LOGICAL_METABOLISM_COMPLETE_FOR_PHASE; no persisted safe disposable artifact existed, so no physical delete was required",
+    "runtime_metabolism_target_step_002": "Navigation Watchdog will classify reproducible unreferenced cache/debug/temp/stale derived metadata for quarantine/waste while preserving authoritative/protected material",
+    "keep": "durable state/progress/authorizations/verified code+tests/PASS evidence/root-cause lessons/rollback",
+    "waste": "raw test execution, duplicate retries, redundant raw logs/scratch, stale derived panels when reproducible",
     "quarantine": "secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, Identity/Personality/Governance",
-    "next_physical_cleanup_checkpoint": "after Step-002 C verdict and again before model artifact admission/phase closure"
+    "next_physical_cleanup_checkpoint": "after Step-002 C verdict and before any model artifact admission"
   },
   "owner_help_needed": {
     "now": "NONE",
-    "future_possible_gate": "Only if zero-cost model benchmarking later requires a user-side local/free compute runtime that the connected tools cannot access; ask for one precise action then, not in advance."
+    "future_possible_gate": "Ask only if a later zero-cost model benchmark requires user-side compute/runtime that connected tools cannot access."
   },
   "report_policy": "Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
 }
