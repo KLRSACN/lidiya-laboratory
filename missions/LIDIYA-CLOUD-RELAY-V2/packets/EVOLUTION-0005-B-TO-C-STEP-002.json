@@ -1,0 +1,19 @@
+{
+  "schema_version":"2.1",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "packet_id":"EVOLUTION-0005-B-TO-C-STEP-002",
+  "step_id":2,
+  "attempt":0,
+  "source_role":"LCR-B",
+  "target_role":"LCR-C",
+  "action":"VERIFY_DATASET_EVAL_NAVIGATION_FOUNDATION",
+  "status":"BUILT_NOT_VERIFIED",
+  "parent_packet_sha256":"0375827c9e9ced03611f29208b16f77701bbcd8c22150d9a16c01d45ef5cb0dd",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "navigation_resilience_addendum_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
+  "builder_evidence_ref":"evidence/EVOLUTION-0005-STEP-002-BUILDER.json",
+  "candidate_files":["evolution/expert_dataset.py","evolution/test_expert_dataset.py","evolution/eval_harness.py","evolution/test_eval_harness.py","evolution/deterministic_baseline.py","evolution/test_deterministic_baseline.py","evolution/navigation_watchdog.py","evolution/test_navigation_watchdog.py","evolution/EXPERT_DATASET_MANIFEST.json"],
+  "verification_required":["fresh-read exact branch bytes","run Step-002 tests","run gearbox/storage/progress/metabolism/continuous-control regressions","adversarial authority contradiction/retry dedupe/protected residue/guard bypass checks"],
+  "builder_claim":"BUILT_NOT_VERIFIED",
+  "packet_sha256":"b159aaed163e858cdc313149dc82794c773cf4a1ac9d9d31188336c483399707"
+}
