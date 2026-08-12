@@ -8,7 +8,7 @@
   "target_role": "LCR-B",
   "action": "BUILD_DATASET_EVAL_HARNESS_FOUNDATION",
   "status": "READY",
-  "created_at_taipei": "2026-08-12T18:02:00+08:00",
+  "created_at_taipei": "2026-08-12T17:58:00+08:00",
   "parent_packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101",
   "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
   "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
@@ -51,5 +51,5 @@
     "Builder returns BUILT_NOT_VERIFIED only and hands exactly one packet to LCR-C."
   ],
   "next_on_success": "LCR-C independent verification; after PASS LCR-A selects a zero-cost 0.8B/2B candidate benchmark path behind deterministic guard.",
-  "packet_sha256": "8120c6a030ed1d98b57e483e52c096d410a69a58cb5555fc665892be30a7e430"
+  "packet_sha256": "079e9106a30e4a29190483905deabaa27ad56566c6cebc1543e3d7b6471dafd2"
 }
