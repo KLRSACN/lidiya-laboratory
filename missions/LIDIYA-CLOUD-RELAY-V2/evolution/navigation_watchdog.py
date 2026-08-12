@@ -25,11 +25,9 @@ def _parse_aware_time(value):
     if dt.tzinfo is None or dt.utcoffset() is None: raise ValueError("timezone-naive time")
     return dt
 
-def _trusted_now(now):
-    if now is None: return datetime.now(timezone.utc)
-    if isinstance(now,str): return _parse_aware_time(now)
-    if not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None: raise ValueError("bad current time")
-    return now
+def _trusted_now():
+    """Production time authority. Caller/event supplied clocks are never consulted."""
+    return datetime.now(timezone.utc)
 
 def _worker_for_role(roster,role):
     if not isinstance(roster,dict): return None
@@ -56,7 +54,7 @@ def _authority_error(state,event,*,roster=None,now=None):
         if not isinstance(lease,dict) or not all(lease.get(k) for k in ("owner","role","expires_at")): return "malformed lease"
         if lease.get("role") not in LEGAL_ROLES or lease.get("role")!=role: return "lease role mismatch"
         try:
-            expires=_parse_aware_time(lease["expires_at"]); current=_trusted_now(now)
+            expires=_parse_aware_time(lease["expires_at"]); current=_trusted_now()
         except (TypeError,ValueError): return "malformed lease expiry"
         if expires<=current: return "expired lease"
         owner=_worker_for_role(roster,role)
@@ -68,9 +66,10 @@ def _authority_error(state,event,*,roster=None,now=None):
     return None
 
 def decide(state,event,*,consumed=None,max_retries=2,roster=None,now=None):
+    # `now` is retained only for backward API compatibility and deliberately ignored.
     consumed=consumed if consumed is not None else set(); rid=recovery_id(state,event)
     if rid in consumed: return RecoveryDecision("HUMAN_GATE",rid,"duplicate recovery is non-executing",None,0,"DEDUPED","duplicate recovery must not duplicate execution",False)
-    err=_authority_error(state,event,roster=roster,now=now)
+    err=_authority_error(state,event,roster=roster)
     if err: return _gate(rid,err)
     contradictions=event.get("authority_contradictions",[])
     if contradictions: return _gate(rid,"authority contradiction: "+",".join(sorted(contradictions)))
