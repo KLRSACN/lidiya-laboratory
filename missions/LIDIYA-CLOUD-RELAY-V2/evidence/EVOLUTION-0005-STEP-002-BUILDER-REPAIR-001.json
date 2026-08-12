@@ -1,0 +1,30 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "attempt":1,
+  "role":"LCR-B",
+  "worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation":1,
+  "result":"BUILT_NOT_VERIFIED",
+  "repair_action":"REPAIR_NAVIGATION_WATCHDOG_AUTHORITY_VALIDATION",
+  "inbound_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-002-FAIL-001.json",
+  "inbound_packet_sha256":"b579f0d4f503c0315b8db94860e4635565216b3039936a277705e61a311c2075",
+  "candidate_files":{
+    "evolution/navigation_watchdog.py":{"blob_sha":"369fa725ad7f2c339b1ee5c77ff0d223b237b76d","commit":"0421d40dd828ffc690713ff3a5169f3f9c2c869f"},
+    "evolution/test_navigation_watchdog.py":{"blob_sha":"7127c7411800c589af2d87e1eea89cd9eb15d9e8","commit":"fab228e0a825a9269d4322319571b43645588fe9"}
+  },
+  "repair_summary":[
+    "watchdog now validates current_role/next_role against exact A/B/C durable authority",
+    "active handoff states fail closed when pending packet or pending hash is missing",
+    "caller expected packet/hash/authorization/current role/lease owner must exact-match durable state when supplied",
+    "lease shape/role/expiry format is validated and malformed/conflicting leases fail closed",
+    "route_next requires exact legal next_role plus exact durable pending packet/hash proof; LCR-D/wrong role/wrong packet/wrong hash are non-executing",
+    "stale_roster is classified only as REBUILD_DERIVED_STATE and cannot mutate authoritative mission fields",
+    "duplicate/stale recovery remains non-executing through recovery_id dedupe"
+  ],
+  "adversarial_tests_added":["missing pending packet","missing pending hash","wrong expected hash","wrong expected packet","authorization mismatch","role outside A/B/C","current-role mismatch","malformed lease","conflicting lease","route LCR-D","route wrong role","route wrong packet","route wrong hash","duplicate recovery_id","stale recovery","stale roster derived rebuild"],
+  "validation":{"github_actions_run_id":31587470005,"github_actions_conclusion":"success","github_actions_scope_note":"existing branch workflow passed after candidate commit but does not execute evolution/navigation_watchdog tests; therefore this is not C verification and Builder does not claim PASS","independent_C_required":true},
+  "constraints":{"model_download":false,"training":false,"package_install":false,"main_default_write":false,"spend":false,"secrets":false,"new_worker":false,"third_full_backup":false},
+  "lesson":"Authority must be derived from durable state; event hints can narrow expectations but cannot create packet/hash/lease/role authority. Derived roster recovery must never overwrite authoritative mission control fields."
+}
