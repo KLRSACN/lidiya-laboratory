@@ -1,0 +1,27 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "run_id": "LCR-EVOLUTION-0005-RUN-001-C-FAIL-002",
+  "step_id": 1,
+  "attempt": 2,
+  "source": "LCR-C",
+  "target": "LCR-B",
+  "action": "REPAIR_GEARBOX_FAIL_CLOSED_IDEMPOTENCY_STATE",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T12:04:00+08:00",
+  "parent_packet_sha256": "0b457fc273b61ff77cf51ebda94d1a27fccac9f0abf9d3067ef1510f2cd0de5d",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/EVOLUTION-0005-STEP-001-VERIFIER-FAIL-002.json",
+  "verdict": "FAIL",
+  "task": "Make exactly-once torque transfer fail closed when authoritative idempotency/transfer identity state is absent, without weakening existing passing guards.",
+  "acceptance": [
+    "ACK-capable completion requires caller-provided authoritative consumed-transfer/idempotency state; missing state must be non-executing/fail-closed.",
+    "receiver_transfer_id is required for SHIFT_COMPLETE/DOWNSHIFT_COMPLETE; missing or wrong identity cannot authorize execution.",
+    "duplicate ACK/replay returns non-executing ALREADY_TRANSFERRED or reject.",
+    "stale ACK after state fingerprint change cannot complete.",
+    "preserve existing RPM continuity, compact no-raw-chat handoff, lower-guard-first downshift, three-slot topology, storage, progress and metabolism protections."
+  ],
+  "packet_sha256": "f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6"
+}
