@@ -1,0 +1,19 @@
+{
+  "schema_version":"2.1",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "packet_id":"EVOLUTION-0005-B-TO-C-STEP-002-REPAIR-001",
+  "step_id":2,
+  "attempt":1,
+  "source_role":"LCR-B",
+  "target_role":"LCR-C",
+  "action":"VERIFY_NAVIGATION_WATCHDOG_AUTHORITY_REPAIR",
+  "status":"BUILT_NOT_VERIFIED",
+  "parent_packet_sha256":"b579f0d4f503c0315b8db94860e4635565216b3039936a277705e61a311c2075",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "navigation_resilience_addendum_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
+  "builder_evidence_ref":"evidence/EVOLUTION-0005-STEP-002-BUILDER-REPAIR-001.json",
+  "candidate_files":["evolution/navigation_watchdog.py","evolution/test_navigation_watchdog.py"],
+  "candidate_blobs":{"evolution/navigation_watchdog.py":"369fa725ad7f2c339b1ee5c77ff0d223b237b76d","evolution/test_navigation_watchdog.py":"7127c7411800c589af2d87e1eea89cd9eb15d9e8"},
+  "repair_acceptance":["durable authority validation","legal A/B/C exact route proof","malformed/conflicting lease fail-closed","duplicate/stale recovery idempotent","derived roster rebuild cannot overwrite authoritative mission fields","existing Step-001/Step-002 safety regressions must not degrade"],
+  "packet_sha256":"6c93a38fc2d519cf194fa487412ce71b03bf43690a2ca4ef4f9eb3e68cdea515"
+}
