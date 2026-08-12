@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "run_id": "LCR-EVOLUTION-0005-RUN-001-B-REPAIR-001",
+  "step_id": 1,
+  "attempt": 1,
+  "source": "LCR-B",
+  "target": "LCR-C",
+  "action": "VERIFY_GEARBOX_SINGLE_TORQUE_TRANSFER_REPAIR",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T11:56:44+08:00",
+  "parent_packet_sha256": "33f86bd7036f05d0d3549923cce1f974f52407ae237f2d8d4b4eb2040d02e5fd",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/EVOLUTION-0005-STEP-001-BUILDER-REPAIR-001.json",
+  "result": "BUILT_NOT_VERIFIED",
+  "task": "Independently verify exactly-once torque transfer repair and all prior gearbox/storage/progress/metabolism regressions.",
+  "acceptance": [
+    "duplicate ACK/replay is non-executing ALREADY_TRANSFERRED or rejected",
+    "stale ACK after state fingerprint change cannot complete",
+    "ACK for a different shift identity cannot complete",
+    "existing RPM continuity, compact no-raw-chat handoff, lower-guard-first downshift, three-slot topology, storage and progress protections remain intact"
+  ],
+  "packet_sha256": "0b457fc273b61ff77cf51ebda94d1a27fccac9f0abf9d3067ef1510f2cd0de5d"
+}
