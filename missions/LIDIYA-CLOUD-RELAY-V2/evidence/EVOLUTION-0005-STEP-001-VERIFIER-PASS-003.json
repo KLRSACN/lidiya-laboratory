@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 1,
+  "attempt": 2,
+  "role": "LCR-C",
+  "worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation": 0,
+  "verified_at_taipei": "2026-08-12T13:08:00+08:00",
+  "verdict": "PASS",
+  "inbound_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-001-REPAIR-002.json",
+  "inbound_packet_sha256": "5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989",
+  "independent_checks": {
+    "home_and_authorization_fresh_read": "PASS",
+    "packet_canonical_sha256": "PASS",
+    "packet_not_preconsumed": "PASS",
+    "candidate_blob_ids_match_builder_evidence": "PASS",
+    "gearbox_exact_test_suite": "PASS_21_OF_21",
+    "verifier_owned_missing_idempotency_state": "PASS_NONEXECUTING_IDEMPOTENCY_STATE_REQUIRED",
+    "verifier_owned_missing_receiver_transfer_id": "PASS_NONEXECUTING_TRANSFER_IDENTITY_REQUIRED",
+    "verifier_owned_duplicate_ack_replay": "PASS_NONEXECUTING_ALREADY_TRANSFERRED",
+    "verifier_owned_stale_ack": "PASS_NONEXECUTING_TRANSFER_IDENTITY_MISMATCH",
+    "verifier_owned_wrong_shift_identity": "PASS_NONEXECUTING_TRANSFER_IDENTITY_MISMATCH",
+    "verifier_owned_downshift_missing_state_identity": "PASS_LOWER_GUARD_HELD_HIGHER_GEAR_NOT_RELEASED",
+    "rpm_continuity_owner_input": "PASS",
+    "compact_handoff_excludes_raw_chat": "PASS",
+    "g1_to_g2_sender_held_before_ack": "PASS",
+    "g2_to_g1_lower_guard_first": "PASS",
+    "formal_slots_exactly_abc": "PASS",
+    "storage_progress_blobs_unchanged_from_prior_independent_pass": "PASS",
+    "storage_ceiling_backup_policy": "PASS",
+    "metabolism_policy_fail_closed": "PASS",
+    "package_radar_no_auto_promotion": "PASS"
+  },
+  "exact_blobs": {
+    "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
+    "evolution/test_gearbox_controller.py": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
+    "evolution/storage_budget_guard.py": "b0bd1a67c95261faa7b620171a66a963dd37c273",
+    "evolution/test_storage_budget_guard.py": "77ef999c662f4b6f260275962653a73c8851f179",
+    "evolution/progress_snapshot.py": "ed16331a0b69479e2fc699d56c35219efce1fa8f",
+    "evolution/test_progress_snapshot.py": "c27a99304edf31793d540b8ac325d8eaa6863a49"
+  },
+  "verifier_owned_fixture": {
+    "scenario": "ACK-capable G1->G2 and G2->G1 transitions are exercised with missing idempotency state, missing receiver transfer identity, duplicate replay, stale state fingerprint and wrong shift identity.",
+    "observed": "All unsafe or replay cases remain non-executing; valid first transfer authorizes once, duplicate returns ALREADY_TRANSFERRED; downshift missing-authority paths retain lower guard and do not release higher gear.",
+    "expected": "Exactly-once torque transfer is fail-closed at the API boundary while RPM continuity and clutch overlap remain intact."
+  },
+  "regression_basis": {
+    "repair_scope": "Builder Evidence lists only gearbox_controller.py and test_gearbox_controller.py as changed candidate files.",
+    "unchanged_prior_verified_guards": "storage/progress blob SHAs match the previously independently checked Step-001 blobs; roster/authorization/storage/metabolism/radar were fresh-read in this cycle.",
+    "new_exact_local_reproduction": "py_compile PASS; exact fetched gearbox test suite 21/21 PASS; additional verifier-owned adversarial cases PASS."
+  },
+  "safety": {
+    "candidate_modified_by_verifier": false,
+    "main_default_write": false,
+    "model_downloaded": false,
+    "training_performed": false,
+    "package_installed": false,
+    "secret_values_recorded": false,
+    "identity_personality_governance_modified": false,
+    "formal_slot_added": false,
+    "large_storage_write": false,
+    "real_user_protected_data_touched": false
+  },
+  "next": "LCR-A consumes C->A PASS packet, absorbs compact verified result, and chooses the next minimal authorized Step toward dataset/eval/model candidate benchmarking without bypassing deterministic guards.",
+  "evidence_sha256": "06fff7eb44e2972d89791530078acb16c127ad2742f55f858b66c0d6269c0930"
+}
