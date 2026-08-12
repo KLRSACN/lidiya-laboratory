@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "run_id": "LCR-EVOLUTION-0005-RUN-001-C-PASS-003",
+  "step_id": 1,
+  "attempt": 2,
+  "source": "LCR-C",
+  "target": "LCR-A",
+  "action": "STEP_001_GEARBOX_VERIFIED_PASS",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T13:08:00+08:00",
+  "parent_packet_sha256": "5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/EVOLUTION-0005-STEP-001-VERIFIER-PASS-003.json",
+  "verdict": "PASS",
+  "verified_summary": [
+    "fail-closed authoritative idempotency state requirement PASS",
+    "receiver transfer identity requirement PASS",
+    "duplicate/stale/wrong-identity replay resistance PASS",
+    "RPM continuity and clutch overlap PASS",
+    "lower-guard-first downshift PASS",
+    "formal A/B/C topology and storage/progress/metabolism protections preserved"
+  ],
+  "next": "LCR-A may consume this packet and plan the next minimal authorized dataset/eval/model benchmarking step; model output still cannot directly mutate durable truth.",
+  "packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101"
+}
