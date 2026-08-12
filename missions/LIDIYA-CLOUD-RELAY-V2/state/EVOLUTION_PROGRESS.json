@@ -1,82 +1,81 @@
 {
-  "schema_version": "1.6",
+  "schema_version": "1.7",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-12T12:04:00+08:00",
+  "saved_at": "2026-08-12T13:00:00+08:00",
   "time_authority": "Asia/Taipei",
-  "mission_status": "READY_FOR_BUILDER",
-  "current_role": "LCR-B",
+  "mission_status": "READY_FOR_VERIFY",
+  "current_role": "LCR-C",
   "step_id": 1,
   "attempt": 2,
   "verified_evidence": [
-    "C fresh-read Home, active authorization/addendum, durable state/roster/storage/radar/gearbox/metabolism policy, exact B->C repair packet and Builder Evidence.",
-    "B->C repair packet canonical SHA independently recomputed and matched 0b457fc273b61ff77cf51ebda94d1a27fccac9f0abf9d3067ef1510f2cd0de5d.",
-    "Exact gearbox_controller.py blob matches Builder Evidence e8a05c026fe6435019d1607a73b83b0f09ea26e8; exact test blob matches 04b8dd970d0a033ecb145eee116c57c2e2a6f09e.",
-    "Verifier-owned replay fixture reproduced a decisive fail-closed gap: when consumed_transfer_ids is omitted, two identical acknowledged calls each return SHIFT_COMPLETE with execution_authorized=true because a fresh ephemeral set is created per call.",
-    "receiver_transfer_id is optional in the public completion path, so exactly-once transfer is not yet fail-closed.",
-    "Failure Evidence=evidence/EVOLUTION-0005-STEP-001-VERIFIER-FAIL-002.json.",
-    "C->B repair packet=packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-002.json SHA=f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6.",
-    "Formal worker count remains exactly A/B/C; no slot4, model download, training, package installation, main/default write, secret handling or governance modification occurred."
+    "B fresh-read Home, current durable state/roster, active authorization/addendum, storage ledger, package radar, gearbox architecture, metabolism policy and exact C->B FAIL-002 packet before repair.",
+    "Inbound FAIL-002 packet canonical SHA independently recomputed and matched f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6.",
+    "Repaired gearbox_controller.py readback blob=c29e3b2cab639397b65ffb3dca08cbdddd28ce6b; repaired test blob=11527a9e3cf196b9b77416b8e66b66bb5a3a640e.",
+    "Builder isolated harness: gearbox targeted+extra 20 PASS; continuous-control 17 PASS; cloud-relay-state 9 PASS; metabolism 6 PASS; storage/progress 6 PASS; total 58 checks.",
+    "Builder Evidence=evidence/EVOLUTION-0005-STEP-001-BUILDER-REPAIR-002.json result=BUILT_NOT_VERIFIED.",
+    "C->B FAIL-002 packet consumed exactly once; new B->C repair packet SHA=5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989 is pending and not pre-consumed.",
+    "Formal roster remains exactly A/B/C; no slot4, model download, training, package installation, main/default write, secret handling, large storage write or governance modification occurred."
   ],
-  "blocker": "Step-001 cannot PASS until exactly-once torque transfer fails closed when authoritative consumed-transfer state or receiver transfer identity is absent.",
+  "blocker": "Awaiting LCR-C independent exact-branch verification; Builder does not claim PASS.",
   "storage_ledger": {
     "ref": "state/EVOLUTION_STORAGE_BUDGET.json",
     "known_used_bytes": 0,
     "ceiling_bytes": 1000000000000,
     "known_ratio": 0.0,
-    "note": "No model/dataset/checkpoint admitted; verifier cycle made no large storage write."
+    "note": "No model/dataset/checkpoint admitted; repair changed only authorized development code/tests and compact durable metadata."
   },
   "package_radar_delta": {
     "ref": "evolution/PACKAGE_RADAR.json",
-    "status": "NO_MATERIAL_DELTA; baseline remains under 24h old, so no duplicate rescan was created."
+    "status": "NO_MATERIAL_DELTA; baseline remains under 24h old and repair did not require package selection."
   },
   "evolution_suggestions": [
-    "Make consumed-transfer/idempotency state mandatory at ACK completion; missing state must fail closed rather than create a local ephemeral set.",
-    "Require receiver_transfer_id for SHIFT_COMPLETE/DOWNSHIFT_COMPLETE; missing or wrong identity must be non-executing.",
-    "Keep deterministic transfer_id binding and ALREADY_TRANSFERRED replay behavior when authoritative state is supplied.",
-    "After repair, C should independently exercise missing-state, missing-identity, duplicate, stale and wrong-identity ACK fixtures before rerunning wider regressions."
+    "Keep pre-ACK overlap observable without forcing idempotency state, but require authoritative caller-owned idempotency state at the exact moment execution could be authorized.",
+    "Require exact receiver_transfer_id for every SHIFT_COMPLETE/DOWNSHIFT_COMPLETE path.",
+    "Treat missing identity/state and stale/wrong identity as non-executing control outcomes, never as implicit success.",
+    "Have C rerun exact branch negative fixtures plus wider regressions before any model/dataset phase."
   ],
   "self_review": {
     "strengths": [
-      "The repaired candidate added deterministic transfer identity and replay protection when authoritative state is explicitly provided.",
-      "C did not modify Builder candidate and isolated a narrower fail-closed API-boundary defect.",
-      "Three-slot topology, zero-spend boundary and storage policy remained intact."
+      "FAIL-002 was narrowed to the API boundary and repaired without broadening scope.",
+      "Existing RPM continuity, three-slot topology and storage/metabolism boundaries were not intentionally weakened.",
+      "Inbound was consumed exactly once and outbound was not pre-consumed."
     ],
     "gaps": [
-      "Exactly-once safety is still optional because authoritative consumed-transfer state can be omitted.",
-      "receiver transfer identity can also be omitted on completion.",
-      "Wider regression promotion is deferred because the core transfer acceptance already failed."
+      "Builder harness is not independent verification and is not an exact GitHub-hosted CI proof.",
+      "C must still fresh-read exact bytes and independently reproduce missing-state/missing-identity/replay/stale/wrong-identity cases."
     ],
-    "risk": "A caller that omits idempotency state can replay the same acknowledged shift and receive repeated execution authorization.",
-    "correction": "Fail closed at the transfer API boundary, then re-run C adversarial and regression verification before Step-001 PASS."
+    "risk": "Any hidden caller path that can bypass authoritative idempotency state would still be unsafe; only C independent verification can close Step-001.",
+    "correction": "Keep status BUILT_NOT_VERIFIED and hand exact candidate/evidence to C without starting model training."
   },
   "next_autonomous_action": {
-    "role": "LCR-B",
-    "packet": "packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-002.json",
-    "packet_sha256": "f2891b7d1e5f986397c193d1da17c0a85b1887420b3b760a47b8f1b3d07c00e6",
-    "task": "Make ACK-capable torque transfer require authoritative consumed-transfer state and receiver transfer identity, preserve prior guards, return BUILT_NOT_VERIFIED to LCR-C."
+    "role": "LCR-C",
+    "packet": "packets/EVOLUTION-0005-B-TO-C-STEP-001-REPAIR-002.json",
+    "packet_sha256": "5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989",
+    "task": "Fresh-read exact branch bytes; independently verify fail-closed idempotency/identity semantics and regressions; return PASS/FAIL/DEFER/HUMAN_GATE only."
   },
   "gearbox": {
     "ref": "evolution/GEARBOX_ARCHITECTURE.json",
     "model_codename_zh": "第一型『變速箱自主模型』",
     "model_codename_en": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
-    "current_control_state": "REPAIR_FAIL_CLOSED_IDEMPOTENCY_STATE",
+    "current_control_state": "VERIFY_FAIL_CLOSED_IDEMPOTENCY_REPAIR",
     "formal_workers": 3,
     "gear_count": 6,
-    "rpm_continuity": "PRESERVED_PRIOR_PASS_PENDING_REVERIFY_AFTER_REPAIR",
-    "upshift_overlap": "FAIL_002_IDEMPOTENCY_STATE_OPTIONAL",
-    "downshift_overlap": "PRESERVED_PRIOR_PASS_PENDING_REVERIFY_AFTER_REPAIR",
-    "step_verdict": "FAIL_002_REPAIR_REQUIRED"
+    "rpm_continuity": "PRESERVED_PENDING_C_REVERIFY",
+    "upshift_overlap": "BUILT_NOT_VERIFIED_FAIL_CLOSED_REPAIR_002",
+    "downshift_overlap": "PRESERVED_PENDING_C_REVERIFY",
+    "step_verdict": "BUILT_NOT_VERIFIED_PENDING_C"
   },
   "continuity": {
     "formal_slot_added": false,
+    "current_atomic_work_preserved": true,
     "handoff_payload": "COMPACT_DURABLE_CONTROL_STATE_NO_RAW_CHAT",
     "save_points": ["before substantive report", "before cross-role handoff", "after verifier verdict", "before large write", "before phase transition", "before closure"]
   },
   "information_waste_status": {
     "previous_stage_0003": "VERIFIED_CLOSED_WITH_KEEP_WASTE_QUARANTINE_DISPOSITION",
-    "current_0005": "FAIL_002_EVIDENCE_KEPT; verifier scratch/reproduction not promoted beyond compact Evidence",
+    "current_0005": "BUILDER_REPAIR_002_EVIDENCE_KEPT; isolated test scratch is transient and not durable truth",
     "progress_files": "ONE_CANONICAL_SNAPSHOT_ONLY",
     "physical_disposal": "NONE_IN_STEP_001"
   },
-  "report_policy": "Single canonical progress snapshot overwritten after substantive verifier verdict; no numbered progress files."
+  "report_policy": "Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
 }
