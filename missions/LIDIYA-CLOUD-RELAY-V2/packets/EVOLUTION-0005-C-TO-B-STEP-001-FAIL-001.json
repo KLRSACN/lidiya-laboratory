@@ -1,0 +1,27 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "run_id": "LCR-EVOLUTION-0005-RUN-001-C-FAIL-001",
+  "step_id": 1,
+  "attempt": 1,
+  "source": "LCR-C",
+  "target": "LCR-B",
+  "action": "REPAIR_GEARBOX_SINGLE_TORQUE_TRANSFER",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T11:09:31+08:00",
+  "parent_packet_sha256": "97d5ed610ae16a006a1e22c22fedf7ba5f85ba9dd18b6c85b29de66cee120048",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/EVOLUTION-0005-STEP-001-VERIFIER-FAIL-001.json",
+  "verdict": "FAIL",
+  "task": "Repair exactly-once torque-transfer semantics without weakening existing gearbox/storage/progress guards.",
+  "acceptance": [
+    "Introduce a deterministic shift/transfer identity bound to mission_id, step_id, from_gear, to_gear, state_fingerprint and handoff sequence/nonce.",
+    "Persist or pass an authoritative consumed-transfer set/token state so an acknowledged transfer can complete exactly once.",
+    "Replay of the same completed transfer must be rejected or return a non-executing ALREADY_TRANSFERRED result.",
+    "Add tests for duplicate ACK/replay, stale ACK after state-fingerprint change, and ACK for a different shift identity.",
+    "Keep existing RPM preservation, compact no-raw-chat handoff, lower-guard-first downshift, three-slot topology, storage and progress protections unchanged."
+  ],
+  "packet_sha256": "33f86bd7036f05d0d3549923cce1f974f52407ae237f2d8d4b4eb2040d02e5fd"
+}
