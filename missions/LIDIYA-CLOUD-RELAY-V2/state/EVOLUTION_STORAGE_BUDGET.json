@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "updated_at": "2026-08-12T10:24:00+08:00",
+  "drive_root_folder_id": "10twlYU_r5dG3vOje4r6Mi8juQizyW4e9",
+  "ceiling_bytes": 1000000000000,
+  "known_used_bytes": 0,
+  "reserved_bytes": 0,
+  "untracked_bytes": "UNKNOWN_UNTIL_MANIFESTED",
+  "hard_enforcement": "PROPOSED_WRITE_REJECT_IF_LEDGER_PLUS_SIZE_EXCEEDS_CEILING",
+  "thresholds": [
+    {"ratio":0.7,"action":"COMPACT_WASTE"},
+    {"ratio":0.85,"action":"STOP_NEW_LARGE_CHECKPOINTS_AND_DISPOSE"},
+    {"ratio":0.95,"action":"FREEZE_LARGE_WRITES_AND_HUMAN_GATE"},
+    {"ratio":1.0,"action":"HARD_REJECT"}
+  ],
+  "full_backup_groups": ["RECOVERY_BASELINE", "WORKING_EXCHANGE"],
+  "max_full_backup_groups": 2,
+  "third_full_backup": "FORBIDDEN",
+  "allocation_plan_bytes": {
+    "models_and_quantized_weights": 250000000000,
+    "datasets_and_curated_corpora": 250000000000,
+    "checkpoints_and_adapters": 200000000000,
+    "eval_artifacts": 120000000000,
+    "working_exchange_and_cache": 100000000000,
+    "quarantine_and_manifests": 80000000000
+  },
+  "content_addressed_storage_required": true,
+  "duplicate_base_weight_policy": "REJECT_UNLESS_JUSTIFIED_BY_REQUIRED_FORMAT_AND_MANIFESTED",
+  "note": "Ledger covers artifacts created or admitted under this mission; user-wide Drive quota is not inferred by this file.",
+  "ledger_sha256": "542d4dcee94bcf363d810220381db7a0d36ff184f48562c48e3a6037373d5f2d"
+}
