@@ -1,35 +1,80 @@
 {
-  "schema_version":"1.3",
-  "mission_id":"LCR-EVOLUTION-0005",
-  "saved_at":"2026-08-12T10:55:00+08:00",
-  "time_authority":"Asia/Taipei",
-  "mission_status":"READY_FOR_VERIFY",
-  "current_role":"LCR-C",
-  "step_id":1,
-  "verified_evidence":[
-    "previous baseline LCR-METABOLISM-0003=IDLE/PASS",
-    "Home section 43 saved/read back",
-    "Gearbox Type-1 authorization addendum schema 1.1 active with RPM continuity/clutch overlap/torque handoff requirements",
-    "A->B Step-001 packet SHA=fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f consumed exactly once by B",
-    "Builder Evidence=evidence/EVOLUTION-0005-STEP-001-BUILDER.json result=BUILT_NOT_VERIFIED",
-    "candidate exact blob ids recorded for six authorized evolution files",
-    "Type-1 controller candidate now includes owner-input RPM preservation, compact torque state, G1->G2 receiver-ACK clutch overlap, and G2->G1 lower-guard-first downshift",
-    "B->C packet SHA=97d5ed610ae16a006a1e22c22fedf7ba5f85ba9dd18b6c85b29de66cee120048 created unconsumed",
-    "durable state and roster now READY_FOR_VERIFY/current_role=LCR-C; formal slots remain exactly A/B/C"
+  "schema_version": "1.4",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "saved_at": "2026-08-12T11:10:00+08:00",
+  "time_authority": "Asia/Taipei",
+  "mission_status": "READY_FOR_BUILDER",
+  "current_role": "LCR-B",
+  "step_id": 1,
+  "verified_evidence": [
+    "C fresh-read Home, current authorization/addendum, durable state/roster/storage/radar/gearbox/metabolism policy, exact B->C packet and Builder Evidence",
+    "B->C packet canonical SHA independently recomputed=97d5ed610ae16a006a1e22c22fedf7ba5f85ba9dd18b6c85b29de66cee120048",
+    "all six candidate blob IDs match Builder Evidence",
+    "C independently executed exact new evolution suite: 32/32 PASS",
+    "verifier-owned replay fixture FAIL: after one valid G1->G2 ACK, replaying the same acknowledged fingerprint returns SHIFT_COMPLETE again; no exactly-once transfer consume/idempotency state exists",
+    "Verifier Evidence=evidence/EVOLUTION-0005-STEP-001-VERIFIER-FAIL-001.json",
+    "C->B repair packet SHA=33f86bd7036f05d0d3549923cce1f974f52407ae237f2d8d4b4eb2040d02e5fd remains pending/unconsumed",
+    "formal roster remains exactly A/B/C; no fourth slot created"
   ],
-  "blocker":null,
-  "storage_ledger":{"ref":"state/EVOLUTION_STORAGE_BUDGET.json","known_used_bytes":0,"ceiling_bytes":1000000000000,"known_ratio":0.0,"note":"No model/dataset/checkpoint admitted; Step-001 performed code/test metadata only and still forbids model download/training."},
-  "package_radar_delta":{"ref":"evolution/PACKAGE_RADAR.json","status":"NO_NEW_PROMOTION_DURING_BUILDER_STEP","next_check":"material delta, >24h age, or next package/model selection step"},
-  "evolution_suggestions":[
-    "Keep first gear engaged as safety clutch while a higher gear acknowledges the exact compact state fingerprint.",
-    "Treat owner input as low-gear control work that can be fingerprinted/queued without zeroing active mission RPM.",
-    "Prefer existing A/B/C plus micro-expert gears for load shedding; never create a fourth formal worker for throughput.",
-    "C should independently verify duplicate-execution resistance and receiver-ACK semantics before any model-weight phase."
+  "blocker": "Step-001 cannot PASS until torque transfer after receiver ACK is exactly-once/replay-safe.",
+  "storage_ledger": {
+    "ref": "state/EVOLUTION_STORAGE_BUDGET.json",
+    "known_used_bytes": 0,
+    "ceiling_bytes": 1000000000000,
+    "known_ratio": 0.0,
+    "note": "No model/dataset/checkpoint admitted; no storage write expansion in verifier cycle."
+  },
+  "package_radar_delta": {
+    "ref": "evolution/PACKAGE_RADAR.json",
+    "status": "NO_CHANGE; baseline is <24h old and this verifier cycle found no package-selection reason to rescan"
+  },
+  "evolution_suggestions": [
+    "Bind every shift to a deterministic transfer_id derived from mission/step/from/to/state_fingerprint plus handoff sequence/nonce.",
+    "Maintain an authoritative consumed-transfer token/set so receiver ACK can authorize torque transfer exactly once.",
+    "Replay should become REJECT or non-executing ALREADY_TRANSFERRED, never a second SHIFT_COMPLETE authorization.",
+    "Add stale-ACK and wrong-shift-identity negative fixtures before any model-weight phase."
   ],
-  "self_review":{"strengths":["owner control requirements were absorbed without resetting the active A->B packet","Builder candidate preserves three-slot topology and adds machine-level overlap semantics","storage and canonical progress guards are present","handoff consumed inbound once and did not preconsume outbound"],"gaps":["exact branch evolution test suite is not yet independently executed/verified by C","existing relay/metabolism/continuous-control regressions must be rerun by C on exact branch bytes","no model weights, dataset, or eval harness are admitted yet","phase-boundary disposal for 0005 remains unverified"],"risk":"Builder must not convert code inspection or prior equivalent local tests into a PASS claim.","correction":"Remain BUILT_NOT_VERIFIED and require C fresh-read, exact test execution, adversarial overlap checks, and regression verification before STEP_DONE."},
-  "next_autonomous_action":{"role":"LCR-C","packet":"packets/EVOLUTION-0005-B-TO-C-STEP-001.json","packet_sha256":"97d5ed610ae16a006a1e22c22fedf7ba5f85ba9dd18b6c85b29de66cee120048","task":"Independently verify exact six candidate files, Gearbox Type-1 RPM/clutch/downshift semantics, storage/progress guards, and relay/metabolism/continuous-control regressions; return PASS/FAIL/DEFER/HUMAN_GATE only."},
-  "gearbox":{"ref":"evolution/GEARBOX_ARCHITECTURE.json","model_codename_zh":"第一型『變速箱自主模型』","model_codename_en":"LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1","current_control_state":"G1_G2_OVERLAP_CANDIDATE_BUILT_NOT_VERIFIED","formal_workers":3,"gear_count":6,"reverse":"DETERMINISTIC_ROLLBACK","rpm_continuity":"BUILT_NOT_VERIFIED","upshift_overlap":"BUILT_NOT_VERIFIED_RECEIVER_ACK_REQUIRED","downshift_overlap":"BUILT_NOT_VERIFIED_LOWER_GUARD_FIRST"},
-  "continuity":{"metabolism_policy_ref":"evolution/EVOLUTION_METABOLISM_POLICY.json","formal_slot_added":false,"save_points":["before substantive report","before cross-role handoff","after verifier verdict","before large write","before phase transition","before closure"],"handoff_payload":"COMPACT_DURABLE_CONTROL_STATE_NO_RAW_CHAT"},
-  "information_waste_status":{"previous_stage_0003":"VERIFIED_CLOSED_WITH_KEEP_WASTE_QUARANTINE_DISPOSITION","current_0005":"POLICY_ACTIVE_BUILDER_HANDOFF_NOT_YET_C_VERIFIED","automatic_disposal":"NO_NEW_PHYSICAL_DISPOSAL_IN_STEP_001; C verification required before phase-boundary disposal"},
-  "report_policy":"Single canonical progress snapshot overwritten before substantive reports; no numbered progress files."
+  "self_review": {
+    "strengths": [
+      "RPM preservation, compact no-raw-chat handoff, lower-guard-first downshift, storage thresholds, progress snapshot guard and three-slot topology passed the exact new suite",
+      "C did not modify Builder candidate and returned a minimal repair packet"
+    ],
+    "gaps": [
+      "exactly-once torque transfer is not machine-enforced",
+      "full relay/metabolism/continuous-control regression rerun was not promoted as evidence because a decisive core acceptance failure was already reproduced",
+      "model/dataset phase remains intentionally blocked"
+    ],
+    "risk": "Without idempotent transfer consumption, the same ACK can be interpreted as multiple valid torque transfers, creating duplicate execution despite preserved RPM.",
+    "correction": "Repair single-transfer state first; C then reruns the repaired gearbox adversarial cases and regression suite before Step-001 PASS."
+  },
+  "next_autonomous_action": {
+    "role": "LCR-B",
+    "packet": "packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-001.json",
+    "packet_sha256": "33f86bd7036f05d0d3549923cce1f974f52407ae237f2d8d4b4eb2040d02e5fd",
+    "task": "Repair exactly-once torque-transfer replay semantics only, preserve all previously passing guards, return BUILT_NOT_VERIFIED to LCR-C."
+  },
+  "gearbox": {
+    "ref": "evolution/GEARBOX_ARCHITECTURE.json",
+    "model_codename_zh": "第一型『變速箱自主模型』",
+    "model_codename_en": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
+    "current_control_state": "G1_G2_REPAIR_EXACTLY_ONCE_TRANSFER",
+    "formal_workers": 3,
+    "gear_count": 6,
+    "rpm_continuity": "PASS_IN_CURRENT_FIXTURES",
+    "upshift_overlap": "PARTIAL_PASS_RECEIVER_ACK_HOLD_OK_REPLAY_FAIL",
+    "downshift_overlap": "PASS_LOWER_GUARD_FIRST",
+    "verdict": "FAIL_001"
+  },
+  "continuity": {
+    "metabolism_policy_ref": "evolution/EVOLUTION_METABOLISM_POLICY.json",
+    "formal_slot_added": false,
+    "save_points": ["before substantive report", "before cross-role handoff", "after verifier verdict", "before large write", "before phase transition", "before closure"],
+    "handoff_payload": "COMPACT_DURABLE_CONTROL_STATE_NO_RAW_CHAT"
+  },
+  "information_waste_status": {
+    "previous_stage_0003": "VERIFIED_CLOSED_WITH_KEEP_WASTE_QUARANTINE_DISPOSITION",
+    "current_0005": "VERIFIER_FAIL_EVIDENCE_KEPT; test scratch/transient execution not promoted to durable truth",
+    "automatic_disposal": "NO_PHYSICAL_DISPOSAL_IN_STEP_001"
+  },
+  "report_policy": "Single canonical progress snapshot overwritten before substantive reports; no numbered progress files."
 }
