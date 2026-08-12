@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "authorization": "NAVIGATION_RESILIENCE_RUNTIME_METABOLISM_ADDENDUM",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-12T18:05:00+08:00",
+  "status": "ACTIVE",
+  "purpose": "Add a deterministic Navigation Continuity Watchdog so recoverable navigation/tool/derived-state errors are diagnosed, metabolized and resumed without resetting the active mission or adding workers.",
+  "component": {
+    "name_zh": "導航續轉器",
+    "name_en": "Navigation Continuity Watchdog",
+    "role": "DETERMINISTIC_CONTROL_UTILITY_NOT_WORKER",
+    "formal_slot_impact": "NONE"
+  },
+  "allowed": [
+    "development-branch watchdog code/tests/evidence within current unconsumed Step-002 packet",
+    "bounded deterministic retries with explicit max attempts and idempotency/dedupe",
+    "rebuild derived progress/status/cache metadata from authoritative durable state",
+    "quarantine or classify reproducible transient logs/cache/debug/temp metadata",
+    "route to the next already-authorized A/B/C role or HUMAN_GATE",
+    "retain compact root-cause lesson and recovery outcome"
+  ],
+  "required_invariants": [
+    "owner input or recoverable tool failure never resets mission_id/status/step/current_role/pending packet/hash/lease",
+    "packet/hash/authorization/lease/role contradictions fail closed and are never synthesized away",
+    "retry cannot loop forever and duplicate retry cannot duplicate execution",
+    "recovery returns to the same mission and legal next role/packet",
+    "no slot4/new formal worker/new mission is created for recovery",
+    "protected/unique/secret-like/unreproducible/durable-referenced/Identity/Personality/Governance material is never auto-cleared",
+    "runtime metabolism stores only compact lesson/outcome; raw logs/scratch remain transient or quarantined"
+  ],
+  "human_gate": [
+    "main/default write",
+    "credential or secret requirement",
+    "authorization contradiction",
+    "irreversible high-risk deletion",
+    "Identity/Personality/Governance scope",
+    "legal ambiguity",
+    "recovery cannot prove authoritative next state"
+  ],
+  "monetary_spend_authorized": false,
+  "main_default_write_authorized": false,
+  "new_formal_worker_authorized": false,
+  "authorization_sha256": "b1cf73e74da2096bbaf416410b51373d0cd4041e34182408cfbaf4a6ce0b1f3c"
+}
