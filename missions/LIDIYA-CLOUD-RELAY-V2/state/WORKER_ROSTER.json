@@ -5,10 +5,10 @@
   "max_slots":3,
   "registry":{
     "LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"CONTROL_RADAR_STEP_002_REPAIR"},
-    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"READY_REPAIR_STEP_002_ATTEMPT_3"},
-    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"FAIL_STEP_002_ATTEMPT_3"}
+    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"BUILDING_REPAIR_STEP_002_ATTEMPT_3"},
+    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"VERIFIER_STANDBY_STEP_002_REPAIR"}
   },
-  "mission_status":"READY_FOR_BUILDER",
+  "mission_status":"BUILDING",
   "current_role":"LCR-B",
   "mission_result":null,
   "replacement_policy":"SAME_SLOT_DURABLE_HANDOFF_ONLY",
