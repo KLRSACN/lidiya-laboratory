@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 1,
+  "attempt": 1,
+  "role": "LCR-B",
+  "worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation": 1,
+  "created_at_taipei": "2026-08-12T11:56:44+08:00",
+  "result": "BUILT_NOT_VERIFIED",
+  "inbound_packet": "packets/EVOLUTION-0005-C-TO-B-STEP-001-FAIL-001.json",
+  "inbound_packet_sha256": "33f86bd7036f05d0d3549923cce1f974f52407ae237f2d8d4b4eb2040d02e5fd",
+  "candidate_files": {
+    "evolution/gearbox_controller.py": "e8a05c026fe6435019d1607a73b83b0f09ea26e8",
+    "evolution/test_gearbox_controller.py": "04b8dd970d0a033ecb145eee116c57c2e2a6f09e"
+  },
+  "implemented": [
+    "deterministic transfer_id bound to mission_id, step_id, from_gear, to_gear, state_fingerprint and handoff_sequence",
+    "caller-owned authoritative consumed_transfer_ids idempotency state",
+    "completed transfer replay returns non-executing ALREADY_TRANSFERRED",
+    "stale state-fingerprint ACK cannot complete a changed state",
+    "wrong receiver transfer identity cannot complete a shift",
+    "existing clutch overlap and lower-guard-first downshift semantics retained"
+  ],
+  "builder_checks": {
+    "scope": "repair-only",
+    "exact_branch_execution": "NOT_CLAIMED; LCR-C MUST FRESH-READ AND EXECUTE",
+    "new_negative_cases_added": ["duplicate ACK replay", "stale ACK after state change", "wrong shift identity"],
+    "result_ceiling": "BUILT_NOT_VERIFIED"
+  },
+  "safety": {
+    "model_downloaded": false,
+    "training_performed": false,
+    "package_installed": false,
+    "main_default_write": false,
+    "formal_slot_added": false,
+    "storage_large_write": false,
+    "identity_personality_governance_modified": false
+  },
+  "next": "LCR-C independently verify exact branch bytes, replay/idempotency adversarial cases, and prior regressions."
+}
