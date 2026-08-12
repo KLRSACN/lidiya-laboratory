@@ -1,7 +1,9 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-EVOLUTION-0005",
   "architecture": "LIDIYA_MICRO_EXPERT_GEARBOX",
+  "model_codename_zh": "第一型『變速箱自主模型』",
+  "model_codename_en": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
   "control_states": {
     "N": "standby/no new action",
     "R": "deterministic rollback to verified checkpoint; not a generative model"
@@ -11,49 +13,52 @@
     "gears are compute/expertise modes, not additional workers",
     "prefer one shared base plus multiple adapters over duplicated full weights",
     "expert output is proposal only until deterministic guard and C verification",
-    "downshift on uncertainty, contradiction, safety risk, storage pressure, or missing evidence"
+    "downshift on uncertainty, contradiction, safety risk, storage pressure, or missing evidence",
+    "incoming owner control never resets an active durable mission",
+    "shift means controlled overlap: old gear carries torque until receiving gear acknowledges compact state",
+    "load shedding prefers existing B/C workers and micro-expert gears before any new window"
   ],
   "gears": [
     {
       "gear": 1,
-      "name": "START_AND_BRAKE",
+      "name": "START_CLUTCH_AND_BRAKE",
       "primary_engine": "deterministic rules + tiny classifier",
-      "function": ["intent triage","hard safety gates","state validity","basic metabolism disposition"],
-      "design_goal": "high torque / low freedom / fastest recovery",
-      "upshift_when": "input classified, state valid, risk low, evidence sufficient",
+      "function": ["intent triage","hard safety gates","state validity","basic metabolism disposition","capture owner-control fingerprint","maintain clutch during shifts"],
+      "design_goal": "high torque / low freedom / fastest recovery / never release safety control before receiver acknowledgement",
+      "upshift_when": "input classified, state valid, risk low, evidence sufficient, receiving gear acknowledged compact state",
       "downshift_action": "HOLD/HUMAN_GATE/ROLLBACK"
     },
     {
       "gear": 2,
       "name": "ROUTER",
       "primary_engine": "micro classifier or shared 0.8B base with routing adapter",
-      "function": ["specialist routing","priority class","tool/package selection proposal"],
-      "upshift_when": "route confidence above threshold and no hard guard conflict",
-      "downshift_action": "return to G1 for stricter classification"
+      "function": ["specialist routing","priority class","tool/package selection proposal","queue/route new owner input while prior atomic work continues"],
+      "upshift_when": "route confidence above threshold, no hard guard conflict, receiver state fingerprint acknowledged",
+      "downshift_action": "engage G1 before releasing G2 autonomy"
     },
     {
       "gear": 3,
       "name": "EVIDENCE_AND_METABOLISM",
       "primary_engine": "shared 0.8B base with evidence/metabolism adapter + deterministic hash checks",
-      "function": ["evidence scoring","KEEP/QUARANTINE/WASTE proposal","dedupe/relevance scoring"],
-      "upshift_when": "evidence graph coherent and action remains reversible",
-      "downshift_action": "return to G2/G1 on contradiction or provenance ambiguity"
+      "function": ["evidence scoring","KEEP/QUARANTINE/WASTE proposal","dedupe/relevance scoring","compact handoff-state validation"],
+      "upshift_when": "evidence graph coherent, action reversible, next gear acknowledges state",
+      "downshift_action": "return to G2/G1 on contradiction or provenance ambiguity with lower gear engaged first"
     },
     {
       "gear": 4,
       "name": "ROUTINE_PLANNER",
       "primary_engine": "shared 0.8B base with planning adapter",
-      "function": ["next-action proposal","small task decomposition","low-risk autonomous sequence"],
-      "upshift_when": "multi-step integration needed and C route policy allows",
-      "downshift_action": "collapse plan to one verified next step"
+      "function": ["next-action proposal","small task decomposition","low-risk autonomous sequence","temporary load-bearing during A owner-input handling"],
+      "upshift_when": "multi-step integration genuinely needed and C route policy allows",
+      "downshift_action": "collapse plan to one verified next step and hand back through G3/G2"
     },
     {
       "gear": 5,
       "name": "INTEGRATOR",
       "primary_engine": "2B expert candidate",
       "function": ["multi-domain synthesis","ambiguity resolution proposal","longer-horizon planning"],
-      "upshift_when": "problem genuinely exceeds lower-gear eval threshold",
-      "downshift_action": "decompose into G3/G4 subproblems"
+      "upshift_when": "problem genuinely exceeds lower-gear eval threshold and shift overlap is established",
+      "downshift_action": "decompose into G3/G4 subproblems before releasing G5"
     },
     {
       "gear": 6,
@@ -66,11 +71,20 @@
   ],
   "transmission_controller": {
     "owner": "LCR-A",
-    "inputs": ["risk","uncertainty","latency_budget","storage_budget","reversibility","evidence_quality","task_complexity"],
-    "outputs": ["selected_gear","specialist_adapter","reason","return_condition","expected_cost_class"],
+    "inputs": ["risk","uncertainty","latency_budget","storage_budget","reversibility","evidence_quality","task_complexity","incoming_control","current_atomic_work","receiver_readiness"],
+    "outputs": ["selected_gear","specialist_adapter","reason","return_condition","expected_cost_class","shift_phase","receiver_ack_required","handoff_fingerprint"],
     "guardian": "LCR-C",
     "builder": "LCR-B",
-    "no_direct_state_mutation": true
+    "no_direct_state_mutation": true,
+    "shift_phases": ["ENGAGED_CURRENT","CLUTCH_OVERLAP","RECEIVER_ACKED","TORQUE_TRANSFERRED","OLD_GEAR_RELEASED"],
+    "shift_invariant": "old gear is not released before receiver acknowledgement",
+    "owner_input_invariant": "incoming owner input is captured and classified without resetting active mission control fields",
+    "handoff_payload_minimum": ["mission_id","step_id","route","pending_work","evidence_pointer","rollback","blocker","priority","return_condition","state_fingerprint"]
+  },
+  "load_shedding": {
+    "priority": ["reuse current A/B/C slot","route to an already-active formal worker if role-compatible","use micro-expert gear/adapters for classification/planning","queue at safe checkpoint","same-slot durable handoff if replacement is explicitly needed"],
+    "new_formal_window": "FORBIDDEN_BY_DEFAULT",
+    "slot4": "FORBIDDEN"
   },
   "storage_strategy": {
     "G1": "rules/classifier only",
@@ -80,6 +94,6 @@
     "content_addressed_manifests": true,
     "avoid_six_full_weight_copies": true
   },
-  "first_build_target": "deterministic transmission controller + structured gear-decision schema + adversarial tests before any fine-tuning",
+  "first_build_target": "deterministic transmission controller + structured gear-decision/shift-overlap schema + adversarial tests before any fine-tuning",
   "promotion_path": ["SIMULATE", "SANDBOX", "C_VERIFY", "LIMITED_RUNTIME", "PROMOTE"]
 }
