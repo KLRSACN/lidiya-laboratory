@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0",
-  "updated_at": "2026-08-12T08:38:00+08:00",
+  "schema_version": "1.1",
+  "updated_at": "2026-08-12T08:56:00+08:00",
   "time_authority": "Asia/Taipei",
   "channel": {
     "operational_alias": "lidiya 風鈴（開發先驅1型）",
@@ -8,7 +8,16 @@
     "call_syntax": "[CALL:FL-A1/GT3/RELAY-20260812-0838]",
     "channel_code_is_secret": false,
     "primary_target": "LCR-A",
-    "transport_truth": "DURABLE_STATE_AND_CONTROL_PACKET_NOT_CHAT_WINDOW_ID"
+    "transport_truth": "DURABLE_STATE_AND_CONTROL_PACKET_NOT_CHAT_WINDOW_ID",
+    "primary_transport": "state/WINDCHIME_CONTROL_INBOX.json",
+    "fallback_transport": {
+      "type": "GITHUB_ISSUE_APPEND_ONLY_RELAY",
+      "issue_number": 3,
+      "valid_report_first_line": "WINDCHIME_REPORT",
+      "valid_call_first_line_prefix": "[CALL:FL-A1/GT3/RELAY-20260812-0838]",
+      "ignore_first_lines": ["WINDCHIME_BEACON", "RELAY_MESSAGE"],
+      "dedupe": "comment_id + normalized_fingerprint"
+    }
   },
   "formal_slots": {
     "LCR-A": {
@@ -51,8 +60,10 @@
       "read MISSION_STATE.json",
       "read WORKER_ROSTER.json",
       "read this WINDOW_CHANNEL_REGISTRY.json",
+      "read WINDCHIME_CONTROL_INBOX.json",
       "verify current authorization/pending packet/lease",
-      "do not create a new formal slot"
+      "do not create a new formal slot",
+      "if inbox write is unavailable, append one valid WINDCHIME_REPORT to Issue #3"
     ],
     "if_call_code_matches": "ROUTE_TO_LCR-A_CONTROL_INPUT",
     "if_replacement_requested": "REQUIRE_SAME_SLOT_DURABLE_HANDOFF",
@@ -70,7 +81,8 @@
     "may_modify_builder_candidate": false
   },
   "radar_policy": {
-    "A_minimum_frequency": "HOURLY",
+    "A_minimum_frequency": "HOURLY_PLATFORM_LIMIT",
+    "A_manual_poll_allowed": true,
     "B_mode_when_idle": "SILENT_STANDBY",
     "C_mode_when_idle": "SILENT_STANDBY",
     "no_change_notification": false,
