@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "policy": "CONTINUITY_PLUS_STAGE_METABOLISM",
+  "continuity": {
+    "authoritative_truth": ["state/MISSION_STATE.json", "state/EVOLUTION_PROGRESS.json", "state/WORKER_ROSTER.json", "current pending packet/hash", "latest verified evidence"],
+    "save_points": ["before substantive report", "before cross-role handoff", "after verifier verdict", "before large model/dataset write", "before phase transition", "before Metabolic Closure"],
+    "owner_input_is_stop_event": false,
+    "new_window_policy": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
+    "support_radars_may_observe_but_not_create_formal_slots": true,
+    "recovery_rule": "Restart from durable state + packet/hash + roster generation + compact progress snapshot, never from raw chat history."
+  },
+  "stage_disposition": {
+    "KEEP": [
+      "current durable mission state",
+      "canonical EVOLUTION_PROGRESS snapshot",
+      "current WORKER_ROSTER and authorization",
+      "latest verified package radar",
+      "storage budget ledger and content-addressed manifest",
+      "best verified adapter/checkpoint per promoted specialist",
+      "deterministic controller/guard source and tests",
+      "held-out/adversarial eval summary and hashes",
+      "rollback anchor",
+      "minimal root-cause lessons"
+    ],
+    "WASTE_CANDIDATE": [
+      "download/install scratch after verified package/model admission",
+      "duplicate model files with identical content hash and no required-format justification",
+      "superseded reproducible intermediate checkpoints",
+      "raw training/debug logs after verified compact evidence extraction",
+      "duplicate self-reports and one-shot progress files",
+      "stale generated status panels",
+      "failed synthetic fixtures reproducible from retained generator/config",
+      "temporary merged weights when base+adapter+merge recipe remain reproducible"
+    ],
+    "QUARANTINE": [
+      "unique failed checkpoint with unresolved value",
+      "unreproducible model/data artifact",
+      "ambiguous or unknown provenance",
+      "secret-like or credential-like material",
+      "unique human-created material",
+      "artifact referenced by durable state/evidence",
+      "safety regression sample not yet distilled into verified test",
+      "Identity/Personality/Governance related material"
+    ]
+  },
+  "automatic_disposal_guards": [
+    "not durable-referenced",
+    "not unique human work",
+    "not secret-like",
+    "known provenance",
+    "reproducible from retained source/config or exact duplicate hash",
+    "rollback/recovery unaffected",
+    "C verification not pending on the artifact",
+    "manifest updated before physical deletion"
+  ],
+  "retention": {
+    "raw_debug_log_after_verified_summary_hours": 72,
+    "download_scratch_after_verified_admission_hours": 24,
+    "failed_reproducible_fixture_hours": 24,
+    "adapter_generations_default": 2,
+    "rule": "Keep current candidate plus best verified generation; older generations may be disposed only if reproducible and unreferenced."
+  },
+  "phase_transition_cleanup": {
+    "before": "save canonical progress + manifest + hashes",
+    "builder": "classify and propose/perform only guard-approved disposal within authorized workspace",
+    "verifier": "independently verify protected survival, manifest consistency, storage ledger delta, and restart recovery",
+    "after": "A absorbs compact verified disposition only; raw worksite does not become durable truth"
+  },
+  "gearbox_integration": {
+    "G1": "owns brake/fail-closed decisions and storage/safety hard guards",
+    "G2_G4": "may propose disposal or compaction but cannot bypass G1 guards",
+    "G5_G6": "never gain deletion authority merely because they are larger models",
+    "R": "rollback/recovery path; protected from automatic disposal"
+  },
+  "goal": "Maintain wakeful continuity while reducing retained worksite entropy at every verified phase boundary."
+}
