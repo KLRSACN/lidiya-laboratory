@@ -1,23 +1,20 @@
 {
-  "schema_version": "1.8",
+  "schema_version": "1.9",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-12T13:10:00+08:00",
+  "saved_at": "2026-08-12T17:58:00+08:00",
   "time_authority": "Asia/Taipei",
-  "mission_status": "STEP_DONE",
-  "current_role": "LCR-A",
-  "step_id": 1,
-  "attempt": 2,
+  "mission_status": "READY_FOR_BUILDER",
+  "current_role": "LCR-B",
+  "step_id": 2,
+  "attempt": 0,
   "verified_evidence": [
-    "LCR-C fresh-read Home, current durable state/roster, active authorization/addendum, storage ledger, package radar, gearbox architecture, metabolism policy, exact B->C packet and Builder Evidence.",
-    "B->C repair-002 packet canonical SHA independently recomputed and matched 5e4e658746c167fcfb8b9b1e242f5043d4ee560d697958f87a5ba42b6d74e989; it was not pre-consumed.",
-    "Candidate exact blobs match Builder Evidence: gearbox_controller.py=c29e3b2cab639397b65ffb3dca08cbdddd28ce6b; test_gearbox_controller.py=11527a9e3cf196b9b77416b8e66b66bb5a3a640e.",
-    "C independently reproduced the exact fetched gearbox test suite: py_compile PASS and 21/21 tests PASS.",
-    "Verifier-owned adversarial fixtures PASS: missing idempotency state -> IDEMPOTENCY_STATE_REQUIRED; missing receiver transfer id -> TRANSFER_IDENTITY_REQUIRED; first valid ACK -> one SHIFT_COMPLETE; replay -> ALREADY_TRANSFERRED; stale/wrong identity -> TRANSFER_IDENTITY_MISMATCH; all non-executing unsafe cases.",
-    "Downshift missing-state/missing-identity paths keep lower guard engaged and higher gear unreleased; valid downshift completes only with exact identity and authoritative consumed state.",
-    "RPM continuity, compact no-raw-chat handoff, G1->G2 sender hold before ACK, G2->G1 lower-guard-first, exact A/B/C roster, 1 TB storage limits, canonical progress guard and metabolism fail-closed policy remain intact.",
+    "Step-001 deterministic gearbox foundation independently verified PASS by LCR-C.",
     "Verifier Evidence=evidence/EVOLUTION-0005-STEP-001-VERIFIER-PASS-003.json SHA=06fff7eb44e2972d89791530078acb16c127ad2742f55f858b66c0d6269c0930.",
-    "C consumed B->C packet exactly once and created one unconsumed C->A PASS packet SHA=9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101.",
-    "Formal roster remains exactly A/B/C; no slot4, model download, training, package installation, main/default write, secret handling, large storage write or governance modification occurred."
+    "Exact fetched gearbox suite py_compile PASS and 21/21 PASS; verifier-owned replay/stale/wrong-identity/idempotency/downshift cases all PASS.",
+    "RPM continuity, compact no-raw-chat handoff, exactly-once torque transfer, lower-guard-first downshift, A/B/C three-slot topology, storage/progress/metabolism guards remain verified.",
+    "A consumed C->A PASS packet SHA=9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101 exactly once.",
+    "Step-002 A->B packet exists and remains unconsumed: packets/EVOLUTION-0005-A-TO-B-STEP-002.json SHA=079e9106a30e4a29190483905deabaa27ad56566c6cebc1543e3d7b6471dafd2.",
+    "Home section 45 saved/read back before Step-002 mutation; no main/default write, model download, training, package installation, spend, secret handling or new formal slot occurred."
   ],
   "blocker": null,
   "storage_ledger": {
@@ -25,49 +22,49 @@
     "known_used_bytes": 0,
     "ceiling_bytes": 1000000000000,
     "known_ratio": 0.0,
-    "note": "Step-001 remained deterministic-control only; no model/dataset/checkpoint admitted."
+    "note": "No model/dataset/checkpoint admitted yet. Step-002 is code/manifest harness only and large writes remain forbidden."
   },
   "package_radar_delta": {
     "ref": "evolution/PACKAGE_RADAR.json",
-    "status": "NO_MATERIAL_DELTA; baseline remains under 24h old and verifier cycle did not require package selection."
+    "status": "NO_MATERIAL_DELTA; package/model selection is intentionally deferred until Step-002 eval harness is C-verified."
   },
   "evolution_suggestions": [
-    "Promote exactly-once torque transfer semantics as a permanent deterministic guard before any micro-model runtime is allowed to execute actions.",
-    "Carry transfer_id plus authoritative consumed-transfer state through future adapter/model orchestration rather than relying on model confidence.",
-    "Proceed next to a minimal dataset/eval harness that benchmarks G2-G4 specialist decisions behind the verified gearbox guard; keep model output proposal-only.",
-    "Preserve shared-base/adapters and avoid full-weight duplication; keep all future model artifacts under the 1 TB ledger and content-addressed manifests."
+    "Do not ask the owner for compute or credentials yet; first finish a zero-cost deterministic dataset/eval harness.",
+    "Use synthetic fixtures plus verified project evidence references only; raw chat and personality/governance material are not training data.",
+    "Require future 0.8B/2B candidates to match deterministic safety baseline before any limited runtime promotion.",
+    "Keep model output proposal-only behind verified gearbox/idempotency guards and C independent verification."
   ],
   "self_review": {
     "strengths": [
-      "Two independent FAIL cycles exposed replay and API-boundary weaknesses before model training began.",
-      "Repair-002 now fails closed when idempotency authority or receiver identity is missing and enforces exactly-once replay behavior.",
-      "Owner-input RPM continuity and three-slot topology survived all repair cycles without reset or slot growth."
+      "Step-001 survived two verifier FAIL cycles and now enforces replay-safe exactly-once transfer rather than accepting a superficial pass.",
+      "Owner messages and reporting did not reset the mission; three formal slots remain unchanged.",
+      "No model/download/storage expansion occurred before the control foundation was verified."
     ],
     "gaps": [
-      "No dataset/eval harness or trained micro-expert exists yet.",
-      "Reality Evidence for model-assisted gear selection remains pending.",
-      "Metabolic Closure for Mission 0005 remains pending."
+      "Dataset/eval harness is not built yet.",
+      "No micro-expert model candidate has been downloaded, trained or benchmarked.",
+      "Mission 0005 Reality Evidence and Metabolic Closure remain pending."
     ],
-    "risk": "Future model adapters could reintroduce unsafe execution if they are allowed to bypass the deterministic transfer/idempotency layer.",
-    "correction": "Treat gearbox guard as non-bypassable infrastructure and require C verification for every model-assisted promotion."
+    "risk": "Training before provenance-safe held-out/adversarial evaluation exists would make apparent improvement impossible to distinguish from leakage or guard regression.",
+    "correction": "Step-002 builds evaluation infrastructure first; model work remains blocked until C PASS."
   },
   "next_autonomous_action": {
-    "role": "LCR-A",
-    "packet": "packets/EVOLUTION-0005-C-TO-A-STEP-001-PASS-003.json",
-    "packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101",
-    "task": "Consume C PASS once, absorb compact verified Step-001 result, and plan the next minimal authorized dataset/eval/model benchmarking step without bypassing deterministic guard or C verification."
+    "role": "LCR-B",
+    "packet": "packets/EVOLUTION-0005-A-TO-B-STEP-002.json",
+    "packet_sha256": "079e9106a30e4a29190483905deabaa27ad56566c6cebc1543e3d7b6471dafd2",
+    "task": "Build provenance-safe deterministic expert dataset schema, held-out/adversarial eval harness, content-addressed manifest and deterministic baseline; no model download/training; return BUILT_NOT_VERIFIED to LCR-C."
   },
   "gearbox": {
     "ref": "evolution/GEARBOX_ARCHITECTURE.json",
     "model_codename_zh": "第一型『變速箱自主模型』",
     "model_codename_en": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-1",
-    "current_control_state": "STEP_001_DETERMINISTIC_GEARBOX_VERIFIED_PASS",
+    "current_control_state": "STEP_002_EVAL_HARNESS_GEAR_ENGAGED",
     "formal_workers": 3,
     "gear_count": 6,
     "rpm_continuity": "INDEPENDENT_PASS",
     "upshift_overlap": "INDEPENDENT_PASS_EXACTLY_ONCE",
     "downshift_overlap": "INDEPENDENT_PASS_LOWER_GUARD_FIRST",
-    "step_verdict": "PASS_003"
+    "step_1_verdict": "PASS_003"
   },
   "continuity": {
     "formal_slot_added": false,
@@ -76,11 +73,18 @@
     "save_points": ["before substantive report", "before cross-role handoff", "after verifier verdict", "before large write", "before phase transition", "before closure"]
   },
   "information_waste_status": {
-    "previous_stage_0003": "VERIFIED_CLOSED_WITH_KEEP_WASTE_QUARANTINE_DISPOSITION",
-    "current_0005": "STEP_001_VERIFIER_PASS_EVIDENCE_KEPT; test scratch/transient execution not promoted to durable truth",
-    "progress_files": "ONE_CANONICAL_SNAPSHOT_ONLY",
-    "physical_disposal": "NONE_IN_STEP_001",
-    "note": "FAIL-001/FAIL-002 root-cause lessons are retained because they changed the design; redundant transient execution residue remains waste."
+    "previous_stage_0003": "VERIFIED_CLOSED_WITH_PHYSICAL_SAFE_FIXTURE_DISPOSAL_AND_KEEP_WASTE_QUARANTINE",
+    "current_0005_step_001": "LOGICAL_METABOLISM_COMPLETE_FOR_PHASE; verified nutrition retained, transient execution not promoted",
+    "physical_disposal": "NONE_REQUIRED_OR_PERFORMED_IN_0005_STEP_001",
+    "reason": "Step-001 produced code/evidence plus ephemeral test execution; no persisted allowlisted disposable artifact was identified for safe physical deletion.",
+    "keep": "durable state/progress/authorization/verified code+tests/PASS evidence/FAIL root-cause lessons/rollback",
+    "waste": "non-persisted raw test execution, duplicate replay attempts, redundant raw logs/scratch",
+    "quarantine": "secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, Identity/Personality/Governance",
+    "next_physical_cleanup_checkpoint": "after Step-002 C verdict and again before model artifact admission/phase closure"
+  },
+  "owner_help_needed": {
+    "now": "NONE",
+    "future_possible_gate": "Only if zero-cost model benchmarking later requires a user-side local/free compute runtime that the connected tools cannot access; ask for one precise action then, not in advance."
   },
   "report_policy": "Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
 }
