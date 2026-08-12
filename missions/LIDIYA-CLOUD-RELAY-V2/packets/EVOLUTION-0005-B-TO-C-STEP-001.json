@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "run_id": "LCR-EVOLUTION-0005-RUN-001-B",
+  "step_id": 1,
+  "attempt": 0,
+  "source": "LCR-B",
+  "target": "LCR-C",
+  "action": "VERIFY_GEARBOX_CONTROL_FOUNDATION",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T10:49:47+08:00",
+  "parent_packet_sha256": "fab065f67d420db1ce68a3d25459d425b3faad7c22375afc0ad0e23f03114e3f",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "candidate_ref": "lidiya-cloud-relay-v2",
+  "evidence_ref": "evidence/EVOLUTION-0005-STEP-001-BUILDER.json",
+  "builder_result": "BUILT_NOT_VERIFIED",
+  "acceptance": [
+    "C fresh-reads exact six candidate files and reruns new tests independently",
+    "G1-G6/N/R deterministic structured decisions; risk/uncertainty/contradiction/weak evidence/storage pressure cannot increase autonomy",
+    "Type-1 Autonomous Gearbox owner-input RPM continuity preserves active mission control fields",
+    "G1->G2 clutch overlap keeps original atomic work alive until receiver state-fingerprint ACK, then transfers compact torque state without raw chat",
+    "G2->G1 downshift engages lower guard before higher-gear release",
+    "gearbox cannot create LCR-D or mutate formal A/B/C roster",
+    "1 TB ceiling, 70/85/95/100 thresholds, third-backup rejection, duplicate-base manifest rule hold",
+    "canonical progress writer rejects missing fields, numbered progress files, and stale overwrite",
+    "C reruns relay/metabolism/continuous-control regressions on exact branch bytes",
+    "no model download/training/package install/main write/secret/Identity-Personality-Governance mutation"
+  ],
+  "packet_sha256": "97d5ed610ae16a006a1e22c22fedf7ba5f85ba9dd18b6c85b29de66cee120048"
+}
