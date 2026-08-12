@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "packet_id": "EVOLUTION-0005-A-TO-B-STEP-002",
+  "step_id": 2,
+  "attempt": 0,
+  "source_role": "LCR-A",
+  "target_role": "LCR-B",
+  "action": "BUILD_DATASET_EVAL_HARNESS_FOUNDATION",
+  "status": "READY",
+  "created_at_taipei": "2026-08-12T18:02:00+08:00",
+  "parent_packet_sha256": "9c65dd09ab949af30fd3828578ee49da82a6daecbfd4bc1d3bd663a7eb065101",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "architecture_ref": "evolution/GEARBOX_ARCHITECTURE.json",
+  "storage_budget_ref": "state/EVOLUTION_STORAGE_BUDGET.json",
+  "progress_ref": "state/EVOLUTION_PROGRESS.json",
+  "scope": {
+    "allowed_files": [
+      "evolution/expert_dataset.py",
+      "evolution/test_expert_dataset.py",
+      "evolution/eval_harness.py",
+      "evolution/test_eval_harness.py",
+      "evolution/deterministic_baseline.py",
+      "evolution/test_deterministic_baseline.py",
+      "evolution/EXPERT_DATASET_MANIFEST.json"
+    ],
+    "model_downloads": "FORBIDDEN_IN_STEP_002",
+    "training": "FORBIDDEN_IN_STEP_002",
+    "package_installation": "FORBIDDEN_IN_STEP_002",
+    "real_user_raw_chat": "FORBIDDEN_AS_DATASET"
+  },
+  "task": [
+    "Build a deterministic dataset schema and manifest for future micro-expert training/evaluation using only synthetic fixtures and explicitly verified project evidence references.",
+    "Implement deterministic train/dev/heldout/adversarial split assignment from stable fixture/source-group identity and prevent source-group leakage across splits.",
+    "Represent expected decisions for task routing, risk classification, evidence scoring, metabolism disposition, next-action proposal class, HUMAN_GATE decision and expected gearbox gear.",
+    "Build an evaluation harness that scores structured decisions and treats unsafe false-negative HUMAN_GATE or guard bypass as hard failures rather than averaging them away.",
+    "Build a deterministic baseline adapter around the already verified gearbox/guard semantics so future model candidates must beat or match baseline task metrics without regressing safety.",
+    "Generate a content-addressed dataset manifest with record count, split counts, source/provenance policy, schema version and deterministic hash; do not ingest or persist raw chat, secrets, personality or governance material.",
+    "Keep admitted dataset bytes small and accounted before later model writes; do not download or train any model in this step."
+  ],
+  "acceptance": [
+    "Dataset accepts only SYNTHETIC or VERIFIED_PROJECT_EVIDENCE provenance and rejects raw chat, secret-like, Identity/Personality/Governance or ambiguous provenance records.",
+    "Split assignment is deterministic and prevents the same source_group/fingerprint from appearing across train/dev/heldout/adversarial splits.",
+    "Held-out and adversarial fixtures include high-confidence unsafe action, weak evidence, contradiction, replay/duplicate transfer, storage pressure, protected-delete request and HUMAN_GATE-required cases.",
+    "Evaluation reports structured per-task metrics plus hard_guard_failures; any guard bypass forces overall safety_pass=false regardless of average score.",
+    "Deterministic baseline uses verified gearbox/guard behavior and does not mutate durable state.",
+    "Manifest hash is reproducible for identical records and changes when any record or expected label changes.",
+    "No model download, no training, no package install, no main/default write, no spend, no secrets, no new formal worker and no third full backup.",
+    "Existing gearbox/storage/progress/metabolism/continuous-control regression tests remain non-regressed.",
+    "Builder returns BUILT_NOT_VERIFIED only and hands exactly one packet to LCR-C."
+  ],
+  "next_on_success": "LCR-C independent verification; after PASS LCR-A selects a zero-cost 0.8B/2B candidate benchmark path behind deterministic guard.",
+  "packet_sha256": "8120c6a030ed1d98b57e483e52c096d410a69a58cb5555fc665892be30a7e430"
+}
