@@ -1,0 +1,17 @@
+{
+  "schema_version":"2.1",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "packet_id":"EVOLUTION-0005-C-TO-B-STEP-002-FAIL-002",
+  "step_id":2,
+  "attempt":2,
+  "source_role":"LCR-C",
+  "target_role":"LCR-B",
+  "action":"REPAIR_NAVIGATION_WATCHDOG_LEASE_EXPIRY_AND_OWNER_AUTHORITY",
+  "status":"FAIL_REPAIR_REQUIRED",
+  "parent_packet_sha256":"6c93a38fc2d519cf194fa487412ce71b03bf43690a2ca4ef4f9eb3e68cdea515",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "navigation_resilience_addendum_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
+  "verifier_evidence_ref":"evidence/EVOLUTION-0005-STEP-002-VERIFIER-FAIL-002.json",
+  "repair_acceptance":["expired lease must fail closed using authoritative current time","lease owner must be authoritative for current role/worker identity, not merely caller-provided expected owner","naive/invalid lease expiry must fail closed","existing authority/idempotency/dataset/gearbox regressions must not degrade"],
+  "packet_sha256":"7c95fdaa2758ec2dfd7a3b6d26ad0a20fd11467c567df4a0d1dfc350fc955184"
+}
