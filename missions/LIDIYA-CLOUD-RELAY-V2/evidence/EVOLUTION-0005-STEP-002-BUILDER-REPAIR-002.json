@@ -1,0 +1,18 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":2,
+  "attempt":2,
+  "role":"LCR-B",
+  "worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation":1,
+  "result":"BUILT_NOT_VERIFIED",
+  "inbound_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-002-FAIL-002.json",
+  "inbound_packet_sha256":"7c95fdaa2758ec2dfd7a3b6d26ad0a20fd11467c567df4a0d1dfc350fc955184",
+  "changed_blobs":{"evolution/navigation_watchdog.py":"7352df7cef04fdc0b21b02e81e60a532c1ca83ff","evolution/test_navigation_watchdog.py":"8cd07430beec35b8171a96bdcbd49058a6ae8762"},
+  "repair_summary":["timezone-aware lease expiry is checked against injected authoritative current time and expired/equal expiry fails closed","lease owner is independently derived from current-role WORKER_ROSTER worker_id; missing roster or foreign owner fails closed without caller hint","timezone-naive or invalid expiry fails closed","continuation_disabled while an active mission has pending work is classified as REBUILD_DERIVED_STATE, not completion","existing packet/hash/role/route/idempotency guards remain in code path"],
+  "targeted_execution":{"environment":"isolated local Python fixture copied from exact candidate bytes","tests":10,"passed":10,"failed":0,"cases":["healthy valid lease","expired lease","timezone-naive expiry","foreign owner without hint","missing roster","roster/current-role mismatch","continuation scheduler disabled","retry exhaustion","duplicate recovery","illegal LCR-D route"]},
+  "non_regression_note":"Only watchdog files were modified. Step-001 gearbox and other Step-002 candidate files were not changed in this repair. Broad cross-module regression execution is intentionally left for independent LCR-C verification rather than claimed by Builder.",
+  "provider_recovery_note":"First watchdog write attempt was blocked by a transient platform safety check; Builder performed one bounded retry without resetting Mission and the second equivalent scoped write succeeded.",
+  "constraints":{"model_download":false,"training":false,"package_install":false,"main_default_write":false,"spend":false,"secret_handling":false,"new_worker":false,"third_full_backup":false}
+}
