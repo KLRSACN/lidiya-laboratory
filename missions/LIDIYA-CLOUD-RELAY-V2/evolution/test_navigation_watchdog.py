@@ -1,5 +1,12 @@
 from navigation_watchdog import *
 
+NOW="2026-08-12T18:20:00+08:00"
+ROSTER={"current_role":"LCR-B","registry":{"LCR-A":{"worker_id":"A"},"LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR"},"LCR-C":{"worker_id":"C"}}}
+_raw_decide=decide
+def decide(state,event,**kw):
+    kw.setdefault("roster",ROSTER); kw.setdefault("now",NOW)
+    return _raw_decide(state,event,**kw)
+
 LEASE={"owner":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","role":"LCR-B","expires_at":"2026-08-12T18:46:00+08:00"}
 S={"mission_id":"M","status":"BUILDING","step_id":2,"current_role":"LCR-B","next_role":"LCR-B","pending_packet":"p","pending_packet_sha256":"h","authorization_ref":"auth","lease":LEASE}
 
@@ -40,3 +47,15 @@ def test_route_wrong_packet_nonexecuting(): assert not decide(S,ev("route_next",
 def test_route_wrong_hash_nonexecuting(): assert not decide(S,ev("route_next",next_role="LCR-B",route_packet="p",route_hash="wrong")).execution_authorized
 def test_route_exact_authority_executes_once():
     c=set(); e=ev("route_next",next_role="LCR-B",route_packet="p",route_hash="h"); d=decide(S,e,consumed=c); assert d.action=="ROUTE_NEXT_ROLE" and d.execution_authorized; mark_consumed(d,c); assert not decide(S,e,consumed=c).execution_authorized
+
+def test_expired_lease_rejected():
+    s=dict(S); s["lease"]={**LEASE,"expires_at":"2026-08-12T18:19:59+08:00"}; assert decide(s,{"kind":"healthy"}).reason=="expired lease"
+def test_naive_expiry_rejected():
+    s=dict(S); s["lease"]={**LEASE,"expires_at":"2026-08-12T18:46:00"}; assert decide(s,{"kind":"healthy"}).reason=="malformed lease expiry"
+def test_owner_must_match_roster_without_hint():
+    s=dict(S); s["lease"]={**LEASE,"owner":"OTHER"}; assert decide(s,{"kind":"healthy"}).reason=="foreign lease owner"
+def test_missing_roster_rejected(): assert _raw_decide(S,{"kind":"healthy"},now=NOW).reason=="cannot prove lease owner"
+def test_roster_role_mismatch_rejected():
+    r={**ROSTER,"current_role":"LCR-C"}; assert _raw_decide(S,{"kind":"healthy"},roster=r,now=NOW).reason=="cannot prove lease owner"
+def test_disabled_continuation_is_rebuildable_not_done():
+    before=json.loads(json.dumps(S)); d=decide(S,ev("continuation_disabled")); assert d.action=="REBUILD_DERIVED_STATE" and d.execution_authorized and S==before
