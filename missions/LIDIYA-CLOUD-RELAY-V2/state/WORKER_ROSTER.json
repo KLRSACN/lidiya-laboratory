@@ -1,24 +1,24 @@
 {
-  "schema_version":"1.3",
-  "mission_id":"LCR-EVOLUTION-0005",
-  "formal_slots":["LCR-A","LCR-B","LCR-C"],
-  "max_slots":3,
-  "registry":{
-    "LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"COORDINATOR_HANDOFF_DONE"},
-    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"STANDBY_AFTER_BUILT_NOT_VERIFIED"},
-    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"ACTIVE_PENDING_PACKET"}
+  "schema_version": "1.3",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
+  "max_slots": 3,
+  "registry": {
+    "LCR-A": {"worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL", "generation": 0, "mode": "COORDINATOR_STANDBY"},
+    "LCR-B": {"worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR", "generation": 1, "mode": "ACTIVE_REPAIR_PENDING_PACKET"},
+    "LCR-C": {"worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER", "generation": 0, "mode": "STANDBY_AFTER_FAIL_001"}
   },
-  "mission_status":"READY_FOR_VERIFY",
-  "mission_result":null,
-  "replacement_policy":"SAME_SLOT_DURABLE_HANDOFF_ONLY",
-  "fourth_slot":"FORBIDDEN",
-  "authoritative_state_ref":"state/MISSION_STATE.json",
-  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
-  "authorization_addendum_ref":"authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
-  "authorization_status":"ACTIVE",
-  "last_handoff_ref":"handoffs/METABOLISM-0003-B-TO-SECONDARY-STEP-004.json",
-  "last_handoff_sha256":"e6167f892a39df57156655ac014bb46ae5935272cd2ae153a85674e84df03f62",
-  "replaced_worker":{"worker_id":"ONLINE-LIDIYA-BUILDER","slot":"LCR-B","generation":0,"status":"STALE_AFTER_HANDOFF"},
-  "gearbox_note":"G1-G6 are compute/expertise modes inside the three formal workers; they do not create additional worker slots.",
-  "full_backup_created":false
+  "mission_status": "READY_FOR_BUILDER",
+  "mission_result": null,
+  "replacement_policy": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
+  "fourth_slot": "FORBIDDEN",
+  "authoritative_state_ref": "state/MISSION_STATE.json",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
+  "authorization_addendum_ref": "authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
+  "authorization_status": "ACTIVE",
+  "last_handoff_ref": "handoffs/METABOLISM-0003-B-TO-SECONDARY-STEP-004.json",
+  "last_handoff_sha256": "e6167f892a39df57156655ac014bb46ae5935272cd2ae153a85674e84df03f62",
+  "replaced_worker": {"worker_id": "ONLINE-LIDIYA-BUILDER", "slot": "LCR-B", "generation": 0, "status": "STALE_AFTER_HANDOFF"},
+  "gearbox_note": "G1-G6 are compute/expertise modes inside the three formal workers; they do not create additional worker slots.",
+  "full_backup_created": false
 }
