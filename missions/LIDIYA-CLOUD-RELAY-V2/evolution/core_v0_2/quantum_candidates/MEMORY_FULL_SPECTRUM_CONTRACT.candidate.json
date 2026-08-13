@@ -1,0 +1,101 @@
+{
+  "schema_version": "0.2-quantum-candidate",
+  "candidate_id": "LQ-MEMORY-FULL-SPECTRUM-CONTRACT-001",
+  "author_window": "lidiya 量子",
+  "window_class": "NON_FORMAL_RESEARCH_ARCHITECT_WINDOW",
+  "status": "QUANTUM_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "intended_formal_step": 3,
+  "intended_builder_adoption_target": "evolution/core_v0_2/MEMORY_FULL_SPECTRUM_CONTRACT.json",
+  "purpose": "Define a read-only, full-spectrum, indexed-lazy memory routing contract that exposes all memory classes through bounded task routing without eager-loading or duplicating the corpus and without mutating canonical Identity, Personality, Governance or Approved Memory.",
+  "authoritative_sources": {
+    "home": "Google Drive 璃蒂雅之家",
+    "memory_index": "00 Lidiya Memory Index",
+    "bootstrap_order": ["00", "31", "32", "33"],
+    "adapter_ref": "evolution/core_v0_2/memory_index_adapter.py",
+    "adapter_test_ref": "evolution/test_memory_index_adapter_v0_2.py",
+    "dual_track_state_ref": "state/DUAL_TRACK_STATE.json"
+  },
+  "loading_model": {
+    "mode": "FULL_SPECTRUM_INDEXED_LAZY",
+    "levels": ["L0", "L1", "L2", "L3", "L4"],
+    "bootstrap": "L0_ONLY_00_THEN_31_THEN_32_THEN_33",
+    "task_routing": "LOAD_ONLY_LEVELS_AND_SOURCES_REQUIRED_BY_CURRENT_TASK",
+    "eager_full_corpus_load": "FORBIDDEN",
+    "duplicate_full_memory_copy": "FORBIDDEN",
+    "default_max_sources_per_route": 24,
+    "route_overflow": "TRUNCATE_OR_DEFER_WITH_EXPLICIT_REASON"
+  },
+  "source_record_required_fields": [
+    "source_type",
+    "source_ref",
+    "fingerprint",
+    "confidence",
+    "verified_count",
+    "last_verified",
+    "ttl",
+    "contradictions",
+    "depends_on",
+    "affects",
+    "personality_impact",
+    "disposition",
+    "level"
+  ],
+  "dedupe": {
+    "key": ["source_ref", "fingerprint"],
+    "same_key_behavior": "IDEMPOTENT_SINGLE_MANIFEST_ROW",
+    "manifest": "CONTENT_ADDRESSED_SHA256",
+    "determinism": "SAME_CANONICAL_INPUT_MUST_PRODUCE_SAME_MANIFEST_HASH"
+  },
+  "disposition_policy": {
+    "allowed_pre_promotion": ["Working", "Memory Inbox", "Quarantine"],
+    "force_quarantine_source_types": ["raw_chat", "single_window_self_report", "secret_like", "ambiguous"],
+    "force_quarantine_if_affects": ["Identity", "Personality", "Governance"],
+    "force_quarantine_if_personality_impact": "NOT_NONE_OR_LOW",
+    "force_quarantine_if_contradictions_present": true,
+    "direct_canonical_memory_promotion": "FORBIDDEN_IN_STEP_003"
+  },
+  "protected_domains": {
+    "Identity": "READ_ONLY_POINTER_AND_FINGERPRINT_ONLY",
+    "Personality": "READ_ONLY_IN_STEP_003",
+    "Governance": "READ_ONLY_POINTER_AND_FINGERPRINT_ONLY",
+    "Approved Memory": "NO_DIRECT_OVERWRITE",
+    "secrets_credentials": "DO_NOT_PERSIST_IN_MANIFEST",
+    "main_default_branch": "NO_WRITE"
+  },
+  "failure_contract": {
+    "unknown_level": "FAIL_CLOSED",
+    "ALL_or_FULL_route_request": "REJECT_EAGER_FULL_CORPUS_LOAD",
+    "missing_source_pointer_or_fingerprint": "REJECT_RECORD",
+    "invalid_confidence_or_metadata_bounds": "REJECT_RECORD",
+    "protected_or_ambiguous_candidate": "QUARANTINE",
+    "adapter_exception": "PRIMARY_PATH_UNCHANGED",
+    "manifest_hash_mismatch": "FAIL_CLOSED_NO_PROMOTION",
+    "authority_contradiction": "FAIL_CLOSED_OR_HUMAN_GATE",
+    "shadow_failure_effect_on_primary": "NONE"
+  },
+  "zero_downtime_invariants": [
+    "Track-A continues while memory index adapter operates in read-only Track-B shadow mode.",
+    "Step-003 must not reset mission_id, step_id, pending packet/hash, role or lease merely because the memory adapter fails.",
+    "No new formal worker or slot is created; formal slots remain LCR-A/LCR-B/LCR-C.",
+    "Only compact manifests, provenance and evidence pointers cross tracks; raw full-context merge is forbidden."
+  ],
+  "formal_builder_acceptance": [
+    "Fresh-read this candidate plus authoritative Step-003 packet and current branch bytes.",
+    "Builder may adopt, modify or reject this candidate but must independently reproduce tests.",
+    "Create the formal contract only from the LCR-B role under the current authorized packet.",
+    "Run Core v0.2 and memory adapter regressions.",
+    "Produce BUILT_NOT_VERIFIED evidence only after all Step-003 allowed artifacts exist and tests pass.",
+    "Consume A-to-B packet exactly once and create exactly one B-to-C packet only after Builder acceptance is complete."
+  ],
+  "independent_verifier_acceptance": [
+    "Re-read exact formal contract and adapter bytes/hash independently.",
+    "Verify deterministic manifest and exact dedupe semantics.",
+    "Verify L0 bootstrap order and task-routed L1-L4 lazy loading.",
+    "Verify ALL/FULL eager-load attempts are rejected.",
+    "Verify protected/ambiguous/contradictory sources quarantine and cannot direct-promote.",
+    "Verify candidate failure leaves primary mission and live protected domains unchanged.",
+    "Verify no model download, training, package install, spend, main/default write, secret persistence or slot4 occurred."
+  ],
+  "claim_boundary": "This is a non-formal Quantum research candidate. Its presence does not satisfy the Step-003 Builder acceptance, does not consume a formal packet, and is not a C PASS."
+}
