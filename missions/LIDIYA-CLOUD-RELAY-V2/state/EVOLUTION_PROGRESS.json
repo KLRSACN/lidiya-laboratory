@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.8",
+  "schema_version": "2.9",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-13T18:48:00+08:00",
+  "saved_at": "2026-08-13T20:10:00+08:00",
   "time_authority": "Asia/Taipei",
   "mission_status": "READY_FOR_BUILDER",
   "current_role": "LCR-B",
@@ -14,9 +14,11 @@
     "C-to-A PASS packet SHA=945bb68858b1693844706ad827cdd0616caab29bd91c811597069288eae8a6ba was consumed exactly once by LCR-A.",
     "Windchime control FL-A1-CTRL-0002 from LIDIYA-INNER-CORE-ARCHITECT was reference-verified and ACKED without resetting the mission; raw body was not persisted.",
     "Dual-track/full-spectrum authorization is branch-local and formal slots remain exactly A/B/C.",
-    "Exactly one A-to-B Step-003 packet was created: EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001 SHA=b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599.",
+    "Exactly one A-to-B Step-003 packet remains authoritative: EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001 SHA=b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599.",
     "Memory Full Spectrum follows authoritative Memory Index: L0 00->31->32->33 then task-routed L1-L4 lazy load; eager full-corpus load and duplicate full memory-bank copy are forbidden.",
-    "Core v0.2 architect seed local 10/10 remains architect evidence only; formal B adoption and independent C verification are pending."
+    "Core v0.2 architect seed local 10/10 remains architect evidence only; formal B adoption and independent C verification are pending.",
+    "Owner Live Canary control FL-A1-CTRL-0003 was reference-verified and ACKED by A as ACCEPTED_WAIT_STEP_003_C_PASS_NO_INTERRUPT; Step-003 state/role/pending packet were preserved.",
+    "Windchime reviewed Quantum QW-DISCUSS-0001 as ACK_ACCEPT_WITH_CHANGES: staged G1-G6 personality boot is accepted architecturally, isolated simulator/tests may continue, formal adoption waits until Step-003 independent C PASS and legal A receipt."
   ],
   "blocker": null,
   "storage_ledger": {
@@ -32,24 +34,23 @@
   },
   "evolution_suggestions": [
     "Verify full-spectrum memory by deterministic source-pointer manifests rather than copying corpus bytes.",
-    "Keep Core v0.2 shadow copy-only until B reproduction and independent C PASS; live activation remains a separate owner gate.",
-    "Use the existing Golden Triangle plus micro-expert/gear lanes; do not create a fourth formal worker for memory intake.",
-    "After Step-003 C PASS, resume the zero-cost 0.8B/2B expert candidate benchmark path unless a newer owner-authorized detour supersedes it."
+    "Keep Core v0.2 shadow copy-only until B reproduction and independent C PASS.",
+    "After Step-003 C PASS, route one Step-004 bounded Live Canary build through existing B then independent C; include staged personality boot as a reversible sub-scope, not a new mission or slot.",
+    "For new-window personality boot, G1 uses canonical identity/governance pointers read-only; G2 read-only base personality; G3 lazy task-routed memory; mismatch downshifts rather than loading more context."
   ],
   "self_review": {
     "strengths": [
-      "New partner control was accepted while Step-002 C verification continued to completion.",
-      "Derived roster lag was rebuilt from authoritative state without resetting the mission.",
-      "Step-002 PASS was immediately converted into one legal Step-003 B packet instead of creating a parallel Mission.",
-      "Memory full-spectrum was interpreted as all classes routable with lazy loading, preventing context and storage pollution."
+      "Live Canary owner control was ACKed without interrupting current Builder work.",
+      "Quantum research proposal was reviewed without consuming or rewriting the current B packet.",
+      "Staged personality boot reuses the existing gearbox clutch/ACK invariant instead of introducing a parallel control system."
     ],
     "gaps": [
       "Step-003 dual-core candidate is not yet BUILT_NOT_VERIFIED by B.",
       "Memory adapter and Core v0.2 have not yet received independent C PASS.",
-      "Reality evidence and mission metabolic closure remain pending."
+      "Personality gearbox boot protocol is architecturally accepted but not yet formally B-built/C-verified for runtime adoption."
     ],
-    "risk": "Eager-loading or raw-merging the full memory corpus could create duplicate context, stale authority and information waste; treating architect local tests as formal PASS would break role isolation.",
-    "correction": "Use indexed lazy routing, compact provenance pointers, B adoption, C exact-byte verification, and keep live core protected."
+    "risk": "One-shot full-persona/context loading could hide identity/personality mismatches, overload context, and make rollback ambiguous.",
+    "correction": "Use progressive fingerprinted G1-G6 boot with receiver ACK, lazy memory, downshift on mismatch, and formal B/C adoption at the Step-004 checkpoint."
   },
   "next_autonomous_action": {
     "role": "LCR-B",
@@ -62,17 +63,9 @@
     "formal_workers": 3,
     "track_a": "EVOLUTION_RUNTIME_CONTINUITY",
     "track_b": "SECONDARY_LOGICAL_CORE",
-    "track_b_components": [
-      "MEMORY_BANK_FULL_SPECTRUM_INTAKE",
-      "LIDIYA_CORE_V0_2_SHADOW"
-    ],
-    "partner_control": {
-      "control_id": "FL-A1-CTRL-0002",
-      "fingerprint": "29ee8b9359f0cda673cff4b9a4ab55054fa611c46c6ad27c7c538d4464168f15",
-      "status": "ACKED_VERIFIED_REFERENCES"
-    },
     "memory_mode": "FULL_SPECTRUM_INDEXED_LAZY",
-    "live_identity_personality_governance_mutation": "FORBIDDEN_WITHOUT_SEPARATE_GATE"
+    "live_identity_personality_governance_mutation": "FORBIDDEN_WITHOUT_SEPARATE_GATE",
+    "live_canary_gate":"ACKED_WAIT_STEP_003_C_PASS"
   },
   "gearbox": {
     "ref": "evolution/GEARBOX_ARCHITECTURE.json",
@@ -80,27 +73,29 @@
     "current_control_state": "TORQUE_TRANSFERRED_A_TO_EXISTING_B_STEP_003",
     "formal_workers": 3,
     "rpm_continuity": "MAINTAINED",
-    "navigation_watchdog": "VERIFIED_PASS_ATTEMPT_4"
+    "navigation_watchdog": "VERIFIED_PASS_ATTEMPT_4",
+    "personality_boot_protocol_ref":"evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
+    "personality_boot_review":"WINDCHIME_ACK_ACCEPT_WITH_CHANGES_WAIT_FORMAL_ADOPTION"
   },
   "continuity": {
     "formal_slot_added": false,
     "current_atomic_work_preserved": true,
     "owner_control_did_not_reset_mission": true,
-    "step_002_closed_before_step_003_route": true,
     "B_platform_task_reused": true,
-    "C_platform_task_reuse_required_after_B_handoff": true
+    "C_platform_task_reuse_required_after_B_handoff": true,
+    "quantum_window_is_non_formal":true
   },
   "information_waste_status": {
     "current_0005_runtime": "ACTIVE_METABOLISM_IN_PROGRESS",
-    "nutrition_retained": "C verifier PASS, exact packet/hash chain, dual-track authorization, memory index pointers, partner control fingerprint, compact lessons",
-    "waste_not_promoted": "raw architect execution, duplicate relay text, stale roster/progress mirrors, raw polling/logs, duplicate full-memory copies",
+    "nutrition_retained": "C verifier PASS, exact packet/hash chain, owner gate ACK, Quantum protocol pointer/review, compact lessons",
+    "waste_not_promoted": "raw architect execution, duplicate relay text, stale mirrors, raw polling/logs, duplicate full-memory copies",
     "physical_disposal": "NO_PROTECTED_OR_PERSISTED_USER_DATA_DELETED; no full memory corpus copied",
     "quarantine": "secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, Identity/Personality/Governance-impacting candidates",
-    "next_cleanup_checkpoint": "after Step-003 C verdict; compact Builder/Verifier residue before model artifact admission"
+    "next_cleanup_checkpoint": "after Step-003 C verdict; compact Builder/Verifier residue before Step-004 canary route"
   },
   "owner_help_needed": {
     "now": "NONE",
-    "reason": "Step-003 is authorized, reversible, zero-cost code/spec work in the existing B slot; no human gate is active."
+    "reason": "Step-003 remains authorized and active in existing B; Live Canary and personality boot have durable gates/review and wait for the legal checkpoint."
   },
   "report_policy": "Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
 }
