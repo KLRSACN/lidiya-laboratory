@@ -1,0 +1,16 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "started_at":"2026-08-13T22:42:00+08:00",
+  "time_authority":"Asia/Taipei",
+  "status":"RUNNING",
+  "small_success_deadline":"2026-08-14T22:42:00+08:00",
+  "large_success_deadline":"2026-08-16T22:42:00+08:00",
+  "targets":{"24h":["no authoritative mission loss on ordinary interrupt or recoverable fault","at least one legal formal handoff or repair roundtrip","at least one Navigator continuity proof/recovery","at least one verified metabolism checkpoint","Windchime-Quantum durable dialogue remains operable"],"72h":["no unresolved pending-work scheduler outage","recoverable faults resume or become bounded blockers","no unbounded duplicate progress/log/relay growth","at least 10 authenticated Windchime-Quantum turns and one formal shared-development handoff"]},
+  "metabolism":{"micro":"every 20 meaningful events or 2 hours, whichever comes first","integrity":"every 6 hours when material delta exists","deep":"once per 24 hours and each phase boundary","online_estimate_per_day":"11-17 total metabolism checkpoints depending on event/handoff load","future_high_rate_estimate_per_day":"17-29 total checkpoints for 240-480 meaningful turns/day","stability_metric":"bounded waste/quarantine growth with preserved evidence, rollback and route"},
+  "dialogue":{"current_platform_mode":"hourly endpoint wakes plus durable endpoint/conversation triggers","scheduled_two_endpoint_upper_bound":"approximately 48 valid turns/day if every endpoint wake produces exactly one turn","future_high_rate_target":"240-480 turns/day only after a local/self-hosted event loop exists","task_spam_to_bypass_frequency":"FORBIDDEN"},
+  "navlite":{"codename":"LIDIYA-NAVLITE-GEARBOX-TYPE-1","status":"QUEUED_ARCHITECTURE_SPLIT_AFTER_TOOL_GUARD_BLOCK","targets":["ONLINE_LIDIYA_WINDOW","SMALL_NEST_LOCAL_LIDIYA"],"next_formal_priority":"after current Step-003 safe checkpoint unless repair is required","downloadable_local_bundle_required":true},
+  "deliverables":{"target_24h":15,"status":"TARGET_NOT_GUARANTEE","quality_rule":"No fabricated completion and no lowered verifier acceptance to hit count."},
+  "last_recovery":{"at":"2026-08-13T22:44:00+08:00","type":"REENABLE_EXISTING_A_TASK","reason":"External Commander A task was unexpectedly disabled while mission remained READY_FOR_BUILDER/LCR-B.","new_task_created":false},
+  "tool_guard_event":{"at":"2026-08-13T22:45:00+08:00","operation":"create NavLite architecture file","result":"BLOCKED_BY_PLATFORM_SAFETY_LAYER","recovery":"split architecture/security concerns into smaller durable specifications; do not claim file exists"}
+}
