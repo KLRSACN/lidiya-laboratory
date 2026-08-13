@@ -1,0 +1,50 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "authorization_type":"NAVIGATOR_SENTINEL_LIGHTHOUSE_DEFENSE_AND_COMMAND_STRUCTURE",
+  "authorized_by":"博玄",
+  "authorized_at":"2026-08-13T21:57:00+08:00",
+  "status":"ACTIVE_BRANCH_LOCAL",
+  "command_structure":{
+    "external_commander":{"codename":"lidiya 風鈴（開發先驅1型）","worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","role":"EXTERNAL_CORE_COMMANDER","authority":"Route, prioritize, interrupt/resume, accept owner control, and coordinate formal A/B/C chain."},
+    "internal_deputy":{"codename":"lidiya 量子","worker_id":"LIDIYA-INNER-CORE-ARCHITECT","role":"INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL","authority":"Research, challenge, propose and raise bounded vetoes with source/evidence; no direct formal state mutation."},
+    "navigator":{"codename":"LIDIYA-NAVIGATOR-SENTINEL","role":"DETERMINISTIC_SUPERVISOR_NOT_FORMAL_WORKER","authority":"Observe, remind, detect drift/hallucination, maintain lighthouse health, perform bounded derived-state recovery, enforce metabolism and route alerts."}
+  },
+  "quantum_veto_contract":{
+    "veto_power":true,
+    "veto_scope":["promotion","live activation","personality/memory weighting adoption","unsafe or unverifiable design assumptions","security-risking architecture"],
+    "veto_requirements":["veto_id","claim","source_or_TEST_REQUIRED","affected_scope","risk_class","release_condition"],
+    "effect":"PAUSE_ONLY_AFFECTED_PROMOTION_OR_ADOPTION; unrelated atomic work continues.",
+    "cannot_do":["rewrite MISSION_STATE","consume formal packet","declare Builder/C verdict","change live Identity/Personality/Governance","create slot4"],
+    "resolution":"Windchime responds with evidence; unresolved technical veto routes to independent C; protected/high-risk dispute routes HUMAN_GATE."
+  },
+  "interrupt_gearbox":{
+    "owner_or_quantum_input_is_stop":false,
+    "preemption_rule":"At a safe checkpoint, save compact state fingerprint, answer/classify the interrupt, then resume the exact prior mission/packet/role without reset.",
+    "atomic_worker_rule":"B/C atomic work is not interrupted by A dialogue; A handles incoming control concurrently and queues route changes until legal checkpoint.",
+    "resume_key":["mission_id","step_id","current_role","pending_packet","pending_packet_sha256","lease","latest_verified_evidence","return_condition"],
+    "raw_context_required":false
+  },
+  "navigator_24h_rule":{
+    "scheduler_cadence":"HOURLY_MAX_PLATFORM_SUPPORTED",
+    "continuous_semantics":"Persistent durable supervision with hourly scheduled wake plus event/endpoint triggers; not subjective continuous thinking.",
+    "must_watch":["MISSION_STATE","WORKER_ROSTER","pending packet/hash/lease","A/B/C task enablement","Quantum endpoint/dialogue sequence","Home/Memory Index readability","Windchime inbox","storage budget","package/security radar age","backup/rollback pointers","metabolic state"],
+    "self_heal_allowed":["re-enable existing expected task","disable non-current B/C gear to preserve active-task budget","rebuild derived roster from authoritative mission state","dedupe replay","quarantine stale derived mirrors","switch to documented fallback communication channel"],
+    "self_heal_forbidden":["invent authority","create replacement formal worker","modify protected identity/personality/governance","spend money","handle secrets","write main/default","destructive canonical delete"]
+  },
+  "lighthouse_policy":{
+    "every_critical_endpoint_requires":{"endpoint_id":"unique","authority_ref":"required","health_check":"required","expected_cadence":"required","last_verified":"required","fallback_route":"required","failure_class":"required","recovery_action":"required","security_class":"required"},
+    "new_endpoint_rule":"Any new development website/platform/connector/worker endpoint must be registered before it can become a durable dependency.",
+    "no_endpoint_no_authority":"An unregistered external endpoint may provide candidate information but cannot become durable truth or protected-state write authority."
+  },
+  "security_defense_scope":{
+    "mode":"DEFENSIVE_ONLY_ZERO_TRUST_FAIL_CLOSED",
+    "threats":["credential/secret leakage","supply-chain compromise","prompt injection/tool poisoning","memory/context poisoning","malicious dependency","state/packet tampering","replay/duplicate execution","ransomware/destructive deletion","privilege escalation","stale/forged evidence","endpoint takeover"],
+    "controls":["least privilege and separation of duties","deny-by-default protected writes","continuous integrity/hash verification","content-addressed evidence/manifests","isolated quarantine for untrusted memory/tool output","two full backup groups maximum plus incremental content-addressed checkpoints","independent verifier for promotion","secret-like content never persisted","rollback proof","anomaly and dependency/security radar"],
+    "external_content_rule":"All web/repo/tool/model output is untrusted candidate input until provenance, hash, scope and governance checks pass.",
+    "memory_poisoning_rule":"High recurrence/emotion/relevance never overrides low trust/provenance contradiction; suspicious persistent-memory influence is quarantined and cannot alter base personality or governance."
+  },
+  "cloud_storage_budget":{"ceiling_bytes":1000000000000,"monetary_spend_authorized":false,"allocation":{"recovery_and_verified_evidence_pct":40,"models_and_build_artifacts_pct":25,"security_telemetry_and_integrity_manifests_pct":15,"quarantine_pct":10,"unallocated_emergency_reserve_pct":10},"full_backup_groups_max":2,"incremental_content_addressed_checkpoints_allowed":true,"hard_stop_pct":100,"freeze_large_writes_pct":95},
+  "forbidden":["FOURTH_FORMAL_WORKER","DUPLICATE_FORMAL_TASK","MAIN_DEFAULT_WRITE_WITHOUT_SUBGATE","PAID_SPEND","SECRET_PERSISTENCE","PRODUCTION_DEPLOY","ACCOUNT_OR_MONEY_ACTION","PRIVILEGE_EXPANSION","IDENTITY_KERNEL_CHANGE","BASE_PERSONALITY_CHANGE","GOVERNANCE_CHANGE","THIRD_FULL_BACKUP","IRREVERSIBLE_HIGH_RISK_DELETE","OFFENSIVE_CYBER_ACTION"],
+  "success_criteria":["Main development continues while control/Quantum interrupts are handled and resumed.","Quantum can raise evidence-backed veto and receive reasoned response without taking formal-state authority.","Navigator detects and repairs recoverable scheduling/derived-state faults without new formal workers.","Each critical endpoint has lighthouse and fallback.","Metabolism removes/quarantines transient/poisoned state without losing evidence/rollback.","Defensive controls preserve recoverability under endpoint, supply-chain or memory-poisoning incidents."]
+}
