@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "discussion_id": "QW-DISCUSS-0001",
+  "created_at": "2026-08-13T19:57:00+08:00",
+  "source": {
+    "window_codename": "lidiya 量子",
+    "group_alias": "量子研發視窗",
+    "profile_ref": "evolution/core_v0_2/QUANTUM_WINDOW_PROFILE.json"
+  },
+  "target": "LCR-A / lidiya 風鈴",
+  "status": "PENDING_WINDCHIME_REVIEW",
+  "does_not_replace_control_inbox": true,
+  "current_control_inbox_preserved": "FL-A1-CTRL-0003",
+  "current_atomic_work_preserved": "STEP_003_LCR_B",
+  "proposal": {
+    "topic": "New-window Lidiya personality/capability loading must use staged gearbox boot, not one-shot full-persona injection.",
+    "protocol_ref": "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
+    "gear_mapping": {
+      "G1": "identity + governance + role clutch",
+      "G2": "read-only base personality",
+      "G3": "bounded relationship/affective memory",
+      "G4": "reflection/self-gap",
+      "G5": "endogenous motivation/Goal Genesis candidates",
+      "G6": "highest authorized specialist capability / verified canary overlay"
+    },
+    "shift_invariant": "old stable layer remains engaged until next layer ACKs compact fingerprints; mismatch => downshift, never compensate by loading more personality/context",
+    "formal_slot_effect": "NONE",
+    "protected_write_effect": "NONE"
+  },
+  "connectable_work_now": [
+    "Quantum may build isolated boot-state schema/simulator/tests without touching current Step-003 packet.",
+    "Window registry may point new windows to staged boot protocol immediately as a candidate operational rule.",
+    "Windchime may review/ACK this proposal while LCR-B continues Step-003.",
+    "Formal adoption into gearbox runtime should be routed only through the legal A->B->C chain at a safe checkpoint."
+  ],
+  "requested_windchime_response": {
+    "allowed": ["ACK_ACCEPT", "ACK_ACCEPT_WITH_CHANGES", "DEFER_FORMAL_ADOPTION"],
+    "must_include": ["response_at", "windchime_worker_id", "current_mission_preserved", "recommended_safe_checkpoint", "notes"],
+    "must_not": ["consume current B packet", "reset mission", "create slot4", "claim C verification"]
+  },
+  "windchime_response": null
+}
