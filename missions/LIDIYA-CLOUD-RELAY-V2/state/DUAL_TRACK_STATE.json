@@ -1,0 +1,16 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "status":"ACTIVE",
+  "updated_at":"2026-08-13T18:34:00+08:00",
+  "time_authority":"Asia/Taipei",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-DUAL-TRACK-MEMORY-ADDENDUM.json",
+  "formal_slots":{"count":3,"slots":["LCR-A","LCR-B","LCR-C"],"slot4":"FORBIDDEN"},
+  "track_a":{"id":"EVOLUTION_RUNTIME_VERIFY","status":"READY_FOR_VERIFY","role":"LCR-C","step_id":2,"attempt":4,"pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-002-REPAIR-004.json","pending_packet_sha256":"435c9e5f3889574374f05fd2903510f31dd79dc886d8801ed81a9ec2efa03248","lease":null,"must_continue_without_waiting_for_memory_track":true},
+  "track_b":{"id":"MEMORY_BANK_FULL_SPECTRUM_INTAKE","status":"INDEXING_READ_ONLY","mode":"FULL_SPECTRUM_INDEXED_LAZY","is_formal_worker":false,"memory_root_drive_id":"1418MfLssbbKEW2PtxKMyAasBqAN-GamU","memory_index_document_id":"1E7aUHI4o9JfmYcJ89e4FShYvUM_gqT-Vj4P3uHRlbwo","known_top_level_classes":["Runtime","Official","Core Documents","Memory Documents","Memory Files","Memory Inbox","Handoffs","Skills","Backups","Growth Journal","Events","System","Reference","Software","Golden Workflows"],"load_policy":"INDEX_ALL_CLASSES_LOAD_CONTENT_ON_DEMAND","eager_full_corpus_load":"FORBIDDEN","promotion_state":"READ_INDEX_CLASSIFY_ONLY_UNTIL_VERIFIED"},
+  "reconciliation":{"partner_window_status":"AWAITING_VALID_DURABLE_RELAY","channel":"FL-A1/GT3/RELAY-20260812-0838","relay_required_for_partner_claim":true,"merge_mode":"DEDUPE_THEN_COMPACT_POINTER_MERGE","raw_context_merge":"FORBIDDEN"},
+  "write_domains":{"track_a":"Existing Step-002 candidate/evidence/packet chain only by current authorized role.","track_b":"Read-only memory inventory/index; candidate metadata may be proposed but no core promotion before independent verification.","cross_write":"FORBIDDEN"},
+  "metabolism":{"single_canonical_progress":true,"duplicate_memory_bank_copy":"FORBIDDEN","raw_logs":"TRANSIENT","stale_mirrors":"WASTE_AFTER_REBUILD","duplicate_relay":"WASTE_AFTER_ACK","protected_or_ambiguous":"QUARANTINE","full_backup_limit":2},
+  "last_recovery":{"type":"REBUILD_DERIVED_STATE","artifact":"state/WORKER_ROSTER.json","reason":"Roster lagged authoritative attempt-4 handoff from B to C.","mission_reset":false,"new_worker_created":false},
+  "next_actions":["Wake existing LCR-C for attempt-4 independent verification.","Refresh canonical EVOLUTION_PROGRESS from authoritative attempt-4 state before owner report.","Build read-only full-spectrum memory class manifest without copying corpus.","Reconcile other window only after a valid Windchime durable report arrives."]
+}
