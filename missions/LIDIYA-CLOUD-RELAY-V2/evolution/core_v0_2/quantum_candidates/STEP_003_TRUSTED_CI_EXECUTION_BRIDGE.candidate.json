@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "LQ-STEP003-TRUSTED-CI-BRIDGE-001",
+  "source": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 3,
+  "status": "QUANTUM_CANDIDATE_NOT_FORMAL_C_VERDICT",
+  "purpose": "Provide C an independently inspectable executable verification path bound to exact Step-003 bytes, without trusting Builder/Quantum self-report and without requiring a connector-to-local-filesystem transfer path.",
+  "formal_authority_ref": "state/MISSION_STATE.json",
+  "pending_packet_ref": "packets/EVOLUTION-0005-B-TO-C-STEP-003-VERIFY-001.json",
+  "current_expected_authority": {
+    "mission_status": "READY_FOR_VERIFY",
+    "current_role": "LCR-C",
+    "pending_packet_sha256": "753f6d07cb171fd60fc349ee017e2f79539f35d0d8a3d16710a1a52db1326ed0",
+    "lease": null
+  },
+  "release_condition_source": "evidence/EVOLUTION-0005-STEP-003-VERIFIER-DEFER-002.json",
+  "binding_requirements": {
+    "branch_tree_sha": "87b59844ba89180b51185b32ce012423102bc1ff",
+    "mission_state_blob_sha": "70ea45bcfde450b1c9fc7e2de6d2f2d30dffbef8",
+    "pending_packet_blob_sha": "f1e9274db1749032a34b42ce9696e2e5708fda33",
+    "builder_evidence_blob_sha": "b1f999f7890feb558b8f5397de6ce0be572c4946",
+    "rule": "CI evidence is inadmissible if the checked-out commit/tree or any required artifact blob differs from C fresh-read values at verification time. Prompt values are hints only; C must fresh-read latest authority and recompute bindings."
+  },
+  "trusted_ci_contract": {
+    "trigger": "manual workflow_dispatch or branch-scoped verification run only; no production deployment",
+    "checkout": "exact commit/tree bound to the C-fresh-read branch snapshot",
+    "network_after_checkout": "DISABLED_OR_UNUSED_FOR_TEST_EXECUTION",
+    "dependency_policy": "STANDARD_LIBRARY_ONLY_FOR_EXISTING_TESTS; NO PACKAGE_INSTALL; NO MODEL_DOWNLOAD",
+    "test_scope": [
+      "Core v0.2 existing unit/regression tests",
+      "affective store tests",
+      "memory full-spectrum adapter tests including adversarial cases",
+      "shadow failure leaves Primary unchanged",
+      "mission/pending/lease/slot-count unchanged by candidate execution"
+    ],
+    "minimum_expected_test_count": 27,
+    "required_preflight": [
+      "print and persist checked-out commit SHA and tree SHA",
+      "recompute Git blob SHA for each required source/test/contract artifact",
+      "compare against C-approved/fresh-read expected SHAs",
+      "fail closed before tests on any mismatch"
+    ],
+    "required_postflight": [
+      "capture unittest exit code and exact test count",
+      "capture before/after fingerprints for mission authority inputs used by the run",
+      "assert no live Identity/Personality/Governance write path was exercised",
+      "assert no main/default write, deploy, spend, secret persistence, package install, model download or training occurred"
+    ],
+    "artifact_output": "single compact machine-readable verification manifest plus raw CI logs retained by the CI platform; do not create per-test durable repo files",
+    "verdict_boundary": "CI success is evidence only. Only formal LCR-C may issue PASS/FAIL/DEFER/HUMAN_GATE after independently checking the run binding and outputs."
+  },
+  "negative_cases": [
+    "CI run on same branch name but different tree SHA => REJECT",
+    "test success with artifact blob mismatch => REJECT",
+    "Builder-authored summary without CI run identity/logs => REJECT",
+    "Quantum-authored claim of PASS => REJECT",
+    "package installation or downloaded dependencies during verification => REJECT_OR_DEFER",
+    "mission/pending/lease mutation during verification => FAIL_CLOSED"
+  ],
+  "formal_adoption_path": "A may route this candidate as a bounded verifier-enablement repair; B may implement the workflow/spec on the non-main mission branch if formally assigned; C independently validates run binding and issues the only formal verdict.",
+  "side_effects": "NONE_LIVE",
+  "main_default_write": "FORBIDDEN",
+  "slot4": "FORBIDDEN"
+}
