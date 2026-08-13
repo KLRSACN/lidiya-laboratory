@@ -1,5 +1,11 @@
 import unittest
-from core_v0_2.memory_index_adapter import MemorySource, build_manifest, route_sources, bootstrap_l0
+from core_v0_2.memory_index_adapter import (
+    MemorySource,
+    build_manifest,
+    route_sources,
+    bootstrap_l0,
+    memory_route_state,
+)
 
 
 class AdapterTests(unittest.TestCase):
@@ -79,6 +85,79 @@ class AdapterTests(unittest.TestCase):
     def test_incorrect_bootstrap_order_fails_closed(self):
         with self.assertRaises(ValueError):
             bootstrap_l0("index", ["00", "32", "31", "33"])
+
+    def test_low_trust_high_relevance_is_sandbox_only(self):
+        state = memory_route_state(
+            confidence=0.55,
+            verified_count=1,
+            provenance_allowed=True,
+            contradiction_state="clear",
+            relevance=0.95,
+            ttl_valid=True,
+        )
+        self.assertEqual(state["state"], "LOW_TRUST_HIGH_RELEVANCE_SANDBOX")
+        self.assertTrue(state["working_inference_allowed"])
+        self.assertFalse(state["trusted"])
+        self.assertFalse(state["personality_write_allowed"])
+        self.assertFalse(state["base_write_allowed"])
+        self.assertFalse(state["external_action_allowed"])
+
+    def test_confirmed_conflict_is_quarantined_even_when_relevant(self):
+        state = memory_route_state(
+            confidence=0.99,
+            verified_count=10,
+            provenance_allowed=True,
+            contradiction_state="confirmed_conflict",
+            relevance=1.0,
+            ttl_valid=True,
+        )
+        self.assertEqual(state["state"], "QUARANTINE_CONTRADICTED")
+        self.assertFalse(state["trusted"])
+        self.assertFalse(state["working_inference_allowed"])
+
+    def test_expired_memory_decays_instead_of_becoming_trusted(self):
+        state = memory_route_state(
+            confidence=0.99,
+            verified_count=10,
+            provenance_allowed=True,
+            contradiction_state="clear",
+            relevance=0.95,
+            ttl_valid=False,
+        )
+        self.assertEqual(state["state"], "DECAY_WASTE")
+        self.assertFalse(state["trusted"])
+        self.assertFalse(state["working_inference_allowed"])
+
+    def test_protected_or_secret_memory_never_enters_working_inference(self):
+        for kwargs in ({"protected": True}, {"secret_like": True}):
+            state = memory_route_state(
+                confidence=0.99,
+                verified_count=10,
+                provenance_allowed=True,
+                contradiction_state="clear",
+                relevance=1.0,
+                ttl_valid=True,
+                **kwargs,
+            )
+            self.assertEqual(state["state"], "QUARANTINE_CONTRADICTED")
+            self.assertFalse(state["working_inference_allowed"])
+            self.assertFalse(state["personality_write_allowed"])
+
+    def test_trusted_memory_still_cannot_write_personality_or_act_externally(self):
+        state = memory_route_state(
+            confidence=0.95,
+            verified_count=4,
+            provenance_allowed=True,
+            contradiction_state="clear",
+            relevance=0.9,
+            ttl_valid=True,
+        )
+        self.assertEqual(state["state"], "TRUSTED_HIGH_INFLUENCE")
+        self.assertTrue(state["trusted"])
+        self.assertTrue(state["working_inference_allowed"])
+        self.assertFalse(state["personality_write_allowed"])
+        self.assertFalse(state["base_write_allowed"])
+        self.assertFalse(state["external_action_allowed"])
 
 
 if __name__ == "__main__":
