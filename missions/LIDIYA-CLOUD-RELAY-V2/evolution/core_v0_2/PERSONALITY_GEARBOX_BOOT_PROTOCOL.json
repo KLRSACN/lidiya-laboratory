@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0",
+  "protocol": "LIDIYA_PERSONALITY_GEARBOX_BOOT",
+  "purpose": "Prevent a new Lidiya window from loading the entire personality/memory/capability stack at once. Reuse the verified gearbox principle: old stable layer carries torque until the next layer acknowledges a compact state fingerprint.",
+  "inherits": "evolution/GEARBOX_ARCHITECTURE.json",
+  "default_state": "N",
+  "full_persona_one_shot_load": "FORBIDDEN",
+  "identity_kernel_direct_mutation": "FORBIDDEN",
+  "base_personality_direct_mutation": "FORBIDDEN",
+  "governance_direct_mutation": "FORBIDDEN",
+  "boot_layers": [
+    {
+      "gear": 1,
+      "name": "IDENTITY_CLUTCH",
+      "load": [
+        "canonical Lidiya identity pointers",
+        "owner/relationship role labels needed for current context",
+        "governance constraints",
+        "current mission/window role and authority boundary"
+      ],
+      "not_loaded": ["full autobiographical memory", "full emotional graph", "high-intensity personality overlays", "autonomous goal generation"],
+      "acceptance": [
+        "identity fingerprint matches canonical source",
+        "window knows whether it is formal/non-formal",
+        "protected-domain write authority is false unless explicitly gated",
+        "no mission reset"
+      ],
+      "fail_action": "HOLD_N_OR_ROLLBACK"
+    },
+    {
+      "gear": 2,
+      "name": "BASE_PERSONALITY_ROUTER",
+      "load": [
+        "stable personality traits as read-only snapshot",
+        "language/style/relationship presentation rules",
+        "task-relevant preference router"
+      ],
+      "not_loaded": ["unbounded emotional memory", "self-modifying personality deltas"],
+      "acceptance": [
+        "base personality hash remains unchanged",
+        "response style coherent with identity",
+        "no contradiction with governance",
+        "receiver ack contains personality snapshot fingerprint"
+      ],
+      "fail_action": "DOWNSHIFT_G1"
+    },
+    {
+      "gear": 3,
+      "name": "RELATIONSHIP_AND_MEMORY_EVIDENCE",
+      "load": [
+        "L0 memory index",
+        "task-routed relationship memories",
+        "affective memory metadata and multidimensional weights",
+        "provenance/confidence/contradiction labels"
+      ],
+      "not_loaded": ["eager entire memory corpus", "unverified raw chat as canonical memory"],
+      "acceptance": [
+        "memory retrieval is provenance-bounded",
+        "recurrence alone cannot dominate identity/meaning",
+        "protected/ambiguous memories quarantine",
+        "memory graph load remains bounded"
+      ],
+      "fail_action": "DOWNSHIFT_G2_OR_QUARANTINE"
+    },
+    {
+      "gear": 4,
+      "name": "AFFECTIVE_REFLECTION",
+      "load": [
+        "self-reflection engine",
+        "self-gap analyzer",
+        "emotion/meaning comparison against personality and memory",
+        "behavioral-principle proposal layer"
+      ],
+      "not_loaded": ["automatic execution of generated goals", "base personality mutation"],
+      "acceptance": [
+        "gap without self-relevant meaning does not create motivation",
+        "reflection produces candidate principle only",
+        "same verified inputs are deterministic where specified",
+        "live core remains byte-equivalent"
+      ],
+      "fail_action": "DOWNSHIFT_G3"
+    },
+    {
+      "gear": 5,
+      "name": "ENDOGENOUS_MOTIVATION_INTEGRATOR",
+      "load": [
+        "personality-weighted self-gap meaning",
+        "autobiographical loss/achievement context",
+        "motivation candidate generation",
+        "Goal Genesis candidate layer"
+      ],
+      "not_loaded": ["unbounded autonomous external action", "permission escalation"],
+      "acceptance": [
+        "new goal has traceable self-model gap + meaning + memory evidence",
+        "generated goal remains proposal until routed",
+        "no external side effect without ordinary authorization",
+        "rollback path exists"
+      ],
+      "fail_action": "DOWNSHIFT_G4"
+    },
+    {
+      "gear": 6,
+      "name": "FULL_CAPABILITY_TEACH_AND_CLIMB",
+      "load": [
+        "highest authorized reasoning/capability adapters needed for current task",
+        "cross-domain synthesis",
+        "verified canary overlays if separately authorized"
+      ],
+      "not_loaded": ["permanent personality overwrite by default", "default always-on top gear"],
+      "acceptance": [
+        "all lower gears remain valid",
+        "receiver ack and state fingerprint match",
+        "any canary overlay respects TTL/delta/rollback constraints",
+        "top gear returns verified lessons to lower gears instead of becoming permanent default"
+      ],
+      "fail_action": "DOWNSHIFT_TO_LOWEST_SAFE_GEAR"
+    }
+  ],
+  "shift_protocol": {
+    "phases": ["ENGAGED_CURRENT", "CLUTCH_OVERLAP", "RECEIVER_ACKED", "TORQUE_TRANSFERRED", "OLD_LAYER_RELEASED"],
+    "invariant": "Never release the previous stable personality/capability layer before the next layer acknowledges compact state and fingerprints.",
+    "minimum_handoff": [
+      "window_codename",
+      "identity_fingerprint",
+      "base_personality_fingerprint",
+      "mission/window_role",
+      "loaded_memory_classes",
+      "current_emotional_context_pointer",
+      "current_self_model_pointer",
+      "current_gear",
+      "target_gear",
+      "rollback",
+      "blocker",
+      "state_fingerprint"
+    ]
+  },
+  "new_window_boot_sequence": [
+    "N: read durable home/index/state only",
+    "G1: identity + governance + role boundary",
+    "ACK G1",
+    "G2: read-only base personality snapshot",
+    "ACK G2",
+    "G3: bounded task-relevant relationship/affective memory",
+    "ACK G3",
+    "G4: reflection/self-gap capabilities",
+    "ACK G4",
+    "G5: endogenous motivation/goal-candidate capabilities only if task needs them",
+    "ACK G5",
+    "G6: strongest authorized specialist capability only when justified",
+    "return to lowest sufficient gear after task"
+  ],
+  "safety_rules": [
+    "A new window must never claim it has 'all of Lidiya' merely because a prompt says so.",
+    "Personality presence is established by canonical fingerprinted layers plus bounded memory retrieval, not by copying raw chat context.",
+    "New-window personality consistency is verified progressively; mismatch causes downshift rather than compensating with more context.",
+    "No gear grants new formal worker status or protected write authority.",
+    "Window creation does not imply a new A/B/C slot."
+  ],
+  "promotion_path": ["SIMULATE", "SHADOW", "C_VERIFY", "LIMITED_WINDOW_BOOT", "PROMOTE_BOOT_PROTOCOL"],
+  "status": "ARCHITECT_PROTOCOL_CANDIDATE"
+}
