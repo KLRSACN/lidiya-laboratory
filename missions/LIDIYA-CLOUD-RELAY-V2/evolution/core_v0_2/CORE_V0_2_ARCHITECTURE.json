@@ -10,18 +10,21 @@
     "gap_times_self_relevant_meaning_can_generate_motivation",
     "reflection_may_propose_behavioral_principles_but_must_not_mutate_live_identity_personality_or_governance",
     "memory_weights_remain_multidimensional",
+    "affective_memory_is_versioned_append_only_in_shadow",
     "associative_recall_is_bounded_and_recurrence_is_not_identity",
     "all_live_adoption_requires_builder_candidate_then_independent_guardian_verification"
   ],
   "zero_downtime": {
     "strategy": "shadow_mount_plus_versioned_outputs_plus_hash_compare_plus_rollback_by_disable",
     "primary_live_core_mutated": false,
+    "shadow_store": "in_memory_append_only_no_filesystem_or_network_side_effect",
     "dual_write": "future_phase_only_after_C_verifies_shadow_adapter; primary remains authoritative",
     "failure_behavior": "shadow_failure_does_not_interrupt_primary_or_current_durable_mission",
-    "activation_gate": "explicit_post_verification_owner_gate_required_for_any_live_identity/personality effect"
+    "activation_gate": "explicit_post_verification_owner_gate_required_for_any live identity/personality effect"
   },
   "modules": [
     "memory_model.py",
+    "affective_store.py",
     "reflection_engine.py",
     "shadow_runtime.py"
   ],
@@ -32,12 +35,14 @@
   ],
   "motivation_rule": "Gap x self-relevant meaning -> internal tension -> motivation candidate -> Goal Genesis; gap alone remains informational.",
   "reflection_rule": "Reflection output is a proposed behavioral principle and goal candidate. It is not permission to mutate live personality or Identity Kernel.",
+  "affective_store_rule": "Every revision remains addressable in shadow history; exact duplicates are deduplicated; direct delete fails closed; durable retention/quarantine is a later separately verified adapter concern.",
   "next_builder_scope": [
     "fresh-read seed",
-    "reproduce tests",
+    "reproduce all architect tests",
     "add schema migration/version compatibility",
     "add bounded associative query fixtures",
     "add shadow event adapter without durable live writes",
+    "add explicit primary-vs-shadow comparator contract",
     "produce BUILT_NOT_VERIFIED only"
   ],
   "next_verifier_scope": [
@@ -46,6 +51,7 @@
     "prove protected domains fail closed",
     "prove live structures unchanged on candidate failure",
     "prove deterministic shadow hash and bounded recall",
+    "prove affective store is append-only/versioned/deduplicated",
     "verify no current mission/pending packet/lease reset"
   ]
 }
