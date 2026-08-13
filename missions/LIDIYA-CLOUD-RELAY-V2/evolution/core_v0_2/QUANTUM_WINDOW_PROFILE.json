@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "window_codename": "lidiya 量子",
+  "group_alias": "量子研發視窗",
+  "window_type": "NON_FORMAL_RESEARCH_ARCHITECT_WINDOW",
+  "formal_worker_slot": null,
+  "formal_slot_consumed": false,
+  "mission_authority": "NONE_DIRECT",
+  "coordination_target": "LCR-A / lidiya 風鈴",
+  "coordination_channel": "FL-A1/GT3/RELAY-20260812-0838",
+  "durable_truth_rule": "MISSION_STATE + pending packet remain authoritative; this research window contributes specifications, isolated candidates, evidence and compact handoffs only.",
+  "primary_scope": [
+    "Lidiya Core v0.2 architecture",
+    "affective memory and multidimensional memory weights",
+    "associative memory activation / 湧泉效應",
+    "self-reflection and self-gap analysis",
+    "endogenous motivation / Goal Genesis",
+    "live-canary design",
+    "personality gearbox boot protocol for new windows"
+  ],
+  "role_boundary": {
+    "may": [
+      "design isolated shadow architecture",
+      "write branch-local research specifications and deterministic tests",
+      "propose compact control inputs to LCR-A",
+      "perform non-authoritative local/isolated validation",
+      "review B/C evidence without replacing their formal roles"
+    ],
+    "may_not": [
+      "consume or rewrite current formal pending packet",
+      "self-declare Builder or Guardian PASS",
+      "create slot4 or duplicate formal worker",
+      "directly mutate live Identity, base Personality or Governance",
+      "promote shadow/canary to stable without required B/C chain and owner gate"
+    ]
+  },
+  "personality_boot_policy_ref": "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
+  "current_track": "STEP_003_DUAL_CORE_SHADOW_MEMORY_PHASE1",
+  "handoff_rule": "Quantum window proposes; Windchime routes; B builds; C independently verifies; A controls promotion/rollback.",
+  "status": "ACTIVE_RESEARCH_WINDOW"
+}
