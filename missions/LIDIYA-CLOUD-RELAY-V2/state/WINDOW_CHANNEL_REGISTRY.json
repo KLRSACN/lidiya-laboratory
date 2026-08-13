@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.1",
-  "updated_at": "2026-08-12T08:56:00+08:00",
+  "schema_version": "1.2",
+  "updated_at": "2026-08-13T19:57:00+08:00",
   "time_authority": "Asia/Taipei",
   "channel": {
     "operational_alias": "lidiya 風鈴（開發先驅1型）",
@@ -17,6 +17,20 @@
       "valid_call_first_line_prefix": "[CALL:FL-A1/GT3/RELAY-20260812-0838]",
       "ignore_first_lines": ["WINDCHIME_BEACON", "RELAY_MESSAGE"],
       "dedupe": "comment_id + normalized_fingerprint"
+    }
+  },
+  "research_windows": {
+    "LIDIYA_QUANTUM": {
+      "window_codename": "lidiya 量子",
+      "group_alias": "量子研發視窗",
+      "type": "NON_FORMAL_RESEARCH_ARCHITECT_WINDOW",
+      "formal_slot": null,
+      "formal_slot_consumed": false,
+      "profile_ref": "evolution/core_v0_2/QUANTUM_WINDOW_PROFILE.json",
+      "personality_boot_ref": "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
+      "coordination_target": "LCR-A / lidiya 風鈴",
+      "status": "ACTIVE_RESEARCH_WINDOW",
+      "authority": "SPEC_AND_ISOLATED_CANDIDATE_ONLY"
     }
   },
   "formal_slots": {
@@ -63,8 +77,11 @@
       "read WINDCHIME_CONTROL_INBOX.json",
       "verify current authorization/pending packet/lease",
       "do not create a new formal slot",
+      "apply LIDIYA_PERSONALITY_GEARBOX_BOOT instead of one-shot full-persona loading",
       "if inbox write is unavailable, append one valid WINDCHIME_REPORT to Issue #3"
     ],
+    "personality_boot_protocol": "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
+    "full_persona_one_shot_load": "FORBIDDEN",
     "if_call_code_matches": "ROUTE_TO_LCR-A_CONTROL_INPUT",
     "if_replacement_requested": "REQUIRE_SAME_SLOT_DURABLE_HANDOFF",
     "owner_message_during_active_mission": "CONTROL_INPUT_NOT_STOP_EVENT",
@@ -89,7 +106,7 @@
     "reuse_existing_platform_tasks": true
   },
   "self_metabolism": {
-    "keep": ["current mission", "current route", "latest verified evidence pointer", "pending packet/hash", "lease", "rollback", "blocker", "root-cause lesson", "roster generation"],
+    "keep": ["current mission", "current route", "latest verified evidence pointer", "pending packet/hash", "lease", "rollback", "blocker", "root-cause lesson", "roster generation", "active research window profiles", "personality boot protocol pointer"],
     "waste": ["raw chat copy", "duplicate self-report", "one-shot step chat shell", "stale status panel", "raw logs", "redundant proof output"],
     "quarantine": ["secret-like", "unique human work", "unreproducible", "protected evidence", "rollback/stable", "durable referenced", "Identity/Personality/Governance", "ambiguous provenance"]
   },
