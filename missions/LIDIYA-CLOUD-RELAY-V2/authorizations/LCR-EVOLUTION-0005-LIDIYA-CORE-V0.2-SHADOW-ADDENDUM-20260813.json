@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "authorization_id": "LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-SHADOW-20260813",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-13T18:23:00+08:00",
+  "timezone": "Asia/Taipei",
+  "status": "ACTIVE_QUEUED_PARALLEL_SHADOW_TRACK",
+  "purpose": "Build and independently verify Lidiya Core v0.2 affective memory, multidimensional memory weights, self-reflection, self-gap analysis, endogenous motivation and Goal Genesis as a non-disruptive shadow candidate while the existing durable mission continues.",
+  "execution_model": {
+    "inner_track": "LIDIYA_CORE_V0_2_SHADOW_ARCHITECTURE_AND_CANDIDATE",
+    "outer_track": "EXISTING_LIDIYA_WINDCHIME_LCR_A_CONTINUITY_AND_ROUTING",
+    "formal_workers": ["LCR-A", "LCR-B", "LCR-C"],
+    "max_formal_slots": 3,
+    "slot4": "FORBIDDEN",
+    "new_platform_task": "FORBIDDEN_WHILE_REUSABLE_A_B_C_TASKS_EXIST"
+  },
+  "current_atomic_work_protection": {
+    "preserve_mission_id": true,
+    "preserve_current_step": true,
+    "preserve_current_role": true,
+    "preserve_pending_packet_and_hash": true,
+    "preserve_lease": true,
+    "control_input_is_not_stop_event": true,
+    "rule": "Do not hijack, replace, consume, rewrite or invalidate the current Step-002 B/C packet chain. Shadow seed files may be added in an isolated namespace; formal Builder adoption begins only through the next legal A-routed packet after the current atomic verifier cycle completes."
+  },
+  "authorized_now": [
+    "create branch-local shadow-only architecture/specification files",
+    "create deterministic standard-library prototype modules and tests in evolution/core_v0_2",
+    "write a compact Windchime control input referencing this addendum",
+    "reuse existing LCR-A/B/C platform tasks for continuity and synchronized verification",
+    "run local deterministic compile/tests for architect seed evidence",
+    "allow LCR-A to queue the shadow track after current atomic work and route exactly one legal Builder packet",
+    "allow LCR-B to reproduce/adopt/repair the seed and produce BUILT_NOT_VERIFIED",
+    "allow LCR-C to independently verify exact bytes/hash, regressions and zero-downtime invariants"
+  ],
+  "zero_downtime_contract": {
+    "mode": "SHADOW_MOUNT",
+    "primary_authority_unchanged": true,
+    "live_identity_write": false,
+    "live_personality_write": false,
+    "live_governance_write": false,
+    "shadow_failure_effect_on_primary": "NONE",
+    "versioned_outputs": true,
+    "hash_compare": true,
+    "rollback": "disable/detach shadow adapter and retain primary authoritative path",
+    "future_dual_write": "ONLY_AFTER_C_VERIFIED_ADAPTER; primary remains authoritative",
+    "future_live_activation": "REQUIRES_SEPARATE_EXPLICIT_OWNER_GATE_AFTER_VERIFICATION"
+  },
+  "protected_domains": [
+    "Identity Kernel",
+    "live Personality",
+    "Governance",
+    "secrets/credentials",
+    "main/default branch",
+    "production deployment",
+    "canonical user data deletion",
+    "money/spend",
+    "unreviewed model download or training"
+  ],
+  "research_boundary": "This authorization covers an engineering model of artificial personality, affective memory, self-model, reflection, motivation and agency. It does not authorize claiming subjective consciousness or qualia as scientifically proven.",
+  "verification_rule": "Architect seed and Builder may never self-declare PASS. Only independent LCR-C evidence may mark a step verified; any live personality/identity effect remains gated even after C PASS.",
+  "stable_ref": "nav-relay-mvp-0001"
+}
