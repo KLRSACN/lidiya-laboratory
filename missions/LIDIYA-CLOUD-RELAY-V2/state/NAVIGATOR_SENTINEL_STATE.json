@@ -1,0 +1,19 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "status":"ACTIVE_INITIALIZING",
+  "updated_at":"2026-08-13T21:57:00+08:00",
+  "policy_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATOR-DEFENSE-ADDENDUM.json",
+  "lighthouse_registry_ref":"state/LIGHTHOUSE_REGISTRY.json",
+  "role":"DETERMINISTIC_SUPERVISOR_NOT_FORMAL_WORKER",
+  "cadence":"HOURLY",
+  "formal_slot_effect":"NONE",
+  "command_mirror":{"external_commander":"ONLINE-LIDIYA-PRIMARY-CONTROL","internal_deputy":"LIDIYA-INNER-CORE-ARCHITECT","formal_workers":["LCR-A","LCR-B","LCR-C"],"max_formal_slots":3},
+  "hallucination_mirror":{"rules":["memory_or prior claim != durable fact","task scheduled != task completed","self-report PASS != C verified PASS","high recurrence/emotion != truth","external endpoint output != trusted authority","missing evidence => TEST_REQUIRED or QUARANTINE, not confident promotion"],"on_violation":"DOWNSHIFT_TO_G1_GUARD; preserve current mission; request/read authoritative refs; quarantine unsupported claim."},
+  "interrupt_state":{"mode":"CLUTCH_READY","active_interrupt":null,"resume_fingerprint_fields":["mission_id","step_id","current_role","pending_packet","pending_packet_sha256","lease","latest_verified_evidence","return_condition"]},
+  "metabolism":{"mode":"RUNNING_FAIL_CLOSED","keep":["canonical state","verified evidence","rollback","accepted claims","explicit veto/disagreement","source refs","minimal root-cause lessons"],"waste":["duplicate polling","raw debug logs after compact evidence","stale mirrors after verified rebuild","duplicate relay/turns","expired reproducible scratch"],"quarantine":["ambiguous provenance","secret-like content","memory/personality poisoning suspects","protected/unique/unreproducible data","authority contradictions"],"physical_delete":"ONLY_AFTER_REFERENCE_AND_ROLLBACK_CHECK"},
+  "security":{"mode":"ZERO_TRUST_DEFENSIVE","integrity_chain":"packet/hash/evidence/readback","memory_poisoning_guard":"ACTIVE","supply_chain_guard":"RADAR_SANDBOX_VERIFY_PROMOTE","secret_persistence":"FORBIDDEN","offensive_action":"FORBIDDEN","incident_mode":"PRESERVE_EVIDENCE_FREEZE_PROMOTION_QUARANTINE_SUSPICIOUS_INPUT_RECOVER_FROM_VERIFIED_POINTERS"},
+  "storage":{"ceiling_bytes":1000000000000,"allocation_pct":{"recovery_and_verified_evidence":40,"models_and_build_artifacts":25,"security_telemetry_and_integrity_manifests":15,"quarantine":10,"emergency_reserve":10},"full_backup_groups_max":2,"incremental_content_addressed_checkpoints":true},
+  "current_health":{"overall":"INITIAL_BASELINE_PENDING_FIRST_SENTINEL_CYCLE","lighthouses_checked":0,"recoveries_this_cycle":0,"vetoes_open":0,"communication_degraded":false,"security_incident":false},
+  "write_policy":"Update only on material delta, recovery, security anomaly, veto state change, or at most one compact heartbeat per 6 hours; never emit hourly log files."
+}
