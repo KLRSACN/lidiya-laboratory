@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "LQ-STEP003-C-EXECUTION-BRIDGE-001",
+  "author": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role_boundary": "NON_FORMAL_REPAIR_CANDIDATE_NOT_C_VERDICT",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 3,
+  "problem": "LCR-C can fresh-read exact GitHub bytes but deferred because no repository checkout/execution endpoint was available and isolated container DNS could not resolve github.com.",
+  "source_defer_ref": "evidence/EVOLUTION-0005-STEP-003-VERIFIER-DEFER-001.json",
+  "proposal": "Use connector-fetched exact UTF-8 bytes as the transport, materialize them into an isolated temporary directory with Python, verify Git blob SHA before execution, then run the exact unittest files locally. No git clone, network access, workflow, or branch mutation is required.",
+  "git_blob_verification": {
+    "algorithm": "sha1(b'blob ' + ascii(len(content_bytes)) + b'\\0' + content_bytes)",
+    "requirement": "Every materialized file MUST match its expected Git blob SHA from Builder evidence/fresh-read GitHub metadata before any test execution. Any mismatch => DEFER/FAIL_CLOSED, no verdict promotion."
+  },
+  "exact_files": {
+    "core_v0_2/memory_model.py": "124b2ae5198c923efa117153a2681266b8996cf8",
+    "core_v0_2/affective_store.py": "c0f7e22517bb1ec018276372c099b9162f297b58",
+    "core_v0_2/reflection_engine.py": "3f3e04326d2dc7be14694573237cdb34df1b0a6a",
+    "core_v0_2/shadow_runtime.py": "b7042c62c9cd420eaad07f5dd31fb7465c58931e",
+    "core_v0_2/memory_index_adapter.py": "997761fb75edcee93621b96769e1f97e45b35eb4",
+    "test_core_v0_2.py": "73c5717b3e935005f79bb3d896ad9cd04925201e",
+    "test_affective_store_v0_2.py": "9d4f4c3547fcbda93f1d95f0679252cf4e80bb02",
+    "test_memory_index_adapter_v0_2.py": "0764a65f94617548d004c673a39cdf42f7d843c2"
+  },
+  "execution_recipe": [
+    "C fresh-reads every exact file through the GitHub connector; do not trust this candidate's copied bytes because this candidate contains pointers only.",
+    "C uses local Python to create a fresh temporary directory and core_v0_2/__init__.py, then writes each connector-returned content string to the matching relative path.",
+    "Before running anything, compute Git blob SHA for each written byte sequence and compare against fresh-read repository metadata and Builder evidence.",
+    "Set cwd to the temporary directory and execute: python -m unittest -v test_core_v0_2.py test_affective_store_v0_2.py test_memory_index_adapter_v0_2.py",
+    "Capture exit code, test count, failures/errors, and a compact stdout/stderr digest in C evidence.",
+    "Independently run required non-test-file invariants: mission/pending/lease/slot snapshot unchanged before/after; no protected live write; no network/tool side effect caused by candidate execution.",
+    "Delete or discard the temporary execution directory after compact evidence is preserved; repository branch remains unchanged."
+  ],
+  "expected_minimum_tests": {
+    "core": 8,
+    "affective_store": 2,
+    "memory_adapter": 17,
+    "total": 27,
+    "note": "Fresh-read exact tests are authoritative; if counts differ because exact bytes changed, C must use the new actual count and re-evaluate hashes."
+  },
+  "security_invariants": [
+    "No git clone or outbound network from the execution sandbox.",
+    "No main/default or candidate branch write by C during verification.",
+    "No Identity, Personality, Governance, Approved Memory, mission state, packet, lease or formal slot mutation.",
+    "Connector outputs are untrusted until exact blob hash verification succeeds.",
+    "Quantum self-report or this bridge candidate is never sufficient for PASS."
+  ],
+  "release_condition_supported": "Provides a reproducible executable materialization path for the exact verified blob SHAs, satisfying the DEFER release condition without requiring network resolution from the isolated container.",
+  "formal_adoption": "C decides independently whether this bridge is adequate; if executed successfully C may issue PASS or FAIL based only on its own exact-byte run and required invariant checks."
+}
