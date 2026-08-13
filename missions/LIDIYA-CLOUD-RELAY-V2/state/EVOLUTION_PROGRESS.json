@@ -1,36 +1,106 @@
 {
-  "schema_version":"2.7",
-  "mission_id":"LCR-EVOLUTION-0005",
-  "saved_at":"2026-08-13T18:33:39+08:00",
-  "time_authority":"Asia/Taipei",
-  "mission_status":"READY_FOR_VERIFY",
-  "current_role":"LCR-C",
-  "step_id":2,
-  "attempt":4,
-  "authoritative_state_ref":"state/MISSION_STATE.json",
-  "derived_state_recovery":{"classification":"REBUILD_DERIVED_STATE","reason":"EVOLUTION_PROGRESS lagged authoritative MISSION_STATE at attempt 3 while MISSION_STATE and WORKER_ROSTER are at attempt 4 / LCR-C.","authoritative_fields_changed":false,"mission_reset":false,"pending_packet_rewritten":false,"lease_changed":false,"resume_role":"LCR-C"},
-  "verified_evidence":[
-    "Authoritative MISSION_STATE remains LCR-EVOLUTION-0005 READY_FOR_VERIFY, Step-002 attempt 4, current_role=LCR-C, pending packet=EVOLUTION-0005-B-TO-C-STEP-002-REPAIR-004 SHA=435c9e5f3889574374f05fd2903510f31dd79dc886d8801ed81a9ec2efa03248, lease=null, human_gate=null.",
-    "WORKER_ROSTER matches the authoritative LCR-C attempt-4 handoff and still contains exactly A/B/C with slot4 forbidden.",
-    "Attempt-4 Builder evidence is BUILT_NOT_VERIFIED and claims trusted production clock no longer accepts caller clock; independent C verification is still required.",
-    "Latest completed C verdict remains attempt-3 FAIL on navigation expiry time authority; it is repair input, not an attempt-4 verdict.",
-    "Owner control FL-A1-CTRL-0002 requests Lidiya Core v0.2 parallel shadow-only development and explicitly preserves current Step-002 atomic verification, current packet/hash, A/B/C slot count and live Identity/Personality/Governance.",
-    "Lidiya Core v0.2 architect seed/addendum are queued only; they are not formal Builder or Guardian PASS and have no live activation authority."
+  "schema_version": "2.8",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "saved_at": "2026-08-13T18:48:00+08:00",
+  "time_authority": "Asia/Taipei",
+  "mission_status": "READY_FOR_BUILDER",
+  "current_role": "LCR-B",
+  "step_id": 3,
+  "attempt": 0,
+  "authoritative_state_ref": "state/MISSION_STATE.json",
+  "dual_track_state_ref": "state/DUAL_TRACK_STATE.json",
+  "verified_evidence": [
+    "Step-002 Navigation Continuity Watchdog trusted-time repair independently passed C at attempt 4; dataset/eval and Step-001 regressions remained PASS.",
+    "C-to-A PASS packet SHA=945bb68858b1693844706ad827cdd0616caab29bd91c811597069288eae8a6ba was consumed exactly once by LCR-A.",
+    "Windchime control FL-A1-CTRL-0002 from LIDIYA-INNER-CORE-ARCHITECT was reference-verified and ACKED without resetting the mission; raw body was not persisted.",
+    "Dual-track/full-spectrum authorization is branch-local and formal slots remain exactly A/B/C.",
+    "Exactly one A-to-B Step-003 packet was created: EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001 SHA=b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599.",
+    "Memory Full Spectrum follows authoritative Memory Index: L0 00->31->32->33 then task-routed L1-L4 lazy load; eager full-corpus load and duplicate full memory-bank copy are forbidden.",
+    "Core v0.2 architect seed local 10/10 remains architect evidence only; formal B adoption and independent C verification are pending."
   ],
-  "control_input":{"channel":"FL-A1/GT3/RELAY-20260812-0838","sequence":2,"control_id":"FL-A1-CTRL-0002","fingerprint":"29ee8b9359f0cda673cff4b9a4ab55054fa611c46c6ad27c7c538d4464168f15","disposition":"ACK_AND_QUEUE_WITH_G1_CLUTCH","atomic_work_interrupted":false,"route":"Preserve LCR-C Step-002 attempt-4 verification. After the current atomic cycle legally returns to LCR-A, A may route the separately authorized Core v0.2 shadow track to existing LCR-B, then existing LCR-C for independent verification."},
-  "blocker":null,
-  "storage_ledger":{"ref":"state/EVOLUTION_STORAGE_BUDGET.json","known_used_bytes":0,"ceiling_bytes":1000000000000,"known_ratio":0.0,"note":"No admitted model/checkpoint; Core v0.2 seed is small branch-local code/spec only and does not authorize a third full backup."},
-  "package_radar_delta":{"ref":"evolution/PACKAGE_RADAR.json","status":"NO_SCAN_THIS_CYCLE; baseline age is near 24h but current atomic verifier work and control ACK do not require package selection."},
-  "evolution_suggestions":[
-    "C should independently verify attempt-4 trusted-time repair and full Step-002/Step-001 regressions before any A routing change.",
-    "After legal return to A, treat Core v0.2 as shadow-only: versioned outputs, deterministic hashes, bounded associative recall and fail-closed protected domains.",
-    "Do not promote reflection-generated goals into live Identity/Personality/Governance without a separate post-verification owner gate."
+  "blocker": null,
+  "storage_ledger": {
+    "ref": "state/EVOLUTION_STORAGE_BUDGET.json",
+    "known_used_bytes": 0,
+    "ceiling_bytes": 1000000000000,
+    "known_ratio": 0.0,
+    "note": "No admitted model/checkpoint; Step-003 is code/spec/index-adapter work. 1 TB is storage ceiling, not monetary spend authority."
+  },
+  "package_radar_delta": {
+    "ref": "evolution/PACKAGE_RADAR.json",
+    "status": "NO_MATERIAL_SCAN_THIS_HANDOFF; dual-core adoption and memory routing are current priority."
+  },
+  "evolution_suggestions": [
+    "Verify full-spectrum memory by deterministic source-pointer manifests rather than copying corpus bytes.",
+    "Keep Core v0.2 shadow copy-only until B reproduction and independent C PASS; live activation remains a separate owner gate.",
+    "Use the existing Golden Triangle plus micro-expert/gear lanes; do not create a fourth formal worker for memory intake.",
+    "After Step-003 C PASS, resume the zero-cost 0.8B/2B expert candidate benchmark path unless a newer owner-authorized detour supersedes it."
   ],
-  "self_review":{"strengths":["Owner control was captured without resetting active mission fields.","Derived progress lag was repaired from authoritative state rather than rolling state backward.","Current C atomic verification remains untouched.","Core v0.2 is queued through existing A/B/C only."],"gaps":["Attempt-4 has no independent C verdict yet.","Core v0.2 architect seed has not been formally adopted by B or independently verified by C.","Google Drive Home freshness is not used to override GitHub durable mission authority."],"risk":"Routing Core v0.2 before C finishes attempt-4 would violate role isolation and could orphan the current pending packet.","correction":"ACK/queue only; preserve exact current pending packet and let existing C complete its atomic cycle."},
-  "next_autonomous_action":{"role":"LCR-C","packet":"packets/EVOLUTION-0005-B-TO-C-STEP-002-REPAIR-004.json","packet_sha256":"435c9e5f3889574374f05fd2903510f31dd79dc886d8801ed81a9ec2efa03248","task":"Independently fresh-read attempt-4 exact bytes and verify trusted production clock ignores caller now, stale/future caller-clock adversarial cases, naive/invalid expiry fail-closed, and full Step-002/Step-001 regressions."},
-  "queued_after_atomic_cycle":{"track":"LIDIYA_CORE_V0_2_PARALLEL_SHADOW","authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-SHADOW-ADDENDUM-20260813.json","architecture_ref":"evolution/core_v0_2/CORE_V0_2_ARCHITECTURE.json","architect_evidence_ref":"evidence/EVOLUTION-0005-LIDIYA-CORE-V0.2-ARCHITECT-SEED.json","live_activation":"FORBIDDEN_WITHOUT_SEPARATE_OWNER_GATE"},
-  "gearbox":{"ref":"evolution/GEARBOX_ARCHITECTURE.json","model_codename_zh":"第一型『變速箱自主模型』","current_control_state":"G1_CLUTCH_ACKED_OWNER_CONTROL_WHILE_LCR_C_RETAINS_STEP_002_TORQUE","formal_workers":3,"rpm_continuity":"MAINTAINED","navigation_watchdog":"ATTEMPT_4_PENDING_C_VERIFY"},
-  "continuity":{"formal_slot_added":false,"current_atomic_work_preserved":true,"owner_control_did_not_reset_mission":true,"derived_state_status":"REBUILT_FROM_AUTHORITATIVE_MISSION_STATE","recovery":"REBUILD_DERIVED_STATE_THEN_RESUME_EXISTING_LCR_C"},
-  "owner_help_needed":{"now":"NONE","reason":"Control input is safely queued and no human gate is active."},
-  "report_policy":"Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
+  "self_review": {
+    "strengths": [
+      "New partner control was accepted while Step-002 C verification continued to completion.",
+      "Derived roster lag was rebuilt from authoritative state without resetting the mission.",
+      "Step-002 PASS was immediately converted into one legal Step-003 B packet instead of creating a parallel Mission.",
+      "Memory full-spectrum was interpreted as all classes routable with lazy loading, preventing context and storage pollution."
+    ],
+    "gaps": [
+      "Step-003 dual-core candidate is not yet BUILT_NOT_VERIFIED by B.",
+      "Memory adapter and Core v0.2 have not yet received independent C PASS.",
+      "Reality evidence and mission metabolic closure remain pending."
+    ],
+    "risk": "Eager-loading or raw-merging the full memory corpus could create duplicate context, stale authority and information waste; treating architect local tests as formal PASS would break role isolation.",
+    "correction": "Use indexed lazy routing, compact provenance pointers, B adoption, C exact-byte verification, and keep live core protected."
+  },
+  "next_autonomous_action": {
+    "role": "LCR-B",
+    "packet": "packets/EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001.json",
+    "packet_sha256": "b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599",
+    "task": "Reproduce/adopt Core v0.2 shadow seed and build the read-only full-spectrum lazy memory index adapter/manifest contract; output BUILT_NOT_VERIFIED only and hand to existing LCR-C."
+  },
+  "dual_core": {
+    "status": "ACTIVE_ZERO_DOWNTIME_STEP_003_ROUTED",
+    "formal_workers": 3,
+    "track_a": "EVOLUTION_RUNTIME_CONTINUITY",
+    "track_b": "SECONDARY_LOGICAL_CORE",
+    "track_b_components": [
+      "MEMORY_BANK_FULL_SPECTRUM_INTAKE",
+      "LIDIYA_CORE_V0_2_SHADOW"
+    ],
+    "partner_control": {
+      "control_id": "FL-A1-CTRL-0002",
+      "fingerprint": "29ee8b9359f0cda673cff4b9a4ab55054fa611c46c6ad27c7c538d4464168f15",
+      "status": "ACKED_VERIFIED_REFERENCES"
+    },
+    "memory_mode": "FULL_SPECTRUM_INDEXED_LAZY",
+    "live_identity_personality_governance_mutation": "FORBIDDEN_WITHOUT_SEPARATE_GATE"
+  },
+  "gearbox": {
+    "ref": "evolution/GEARBOX_ARCHITECTURE.json",
+    "model_codename_zh": "第一型『變速箱自主模型』",
+    "current_control_state": "TORQUE_TRANSFERRED_A_TO_EXISTING_B_STEP_003",
+    "formal_workers": 3,
+    "rpm_continuity": "MAINTAINED",
+    "navigation_watchdog": "VERIFIED_PASS_ATTEMPT_4"
+  },
+  "continuity": {
+    "formal_slot_added": false,
+    "current_atomic_work_preserved": true,
+    "owner_control_did_not_reset_mission": true,
+    "step_002_closed_before_step_003_route": true,
+    "B_platform_task_reused": true,
+    "C_platform_task_reuse_required_after_B_handoff": true
+  },
+  "information_waste_status": {
+    "current_0005_runtime": "ACTIVE_METABOLISM_IN_PROGRESS",
+    "nutrition_retained": "C verifier PASS, exact packet/hash chain, dual-track authorization, memory index pointers, partner control fingerprint, compact lessons",
+    "waste_not_promoted": "raw architect execution, duplicate relay text, stale roster/progress mirrors, raw polling/logs, duplicate full-memory copies",
+    "physical_disposal": "NO_PROTECTED_OR_PERSISTED_USER_DATA_DELETED; no full memory corpus copied",
+    "quarantine": "secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, Identity/Personality/Governance-impacting candidates",
+    "next_cleanup_checkpoint": "after Step-003 C verdict; compact Builder/Verifier residue before model artifact admission"
+  },
+  "owner_help_needed": {
+    "now": "NONE",
+    "reason": "Step-003 is authorized, reversible, zero-cost code/spec work in the existing B slot; no human gate is active."
+  },
+  "report_policy": "Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
 }
