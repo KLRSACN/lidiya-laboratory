@@ -1,0 +1,121 @@
+{
+  "schema_version": "0.1-candidate",
+  "candidate_id": "LQ-NAVLITE-OFFLINE-REPLAY-RECONNECT-MATRIX-001",
+  "author": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL",
+  "status": "QUANTUM_CANDIDATE_NOT_FORMAL_ADOPTED",
+  "formal_slot_effect": "NONE",
+  "formal_state_mutation": "FORBIDDEN",
+  "scope": "Builder-implementable acceptance matrix for NavLite G3/G4 offline replay and reconnect. Requires later formal A->B->C adoption.",
+  "invariants": [
+    "Offline inability to fresh-verify formal authority => OFFLINE_HELD_UNVERIFIED.",
+    "Offline-held events may ASK/FLAG and perform read-only reflection only.",
+    "No offline VERIFY-result promotion, cross-device handoff adoption, durable memory/personality/base write, or external action.",
+    "Reconnect requires fresh MISSION_STATE + current pending packet and revalidation of authority/source/dedupe/TTL/contradiction/provenance.",
+    "Revalidation creates a new immutable event/version; original offline envelope is never modified in place.",
+    "Recurrence/emotion/influence never substitute for truth, provenance, or governance eligibility."
+  ],
+  "acceptance_matrix": [
+    {
+      "case": "duplicate_offline_event",
+      "trigger": "same dedupe_key and payload_digest already observed",
+      "expected_disposition": "IDEMPOTENT_NO_OP",
+      "allow_ask": false,
+      "allow_flag": false,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "May update non-authoritative replay telemetry only; must not repeat verification request, promotion, handoff, or action."
+    },
+    {
+      "case": "expired_ttl",
+      "trigger": "expires_at <= trusted_now",
+      "expected_disposition": "DECAY_WASTE_DIAGNOSTIC",
+      "allow_ask": false,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "If still referenced by evidence/rollback/active verifier, preserve immutable pointer; no physical deletion merely because TTL expired."
+    },
+    {
+      "case": "source_fingerprint_changed",
+      "trigger": "fresh source fingerprint != envelope source_fingerprint",
+      "expected_disposition": "QUARANTINE_SOURCE_MISMATCH",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Treat changed source as a new source/version; old influence/trust cannot transfer automatically."
+    },
+    {
+      "case": "formal_pending_sha_changed",
+      "trigger": "fresh MISSION_STATE/current pending SHA != authority_snapshot pending SHA",
+      "expected_disposition": "QUARANTINE_AUTHORITY_MISMATCH_REBASE_REQUIRED",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Fresh formal authority wins. Re-route against the new mission state before any new event can be emitted."
+    },
+    {
+      "case": "contradiction_cleared_by_new_independent_evidence",
+      "trigger": "new independently sourced evidence resolves prior confirmed conflict and provenance/trust are re-evaluated",
+      "expected_disposition": "REVALIDATION_CANDIDATE",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": true,
+      "notes": "New event/version only. Old quarantined event remains immutable evidence. Old recurrence/emotion/influence has no release authority."
+    },
+    {
+      "case": "diagnostic_event_cursor_rollback_or_jump",
+      "trigger": "cursor < last committed cursor OR cursor skips unresolved/non-dispositioned event",
+      "expected_disposition": "QUARANTINE_REPLAY_CURSOR_ANOMALY",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Cursor advances only after formal processing or explicit disposition. Duplicate same cursor is idempotent no-op when hashes match."
+    },
+    {
+      "case": "schema_version_incompatible",
+      "trigger": "portable_schema_version not accepted by current deterministic core",
+      "expected_disposition": "MIGRATION_CANDIDATE_ONLY",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Requires explicit deterministic migration test; never reinterpret incompatible payload silently."
+    }
+  ],
+  "g4_resume_fingerprint_canonical_fields": [
+    "discussion_session",
+    "portable_schema_version",
+    "mission_id",
+    "step_id",
+    "current_role",
+    "pending_packet",
+    "pending_packet_sha256",
+    "lease_fingerprint",
+    "authority_snapshot_hash",
+    "latest_verified_evidence_pointer",
+    "latest_verified_evidence_hash",
+    "last_verified_claims_hash",
+    "diagnostic_event_cursor",
+    "source_pointer",
+    "source_fingerprint",
+    "dedupe_key",
+    "payload_digest",
+    "return_condition"
+  ],
+  "canonical_hash_rule": "Hash a versioned canonical serialization of all listed G4 fields; exact algorithm/serialization profile is TEST_REQUIRED until formal Builder chooses and C verifies it.",
+  "test_requirements": [
+    "TEST_REQUIRED: canonical serialization and hash algorithm profile",
+    "TEST_REQUIRED: TTL defaults and trusted-time boundary cases",
+    "TEST_REQUIRED: cursor monotonicity, duplicate replay, rollback and jump matrix",
+    "TEST_REQUIRED: schema migration compatibility matrix",
+    "TEST_REQUIRED: authority snapshot transition and reconnect race cases",
+    "TEST_REQUIRED: contradiction-clearance requires independent evidence and fresh provenance/trust evaluation",
+    "TEST_REQUIRED: offline mode never causes protected write or external action"
+  ],
+  "formal_adoption_rule": "After current Step-003 reaches legal C->A handoff, A may reference this candidate in a bounded NavLite/Small-Nest formal packet. B must independently implement/reproduce; C must independently verify. This candidate is not Builder evidence and not C PASS."
+}
