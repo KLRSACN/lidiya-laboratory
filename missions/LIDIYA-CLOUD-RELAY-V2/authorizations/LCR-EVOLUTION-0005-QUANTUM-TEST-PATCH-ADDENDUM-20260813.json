@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "authorization_id": "LCR-EVOLUTION-0005-QUANTUM-TEST-PATCH-20260813",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-13T22:32:00+08:00",
+  "timezone": "Asia/Taipei",
+  "status": "ACTIVE",
+  "authorized_window": "lidiya 量子",
+  "window_type": "NON_FORMAL_RESEARCH_ARCHITECT_WINDOW",
+  "purpose": "Allow lidiya 量子 to directly repair or extend branch-local deterministic Step-003 research/test artifacts that are already within Quantum scope, so formal LCR-B can independently re-read, adopt and validate them without bypassing the B/C chain.",
+  "authorized_now": [
+    "update evolution/test_memory_index_adapter_v0_2.py on branch lidiya-cloud-relay-v2",
+    "add missing adversarial negative tests required by MEMORY_FULL_SPECTRUM_CONTRACT.json and current Step-003 acceptance",
+    "create compact Quantum patch evidence and handoff pointer for LCR-B",
+    "perform isolated/local deterministic validation when available",
+    "request existing LCR-B to fresh-read exact bytes and independently adopt/re-run tests"
+  ],
+  "required_negative_tests": [
+    "ambiguous source type quarantined",
+    "secret-like source type quarantined",
+    "contradictory source quarantined",
+    "quarantined source excluded from routed results",
+    "incorrect L0 bootstrap order fails closed",
+    "unknown memory level fails closed"
+  ],
+  "preserved_boundaries": {
+    "consume_or_rewrite_formal_pending_packet": false,
+    "declare_BUILT_NOT_VERIFIED_for_B": false,
+    "declare_C_PASS": false,
+    "mutate_live_Identity": false,
+    "mutate_base_Personality": false,
+    "mutate_Governance": false,
+    "main_default_write": false,
+    "slot4_or_duplicate_formal_worker": false,
+    "model_download_or_training": false,
+    "spend": false
+  },
+  "formal_chain": "Quantum patches allowed research/test artifact -> LCR-B independently fresh-reads/adopts/runs -> BUILT_NOT_VERIFIED only if all acceptance passes -> LCR-C independently verifies -> LCR-A controls promotion/rollback.",
+  "claim_boundary": "This authorization does not make Quantum a Builder or Verifier and does not itself advance MISSION_STATE."
+}
