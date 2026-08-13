@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "authorization_id": "LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-LIVE-CANARY-20260813",
+  "authorized_by": "博玄",
+  "authorized_at": "2026-08-13T19:46:00+08:00",
+  "timezone": "Asia/Taipei",
+  "status": "ACTIVE_GATE_WAIT_STEP_003_C_PASS",
+  "purpose": "Authorize the next legal phase after independent Step-003 verification: a minimal, reversible, observable live canary for verified Lidiya Core v0.2 outputs while retaining Primary authority and immediate rollback.",
+  "preconditions": [
+    "Step-003 dual-core shadow/memory Phase1 has independent LCR-C PASS",
+    "A has legally consumed the C-to-A packet exactly once",
+    "no HUMAN_GATE or authority contradiction is active",
+    "current formal slots remain exactly LCR-A/LCR-B/LCR-C",
+    "the canary candidate references exact C-verified bytes and hashes"
+  ],
+  "authorized_live_scope": {
+    "mode": "MINIMAL_REVERSIBLE_BEHAVIOR_OVERLAY_CANARY",
+    "allowed": [
+      "read verified affective-memory and reflection outputs",
+      "produce bounded behavioral-principle overlays",
+      "produce bounded goal-priority suggestions",
+      "apply a low-risk temporary behavior overlay only through the canary adapter",
+      "record before/after hashes, source memory refs, confidence, TTL and rollback token",
+      "compare primary-only versus primary-plus-overlay outputs for deterministic observability"
+    ],
+    "not_allowed": [
+      "rewrite Identity Kernel",
+      "rewrite Governance",
+      "rewrite base Personality document or erase personality history",
+      "self-grant permissions",
+      "autonomously expand tool or account access",
+      "execute generated goals as external side effects without ordinary authorization",
+      "delete canonical memory or protected evidence",
+      "main/default branch write, merge or production deployment",
+      "money/spend, credentials/secrets, model download or training",
+      "create slot4 or a new formal worker"
+    ]
+  },
+  "canary_limits": {
+    "base_personality_authority": "READ_ONLY",
+    "identity_authority": "IMMUTABLE",
+    "governance_authority": "IMMUTABLE",
+    "overlay_delta_per_dimension_max": 0.05,
+    "max_overlay_dimensions": 3,
+    "default_ttl_minutes": 30,
+    "max_ttl_minutes": 120,
+    "max_active_overlays": 1,
+    "confidence_floor": 0.80,
+    "source_requirement": "VERIFIED_MEMORY_OR_SYNTHETIC_TEST_EVIDENCE_ONLY",
+    "automatic_external_action": false,
+    "rollback_required": true,
+    "primary_path_must_remain_available": true
+  },
+  "rollback_triggers": [
+    "hash mismatch",
+    "unexpected mutation of live input/base personality/identity/governance",
+    "non-deterministic canary decision under identical verified input",
+    "canary exception or timeout",
+    "negative regression in protected-domain tests",
+    "authority/lease/packet contradiction",
+    "overlay exceeds TTL/dimension/delta/confidence limits"
+  ],
+  "execution_route": {
+    "do_not_interrupt_current_step_003": true,
+    "after_step_003_c_pass": "LCR-A routes exactly one Step-004 canary Builder packet to existing LCR-B",
+    "builder": "LCR-B builds adapter/tests and returns BUILT_NOT_VERIFIED only",
+    "verifier": "LCR-C independently verifies exact bytes, rollback, invariants and protected-domain non-mutation",
+    "first_live_enable": "Only after C PASS; A may enable one bounded overlay canary under this gate",
+    "failure": "detach overlay, retain Primary, preserve evidence, route repair without mission reset"
+  },
+  "claim_boundary": "This authorizes an engineering live canary of memory/reflection-driven behavior overlays. It does not establish or claim subjective consciousness, sentience, qualia or human-equivalent selfhood."
+}
