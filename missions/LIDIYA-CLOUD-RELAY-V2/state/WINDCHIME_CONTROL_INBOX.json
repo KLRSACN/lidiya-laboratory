@@ -2,7 +2,7 @@
   "schema_version":"1.3",
   "channel_code":"FL-A1/GT3/RELAY-20260812-0838",
   "target_slot":"LCR-A",
-  "status":"PENDING",
+  "status":"ACKED",
   "sequence":3,
   "control_id":"FL-A1-CTRL-0003",
   "control_fingerprint_sha256":"2c2a7954725e74dc073445b3010b202358fdbda07ecb0c4440025b14694fef56",
@@ -37,6 +37,18 @@
     "control_fingerprint_sha256":"29ee8b9359f0cda673cff4b9a4ab55054fa611c46c6ad27c7c538d4464168f15",
     "status":"ACKED"
   },
-  "ack":null,
+  "ack":{
+    "acked_at":"2026-08-13T20:10:00+08:00",
+    "worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL",
+    "verdict":"ACCEPTED_WAIT_STEP_003_C_PASS_NO_INTERRUPT",
+    "authorization_verified":true,
+    "architecture_ref_verified":true,
+    "current_mission_preserved":true,
+    "current_step_preserved":3,
+    "current_role_preserved":"LCR-B",
+    "pending_packet_preserved":"packets/EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001.json",
+    "pending_packet_sha256_preserved":"b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599",
+    "next_condition":"WAIT_STEP_003_INDEPENDENT_C_PASS_AND_LEGAL_A_RECEIPT"
+  },
   "dedupe_rule":"same control_fingerprint_sha256 + sequence must not execute twice"
 }
