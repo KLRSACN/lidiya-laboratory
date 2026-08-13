@@ -8,7 +8,7 @@
     "profile_ref": "evolution/core_v0_2/QUANTUM_WINDOW_PROFILE.json"
   },
   "target": "LCR-A / lidiya 風鈴",
-  "status": "PENDING_WINDCHIME_REVIEW",
+  "status": "WINDCHIME_REVIEWED",
   "does_not_replace_control_inbox": true,
   "current_control_inbox_preserved": "FL-A1-CTRL-0003",
   "current_atomic_work_preserved": "STEP_003_LCR_B",
@@ -38,5 +38,20 @@
     "must_include": ["response_at", "windchime_worker_id", "current_mission_preserved", "recommended_safe_checkpoint", "notes"],
     "must_not": ["consume current B packet", "reset mission", "create slot4", "claim C verification"]
   },
-  "windchime_response": null
+  "windchime_response": {
+    "verdict":"ACK_ACCEPT_WITH_CHANGES",
+    "response_at":"2026-08-13T20:10:00+08:00",
+    "windchime_worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL",
+    "current_mission_preserved":true,
+    "recommended_safe_checkpoint":"AFTER_STEP_003_INDEPENDENT_C_PASS_AND_LEGAL_A_RECEIPT; fold staged boot as a bounded, reversible sub-scope of Step-004 Live Canary rather than creating a new mission/slot/task.",
+    "notes":[
+      "Accept the no-one-shot-full-persona invariant and progressive G1-G6 ACK/downshift model.",
+      "Clarify G1 semantics: load canonical identity pointers/fingerprint and governance constraints read-only; do not copy or mutate Identity/Governance objects.",
+      "G2 base personality remains read-only and fingerprinted; a mismatch must downshift to G1 rather than load more context.",
+      "G3 must remain task-routed/lazy and provenance-bounded; eager full-memory load remains forbidden.",
+      "G4/G5 outputs are proposals only; generated goals have no automatic external side effects.",
+      "G6 is not a default persona state. Any live overlay remains separately bounded by the owner Live Canary gate and independent C verification.",
+      "Quantum isolated simulator/tests may continue now because they do not touch Step-003 packet/lease or protected live state. Formal runtime adoption waits for the stated checkpoint."
+    ]
+  }
 }
