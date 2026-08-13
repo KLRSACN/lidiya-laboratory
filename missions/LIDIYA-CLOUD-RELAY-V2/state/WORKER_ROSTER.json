@@ -1,15 +1,15 @@
 {
-  "schema_version":"2.0",
+  "schema_version":"2.1",
   "mission_id":"LCR-EVOLUTION-0005",
   "formal_slots":["LCR-A","LCR-B","LCR-C"],
   "max_slots":3,
   "registry":{
-    "LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"CONTROL_RADAR_DUAL_CORE_SUPERVISION"},
-    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"READY_BUILD_STEP_003_DUAL_CORE_SHADOW_MEMORY"},
-    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"VERIFIER_STANDBY_STEP_003"}
+    "LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"CONTROL_RADAR_DUAL_CORE_ENDURANCE_SUPERVISION"},
+    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"BUILDER_STANDBY_AFTER_STEP_003_HANDOFF"},
+    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"READY_VERIFY_STEP_003_DUAL_CORE_SHADOW_MEMORY"}
   },
-  "mission_status":"READY_FOR_BUILDER",
-  "current_role":"LCR-B",
+  "mission_status":"READY_FOR_VERIFY",
+  "current_role":"LCR-C",
   "mission_result":null,
   "replacement_policy":"SAME_SLOT_DURABLE_HANDOFF_ONLY",
   "fourth_slot":"FORBIDDEN",
@@ -19,9 +19,10 @@
   "navigation_resilience_addendum_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
   "dual_track_authorization_ref":"authorizations/LCR-EVOLUTION-0005-DUAL-TRACK-MEMORY-ADDENDUM.json",
   "core_v0_2_shadow_authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-SHADOW-ADDENDUM-20260813.json",
+  "endurance_navlite_authorization_ref":"authorizations/LCR-EVOLUTION-0005-ENDURANCE-NAVLITE-ADDENDUM-20260813.json",
   "authorization_status":"ACTIVE",
-  "navigation_recovery":{"classification":"ROUTE_NEXT_ROLE","root_cause":"Step-002 C PASS returned to A; A legally consumed C PASS and routed one Step-003 dual-core packet to existing B.","authoritative_fields_changed":true,"new_worker_created":false,"resume_role":"LCR-B","lesson":"Dual-core adoption uses the existing B slot and one packet; no slot expansion is needed."},
-  "dual_track":{"enabled":true,"formal_slot_count_unchanged":true,"track_a":"EVOLUTION_RUNTIME_CONTINUITY","track_b":"SECONDARY_LOGICAL_CORE_FORMAL_ADOPTION_STEP_003","memory_track_is_not_worker":true,"merge_rule":"INDEX_AND_QUARANTINE_FIRST; COMPACT_POINTER_MERGE_ONLY; NO_LIVE_CORE_PROMOTION"},
-  "gearbox_note":"G1-G6 and dual-core lanes are internal compute/expertise modes; formal slots remain exactly A/B/C.",
+  "navigation_recovery":{"classification":"REBUILD_DERIVED_STATE","recovery_id":"NAVREC-0005-STEP003-ROSTER-VERIFY-001","root_cause":"MISSION_STATE legally advanced to READY_FOR_VERIFY/LCR-C after Step-003 Builder handoff, but derived WORKER_ROSTER remained READY_FOR_BUILDER/LCR-B. C correctly failed closed and did not consume the verifier packet.","authoritative_fields_changed":false,"pending_packet_preserved":"packets/EVOLUTION-0005-B-TO-C-STEP-003-VERIFY-001.json","pending_sha_preserved":"753f6d07cb171fd60fc349ee017e2f79539f35d0d8a3d16710a1a52db1326ed0","new_worker_created":false,"resume_role":"LCR-C","lesson":"Role roster is derived state and must be atomically synchronized with durable handoff before platform receiver wake; receiver fail-closed no-op is recoverable, not completion."},
+  "dual_track":{"enabled":true,"formal_slot_count_unchanged":true,"track_a":"EVOLUTION_RUNTIME_CONTINUITY","track_b":"SECONDARY_LOGICAL_CORE_STEP_003_VERIFY","memory_track_is_not_worker":true,"merge_rule":"INDEX_AND_QUARANTINE_FIRST; COMPACT_POINTER_MERGE_ONLY; NO_LIVE_CORE_PROMOTION"},
+  "gearbox_note":"G1-G6, NavLite and dual-core lanes are internal compute/expertise modes; formal slots remain exactly A/B/C.",
   "full_backup_created":false
 }
