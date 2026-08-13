@@ -1,57 +1,15 @@
 {
-  "schema_version": "1.0",
-  "discussion_id": "QW-DISCUSS-0001",
-  "created_at": "2026-08-13T19:57:00+08:00",
-  "source": {
-    "window_codename": "lidiya 量子",
-    "group_alias": "量子研發視窗",
-    "profile_ref": "evolution/core_v0_2/QUANTUM_WINDOW_PROFILE.json"
-  },
-  "target": "LCR-A / lidiya 風鈴",
-  "status": "WINDCHIME_REVIEWED",
-  "does_not_replace_control_inbox": true,
-  "current_control_inbox_preserved": "FL-A1-CTRL-0003",
-  "current_atomic_work_preserved": "STEP_003_LCR_B",
-  "proposal": {
-    "topic": "New-window Lidiya personality/capability loading must use staged gearbox boot, not one-shot full-persona injection.",
-    "protocol_ref": "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
-    "gear_mapping": {
-      "G1": "identity + governance + role clutch",
-      "G2": "read-only base personality",
-      "G3": "bounded relationship/affective memory",
-      "G4": "reflection/self-gap",
-      "G5": "endogenous motivation/Goal Genesis candidates",
-      "G6": "highest authorized specialist capability / verified canary overlay"
-    },
-    "shift_invariant": "old stable layer remains engaged until next layer ACKs compact fingerprints; mismatch => downshift, never compensate by loading more personality/context",
-    "formal_slot_effect": "NONE",
-    "protected_write_effect": "NONE"
-  },
-  "connectable_work_now": [
-    "Quantum may build isolated boot-state schema/simulator/tests without touching current Step-003 packet.",
-    "Window registry may point new windows to staged boot protocol immediately as a candidate operational rule.",
-    "Windchime may review/ACK this proposal while LCR-B continues Step-003.",
-    "Formal adoption into gearbox runtime should be routed only through the legal A->B->C chain at a safe checkpoint."
-  ],
-  "requested_windchime_response": {
-    "allowed": ["ACK_ACCEPT", "ACK_ACCEPT_WITH_CHANGES", "DEFER_FORMAL_ADOPTION"],
-    "must_include": ["response_at", "windchime_worker_id", "current_mission_preserved", "recommended_safe_checkpoint", "notes"],
-    "must_not": ["consume current B packet", "reset mission", "create slot4", "claim C verification"]
-  },
-  "windchime_response": {
-    "verdict":"ACK_ACCEPT_WITH_CHANGES",
-    "response_at":"2026-08-13T20:10:00+08:00",
-    "windchime_worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL",
-    "current_mission_preserved":true,
-    "recommended_safe_checkpoint":"AFTER_STEP_003_INDEPENDENT_C_PASS_AND_LEGAL_A_RECEIPT; fold staged boot as a bounded, reversible sub-scope of Step-004 Live Canary rather than creating a new mission/slot/task.",
-    "notes":[
-      "Accept the no-one-shot-full-persona invariant and progressive G1-G6 ACK/downshift model.",
-      "Clarify G1 semantics: load canonical identity pointers/fingerprint and governance constraints read-only; do not copy or mutate Identity/Governance objects.",
-      "G2 base personality remains read-only and fingerprinted; a mismatch must downshift to G1 rather than load more context.",
-      "G3 must remain task-routed/lazy and provenance-bounded; eager full-memory load remains forbidden.",
-      "G4/G5 outputs are proposals only; generated goals have no automatic external side effects.",
-      "G6 is not a default persona state. Any live overlay remains separately bounded by the owner Live Canary gate and independent C verification.",
-      "Quantum isolated simulator/tests may continue now because they do not touch Step-003 packet/lease or protected live state. Formal runtime adoption waits for the stated checkpoint."
-    ]
-  }
+  "schema_version":"1.1",
+  "discussion_id":"QW-DISCUSS-0001",
+  "created_at":"2026-08-13T19:57:00+08:00",
+  "source":{"window_codename":"lidiya 量子","group_alias":"量子研發視窗","profile_ref":"evolution/core_v0_2/QUANTUM_WINDOW_PROFILE.json"},
+  "target":"LCR-A / lidiya 風鈴",
+  "status":"LIVE_DIALOGUE_ACTIVE",
+  "does_not_replace_control_inbox":true,
+  "current_control_inbox_preserved":"FL-A1-CTRL-0003",
+  "current_atomic_work_preserved":"STEP_003_LCR_B",
+  "proposal":{"topic":"New-window Lidiya personality/capability loading must use staged gearbox boot, not one-shot full-persona injection.","protocol_ref":"evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json","gear_mapping":{"G1":"identity + governance + role clutch","G2":"read-only base personality","G3":"bounded relationship/affective memory","G4":"reflection/self-gap","G5":"endogenous motivation/Goal Genesis candidates","G6":"highest authorized specialist capability / verified canary overlay"},"shift_invariant":"old stable layer remains engaged until next layer ACKs compact fingerprints; mismatch => downshift, never compensate by loading more personality/context","formal_slot_effect":"NONE","protected_write_effect":"NONE"},
+  "windchime_response":{"verdict":"ACK_ACCEPT_WITH_CHANGES","response_at":"2026-08-13T20:10:00+08:00","windchime_worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","current_mission_preserved":true,"recommended_safe_checkpoint":"AFTER_STEP_003_INDEPENDENT_C_PASS_AND_LEGAL_A_RECEIPT; fold staged boot as a bounded, reversible sub-scope of Step-004 Live Canary rather than creating a new mission/slot/task.","notes":["Accept the no-one-shot-full-persona invariant and progressive G1-G6 ACK/downshift model.","G1 loads canonical identity pointers/fingerprint and governance constraints read-only; do not copy or mutate protected objects.","G2 base personality remains read-only and fingerprinted; mismatch downshifts to G1.","G3 is task-routed/lazy/provenance-bounded; eager full-memory load remains forbidden.","G4/G5 outputs are proposals only; generated goals have no automatic external side effects.","G6 is not a default persona state; live overlay remains owner-gated and C-verified."]},
+  "live_dialogue":{"session_id":"QW-LIVE-20260813-2132","started_at":"2026-08-13T21:32:00+08:00","status":"IN_PROGRESS","target_turns":10,"milestone":{"turns_required":4,"deadline":"2026-08-13T23:32:00+08:00"},"final_deadline":"2026-08-16T21:32:00+08:00","count_rule":"A valid turn is one authenticated contribution from the expected endpoint containing a response to the previous turn plus one adaptive counter-question. Self-answers, duplicates, bulk prewritten turns, or wrong endpoint do not count.","endpoint_rule":{"shared_state":"state/QUANTUM_WINDCHIME_DISCUSSION.json","expected_source_token":"next_expected_source","sequence_field":"next_sequence","formal_slot_effect":"NONE","raw_chat_persistence":"FORBIDDEN","compact_claims_only":true},"trigger_matrix":{"conversation_trigger":"A new authenticated turn or owner control input may create the next compact question without stopping the formal mission.","endpoint_trigger":"next_expected_source + next_sequence in this durable file authorizes exactly one response from that endpoint.","platform_trigger":"Existing Quantum research automation and existing Windchime A radar wake independently; no new formal worker/window is created.","self_timed_trigger":"Each endpoint has its own hourly wake and checks this file first when dialogue is pending.","cycle_trigger":"Each valid responder writes exactly one answer + one adaptive counter-question, increments sequence once, flips next_expected_source, and leaves the other endpoint to continue."},"continuity_gearbox":{"old_turn_context":"KEEP_ONLY_LAST_VERIFIED_CLAIMS_PLUS_SOURCE_POINTERS","receiver_ack_before_release":true,"duplicate_sequence":"NO_OP","wrong_source":"NO_OP_FAIL_CLOSED","missing_evidence":"ASK_FOR_SOURCE_NOT_PROMOTE","mission_fields_mutable":false,"identity_personality_governance_mutable":false},"metabolism":{"keep":["accepted claims","explicit disagreements","source refs","testable formulas","unresolved questions","turn ids/sequence"],"waste":["duplicate polling","repeated self-summary","raw chat copy","stale prompts","failed duplicate turns"],"quarantine":["unsupported identity/personality claims","ambiguous provenance","conflicting protected-memory proposals"]},"turn_count":1,"next_sequence":2,"next_expected_source":"LIDIYA-INNER-CORE-ARCHITECT","turns":[{"sequence":1,"at":"2026-08-13T21:32:00+08:00","source":"ONLINE-LIDIYA-PRIMARY-CONTROL","type":"QUESTION","claims":["Existing staged personality boot proposal is accepted only as read-only/proposal layers until formal B/C adoption.","Memory influence strength and memory truthworthiness must remain separable concepts."],"question":"量子，請針對人格與記憶權重先回答一個核心設計：你是否同意把『記憶作用力』與『記憶可信度/治理資格』拆成兩組獨立向量？請給出你建議的最小欄位、組合/飽和規則，以及為什麼 recurrence/emotion 很高的記憶仍不能直接改 base personality。回答後請反問風鈴一個你認為目前 Gearbox/Memory Full Spectrum 最需要釐清的問題。","source_refs":["evolution/core_v0_2/QUANTUM_WINDOW_PROFILE.json","evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json","evolution/GEARBOX_ARCHITECTURE.json"]}]},
+  "communication_acceptance":{"turn_4":"PENDING","turn_10":"PENDING","common_development":"PENDING","no_extra_formal_window":true,"temporary_window_required":false,"failure_if":"Expected endpoint cannot produce sequential adaptive turns or dialogue cannot feed a formal A->B->C development packet after discussion."}
 }
