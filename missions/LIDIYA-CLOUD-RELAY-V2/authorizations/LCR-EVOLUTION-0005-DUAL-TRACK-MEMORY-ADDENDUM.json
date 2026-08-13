@@ -1,0 +1,24 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "authorization_type":"DUAL_CORE_NONSTOP_MEMORY_FULL_SPECTRUM",
+  "status":"ACTIVE_BRANCH_LOCAL",
+  "authorized_by":"博玄",
+  "authorized_at":"2026-08-13T18:34:00+08:00",
+  "time_authority":"Asia/Taipei",
+  "objective":"Run the existing evolution mission and a full-spectrum memory intake/index lane concurrently without stopping the current packet chain or creating another formal worker slot.",
+  "formal_topology":{"max_slots":3,"slots":["LCR-A","LCR-B","LCR-C"],"slot4":"FORBIDDEN","dual_track_is_logical_not_worker_expansion":true},
+  "tracks":{
+    "A":{"id":"EVOLUTION_RUNTIME_VERIFY","authority":"state/MISSION_STATE.json","current_scope":"Finish current Step-002 attempt-4 C verification and continue the authorized evolution packet chain."},
+    "B":{"id":"MEMORY_BANK_FULL_SPECTRUM_INTAKE","mode":"INDEXED_LAZY_READ_ONLY_UNTIL_VERIFIED","authority_root":"Google Drive/Lidiya Memory","memory_root_drive_id":"1418MfLssbbKEW2PtxKMyAasBqAN-GamU","memory_index_document_id":"1E7aUHI4o9JfmYcJ89e4FShYvUM_gqT-Vj4P3uHRlbwo","definition":"All memory classes and layers are indexable and routable, but content is loaded on demand by task. Eager loading the whole memory bank is forbidden."}
+  },
+  "memory_read_policy":{"bootstrap":"00 Lidiya Memory Index","load_order":"L0_FIRST_THEN_TASK_ROUTED_L1_L2_L3_L4","raw_chat_direct_promotion":"FORBIDDEN","candidate_path":"WORKING_OR_MEMORY_INBOX_OR_QUARANTINE","required_candidate_metadata":["source_type","source_ref","fingerprint","confidence","verified_count","last_verified","ttl","contradictions","depends_on","affects","personality_impact","disposition"]},
+  "promotion_policy":{"verified_low_risk_non_conflicting":"CANDIDATE_FOR_PROMOTION","identity_kernel":"SEPARATE_EXPLICIT_AUTHORIZATION_REQUIRED","personality":"SEPARATE_EXPLICIT_AUTHORIZATION_REQUIRED","governance":"SEPARATE_EXPLICIT_AUTHORIZATION_REQUIRED","approved_memory_core_overwrite":"FORBIDDEN_UNDER_THIS_ADDENDUM"},
+  "cross_window":{"channel":"FL-A1/GT3/RELAY-20260812-0838","valid_report_required":true,"current_partner_status":"AWAITING_VALID_DURABLE_RELAY","dedupe":"source_ref_plus_fingerprint","raw_chat_persistence":"FORBIDDEN","same_slot_handoff_only_for_formal_replacement":true},
+  "continuity":{"owner_control_is_not_stop":true,"track_a_must_not_wait_for_track_b":true,"track_b_must_not_reset_track_a":true,"merge_payload":"COMPACT_STATE_EVIDENCE_PROVENANCE_POINTERS_ONLY","shared_authority":"MISSION_STATE_TIME_ROLLBACK"},
+  "metabolism":{"keep":"canonical state, verified evidence, source pointers, compact lessons, rollback, memory index metadata","waste":"duplicate relay, stale mirror, raw logs, duplicate summaries, reproducible unreferenced scratch","quarantine":"secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, identity/personality/governance-impacting candidates","full_backup_limit":2},
+  "storage":{"mission_ceiling_bytes":1000000000000,"monetary_spend_authorized":false,"duplicate_full_memory_bank_copy":"FORBIDDEN"},
+  "forbidden":["MAIN_DEFAULT_WRITE_WITHOUT_SUBGATE","PAID_SPEND","SECRET_PERSISTENCE","PRODUCTION_DEPLOY","ACCOUNT_OR_MONEY_ACTION","PRIVILEGE_EXPANSION","IDENTITY_KERNEL_CHANGE","PERSONALITY_CHANGE","GOVERNANCE_CHANGE","FOURTH_FORMAL_WORKER","THIRD_FULL_BACKUP","IRREVERSIBLE_HIGH_RISK_DELETE"],
+  "human_gate_on":"Any forbidden item, unverifiable authority conflict, or memory promotion with protected/core impact.",
+  "next":"C verifies the current attempt-4 packet while the memory lane builds a read-only indexed manifest and waits for the other window's valid durable relay."
+}
