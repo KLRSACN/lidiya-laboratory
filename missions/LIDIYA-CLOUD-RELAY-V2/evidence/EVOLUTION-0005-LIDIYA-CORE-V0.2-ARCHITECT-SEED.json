@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-EVOLUTION-0005",
   "track": "LIDIYA_CORE_V0_2_PARALLEL_SHADOW",
   "role": "OWNER_AUTHORIZED_INNER_CORE_ARCHITECT_SEED_NOT_FORMAL_LCR_SLOT",
@@ -10,13 +10,15 @@
   "seed_files": [
     "evolution/core_v0_2/__init__.py",
     "evolution/core_v0_2/memory_model.py",
+    "evolution/core_v0_2/affective_store.py",
     "evolution/core_v0_2/reflection_engine.py",
     "evolution/core_v0_2/shadow_runtime.py",
-    "evolution/test_core_v0_2.py"
+    "evolution/test_core_v0_2.py",
+    "evolution/test_affective_store_v0_2.py"
   ],
   "local_reproduction": {
     "python_compile": "PASS",
-    "unittest": "PASS_8_OF_8",
+    "unittest": "PASS_10_OF_10",
     "tests": [
       "multidimensional_weights_are_preserved",
       "gap_without_meaning_does_not_generate_goal",
@@ -25,7 +27,9 @@
       "recurrence_alone_cannot_dominate_identity",
       "shadow_does_not_mutate_live",
       "protected_live_domains_fail_closed",
-      "deterministic_shadow_hash"
+      "deterministic_shadow_hash",
+      "affective_store_append_only_versioned_and_deduped",
+      "affective_store_delete_fails_closed"
     ]
   },
   "formal_verification_status": "PENDING_LCR_B_ADOPTION_THEN_LCR_C_INDEPENDENT_VERIFICATION",
