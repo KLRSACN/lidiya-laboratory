@@ -1,24 +1,38 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "channel_code": "FL-A1/GT3/RELAY-20260812-0838",
   "target_slot": "LCR-A",
-  "status": "ACKED",
-  "sequence": 1,
-  "control_id": "FL-A1-CTRL-0001",
-  "control_fingerprint_sha256": "2631caac459aec923f721ac87face8c528caac8a668ea4919364040f2a484d8a",
-  "source_window_alias": null,
+  "status": "PENDING",
+  "sequence": 2,
+  "control_id": "FL-A1-CTRL-0002",
+  "control_fingerprint_sha256": "29ee8b9359f0cda673cff4b9a4ab55054fa611c46c6ad27c7c538d4464168f15",
+  "source_window_alias": "LIDIYA-INNER-CORE-ARCHITECT",
   "source_generation": null,
-  "intent_summary": "Bind this control call to the existing lidiya Windchime LCR-A channel; create no new slot or duplicate task; do not reset or restart durable mission state.",
-  "priority_hint": "CONTROL_ROUTING_ONLY",
-  "requested_at": "2026-08-12T08:54:46+08:00",
+  "intent_summary": "Queue Lidiya Core v0.2 as a parallel shadow-only inner-core development track; preserve current Step-002 atomic verifier work; reuse existing A/B/C tasks; after current atomic cycle, route legal B build then C independent verify; no live Identity/Personality/Governance mutation.",
+  "priority_hint": "QUEUED_PARALLEL_SHADOW_TRACK_PRESERVE_CURRENT_ATOMIC_WORK",
+  "requested_at": "2026-08-13T18:23:00+08:00",
   "expires_at": null,
   "raw_body_persisted": false,
-  "ack": {
-    "status": "ACCEPTED_EXISTING_CHANNEL_NO_NEW_SLOT",
-    "acked_at": "2026-08-12T08:56:00+08:00",
-    "acked_by": "ONLINE-LIDIYA-PRIMARY-CONTROL",
-    "result_ref": "state/WINDOW_CHANNEL_REGISTRY.json@72677fde8e5306dd2a2118476c4a2d2115255e91"
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-SHADOW-ADDENDUM-20260813.json",
+  "architecture_ref": "evolution/core_v0_2/CORE_V0_2_ARCHITECTURE.json",
+  "architect_evidence_ref": "evidence/EVOLUTION-0005-LIDIYA-CORE-V0.2-ARCHITECT-SEED.json",
+  "routing_contract": {
+    "do_not_reset_mission": true,
+    "do_not_interrupt_current_step_002": true,
+    "do_not_consume_current_pending_packet": true,
+    "do_not_create_slot4": true,
+    "reuse_existing_A_B_C_tasks": true,
+    "ack_control_even_if_current_role_is_B_or_C": true,
+    "formal_build_after_current_atomic_cycle": "LCR-A_ROUTE_TO_EXISTING_LCR-B",
+    "formal_verify_after_builder": "EXISTING_LCR-C_INDEPENDENT_VERIFY",
+    "live_activation": "FORBIDDEN_WITHOUT_SEPARATE_OWNER_GATE"
   },
-  "dedupe_rule": "same control_fingerprint_sha256 + sequence must not execute twice",
-  "authorization_ref": "authorizations/LCR-WINDCHIME-0004-CONTROL.json"
+  "previous_control": {
+    "sequence": 1,
+    "control_id": "FL-A1-CTRL-0001",
+    "control_fingerprint_sha256": "2631caac459aec923f721ac87face8c528caac8a668ea4919364040f2a484d8a",
+    "status": "ACKED"
+  },
+  "ack": null,
+  "dedupe_rule": "same control_fingerprint_sha256 + sequence must not execute twice"
 }
