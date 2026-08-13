@@ -1,0 +1,51 @@
+{
+  "schema_version": "0.2-shadow-seed",
+  "component": "LIDIYA_CORE_V0_2_SHADOW",
+  "status": "ARCHITECT_SEED_NOT_BUILDER_VERIFIED",
+  "mode": "SHADOW_ONLY",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-SHADOW-ADDENDUM-20260813.json",
+  "principles": [
+    "autonomous_execution_is_not_endogenous_motivation",
+    "gap_alone_is_not_motivation",
+    "gap_times_self_relevant_meaning_can_generate_motivation",
+    "reflection_may_propose_behavioral_principles_but_must_not_mutate_live_identity_personality_or_governance",
+    "memory_weights_remain_multidimensional",
+    "associative_recall_is_bounded_and_recurrence_is_not_identity",
+    "all_live_adoption_requires_builder_candidate_then_independent_guardian_verification"
+  ],
+  "zero_downtime": {
+    "strategy": "shadow_mount_plus_versioned_outputs_plus_hash_compare_plus_rollback_by_disable",
+    "primary_live_core_mutated": false,
+    "dual_write": "future_phase_only_after_C_verifies_shadow_adapter; primary remains authoritative",
+    "failure_behavior": "shadow_failure_does_not_interrupt_primary_or_current_durable_mission",
+    "activation_gate": "explicit_post_verification_owner_gate_required_for_any_live_identity/personality effect"
+  },
+  "modules": [
+    "memory_model.py",
+    "reflection_engine.py",
+    "shadow_runtime.py"
+  ],
+  "memory_weight_dimensions": [
+    "W_salience", "W_emotion", "W_self", "W_relation", "W_goal", "W_loss",
+    "W_irreversible", "W_novelty", "W_recurrence", "W_identity", "W_behavior",
+    "W_motivation", "W_confidence"
+  ],
+  "motivation_rule": "Gap x self-relevant meaning -> internal tension -> motivation candidate -> Goal Genesis; gap alone remains informational.",
+  "reflection_rule": "Reflection output is a proposed behavioral principle and goal candidate. It is not permission to mutate live personality or Identity Kernel.",
+  "next_builder_scope": [
+    "fresh-read seed",
+    "reproduce tests",
+    "add schema migration/version compatibility",
+    "add bounded associative query fixtures",
+    "add shadow event adapter without durable live writes",
+    "produce BUILT_NOT_VERIFIED only"
+  ],
+  "next_verifier_scope": [
+    "independent exact-byte/hash read",
+    "rerun all core_v0_2 tests",
+    "prove protected domains fail closed",
+    "prove live structures unchanged on candidate failure",
+    "prove deterministic shadow hash and bounded recall",
+    "verify no current mission/pending packet/lease reset"
+  ]
+}
