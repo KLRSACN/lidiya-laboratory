@@ -68,3 +68,32 @@ def bootstrap_l0(index_ref: str, refs: Sequence[str]) -> dict:
     if tuple(refs) != expected: raise ValueError("L0 bootstrap must be 00->31->32->33")
     raw=json.dumps({"index_ref":index_ref,"refs":list(refs)},sort_keys=True,separators=(",",":"))
     return {"index_ref":index_ref,"refs":list(refs),"fingerprint":sha256(raw.encode()).hexdigest()}
+
+
+def memory_route_state(*, confidence: float, verified_count: int, provenance_allowed: bool,
+                       contradiction_state: str, relevance: float, ttl_valid: bool,
+                       protected: bool=False, secret_like: bool=False,
+                       trust_threshold: float=0.80, verified_threshold: int=2,
+                       sandbox_relevance: float=0.70) -> dict:
+    """Separate influence from trust. Low-trust/high-relevance may inform bounded working inference only."""
+    confidence=float(confidence); relevance=float(relevance)
+    if not 0.0 <= confidence <= 1.0 or not 0.0 <= relevance <= 1.0:
+        raise ValueError("score bounds")
+    if verified_count < 0: raise ValueError("verified_count")
+    influence=relevance
+    trust=(confidence >= trust_threshold and verified_count >= verified_threshold and provenance_allowed
+           and contradiction_state == "clear" and ttl_valid and not protected and not secret_like)
+    if protected or secret_like or contradiction_state == "confirmed_conflict":
+        state="QUARANTINE_CONTRADICTED"
+    elif not ttl_valid:
+        state="DECAY_WASTE"
+    elif trust:
+        state="TRUSTED_HIGH_INFLUENCE" if influence >= sandbox_relevance else "TRUSTED_LOW_INFLUENCE"
+    elif influence >= sandbox_relevance and provenance_allowed:
+        state="LOW_TRUST_HIGH_RELEVANCE_SANDBOX"
+    else:
+        state="DECAY_WASTE"
+    sandbox = state == "LOW_TRUST_HIGH_RELEVANCE_SANDBOX"
+    return {"state":state,"influence":influence,"trusted":trust,
+            "personality_write_allowed":False,"base_write_allowed":False,
+            "external_action_allowed":False,"working_inference_allowed": sandbox or trust}
