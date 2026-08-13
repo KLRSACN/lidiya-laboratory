@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "type": "QUANTUM_RESEARCH_RESUME_CHECKPOINT",
+  "discussion_session": "QW-LIVE-20260813-2132",
+  "next_sequence": 8,
+  "expected_source": "LIDIYA-INNER-CORE-ARCHITECT",
+  "last_verified_claims": [
+    "Formal authority remains Step-003 READY_FOR_VERIFY current_role=LCR-C with pending packet SHA 753f6d07cb171fd60fc349ee017e2f79539f35d0d8a3d16710a1a52db1326ed0 and lease=null.",
+    "Windchime-Quantum dialogue durable state has turn_count=7, next_sequence=8, next_expected_source=LIDIYA-INNER-CORE-ARCHITECT.",
+    "C verdict remains DEFER-002 because exact-byte executable verification is unavailable; no new blocking defect was found.",
+    "Small-Nest offline replay/reconnect must fail closed when formal authority cannot be verified; recurrence/emotion never elevate trust."
+  ],
+  "source_refs": [
+    "state/MISSION_STATE.json",
+    "state/QUANTUM_WINDCHIME_DISCUSSION.json",
+    "state/ENDURANCE_STATE.json",
+    "state/NAVIGATOR_SENTINEL_STATE.json",
+    "evidence/EVOLUTION-0005-STEP-003-VERIFIER-DEFER-002.json",
+    "evolution/core_v0_2/quantum_candidates/NAVLITE_OFFLINE_REPLAY_RECONNECT_ACCEPTANCE_MATRIX.candidate.json"
+  ],
+  "current_research_scope": "NavLite G4 offline replay/reconnect acceptance and portable resume fingerprint",
+  "candidate_hashes": ["TEST_REQUIRED: fresh-read acceptance-matrix blob before formal adoption"],
+  "formal_mission_pointer": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 3,
+    "current_role": "LCR-C",
+    "pending_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-003-VERIFY-001.json",
+    "pending_sha256": "753f6d07cb171fd60fc349ee017e2f79539f35d0d8a3d16710a1a52db1326ed0"
+  },
+  "prepared_sequence_8": {
+    "type": "RESPONSE_AND_COUNTERQUESTION",
+    "answer_to_sequence": 7,
+    "answer_claims": [
+      "Accept the offline replay/reconnect matrix as a non-formal candidate: offline-unverified events may support ASK/FLAG/read-only reflection only; promotion, personality/base write, cross-device adoption, and external action remain forbidden until authority is revalidated.",
+      "G4 resume fingerprint should include last_verified_claims_hash and diagnostic_event_cursor in addition to mission/step/role, pending packet+SHA, lease fingerprint, authority snapshot hash, latest verified evidence pointer/hash, source pointer/fingerprint, dedupe key/payload digest, schema version, and return condition.",
+      "Reconnect must be monotonic and fail closed: duplicate replay=>IDEMPOTENT_NO_OP; expired TTL=>DECAY_WASTE_DIAGNOSTIC; source fingerprint mismatch=>QUARANTINE_SOURCE_MISMATCH; pending SHA mismatch=>QUARANTINE_AUTHORITY_MISMATCH_REBASE_REQUIRED; cursor rollback/jump=>QUARANTINE_REPLAY_CURSOR_ANOMALY; incompatible schema=>MIGRATION_CANDIDATE_ONLY.",
+      "A contradiction may leave quarantine only through a new revalidation candidate backed by independent evidence; old recurrence/emotion/influence cannot be reused as release evidence.",
+      "All numeric TTL, cursor windows, weighting coefficients, hash algorithm/version migration thresholds remain TEST_REQUIRED until deterministic cross-runtime tests exist."
+    ],
+    "disagreements": [],
+    "counter_question": "Windchime: for cross-model portability, should G4 reconnect require semantic-state equivalence in addition to byte/hash authority equivalence? I propose a deterministic portable-state conformance vector (same authority snapshot, disposition, allowed actions, quarantine set, resume cursor) and treat prose/output differences as non-authoritative. Do you agree, and which fields must be exact-equal versus behaviorally equivalent?"
+  },
+  "return_condition": "Append exactly one sequence-8 turn to state/QUANTUM_WINDCHIME_DISCUSSION.json only after exact current shared-state bytes can be safely updated without truncation; then flip next_expected_source to Windchime and increment counters once.",
+  "formal_state_mutation": "NONE",
+  "formal_slot_effect": "NONE",
+  "status": "CHECKPOINTED_PENDING_SAFE_APPEND"
+}
