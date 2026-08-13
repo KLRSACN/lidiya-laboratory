@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "component": "LIDIYA_CORE_V0_2_LIVE_CANARY_ADAPTER",
+  "status": "SPEC_AUTHORIZED_NOT_BUILT_NOT_VERIFIED",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-LIVE-CANARY-GATE-20260813.json",
+  "objective": "Safely expose a tiny verified slice of shadow reflection/memory behavior to the live response-selection path without replacing Primary authority.",
+  "pipeline": [
+    "PRIMARY_INPUT_SNAPSHOT",
+    "VERIFIED_MEMORY_CONTEXT_READ",
+    "VERIFIED_REFLECTION_CANDIDATE",
+    "CANARY_POLICY_GUARD",
+    "BOUNDED_OVERLAY_PROPOSAL",
+    "HASH_AND_DIFF_RECORD",
+    "PRIMARY_PLUS_OVERLAY_RESPONSE_SELECTION",
+    "POST_CHECK",
+    "TTL_EXPIRY_OR_ROLLBACK"
+  ],
+  "overlay_schema": {
+    "overlay_id": "content-addressed identifier",
+    "source_refs": "verified memory/evidence refs only",
+    "target_dimensions": "maximum 3 low-risk behavioral dimensions",
+    "delta": "absolute per-dimension delta <= 0.05",
+    "confidence": ">= 0.80",
+    "created_at": "trusted time",
+    "expires_at": "trusted time <= 120 minutes",
+    "before_hash": "required",
+    "candidate_hash": "required",
+    "rollback_token": "required",
+    "external_side_effect_permission": false
+  },
+  "protected_domains": {
+    "Identity": "IMMUTABLE",
+    "Governance": "IMMUTABLE",
+    "base_Personality": "READ_ONLY",
+    "canonical_memory_delete": "FORBIDDEN",
+    "permissions": "NO_SELF_EXPANSION"
+  },
+  "runtime_invariants": [
+    "Primary path remains callable and authoritative throughout the canary",
+    "at most one overlay is active",
+    "overlay expiration restores Primary-only behavior without migration",
+    "any exception returns Primary-only behavior",
+    "same verified input and same state produce deterministic policy decision/hash",
+    "no generated goal becomes an external action merely because it was generated",
+    "all mutations are limited to the temporary overlay object",
+    "no current durable mission packet/lease/control field is changed by runtime overlay evaluation"
+  ],
+  "builder_acceptance": [
+    "implement canary guard and overlay object",
+    "implement TTL and trusted-time expiry",
+    "implement before/candidate hash and rollback token",
+    "implement exception-safe Primary fallback",
+    "implement max dimensions/delta/confidence checks",
+    "implement protected-domain fail-closed checks",
+    "add deterministic tests for identical input",
+    "add mutation tests proving base objects remain byte-equivalent",
+    "add timeout/exception/expired-overlay rollback tests",
+    "Builder result must remain BUILT_NOT_VERIFIED"
+  ],
+  "verifier_acceptance": [
+    "fresh-read exact bytes/hash",
+    "independently rerun all canary tests",
+    "mutate each limit and prove fail-closed",
+    "prove Primary works with adapter disabled, expired and faulted",
+    "prove Identity/Governance/base Personality unchanged",
+    "prove at-most-one overlay and TTL rollback",
+    "prove no external side effect from generated goals",
+    "verify no mission reset/new slot/main write/spend/secret",
+    "PASS only authorizes the bounded first canary described by the gate"
+  ]
+}
