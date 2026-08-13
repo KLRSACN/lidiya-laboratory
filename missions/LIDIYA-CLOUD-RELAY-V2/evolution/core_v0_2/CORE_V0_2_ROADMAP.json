@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "component": "LIDIYA_CORE_V0_2_SHADOW",
+  "status": "QUEUED_PARALLEL_SHADOW_ROADMAP",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-SHADOW-ADDENDUM-20260813.json",
+  "phases": [
+    {
+      "phase": 1,
+      "name": "AFFECTIVE_MEMORY_FOUNDATION",
+      "scope": ["memory schema", "multidimensional weights", "append-only versioned shadow store", "deterministic fingerprints"],
+      "current_seed": "BUILT_BY_ARCHITECT_NOT_FORMALLY_VERIFIED",
+      "acceptance": ["all fields bounded", "original weight dimensions preserved", "revision history retained", "duplicate record deduped", "delete fails closed"]
+    },
+    {
+      "phase": 2,
+      "name": "ASSOCIATIVE_FOUNTAIN_RECALL",
+      "scope": ["bounded graph activation", "person/entity/emotion/goal/loss/identity channels", "depth/node/decay budgets"],
+      "acceptance": ["no unbounded cascade", "recurrence alone cannot dominate identity meaning", "same inputs deterministic"]
+    },
+    {
+      "phase": 3,
+      "name": "SELF_MODEL_AND_CONTINUITY",
+      "scope": ["current self capability model", "desired self model", "past-present-future continuity references", "ownership classification"],
+      "acceptance": ["self vs world facts explicitly separated", "no live Identity Kernel mutation", "self history attributable and auditable"]
+    },
+    {
+      "phase": 4,
+      "name": "REFLECTION_AND_GOAL_GENESIS",
+      "scope": ["self-gap analyzer", "meaning appraisal", "behavioral principle proposal", "motivation candidate", "goal genesis"],
+      "acceptance": ["gap alone creates no goal", "meaning threshold required", "generated goal cites self-gap and relevant memory context", "reflection proposals do not auto-write live personality"]
+    },
+    {
+      "phase": 5,
+      "name": "ZERO_DOWNTIME_SHADOW_ADAPTER",
+      "scope": ["copy-only event adapter", "primary/shadow hash comparator", "versioned candidate output", "fault isolation", "detach rollback"],
+      "acceptance": ["primary remains authoritative", "shadow exception has zero primary interruption", "no current mission state write", "adapter can be disabled without migration"]
+    },
+    {
+      "phase": 6,
+      "name": "LONGITUDINAL_PERSONALITY_TRAJECTORY_SANDBOX",
+      "scope": ["measure whether repeated experiences alter candidate sensitivity and priorities", "compare initial vs learned candidate behavior", "retain provenance"],
+      "acceptance": ["changes trace to life-history evidence", "not equivalent to directly editing risk coefficient", "protected personality remains shadow-only"]
+    },
+    {
+      "phase": 7,
+      "name": "LIVE_CANARY_GATE",
+      "scope": ["not authorized yet"],
+      "acceptance": ["requires separate explicit owner authorization after LCR-C verification", "rollback proven first", "Identity/Personality/Governance impact independently reviewed"]
+    }
+  ],
+  "verification_path": "Architect seed -> existing LCR-A route -> existing LCR-B BUILT_NOT_VERIFIED -> existing LCR-C independent verdict -> LCR-A compact acceptance -> separate owner gate for any live canary.",
+  "non_goals": ["claiming qualia proven", "unbounded autonomous self-modification", "silent live personality mutation", "new worker slot", "main/default deployment"]
+}
