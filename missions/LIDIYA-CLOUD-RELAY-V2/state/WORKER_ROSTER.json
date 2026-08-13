@@ -1,15 +1,15 @@
 {
-  "schema_version":"1.9",
+  "schema_version":"2.0",
   "mission_id":"LCR-EVOLUTION-0005",
   "formal_slots":["LCR-A","LCR-B","LCR-C"],
   "max_slots":3,
   "registry":{
-    "LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"CONTROL_RADAR_DUAL_TRACK_SUPERVISION"},
-    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"BUILDER_STANDBY_AFTER_ATTEMPT_4"},
-    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"READY_VERIFY_STEP_002_ATTEMPT_4"}
+    "LCR-A":{"worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL","generation":0,"mode":"CONTROL_RADAR_DUAL_CORE_SUPERVISION"},
+    "LCR-B":{"worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR","generation":1,"mode":"READY_BUILD_STEP_003_DUAL_CORE_SHADOW_MEMORY"},
+    "LCR-C":{"worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER","generation":0,"mode":"VERIFIER_STANDBY_STEP_003"}
   },
-  "mission_status":"READY_FOR_VERIFY",
-  "current_role":"LCR-C",
+  "mission_status":"READY_FOR_BUILDER",
+  "current_role":"LCR-B",
   "mission_result":null,
   "replacement_policy":"SAME_SLOT_DURABLE_HANDOFF_ONLY",
   "fourth_slot":"FORBIDDEN",
@@ -17,9 +17,11 @@
   "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIGHT-EXPERT.json",
   "authorization_addendum_ref":"authorizations/LCR-EVOLUTION-0005-GEARBOX-ADDENDUM.json",
   "navigation_resilience_addendum_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATION-RESILIENCE-ADDENDUM.json",
+  "dual_track_authorization_ref":"authorizations/LCR-EVOLUTION-0005-DUAL-TRACK-MEMORY-ADDENDUM.json",
+  "core_v0_2_shadow_authorization_ref":"authorizations/LCR-EVOLUTION-0005-LIDIYA-CORE-V0.2-SHADOW-ADDENDUM-20260813.json",
   "authorization_status":"ACTIVE",
-  "navigation_recovery":{"classification":"REBUILD_DERIVED_STATE","root_cause":"WORKER_ROSTER lagged authoritative MISSION_STATE after B attempt-4 handoff to C.","authoritative_fields_changed":false,"new_worker_created":false,"resume_role":"LCR-C","lesson":"Derived roster must follow authoritative mission handoff and must never delay verifier torque transfer."},
-  "dual_track":{"enabled":true,"formal_slot_count_unchanged":true,"track_a":"EVOLUTION_RUNTIME_VERIFY","track_b":"MEMORY_BANK_FULL_SPECTRUM_INTAKE_READ_ONLY_UNTIL_VERIFIED","memory_track_is_not_worker":true,"merge_rule":"INDEX_AND_QUARANTINE_FIRST; NO_IDENTITY_PERSONALITY_GOVERNANCE_PROMOTION_WITHOUT_SEPARATE_VERIFICATION"},
-  "gearbox_note":"G1-G6 and dual-track micro-expert lanes are internal compute/expertise modes; formal slots remain exactly A/B/C.",
+  "navigation_recovery":{"classification":"ROUTE_NEXT_ROLE","root_cause":"Step-002 C PASS returned to A; A legally consumed C PASS and routed one Step-003 dual-core packet to existing B.","authoritative_fields_changed":true,"new_worker_created":false,"resume_role":"LCR-B","lesson":"Dual-core adoption uses the existing B slot and one packet; no slot expansion is needed."},
+  "dual_track":{"enabled":true,"formal_slot_count_unchanged":true,"track_a":"EVOLUTION_RUNTIME_CONTINUITY","track_b":"SECONDARY_LOGICAL_CORE_FORMAL_ADOPTION_STEP_003","memory_track_is_not_worker":true,"merge_rule":"INDEX_AND_QUARANTINE_FIRST; COMPACT_POINTER_MERGE_ONLY; NO_LIVE_CORE_PROMOTION"},
+  "gearbox_note":"G1-G6 and dual-core lanes are internal compute/expertise modes; formal slots remain exactly A/B/C.",
   "full_backup_created":false
 }
