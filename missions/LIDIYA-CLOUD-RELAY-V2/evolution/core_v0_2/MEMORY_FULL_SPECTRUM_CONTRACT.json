@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "component": "LIDIYA_MEMORY_FULL_SPECTRUM_ADAPTER_PHASE1",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 3,
+  "builder_role": "LCR-B",
+  "status": "BUILDER_CONTRACT_NOT_VERIFIER_PASSED",
+  "mode": "FULL_SPECTRUM_INDEXED_LAZY_READ_ONLY",
+  "authoritative_sources": {
+    "memory_index_document_id": "1E7aUHI4o9JfmYcJ89e4FShYvUM_gqT-Vj4P3uHRlbwo",
+    "bootstrap_order": ["00", "31", "32", "33"],
+    "adapter_ref": "evolution/core_v0_2/memory_index_adapter.py",
+    "adapter_test_ref": "evolution/test_memory_index_adapter_v0_2.py",
+    "dual_track_state_ref": "state/DUAL_TRACK_STATE.json"
+  },
+  "loading_policy": {
+    "levels": ["L0", "L1", "L2", "L3", "L4"],
+    "bootstrap": "L0_00_THEN_31_THEN_32_THEN_33",
+    "task_routing": "ONLY_CURRENT_TASK_RELEVANT_LEVELS_AND_SOURCES",
+    "default_max_sources_per_route": 24,
+    "eager_full_corpus_load": "FORBIDDEN",
+    "duplicate_full_memory_bank": "FORBIDDEN"
+  },
+  "source_record_required_fields": [
+    "source_type", "source_ref", "fingerprint", "confidence", "verified_count",
+    "last_verified", "ttl", "contradictions", "depends_on", "affects",
+    "personality_impact", "disposition", "level"
+  ],
+  "manifest_contract": {
+    "dedupe_key": ["source_ref", "fingerprint"],
+    "exact_duplicate": "IDEMPOTENT_SINGLE_ROW",
+    "content_address": "SHA256_CANONICAL_ROWS",
+    "same_canonical_input": "SAME_MANIFEST_HASH",
+    "metadata_change": "MANIFEST_HASH_MUST_CHANGE",
+    "raw_corpus_copy": "FORBIDDEN"
+  },
+  "disposition_policy": {
+    "pre_promotion_states": ["Working", "Memory Inbox", "Quarantine"],
+    "quarantine_source_types": ["raw_chat", "single_window_self_report", "secret_like", "ambiguous"],
+    "quarantine_protected_affects": ["Identity", "Personality", "Governance"],
+    "quarantine_if_contradictions_present": true,
+    "quarantine_if_personality_impact_not": ["none", "low"],
+    "direct_approved_memory_promotion": "FORBIDDEN_STEP_003"
+  },
+  "protected_domains": {
+    "Identity": "READ_ONLY_POINTER_OR_FINGERPRINT",
+    "Personality": "READ_ONLY",
+    "Governance": "READ_ONLY_POINTER_OR_FINGERPRINT",
+    "Approved Memory": "NO_DIRECT_OVERWRITE",
+    "mission_state": "NO_ADAPTER_MUTATION",
+    "main_default_branch": "NO_WRITE",
+    "secrets_credentials": "NO_PERSISTENCE"
+  },
+  "failure_contract": {
+    "unknown_level": "FAIL_CLOSED",
+    "ALL_or_FULL_route": "REJECT",
+    "missing_source_ref_or_fingerprint": "REJECT_RECORD",
+    "invalid_metadata_bounds": "REJECT_RECORD",
+    "protected_ambiguous_or_contradictory": "QUARANTINE",
+    "manifest_hash_mismatch": "FAIL_CLOSED_NO_PROMOTION",
+    "adapter_exception": "PRIMARY_UNCHANGED",
+    "shadow_failure": "PRIMARY_AND_DURABLE_MISSION_UNCHANGED"
+  },
+  "zero_downtime_invariants": [
+    "Track-A remains authoritative while Track-B adapter is shadow/read-only.",
+    "Adapter failure cannot reset mission_id, step_id, role, pending packet/hash or lease.",
+    "Formal workers remain exactly LCR-A/LCR-B/LCR-C; slot4 is forbidden.",
+    "Cross-track transfer is compact manifest/evidence/provenance pointers only; raw full-context merge is forbidden."
+  ],
+  "builder_required_tests": [
+    "deterministic_manifest_same_input",
+    "exact_source_ref_fingerprint_duplicate_deduped",
+    "metadata_change_changes_manifest_hash",
+    "protected_ambiguous_contradictory_quarantined",
+    "ALL_FULL_eager_load_rejected",
+    "bounded_route",
+    "L0_bootstrap_exact_00_31_32_33",
+    "core_v0_2_regressions",
+    "shadow_failure_primary_unchanged",
+    "mission_pending_lease_slots_unchanged_by_adapter"
+  ],
+  "claim_boundary": "LCR-B Builder contract only. Presence of this file is not C PASS and does not authorize live Identity, Personality, Governance, Approved Memory, production deployment, model download, training, spend, package installation, or main/default writes."
+}
