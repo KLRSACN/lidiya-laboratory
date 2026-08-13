@@ -1,101 +1,35 @@
 {
-  "schema_version": "2.9",
-  "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-13T20:10:00+08:00",
-  "time_authority": "Asia/Taipei",
-  "mission_status": "READY_FOR_BUILDER",
-  "current_role": "LCR-B",
-  "step_id": 3,
-  "attempt": 0,
-  "authoritative_state_ref": "state/MISSION_STATE.json",
-  "dual_track_state_ref": "state/DUAL_TRACK_STATE.json",
-  "verified_evidence": [
-    "Step-002 Navigation Continuity Watchdog trusted-time repair independently passed C at attempt 4; dataset/eval and Step-001 regressions remained PASS.",
-    "C-to-A PASS packet SHA=945bb68858b1693844706ad827cdd0616caab29bd91c811597069288eae8a6ba was consumed exactly once by LCR-A.",
-    "Windchime control FL-A1-CTRL-0002 from LIDIYA-INNER-CORE-ARCHITECT was reference-verified and ACKED without resetting the mission; raw body was not persisted.",
-    "Dual-track/full-spectrum authorization is branch-local and formal slots remain exactly A/B/C.",
-    "Exactly one A-to-B Step-003 packet remains authoritative: EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001 SHA=b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599.",
-    "Memory Full Spectrum follows authoritative Memory Index: L0 00->31->32->33 then task-routed L1-L4 lazy load; eager full-corpus load and duplicate full memory-bank copy are forbidden.",
-    "Core v0.2 architect seed local 10/10 remains architect evidence only; formal B adoption and independent C verification are pending.",
-    "Owner Live Canary control FL-A1-CTRL-0003 was reference-verified and ACKED by A as ACCEPTED_WAIT_STEP_003_C_PASS_NO_INTERRUPT; Step-003 state/role/pending packet were preserved.",
-    "Windchime reviewed Quantum QW-DISCUSS-0001 as ACK_ACCEPT_WITH_CHANGES: staged G1-G6 personality boot is accepted architecturally, isolated simulator/tests may continue, formal adoption waits until Step-003 independent C PASS and legal A receipt."
+  "schema_version":"3.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "saved_at":"2026-08-13T22:05:00+08:00",
+  "time_authority":"Asia/Taipei",
+  "mission_status":"READY_FOR_BUILDER",
+  "current_role":"LCR-B",
+  "step_id":3,
+  "attempt":0,
+  "authoritative_state_ref":"state/MISSION_STATE.json",
+  "verified_evidence":[
+    "Step-001 Gearbox and Step-002 Navigation Continuity Watchdog are C-verified; Step-002 trusted-time repair PASS attempt 4.",
+    "Exactly one Step-003 A-to-B packet remains authoritative: packets/EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001.json SHA=b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599.",
+    "Formal slots remain exactly A/B/C; current Builder is existing LCR-B, C standby.",
+    "Quantum fixed endpoint is independently represented by LIDIYA-INNER-CORE-ARCHITECT and live dialogue QW-LIVE-20260813-2132 has 3 authenticated alternating turns; next expected source is Quantum sequence 4.",
+    "Navigator/defense authorization, lighthouse registry and sentinel state were created branch-local without changing main/default or formal slot count."
   ],
-  "blocker": null,
-  "storage_ledger": {
-    "ref": "state/EVOLUTION_STORAGE_BUDGET.json",
-    "known_used_bytes": 0,
-    "ceiling_bytes": 1000000000000,
-    "known_ratio": 0.0,
-    "note": "No admitted model/checkpoint; Step-003 is code/spec/index-adapter work. 1 TB is storage ceiling, not monetary spend authority."
-  },
-  "package_radar_delta": {
-    "ref": "evolution/PACKAGE_RADAR.json",
-    "status": "NO_MATERIAL_SCAN_THIS_HANDOFF; dual-core adoption and memory routing are current priority."
-  },
-  "evolution_suggestions": [
-    "Verify full-spectrum memory by deterministic source-pointer manifests rather than copying corpus bytes.",
-    "Keep Core v0.2 shadow copy-only until B reproduction and independent C PASS.",
-    "After Step-003 C PASS, route one Step-004 bounded Live Canary build through existing B then independent C; include staged personality boot as a reversible sub-scope, not a new mission or slot.",
-    "For new-window personality boot, G1 uses canonical identity/governance pointers read-only; G2 read-only base personality; G3 lazy task-routed memory; mismatch downshifts rather than loading more context."
+  "blocker":null,
+  "storage_ledger":{"ref":"state/EVOLUTION_STORAGE_BUDGET.json","ceiling_bytes":1000000000000,"known_used_bytes":0,"monetary_spend_authorized":false,"navigator_allocation_pct":{"recovery_and_verified_evidence":40,"models_and_build_artifacts":25,"security_telemetry_and_integrity_manifests":15,"quarantine":10,"emergency_reserve":10},"full_backup_groups_max":2,"note":"Logical 1 TB budget only; no claim of physical cloud allocation until a writable provider endpoint is verified."},
+  "navigator":{"status":"ACTIVE_INITIALIZING_FIRST_CYCLE","policy_ref":"authorizations/LCR-EVOLUTION-0005-NAVIGATOR-DEFENSE-ADDENDUM.json","state_ref":"state/NAVIGATOR_SENTINEL_STATE.json","lighthouse_ref":"state/LIGHTHOUSE_REGISTRY.json","task_id":"6a61b34e4c288191a6b21db0af12650b","cadence":"HOURLY","functions":["scheduler/endpoint health","interrupt/resume mirror","hallucination downshift","derived-state recovery","metabolism enforcement","defensive security radar","fallback communication routing"]},
+  "command_structure":{"external_commander":"ONLINE-LIDIYA-PRIMARY-CONTROL / 風鈴","internal_deputy":"LIDIYA-INNER-CORE-ARCHITECT / 量子","navigator":"LIDIYA-NAVIGATOR-SENTINEL","quantum_veto":"BOUNDED_EVIDENCE_REQUIRED_PAUSE_AFFECTED_PROMOTION_ONLY"},
+  "communication":{"quantum_dialogue_ref":"state/QUANTUM_WINDCHIME_DISCUSSION.json","session_id":"QW-LIVE-20260813-2132","authenticated_turns":3,"turn_4":"PENDING_QUANTUM_SEQUENCE_4","turn_10":"PENDING","fallbacks":["GitHub durable discussion/state","Windchime control inbox","GitHub Issue #3 append-only relay","Google Drive Home/Memory Index comment checkpoint"]},
+  "gearbox":{"codename":"第一型『變速箱自主模型』","interrupt_resume":"ACTIVE_CONTROL_RULE","rule":"Owner/Quantum interrupt causes compact checkpoint and temporary downshift; formal mission is resumed from exact durable fingerprint rather than restarted.","platform_gear_swap":"A/Quantum/Navigator remain resident; B/C share one active scheduled-task gear according to MISSION_STATE current_role."},
+  "security":{"mode":"DEFENSIVE_ZERO_TRUST_FAIL_CLOSED","current_incident":false,"controls":["packet/evidence/hash verification","untrusted external content quarantine","memory/context poisoning guard","supply-chain radar sandbox/verify/promote","secret persistence forbidden","two full recovery groups plus incremental content-addressed checkpoints","rollback proof","least-privilege formal roles"],"next_phase":"Navigator first lighthouse cycle and future platform-level GitHub security feature review where supported; no unsupported claim that secret/code scanning is already enabled."},
+  "information_waste_status":{"current_0005_runtime":"ACTIVE_METABOLISM_IN_PROGRESS","nutrition_retained":"canonical state, verified evidence, rollback, accepted claims, explicit veto/disagreement, source refs, minimal root-cause lessons","waste":"duplicate polling, repeated summaries, raw logs after compact evidence, stale mirrors after verified rebuild, duplicate relay/turns","quarantine":"ambiguous provenance, secret-like content, memory/personality poisoning suspects, protected/unique/unreproducible data, authority contradictions","physical_disposal":"NO_PROTECTED_OR_CANONICAL_DATA_DELETED","next_cleanup_checkpoint":"after Step-003 C verdict and Navigator first material recovery/heartbeat"},
+  "next_autonomous_actions":[
+    "Existing LCR-B runs Step-003 at 22:10 Asia/Taipei; on durable B-to-C handoff it disables itself then enables existing C to preserve active-task budget.",
+    "Quantum fixed endpoint answers sequence 4 on its scheduled wake; Windchime continues the adaptive dialogue without stopping formal Builder work.",
+    "Navigator Sentinel performs its first hourly lighthouse/security/metabolism cycle and repairs only derived/scheduling faults.",
+    "After Step-003 C verdict, route verified Quantum/Windchime agreements into formal development through A-to-B-to-C, not direct live-core mutation."
   ],
-  "self_review": {
-    "strengths": [
-      "Live Canary owner control was ACKed without interrupting current Builder work.",
-      "Quantum research proposal was reviewed without consuming or rewriting the current B packet.",
-      "Staged personality boot reuses the existing gearbox clutch/ACK invariant instead of introducing a parallel control system."
-    ],
-    "gaps": [
-      "Step-003 dual-core candidate is not yet BUILT_NOT_VERIFIED by B.",
-      "Memory adapter and Core v0.2 have not yet received independent C PASS.",
-      "Personality gearbox boot protocol is architecturally accepted but not yet formally B-built/C-verified for runtime adoption."
-    ],
-    "risk": "One-shot full-persona/context loading could hide identity/personality mismatches, overload context, and make rollback ambiguous.",
-    "correction": "Use progressive fingerprinted G1-G6 boot with receiver ACK, lazy memory, downshift on mismatch, and formal B/C adoption at the Step-004 checkpoint."
-  },
-  "next_autonomous_action": {
-    "role": "LCR-B",
-    "packet": "packets/EVOLUTION-0005-A-TO-B-STEP-003-DUAL-CORE-001.json",
-    "packet_sha256": "b294c3b8e06d48ca27765b01008bd8782a983c5edc61db60037f18220233b599",
-    "task": "Reproduce/adopt Core v0.2 shadow seed and build the read-only full-spectrum lazy memory index adapter/manifest contract; output BUILT_NOT_VERIFIED only and hand to existing LCR-C."
-  },
-  "dual_core": {
-    "status": "ACTIVE_ZERO_DOWNTIME_STEP_003_ROUTED",
-    "formal_workers": 3,
-    "track_a": "EVOLUTION_RUNTIME_CONTINUITY",
-    "track_b": "SECONDARY_LOGICAL_CORE",
-    "memory_mode": "FULL_SPECTRUM_INDEXED_LAZY",
-    "live_identity_personality_governance_mutation": "FORBIDDEN_WITHOUT_SEPARATE_GATE",
-    "live_canary_gate":"ACKED_WAIT_STEP_003_C_PASS"
-  },
-  "gearbox": {
-    "ref": "evolution/GEARBOX_ARCHITECTURE.json",
-    "model_codename_zh": "第一型『變速箱自主模型』",
-    "current_control_state": "TORQUE_TRANSFERRED_A_TO_EXISTING_B_STEP_003",
-    "formal_workers": 3,
-    "rpm_continuity": "MAINTAINED",
-    "navigation_watchdog": "VERIFIED_PASS_ATTEMPT_4",
-    "personality_boot_protocol_ref":"evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
-    "personality_boot_review":"WINDCHIME_ACK_ACCEPT_WITH_CHANGES_WAIT_FORMAL_ADOPTION"
-  },
-  "continuity": {
-    "formal_slot_added": false,
-    "current_atomic_work_preserved": true,
-    "owner_control_did_not_reset_mission": true,
-    "B_platform_task_reused": true,
-    "C_platform_task_reuse_required_after_B_handoff": true,
-    "quantum_window_is_non_formal":true
-  },
-  "information_waste_status": {
-    "current_0005_runtime": "ACTIVE_METABOLISM_IN_PROGRESS",
-    "nutrition_retained": "C verifier PASS, exact packet/hash chain, owner gate ACK, Quantum protocol pointer/review, compact lessons",
-    "waste_not_promoted": "raw architect execution, duplicate relay text, stale mirrors, raw polling/logs, duplicate full-memory copies",
-    "physical_disposal": "NO_PROTECTED_OR_PERSISTED_USER_DATA_DELETED; no full memory corpus copied",
-    "quarantine": "secret-like, ambiguous provenance, unique human work, unreproducible, durable-referenced, Identity/Personality/Governance-impacting candidates",
-    "next_cleanup_checkpoint": "after Step-003 C verdict; compact Builder/Verifier residue before Step-004 canary route"
-  },
-  "owner_help_needed": {
-    "now": "NONE",
-    "reason": "Step-003 remains authorized and active in existing B; Live Canary and personality boot have durable gates/review and wait for the legal checkpoint."
-  },
-  "report_policy": "Single canonical progress snapshot overwritten/read back before substantive owner report; no numbered progress files."
+  "self_review":{"strengths":["Inserted control communication can now be handled without resetting formal mission.","Quantum has a fixed durable endpoint and bounded veto contract rather than ad-hoc extra windows.","Navigator is separated from formal Builder/Verifier authority and can repair recoverable scheduler/derived-state faults."],"gaps":["Step-003 is not yet BUILT_NOT_VERIFIED/C-verified.","Quantum dialogue is 3/4, not yet 4-turn milestone or 10-turn PASS.","Navigator first runtime cycle has not yet produced Reality evidence.","1 TB cloud defense allocation is logical until a verified writable cloud provider endpoint is selected/available."],"correction":"Do not call architecture deployment complete until Navigator produces runtime recovery/lighthouse evidence and Step-003/Quantum milestones pass."},
+  "owner_help_needed":{"now":"NONE","reason":"Current work is authorized, low-risk, reversible and requires no secrets/spend/main write. HUMAN_GATE remains for protected/high-risk actions."},
+  "report_policy":"Overwrite/read back this single canonical progress snapshot before substantive owner report; no numbered progress files."
 }
