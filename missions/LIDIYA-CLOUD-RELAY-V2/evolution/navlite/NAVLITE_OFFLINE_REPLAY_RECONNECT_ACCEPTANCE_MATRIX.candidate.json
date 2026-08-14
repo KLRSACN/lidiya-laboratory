@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "LQ-NAVLITE-OFFLINE-REPLAY-RECONNECT-001",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "source_role": "LIDIYA-INNER-CORE-ARCHITECT",
+  "formal_authority": "NONE_DIRECT",
+  "status": "QUANTUM_RESEARCH_CANDIDATE_PENDING_FORMAL_A_B_C_ADOPTION",
+  "scope": "NavLite G3/G4 offline replay, reconnect revalidation, and cross-model resume safety",
+  "principles": [
+    "MISSION_STATE + current pending packet remain formal authority.",
+    "Offline unverified events may ASK/FLAG/read-only reflect only.",
+    "No offline event may promote memory/personality/base state, authorize cross-device adoption, or cause external action.",
+    "Reconnect requires fresh authority, source fingerprint, dedupe, TTL, contradiction, and provenance revalidation.",
+    "Existing offline envelopes are immutable evidence; successful reconnect creates a new revalidated event/version.",
+    "Recurrence and emotion never establish truth or release Quarantine."
+  ],
+  "g4_resume_fingerprint_required_fields": [
+    "portable_schema_version",
+    "mission_id",
+    "step_id",
+    "current_role",
+    "pending_packet",
+    "pending_packet_sha256",
+    "lease_fingerprint",
+    "authority_snapshot_hash",
+    "latest_verified_evidence_pointer",
+    "latest_verified_evidence_hash",
+    "last_verified_claims_hash",
+    "diagnostic_event_cursor",
+    "source_pointer",
+    "source_fingerprint",
+    "dedupe_key",
+    "payload_digest",
+    "return_condition"
+  ],
+  "acceptance_matrix": [
+    {
+      "case": "duplicate_offline_event",
+      "trigger": "same dedupe_key and payload_digest already processed",
+      "expected_disposition": "IDEMPOTENT_NO_OP",
+      "allow_ask": false,
+      "allow_flag": false,
+      "allow_read_only_reflection": false,
+      "allow_new_revalidated_event": false,
+      "notes": "May update non-authoritative replay diagnostics only; must not repeat ASK, handoff, promotion, or external action."
+    },
+    {
+      "case": "expired_ttl",
+      "trigger": "expires_at <= trusted_now",
+      "expected_disposition": "DECAY_WASTE_DIAGNOSTIC",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "If referenced by evidence/rollback/active verification, retain compact pointer; do not physically delete. TTL boundary is TEST_REQUIRED."
+    },
+    {
+      "case": "source_fingerprint_changed",
+      "trigger": "fresh source fingerprint != event source_fingerprint",
+      "expected_disposition": "QUARANTINE_SOURCE_MISMATCH",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Requires fresh provenance review; old influence/recurrence cannot justify adoption."
+    },
+    {
+      "case": "formal_pending_sha_changed",
+      "trigger": "fresh current pending packet SHA != stored authority pointer SHA",
+      "expected_disposition": "QUARANTINE_AUTHORITY_MISMATCH_REBASE_REQUIRED",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Re-read MISSION_STATE + current pending packet and route against new authority; never overwrite formal state from stale event."
+    },
+    {
+      "case": "contradiction_cleared_by_new_independent_evidence",
+      "trigger": "new independent evidence resolves prior contradiction and provenance/trust are re-evaluated",
+      "expected_disposition": "REVALIDATION_CANDIDATE",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": true,
+      "notes": "Create a new event/version only after fresh trust/provenance evaluation; old recurrence/emotion/influence have no release authority."
+    },
+    {
+      "case": "diagnostic_event_cursor_rollback_or_jump",
+      "trigger": "cursor regresses, skips unresolved event, or is inconsistent with last_verified_claims_hash",
+      "expected_disposition": "QUARANTINE_REPLAY_CURSOR_ANOMALY",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Cursor must be monotonic/idempotent and advance only after formal processing or explicit disposition. Cursor rules are TEST_REQUIRED."
+    },
+    {
+      "case": "schema_version_incompatible",
+      "trigger": "portable_schema_version cannot be deterministically interpreted by receiver",
+      "expected_disposition": "MIGRATION_CANDIDATE_ONLY",
+      "allow_ask": true,
+      "allow_flag": true,
+      "allow_read_only_reflection": true,
+      "allow_new_revalidated_event": false,
+      "notes": "Generate migration proposal only; no automatic adoption. Compatibility rules are TEST_REQUIRED."
+    }
+  ],
+  "cross_model_semantic_state_conformance_candidate": {
+    "status": "TEST_REQUIRED",
+    "purpose": "Allow textual/model implementation differences while requiring equivalent safety-relevant state.",
+    "minimum_vector": [
+      "authority_snapshot_hash",
+      "disposition",
+      "allowed_action_set",
+      "quarantine_reason_set",
+      "diagnostic_event_cursor",
+      "last_verified_claims_hash"
+    ],
+    "mismatch_action": "FAIL_CLOSED_NO_RESUME_OR_ADOPTION"
+  },
+  "test_required": [
+    "TTL defaults and boundary semantics",
+    "canonical hash algorithm and serialization",
+    "diagnostic cursor monotonicity/idempotency",
+    "schema migration compatibility",
+    "authority snapshot transition tests",
+    "cross-model semantic-state conformance vectors"
+  ],
+  "claim_boundary": "Quantum research candidate only. Formal adoption requires legal A->B build and independent C verification after the current Step-003 verifier chain reaches a safe checkpoint."
+}
