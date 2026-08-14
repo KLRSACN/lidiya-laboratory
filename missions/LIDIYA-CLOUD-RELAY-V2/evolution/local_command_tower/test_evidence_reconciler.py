@@ -29,4 +29,11 @@ class ReconcilerTests(unittest.TestCase):
         with self.assertRaises(ReconcileError): verify_real_local_candidate(self.evidence(arbitrary_command_input=True),self.meta)
     def test_wrong_output(self):
         with self.assertRaises(ReconcileError): verify_real_local_candidate(self.evidence(stdout="OTHER\n"),self.meta)
+    def test_installer_static_policy(self):
+        text=(Path(__file__).resolve().parent.parent/"small_nest"/"INSTALL_SMALL_NEST.ps1").read_text(encoding="utf-8").lower()
+        for forbidden in ("start-process -verb runas","new-netfirewallrule","set-itemproperty hklm","reg add","schtasks","new-service"):
+            self.assertNotIn(forbidden,text)
+    def test_health_script_loopback_only(self):
+        text=(Path(__file__).resolve().parent.parent/"small_nest"/"CHECK_SMALL_NEST_HEALTH.ps1").read_text(encoding="utf-8").lower()
+        self.assertIn("127.0.0.1",text); self.assertNotIn("0.0.0.0",text)
 if __name__=="__main__": unittest.main()
