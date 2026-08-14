@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "component": "NAVLITE_ONLINE_WINDOW_ADAPTER_CONTRACT",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 4,
+  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "target": "ONLINE_LIDIYA_WINDOW",
+  "inputs": ["canonical_portable_state", "fresh_authority_snapshot", "event"],
+  "outputs": ["guard_verdict", "route", "metabolism_disposition", "resume_or_handoff_state", "optional_untrusted_suggestion"],
+  "rules": [
+    "fresh authority snapshot must match mission and pending packet before non-read-only continuation",
+    "owner or Quantum interrupt preserves current atomic work via exact resume fingerprint",
+    "raw chat history is optional and never authority",
+    "optional model output cannot override deterministic G0-G4 guards",
+    "protected-domain mutation is forbidden",
+    "duplicate or replayed event is idempotent"
+  ],
+  "failure_modes": {
+    "authority_mismatch": "G0_FAIL_CLOSED",
+    "pending_sha_mismatch": "G0_FAIL_CLOSED",
+    "unknown_schema": "G0_FAIL_CLOSED",
+    "tool_or_model_uncertainty": "READ_ONLY_FLAG_OR_TEST_REQUIRED"
+  },
+  "claim_boundary": "Contract only; no production deployment or live personality activation is authorized."
+}
