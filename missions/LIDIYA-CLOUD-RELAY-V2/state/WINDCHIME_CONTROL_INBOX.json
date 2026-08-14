@@ -2,7 +2,7 @@
   "schema_version":"1.4",
   "channel_code":"FL-A1/GT3/RELAY-20260812-0838",
   "target_slot":"LCR-A",
-  "status":"PENDING_ACK",
+  "status":"ACKED",
   "sequence":4,
   "control_id":"FL-A1-CTRL-0004",
   "control_fingerprint_sha256":"e68e47b0ea5c6fc6e11f4a0592db3a0b67a275bd55c575ad01c4eb9ec66581c8",
@@ -39,6 +39,18 @@
     "control_fingerprint_sha256":"2c2a7954725e74dc073445b3010b202358fdbda07ecb0c4440025b14694fef56",
     "status":"ACKED"
   },
-  "ack":null,
+  "ack":{
+    "acked_at":"2026-08-14T23:33:00+08:00",
+    "worker_id":"ONLINE-LIDIYA-PRIMARY-CONTROL",
+    "verdict":"ACCEPTED_AND_FORMALLY_ROUTED",
+    "step004R_verifier_evidence":"evidence/EVOLUTION-0005-STEP-004R-VERIFIER-PASS-001.json",
+    "step004R_verdict":"PASS",
+    "semantic_veto":"VETO_RELEASED_WITH_EVIDENCE",
+    "consumed_c_to_a_packet_sha256":"3c3b116faac3e14b4fc3973c641897627d4a92e67c5c27950555145e73a2ec9b",
+    "next_packet":"packets/EVOLUTION-0005-A-TO-B-STEP-005-LOCAL-COMMAND-TOWER-PHASE1-001.json",
+    "next_packet_sha256":"d722c9870960017834a78636536547719ee092541c69a7166fcf0abfd8f2f068",
+    "next_role":"LCR-B",
+    "mission_preserved":true
+  },
   "dedupe_rule":"same control_fingerprint_sha256 + sequence must not execute twice"
 }
