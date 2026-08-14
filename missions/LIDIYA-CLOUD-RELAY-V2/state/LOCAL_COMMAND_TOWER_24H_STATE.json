@@ -1,16 +1,26 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-EVOLUTION-0005",
   "subgoal_id": "LOCAL-COMMAND-TOWER-24H-001",
   "created_at": "2026-08-14T23:01:00+08:00",
+  "execution_started_at": "2026-08-14T23:22:00+08:00",
   "deadline": "2026-08-15T23:01:00+08:00",
   "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
-  "status": "QUEUED_BEHIND_CURRENT_ATOMIC_C_VERIFY",
+  "status": "EXECUTION_STARTED_WAITING_CURRENT_ATOMIC_C_VERDICT",
+  "owner_continuation_instruction": "CONTINUE_UNTIL_COMPLETED_DO_NOT_TREAT_NORMAL_INTERRUPTS_AS_STOP",
   "current_formal_authority_preserved": {
     "step_id": 4,
     "current_role": "LCR-C",
     "pending_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-004R-SEMANTIC-CONFORMANCE-VERIFY-001.json",
     "pending_packet_sha256": "69f39c282bdc8fa81041b69acdc6584c00273e5fac243b36ce8e205bd399bb69"
+  },
+  "gearbox_execution": {
+    "C_step004R_reverify": "ACTIVE_EXPECTED",
+    "A_after_C": "ACK_OWNER_CONTROL_AND_ROUTE_TOWER_PHASE1",
+    "B_after_A": "BUILD_DETERMINISTIC_TOWER_SMALL_NEST_FOUNDATION",
+    "C_after_B": "INDEPENDENT_TOWER_FOUNDATION_VERIFY",
+    "slot4": "FORBIDDEN",
+    "existing_tasks_only": true
   },
   "product": {
     "small_nest_name": "小窩璃蒂雅",
