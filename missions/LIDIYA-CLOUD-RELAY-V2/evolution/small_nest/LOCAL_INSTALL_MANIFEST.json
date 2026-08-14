@@ -1,0 +1,13 @@
+{
+  "schema_version":"1.0",
+  "component":"LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1",
+  "install_script":"INSTALL_SMALL_NEST.ps1",
+  "health_script":"CHECK_SMALL_NEST_HEALTH.ps1",
+  "installation_metadata":".lidiya/installation.json",
+  "installation_id":"UUID_GENERATED_LOCALLY",
+  "privilege":"USER_SPACE_ONLY",
+  "network":"LOOPBACK_127.0.0.1_ONLY",
+  "writes":["workspace/.lidiya/installation.json","workspace/.lidiya runtime state/evidence/spool"],
+  "forbidden":["elevation","registry","firewall","Windows service installation","scheduled task installation","credential persistence","public bind","outside-workspace installation"],
+  "owner_machine_evidence":"not established until installation + local canary are actually executed on the owner Windows machine and reconciled online"
+}
