@@ -1,0 +1,12 @@
+{
+  "schema_version":"1.0",
+  "component":"LIDIYA-STANDBY-MICRO-MODEL-ADAPTER",
+  "role":"ADVISORY_ONLY",
+  "model_required":false,
+  "deterministic_authority":"standby_router + command broker + capability/promotion guards",
+  "allowed_advisory_fields":["route_hint","priority_hint","gear_hint","notes","confidence"],
+  "forbidden_advisory_fields":["target_override","authorization_ref","command","cwd","risk_class","promotion","capability_level","identity","governance","base_personality"],
+  "failure_behavior":"QUARANTINE_ADVISORY_AND_KEEP_DETERMINISTIC_ROUTE",
+  "authority_invariant":"model size or confidence never grants higher execution authority",
+  "future_backends":["callable test stub","local sub-1B/2B model adapter after benchmark","rule-only no-model mode"]
+}
