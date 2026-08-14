@@ -17,8 +17,9 @@ def validate_installation_metadata(data: Dict[str,Any],workspace_root: str|Path|
     iid=str(data.get("installation_id","")).strip()
     try: uuid.UUID(iid)
     except Exception as exc: raise ReconcileError("invalid installation_id") from exc
-    root=Path(str(data.get("install_root","") or "")).resolve(strict=False)
-    if not str(data.get("install_root","")).strip(): raise ReconcileError("missing install_root")
+    raw_root=str(data.get("install_root","") or "").strip()
+    if not raw_root: raise ReconcileError("missing install_root")
+    root=Path(raw_root).resolve(strict=False)
     if workspace_root is not None and root!=Path(workspace_root).resolve(strict=False): raise ReconcileError("install_root mismatch")
     if data.get("privilege")!="USER_SPACE": raise ReconcileError("privilege mismatch")
     if data.get("transport")!="LOOPBACK_AND_WORKSPACE_SPOOL": raise ReconcileError("transport mismatch")
@@ -38,8 +39,10 @@ def verify_real_local_candidate(evidence: Dict[str,Any],installation_metadata: D
     iid=meta["installation_id"]
     if evidence.get("installation_id")!=iid: raise ReconcileError("installation_id mismatch")
     if evidence.get("installation_fingerprint")!=sha256_json(meta): raise ReconcileError("installation fingerprint mismatch")
+    evidence_root_raw=str(evidence.get("install_root","") or "").strip()
+    if not evidence_root_raw: raise ReconcileError("missing evidence install_root")
     expected_root=str(Path(str(meta["install_root"])).resolve(strict=False))
-    if str(Path(str(evidence.get("install_root","") or "")).resolve(strict=False))!=expected_root: raise ReconcileError("evidence install_root mismatch")
+    if str(Path(evidence_root_raw).resolve(strict=False))!=expected_root: raise ReconcileError("evidence install_root mismatch")
     if evidence.get("authorization_ref")!=AUTH_REF: raise ReconcileError("wrong authorization")
     if evidence.get("command_id")!=FIXED_COMMAND_ID: raise ReconcileError("wrong fixed command")
     if evidence.get("arbitrary_command_input") is not False: raise ReconcileError("arbitrary command flag")
