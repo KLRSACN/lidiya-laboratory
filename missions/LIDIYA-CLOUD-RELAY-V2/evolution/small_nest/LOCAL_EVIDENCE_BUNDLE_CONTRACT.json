@@ -1,0 +1,14 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "component":"LOCAL_EVIDENCE_BUNDLE",
+  "source_files":[".lidiya/installation.json",".lidiya/local_canary_evidence.json"],
+  "output":".lidiya/outbox/local_evidence_bundle.json",
+  "network":"NONE_REQUIRED_FOR_EXPORT",
+  "status_before_online_observation":"REAL_LOCAL_EVIDENCE_BUNDLE_CANDIDATE_UNATTESTED",
+  "E3_auto_promotion":false,
+  "raw_chat":"FORBIDDEN",
+  "secret_material":"FORBIDDEN",
+  "setup":"SETUP_SMALL_NEST.cmd -> fixed-root install -> user-space Tower start -> 127.0.0.1 health -> fixed harmless canary -> local export",
+  "claim_boundary":"Builder/C may verify package logic but cannot claim owner-machine execution without returned real local bundle."
+}
