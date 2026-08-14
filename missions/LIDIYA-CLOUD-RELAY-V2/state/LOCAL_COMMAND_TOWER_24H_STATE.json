@@ -1,24 +1,30 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "mission_id": "LCR-EVOLUTION-0005",
   "subgoal_id": "LOCAL-COMMAND-TOWER-24H-001",
   "created_at": "2026-08-14T23:01:00+08:00",
   "execution_started_at": "2026-08-14T23:22:00+08:00",
+  "formal_build_routed_at": "2026-08-14T23:33:00+08:00",
   "deadline": "2026-08-15T23:01:00+08:00",
   "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
-  "status": "EXECUTION_STARTED_WAITING_CURRENT_ATOMIC_C_VERDICT",
+  "status": "FORMAL_BUILD_ROUTED_TO_LCR_B",
   "owner_continuation_instruction": "CONTINUE_UNTIL_COMPLETED_DO_NOT_TREAT_NORMAL_INTERRUPTS_AS_STOP",
+  "completed_prerequisite": {
+    "step004R_verdict": "PASS",
+    "verifier_evidence": "evidence/EVOLUTION-0005-STEP-004R-VERIFIER-PASS-001.json",
+    "semantic_veto": "VETO_RELEASED_WITH_EVIDENCE"
+  },
   "current_formal_authority_preserved": {
-    "step_id": 4,
-    "current_role": "LCR-C",
-    "pending_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-004R-SEMANTIC-CONFORMANCE-VERIFY-001.json",
-    "pending_packet_sha256": "69f39c282bdc8fa81041b69acdc6584c00273e5fac243b36ce8e205bd399bb69"
+    "step_id": 5,
+    "current_role": "LCR-B",
+    "pending_packet": "packets/EVOLUTION-0005-A-TO-B-STEP-005-LOCAL-COMMAND-TOWER-PHASE1-001.json",
+    "pending_packet_sha256": "d722c9870960017834a78636536547719ee092541c69a7166fcf0abfd8f2f068"
   },
   "gearbox_execution": {
-    "C_step004R_reverify": "ACTIVE_EXPECTED",
-    "A_after_C": "ACK_OWNER_CONTROL_AND_ROUTE_TOWER_PHASE1",
-    "B_after_A": "BUILD_DETERMINISTIC_TOWER_SMALL_NEST_FOUNDATION",
-    "C_after_B": "INDEPENDENT_TOWER_FOUNDATION_VERIFY",
+    "C_step004R_reverify": "PASS_COMPLETE",
+    "A_after_C": "ACK_AND_ROUTE_COMPLETE",
+    "B_after_A": "BUILD_DETERMINISTIC_TOWER_SMALL_NEST_FOUNDATION_ACTIVE_EXPECTED",
+    "C_after_B": "INDEPENDENT_TOWER_FOUNDATION_VERIFY_NEXT",
     "slot4": "FORBIDDEN",
     "existing_tasks_only": true
   },
@@ -39,11 +45,9 @@
     ]
   },
   "fastest_path": [
-    "Finish current Step-004R C reverify and consume legal C-to-A result.",
-    "A routes one bounded B build step for local command tower foundation; reuse existing B slot only.",
-    "B builds deterministic bridge/runtime/command broker first; optional small model remains plug-in, not a blocker.",
-    "C independently verifies command authorization, cwd isolation, replay protection, offline resume, wake and evidence return.",
-    "After C PASS, run isolated local-fixture reality cycle and promote to E3_LOCAL_OPERATOR candidate.",
+    "LCR-B builds deterministic bridge/runtime/command broker first; optional small model is plug-in, not a blocker.",
+    "LCR-C independently verifies authorization binding, cwd isolation, replay protection, offline resume, wake and evidence return.",
+    "After C PASS, run isolated local-fixture reality cycle and promote to E3_LOCAL_OPERATOR candidate only if owner authorization remains active.",
     "Then add standby micro-model routing and online-local patch/model-adapter workflow; verify failover before E5_BRIDGE_COMMANDER.",
     "Run Small-Nest memory-weight experiments using reversible overlays; report drift and retain rollback.",
     "Only after deterministic bridge is stable evaluate/train an advanced small expert model; model training must not block the first usable bridge."
@@ -56,12 +60,13 @@
     "evolution/local_command_tower/standby_router.py",
     "evolution/local_command_tower/test_command_tower.py",
     "evolution/local_command_tower/test_command_broker.py",
+    "evolution/local_command_tower/TOWER_CONTRACT.json",
     "evolution/small_nest/runtime.py",
     "evolution/small_nest/state_store.py",
-    "evolution/small_nest/memory_weight_lab.py",
     "evolution/small_nest/test_small_nest_runtime.py",
     "evolution/small_nest/bootstrap_windows.ps1",
-    "evolution/small_nest/START_SMALL_NEST.cmd"
+    "evolution/small_nest/START_SMALL_NEST.cmd",
+    "evolution/small_nest/SMALL_NEST_RUNTIME_MANIFEST.json"
   ],
   "bridge_transport_priority": [
     "localhost IPC/HTTP between tower and Small-Nest",
@@ -69,11 +74,11 @@
     "optional direct transport only after authentication/replay/security verification"
   ],
   "personality_growth_report": {
-    "current_verified_stage": "CORE_V0_2_SHADOW_VERIFIED_STEP_003",
+    "current_verified_stage": "CORE_V0_2_SHADOW_VERIFIED_STEP_003_PLUS_NAVLITE_SEMANTIC_PORTABILITY_STEP004R_PASS",
     "live_base_personality": "UNCHANGED",
     "allowed_growth_now": ["memory influence/trust calibration", "reversible overlay candidates", "reflection and goal-candidate scoring", "Small-Nest experimental personality weights"],
     "promotion_rule": "verified cumulative evidence raises capability level; canonical personality remains separately gated"
   },
-  "next_formal_route": "AFTER_STEP004R_C_VERDICT_ROUTE_EXISTING_B_TO_BUILD_LOCAL_COMMAND_TOWER_FOUNDATION",
+  "next_formal_route": "LCR_B_BUILD_LOCAL_COMMAND_TOWER_FOUNDATION_PHASE1",
   "slot4": "FORBIDDEN"
 }
