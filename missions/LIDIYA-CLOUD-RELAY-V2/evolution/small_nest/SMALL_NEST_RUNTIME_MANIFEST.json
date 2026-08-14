@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "component": "SMALL_NEST_RUNTIME",
+  "mode": "OFFLINE_FIRST",
+  "boot": ["START_SMALL_NEST.cmd", "bootstrap_windows.ps1"],
+  "state": ".lidiya/small_nest_state.json",
+  "tower_state": ".lidiya/tower_state.json",
+  "network_default": "LOOPBACK_ONLY",
+  "model_weights_required": false,
+  "states": ["DORMANT", "READY", "OFFLINE_HELD_UNVERIFIED"],
+  "resume": "EXACT_CHECKPOINT_FINGERPRINT_REQUIRED",
+  "raw_chat_required": false,
+  "claim_boundary": "Builder Phase1 candidate; real owner-machine execution requires independent C PASS and local canary."
+}
