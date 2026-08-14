@@ -9,7 +9,8 @@ def load_installation_metadata(root: Path):
     if not path.is_file(): raise CanaryError("installation metadata required for Windows owner canary")
     data=json.loads(path.read_text(encoding="utf-8")); iid=str(data.get("installation_id","")).strip()
     if not iid: raise CanaryError("installation_id required")
-    if Path(data.get("workspace_root","")).resolve(strict=False)!=root.resolve(strict=False): raise CanaryError("installation workspace mismatch")
+    bound_root=data.get("workspace_root",data.get("install_root",""))
+    if Path(bound_root).resolve(strict=False)!=root.resolve(strict=False): raise CanaryError("installation workspace mismatch")
     if data.get("secrets_present") not in (False,None): raise CanaryError("invalid installation metadata")
     return data
 class FakeExecutor:
