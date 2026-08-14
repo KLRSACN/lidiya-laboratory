@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "component": "LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1",
   "mission_id": "LCR-EVOLUTION-0005",
   "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
@@ -10,6 +10,14 @@
   "authority": "MISSION_STATE_PLUS_ACTIVE_OWNER_ADDENDUM",
   "replay": "CANONICAL_SHA256_PLUS_MONOTONIC_SEQUENCE_AND_DEDUPE",
   "model_dependency": "NONE_FOR_FOUNDATION",
+  "phase1_shell_policy": {
+    "powershell_variable_expansion": "REJECT",
+    "powershell_tilde_expansion": "REJECT",
+    "powershell_providers": ["Env:", "HKCU:", "HKLM:", "Registry::", "Variable:", "Function:", "Alias:", "Cert:", "WSMan:"],
+    "drive_relative_or_absolute_prefix": "REJECT",
+    "git_allowed_subcommands": ["status", "diff", "log", "show", "rev-parse"],
+    "git_forbidden_options": ["--global", "--system", "--file", "-c", "-C"]
+  },
   "protected": ["no admin/UAC", "no registry/firewall", "no credential extraction", "no public inbound", "no system destructive commands", "workspace containment"],
-  "claim_boundary": "Phase1 Builder candidate only; execution rights require independent LCR-C PASS and a separate isolated local canary."
+  "claim_boundary": "Phase1 repair candidate only; execution rights require independent LCR-C PASS and isolated local canary."
 }
