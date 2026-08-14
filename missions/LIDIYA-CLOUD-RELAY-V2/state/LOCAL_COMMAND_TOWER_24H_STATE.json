@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "subgoal_id": "LOCAL-COMMAND-TOWER-24H-001",
+  "created_at": "2026-08-14T23:01:00+08:00",
+  "deadline": "2026-08-15T23:01:00+08:00",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
+  "status": "QUEUED_BEHIND_CURRENT_ATOMIC_C_VERIFY",
+  "current_formal_authority_preserved": {
+    "step_id": 4,
+    "current_role": "LCR-C",
+    "pending_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-004R-SEMANTIC-CONFORMANCE-VERIFY-001.json",
+    "pending_packet_sha256": "69f39c282bdc8fa81041b69acdc6584c00273e5fac243b36ce8e205bd399bb69"
+  },
+  "product": {
+    "small_nest_name": "小窩璃蒂雅",
+    "bridge_name_zh": "在地總導航指揮塔",
+    "bridge_codename": "LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1",
+    "architecture": [
+      "local supervisor daemon",
+      "durable inbox/outbox with canonical hashes",
+      "wake/runtime launcher",
+      "CMD/PowerShell command broker",
+      "Small-Nest offline-first runtime",
+      "standby lightweight routing model adapter",
+      "software patch/model-adapter work queue",
+      "memory/personality weight experiment harness",
+      "online-local evidence reconciler"
+    ]
+  },
+  "fastest_path": [
+    "Finish current Step-004R C reverify and consume legal C-to-A result.",
+    "A routes one bounded B build step for local command tower foundation; reuse existing B slot only.",
+    "B builds deterministic bridge/runtime/command broker first; optional small model remains plug-in, not a blocker.",
+    "C independently verifies command authorization, cwd isolation, replay protection, offline resume, wake and evidence return.",
+    "After C PASS, run isolated local-fixture reality cycle and promote to E3_LOCAL_OPERATOR candidate.",
+    "Then add standby micro-model routing and online-local patch/model-adapter workflow; verify failover before E5_BRIDGE_COMMANDER.",
+    "Run Small-Nest memory-weight experiments using reversible overlays; report drift and retain rollback.",
+    "Only after deterministic bridge is stable evaluate/train an advanced small expert model; model training must not block the first usable bridge."
+  ],
+  "planned_repository_layout": [
+    "evolution/local_command_tower/command_tower.py",
+    "evolution/local_command_tower/command_broker.py",
+    "evolution/local_command_tower/wake_runtime.py",
+    "evolution/local_command_tower/bridge_protocol.py",
+    "evolution/local_command_tower/standby_router.py",
+    "evolution/local_command_tower/test_command_tower.py",
+    "evolution/local_command_tower/test_command_broker.py",
+    "evolution/small_nest/runtime.py",
+    "evolution/small_nest/state_store.py",
+    "evolution/small_nest/memory_weight_lab.py",
+    "evolution/small_nest/test_small_nest_runtime.py",
+    "evolution/small_nest/bootstrap_windows.ps1",
+    "evolution/small_nest/START_SMALL_NEST.cmd"
+  ],
+  "bridge_transport_priority": [
+    "localhost IPC/HTTP between tower and Small-Nest",
+    "durable cloud inbox/outbox for Online-Lidiya bridge",
+    "optional direct transport only after authentication/replay/security verification"
+  ],
+  "personality_growth_report": {
+    "current_verified_stage": "CORE_V0_2_SHADOW_VERIFIED_STEP_003",
+    "live_base_personality": "UNCHANGED",
+    "allowed_growth_now": ["memory influence/trust calibration", "reversible overlay candidates", "reflection and goal-candidate scoring", "Small-Nest experimental personality weights"],
+    "promotion_rule": "verified cumulative evidence raises capability level; canonical personality remains separately gated"
+  },
+  "next_formal_route": "AFTER_STEP004R_C_VERDICT_ROUTE_EXISTING_B_TO_BUILD_LOCAL_COMMAND_TOWER_FOUNDATION",
+  "slot4": "FORBIDDEN"
+}
