@@ -42,6 +42,19 @@ class BrokerTests(unittest.TestCase):
     def test_shell_chaining_rejected(self): self.reject(command="echo ok && echo second")
     def test_unallowlisted_head_rejected(self): self.reject(command="curl https://example.com")
     def test_powershell_safe_head(self): self.assertEqual(self.b.execute(self.env(shell="powershell",command="Get-ChildItem",dedupe_key="ps"))["exit_code"],0)
+    def test_missing_authorization_field(self):
+        e=self.env(); del e["authorization_ref"]
+        with self.assertRaises(BrokerRejected): self.b.execute(e)
+    def test_powershell_home_variable_escape_rejected(self): self.reject(shell="powershell",command="Get-Content $HOME\\.ssh\\id_rsa")
+    def test_powershell_tilde_escape_rejected(self): self.reject(shell="powershell",command="Get-Content ~\\.ssh\\id_rsa")
+    def test_powershell_env_provider_rejected(self): self.reject(shell="powershell",command="Get-Content Env:OPENAI_API_KEY")
+    def test_powershell_registry_provider_rejected(self): self.reject(shell="powershell",command="Get-Content HKCU:\\Software")
+    def test_powershell_registry_double_colon_rejected(self): self.reject(shell="powershell",command="Get-Content Registry::HKEY_CURRENT_USER\\Software")
+    def test_drive_relative_path_rejected(self): self.reject(shell="powershell",command="Get-Content C:relative.txt")
+    def test_git_global_config_rejected(self): self.reject(command="git config --global color.ui auto")
+    def test_git_system_config_rejected(self): self.reject(command="git config --system color.ui auto")
+    def test_git_status_allowed(self):
+        out=self.b.execute(self.env(command="git status",dedupe_key="gitstatus")); self.assertEqual(out["exit_code"],0)
     def test_timeout_returns_evidence(self):
         out=self.b.execute(self.env(command="echo SLOW_FIXTURE",dedupe_key="slow",timeout=1)); self.assertEqual(out["exit_code"],124); self.assertEqual(out["disposition"],"TIMEOUT")
 
