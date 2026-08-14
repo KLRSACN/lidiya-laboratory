@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "component": "SMALL_NEST_BUNDLE_MANIFEST",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 4,
+  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "bundle_mode": "ZERO_COST_OFFLINE_FIRST_FOUNDATION",
+  "required_files": [
+    "NAV_LITE_TYPE1_ARCHITECTURE.json",
+    "NAVLITE_PORTABLE_STATE_CONTRACT.json",
+    "test_navlite_state_machine.py",
+    "test_navlite_metabolism_classifier.py",
+    "NAVLITE_ONLINE_WINDOW_ADAPTER_CONTRACT.json",
+    "NAVLITE_SMALL_NEST_LOCAL_ADAPTER_CONTRACT.json",
+    "ONLINE_LOCAL_ROUNDTRIP_TEST_PLAN.json"
+  ],
+  "optional_model_candidate": {
+    "class": "SUB_1B_TO_2B",
+    "weights_in_bundle": false,
+    "download_authorized": false,
+    "training_authorized": false,
+    "role": "BENCHMARK_CANDIDATE_ONLY"
+  },
+  "authority": "NO_LOCAL_AUTHORITY_MINTING",
+  "offline_default": "OFFLINE_HELD_UNVERIFIED",
+  "reconnect_required": true,
+  "raw_chat_required": false,
+  "protected_domains_immutable": ["Identity", "Personality", "Governance"],
+  "return_route": "After independent C PASS, resume BUILD_LIDIYA_CORE_V0_2_LIVE_CANARY gate unless owner priority changes."
+}
