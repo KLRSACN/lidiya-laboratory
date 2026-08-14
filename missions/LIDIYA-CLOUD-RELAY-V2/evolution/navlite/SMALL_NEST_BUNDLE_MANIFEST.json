@@ -1,9 +1,10 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "component": "SMALL_NEST_BUNDLE_MANIFEST",
   "mission_id": "LCR-EVOLUTION-0005",
   "step_id": 4,
-  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "repair_step": "4R",
+  "status": "BUILDER_REPAIR_CANDIDATE_NOT_REVERIFIED",
   "bundle_mode": "ZERO_COST_OFFLINE_FIRST_FOUNDATION",
   "required_files": [
     "NAV_LITE_TYPE1_ARCHITECTURE.json",
@@ -14,6 +15,16 @@
     "NAVLITE_SMALL_NEST_LOCAL_ADAPTER_CONTRACT.json",
     "ONLINE_LOCAL_ROUNDTRIP_TEST_PLAN.json"
   ],
+  "semantic_conformance": {
+    "contract_schema_version": "1.1",
+    "semantic_vector_version": "1.0",
+    "required_components": ["authority_snapshot_hash", "disposition", "allowed_action_set", "quarantine_reason_set", "diagnostic_event_cursor", "last_verified_claims_hash"],
+    "resume_fingerprint_requires": ["diagnostic_event_cursor", "last_verified_claims_hash"],
+    "enum_set_normalization": "SORTED_DEDUPLICATED_BEFORE_HASH",
+    "cursor_policy": "EXACT_MATCH_FOR_RESUME_EXACT_NEXT_FOR_ADOPTION_ROLLBACK_OR_JUMP_REJECTED",
+    "claims_hash_policy": "MISMATCH_REJECTS_RESUME_OR_ADOPTION_OF_OLD_INFERENCE",
+    "unknown_schema_or_enum": "FAIL_CLOSED_OR_MIGRATION_CANDIDATE_ONLY"
+  },
   "optional_model_candidate": {
     "class": "SUB_1B_TO_2B",
     "weights_in_bundle": false,
@@ -25,6 +36,8 @@
   "offline_default": "OFFLINE_HELD_UNVERIFIED",
   "reconnect_required": true,
   "raw_chat_required": false,
+  "test_required_not_stable_truth": ["quarantine severity ordering", "tie-break mapping", "TTL boundary values", "any untested threshold"],
   "protected_domains_immutable": ["Identity", "Personality", "Governance"],
-  "return_route": "After independent C PASS, resume BUILD_LIDIYA_CORE_V0_2_LIVE_CANARY gate unless owner priority changes."
+  "claim_boundary": "Step-004 baseline remains PASS; full semantic portability remains blocked until Step-004R independent LCR-C reverify PASS.",
+  "return_route": "After independent Step-004R C PASS, resume BUILD_LIDIYA_CORE_V0_2_LIVE_CANARY gate unless owner priority changes."
 }
