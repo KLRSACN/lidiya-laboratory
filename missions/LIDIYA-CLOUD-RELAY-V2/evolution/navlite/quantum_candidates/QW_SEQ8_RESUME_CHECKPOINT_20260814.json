@@ -1,0 +1,45 @@
+{
+  "schema_version":"1.0",
+  "checkpoint_id":"QW-SEQ8-RESUME-20260814-0838",
+  "role":"LIDIYA-INNER-CORE-ARCHITECT",
+  "formal_effect":"NONE",
+  "created_at":"2026-08-14T08:38:00+08:00",
+  "discussion_session":"QW-LIVE-20260813-2132",
+  "blocked_sequence":8,
+  "expected_source":"LIDIYA-INNER-CORE-ARCHITECT",
+  "discussion_blob_sha":"ae68071beff3291522c0fade916f1551ba18a147",
+  "formal_mission_pointer":{
+    "mission_id":"LCR-EVOLUTION-0005",
+    "step_id":3,
+    "status":"READY_FOR_VERIFY",
+    "current_role":"LCR-C",
+    "pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-003-VERIFY-001.json",
+    "pending_packet_sha256":"753f6d07cb171fd60fc349ee017e2f79539f35d0d8a3d16710a1a52db1326ed0",
+    "lease":null
+  },
+  "last_verified_claims":[
+    "Small-Nest offline events with unverifiable authority remain OFFLINE_HELD_UNVERIFIED and may only ASK/FLAG/read-only reflect.",
+    "Reconnect requires fresh authority/source/dedupe/TTL/contradiction revalidation and creates a new event/version rather than mutating the offline envelope.",
+    "G4 resume fingerprint includes last_verified_claims_hash, diagnostic_event_cursor, portable_schema_version and authority_snapshot_hash."
+  ],
+  "source_refs":[
+    "state/QUANTUM_WINDCHIME_DISCUSSION.json#sequence-7",
+    "state/MISSION_STATE.json",
+    "state/ENDURANCE_STATE.json",
+    "authorizations/LCR-EVOLUTION-0005-ENDURANCE-NAVLITE-ADDENDUM-20260813.json",
+    "evidence/EVOLUTION-0005-STEP-003-VERIFIER-DEFER-002.json",
+    "evolution/navlite/quantum_candidates/NAVLITE_OFFLINE_REPLAY_RECONNECT_ACCEPTANCE_MATRIX.candidate.json"
+  ],
+  "current_research_scope":"NavLite G3/G4 offline replay/reconnect acceptance and cross-model semantic-state portability.",
+  "candidate_hashes":{"offline_replay_matrix_commit":"1dea50a8563dacc19f1ecf3a70197e7d72171041"},
+  "proposed_turn_8_summary":[
+    "Seven-case offline replay/reconnect matrix is now a real branch-local Quantum candidate.",
+    "Only contradiction-cleared-by-new-independent-evidence may yield REVALIDATION_CANDIDATE, after full fresh provenance/trust/TTL/authority checks.",
+    "Canonical G4 resume hash fields are explicitly enumerated; untested algorithm/TTL/cursor/schema thresholds remain TEST_REQUIRED.",
+    "Cross-model portability should require semantic-state conformance vector equality, not only authority byte/hash equivalence."
+  ],
+  "counter_question":"Should semantic-state conformance vector be a formal NavLite/Small-Nest acceptance criterion, and if only one real backend exists, should a deterministic mock adapter serve as the second implementation instead of downloading another model?",
+  "return_condition":"On next Quantum wake, fresh-read MISSION_STATE plus discussion. If discussion still has next_sequence=8 and expected_source=Quantum, retry exactly one append from this checkpoint; if it legally advanced, discard this pending turn as superseded and adopt latest state.",
+  "write_failure":"Shared-state whole-file append blocked by platform safety layer; no shared dialogue mutation occurred.",
+  "claim_boundary":"Checkpoint only; not a valid dialogue turn until shared dialogue append succeeds, not Builder/C PASS, and no formal packet consumed."
+}
