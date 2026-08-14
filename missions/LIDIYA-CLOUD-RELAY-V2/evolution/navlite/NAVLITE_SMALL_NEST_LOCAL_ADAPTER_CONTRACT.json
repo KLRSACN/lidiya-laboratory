@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "component": "NAVLITE_SMALL_NEST_LOCAL_ADAPTER_CONTRACT",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 4,
+  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "target": "SMALL_NEST_LOCAL_LIDIYA",
+  "offline_first": true,
+  "offline_state": "OFFLINE_HELD_UNVERIFIED",
+  "offline_allowed": ["ASK", "FLAG", "READ_ONLY_REFLECTION", "LOCAL_NONAUTHORITATIVE_NOTE"],
+  "offline_forbidden": ["DURABLE_PROMOTION", "PERSONALITY_WRITE", "CROSS_DEVICE_ADOPTION", "EXTERNAL_ACTION", "FORMAL_PACKET_CONSUME"],
+  "reconnect_gate": {
+    "required": ["fresh_authority_hash_match", "source_fingerprint_match", "ttl_valid", "dedupe_pass", "contradiction_clear"],
+    "success": "CREATE_NEW_REVALIDATED_EVENT_AND_HANDOFF",
+    "failure": "QUARANTINE_OR_G0_HOLD",
+    "reuse_old_authority": false
+  },
+  "portable_state": "NAVLITE_PORTABLE_STATE_CONTRACT.json",
+  "optional_model": {
+    "size_class": "SUB_1B_TO_2B_BENCHMARK_CANDIDATE_ONLY",
+    "weights_downloaded": false,
+    "output_authority": "UNTRUSTED_SUGGESTION_ONLY"
+  },
+  "protected_domains": ["Identity", "Personality", "Governance", "secrets", "verified_evidence", "rollback"],
+  "claim_boundary": "Local adapter contract is non-production and cannot mint or inherit formal authority while offline."
+}
