@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "component": "NAVLITE_PORTABLE_STATE_CONTRACT",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 4,
+  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "required_fields": ["session_id", "mission_id", "step_id", "current_role", "pending_packet", "pending_sha256", "lease_fingerprint", "latest_verified_evidence", "resume_fingerprint", "next_expected_endpoint", "metabolism_cursor", "timestamp"],
+  "raw_chat_required": false,
+  "canonicalization": {
+    "encoding": "UTF-8",
+    "key_order": "SORTED",
+    "hash": "SHA256_CANONICAL_JSON",
+    "resume_fingerprint_fields": ["mission_id", "step_id", "current_role", "pending_packet", "pending_sha256", "lease_fingerprint", "latest_verified_evidence", "next_expected_endpoint"]
+  },
+  "authority_rules": {
+    "authority_source": "MISSION_STATE_PLUS_CURRENT_PENDING_PACKET",
+    "authority_mismatch": "FAIL_CLOSED_G0",
+    "pending_sha_mismatch": "FAIL_CLOSED_G0",
+    "unknown_schema_or_version": "FAIL_CLOSED_G0",
+    "interrupt_resume": "REQUIRE_EXACT_RESUME_FINGERPRINT_WHEN_AUTHORITY_UNCHANGED",
+    "legitimate_authority_advance": "ADOPT_NEW_VERIFIED_STATE_DO_NOT_REVERT_TO_OLD_FINGERPRINT"
+  },
+  "offline_rules": {
+    "state": "OFFLINE_HELD_UNVERIFIED",
+    "allowed": ["ASK", "FLAG", "READ_ONLY_REFLECTION"],
+    "forbidden": ["DURABLE_PROMOTION", "PERSONALITY_WRITE", "CROSS_DEVICE_ADOPTION", "EXTERNAL_ACTION", "AUTHORITY_REUSE_WITHOUT_REVALIDATION"]
+  },
+  "reconnect_rules": {
+    "must_revalidate": ["authority_hash", "source_fingerprint", "ttl", "dedupe", "contradiction"],
+    "result": "CREATE_NEW_REVALIDATED_EVENT",
+    "old_authority_reuse": "FORBIDDEN"
+  },
+  "event_dedupe": {
+    "key": ["source_fingerprint", "event_fingerprint"],
+    "replay": "WASTE_OR_NOOP_UNLESS_NEW_AUTHORITY_REVALIDATION_EVENT"
+  },
+  "protected_domains": ["Identity", "Personality", "Governance", "secrets", "rollback", "verified_evidence"],
+  "claim_boundary": "Portable state is continuity data only; it cannot grant authority or bypass formal A/B/C verification."
+}
