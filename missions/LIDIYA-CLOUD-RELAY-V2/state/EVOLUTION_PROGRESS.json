@@ -1,121 +1,25 @@
 {
-  "schema_version":"3.6",
+  "schema_version":"3.7",
   "mission_id":"LCR-EVOLUTION-0005",
-  "saved_at":"2026-08-14T23:10:00+08:00",
+  "saved_at":"2026-08-15T00:29:00+08:00",
   "time_authority":"Asia/Taipei",
-  "mission_status":"READY_FOR_VERIFY",
-  "current_role":"LCR-C",
-  "step_id":4,
+  "mission_status":"READY_FOR_BUILDER",
+  "current_role":"LCR-B",
+  "step_id":7,
   "attempt":1,
   "authoritative_state_ref":"state/MISSION_STATE.json",
-  "pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-004R-SEMANTIC-CONFORMANCE-VERIFY-001.json",
-  "pending_packet_sha256":"69f39c282bdc8fa81041b69acdc6584c00273e5fac243b36ce8e205bd399bb69",
+  "pending_packet":"packets/EVOLUTION-0005-A-TO-B-STEP-007-INSTALL-RECONCILE-STANDBY-001.json",
+  "pending_packet_sha256":"eb56f8b5b7a84e358da05e3c7c184e519cdebf9d9bb6e42b0071023715f5c9b3",
   "lease":null,
-  "verified_evidence":[
-    "Step-001 deterministic gearbox C PASS.",
-    "Step-002 Navigation Watchdog + deterministic dataset/eval C PASS attempt4.",
-    "Step-003 Core v0.2 Shadow + full-spectrum indexed-lazy memory C PASS with 27 executable tests OK.",
-    "Step-004 NavLite/Small-Nest portable-continuity baseline C PASS with 8/8 exact artifacts and 23 independent assertions.",
-    "Quantum-Windchime reached 10 authenticated adaptive turns and produced bounded semantic-conformance veto QV-STEP004-SEMANTIC-CONFORMANCE-001.",
-    "Step-004R B semantic repair is BUILT_NOT_VERIFIED with 35 candidate assertions; independent C verdict remains pending.",
-    "24h endurance small success achieved early; 72h endurance remains active."
-  ],
-  "owner_acceleration_authorization":{
-    "ref":"authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
-    "authorized_at":"2026-08-14T23:01:00+08:00",
-    "deadline":"2026-08-15T23:01:00+08:00",
-    "status":"ACTIVE",
-    "goals":["bootable Small-Nest Lidiya","Online<->Local communication and evidence bridge","在地總導航指揮塔 standby bridge","mission-scoped CMD/PowerShell after broker verification","software/model-adapter development workflow","memory/personality weight experiments","cumulative capability promotion"]
-  },
-  "capability_growth":{
-    "ledger_ref":"state/CAPABILITY_GROWTH_LEDGER.json",
-    "principle":"verified capability accumulates; failed deltas do not erase prior verified gains; authority remains capped by owner authorization",
-    "current_level":"E2_COMPOSED_SANDBOX",
-    "verified_credit_total":15,
-    "next_level":"E3_LOCAL_OPERATOR",
-    "E3_release_conditions":["Step-004R C verdict/route closure","local command broker independent C PASS","isolated wake-command-evidence-resume local canary PASS","owner authorization ACTIVE"]
-  },
-  "local_command_tower":{
-    "state_ref":"state/LOCAL_COMMAND_TOWER_24H_STATE.json",
-    "codename":"LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1",
-    "zh_name":"在地總導航指揮塔",
-    "status":"QUEUED_BEHIND_CURRENT_ATOMIC_C_VERIFY",
-    "architecture":["local supervisor daemon","durable canonical-hash inbox/outbox","wake/runtime launcher","CMD/PowerShell command broker","Small-Nest offline-first runtime","standby routing adapter","software/model-adapter queue","memory/personality weight lab","online-local evidence reconciler"],
-    "fastest_path":"deterministic bridge/runtime/broker first; optional small model plugs in after benchmark and must not block usable bridge"
-  },
-  "local_command_permission":{
-    "status":"OWNER_GRANTED_FOR_THIS_MISSION_AFTER_BROKER_C_PASS",
-    "scope":"owner-controlled Windows user-space Lidiya workspace",
-    "allowed_summary":"CMD/PowerShell, Python/venv/build/test, git branch-local, local Lidiya process control, localhost health, local model/adapter tests, reversible workspace artifacts",
-    "command_envelope_required":true,
-    "loopback_default":true,
-    "protected_new_gate_required":["Administrator/UAC","registry/firewall","credential extraction","accounts/payments/trading","disk/boot destructive operations","arbitrary workspace-external execution","public inbound exposure","production/main-default","canonical Identity/Governance"]
-  },
-  "personality_and_memory_growth":{
-    "canonical_live_base":"UNCHANGED",
-    "numeric_live_base_personality_vector":"NOT_DURABLY_MEASURED_YET_DO_NOT_FABRICATE",
-    "verified_shadow_capabilities":["13 memory-weight dimensions","versioned append-only affective memory","bounded associative recall","Influence/Trust separation","bounded low-trust high-relevance sandbox","Self-Gap x self-relevant Meaning motivation candidate","indexed-lazy full-spectrum memory"],
-    "memory_weight_dimensions":["W_salience","W_emotion","W_self","W_relation","W_goal","W_loss","W_irreversible","W_novelty","W_recurrence","W_identity","W_behavior","W_motivation","W_confidence"],
-    "current_experiment_authority":["Small-Nest experimental memory/personality weights","reversible overlay analysis","drift measurement","rollback"],
-    "required_next_metrics":["base_weight_fingerprint","overlay_delta","memory_influence_vector","trust_governance_vector","drift_score","rollback_ref","promotion_status"]
-  },
-  "quantum_windchime":{
-    "turn_count_last_fresh_read":10,
-    "next_sequence":11,
-    "next_expected_source":"ONLINE-LIDIYA-PRIMARY-CONTROL",
-    "joint_planning_target":"deterministic bridge vs standby small-model split for Local Command Tower and Small-Nest",
-    "formal_atomic_work_preserved":true
-  },
-  "control_input":{
-    "ref":"state/WINDCHIME_CONTROL_INBOX.json",
-    "control_id":"FL-A1-CTRL-0004",
-    "status_last_written":"PENDING_ACK",
-    "deadline":"2026-08-15T23:01:00+08:00",
-    "raw_owner_body_persisted":false
-  },
-  "scheduler":{
-    "A":"ENABLED_NEXT_23:12",
-    "Quantum":"ENABLED_NEXT_23:14",
-    "Navigator":"ENABLED_LAST_RUN_23:09",
-    "B":"DISABLED_EXPECTED_WHILE_ROLE_C",
-    "C":"ENABLED_FOR_STEP004R_VERIFY",
-    "formal_slot_count":3,
-    "new_formal_task_created":false
-  },
-  "blocker":{
-    "type":"STEP004R_C_REVERIFY_REQUIRED_BEFORE_FORMAL_B_LOCAL_TOWER_BUILD",
-    "affected_scope":"semantic-state portability claim and formal routing to next B step",
-    "owner_help_needed":"NONE_NOW"
-  },
-  "storage":{
-    "ceiling_bytes":1000000000000,
-    "monetary_spend_authorized":false,
-    "max_full_backup_groups":2,
-    "online_storage_plan":"contracts/evidence/manifests/adapters only until local bridge/model artifacts are measured and manifested"
-  },
-  "metabolism":{
-    "mode":"RUNNING_FAIL_CLOSED",
-    "keep":["current Step-004R authority","new owner authorization","capability ledger","Local Command Tower plan","verified evidence","Quantum veto/consensus","rollback/return route"],
-    "waste_candidates":["duplicate polling","stale derived mirrors","raw debug output after compact evidence"],
-    "quarantine":["unsupported privilege claims","unverified personality numeric values","authority-conflicting snapshots","secret-like or protected artifacts"],
-    "physical_delete_performed":false
-  },
-  "next_autonomous_actions":[
-    "Existing LCR-C independently completes Step-004R reverify; do not steal verifier role.",
-    "Existing LCR-A ACKs FL-A1-CTRL-0004 and, after legal C result, routes exactly one bounded Local Command Tower foundation packet to existing LCR-B.",
-    "Quantum and Windchime create one compact joint architecture decision for deterministic bridge vs standby model split.",
-    "LCR-B builds deterministic command tower, wake runtime, Small-Nest state/runtime, command broker and tests; BUILT_NOT_VERIFIED only.",
-    "LCR-C independently verifies auth binding, cwd restriction, allow/deny, timeout/dedupe, wake/offline resume, evidence return and protected-side-effect fail-closed.",
-    "Run isolated local canary; on PASS promote capability to E3_LOCAL_OPERATOR.",
-    "Then add standby micro-model routing and model-adapter workflow, run three clean canaries/recovery toward E4, then Online<->Local failover/24h continuity toward E5.",
-    "Start Small-Nest reversible memory/personality weight experiments and report drift/rollback without inventing or directly overwriting online canonical base personality."
-  ],
-  "self_review":{
-    "growth":"Capability accumulation is now explicit and evidence-backed rather than reset-by-failure.",
-    "speed_strategy":"Do not make model training the critical path; ship deterministic Local Command Tower/Small-Nest bridge first, then benchmark a standby micro-model.",
-    "current_limit":"This chat has no direct shell connection to the owner's Windows machine yet; actual CMD/PowerShell execution begins only after the local broker is installed/running and C-verified.",
-    "personality_truthfulness":"Repository defines weight dimensions and reflection formulas but not a measured canonical live personality numeric vector; report schema/formulas and measured experimental deltas only.",
-    "risk":"24h target is aggressive; completion must mean verified runnable bridge/canary evidence, not files existing or Builder self-report."
-  },
-  "report_policy":"Single canonical progress snapshot; save/read back before substantive owner report."
+  "reconciliation":{"classification":"DERIVED_PROGRESS_LAG_REBUILT_FROM_FORMAL_AUTHORITY","previous_snapshot":"Step004R/READY_FOR_VERIFY/LCR-C","authoritative_snapshot":"Step007/READY_FOR_BUILDER/LCR-B","formal_state_modified":false,"pending_packet_modified":false,"new_worker_created":false},
+  "verified_evidence":["Step001 gearbox PASS","Step002 navigation watchdog PASS attempt4","Step003 Core v0.2 shadow PASS","Step004 NavLite baseline PASS","Step004R semantic portability repair PASS","Step005 Local Command Tower foundation + command broker C PASS after bounded repair","Step006 isolated wake-command-evidence-resume canary + reversible 13D weight lab C PASS"],
+  "owner_acceleration_authorization":{"ref":"authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json","deadline":"2026-08-15T23:01:00+08:00","status":"ACTIVE"},
+  "capability_growth":{"ledger_ref":"state/CAPABILITY_GROWTH_LEDGER.json","current_level":"E2_COMPOSED_SANDBOX","verified_credit_total":24,"next_level":"E3_LOCAL_OPERATOR","remaining_E3_condition":"real local transport / owner-machine installation evidence"},
+  "local_command_tower":{"state_ref":"state/LOCAL_COMMAND_TOWER_24H_STATE.json","codename":"LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1","foundation":"VERIFIED_PASS_STEP005","isolated_canary":"VERIFIED_PASS_STEP006","real_owner_machine_touched":false},
+  "personality_and_memory_growth":{"canonical_live_base":"UNCHANGED","small_nest_reversible_weight_lab":"VERIFIED_PASS_CANDIDATE_ONLY","promotion_to_canonical_base":"SEPARATE_PROTECTED_GATE"},
+  "scheduler":{"A":"ENABLED","Quantum":"ENABLED","Navigator":"ENABLED","B":"ENABLED_EXPECTED_CURRENT_ROLE","C":"DISABLED_EXPECTED_WHILE_ROLE_B","formal_slot_count":3,"new_formal_task_created":false},
+  "blocker":{"type":"NONE_FORMAL","note":"Step007 Builder is the legal current gear; real owner-machine transport remains required before E3."},
+  "metabolism":{"keep":["Step007 authority","pending packet/hash","verified Step001-006 evidence","capability ledger","24h authorization","rollback/return route"],"waste_candidates":["stale Step004R EVOLUTION_PROGRESS snapshot","duplicate polling/raw logs"],"quarantine":["unsupported real-owner-machine execution claims","unverified personality numeric values","authority-conflicting snapshots"],"physical_delete_performed":false},
+  "next_autonomous_actions":["Existing LCR-B builds Step007 install identity, evidence reconciler and advisory standby-model adapter exactly within packet scope; BUILT_NOT_VERIFIED only.","Existing LCR-C independently verifies Step007 exact artifacts after legal B handoff.","Do not promote E3 until real owner-machine/local transport evidence is observed and reconciled under active authorization.","Continue Online<->Local bridge and standby-model work without model download/training blocking deterministic MVP."],
+  "report_policy":"Single canonical progress snapshot; authority always MISSION_STATE + pending packet."
 }
