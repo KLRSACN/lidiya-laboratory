@@ -1,0 +1,26 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
+  "canary":{
+    "isolated_mode":"fake executor only; verifies wake-command-evidence-dedupe-offline-resume logic",
+    "windows_owner_mode":"Windows-only fixed harmless cmd echo LIDIYA_CANARY; no arbitrary command parameter",
+    "local_evidence_path":".lidiya/local_canary_evidence.json",
+    "owner_machine_claim":"requires actual local run and later Online reconciliation"
+  },
+  "bridge":{
+    "transport":"workspace-local file spool foundation",
+    "network":"NONE_REQUIRED",
+    "canonical_envelope":"SHA-256 + monotonic sequence + replay guard",
+    "raw_chat":"FORBIDDEN"
+  },
+  "memory_weight_lab":{
+    "dimensions":["W_salience","W_emotion","W_self","W_relation","W_goal","W_loss","W_irreversible","W_novelty","W_recurrence","W_identity","W_behavior","W_motivation","W_confidence"],
+    "canonical_base_write":"FORBIDDEN",
+    "overlay":"COPY_ONLY_REVERSIBLE",
+    "default_max_abs_delta":0.25,
+    "default_bound_status":"TEST_REQUIRED_EXPERIMENTAL_NOT_STABLE_TRUTH",
+    "promotion":"CANDIDATE_ONLY"
+  },
+  "E3_boundary":"Step006 isolated canary PASS is necessary but not sufficient; real local transport/owner-machine evidence remains required."
+}
