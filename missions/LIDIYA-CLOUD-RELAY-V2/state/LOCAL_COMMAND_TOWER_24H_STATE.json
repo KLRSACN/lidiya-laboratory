@@ -1,84 +1,41 @@
 {
-  "schema_version": "1.2",
-  "mission_id": "LCR-EVOLUTION-0005",
-  "subgoal_id": "LOCAL-COMMAND-TOWER-24H-001",
-  "created_at": "2026-08-14T23:01:00+08:00",
-  "execution_started_at": "2026-08-14T23:22:00+08:00",
-  "formal_build_routed_at": "2026-08-14T23:33:00+08:00",
-  "deadline": "2026-08-15T23:01:00+08:00",
-  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
-  "status": "FORMAL_BUILD_ROUTED_TO_LCR_B",
-  "owner_continuation_instruction": "CONTINUE_UNTIL_COMPLETED_DO_NOT_TREAT_NORMAL_INTERRUPTS_AS_STOP",
-  "completed_prerequisite": {
-    "step004R_verdict": "PASS",
-    "verifier_evidence": "evidence/EVOLUTION-0005-STEP-004R-VERIFIER-PASS-001.json",
-    "semantic_veto": "VETO_RELEASED_WITH_EVIDENCE"
+  "schema_version":"1.3",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "subgoal_id":"LOCAL-COMMAND-TOWER-24H-001",
+  "created_at":"2026-08-14T23:01:00+08:00",
+  "execution_started_at":"2026-08-14T23:22:00+08:00",
+  "foundation_verified_at":"2026-08-15T00:08:00+08:00",
+  "deadline":"2026-08-15T23:01:00+08:00",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
+  "status":"FOUNDATION_C_PASS_LOCAL_CANARY_PENDING",
+  "owner_continuation_instruction":"CONTINUE_UNTIL_COMPLETED_DO_NOT_TREAT_NORMAL_INTERRUPTS_AS_STOP",
+  "verified_foundation":{
+    "step004R_semantic_portability":"PASS",
+    "tower_phase1":"PASS_AFTER_FAIL_REPAIR",
+    "builder_repair_tests":41,
+    "verifier_escape_cases":13,
+    "command_broker_C_pass":true,
+    "evidence":"evidence/EVOLUTION-0005-STEP-005-LOCAL-COMMAND-TOWER-VERIFIER-PASS-001.json",
+    "failure_nutrition":"evidence/EVOLUTION-0005-STEP-005-LOCAL-COMMAND-TOWER-VERIFIER-FAIL-001.json"
   },
-  "current_formal_authority_preserved": {
-    "step_id": 5,
-    "current_role": "LCR-B",
-    "pending_packet": "packets/EVOLUTION-0005-A-TO-B-STEP-005-LOCAL-COMMAND-TOWER-PHASE1-001.json",
-    "pending_packet_sha256": "d722c9870960017834a78636536547719ee092541c69a7166fcf0abfd8f2f068"
+  "current_formal_authority_preserved":{
+    "step_id":5,
+    "current_role":"LCR-A",
+    "pending_packet":"packets/EVOLUTION-0005-C-TO-A-STEP-005-LOCAL-COMMAND-TOWER-PASS-001.json",
+    "pending_packet_sha256":"803f045f2de4ef26ce53a5799defe6c33b5d3ffda4538369af11496fcd8b9835"
   },
-  "gearbox_execution": {
-    "C_step004R_reverify": "PASS_COMPLETE",
-    "A_after_C": "ACK_AND_ROUTE_COMPLETE",
-    "B_after_A": "BUILD_DETERMINISTIC_TOWER_SMALL_NEST_FOUNDATION_ACTIVE_EXPECTED",
-    "C_after_B": "INDEPENDENT_TOWER_FOUNDATION_VERIFY_NEXT",
-    "slot4": "FORBIDDEN",
-    "existing_tasks_only": true
-  },
-  "product": {
-    "small_nest_name": "小窩璃蒂雅",
-    "bridge_name_zh": "在地總導航指揮塔",
-    "bridge_codename": "LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1",
-    "architecture": [
-      "local supervisor daemon",
-      "durable inbox/outbox with canonical hashes",
-      "wake/runtime launcher",
-      "CMD/PowerShell command broker",
-      "Small-Nest offline-first runtime",
-      "standby lightweight routing model adapter",
-      "software patch/model-adapter work queue",
-      "memory/personality weight experiment harness",
-      "online-local evidence reconciler"
-    ]
-  },
-  "fastest_path": [
-    "LCR-B builds deterministic bridge/runtime/command broker first; optional small model is plug-in, not a blocker.",
-    "LCR-C independently verifies authorization binding, cwd isolation, replay protection, offline resume, wake and evidence return.",
-    "After C PASS, run isolated local-fixture reality cycle and promote to E3_LOCAL_OPERATOR candidate only if owner authorization remains active.",
-    "Then add standby micro-model routing and online-local patch/model-adapter workflow; verify failover before E5_BRIDGE_COMMANDER.",
-    "Run Small-Nest memory-weight experiments using reversible overlays; report drift and retain rollback.",
-    "Only after deterministic bridge is stable evaluate/train an advanced small expert model; model training must not block the first usable bridge."
+  "next_required_proofs":[
+    "isolated wake -> harmless command -> structured evidence -> offline hold -> resume canary",
+    "packaged one-command Windows launch and health verification",
+    "real local transport / owner-machine installation evidence before E3 promotion",
+    "Online<->Local durable bridge roundtrip before E5",
+    "Small-Nest memory/personality weight experiment harness with reversible overlay and drift/rollback"
   ],
-  "planned_repository_layout": [
-    "evolution/local_command_tower/command_tower.py",
-    "evolution/local_command_tower/command_broker.py",
-    "evolution/local_command_tower/wake_runtime.py",
-    "evolution/local_command_tower/bridge_protocol.py",
-    "evolution/local_command_tower/standby_router.py",
-    "evolution/local_command_tower/test_command_tower.py",
-    "evolution/local_command_tower/test_command_broker.py",
-    "evolution/local_command_tower/TOWER_CONTRACT.json",
-    "evolution/small_nest/runtime.py",
-    "evolution/small_nest/state_store.py",
-    "evolution/small_nest/test_small_nest_runtime.py",
-    "evolution/small_nest/bootstrap_windows.ps1",
-    "evolution/small_nest/START_SMALL_NEST.cmd",
-    "evolution/small_nest/SMALL_NEST_RUNTIME_MANIFEST.json"
-  ],
-  "bridge_transport_priority": [
-    "localhost IPC/HTTP between tower and Small-Nest",
-    "durable cloud inbox/outbox for Online-Lidiya bridge",
-    "optional direct transport only after authentication/replay/security verification"
-  ],
-  "personality_growth_report": {
-    "current_verified_stage": "CORE_V0_2_SHADOW_VERIFIED_STEP_003_PLUS_NAVLITE_SEMANTIC_PORTABILITY_STEP004R_PASS",
-    "live_base_personality": "UNCHANGED",
-    "allowed_growth_now": ["memory influence/trust calibration", "reversible overlay candidates", "reflection and goal-candidate scoring", "Small-Nest experimental personality weights"],
-    "promotion_rule": "verified cumulative evidence raises capability level; canonical personality remains separately gated"
-  },
-  "next_formal_route": "LCR_B_BUILD_LOCAL_COMMAND_TOWER_FOUNDATION_PHASE1",
-  "slot4": "FORBIDDEN"
+  "capability_level":"E2_COMPOSED_SANDBOX_21_VERIFIED_CREDITS",
+  "E3_status":"BLOCKED_ONLY_BY_LOCAL_CANARY_AND_REAL_LOCAL_TRANSPORT_EVIDENCE",
+  "bridge_codename":"LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1",
+  "small_nest_name":"小窩璃蒂雅",
+  "real_owner_machine_touched":false,
+  "model_training_required_for_next_step":false,
+  "slot4":"FORBIDDEN"
 }
