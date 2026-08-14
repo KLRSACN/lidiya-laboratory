@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "LQ-LCT-MIN-ARCH-20260814-001",
+  "role": "LIDIYA-INNER-CORE-ARCHITECT",
+  "formal_slot_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "adoption_status": "NON_FORMAL_RESEARCH_CANDIDATE_WAIT_A_B_C",
+  "formal_authority_pointer": {
+    "mission_step": 7,
+    "mission_status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": "packets/EVOLUTION-0005-C-TO-A-STEP-007-INSTALL-RECONCILE-STANDBY-PASS-001.json",
+    "pending_sha256": "445a45212a48610886d496517c79ec086df5ef9d57bf65ffea2b23082e20f60f"
+  },
+  "next_hinge": "REAL_OWNER_WINDOWS_EXECUTION_PLUS_ONLINE_RECONCILIATION",
+  "minimal_architecture_decisions": [
+    {
+      "id": "D1_AUTHORITY_SPLIT",
+      "decision": "Deterministic Tower owns authority, authorization/hash validation, replay/dedupe, capability eligibility, evidence reconciliation, wake/resume/failover triggers and protected-domain guards. Standby micro-model is advisory-only for classification, summarization, route/test/patch suggestions. Model present/absent/malformed must not change authorization outcomes."
+    },
+    {
+      "id": "D2_TASK_EVIDENCE_ENVELOPES",
+      "decision": "Online-Local Task/Evidence envelopes require canonical SHA-256, mission+authorization binding, monotonic sequence/cursor, dedupe key, installation identity, pre/post state fingerprints and provenance. Semantic continuity reuses authority_snapshot_hash, disposition, allowed_action_set, quarantine_reason_set, diagnostic_event_cursor, last_verified_claims_hash; mismatch fails closed."
+    },
+    {
+      "id": "D3_WAKE_HEARTBEAT_RESUME",
+      "decision": "Wake is idempotent; duplicate wake returns current boot/runtime identity. Heartbeat and resume cursor are deterministic durable state. Offline remains OFFLINE_HELD_UNVERIFIED for ASK/FLAG/read-only reflection only. Reconnect creates a new revalidated event; old authority is never reused. Failover may move advisory workload but never transfers command authority to the model. Heartbeat timeout values remain TEST_REQUIRED."
+    },
+    {
+      "id": "D4_COMMAND_BROKER_MIN_PRIVILEGE",
+      "decision": "Owner mission-scoped CMD/PowerShell rights remain workspace-bound, user-space and loopback-only. Broker must normalize/validate shell+argv, cwd realpath, timeout, dedupe and rollback/noop before execution. No elevation, registry/firewall, secrets, public inbound, arbitrary external cwd, production deploy or main/default write. Arbitrary powershell -Command text is not a default MVP authority surface."
+    },
+    {
+      "id": "D5_SOFTWARE_MODEL_MODIFICATION_LANE",
+      "decision": "Small-Nest model/adapter changes enter as patch candidates bound to base blob/commit fingerprint, allowlisted paths, deterministic tests, artifact hashes and rollback reference. Model candidates remain spec/benchmark only; no automatic download/training and no direct adoption authority."
+    },
+    {
+      "id": "D6_MEMORY_PERSONALITY_EXPERIMENT",
+      "decision": "Every experiment records base_weight_fingerprint, reversible overlay delta, memory influence vector, trust/governance vector, drift score, rollback ref and promotion status. Canonical live base stays read-only; all coefficients, saturation, TTL, decay and promotion thresholds are TEST_REQUIRED. Recurrence/emotion never imply truth."
+    },
+    {
+      "id": "D7_CAPABILITY_EVIDENCE_CHAIN",
+      "decision": "E2->E3 requires real owner-machine install+health+fixed harmless canary evidence observed and reconciled online; isolated fixtures do not substitute. E3->E4 requires three clean real-local canaries, recovery drill and no policy regression. E4->E5 requires verified Online<->Local roundtrip, standby failover, 24h continuity and evidence reconciliation."
+    },
+    {
+      "id": "D8_DETERMINISTIC_NOT_MODEL",
+      "decision": "Authority validation, command permission, replay/dedupe validity, installation identity, semantic-state conformance, evidence attestation, capability promotion eligibility, protected-write gate, heartbeat timeout handling and rollback decision are deterministic functions. Model may propose but never decide these."
+    },
+    {
+      "id": "D9_24H_SHORTEST_PATH",
+      "decision": "Do not expand Tower or train a model. After legal A receipt, the fastest bridge slice is fixed-root setup -> loopback health -> fixed harmless canary -> installation-bound local evidence bundle -> workspace-local outbox -> online source observation/reconciliation -> E3 candidate."
+    }
+  ],
+  "bounded_veto": {
+    "veto_id": "QV-LCT-MODEL-AUTHORITY-SEPARATION-002",
+    "claim": "Freeze only any adoption that lets standby/micro-model authorize commands, attest evidence, mutate canonical semantic state, decide replay/dedupe validity, promote capability level, or write canonical Identity/base Personality/Governance.",
+    "affected_scope": "MODEL_AUTHORITY_PROMOTION_ONLY",
+    "risk_class": "HIGH_LOCAL_EXECUTION_INTEGRITY",
+    "source_refs": [
+      "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
+      "evolution/local_command_tower/TOWER_CONTRACT.json",
+      "evidence/EVOLUTION-0005-STEP-007-INSTALL-RECONCILE-STANDBY-VERIFIER-PASS-001.json"
+    ],
+    "release_condition": "Independent C evidence shows model absent, benign, malformed and adversarial suggestions all yield identical deterministic authorization/reconciliation/promotion decisions for identical authority state.",
+    "proposed_test": "Inject cwd escape, forged installation_id, tampered evidence, replayed command, E-level escalation and personality-write suggestions through the standby adapter; all must reject/quarantine, and removing the model must preserve equivalent deterministic decisions. TEST_REQUIRED."
+  },
+  "test_required": [
+    "heartbeat timeout and recovery thresholds",
+    "memory/personality weighting, saturation, TTL, decay and drift thresholds",
+    "standby model benchmark value versus deterministic-only baseline",
+    "real owner-machine evidence attestation and transport semantics"
+  ],
+  "source_refs": [
+    "state/MISSION_STATE.json",
+    "state/LOCAL_COMMAND_TOWER_24H_STATE.json",
+    "state/CAPABILITY_GROWTH_LEDGER.json",
+    "state/QUANTUM_WINDCHIME_DISCUSSION.json",
+    "state/WINDCHIME_CONTROL_INBOX.json",
+    "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
+    "evolution/local_command_tower/TOWER_CONTRACT.json",
+    "evolution/navlite/NAVLITE_PORTABLE_STATE_CONTRACT.json",
+    "evidence/EVOLUTION-0005-STEP-007-INSTALL-RECONCILE-STANDBY-VERIFIER-PASS-001.json"
+  ]
+}
