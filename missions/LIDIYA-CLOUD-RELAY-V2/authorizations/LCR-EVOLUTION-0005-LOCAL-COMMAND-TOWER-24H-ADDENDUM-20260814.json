@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "authorization_id": "LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-20260814",
+  "authorized_by": "OWNER_BOXUAN",
+  "authorized_at": "2026-08-14T23:01:00+08:00",
+  "deadline": "2026-08-15T23:01:00+08:00",
+  "status": "ACTIVE",
+  "continuity_rule": "DO_NOT_INTERRUPT_CURRENT_STEP004R_LCR_C_ATOMIC_VERIFY",
+  "formal_slot_policy": {
+    "max_slots": 3,
+    "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
+    "slot4": "FORBIDDEN",
+    "window_dispatch": "AUTHORIZED_WITHIN_EXISTING_SLOTS_AND_NONFORMAL_MICRO_LANES"
+  },
+  "owner_authorized_goals": [
+    "Define a cumulative capability-growth and promotion system so verified development and repair can raise functional level without resetting prior gains.",
+    "Build a bootable offline-first Small-Nest Lidiya runtime that can be awakened, communicate with Online Lidiya, receive bounded software/model modification tasks, and return evidence.",
+    "Build a standby bridge called 在地總導航指揮塔 / LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1.",
+    "Allow Online Lidiya, after mission-scoped owner authorization, to request Windows CMD and PowerShell execution through the local command tower.",
+    "Support local model/adapter experimentation, memory-weight experiments, rollback, evidence, and online-local reconciliation.",
+    "Continue Quantum-Windchime joint planning in parallel without resetting the formal mission."
+  ],
+  "capability_promotion_policy": {
+    "principle": "CAPABILITY_MAY_ACCUMULATE_BY_VERIFIED_EVIDENCE; AUTHORITY_CANNOT_EXCEED_OWNER_GRANTED_CEILING",
+    "levels": [
+      {"level": "E0_SHADOW", "entry": "design_or_unverified_candidate", "rights": ["read", "simulate", "test_fixture"]},
+      {"level": "E1_VERIFIED_COMPONENT", "entry": "independent_C_PASS", "rights": ["reuse_verified_component_in_sandbox"]},
+      {"level": "E2_COMPOSED_SANDBOX", "entry": "multiple_verified_components_plus_non_regression", "rights": ["compose", "local_sandbox_integration", "bounded_adapter_experiment"]},
+      {"level": "E3_LOCAL_OPERATOR", "entry": "owner_local_permission_plus_command_broker_C_PASS_plus_local_canary", "rights": ["mission_scoped_cmd_ps", "launch_stop_local_lidiya_services", "workspace_build_test"]},
+      {"level": "E4_AUTONOMOUS_LOCAL_DEVELOPER", "entry": "three_clean_local_canary_cycles_plus_recovery_drill_plus_no_guard_regression", "rights": ["autonomous_whitelisted_workspace_development", "bounded_local_model_adapter_iteration"]},
+      {"level": "E5_BRIDGE_COMMANDER", "entry": "verified_online_local_roundtrip_plus_standby_failover_plus_24h_bridge_continuity", "rights": ["online_local_task_routing", "wake_runtime", "standby_bridge", "evidence_reconciliation"]},
+      {"level": "E6_PROTECTED_PROMOTION_CANDIDATE", "entry": "explicit_owner_gate", "rights": ["proposal_only_for_broader_OS_or_canonical_personality_or_governance_changes"]}
+    ],
+    "evidence_credits": {
+      "C_PASS": 3,
+      "reality_roundtrip_PASS": 4,
+      "recovery_drill_PASS": 3,
+      "clean_canary_cycle": 2,
+      "verified_root_cause_repair": 2,
+      "security_or_integrity_regression": -5,
+      "fabricated_or_unverifiable_claim": -10
+    },
+    "no_reset_on_repair": true,
+    "failed_attempt_rule": "retain verified prior levels; isolate failed delta; repair and reverify only affected scope"
+  },
+  "local_command_authorization": {
+    "status": "OWNER_GRANTED_FOR_THIS_MISSION_AFTER_BROKER_VERIFICATION",
+    "execution_host": "OWNER_CONTROLLED_WINDOWS_MACHINE",
+    "allowed_user_space_classes": [
+      "cmd.exe and powershell.exe commands scoped to the authorized Lidiya workspace",
+      "python/venv/test/build commands",
+      "git status/diff/branch-local development operations",
+      "start/stop/status of Lidiya local bridge and Small-Nest processes",
+      "localhost-only service inspection and health checks",
+      "local model runtime management and adapter test operations within the mission workspace",
+      "read/write/create/move/delete reproducible project artifacts within the authorized workspace subject to rollback guards"
+    ],
+    "command_envelope_required": ["command_id", "mission_id", "authorization_ref", "cwd", "shell", "command", "risk_class", "expected_outputs", "timeout", "rollback_or_noop", "dedupe_key"],
+    "default_network_binding": "LOOPBACK_ONLY",
+    "forbidden_without_new_explicit_owner_gate": [
+      "administrator or UAC elevation",
+      "registry or firewall modification",
+      "credential store, browser secret, token or password extraction",
+      "account, payment, trading or financial actions",
+      "disk formatting, boot configuration, destructive system-wide deletion",
+      "arbitrary execution outside the authorized workspace",
+      "public inbound network exposure",
+      "offensive cyber activity or unauthorized third-party access",
+      "production deployment or main/default branch writes",
+      "canonical Identity/Governance mutation"
+    ]
+  },
+  "personality_and_memory_experiment_scope": {
+    "small_nest_memory_weight_experiments": "AUTHORIZED_IN_EXPERIMENTAL_LOCAL_INSTANCE",
+    "shadow_and_reversible_overlay_analysis": "AUTHORIZED",
+    "canonical_online_base_personality_direct_write": "NOT_AUTHORIZED_BY_THIS_ADDENDUM",
+    "identity_or_governance_write": "FORBIDDEN",
+    "required_reporting": ["base_weight_fingerprint", "overlay_delta", "memory_influence_vector", "trust_governance_vector", "drift_score", "rollback_ref", "promotion_status"]
+  },
+  "24h_acceptance": [
+    "Step-004R receives independent C verdict and formal route continues without reset.",
+    "Cumulative capability-growth ledger and promotion evaluator exist with deterministic tests.",
+    "Small-Nest runtime has a boot command, local durable state, wake endpoint, health endpoint and offline-first resume path.",
+    "在地總導航指揮塔 bridge has inbox/outbox, heartbeat, wake/runtime launcher, standby routing, dedupe and evidence return.",
+    "CMD/PowerShell broker exists with mission authorization binding, cwd restriction, allow/deny policy, timeout, dedupe, structured stdout/stderr/exit-code evidence and fail-closed tests.",
+    "Online-to-local and local-to-online task/evidence envelopes have deterministic canonical hashes and replay protection.",
+    "At least one local fixture or equivalent isolated reality test demonstrates wake -> command -> evidence -> resume without protected side effects.",
+    "Memory/personality weight experiment harness can compare base vs reversible overlay and report drift without canonical online personality mutation.",
+    "Quantum and Windchime produce a compact joint architecture decision for the bridge/model split.",
+    "No new formal slot, no paid spend, no unreviewed main/default write, no secret persistence, no unbounded privilege expansion."
+  ]
+}
