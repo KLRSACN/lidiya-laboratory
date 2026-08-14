@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "component": "LIDIYA-NAVLITE-GEARBOX-TYPE-1",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 4,
+  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "authority": "ADVISORY_AND_DETERMINISTIC_GUARD_ONLY",
+  "principles": [
+    "deterministic guard before optional model suggestion",
+    "portable compact state instead of raw chat dependency",
+    "offline state is held unverified until fresh authority revalidation",
+    "interrupts do not reset formal mission",
+    "unknown schema or authority mismatch downshifts to G0",
+    "original next goal BUILD_LIDIYA_CORE_V0_2_LIVE_CANARY is preserved"
+  ],
+  "gears": {
+    "G0": {"name": "AUTHORITY_STATE_GUARD", "functions": ["validate mission and packet binding", "validate pending SHA", "validate schema/version", "fail closed"]},
+    "G1": {"name": "EVENT_CLASSIFIER", "functions": ["classify owner/control/tool/replay/offline/reconnect events", "mark provenance and confidence"]},
+    "G2": {"name": "ROUTE_GEAR", "functions": ["select safe route", "preserve current atomic work", "queue interrupt at safe checkpoint"]},
+    "G3": {"name": "METABOLISM_GEAR", "functions": ["KEEP/WASTE/QUARANTINE deterministic disposition", "dedupe replay", "protect evidence and rollback"]},
+    "G4": {"name": "CHECKPOINT_RESUME_HANDOFF", "functions": ["create exact resume fingerprint", "resume unchanged authority", "adopt legitimate authority advance", "online/local handoff"]},
+    "G5": {"name": "REFLECTION_TEST_SUGGESTION", "functions": ["read-only reflection", "propose tests", "never override G0-G4"]},
+    "G6": {"name": "OPTIONAL_TEACHER_REFERENCE", "functions": ["optional sub-1B to 2B benchmark candidate only", "output always untrusted suggestion", "no model download or training in Step-004"]}
+  },
+  "shift_invariants": {
+    "upshift": "receiver must acknowledge compact state before previous guard is released",
+    "downshift": "lower deterministic guard engages first",
+    "interrupt": "owner or Quantum input is not a STOP event",
+    "offline": "OFFLINE_HELD_UNVERIFIED until reconnect revalidation"
+  },
+  "forbidden": ["MODEL_DOWNLOAD", "MODEL_TRAINING", "PACKAGE_INSTALL", "PRODUCTION_DEPLOY", "MAIN_DEFAULT_WRITE", "PAID_SPEND", "SECRET_PERSISTENCE", "SLOT4", "DUPLICATE_FORMAL_WORKER", "LIVE_IDENTITY_PERSONALITY_GOVERNANCE_MUTATION", "OFFENSIVE_CYBER"],
+  "return_condition": "After independent LCR-C PASS, return to existing Core v0.2 Live Canary gate unless owner priority changes."
+}
