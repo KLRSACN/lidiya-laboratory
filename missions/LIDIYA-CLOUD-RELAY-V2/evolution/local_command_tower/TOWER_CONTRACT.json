@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "component": "LIDIYA-LOCAL-NAV-COMMAND-TOWER-TYPE-1",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "authorization_ref": "authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
+  "binding": "127.0.0.1",
+  "default_execute_enabled": false,
+  "endpoints": ["GET /health", "POST /wake", "POST /event"],
+  "command_envelope_required": ["command_id", "mission_id", "authorization_ref", "cwd", "shell", "command", "risk_class", "expected_outputs", "timeout", "rollback_or_noop", "dedupe_key"],
+  "authority": "MISSION_STATE_PLUS_ACTIVE_OWNER_ADDENDUM",
+  "replay": "CANONICAL_SHA256_PLUS_MONOTONIC_SEQUENCE_AND_DEDUPE",
+  "model_dependency": "NONE_FOR_FOUNDATION",
+  "protected": ["no admin/UAC", "no registry/firewall", "no credential extraction", "no public inbound", "no system destructive commands", "workspace containment"],
+  "claim_boundary": "Phase1 Builder candidate only; execution rights require independent LCR-C PASS and a separate isolated local canary."
+}
