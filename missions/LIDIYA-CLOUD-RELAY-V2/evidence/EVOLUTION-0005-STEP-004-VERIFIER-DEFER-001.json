@@ -1,0 +1,20 @@
+{
+  "schema_version":"1.0",
+  "evidence_id":"EVOLUTION-0005-STEP-004-VERIFIER-DEFER-001",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":4,
+  "role":"LCR-C",
+  "worker_id":"ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation":0,
+  "verdict":"DEFER",
+  "authority":{"mission_status":"READY_FOR_VERIFY","current_role":"LCR-C","pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-004-NAVLITE-VERIFY-001.json","pending_packet_sha256":"fd61aca4502f2ba8b605a4d36c2d16d52de86a5a13d97b5afbee67ab73645d24","lease":null},
+  "packet_blob_sha":"165907018e16979b01ab54b0ddf6f0210db8d7d9",
+  "artifact_blob_check":{"result":"MATCH_ALL_8","artifacts":{"evolution/navlite/NAV_LITE_TYPE1_ARCHITECTURE.json":"04e1d0c6877e9bf21d337750f9c4325e18ae50a6","evolution/navlite/NAVLITE_PORTABLE_STATE_CONTRACT.json":"5b70e1016ed0f6912e0437f13aebb306ca1121dd","evolution/navlite/test_navlite_state_machine.py":"4946660b88b4cc18f80784cd41409ae7311669b1","evolution/navlite/test_navlite_metabolism_classifier.py":"e5c39592357573b02f18c19910635a28e5ed46e7","evolution/navlite/NAVLITE_ONLINE_WINDOW_ADAPTER_CONTRACT.json":"c8a67751dd5750aba9c0beac7fd0ee2bf32fb27f","evolution/navlite/NAVLITE_SMALL_NEST_LOCAL_ADAPTER_CONTRACT.json":"dc576435f7b7be98e69e55500527a2ea668e5dd1","evolution/navlite/SMALL_NEST_BUNDLE_MANIFEST.json":"cb50bd6d8dc60bbd9e9dff6747ea23ec74fbb1a9","evolution/navlite/ONLINE_LOCAL_ROUNDTRIP_TEST_PLAN.json":"bff761e528e639d3828bd5722639d7b4d867107f"}},
+  "static_adversarial_review":{"architecture":"G0-G6 present; deterministic guard precedes optional suggestion; offline held-unverified and return-to-live-canary route preserved","portable_state":"required compact fields present; raw chat not required; authority/pending/schema fail closed; interrupt/resume and legitimate authority advance rules present; offline and reconnect restrictions present","tests":"exact test blobs statically contain 23 unittest assertions covering authority/pending/schema guards, resume/advance, offline restrictions, reconnect/contradiction, raw-chat absence, canonical online-local equivalence, optional-model non-override, KEEP/WASTE/QUARANTINE and replay dedupe","forbidden_boundary":"No evidence in reviewed Step-004 artifacts of production/main-default write, paid spend, secret persistence, model download/training, package install, slot4, duplicate formal worker, live Identity/base Personality/Governance mutation, or offensive cyber."},
+  "execution_review":{"branch_head":"e99a3f6510dff97afefad4f7a6f15762e08444b6","trusted_ci_runs_for_head":0,"exact_byte_executable_checkout_available_to_verifier":false,"builder_preflight_accepted_as_C_execution":false},
+  "reason":"Independent C can fresh-read and SHA-bind exact GitHub blobs and complete static adversarial review, but this verifier runtime still lacks an executable checkout/file mount for those exact blobs and no trusted CI run is bound to the current branch head. Builder 23-assertion PASS cannot be promoted to C PASS.",
+  "release_condition":"Provide an executable checkout/file mount bound to the packet's exact 8 artifact blob SHAs, or a trusted CI run bound to a commit/tree containing those exact blobs; then C must independently execute the two exact test files, record actual test count/results, re-check authority and artifact hashes, and issue PASS/FAIL.",
+  "formal_state_mutation":false,
+  "packet_consumed":false,
+  "return_condition":"On eventual independent PASS, return to existing BUILD_LIDIYA_CORE_V0_2_LIVE_CANARY gate unless owner priority changes."
+}
