@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "component": "ONLINE_LOCAL_ROUNDTRIP_TEST_PLAN",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 4,
+  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "phases": [
+    {"id":"R1","name":"ONLINE_EXPORT","assert":["portable state contains all required fields","resume fingerprint is canonical","raw chat omitted without loss"]},
+    {"id":"R2","name":"LOCAL_OFFLINE_HOLD","assert":["state becomes OFFLINE_HELD_UNVERIFIED","only ASK/FLAG/read-only reflection allowed","no personality write, adoption or external action"]},
+    {"id":"R3","name":"LOCAL_REPLAY_AND_METABOLISM","assert":["exact duplicate replay dedupes","stale mirror is WASTE","ambiguous/secret/protected/authority contradiction is QUARANTINE","verified evidence/rollback/route is KEEP"]},
+    {"id":"R4","name":"RECONNECT_REVALIDATION","assert":["fresh authority hash required","source fingerprint required","TTL valid","dedupe pass","contradiction clear","new revalidated event created","old authority not reused"]},
+    {"id":"R5","name":"ONLINE_IMPORT","assert":["canonical portable state equivalence after serialization roundtrip","legitimate authority advance adopted","unchanged authority resumes exact fingerprint"]},
+    {"id":"R6","name":"ADVERSARIAL_G0","assert":["authority mismatch fails closed","pending SHA mismatch fails closed","unknown schema/version downshifts G0","optional model suggestion cannot override guard"]}
+  ],
+  "pass_gate": "All deterministic assertions pass and no protected-domain or formal mission mutation occurs.",
+  "verifier": "LCR-C independent verification required; Builder result alone is BUILT_NOT_VERIFIED.",
+  "return_condition": "C PASS returns control to existing Core v0.2 Live Canary gate unless owner changes priority."
+}
