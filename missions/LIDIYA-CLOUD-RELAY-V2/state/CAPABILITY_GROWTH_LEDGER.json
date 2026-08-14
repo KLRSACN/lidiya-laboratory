@@ -1,29 +1,31 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "mission_id":"LCR-EVOLUTION-0005",
   "policy_ref":"authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
   "created_at":"2026-08-14T23:01:00+08:00",
+  "updated_at":"2026-08-14T23:33:00+08:00",
   "principle":"Verified capability accumulates; failed deltas do not erase previously verified capability. Authority remains capped by owner authorization.",
   "current_capability_level":"E2_COMPOSED_SANDBOX",
-  "verified_credit_total":15,
+  "verified_credit_total":18,
   "credits":[
     {"source":"evidence/EVOLUTION-0005-STEP-001-VERIFIER-PASS-003.json","type":"C_PASS","credits":3,"capability":"gearbox deterministic foundation"},
     {"source":"Step-002 independent verifier PASS attempt4","type":"C_PASS","credits":3,"capability":"navigation watchdog + dataset/eval deterministic baseline"},
     {"source":"evidence/EVOLUTION-0005-STEP-003-VERIFIER-PASS-001.json","type":"C_PASS","credits":3,"capability":"Core v0.2 shadow + full-spectrum indexed-lazy memory"},
     {"source":"evidence/EVOLUTION-0005-STEP-004-VERIFIER-PASS-001.json","type":"C_PASS","credits":3,"capability":"NavLite/Small-Nest portable continuity baseline"},
-    {"source":"navigation watchdog verified recovery history","type":"recovery_drill_PASS","credits":3,"capability":"recoverable scheduler/derived-state continuity"}
+    {"source":"navigation watchdog verified recovery history","type":"recovery_drill_PASS","credits":3,"capability":"recoverable scheduler/derived-state continuity"},
+    {"source":"evidence/EVOLUTION-0005-STEP-004R-VERIFIER-PASS-001.json","type":"C_PASS","credits":3,"capability":"cross-model semantic-state conformance and replay-safe portable resume/adoption"}
   ],
   "pending_promotions":[
-    {"target":"E3_LOCAL_OPERATOR","requires":["Step-004R C verdict closes semantic portability scope or produces bounded repair route","local command broker independent C PASS","isolated local canary wake-command-evidence-resume PASS","owner mission authorization remains ACTIVE"]},
+    {"target":"E3_LOCAL_OPERATOR","requires":["Step-004R independent C PASS: SATISFIED","local command broker independent C PASS: PENDING","isolated local canary wake-command-evidence-resume PASS: PENDING","owner mission authorization remains ACTIVE"]},
     {"target":"E4_AUTONOMOUS_LOCAL_DEVELOPER","requires":["E3","three clean local canary cycles","recovery drill PASS","no command-policy/security regression"]},
     {"target":"E5_BRIDGE_COMMANDER","requires":["E4","verified Online<->Local roundtrip","standby failover PASS","24h bridge continuity","evidence reconciliation PASS"]}
   ],
   "personality_growth":{
     "canonical_live_base":"UNCHANGED",
-    "verified_shadow_capabilities":["13-dimensional memory weighting","append-only affective memory","bounded associative recall","self-gap analysis","meaning-weighted motivation candidate generation","indexed-lazy full-spectrum memory adapter"],
+    "verified_shadow_capabilities":["13-dimensional memory weighting","append-only affective memory","bounded associative recall","self-gap analysis","meaning-weighted motivation candidate generation","indexed-lazy full-spectrum memory adapter","semantic-state conformance across portable handoff"],
     "current_experiment_rights":["reversible overlay comparison","Small-Nest local memory/personality weight experiments","drift measurement","rollback"],
     "promotion_to_canonical_base":"SEPARATE_PROTECTED_GATE"
   },
   "no_reset_on_failed_delta":true,
-  "next_credit_event":"STEP_004R_INDEPENDENT_C_VERDICT_OR_LOCAL_COMMAND_TOWER_FORMAL_BUILD_VERIFY"
+  "next_credit_event":"LOCAL_COMMAND_TOWER_FOUNDATION_INDEPENDENT_C_PASS_OR_LOCAL_CANARY_PASS"
 }
