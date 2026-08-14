@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "candidate_id": "LQ-LCT-MIN-ARCH-20260814-001",
   "role": "LIDIYA-INNER-CORE-ARCHITECT",
   "formal_slot_effect": "NONE",
@@ -9,8 +9,16 @@
     "mission_step": 7,
     "mission_status": "STEP_DONE",
     "current_role": "LCR-A",
-    "pending_packet": "packets/EVOLUTION-0005-C-TO-A-STEP-007-INSTALL-RECONCILE-STANDBY-PASS-001.json",
-    "pending_sha256": "445a45212a48610886d496517c79ec086df5ef9d57bf65ffea2b23082e20f60f"
+    "pending_packet": null,
+    "pending_sha256": null,
+    "last_consumed_c_to_a_sha256": "445a45212a48610886d496517c79ec086df5ef9d57bf65ffea2b23082e20f60f"
+  },
+  "latest_verified_evidence": {
+    "step007_c_pass": "evidence/EVOLUTION-0005-STEP-007-INSTALL-RECONCILE-STANDBY-VERIFIER-PASS-001.json",
+    "verifier_owned_checks": 37,
+    "owner_machine_touched": false,
+    "standby_model_authority": "ADVISORY_ONLY_VERIFIED",
+    "real_owner_transport": "PENDING"
   },
   "next_hinge": "REAL_OWNER_WINDOWS_EXECUTION_PLUS_ONLINE_RECONCILIATION",
   "minimal_architecture_decisions": [
@@ -48,7 +56,7 @@
     },
     {
       "id": "D9_24H_SHORTEST_PATH",
-      "decision": "Do not expand Tower or train a model. After legal A receipt, the fastest bridge slice is fixed-root setup -> loopback health -> fixed harmless canary -> installation-bound local evidence bundle -> workspace-local outbox -> online source observation/reconciliation -> E3 candidate."
+      "decision": "Do not expand Tower or train a model. Step-007 formal receipt is already absorbed; the current shortest bridge slice is real owner Windows fixed-root install -> loopback health -> fixed harmless canary -> installation-bound local evidence bundle -> workspace-local outbox/return -> online source observation and reconciliation -> E3 candidate."
     }
   ],
   "bounded_veto": {
