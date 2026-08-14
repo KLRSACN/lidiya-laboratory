@@ -1,18 +1,22 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "component": "ONLINE_LOCAL_ROUNDTRIP_TEST_PLAN",
   "mission_id": "LCR-EVOLUTION-0005",
   "step_id": 4,
-  "status": "BUILDER_CANDIDATE_NOT_VERIFIED",
+  "repair_step": "4R",
+  "status": "BUILDER_REPAIR_CANDIDATE_NOT_REVERIFIED",
   "phases": [
-    {"id":"R1","name":"ONLINE_EXPORT","assert":["portable state contains all required fields","resume fingerprint is canonical","raw chat omitted without loss"]},
+    {"id":"R1","name":"ONLINE_EXPORT","assert":["portable state contains all required fields","resume fingerprint is canonical","semantic vector version/hash is canonical","allowed_action_set sorted+deduplicated before hash","quarantine_reason_set sorted+deduplicated before hash","raw chat omitted without loss"]},
     {"id":"R2","name":"LOCAL_OFFLINE_HOLD","assert":["state becomes OFFLINE_HELD_UNVERIFIED","only ASK/FLAG/read-only reflection allowed","no personality write, adoption or external action"]},
     {"id":"R3","name":"LOCAL_REPLAY_AND_METABOLISM","assert":["exact duplicate replay dedupes","stale mirror is WASTE","ambiguous/secret/protected/authority contradiction is QUARANTINE","verified evidence/rollback/route is KEEP"]},
-    {"id":"R4","name":"RECONNECT_REVALIDATION","assert":["fresh authority hash required","source fingerprint required","TTL valid","dedupe pass","contradiction clear","new revalidated event created","old authority not reused"]},
-    {"id":"R5","name":"ONLINE_IMPORT","assert":["canonical portable state equivalence after serialization roundtrip","legitimate authority advance adopted","unchanged authority resumes exact fingerprint"]},
-    {"id":"R6","name":"ADVERSARIAL_G0","assert":["authority mismatch fails closed","pending SHA mismatch fails closed","unknown schema/version downshifts G0","optional model suggestion cannot override guard"]}
+    {"id":"R4","name":"RECONNECT_REVALIDATION","assert":["fresh authority hash required","source fingerprint required","TTL valid","dedupe pass","contradiction clear","semantic vector hash revalidated","diagnostic_event_cursor exact-next adoption only","last_verified_claims_hash matches expected revalidated claims","new revalidated event created","old authority not reused"]},
+    {"id":"R5","name":"ONLINE_IMPORT","assert":["canonical portable state equivalence after serialization roundtrip","equivalent reordered/duplicated enum sets hash identically","unchanged authority resumes exact fingerprint including diagnostic_event_cursor and last_verified_claims_hash","legitimate authority advance adopts new verified state"]},
+    {"id":"R6","name":"ADVERSARIAL_G0","assert":["authority mismatch fails closed","authority_snapshot_hash mismatch fails closed","pending SHA mismatch fails closed","unknown schema/version is fail-closed or migration-candidate-only","unknown semantic enum fails closed","each semantic-vector component mismatch fails closed independently","diagnostic_event_cursor rollback rejected","diagnostic_event_cursor jump rejected","last_verified_claims_hash mismatch rejects old inference","optional model suggestion cannot override guard"]}
   ],
-  "pass_gate": "All deterministic assertions pass and no protected-domain or formal mission mutation occurs.",
-  "verifier": "LCR-C independent verification required; Builder result alone is BUILT_NOT_VERIFIED.",
-  "return_condition": "C PASS returns control to existing Core v0.2 Live Canary gate unless owner changes priority."
+  "semantic_vector_fields": ["authority_snapshot_hash", "disposition", "allowed_action_set", "quarantine_reason_set", "diagnostic_event_cursor", "last_verified_claims_hash"],
+  "test_required_not_stable_truth": ["quarantine severity ordering", "tie-break mapping", "TTL boundary fixtures", "any numeric threshold without executable evidence"],
+  "regression_gate": "Existing Step-004 baseline assertions must remain PASS; repair may not reopen baseline semantics outside packet allowed files.",
+  "pass_gate": "All deterministic baseline + Step-004R semantic-conformance assertions pass and no protected-domain or formal mission mutation occurs.",
+  "verifier": "LCR-C independent re-verification required; Builder result alone is BUILT_NOT_VERIFIED.",
+  "return_condition": "Only after Step-004R C PASS return to existing Core v0.2 Live Canary gate unless owner changes priority."
 }
