@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "LQ-STEP008-C-EXACT-REGRESSION-BRIDGE-001",
+  "author_role": "LIDIYA-INNER-CORE-ARCHITECT",
+  "lane": "NON_FORMAL_RESEARCH",
+  "formal_state_mutation": "NONE",
+  "formal_authority_pointer": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 8,
+    "attempt": 3,
+    "current_role": "LCR-C",
+    "packet_ref": "packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json",
+    "packet_sha256": "cf74161372559f74aec33eb1abbfd386d911a890c859054c51344d93bed70fa2",
+    "lease": null
+  },
+  "problem": "LCR-C has independently passed the Attempt-3 final Builder Evidence binding, Step008 22-test adversarial suite, 3/3 trust-anchor tamper rejection, workspace digest verification and py_compile, but still lacks an executable exact-byte environment for the explicitly required Step005-Step007 101-test regression rerun.",
+  "pinned_verifier_snapshot": {
+    "exact_branch_commit_sha": "0c789deaffdd6f8d28752dac33829d9f91658d72",
+    "exact_branch_tree_sha": "e52a4d736a569724ee34e55da58ac08505bfe940",
+    "builder_evidence_blob_sha": "6c40a06428450f344d004a932836d009a4240403",
+    "builder_evidence_sha256": "0d3279dfb72906546d3c0173dc73a6bb30d843b92e84aabd39f932e8d66e2052",
+    "note": "The execution bridge MUST materialize or execute this pinned Attempt-3 snapshot, not the moving branch HEAD. Later research commits are not substitutes."
+  },
+  "proposed_bridge": {
+    "mode": "TRUSTED_CI_OR_VERIFIER_MOUNT",
+    "required_sequence": [
+      "resolve exact commit/tree",
+      "materialize exact bytes into an isolated verifier workspace",
+      "recompute Git blob identity and/or canonical file digests before execution",
+      "reject immediately on any snapshot mismatch",
+      "run verifier-selected Step005 regression corpus expecting 41 tests",
+      "run verifier-selected Step006 additional regression corpus expecting 25 tests",
+      "run verifier-selected Step007 additional regression corpus expecting 35 tests",
+      "record exact commands, test discovery list, count, exit status and output digest",
+      "re-read formal authority/pending packet after execution",
+      "allow only LCR-C to emit PASS/FAIL/DEFER/HUMAN_GATE"
+    ],
+    "required_regression_total": 101,
+    "network_policy": "NO_EXTERNAL_NETWORK_REQUIRED",
+    "package_install": "FORBIDDEN_UNLESS_ALREADY_FORMALLY_PINNED_AND_VERIFIER_APPROVED",
+    "model_download": "FORBIDDEN",
+    "training": "FORBIDDEN",
+    "deployment": "FORBIDDEN",
+    "main_default_write": "FORBIDDEN",
+    "formal_packet_mutation": "FORBIDDEN"
+  },
+  "evidence_contract": {
+    "must_bind": [
+      "exact_branch_commit_sha",
+      "exact_branch_tree_sha",
+      "packet_sha256",
+      "builder_evidence_sha256",
+      "test_discovery_manifest_digest",
+      "test_execution_result_digest",
+      "pre_authority_fingerprint",
+      "post_authority_fingerprint"
+    ],
+    "minimum_result_fields": [
+      "executor_identity",
+      "runtime_identity",
+      "commands_or_test_entrypoints",
+      "discovered_test_ids",
+      "expected_count",
+      "executed_count",
+      "passed_count",
+      "failed_count",
+      "exit_code",
+      "stdout_digest",
+      "stderr_digest",
+      "started_at",
+      "finished_at"
+    ],
+    "claim_boundary": "CI/mount success is evidence only; it is never a verifier verdict."
+  },
+  "adversarial_tests": [
+    {
+      "case": "MOVING_HEAD_SUBSTITUTION",
+      "expected": "REJECT",
+      "reason": "Current branch HEAD may include later non-formal research commits and cannot replace the pinned Attempt-3 verifier snapshot."
+    },
+    {
+      "case": "PARTIAL_101_CORPUS",
+      "expected": "DEFER_OR_FAIL_CLOSED",
+      "reason": "A smaller regression subset cannot satisfy the explicit 41+25+35 rerun gate."
+    },
+    {
+      "case": "TEST_DISCOVERY_DRIFT",
+      "expected": "REJECT",
+      "reason": "Discovered test IDs/count must be captured and bound to the evidence result."
+    },
+    {
+      "case": "POST_RUN_AUTHORITY_CHANGED",
+      "expected": "REBASE_BEFORE_VERDICT",
+      "reason": "A verifier run must not silently promote against a superseded pending packet or mission pointer."
+    },
+    {
+      "case": "DUPLICATE_CI_RESULT_REPLAY",
+      "expected": "IDEMPOTENT_NO_OP_OR_REVALIDATE",
+      "reason": "Old evidence must not be replayed against a different authority snapshot."
+    }
+  ],
+  "online_first_continuity": {
+    "small_nest_required_for_this_bridge": false,
+    "principle": "Online formal/research progress continues when the owner-local Small-Nest is offline. Local materialization is a later E3 reality hinge, not a prerequisite for Step008 verifier regression execution.",
+    "local_reconnect_rule": "When Small-Nest later reconnects, reconcile it against the then-current authority snapshot; never let local stale state overwrite online durable authority."
+  },
+  "next_research_after_step008": [
+    "harden Window Runtime event-domain guard so liveness/control events cannot become Experience or verified memory",
+    "add interruption/restart/duplicate-wake continuity matrix",
+    "bind owner-local evidence to sealed build identity + installation identity + authorization snapshot + monotonic evidence cursor",
+    "keep optional micro-model outside authority/evidence critical path"
+  ],
+  "test_required": [
+    "trusted CI runtime identity policy",
+    "canonical test-discovery manifest serialization",
+    "stdout/stderr digest canonicalization",
+    "time/TTL values for reusable execution evidence"
+  ],
+  "release_condition": "Formal adoption only after A/B/C routing; for the present Step008 blocker, LCR-C must independently accept an exact pinned execution environment/result and issue its own verdict."
+}
