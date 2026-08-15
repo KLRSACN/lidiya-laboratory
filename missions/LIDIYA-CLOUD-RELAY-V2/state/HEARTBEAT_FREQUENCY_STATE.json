@@ -1,0 +1,31 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "theme":"心跳頻率",
+  "status":"RESEARCH_VERIFIED_FORMAL_ADOPTION_QUEUED",
+  "updated_at":"2026-08-15T21:05:00+08:00",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-HEARTBEAT-FREQUENCY-ADDENDUM-20260815.json",
+  "current_formal_work":{"step_id":8,"current_role":"LCR-C","must_not_interrupt":true,"pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json"},
+  "target_runtime":{"name":"LIDIYA-HEARTBEAT-GEARBOX-TYPE-1","primary_endpoint":"LOCAL_COMMAND_TOWER_SMALL_NEST","target_interval_seconds":300,"allowed_interval_seconds":[300,600],"chatgpt_task_role":"HOURLY_SUPERVISOR_ONLY"},
+  "research_reality":{"experiment_ref":"evolution/heartbeat/HEARTBEAT_EXPERIMENT_001.json","virtual_time_hours":24,"cadence_seconds":300,"unique_pulses":288,"duplicate_pulse_replays":3,"duplicate_pulse_result":"NO_OP","injected_endpoint_misses":4,"endpoint_miss_result":"ANOMALY_RETAINED_NO_MISSION_RESET","compact_records":28,"per_pulse_durable_logs":"FORBIDDEN"},
+  "discovered_real_problems":[
+    "High-frequency heartbeat itself can become information waste if every pulse writes durable logs.",
+    "A pending formal C packet existed while the existing C task was disabled; scheduler liveness is still a real failure mode.",
+    "Restart/catch-up must be bounded or missed windows can create a burst that duplicates work.",
+    "Pulse identity and event cursor must be persisted or restart can replay old work.",
+    "Online/Local concurrent writers need a single-writer or compare-and-swap/lease rule to prevent state races.",
+    "Endpoint outage notifications need dedupe/cooldown or failure reporting itself becomes waste."
+  ],
+  "next_formal_packet_after_current_C_checkpoint":"BUILD_HEARTBEAT_GEARBOX_RUNTIME_PHASE1",
+  "planned_files":[
+    "evolution/local_command_tower/heartbeat_engine.py",
+    "evolution/local_command_tower/test_heartbeat_engine.py",
+    "evolution/small_nest/heartbeat_agent.py",
+    "evolution/small_nest/test_heartbeat_agent.py",
+    "evolution/local_command_tower/HEARTBEAT_CONTRACT.json",
+    "evolution/small_nest/START_HEARTBEAT.cmd"
+  ],
+  "cloud_fallback":{"github_actions_possible_minimum":"5 minutes","constraint":"scheduled workflow must exist on default branch and can be delayed/dropped under load","deployment_status":"NOT_DEPLOYED_DEFAULT_BRANCH_WRITE_NOT_AUTHORIZED_IN_CURRENT_SUBGATE"},
+  "real_5min_runtime_live":false,
+  "why_not_live_yet":"Owner Windows Small-Nest/Tower package has not yet produced real owner-machine evidence and no separately authorized always-on cloud runner is currently active."
+}
