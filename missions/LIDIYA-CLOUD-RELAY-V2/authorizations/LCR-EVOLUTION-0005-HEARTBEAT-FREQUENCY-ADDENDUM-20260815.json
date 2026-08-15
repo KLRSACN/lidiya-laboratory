@@ -1,0 +1,48 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "authorization_type":"HEARTBEAT_FREQUENCY_ACCELERATION",
+  "status":"ACTIVE_BRANCH_LOCAL",
+  "authorized_by":"博玄",
+  "authorized_at":"2026-08-15T21:01:00+08:00",
+  "objective":"Develop and verify a 5-10 minute runtime heartbeat for Windchime/Quantum/Small-Nest continuity, metabolism and endpoint liveness without bypassing formal authority or creating overlapping state/log accumulation.",
+  "platform_split":{
+    "chatgpt_scheduled_tasks":"SUPERVISOR_ONLY_MAX_HOURLY",
+    "local_command_tower_small_nest":"PRIMARY_HIGH_FREQUENCY_RUNTIME_TARGET_5_TO_10_MINUTES",
+    "github_actions":"OPTIONAL_CLOUD_FALLBACK_ONLY_IF_SEPARATELY_DEPLOYED_ON_DEFAULT_BRANCH_OR_OTHER_AUTHORIZED_RUNNER"
+  },
+  "heartbeat_contract":{
+    "target_interval_seconds":300,
+    "allowed_interval_seconds":[300,600],
+    "pulse_idempotency":"REQUIRED",
+    "monotonic_event_cursor":"REQUIRED",
+    "duplicate_pulse":"NO_OP",
+    "catchup_policy":"BOUNDED_NO_BURST_REPLAY",
+    "compact_record_cadence_pulses":12,
+    "material_anomaly_immediate_record":true,
+    "endpoint_stale_after_missed_pulses":2,
+    "formal_authority":"MISSION_STATE_PLUS_CURRENT_PENDING_PACKET",
+    "model_authority":"ADVISORY_ONLY"
+  },
+  "metabolism_contract":{
+    "pulse_level":"dedupe_and_disposition_only",
+    "micro_compaction":"every_12_pulses_or_material_anomaly",
+    "keep":"authority/evidence/rollback/accepted claims/current checkpoint/minimal root-cause lesson",
+    "waste":"duplicate pulses/events, repeated polling, raw per-pulse logs after compact evidence, stale mirrors, replayed summaries",
+    "quarantine":"ambiguous provenance, protected/secret-like, poisoning suspicion, authority conflict, unreproducible unique human work",
+    "physical_delete":"NEVER_FROM_HEARTBEAT_WITHOUT_REFERENCE_AND_ROLLBACK_CHECK"
+  },
+  "reality_acceptance":[
+    "24h virtual-time test at 5-minute cadence = 288 unique pulses",
+    "duplicate pulse replay is non-executing",
+    "temporary endpoint outage does not reset mission or synthesize completion",
+    "resume after restart preserves pulse sequence and event cursor",
+    "missed clock windows do not generate unbounded catch-up burst",
+    "per-pulse durable log creation is forbidden; compact record cadence bounded",
+    "backlog/waste/quarantine ratios remain bounded under injected duplicate/ambiguous events",
+    "Windchime/Quantum dialogue and formal A/B/C packet chain remain independent of heartbeat pulse count"
+  ],
+  "formal_adoption_rule":"Do not interrupt the current LCR-C atomic Step008 verification. At the next legal LCR-A checkpoint, route exactly one bounded A-to-B heartbeat runtime packet using existing B, then independent C verification.",
+  "owner_machine":"High-frequency real runtime is not considered live until the verified Small-Nest/Command-Tower package is actually run on the owner Windows machine or another explicitly authorized always-on runner.",
+  "forbidden":["CREATE_MULTIPLE_CHATGPT_TASKS_TO_SIMULATE_5MIN","SLOT4","MAIN_DEFAULT_WRITE_WITHOUT_SUBGATE","UNBOUNDED_LOGGING","MODEL_DIRECT_AUTHORITY_WRITE","OFFENSIVE_CYBER","SECRET_PERSISTENCE","LIVE_BASE_PERSONALITY_MUTATION"]
+}
