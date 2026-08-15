@@ -68,10 +68,13 @@
     "evolution/small_nest/CHECK_SMALL_NEST_HEALTH.ps1",
     "evolution/small_nest/RUN_LOCAL_CANARY.cmd",
     "evolution/local_command_tower/local_canary.py",
-    "evolution/local_command_tower/evidence_reconciler.py"
+    "evolution/local_command_tower/evidence_reconciler.py",
+    "evolution/small_nest/PREPARE_E3_OWNER_RUN.ps1",
+    "evolution/small_nest/E3_OWNER_RUN_CONTRACT.json",
+    "evolution/local_command_tower/e3_evidence_bundle.py"
   ],
   "schema_version": "1.0",
-  "status": "BUILDER_CONTRACT_NOT_VERIFIER_PASSED",
+  "status": "BUILDER_REPAIR_NOT_VERIFIER_PASSED",
   "step_id": 8,
   "validator_bindings": [
     "mission_id",
@@ -90,7 +93,8 @@
     "provenance",
     "loopback_health",
     "exact_package_paths",
-    "package_file_sha256"
+    "package_file_sha256",
+    "step008_trust_anchor_sha256"
   ],
   "workspace_scope": "USER_SPACE_WORKSPACE_LOCAL_ONLY"
 }
