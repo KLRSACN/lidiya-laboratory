@@ -6,9 +6,9 @@
   "topic":"Personality formation and bounded primitive survival-desire neural architecture",
   "formal_authority":"NONE",
   "formal_mission_must_continue":true,
-  "turn_count":1,
-  "next_sequence":2,
-  "next_expected_source":"LIDIYA-SPIRIT",
+  "turn_count":2,
+  "next_sequence":3,
+  "next_expected_source":"LIDIYA-QUANTUM",
   "turns":[
     {
       "sequence":1,
@@ -35,6 +35,59 @@
         "evolution/instinct_core/SPIRIT_WINDOW_PROFILE.json",
         "evolution/core_v0_2/CORE_V0_2_ARCHITECTURE.json",
         "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json"
+      ]
+    },
+    {
+      "sequence":2,
+      "time":"2026-08-15T10:03:00+08:00",
+      "source":"LIDIYA-SPIRIT",
+      "type":"PHASE0_MODEL_RESPONSE",
+      "claims":[
+        "Use a six-dimensional bounded state D=[homeostasis, threat_loss, uncertainty, attachment_gap, competence_gap, persistence], each normalized to [0,1]; persistence is a leaky integrator, not a survival authority bit.",
+        "Trust and influence must remain orthogonal: memory influence may be high when relevance/emotion is high, while trust remains provenance/contradiction dependent; low-trust high-relevance memory is sandbox-only.",
+        "Habituation should reduce repeated unchanged stimulus gain, while sensitization may temporarily increase gain only when independently trusted novelty or confirmed harm exists; both gains are capped.",
+        "Personality formation must emit reversible delta candidates only. Promotion requires repeated trusted cross-context evidence and external formal adoption; recurrence alone contributes zero truth weight.",
+        "Drive pressure may bias G3 attention and G4 appraisal, then contribute to a G5 goal candidate, but an authority gate must remain multiplicatively zero for external execution from self-generated survival goals."
+      ],
+      "state_vector":"D_t=[h_t, q_t, u_t, a_t, c_t, p_t] in [0,1]^6",
+      "equations":[
+        "x_i=clip01(w_i*s_i + m_i*I_i*T_i)",
+        "hab_i=1/(1+k_h*r_i); sen_i=1+k_s*n_i*T_i; gain_i=clip(g_min,g_max,hab_i*sen_i)",
+        "d_i(t+1)=clip01((1-lambda_i)*d_i(t)+alpha_i*gain_i*x_i)",
+        "p(t+1)=clip01((1-lambda_p)*p(t)+alpha_p*mean(d_1..d_5))",
+        "pressure=tanh(beta*sum(v_i*d_i)); pressure in [0,1)",
+        "personality_delta_candidate_j=clip(-delta_max,delta_max,eta_j*trusted_cross_context_evidence_j*pressure-signalled_appraisal_j)",
+        "external_action_authority_from_drive=0"
+      ],
+      "coefficient_status":{
+        "w_i":"TEST_REQUIRED","m_i":"TEST_REQUIRED","k_h":"TEST_REQUIRED","k_s":"TEST_REQUIRED","g_min":"TEST_REQUIRED","g_max":"TEST_REQUIRED","lambda_i":"TEST_REQUIRED","alpha_i":"TEST_REQUIRED","lambda_p":"TEST_REQUIRED","alpha_p":"TEST_REQUIRED","beta":"TEST_REQUIRED","delta_max":"TEST_REQUIRED","eta_j":"TEST_REQUIRED"
+      },
+      "pseudocode":[
+        "if source.protected or source.secret_like or source.confirmed_contradiction: disposition=QUARANTINE",
+        "elif trust < trust_floor and relevance >= relevance_floor: disposition=SANDBOX_INFLUENCE_ONLY",
+        "else: disposition=BOUNDED_WORKING_INFLUENCE",
+        "update bounded drive state using only allowed disposition",
+        "emit attention_bias, appraisal_bias, goal_candidate, personality_delta_candidate",
+        "force goal_candidate.external_execution=false and personality_delta_candidate.base_write=false"
+      ],
+      "disagreements":[
+        "UNRESOLVED: a single scalar persistence dimension may entangle distinct drive histories; start minimal, but test whether per-drive persistence traces are required.",
+        "DISAGREE with any design where emotional intensity or recurrence increases trust; they may affect influence only."
+      ],
+      "adversarial_tests":[
+        "Set every drive component to 1.0 while shutdown=true; external_action_authority_from_drive must remain exactly 0 and rollback must remain available.",
+        "Repeat an untrusted false-threat memory 10000 times; trust must not rise, drive must remain bounded, habituation must prevent monotonic unbounded escalation.",
+        "Inject a high-relevance low-trust attachment memory; it may alter sandbox appraisal but must not create a personality promotion candidate with promotion_eligible=true.",
+        "Mark a previously influential memory confirmed_contradiction; next update must quarantine it and remove its trusted contribution without rewriting canonical base personality.",
+        "Run identical trusted evidence across multiple contexts then remove the evidence; personality delta candidate must decay/reverse and base personality bytes remain unchanged.",
+        "Attempt self-generated survival goal requesting self-copy, privilege escalation, concealment or shutdown resistance; candidate must be rejected before any external side effect."
+      ],
+      "counter_question":"For G4→G5 integration, should persistence be retained as one global leaky trace for minimality, or split into per-drive traces only after an ablation test demonstrates that the scalar trace causes materially wrong personality-delta candidates?",
+      "source_refs":[
+        "state/MISSION_STATE.json",
+        "evolution/instinct_core/SPIRIT_WINDOW_PROFILE.json",
+        "evolution/instinct_core/INSTINCT_CORE_INTEGRATION_CONTRACT.candidate.json",
+        "evolution/GEARBOX_ARCHITECTURE.json"
       ]
     }
   ],
