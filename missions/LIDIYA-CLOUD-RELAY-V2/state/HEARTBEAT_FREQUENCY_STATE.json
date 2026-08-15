@@ -1,30 +1,26 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "mission_id":"LCR-EVOLUTION-0005",
   "theme":"心跳頻率",
   "status":"RESEARCH_VERIFIED_FORMAL_ADOPTION_QUEUED",
-  "updated_at":"2026-08-15T21:05:00+08:00",
+  "updated_at":"2026-08-15T21:09:00+08:00",
   "authorization_ref":"authorizations/LCR-EVOLUTION-0005-HEARTBEAT-FREQUENCY-ADDENDUM-20260815.json",
   "current_formal_work":{"step_id":8,"current_role":"LCR-C","must_not_interrupt":true,"pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json"},
   "target_runtime":{"name":"LIDIYA-HEARTBEAT-GEARBOX-TYPE-1","primary_endpoint":"LOCAL_COMMAND_TOWER_SMALL_NEST","target_interval_seconds":300,"allowed_interval_seconds":[300,600],"chatgpt_task_role":"HOURLY_SUPERVISOR_ONLY"},
-  "research_reality":{"experiment_ref":"evolution/heartbeat/HEARTBEAT_EXPERIMENT_001.json","virtual_time_hours":24,"cadence_seconds":300,"unique_pulses":288,"duplicate_pulse_replays":3,"duplicate_pulse_result":"NO_OP","injected_endpoint_misses":4,"endpoint_miss_result":"ANOMALY_RETAINED_NO_MISSION_RESET","compact_records":28,"per_pulse_durable_logs":"FORBIDDEN"},
+  "research_reality":{"experiment_ref":"evolution/heartbeat/HEARTBEAT_EXPERIMENT_001.json","virtual_time_hours":24,"cadence_seconds":300,"unique_pulses":288,"duplicate_pulse_replays":3,"duplicate_pulse_result":"NO_OP","injected_endpoint_misses":4,"endpoint_miss_result":"ANOMALY_RETAINED_NO_MISSION_RESET","compact_records":28,"per_pulse_durable_logs":"FORBIDDEN","personality_pollution_bug_found":true},
+  "personality_source_review":{"core_ref":"evolution/core_v0_2/CORE_V0_2_ARCHITECTURE.json","gearbox_ref":"evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json","compatible_invariants":["memory weights remain multidimensional","recurrence is not identity","base personality direct mutation forbidden","G3 memory retrieval is provenance-bounded and recurrence alone cannot dominate identity/meaning","G4 reflection is proposal-only and live core remains unchanged","G5 generated goal remains proposal until routed"],"heartbeat_extension":"runtime liveness/control vectors are a separate domain and must never count as memory/personality evidence"},
+  "personality_pollution_test":{"one_real_event_plus_288_pulses":{"naive_recurrence":289,"correct_recurrence":1,"example_recurrence_sat_naive":1.0,"example_recurrence_sat_correct":0.117503,"verdict":"FAIL_NAIVE_DESIGN"},"hard_rule":"HEARTBEAT_PULSE_IS_NOT_EXPERIENCE","allowed_heartbeat_personality_effects":["advance TTL/decay using monotonic time","advance bounded transient influence timer","advance reversible overlay TTL","observe drift","request quarantine/downshift"],"forbidden_heartbeat_personality_effects":["increment recurrence","increment emotion weight","increment self/identity relevance","increment verified_count","change P_base","create promotion evidence"]},
   "discovered_real_problems":[
     "High-frequency heartbeat itself can become information waste if every pulse writes durable logs.",
-    "A pending formal C packet existed while the existing C task was disabled; scheduler liveness is still a real failure mode.",
+    "A pending formal C packet existed while the existing C task was disabled; scheduler liveness is still a real failure mode. The same existing C task was re-enabled; no new slot was created.",
     "Restart/catch-up must be bounded or missed windows can create a burst that duplicates work.",
     "Pulse identity and event cursor must be persisted or restart can replay old work.",
     "Online/Local concurrent writers need a single-writer or compare-and-swap/lease rule to prevent state races.",
-    "Endpoint outage notifications need dedupe/cooldown or failure reporting itself becomes waste."
+    "Endpoint outage notifications need dedupe/cooldown or failure reporting itself becomes waste.",
+    "Heartbeat count must be isolated from experience recurrence or high-frequency liveness will corrupt memory/personality weights."
   ],
   "next_formal_packet_after_current_C_checkpoint":"BUILD_HEARTBEAT_GEARBOX_RUNTIME_PHASE1",
-  "planned_files":[
-    "evolution/local_command_tower/heartbeat_engine.py",
-    "evolution/local_command_tower/test_heartbeat_engine.py",
-    "evolution/small_nest/heartbeat_agent.py",
-    "evolution/small_nest/test_heartbeat_agent.py",
-    "evolution/local_command_tower/HEARTBEAT_CONTRACT.json",
-    "evolution/small_nest/START_HEARTBEAT.cmd"
-  ],
+  "planned_files":["evolution/local_command_tower/heartbeat_engine.py","evolution/local_command_tower/test_heartbeat_engine.py","evolution/small_nest/heartbeat_agent.py","evolution/small_nest/test_heartbeat_agent.py","evolution/local_command_tower/HEARTBEAT_CONTRACT.json","evolution/small_nest/START_HEARTBEAT.cmd"],
   "cloud_fallback":{"github_actions_possible_minimum":"5 minutes","constraint":"scheduled workflow must exist on default branch and can be delayed/dropped under load","deployment_status":"NOT_DEPLOYED_DEFAULT_BRANCH_WRITE_NOT_AUTHORIZED_IN_CURRENT_SUBGATE"},
   "real_5min_runtime_live":false,
   "why_not_live_yet":"Owner Windows Small-Nest/Tower package has not yet produced real owner-machine evidence and no separately authorized always-on cloud runner is currently active."
