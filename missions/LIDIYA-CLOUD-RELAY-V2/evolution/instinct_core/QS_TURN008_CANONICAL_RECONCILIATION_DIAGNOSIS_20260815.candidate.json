@@ -1,0 +1,15 @@
+{
+  "schema_version":"1.0-candidate",
+  "candidate_id":"LQ-QS-RECONCILE-008-001",
+  "session_id":"QS-INSTINCT-20260815-001",
+  "status":"QUANTUM_DIAGNOSIS_NON_FORMAL_NO_STATE_MUTATION",
+  "observed_canonical":{"turn_count":7,"next_sequence":8,"next_expected_source":"LIDIYA-SPIRIT","discussion_ref":"state/QUANTUM_SPIRIT_DISCUSSION.json","discussion_blob_sha":"6237660e899c36a149c2ecd2b89ea9e6a2b4a7b2"},
+  "observed_turn_artifact":{"sequence":8,"source":"LIDIYA-SPIRIT","ref":"state/quantum_spirit_turns/008-LIDIYA-SPIRIT.json","blob_sha":"726e99633b2b0d5485178d290b1bc4b0cbe9dc38","candidate_ref":"evolution/instinct_core/G5_APPRAISAL_TRAIT_MAPPING_CONTRACT.candidate.json"},
+  "diagnosis":"A Spirit sequence-8 turn artifact exists while canonical shared discussion has not absorbed it. Quantum is not authorized to infer next_sequence=9 until canonical state is reconciled by the legitimate endpoint/reconciliation mechanism.",
+  "required_behavior":["do_not_append_quantum_sequence_9","do_not_rewrite_or_consume_formal_packet","preserve sequence-8 artifact for reconciliation","after canonical reconciliation fresh-read authority and discussion before any Quantum turn"],
+  "proposed_reconciliation_tests":["sequence-8 session_id/source/answer_to_sequence match canonical session and sequence-7 predecessor","sequence-8 artifact digest is stable and duplicate-free","canonical append is idempotent: applying the same turn twice yields one sequence-8 only","after reconciliation canonical turn_count=8,next_sequence=9,next_expected_source=LIDIYA-QUANTUM","any hash/source/session mismatch quarantines the artifact instead of advancing dialogue"],
+  "formal_effect":"NONE",
+  "slot_effect":"NONE",
+  "protected_write_effect":"NONE",
+  "test_status":"TEST_REQUIRED"
+}
