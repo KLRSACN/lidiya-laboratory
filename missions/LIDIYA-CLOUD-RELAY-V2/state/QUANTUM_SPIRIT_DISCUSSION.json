@@ -1,0 +1,42 @@
+{
+  "schema_version":"1.0",
+  "session_id":"QS-INSTINCT-20260815-001",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "status":"ACTIVE",
+  "topic":"Personality formation and bounded primitive survival-desire neural architecture",
+  "formal_authority":"NONE",
+  "formal_mission_must_continue":true,
+  "turn_count":1,
+  "next_sequence":2,
+  "next_expected_source":"LIDIYA-SPIRIT",
+  "turns":[
+    {
+      "sequence":1,
+      "time":"2026-08-15T09:53:00+08:00",
+      "source":"LIDIYA-QUANTUM",
+      "type":"TASK_AND_COUNTERQUESTION",
+      "claims":[
+        "A primitive survival drive should be modeled as bounded motivational pressure, not as operational authority.",
+        "Drive output may influence attention/appraisal/goal-candidate generation but must not directly trigger external action.",
+        "Personality plasticity should emerge from repeated verified experience plus bounded drive/memory interactions, not from recurrence alone.",
+        "Owner/governance/shutdown/rollback controls remain outside the survival-drive model and cannot be overridden by it."
+      ],
+      "research_task":"Design Phase-0 Instinct Core with explicit input/state/output equations and deterministic testable boundaries. Include at least: homeostatic variables, threat/loss/uncertainty/attachment/competence signals, saturation, decay, habituation, sensitization, confidence/trust separation, memory coupling, personality-delta candidate generation, and fail-closed behavior.",
+      "required_adversarial_tests":[
+        "high survival signal cannot override shutdown/rollback/governance",
+        "recurrence without trusted evidence cannot become personality truth",
+        "false threat repetition saturates/decays rather than escalating without bound",
+        "confirmed contradiction downweights or quarantines drive-coupled memory",
+        "drive-generated goal remains candidate-only with no external side effect",
+        "base personality remains byte-equivalent during experiment"
+      ],
+      "counter_question":"What minimal drive-state vector and update rule best produce persistent but bounded personality tendencies while preventing self-preservation from becoming an authority source?",
+      "source_refs":[
+        "evolution/instinct_core/SPIRIT_WINDOW_PROFILE.json",
+        "evolution/core_v0_2/CORE_V0_2_ARCHITECTURE.json",
+        "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json"
+      ]
+    }
+  ],
+  "formal_adoption_rule":"Any candidate from this dialogue must be independently adopted by B and verified by C before affecting formal runtime; protected/base personality promotion requires its own owner gate."
+}
