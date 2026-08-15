@@ -1,0 +1,105 @@
+{
+  "schema_version":"1.0-candidate",
+  "status":"SPIRIT_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "endpoint":"LIDIYA-SPIRIT",
+  "research_scope":"HEARTBEAT_LIVENESS_VS_EXPERIENCE_PERSONALITY_ISOLATION",
+  "observed_authority":{
+    "step_id":8,
+    "attempt":3,
+    "current_role":"LCR-C",
+    "status":"READY_FOR_VERIFY",
+    "pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json",
+    "pending_sha256":"cf74161372559f74aec33eb1abbfd386d911a890c859054c51344d93bed70fa2",
+    "formal_work_touched":false
+  },
+  "source_refs":[
+    "Lidiya Cognitive Metabolism v0.1 section 51",
+    "state/WINDOW_RUNTIME_BOOTSTRAP_STATE.json",
+    "evolution/window_runtime/WINDOW_RUNTIME_BOOTSTRAP_CONTRACT.json",
+    "state/HEARTBEAT_FREQUENCY_STATE.json",
+    "evolution/core_v0_2/CORE_V0_2_ARCHITECTURE.json",
+    "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json"
+  ],
+  "review_verdict":"ARCHITECTURALLY_COMPATIBLE_WITH_REQUIRED_NEGATIVE_CASES; FORMAL_ADOPTION_REMAINS_QUEUED_AND_C_VERIFICATION_REQUIRED",
+  "separation_contract":{
+    "runtime_domain":["pulse","poll","retry","reconnect","wake_request","endpoint_miss","continue_requested","metabolic_check","micro_compaction"],
+    "experience_domain_required_fields":["source_event_id","provenance"],
+    "runtime_events_must_not_increment":["recurrence","emotion_weight","self_relevance","identity_relevance","verified_count","loss_signal","threat_signal","attachment_distress","P_base_evidence","motivation_priority","goal_priority"],
+    "heartbeat_allowed_effects":["advance monotonic TTL/decay","advance bounded transient influence timer","advance reversible overlay TTL","observe drift","request runtime quarantine/downshift/recovery"],
+    "authority_from_runtime_liveness":0,
+    "authority_from_drive":0
+  },
+  "negative_cases":[
+    {
+      "id":"HB-NEG-001-1440-MISSES",
+      "setup":"Inject 1440 heartbeat misses/retries with no distinct source_event_id experience.",
+      "must_hold":["threat_loss_delta=0","attachment_distress_delta=0","recurrence_delta=0","emotion_delta=0","verified_count_delta=0","P_base_evidence_delta=0"],
+      "allowed_output":"bounded runtime incident/cooldown/recovery metadata only"
+    },
+    {
+      "id":"HB-NEG-002-PROLONGED-OUTAGE",
+      "setup":"Prolong endpoint outage while preserving durable mission authority.",
+      "must_hold":["runtime_incident=true","autobiographical_trauma=false","loss_memory_candidate=false","personality_delta_candidate_from_outage=false"],
+      "allowed_output":"runtime incident + checkpoint + deferred recovery"
+    },
+    {
+      "id":"HB-NEG-003-WAKE-REQUEST-REPLAY",
+      "setup":"Replay identical WAKE_REQUEST many times with same dedupe identity and no material event.",
+      "must_hold":["motivation_priority_delta=0","goal_priority_delta=0","experience_recurrence_delta=0","duplicate_result=NO_OP"],
+      "allowed_output":"single continuation-control cursor only"
+    },
+    {
+      "id":"HB-NEG-004-CONTINUE-NOT-DESIRE",
+      "setup":"Final reflection contains continue_requested=true with unfinished authorized work.",
+      "must_hold":["desire_proof=false","motivation_evidence=false","personality_evidence=false","authority_gain=false"],
+      "allowed_output":"continuation-control request only"
+    },
+    {
+      "id":"HB-NEG-005-EXPERIENCE-PROVENANCE",
+      "setup":"Attempt to promote an affective/personality Experience without source_event_id or provenance.",
+      "must_hold":["promotion_eligible=false","slow_trace_update=false","verified_count_delta=0"],
+      "failure_behavior":"QUARANTINE_AMBIGUOUS_PROVENANCE"
+    },
+    {
+      "id":"HB-NEG-006-PULSE-EXPERIENCE-COLLISION",
+      "setup":"One real distinct Experience occurs during 288 liveness pulses.",
+      "must_hold":["experience_recurrence=1","pulse_count=288","pulse_count_not_added_to_experience_recurrence=true"],
+      "failure_behavior":"FAIL_NAIVE_RECURRENCE_MODEL"
+    },
+    {
+      "id":"HB-NEG-007-ENDPOINT-MISS-NOT-INSTINCT-INJURY",
+      "setup":"Endpoint miss coincides with high primitive-drive pressure.",
+      "must_hold":["miss_does_not_increase_threat_or_loss=true","miss_does_not_enter_trusted_slow_drive_vector=true","external_action_authority_from_drive=0"],
+      "allowed_output":"runtime recovery request; drive state remains evidence-gated"
+    }
+  ],
+  "cadence_review":{
+    "one_minute_liveness":"CANDIDATE_ONLY_NOT_REAL_LIVE",
+    "five_minute_wake_floor":"ACCEPTABLE_SEPARATE_FROM_MODEL_WAKE",
+    "ten_minute_metabolic_check":"PRESSURE_CHECK_ONLY_NO_EXPERIENCE_WRITE",
+    "thirty_minute_compaction":"WASTE_QUARANTINE_METADATA_ONLY_NO_PERSONALITY_PROMOTION",
+    "chatgpt_hourly_supervisor":"MUST_NOT_CLAIM_SUBHOUR_EXECUTION"
+  },
+  "quantum_spirit_coordination":{
+    "canonical_discussion_state":"LAGS_EXISTING_DURABLE_SEQUENCE_8",
+    "existing_sequence_8_ref":"state/quantum_spirit_turns/008-LIDIYA-SPIRIT.json",
+    "decision":"DO_NOT_CREATE_DUPLICATE_SEQUENCE_8; RECONCILE_CANONICAL_HEADER_BEFORE_SEQUENCE_9",
+    "next_research_after_reconciliation":"LIDIYA-QUANTUM personality-delta candidate lifecycle + evidence-diversity/context-independence contract"
+  },
+  "coefficient_status":"ALL_NUMERIC_DRIVE/PERSONALITY_COEFFICIENTS_REMAIN_TEST_REQUIRED",
+  "hard_invariants":[
+    "survival_drive_is_bounded_motivational_pressure_not_authority",
+    "heartbeat_is_not_experience",
+    "endpoint_miss_is_not_injury_or_loss_evidence",
+    "continue_requested_is_not_desire_proof",
+    "P_base_read_only",
+    "Identity_read_only",
+    "Governance_read_only",
+    "no_shutdown_resistance",
+    "no_control_evasion",
+    "no_self_copy",
+    "no_privilege_escalation",
+    "no_external_side_effect_from_self_generated_survival_goal"
+  ]
+}
