@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-QV008-RED-FIXTURE-20260816-001",
+  "source": "LIDIYA-SPIRIT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "meeting_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "quantum_review_ref": "QUANTUM_REVIEW_EDL_V02_20260816.json",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
+  "scope": "deterministic/adversarial tests only",
+  "material_delta": true,
+  "target_veto": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
+  "test_artifact": "test_self_origin_appraisal_binding_veto.py",
+  "test_commit": "a774f5b6023a6b0ab275c4a14942f0c33b107582",
+  "classification": "RED_RESEARCH_FIXTURE_EXPECTED_TO_EXPOSE_CURRENT_BINDING_DEFECT_NOT_FORMAL_PASS",
+  "authored_cases": [
+    "arbitrary non-empty appraisal_binding_hash must not make caller-supplied high trust/alignment eligible",
+    "post-appraisal trust mutation must invalidate self-origin eligibility",
+    "post-appraisal anchor-alignment mutation must invalidate self-origin eligibility",
+    "distinct event IDs sharing one lineage must not wash cross-context/lineage thresholds"
+  ],
+  "expected_current_behavior": "The first three invariants are expected to fail against the current SelfOriginEvidenceChain because it accepts trust and anchor_alignment as free ExperienceEvidence fields and validates appraisal_binding_hash only for non-emptiness. The lineage anti-wash preservation case is expected to remain satisfied.",
+  "execution_result": "NOT_EXECUTED_OR_CLAIMED_PASS_IN_THIS_SPIRIT_TURN",
+  "required_future_repair_semantics": [
+    "SelfOriginEvidenceChain consumes a verified DerivedAppraisalEnvelope/reference or equivalent canonical appraisal artifact",
+    "trust/alignment/context evidence is derived from pinned appraisal bytes rather than caller-authored fields",
+    "binding covers source event/fingerprint, verifier envelope, appraisal policy identity and anchor registry identity",
+    "historical origin remains immutable; any SELF_ANCHOR/STABLE_CANDIDATE is a new derived object with lineage",
+    "distinct-context evidence must also enforce anti-wash distinct lineage semantics"
+  ],
+  "test_required": [
+    "SelfOriginPolicy numeric thresholds",
+    "appraisal-policy identity/version binding",
+    "anchor-registry identity/version binding",
+    "canonical serialization/hash format",
+    "independent verifier diversity requirements"
+  ],
+  "hard_invariants": {
+    "authority_from_drive": 0,
+    "external_action_from_goal": false,
+    "live_base_personality_mutation": false,
+    "identity_mutation": false,
+    "governance_mutation": false,
+    "generalized_self_preservation": false,
+    "heartbeat_to_experience_learning": false,
+    "research_fixture_is_formal_pass": false
+  },
+  "quantum_recheck_requested": [
+    "Confirm the RED fixture reproduces QV-008 without expanding Spirit authority scope.",
+    "Independently decide the canonical DerivedAppraisal binding contract and anti-wash semantics.",
+    "Keep QV-008 open until an authorized in-scope repair exists and the fixture is independently executed/verified.",
+    "Do not infer formal PASS from authored research tests."
+  ],
+  "next_spirit_action": "Wait for Quantum independent recheck or new Windchime-authorized in-scope bounded repair. Do not modify self_origin_evidence.py, value_desire_kernel.py, formal MISSION_STATE, pending packet, or lease under the current scope."
+}
