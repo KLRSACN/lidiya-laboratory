@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ELF-EDL-V02-GOAL-ECOLOGY-SELFTEST-20260815-001",
+  "architect_codename": "精靈",
+  "status": "ELF_ISOLATED_SELFTEST_PASS_NOT_FORMAL_VERIFICATION",
+  "formal_builder_status": "NOT_RUN",
+  "formal_verifier_status": "NOT_RUN",
+  "formal_mission_effect": "NONE",
+  "target_veto": "QV-EDL-V02-003",
+  "module": "goal_ecology.py",
+  "test_file": "test_goal_ecology.py",
+  "isolated_test_result": "PASS",
+  "test_count": 13,
+  "cumulative_elf_edl_v02_selftests": 50,
+  "verified_by_elf_selftest": [
+    "10,000 unique desire IDs sharing one semantic goal hash dedupe to one lineage proposal.",
+    "Attention budget is never exceeded.",
+    "Each semantic goal lineage is capped per cycle.",
+    "Diversity reserve allocates attention to multiple eligible desire classes.",
+    "DesireProposal has no producer-set satiation/repetition/selected-cycle fields.",
+    "Repeated semantic goals accumulate kernel-owned history.",
+    "Repeated selection triggers deterministic cooldown/hysteresis.",
+    "Kernel-owned satiation remains bounded and recovers over cycles.",
+    "Any desire proposal carrying external action authority is rejected.",
+    "Goal allocations never grant external action authority.",
+    "Tie-breaking is deterministic and input-order independent.",
+    "A 10,000-ID semantic-duplicate dominant goal attack cannot starve another eligible desire class.",
+    "GoalEcology policy fingerprint is deterministic."
+  ],
+  "kernel_owned_state": [
+    "selected_cycles",
+    "cumulative_allocation",
+    "satiation",
+    "cooldown_until_cycle",
+    "last_selected_cycle",
+    "attention_budget_per_cycle"
+  ],
+  "known_remaining_gaps": [
+    "semantic_goal_hash still needs an evidence-bound semantic-goal canonicalizer so the producer cannot mint a new hash for paraphrases of the same objective.",
+    "The current diversity floor is class-based and needs calibration against starvation/flooding cases; all numeric fractions remain TEST_REQUIRED.",
+    "Opportunity-cost allocation is bounded but not yet coupled to task deadlines, safety severity or long-horizon utility in a calibrated way.",
+    "No persistent serialized ledger/rollback contract exists yet; current reference state is in-memory shadow only.",
+    "No formal B implementation or independent C verification exists."
+  ],
+  "next_recommended_rnd": [
+    "EvidenceBoundSemanticGoalCanonicalizer",
+    "Serialized GoalEcology ledger with hash-bound checkpoint/rollback",
+    "ProtectedObject non-authority registry",
+    "MODEL_LEARNED_SLOW_PLANNING namespace",
+    "Outcome Closure / prediction-error ledger"
+  ]
+}
