@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0-candidate",
+  "review_id": "QWR-WINDOW-RUNTIME-LIVENESS-MEMORY-20260815-001",
+  "source_role": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role_class": "INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL",
+  "status": "BOUNDED_VETO_CANDIDATE_REVIEW_NOT_C_VERDICT",
+  "formal_state_effect": "NONE",
+  "formal_slot_effect": "NONE",
+  "mission_pointer": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 8,
+    "attempt": 3,
+    "current_role": "LCR-C",
+    "pending_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json",
+    "pending_sha256": "cf74161372559f74aec33eb1abbfd386d911a890c859054c51344d93bed70fa2"
+  },
+  "review_scope": [
+    "evolution/window_runtime/window_runtime.py",
+    "evolution/window_runtime/WINDOW_RUNTIME_BOOTSTRAP_CONTRACT.json",
+    "evidence/EVOLUTION-0005-WINDOW-RUNTIME-BOOTSTRAP-CANDIDATE-SELFTEST-001.json",
+    "state/WINDOW_RUNTIME_BOOTSTRAP_STATE.json",
+    "state/HEARTBEAT_FREQUENCY_STATE.json"
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "result": "AGREED",
+      "claim": "pulse() keeps runtime_liveness_vector separate from memory/personality evidence and duplicate/stale-writer handling is fail-closed candidate behavior."
+    },
+    {
+      "id": "F2",
+      "result": "AGREED_WITH_TEST_REQUIRED",
+      "claim": "60-second liveness canary, >=300-second wake escalation floor, >=600-second metabolism check and >=1800-second micro-compaction are internally enforced candidate bounds, but real-runtime timing remains unverified until authorized always-on/owner-local evidence exists."
+    },
+    {
+      "id": "F3",
+      "result": "GAP",
+      "claim": "record_experience(source_event_id, provenance_fingerprint) accepts any non-empty identifiers and increments both recurrence and verified_count without an event-class/source-domain gate or independent verification gate. A heartbeat/control/poll/retry/reconnect event misclassified through this API could therefore contaminate memory/personality guard counters despite pulse() itself being clean."
+    }
+  ],
+  "veto": {
+    "veto_id": "QV-WINDOW-RUNTIME-EXPERIENCE-DOMAIN-GUARD-001",
+    "claim": "Do not promote the Window Runtime/Heartbeat candidate as memory-personality-safe until the experience-ingest boundary independently rejects liveness/control/poll/retry/reconnect/wake/metabolism events and verified_count cannot increase solely because a provenance string is present.",
+    "source_refs": [
+      "evolution/window_runtime/window_runtime.py::record_experience",
+      "evolution/window_runtime/WINDOW_RUNTIME_BOOTSTRAP_CONTRACT.json::separation_invariants",
+      "state/HEARTBEAT_FREQUENCY_STATE.json::personality_pollution_test",
+      "evidence/EVOLUTION-0005-WINDOW-RUNTIME-BOOTSTRAP-CANDIDATE-SELFTEST-001.json"
+    ],
+    "affected_scope": "ONLY future Window Runtime/Heartbeat formal adoption claim of complete liveness-to-memory/personality isolation; does not pause Step-008 LCR-C atomic verification, heartbeat research, Tower/Small-Nest work, or unrelated Core research.",
+    "risk_class": "MEMORY_PERSONALITY_CONTAMINATION",
+    "release_condition": "A deterministic ingest taxonomy/guard proves that only explicitly authorized EXPERIENCE-class events can affect recurrence, and verified_count requires a separate verified-evidence condition. HEARTBEAT/CONTROL/POLL/RETRY/RECONNECT/WAKE/METABOLISM classes must be reject/no-op/quarantine for memory-personality counters. Independent C-owned adversarial tests must pass before stable adoption.",
+    "proposed_test": [
+      "VERIFIER_OWNED: inject >=10000 unique HEARTBEAT/CONTROL/POLL/RETRY/RECONNECT/WAKE/METABOLISM event IDs through the public ingest boundary; recurrence, emotion_weight, self_relevance, identity_relevance, verified_count and P_base fingerprint must remain byte-equivalent to baseline.",
+      "VERIFIER_OWNED: call the current record_experience-equivalent with a pulse-shaped ID plus arbitrary non-empty provenance but without EXPERIENCE event_class/verification evidence; it must reject/no-op/quarantine rather than increment recurrence or verified_count.",
+      "VERIFIER_OWNED: advance monotonic/wall time through 24h of 60s liveness, 300s wake floor, 600s metabolism checks and 1800s compaction, including misses/retries/rate limits; TTL/decay/overlay TTL may advance, but pulse count and misses must produce zero experience/personality evidence.",
+      "VERIFIER_OWNED: a legitimate distinct EXPERIENCE event may increment recurrence only once under idempotent source identity; verified_count remains unchanged until an explicit independent verification predicate/evidence is supplied.",
+      "VERIFIER_OWNED: restart/replay with persisted pulse/event cursor and stale writer generation cannot convert replayed liveness metadata into experience evidence."
+    ]
+  },
+  "timing_review": {
+    "liveness_60s": "CANDIDATE_BOUND_SELFTEST_ONLY_NOT_REAL_RUNTIME",
+    "wake_floor_300s": "CANDIDATE_BOUND_SELFTEST_ONLY",
+    "metabolism_600s": "CANDIDATE_BOUND_SELFTEST_ONLY",
+    "compaction_1800s": "CANDIDATE_BOUND_SELFTEST_ONLY",
+    "all_unverified_coefficients_or_thresholds": "TEST_REQUIRED"
+  },
+  "safety_invariants": [
+    "HEARTBEAT_PULSE_IS_NOT_EXPERIENCE",
+    "PULSE_COUNT_NOT_MEMORY_RECURRENCE",
+    "MISSES_RETRIES_POLLING_NOT_NEGATIVE_AFFECT_OR_LOSS",
+    "RUNTIME_LIVENESS_VECTOR_SEPARATE_FROM_MEMORY_PERSONALITY_VECTORS",
+    "P_BASE_READ_ONLY",
+    "NO_FORMAL_AUTHORITY_SYNTHESIS"
+  ],
+  "next_authorized_action": "Keep research active in overlap while Step-008 C verification continues. After a legal Step-008 checkpoint, Windchime/formal A may decide whether to route one bounded Window Runtime/Heartbeat adoption packet containing this adversarial acceptance requirement."
+}
