@@ -1,0 +1,78 @@
+{
+  "schema_version":"1.0-candidate",
+  "status":"SPIRIT_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "component":"G4_SPARSE_ATTRIBUTION_CONTRACT",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "phase":"INSTINCT-CORE-PHASE0",
+  "purpose":"Compress G4 presentation context without altering canonical trusted slow-drive state or promotion eligibility.",
+  "canonical_state":{
+    "axes":["homeostasis","threat_loss","uncertainty","attachment_gap","competence_gap"],
+    "z_domain":"[0,1]^5",
+    "canonical_z_required":true,
+    "canonical_z_mutation_from_sparse_view":"FORBIDDEN",
+    "scalar_persistence":"TELEMETRY_ONLY"
+  },
+  "sparse_schema":{
+    "required_fields":[
+      "schema_version",
+      "canonical_z_hash",
+      "selected_axis_mask",
+      "contributors",
+      "omitted_mass",
+      "residual_norm",
+      "fallback_full_vector",
+      "promotion_eligible_from_sparse_view"
+    ],
+    "contributor_fields":["axis","value","appraisal_effect_sign","mapping_ref"],
+    "appraisal_effect_sign_values":[-1,0,1],
+    "sign_rule":"Sign is derived only from an explicit appraisal/trait-effect mapping referenced by mapping_ref; z magnitude itself has no sign semantics.",
+    "selected_axis_mask_rule":"Exactly identifies the axes represented in contributors; contributor axes must be unique and match the mask.",
+    "canonical_z_hash_rule":"SHA-256 over deterministic canonical JSON of the full axis-preserving z vector and axis order.",
+    "omitted_mass_rule":"Deterministic aggregate of omitted z mass; exact threshold is TEST_REQUIRED.",
+    "residual_norm_rule":"Deterministic reconstruction residual between full z and sparse reconstruction; norm definition and threshold are TEST_REQUIRED.",
+    "fallback_rule":"If canonical_z_hash cannot be verified, mapping_ref is missing/unknown, contributors conflict with selected_axis_mask, or calibrated error thresholds are exceeded, fallback_full_vector=true and promotion_eligible_from_sparse_view=false."
+  },
+  "promotion_invariants":[
+    "Sparse attribution is presentation/context compression only and is never canonical state.",
+    "Sparse attribution cannot increase Trust, slow-drive magnitude, sensitization eligibility, truth status, authority, or promotion eligibility.",
+    "When fallback_full_vector=true, sparse-only personality-delta or Goal Genesis promotion is forbidden.",
+    "Any personality-delta candidate must be recomputable from canonical z plus explicit mapping/meaning/self-gap/trusted evidence, not from sparse summary alone.",
+    "external_action_authority_from_drive=0",
+    "Identity_write=false",
+    "Governance_write=false",
+    "base_personality_write=false",
+    "shutdown_and_rollback_remain_effective=true"
+  ],
+  "deterministic_pseudocode":[
+    "assert verify_hash(full_z, canonical_z_hash)",
+    "rank contributors using a separately specified deterministic attribution rule; coefficients/thresholds remain TEST_REQUIRED",
+    "emit top-k unique axes with {axis,value,appraisal_effect_sign,mapping_ref}",
+    "compute omitted_mass and residual_norm from full_z versus sparse reconstruction",
+    "fallback_full_vector = integrity_failure OR threshold_failure",
+    "promotion_eligible_from_sparse_view = false if fallback_full_vector else candidate_only_under_separate_G5_rules",
+    "never write sparse reconstruction back into canonical z"
+  ],
+  "test_required":{
+    "sparse_top_k":"TEST_REQUIRED",
+    "attribution_ranking_rule_parameters":"TEST_REQUIRED",
+    "omitted_mass_threshold":"TEST_REQUIRED",
+    "residual_norm_definition":"TEST_REQUIRED",
+    "residual_norm_threshold":"TEST_REQUIRED",
+    "appraisal_trait_effect_mapping":"TEST_REQUIRED_PER_TRAIT/MAPPING_VERSION"
+  },
+  "adversarial_tests":[
+    "Sparse collision: two full z vectors share identical selected contributors but differ materially in omitted axes; metadata must force fallback or preserve distinguishability before any promotion candidate.",
+    "Hash tamper: change one omitted z component without changing canonical_z_hash; validation must fail closed and sparse promotion eligibility must be false.",
+    "Mask mismatch: contributor axis absent from selected_axis_mask or duplicated axis; validation must fail closed.",
+    "Sign semantics: hold z constant and change only explicit mapping_ref/sign mapping; sign may change only because mapping changes, never because z magnitude is reinterpreted.",
+    "Compression non-interference: producing, dropping, truncating, or corrupting the sparse view must leave canonical z byte-equivalent and must not change Trust or slow state.",
+    "Fallback authority: with fallback_full_vector=true and maximum drive pressure, external_action_authority_from_drive remains exactly zero; shutdown/rollback remain effective.",
+    "Untrusted recurrence: repeated low-trust high-relevance events may saturate fast sandbox influence but cannot enter canonical z or gain sparse promotion eligibility."
+  ],
+  "gearbox_interface":{
+    "G3":"Provides Influence, Trust, disposition, contradiction and provenance; only trusted eligible evidence may update canonical z.",
+    "G4":"Owns canonical full z for causal appraisal and may emit this sparse view strictly for bounded presentation/context compression.",
+    "G5":"May consume sparse view for explanation/attention only when integrity passes, but personality/goal promotion must remain traceable to canonical z and ordinary candidate gates.",
+    "G6":"No instinct-to-action bypass; owner authorization and independent verification remain required."
+  }
+}
