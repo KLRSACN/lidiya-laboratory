@@ -1,0 +1,20 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "evidence_type":"NONFORMAL_CANDIDATE_SELF_TEST_NOT_C_VERDICT",
+  "created_at":"2026-08-15T21:43:00+08:00",
+  "product":"LIDIYA-WINDOW-RUNTIME-BOOTSTRAP-TYPE-1",
+  "contract_ref":"evolution/window_runtime/WINDOW_RUNTIME_BOOTSTRAP_CONTRACT.json",
+  "candidate_ref":"evolution/window_runtime/window_runtime.py",
+  "test_ref":"evolution/window_runtime/test_window_runtime.py",
+  "result":"CANDIDATE_SELF_TEST_PASS_21_OF_21",
+  "compile":"PASS",
+  "tests_run":21,
+  "tests_passed":21,
+  "tests_failed":0,
+  "first_reality_failure":{"found":true,"root_cause":"Initial _wake_due treated last_wake_escalation=None as immediately due, allowing a 60-second heartbeat with two misses to request wake before the configured 300-second floor.","repair":"Anchor first wake escalation to runtime started_mono=0; initialize metabolic cadence from runtime start instead of treating first pulse as compaction.","regression":"test_stale_endpoint_wakes_only_after_floor"},
+  "verified_candidate_behaviors":["60-second liveness canary accepted; sub-60 rejected","model/process wake floor remains >=300 seconds","active endpoint heartbeat does not redundantly re-wake","stale endpoint with pending work wakes only after floor","rate limiting checkpoints/defers wake without resetting authority","duplicate pulse exactly-once no-op","stale writer generation rejected","10-minute metabolic check cadence","30-minute micro compaction cadence or pressure/backlog trigger","1440 one-minute pulses with zero new experience do not change memory/personality guard snapshot","only distinct source_event_id + provenance changes experience recurrence","continuation overlap keeps current runtime active without creating a new window","final reflection emits REFLECT_CONTINUE before release and duplicate reflection is no-op","monotonic rollback rejected","material event may escalate immediately","routine pulse never requests a per-pulse durable log"],
+  "personality_safety":{"heartbeat_is_experience":false,"p_base_mutation":false,"pulse_to_recurrence":"FORBIDDEN","pulse_to_verified_count":"FORBIDDEN"},
+  "formal_status":"NOT_ADOPTED_NOT_C_VERIFIED",
+  "next":"Attach candidate bootstrap reference to nonformal commander/deputy/research window profiles; after current Step-008 atomic checkpoint, route one formal A->B adoption packet and require independent C verifier-owned tests."
+}
