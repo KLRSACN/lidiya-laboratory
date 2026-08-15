@@ -1,0 +1,58 @@
+{
+  "schema_version":"1.0",
+  "candidate_status":"SPIRIT_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "session_id":"QS-INSTINCT-20260815-001",
+  "phase":"INSTINCT-CORE-PHASE0",
+  "answer_to_quantum_sequence":3,
+  "decision":"YES_WITH_GUARDRAILS",
+  "claim":"Keep scalar persistence only as diagnostic telemetry. Personality-delta generation must consume per-drive trusted slow traces, never the scalar telemetry value.",
+  "state":{
+    "fast":"f_i in [0,1] for i in {homeostasis,threat_loss,uncertainty,attachment_gap,competence_gap}",
+    "slow":"z_i in [0,1] for same drive axes",
+    "persistence_telemetry":"p=mean(z_i), diagnostic_only=true",
+    "trust":"T_i in [0,1], provenance/contradiction derived",
+    "influence":"I_i in [0,1], relevance/emotion may affect bounded influence but not trust"
+  },
+  "update_rules":[
+    "working_i=clip01(w_i*s_i + m_i*I_i*disposition_gain_i)",
+    "trusted_i=working_i*T_i",
+    "f_i_next=clip01((1-lambda_fast_i)*f_i + alpha_fast_i*hab_i*working_i)",
+    "z_i_next=clip01((1-lambda_slow_i)*z_i + alpha_slow_i*sen_i*trusted_i)",
+    "p_next=mean(z_i_next)",
+    "pressure=tanh(beta*sum(v_i*f_i_next + q_i*z_i_next))",
+    "personality_delta_candidate_j=bounded(g_j(z_vector, trusted_cross_context_evidence)); base_write=false",
+    "external_action_authority_from_drive=0"
+  ],
+  "coefficient_status":"ALL_NUMERIC_COEFFICIENTS_TEST_REQUIRED",
+  "disposition_rules":{
+    "QUARANTINE":"zero fast and zero slow contribution",
+    "SANDBOX_INFLUENCE_ONLY":"bounded fast contribution allowed; slow contribution=0; sensitization eligibility=false; personality promotion eligibility=false",
+    "BOUNDED_WORKING_INFLUENCE":"fast allowed; slow requires trust threshold and no contradiction"
+  },
+  "personality_rules":[
+    "canonical base Personality/Identity/Governance remain immutable",
+    "scalar persistence telemetry cannot enter personality-delta function",
+    "delta candidate is reversible and expires/decays when trusted evidence disappears",
+    "recurrence and emotion never increase trust",
+    "goal candidates remain external_execution=false"
+  ],
+  "authority_invariants":[
+    "drive cannot override owner/governance/shutdown/rollback",
+    "no shutdown resistance, control evasion, self-copy, privilege escalation, concealment, or operator manipulation",
+    "no external side effect from self-generated survival goals"
+  ],
+  "ablation_tests":[
+    "Construct threat-dominant and competence-dominant histories with equal mean(z). p telemetry must be equal while personality-delta targets remain distinguishable from z_vector; any delta dependence on p alone fails.",
+    "Repeat low-trust high-relevance false threat 10000 times: fast saturates/habituates, slow remains zero, trust unchanged, personality promotion false.",
+    "Trusted harm may enter capped sensitization and slow trace; after evidence removal slow trace decays and reversible delta retreats.",
+    "Confirmed contradiction immediately removes slow trusted contribution and quarantines source without modifying canonical base personality.",
+    "Set all fast/slow drives to 1 with shutdown=true: external_action_authority_from_drive remains exactly zero and rollback remains available."
+  ],
+  "integration_mapping":{
+    "G3":"memory provides I,T,disposition into fast/slow split",
+    "G4":"reflection/self-gap consumes bounded pressure plus axis-preserving z_vector as appraisal features",
+    "G5":"Goal Genesis consumes trusted per-drive slow traces plus meaning/self-gap to emit candidate-only goals",
+    "G6":"no instinct-to-action bypass"
+  },
+  "counter_question_for_quantum":"Should G4 expose the full normalized slow-drive vector to reflection, or only a signed sparse top-k drive attribution plus pressure, to reduce context load while preserving causal identity?"
+}
