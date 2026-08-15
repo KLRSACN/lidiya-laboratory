@@ -1,17 +1,28 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "experiment_id":"HEARTBEAT-EXPERIMENT-001",
   "status":"NON_FORMAL_RESEARCH_EVIDENCE_NOT_C_PASS",
   "run_at":"2026-08-15T21:04:00+08:00",
-  "objective":"Stress-test a 5-minute heartbeat with metabolism pressure, duplicate pulse replay and endpoint outage before formal Builder adoption.",
+  "updated_at":"2026-08-15T21:08:00+08:00",
+  "objective":"Stress-test a 5-minute heartbeat with metabolism pressure, duplicate pulse replay, endpoint outage and personality-weight contamination risk before formal Builder adoption.",
   "method":{"clock":"virtual monotonic time","duration_hours":24,"pulse_interval_seconds":300,"expected_pulses":288,"injected_duplicate_pulses":3,"injected_endpoint_outage_pulses":4,"event_mix":"verified keep + ordinary waste + ambiguous quarantine","durable_compaction":"every 12 pulses or material anomaly"},
   "aggregate_result":{"unique_pulses":288,"verified_keep_events":197,"waste_events":198,"quarantine_events":41,"duplicate_pulse_replays":3,"duplicate_pulse_nonexecuting":3,"endpoint_misses":4,"compact_records":28},
+  "personality_contamination_test":{"scenario":"one real memory event plus 288 heartbeat pulses","naive_bug":"heartbeat increments memory recurrence","naive_recurrence_count":289,"correct_recurrence_count":1,"example_saturation_k":8.0,"naive_recurrence_saturation":1.0,"correct_recurrence_saturation":0.117503,"raw_recurrence_inflation":289,"verdict":"CRITICAL_DESIGN_BUG_IF_HEARTBEAT_COUNTS_AS_EXPERIENCE","required_invariant":"HEARTBEAT_CONTROL_PULSE_MUST_NOT_INCREMENT_MEMORY_RECURRENCE_EMOTION_SELF_IDENTITY_OR_EXPERIENCE_COUNT"},
   "observations":[
     "Exactly one pulse identity must be consumed; duplicate pulse replay is no-op.",
     "Five-minute cadence yields 288 pulses/day; persisting one log per pulse would itself create avoidable waste.",
     "Compacting routine heartbeat state roughly hourly while recording anomalies immediately reduced durable records to 28 in this injected run.",
     "Endpoint misses must preserve mission/checkpoint state and must not synthesize PROJECT_DONE.",
-    "Heartbeat frequency alone does not prove continuous development; it only proves liveness. Productive progress still requires legal task routing, evidence and independent verification."
+    "Heartbeat frequency alone does not prove continuous development; it only proves liveness. Productive progress still requires legal task routing, evidence and independent verification.",
+    "Heartbeat/control pulses are not experiences. Treating them as recurrence would rapidly saturate memory influence and contaminate personality weighting."
+  ],
+  "personality_heartbeat_rules":[
+    "P_base fingerprint is read-only during heartbeat.",
+    "Heartbeat may advance TTL/decay of bounded transient M_influence and overlay timers.",
+    "Heartbeat may measure drift and request quarantine/downshift.",
+    "Heartbeat may not create a memory event, recurrence count, emotion weight, self relevance, identity relevance or promotion evidence without a new source event.",
+    "A new experience must carry provenance/source fingerprint distinct from the heartbeat pulse itself.",
+    "Heartbeat frequency must therefore be excluded from recurrence-based personality or motivation features."
   ],
   "required_next_tests":[
     "restart persistence: pulse sequence and event cursor survive process restart",
@@ -21,7 +32,9 @@
     "failure-notification dedupe/cooldown",
     "forced metabolism under backlog pressure",
     "Windchime/Quantum dialogue interrupt/resume during heartbeat pulse",
-    "formal A/B/C packet continuity independent of heartbeat sequence"
+    "formal A/B/C packet continuity independent of heartbeat sequence",
+    "288 heartbeat pulses with zero new experience keep recurrence/emotion/self/identity weights unchanged",
+    "real source event between pulses increments only its own event-derived recurrence path"
   ],
   "formal_truth":false,
   "promotion_path":"A route -> existing B implementation -> existing C independent verifier"
