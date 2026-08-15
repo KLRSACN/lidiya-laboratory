@@ -19,9 +19,13 @@ def digest(payload: object) -> str:
 class AppendOnlyShadowLedger:
     """Research-candidate append-only ledger with rollback/replay detection.
 
-    The separate head checkpoint is workspace/path bound. A ledger that is ahead
-    of or behind the accepted checkpoint fails closed and requires reconciliation.
-    Runtime installation identity remains TEST_REQUIRED unless explicitly supplied.
+    The local accepted-head is path/workspace bound. When ``trusted_anchor_root``
+    is supplied, a second monotonic anchor is retained outside the workspace
+    rollback domain. Restoring an older ledger+local-head pair then fails closed
+    against that independently retained anchor.
+
+    The trusted anchor location/identity is still a research integration point;
+    production installation/reconciler binding remains TEST_REQUIRED.
     """
 
     def __init__(
@@ -30,6 +34,7 @@ class AppendOnlyShadowLedger:
         relative_path: str = "edl_shadow/experience.jsonl",
         *,
         workspace_identity: str | None = None,
+        trusted_anchor_root: Path | None = None,
     ):
         self.root = workspace_root.resolve()
         self.path = (self.root / relative_path).resolve()
@@ -49,42 +54,95 @@ class AppendOnlyShadowLedger:
             }
         )
 
+        self.trusted_anchor_root: Path | None = None
+        self.trusted_anchor_path: Path | None = None
+        if trusted_anchor_root is not None:
+            anchor_root = trusted_anchor_root.resolve()
+            # The monotonic anchor must not live inside the rollback domain.
+            try:
+                anchor_root.relative_to(self.root)
+            except ValueError:
+                pass
+            else:
+                raise ValueError("TRUSTED_ANCHOR_INSIDE_WORKSPACE")
+            anchor_root.mkdir(parents=True, exist_ok=True)
+            self.trusted_anchor_root = anchor_root
+            self.trusted_anchor_path = anchor_root / f"{self.ledger_binding_hash}.monotonic_head.json"
+
     def _read(self) -> list[dict]:
         if not self.path.exists():
             return []
         return [json.loads(x) for x in self.path.read_text(encoding="utf-8").splitlines() if x.strip()]
 
-    def _read_checkpoint(self) -> dict | None:
-        if not self.head_path.exists():
+    @staticmethod
+    def _read_json_dict(path: Path) -> dict | None:
+        if not path.exists():
             return None
         try:
-            value = json.loads(self.head_path.read_text(encoding="utf-8"))
+            value = json.loads(path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
             return None
         return value if isinstance(value, dict) else None
 
+    def _read_checkpoint(self) -> dict | None:
+        return self._read_json_dict(self.head_path)
+
+    def _read_trusted_anchor(self) -> dict | None:
+        if self.trusted_anchor_path is None:
+            return None
+        return self._read_json_dict(self.trusted_anchor_path)
+
     def _checkpoint_for(self, sequence: int, record_hash: str) -> dict[str, object]:
         body = {
-            "schema_version": "EDL-SHADOW-LEDGER-HEAD-V0.2-TEST_REQUIRED",
+            "schema_version": "EDL-SHADOW-LEDGER-HEAD-V0.3-TEST_REQUIRED",
             "sequence": sequence,
             "record_hash": record_hash,
             "ledger_binding_hash": self.ledger_binding_hash,
         }
         return {**body, "checkpoint_hash": digest(body)}
 
-    def _write_checkpoint_atomic(self, checkpoint: Mapping[str, object]) -> None:
-        tmp = self.head_path.with_name(self.head_path.name + ".tmp")
-        raw = json.dumps(dict(checkpoint), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    def _trusted_anchor_for(self, sequence: int, record_hash: str) -> dict[str, object]:
+        body = {
+            "schema_version": "EDL-SHADOW-LEDGER-MONOTONIC-ANCHOR-V0.1-TEST_REQUIRED",
+            "sequence": sequence,
+            "record_hash": record_hash,
+            "ledger_binding_hash": self.ledger_binding_hash,
+            "workspace_identity": self.workspace_identity,
+        }
+        return {**body, "anchor_hash": digest(body)}
+
+    @staticmethod
+    def _write_json_atomic(path: Path, payload: Mapping[str, object]) -> None:
+        tmp = path.with_name(path.name + ".tmp")
+        raw = json.dumps(dict(payload), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
         with tmp.open("w", encoding="utf-8", newline="\n") as f:
             f.write(raw + "\n")
             f.flush()
             os.fsync(f.fileno())
-        os.replace(tmp, self.head_path)
+        os.replace(tmp, path)
+
+    def _write_checkpoint_atomic(self, checkpoint: Mapping[str, object]) -> None:
+        self._write_json_atomic(self.head_path, checkpoint)
+
+    def _write_trusted_anchor_atomic(self, anchor: Mapping[str, object]) -> None:
+        if self.trusted_anchor_path is None:
+            return
+        prior = self._read_trusted_anchor()
+        if prior is not None:
+            prior_sequence = prior.get("sequence")
+            if not isinstance(prior_sequence, int):
+                raise ValueError("TRUSTED_ANCHOR_INVALID")
+            new_sequence = anchor.get("sequence")
+            if not isinstance(new_sequence, int) or new_sequence < prior_sequence:
+                raise ValueError("TRUSTED_ANCHOR_MONOTONICITY_VIOLATION")
+            if new_sequence == prior_sequence and prior.get("record_hash") != anchor.get("record_hash"):
+                raise ValueError("TRUSTED_ANCHOR_FORK")
+        self._write_json_atomic(self.trusted_anchor_path, anchor)
 
     def _checkpoint_valid_for_rows(self, rows: list[dict]) -> bool:
         checkpoint = self._read_checkpoint()
         if not rows:
-            return checkpoint is None
+            return checkpoint is None and self._read_trusted_anchor() is None
         if checkpoint is None:
             return False
         body = {
@@ -101,6 +159,29 @@ class AppendOnlyShadowLedger:
             return False
         if checkpoint.get("record_hash") != rows[-1].get("record_hash"):
             return False
+
+        if self.trusted_anchor_path is not None:
+            anchor = self._read_trusted_anchor()
+            if anchor is None:
+                return False
+            anchor_body = {
+                "schema_version": anchor.get("schema_version"),
+                "sequence": anchor.get("sequence"),
+                "record_hash": anchor.get("record_hash"),
+                "ledger_binding_hash": anchor.get("ledger_binding_hash"),
+                "workspace_identity": anchor.get("workspace_identity"),
+            }
+            if anchor.get("anchor_hash") != digest(anchor_body):
+                return False
+            if anchor.get("ledger_binding_hash") != self.ledger_binding_hash:
+                return False
+            if anchor.get("workspace_identity") != self.workspace_identity:
+                return False
+            # Exact equality intentionally fails both rollback and crash-ahead.
+            if anchor.get("sequence") != len(rows):
+                return False
+            if anchor.get("record_hash") != rows[-1].get("record_hash"):
+                return False
         return True
 
     def verify(self) -> bool:
@@ -165,6 +246,7 @@ class AppendOnlyShadowLedger:
                 f.flush()
                 os.fsync(f.fileno())
             self._write_checkpoint_atomic(self._checkpoint_for(seq, rec["record_hash"]))
+            self._write_trusted_anchor_atomic(self._trusted_anchor_for(seq, rec["record_hash"]))
             if not self.verify():
                 raise ValueError("LEDGER_POST_APPEND_RECONCILIATION_FAILED")
             return rec
