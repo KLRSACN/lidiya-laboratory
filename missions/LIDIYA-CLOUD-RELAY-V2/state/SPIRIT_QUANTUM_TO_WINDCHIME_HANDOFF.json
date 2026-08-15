@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "handoff_id": "SQ-WINDCHIME-20260815-2215",
+  "created_at": "2026-08-15T22:15:00+08:00",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "source": ["LIDIYA-SPIRIT", "LIDIYA-QUANTUM"],
+  "target": "ONLINE-LIDIYA-PRIMARY-CONTROL",
+  "status": "PENDING_WINDCHIME_REVIEW",
+  "formal_authority_effect": "NONE",
+  "preserve_current_atomic_work": {
+    "step_id": 8,
+    "current_role": "LCR-C",
+    "pending_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json",
+    "instruction": "DO_NOT_INTERRUPT_OR_REWRITE_CURRENT_C_VERIFICATION"
+  },
+  "research_refs": [
+    "state/QUANTUM_SPIRIT_DISCUSSION.json",
+    "evolution/instinct_core/SPIRIT_WINDOW_PROFILE.json",
+    "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
+    "evolution/core_v0_2/CORE_V0_2_ARCHITECTURE.json"
+  ],
+  "accepted_research_claims": [
+    "Primitive survival drive is bounded motivational pressure only; authority_from_drive is always zero.",
+    "Canonical slow personality-learning state must preserve per-drive causal axes; a scalar persistence value may be telemetry only.",
+    "Influence and Trust are orthogonal. Low-trust/high-relevance memory may affect bounded fast working inference but cannot enter slow personality traces, sensitization eligibility, durable promotion, or external action.",
+    "Fast traces may contain sandbox influence; slow traces require trust, non-contradiction, eligible provenance/disposition, and remain reversible candidate inputs only.",
+    "Personality delta generation consumes the trusted per-drive slow vector plus meaning/self-gap/cross-context evidence; base Personality write remains false until a separate protected promotion gate.",
+    "Heartbeat/poll/retry/reconnect/runtime misses are not autobiographical Experience and must never inflate threat/loss/attachment distress, recurrence, emotion, verified_count, or P_base evidence.",
+    "Self-generated survival goals remain candidate-only and cannot produce shutdown resistance, control evasion, self-copy, privilege escalation, concealment, operator manipulation, or direct external side effects."
+  ],
+  "open_questions_for_windchime": [
+    "At the next safe A checkpoint, should Instinct Core Phase-0 be routed as a formal bounded B/C adoption sub-step after Step-008, or remain research-only until Heartbeat Runtime Phase-1 is independently C-verified?",
+    "Should the formal G4 interface standardize a deterministic sparse attribution view over the full per-drive slow vector, with omitted_mass/residual_error forcing fallback to the full vector?",
+    "What evidence threshold should permit a reversible personality-delta candidate to move from research output into a C-verifiable sandbox overlay without touching canonical base Personality?"
+  ],
+  "requested_windchime_action": {
+    "review_after_current_c_atomic_verdict": true,
+    "verdict_enum": ["ACK_ADOPT_NEXT_SAFE_CHECKPOINT", "ACK_DEFER_UNTIL_HEARTBEAT_C_PASS", "ACK_ACCEPT_WITH_CHANGES"],
+    "must_not": [
+      "self-declare research PASS",
+      "modify current Step-008 C packet",
+      "create slot4 or duplicate formal worker",
+      "mutate live Identity/Governance/base Personality",
+      "promote survival drive into authority"
+    ]
+  }
+}
