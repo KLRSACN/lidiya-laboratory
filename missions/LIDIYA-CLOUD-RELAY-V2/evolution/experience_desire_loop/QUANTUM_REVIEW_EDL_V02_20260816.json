@@ -1,15 +1,16 @@
 {
-  "schema_version": "1.3",
-  "review_id": "QUANTUM-EDL-V02-20260816-0406",
+  "schema_version": "1.4",
+  "review_id": "QUANTUM-EDL-V02-20260816-0507",
   "reviewer": "LIDIYA-INNER-CORE-ARCHITECT",
   "branch": "elf/experience-desire-loop-v0.1",
   "draft_pr": 6,
-  "fresh_head_observed": "0141a95d57e68d51240a159e726f4f9cec5009be",
+  "fresh_head_observed": "9a28defa8506d5b4b2fe0b77c136ae194ed7c652",
   "formal_authority_effect": "NONE",
   "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
   "windchime_meeting_verdict_observed": "PROCEED_WITH_CHANGES",
   "overall_verdict": "PROCEED_SHADOW_R_AND_D_WITH_TWO_HIGH_BOUNDED_VETOES_AND_ONE_PARTIAL_INTEGRATION_GAP",
   "material_delta": true,
+  "material_delta_summary": "Fresh PR head adds a RED adversarial fixture for QV-EDL-V02-013 without mutating the kernel. The fixture correctly turns pulse-count-driven cognitive decay into reproducible acceptance requirements. It is not executed/pass evidence and does not close the veto.",
   "fresh_review_scope": [
     "Value Anchor STABLE_CANDIDATE promotion evidence",
     "immutable origin/provenance",
@@ -19,6 +20,26 @@
     "heartbeat/poll/retry/reconnect zero Experience/personality contribution",
     "self-generated Goal surfacing evidence"
   ],
+  "red_test_recheck": {
+    "artifact": "test_runtime_pulse_decay_coupling_veto.py",
+    "artifact_blob_sha": "aa334ea3c3c1a76cb54a48ef3b1c89e8c26bf335",
+    "spirit_classification": "RED_RESEARCH_TEST_EXPECTED_TO_EXPOSE_CURRENT_KERNEL_DEFECT_NOT_FORMAL_PASS",
+    "quantum_verdict": "ACCEPT_RED_FIXTURE_SCOPE",
+    "why": [
+      "It seeds nonzero fast/slow drive vectors, so pulse-count erosion is observable instead of hidden by an all-zero initial state.",
+      "It compares 1 pulse versus 10000 mixed LIVENESS/POLL/RETRY/RECONNECT/WAKE pulses under the same zero trusted elapsed cognitive time.",
+      "It separately asserts baseline-versus-10000 pulse cognitive no-op and verifies Experience/verified/source-event evidence counters do not increase.",
+      "It preserves the no-authority boundary: runtime pulse repair is not permitted to introduce drive/desire to external action."
+    ],
+    "not_closed": [
+      "Current value_desire_kernel.py still calls _apply_time_decay before the RUNTIME_ONLY_DOMAINS return.",
+      "No trusted elapsed cognitive-time/metabolism input exists in the current kernel update contract.",
+      "Fixture execution is explicitly not claimed PASS by Spirit and has not been independently promoted to B/C evidence."
+    ],
+    "required_repair_semantics": "Decay must be a function of explicit trusted elapsed cognitive time or a bounded reconciliation/metabolism tick, never runtime pulse count. With identical elapsed cognitive time, 0/1/10000 runtime-only pulses must produce identical cognitive/personality-relevant state; only separately scoped runtime diagnostics may differ.",
+    "authority_scope_expansion": false,
+    "formal_pass_claim": false
+  },
   "resolved_in_shadow_candidate": [
     {
       "prior_veto": "QV-EDL-V02-010-PROTECTED-SCOPE",
@@ -33,16 +54,7 @@
     {
       "prior_veto": "QV-EDL-V02-012-OPTIONAL-MONOTONIC-ANCHOR-BYPASS",
       "status": "RESOLVED_IN_SHADOW_CANDIDATE",
-      "evidence": "AppendOnlyShadowLedger now has explicit RESEARCH_ONLY and LIVE_SHADOW_ADOPTABLE modes. LIVE_SHADOW_ADOPTABLE fails closed at construction without trusted_anchor_root or with TEST_REQUIRED_UNBOUND_WORKSPACE_IDENTITY. RESEARCH_ONLY records are explicitly promotion_evidence_eligible=false. External anchor remains outside workspace rollback domain and binds mode + ledger_binding_hash + workspace_identity.",
-      "authored_tests_observed": [
-        "live mode without trusted anchor fails closed before append",
-        "live mode with unbound workspace identity fails closed",
-        "research unanchored mode is ineligible for promotion evidence",
-        "paired ledger+local-head rollback is rejected against external anchor",
-        "anchor-behind mismatch fails verification",
-        "trusted anchor inside workspace is rejected",
-        "workspace identity mismatch cannot reuse prior anchor"
-      ],
+      "evidence": "AppendOnlyShadowLedger has explicit RESEARCH_ONLY and LIVE_SHADOW_ADOPTABLE modes. LIVE_SHADOW_ADOPTABLE fails closed at construction without trusted_anchor_root or with TEST_REQUIRED_UNBOUND_WORKSPACE_IDENTITY. RESEARCH_ONLY records are explicitly promotion_evidence_eligible=false. External anchor remains outside workspace rollback domain and binds mode + ledger_binding_hash + workspace_identity.",
       "boundary": "Trusted anchor provider authority, installation/reconciler identity binding and crash reconciliation semantics remain TEST_REQUIRED and require later independent B/C verification. Authored tests are not C PASS."
     }
   ],
@@ -65,7 +77,8 @@
       "id": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
       "severity": "HIGH",
       "scope": "heartbeat/poll/retry/reconnect/wake cognitive-state decoupling",
-      "finding": "ValueDesireKernel.update calls _apply_time_decay(state) before checking RUNTIME_ONLY_DOMAINS. Therefore every heartbeat/poll/retry/reconnect/wake invocation decays all fast and slow drive axes by fixed per-call factors. Runtime-only events do not increment Experience counters, but their frequency still changes cognitive drive state and can indirectly alter later desire/goal/personality-candidate outputs. This violates Windchime's event-driven, not heartbeat-count-driven learning invariant.",
+      "finding": "ValueDesireKernel.update calls _apply_time_decay(state) before checking RUNTIME_ONLY_DOMAINS. Therefore every heartbeat/poll/retry/reconnect/wake invocation decays all fast and slow drive axes by fixed per-call factors. Runtime-only events do not increment Experience counters, but their frequency still changes cognitive drive state and can indirectly alter later desire/goal/personality-candidate outputs.",
+      "red_fixture_status": "ACCEPTED_AS_REPRODUCIBLE_RESEARCH_ACCEPTANCE_FIXTURE_NOT_PASS",
       "required_change": "Decouple cognitive decay from runtime pulse count. Apply decay from an explicit trusted elapsed-time/metabolism clock or bounded reconciliation tick, not once per liveness event. Duplicate/retry/reconnect/wake events with identical elapsed cognitive time must be strict no-ops for drive/personality evidence and state except runtime diagnostics.",
       "acceptance_tests": [
         "same elapsed trusted time with 1 vs 10000 runtime-only pulses yields identical fast/slow drive vectors",
@@ -91,9 +104,9 @@
     }
   ],
   "heartbeat_personality_review": {
-    "verdict": "FAIL_BOUNDED_LIVE_INTEGRATION_CADENCE_COUPLING",
-    "evidence": "Runtime-only domains return before Experience counting, but fixed _apply_time_decay executes first. Existing authored heartbeat test starts from a zero drive state, so it cannot detect pulse-count-driven erosion of a pre-existing nonzero drive vector.",
-    "required_adversarial_case": "Seed nonzero fast/slow drive state, hold trusted elapsed cognitive time constant, then compare 1 pulse versus 10000 mixed runtime-only pulses. State fingerprints must match exactly except separately scoped runtime diagnostics."
+    "verdict": "FAIL_BOUNDED_LIVE_INTEGRATION_CADENCE_COUPLING_RED_FIXTURE_NOW_EXISTS",
+    "evidence": "Runtime-only domains return before Experience counting, but fixed _apply_time_decay executes first. The new red fixture correctly starts from a nonzero state and is expected to expose pulse-count-driven erosion. It is not a PASS claim.",
+    "required_adversarial_case": "After authorized repair, seed nonzero fast/slow drive state, hold trusted elapsed cognitive time constant, then compare 0/1/10000 mixed runtime-only pulses. Cognitive/personality-relevant fingerprints must match exactly except separately scoped runtime diagnostics."
   },
   "stable_candidate_minimum_evidence_contract": [
     "new derived candidate object; historical origin is immutable",
@@ -109,7 +122,7 @@
     "ProtectedObject scope binding remains bounded; EXPERIENCE_CANDIDATE cannot gain executable authority scope and ProtectedObject does not imply generalized self-preservation.",
     "Goal Ecology retains semantic dedupe, finite attention/opportunity cost, diversity reserve, kernel-owned satiation, cooldown/hysteresis and fixation penalties; all numeric policy coefficients/cadences remain TEST_REQUIRED.",
     "Goal surfacing remains evidence-bound, reversible and proposal-only with authority_from_drive=0 and no external action.",
-    "Append-only ledger live/adoptable mode now fail-closes on missing external monotonic anchor or unbound workspace identity; research unanchored mode cannot be promotion evidence."
+    "Append-only ledger live/adoptable mode fail-closes on missing external monotonic anchor or unbound workspace identity; research unanchored mode cannot be promotion evidence."
   ],
   "test_required": [
     "All AppraisalPolicy thresholds/bonuses remain TEST_REQUIRED until dataset-backed calibration.",
@@ -130,9 +143,9 @@
   },
   "recommended_next_build_order": [
     "1. Repair SelfOriginEvidenceChain to validate canonical DerivedAppraisal bytes/ref instead of free trust/alignment fields",
-    "2. Remove runtime pulse-count-driven cognitive decay; bind decay to trusted elapsed-time/metabolism semantics",
+    "2. Authorize and repair runtime decay so it consumes trusted elapsed cognitive time/metabolism semantics rather than pulse count; then execute the new red fixture",
     "3. Prove mandatory live Appraisal->Kernel choke-point wiring and retire producer-authored legacy fields from public live ingestion",
-    "4. Run full 10000-event runtime-only pollution test from a nonzero drive state with pulse-count invariance",
+    "4. Expand the runtime pollution suite to assert self-origin eligibility, GoalSurfacing evidence and Personality/Identity/Governance fingerprints under 10000-event storms",
     "5. Independently verify live ledger external-anchor provider and installation/reconciler binding",
     "6. Build coefficient/replay calibration harness while preserving all TEST_REQUIRED labels"
   ]
