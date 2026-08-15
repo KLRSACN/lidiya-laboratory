@@ -20,6 +20,9 @@ REQUIRED_FILES = frozenset({
     "evolution/small_nest/RUN_LOCAL_CANARY.cmd",
     "evolution/local_command_tower/local_canary.py",
     "evolution/local_command_tower/evidence_reconciler.py",
+    "evolution/small_nest/PREPARE_E3_OWNER_RUN.ps1",
+    "evolution/small_nest/E3_OWNER_RUN_CONTRACT.json",
+    "evolution/local_command_tower/e3_evidence_bundle.py",
 })
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
