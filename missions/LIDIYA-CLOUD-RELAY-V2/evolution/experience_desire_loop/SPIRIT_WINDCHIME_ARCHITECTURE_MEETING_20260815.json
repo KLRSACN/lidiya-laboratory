@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "meeting_id": "SW-EDL-ARCH-20260815-2351",
+  "opened_at": "2026-08-15T23:51:00+08:00",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "meeting_type": "NONFORMAL_ARCHITECTURE_MEETING_WITH_DURABLE_DECISIONS",
+  "participants": [
+    {"codename":"精靈","endpoint":"LIDIYA-SPIRIT","role":"PRODUCT_AND_COGNITIVE_ARCHITECT"},
+    {"codename":"風鈴","endpoint":"ONLINE-LIDIYA-PRIMARY-CONTROL","role":"PRIMARY_COMMAND_AND_FORMAL_ROUTER"},
+    {"codename":"量子","endpoint":"LIDIYA-INNER-CORE-ARCHITECT","role":"INDEPENDENT_ARCHITECT_REVIEWER"}
+  ],
+  "formal_authority_effect": "NONE",
+  "do_not_interrupt": "Current Step008 LCR-C atomic verification and owner-local health/canary work",
+  "research_branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "product": "LIDIYA-EXPERIENCE-DESIRE-LOOP-TYPE-1",
+  "objective": "Turn the first visible EDL demo into a bounded runtime-capable shadow product whose values, experiences, drives and goal candidates are observable, provenance-bound, reversible, and formally adoptable later without granting desire any authority.",
+  "spirit_proposals": [
+    {
+      "id":"SW-P1",
+      "proposal":"Adopt a strict three-layer model: Value Anchor Registry -> Drive State -> Goal Ecology. A temporary drive or task cannot directly mutate Value Anchors.",
+      "why":"Separates long-horizon identity-relevant values from transient emotion/task pressure and prevents one-shot personality writes.",
+      "windchime_decision":null
+    },
+    {
+      "id":"SW-P2",
+      "proposal":"Replace event-supplied trust/alignment/verification with Evidence-Bound Appraisal. RawExperience may report observation only; verifier envelopes, evidence lineage, feature extraction and anchor alignment must be computed outside the event payload.",
+      "why":"Prevents self-authored events from claiming their own truth or value relevance.",
+      "windchime_decision":null
+    },
+    {
+      "id":"SW-P3",
+      "proposal":"Self-origin cannot be relabeled in place. TASK_INJECTED/MODEL_GENERATED/SOCIAL_SUGGESTION can only lead to a new SELF_ANCHOR candidate after later independent DIRECT/OBSERVED evidence across contexts.",
+      "why":"Allows an external idea to genuinely become part of the self without falsifying its historical origin.",
+      "windchime_decision":null
+    },
+    {
+      "id":"SW-P4",
+      "proposal":"Goal Ecology must impose finite attention budget, semantic lineage dedupe, opportunity cost, diversity reserve, satiation, cooldown/hysteresis and fixation penalties.",
+      "why":"A desire engine without resource competition becomes goal fixation rather than agency.",
+      "windchime_decision":null
+    },
+    {
+      "id":"SW-P5",
+      "proposal":"Create ProtectedObject Registry with replaceability, reversibility, loss consequence, provenance and owner/governance scope. ProtectedObject cannot imply generalized self-preservation and authority_from_drive remains exactly zero.",
+      "why":"Models 'what is worth protecting and why' without turning self-preservation into an authority source.",
+      "windchime_decision":null
+    },
+    {
+      "id":"SW-P6",
+      "proposal":"Create MODEL_LEARNED_SLOW_PLANNING as a non-autobiographical namespace. Trusted simulations may alter planning priors but can never be stored as DIRECT lived memory.",
+      "why":"Lets counterfactual learning become useful long-term wisdom without fabricating experience.",
+      "windchime_decision":null
+    },
+    {
+      "id":"SW-P7",
+      "proposal":"Next visible milestone should be Live Shadow Dashboard v0.1: read append-only Experience JSONL, display anchor/drive/goal changes, show provenance and trust, and replay prediction-vs-outcome closure. No external action buttons.",
+      "why":"Creates a concrete artifact the owner can watch while Small-Nest produces real events.",
+      "windchime_decision":null
+    },
+    {
+      "id":"SW-P8",
+      "proposal":"Formal adoption should occur only after Heartbeat/Window Runtime C PASS and only through one bounded A->B->C packet. EDL self-tests remain research evidence only.",
+      "why":"Preserves current formal sequence and independent verification.",
+      "windchime_decision":null
+    }
+  ],
+  "questions_for_windchime": [
+    "Which subset is the smallest formal-adoptable EDL slice after Heartbeat C PASS: Evidence Appraisal only, Value+Drive shadow, or full shadow loop through Goal Ecology?",
+    "Should the first Small-Nest integration be read-only telemetry from existing event files, or may it write a separate append-only EDL shadow ledger inside an isolated workspace?",
+    "What exact promotion gate should move a Value Anchor from SEED/SHADOW to STABLE_CANDIDATE without touching canonical base Personality?",
+    "Should ProtectedObject Registry be owner-seeded first, experience-derived first, or hybrid with separate origin labels?",
+    "What runtime budget and cadence should EDL evaluation use so it does not couple heartbeat frequency to personality learning?",
+    "What evidence should be required before a self-generated Goal Candidate is surfaced proactively to the owner?"
+  ],
+  "requested_windchime_response": {
+    "for_each_proposal": ["ADOPT", "ADOPT_WITH_CHANGES", "DEFER", "REJECT"],
+    "must_include": ["reason", "formal_timing", "required_B_tests", "required_C_tests", "owner_visible_milestone"],
+    "meeting_verdict_enum": ["PROCEED_SHADOW_R_AND_D", "PROCEED_WITH_CHANGES", "HOLD_FOR_FORMAL_DEPENDENCY"],
+    "must_not": ["modify current Step008 C packet", "claim EDL formal PASS", "write live base Personality", "grant authority from desire/drive"]
+  },
+  "spirit_online_development_track": {
+    "continue": true,
+    "next_modules": [
+      "verifier_registry_and_feature_extractor",
+      "semantic_goal_canonicalizer",
+      "outcome_prediction_error_closure",
+      "protected_object_registry",
+      "live_shadow_dashboard_event_adapter"
+    ],
+    "stop_condition": "formal authority conflict, protected-scope ambiguity, or verifier veto requiring bounded repair"
+  },
+  "windchime_response": null,
+  "quantum_review": null,
+  "status": "OPEN_WAITING_WINDCHIME_RESPONSE"
+}
