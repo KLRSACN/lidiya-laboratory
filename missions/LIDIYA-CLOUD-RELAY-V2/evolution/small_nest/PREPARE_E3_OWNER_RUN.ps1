@@ -7,8 +7,10 @@ $Health = Join-Path $Root "evolution\small_nest\CHECK_SMALL_NEST_HEALTH.ps1"
 $Canary = Join-Path $Root "evolution\small_nest\RUN_LOCAL_CANARY.cmd"
 $LocalCanaryPy = Join-Path $Root "evolution\local_command_tower\local_canary.py"
 $ReconcilerPy = Join-Path $Root "evolution\local_command_tower\evidence_reconciler.py"
+$PrepareSelf = Join-Path $Root "evolution\small_nest\PREPARE_E3_OWNER_RUN.ps1"
+$OwnerRunContract = Join-Path $Root "evolution\small_nest\E3_OWNER_RUN_CONTRACT.json"
 $BundleValidatorPy = Join-Path $Root "evolution\local_command_tower\e3_evidence_bundle.py"
-$Required = @($Install,$Start,$Health,$Canary,$LocalCanaryPy,$ReconcilerPy,$BundleValidatorPy)
+$Required = @($Install,$Start,$Health,$Canary,$LocalCanaryPy,$ReconcilerPy,$PrepareSelf,$OwnerRunContract,$BundleValidatorPy)
 
 foreach ($p in $Required) {
   if (-not (Test-Path -LiteralPath $p -PathType Leaf)) {
@@ -70,6 +72,9 @@ $relativeMap = [ordered]@{
   "evolution/small_nest/RUN_LOCAL_CANARY.cmd" = $Canary
   "evolution/local_command_tower/local_canary.py" = $LocalCanaryPy
   "evolution/local_command_tower/evidence_reconciler.py" = $ReconcilerPy
+  "evolution/small_nest/PREPARE_E3_OWNER_RUN.ps1" = $PrepareSelf
+  "evolution/small_nest/E3_OWNER_RUN_CONTRACT.json" = $OwnerRunContract
+  "evolution/local_command_tower/e3_evidence_bundle.py" = $BundleValidatorPy
 }
 foreach ($entry in $relativeMap.GetEnumerator()) {
   $packageFiles[$entry.Key] = (Get-FileHash -Algorithm SHA256 -LiteralPath $entry.Value).Hash.ToLowerInvariant()
