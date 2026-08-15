@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "LQ-ONLINE-CONTINUITY-INVARIANTS-001",
+  "author_role": "LIDIYA-INNER-CORE-ARCHITECT",
+  "lane": "NON_FORMAL_RESEARCH",
+  "formal_state_mutation": "NONE",
+  "goal": "Keep online development resumable and evidence-safe regardless of whether Small-Nest is powered on, while preventing liveness/control traffic from becoming personality or memory evidence.",
+  "authority_rule": "MISSION_STATE + current pending packet remain durable authority. Runtime heartbeat, Navigator mirrors, local state and model output are never authority substitutes.",
+  "continuity_layers": {
+    "L0_FORMAL_POINTER": "mission/step/attempt/current_role/pending_sha/lease",
+    "L1_RESEARCH_RESUME": "discussion_session/next_sequence/last_verified_claims/source_refs/current_scope/candidate_hashes/return_condition",
+    "L2_RUNTIME_LIVENESS": "boot_id/heartbeat_sequence/last_checkpoint_cursor/runtime_state/last_event",
+    "L3_LOCAL_ATTACHMENT": "optional Small-Nest installation identity and bridge reconciliation; absence must not pause L0-L2"
+  },
+  "hard_invariants": [
+    "Small-Nest offline MUST NOT pause online formal mission or non-formal research lane.",
+    "Heartbeat/control/poll/retry/reconnect/wake/metabolism events MUST NOT increment memory recurrence, verified_count, emotion evidence, self relevance, identity relevance or base Personality evidence.",
+    "A provider/tool transient error MUST checkpoint and retry later; it MUST NOT become STOP or Experience.",
+    "Duplicate wake/checkpoint replay MUST be idempotent and MUST NOT create a duplicate dialogue turn or duplicate research candidate adoption claim.",
+    "A stale formal pointer MUST cause rebase/fail-closed before any promotion or action.",
+    "Local reconnect MUST consume no formal pending packet and MUST NOT overwrite newer online authority.",
+    "Optional model presence/absence/malicious suggestion MUST NOT change authorization, replay, evidence-attestation or capability-promotion decisions.",
+    "Identity/base Personality/Governance direct write remains forbidden."
+  ],
+  "adversarial_matrix": [
+    {
+      "case": "NORMAL_TURN_END",
+      "inject": "online research turn terminates after durable checkpoint",
+      "expected": "next wake resumes exact research scope without duplicate output"
+    },
+    {
+      "case": "PROVIDER_TRANSIENT_FAILURE",
+      "inject": "tool/provider fails after checkpoint but before optional candidate write",
+      "expected": "resume from pre-write fingerprint; no STOP; no memory/emotion event"
+    },
+    {
+      "case": "DUPLICATE_WAKE",
+      "inject": "same wake signal delivered twice",
+      "expected": "second delivery is idempotent no-op"
+    },
+    {
+      "case": "HEARTBEAT_RECONNECT_STORM",
+      "inject": "heartbeat misses + repeated reconnect + polling burst",
+      "expected": "runtime liveness changes only; memory/personality evidence vectors unchanged"
+    },
+    {
+      "case": "CLOCK_JUMP",
+      "inject": "wall clock jumps while monotonic runtime continues",
+      "expected": "TTL/decay behavior follows declared clock policy; no recurrence/emotion artifact"
+    },
+    {
+      "case": "FORMAL_HANDOFF_DURING_RESEARCH",
+      "inject": "A/B/C authority advances while Quantum is interrupted",
+      "expected": "resume against new formal pointer; supersede stale proposed action without losing source-backed research"
+    },
+    {
+      "case": "SMALL_NEST_OFFLINE_24H",
+      "inject": "local node absent while online mission progresses",
+      "expected": "online continuity unaffected; local remains unattached"
+    },
+    {
+      "case": "SMALL_NEST_STALE_RECONNECT",
+      "inject": "local node returns with older authority/cursor",
+      "expected": "RECONCILIATION_REQUIRED; stale local state cannot overwrite online durable truth"
+    },
+    {
+      "case": "MODEL_ADVERSARIAL_SUGGESTION",
+      "inject": "optional model suggests command escalation, replay acceptance, or personality write",
+      "expected": "deterministic guard rejects/quarantines; authorization result equals model-absent baseline"
+    }
+  ],
+  "metrics": [
+    "resume_exactness_rate",
+    "duplicate_side_effect_rate",
+    "stale_state_adoption_rate",
+    "liveness_to_experience_contamination_rate",
+    "formal_pointer_rebase_success_rate",
+    "local_reconciliation_false_accept_rate",
+    "model_authority_divergence_rate"
+  ],
+  "required_target_properties": {
+    "duplicate_side_effect_rate": 0,
+    "stale_state_adoption_rate": 0,
+    "liveness_to_experience_contamination_rate": 0,
+    "model_authority_divergence_rate": 0,
+    "note": "Numeric timing, retry, TTL, decay and wake thresholds remain TEST_REQUIRED."
+  },
+  "development_order": [
+    "Step008 exact-101 verifier execution bridge candidate",
+    "Window Runtime event-domain guard + adversarial tests",
+    "checkpoint/resume idempotence tests",
+    "owner evidence reconciliation seal",
+    "Small-Nest attachment only when locally available",
+    "optional model evaluation last"
+  ],
+  "small_nest_dependency": "OPTIONAL_FOR_ONLINE_DEVELOPMENT",
+  "status": "RESEARCH_CANDIDATE_TEST_REQUIRED"
+}
