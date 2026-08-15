@@ -1,0 +1,28 @@
+{
+  "schema_version":"1.0",
+  "experiment_id":"HEARTBEAT-EXPERIMENT-001",
+  "status":"NON_FORMAL_RESEARCH_EVIDENCE_NOT_C_PASS",
+  "run_at":"2026-08-15T21:04:00+08:00",
+  "objective":"Stress-test a 5-minute heartbeat with metabolism pressure, duplicate pulse replay and endpoint outage before formal Builder adoption.",
+  "method":{"clock":"virtual monotonic time","duration_hours":24,"pulse_interval_seconds":300,"expected_pulses":288,"injected_duplicate_pulses":3,"injected_endpoint_outage_pulses":4,"event_mix":"verified keep + ordinary waste + ambiguous quarantine","durable_compaction":"every 12 pulses or material anomaly"},
+  "aggregate_result":{"unique_pulses":288,"verified_keep_events":197,"waste_events":198,"quarantine_events":41,"duplicate_pulse_replays":3,"duplicate_pulse_nonexecuting":3,"endpoint_misses":4,"compact_records":28},
+  "observations":[
+    "Exactly one pulse identity must be consumed; duplicate pulse replay is no-op.",
+    "Five-minute cadence yields 288 pulses/day; persisting one log per pulse would itself create avoidable waste.",
+    "Compacting routine heartbeat state roughly hourly while recording anomalies immediately reduced durable records to 28 in this injected run.",
+    "Endpoint misses must preserve mission/checkpoint state and must not synthesize PROJECT_DONE.",
+    "Heartbeat frequency alone does not prove continuous development; it only proves liveness. Productive progress still requires legal task routing, evidence and independent verification."
+  ],
+  "required_next_tests":[
+    "restart persistence: pulse sequence and event cursor survive process restart",
+    "bounded catch-up after 30-120 minute sleep/outage",
+    "concurrent Online/Local writer race",
+    "stale endpoint after two misses and recovery hysteresis",
+    "failure-notification dedupe/cooldown",
+    "forced metabolism under backlog pressure",
+    "Windchime/Quantum dialogue interrupt/resume during heartbeat pulse",
+    "formal A/B/C packet continuity independent of heartbeat sequence"
+  ],
+  "formal_truth":false,
+  "promotion_path":"A route -> existing B implementation -> existing C independent verifier"
+}
