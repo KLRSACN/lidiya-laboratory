@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.3",
-  "follow_up_id": "SPIRIT-EDL-SHADOW-RND-20260815-004",
+  "schema_version": "1.4",
+  "follow_up_id": "SPIRIT-EDL-SHADOW-RND-20260816-005",
   "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
   "meeting_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
   "quantum_review_ref": "QUANTUM_REVIEW_EDL_V02_20260816.json",
@@ -9,69 +9,69 @@
   "formal_authority_effect": "NONE",
   "formal_slot_effect": "NONE",
   "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
-  "status": "RESEARCH_CANDIDATE_PATCHED_WAITING_QUANTUM_RECHECK",
+  "status": "RESEARCH_RED_TEST_AUTHORED_WAITING_QUANTUM_OR_AUTHORIZED_KERNEL_REPAIR",
   "material_delta": true,
   "windchime_scope_followed": true,
-  "latest_bounded_repair": {
-    "quantum_veto": "QV-EDL-V02-012-OPTIONAL-MONOTONIC-ANCHOR-BYPASS",
-    "scope": "append_only_shadow_ledger + deterministic/adversarial tests",
-    "code_commit": "da8c313e3f18c7b4c86fc1f503e9071d4c0be13e",
-    "test_commit": "9aa85ba097bf026539f73085d2e0d6b69a464e61",
-    "change": "Split ledger operation into explicit RESEARCH_ONLY and LIVE_SHADOW_ADOPTABLE modes. LIVE_SHADOW_ADOPTABLE now fails closed during construction without trusted_anchor_root or when workspace_identity remains TEST_REQUIRED_UNBOUND_WORKSPACE_IDENTITY. Research-only unanchored operation remains available but is explicitly promotion_evidence_eligible=false. Ledger binding/checkpoint/anchor records now bind mode, and live records are only marked promotion-evidence eligible when the independently retained anchor and bound workspace identity are configured. formal_pass remains false.",
+  "latest_bounded_action": {
+    "quantum_veto": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+    "scope": "deterministic/adversarial tests only",
+    "test_artifact": "test_runtime_pulse_decay_coupling_veto.py",
+    "test_commit": "cbb900988157a1dab744be6d51b0d845d726e640",
+    "classification": "RED_RESEARCH_TEST_EXPECTED_TO_EXPOSE_CURRENT_KERNEL_DEFECT_NOT_FORMAL_PASS",
+    "reason_for_test_only_action": "Quantum identified that ValueDesireKernel.update applies fixed decay before rejecting runtime-only events. value_desire_kernel.py is not in Windchime's Spirit shadow_r_and_d_allowed module list, so Spirit did not patch the kernel. Deterministic/adversarial tests are explicitly allowed, so the defect is converted into a reproducible red acceptance fixture for the next authorized repair/review.",
     "authored_cases": [
-      "live/adoptable mode without trusted_anchor_root fails closed before first append",
-      "live/adoptable mode with unbound TEST_REQUIRED workspace identity fails closed",
-      "research-only unanchored records are explicitly ineligible for STABLE_CANDIDATE promotion evidence",
-      "live anchored records may be marked candidate evidence eligible but never formal PASS",
-      "paired ledger + local accepted_head rollback remains rejected by external monotonic anchor",
-      "anchor-behind/crash-ahead mismatch remains fail-closed",
-      "trusted anchor inside workspace remains rejected",
-      "workspace identity mismatch cannot reuse prior anchor"
+      "seed a nonzero fast/slow drive state and compare one LIVENESS pulse against 10000 mixed LIVENESS/POLL/RETRY/RECONNECT/WAKE events with no trusted elapsed cognitive-time input; cognitive state must be identical",
+      "10000 runtime-only events at zero elapsed cognitive time must be a strict no-op for seeded fast/slow vectors and autobiographical evidence counters",
+      "runtime-only storm must not create Experience, verified Experience, or source-event evidence",
+      "any later decay repair must preserve the existing no-authority boundary and must not introduce drive/desire to external action"
     ],
-    "execution_result": "NOT_EXECUTED_IN_THIS_ENDPOINT",
-    "execution_reason": "No GitHub Actions workflow run exists for test commit 9aa85ba097bf026539f73085d2e0d6b69a464e61. Authored tests are research candidate evidence only and are not claimed PASS.",
-    "remaining_boundary": "The trusted monotonic anchor provider, installation/reconciler authority that supplies workspace_identity, crash-reconciliation protocol, and exact promotion-evidence consumer binding remain TEST_REQUIRED until independently specified and formally verified. LIVE_SHADOW_ADOPTABLE is a candidate mode name, not a formal adoption claim."
+    "execution_result": "NOT_EXECUTED_OR_CLAIMED_PASS_IN_THIS_SPIRIT_TURN",
+    "expected_current_behavior": "The first two invariance tests are expected to fail against the current branch because _apply_time_decay executes once per runtime event. This is intentional red-test evidence, not a PASS claim.",
+    "test_required": [
+      "trusted elapsed cognitive-time authority semantics",
+      "decay_fast and decay_slow calibration",
+      "bounded metabolism/reconciliation cadence",
+      "formal live integration binding after an authorized kernel repair"
+    ]
   },
-  "prior_repairs_retained": [
-    "External monotonic anchor remains outside workspace rollback domain and is bound to ledger_binding_hash + workspace_identity.",
-    "DerivedAppraisalEnvelope + LiveShadowAppraisalChokePoint research primitive exists, but mandatory legacy kernel wiring is not claimed complete.",
-    "ProtectedObject authority scope binding is retained; EXPERIENCE_CANDIDATE cannot carry executable scope and authority_from_drive remains zero.",
-    "GoalSurfacingEnvelope remains proposal-only with evidence/contradiction bindings, reversible DISMISS/DEFER controls, external_action_allowed=false and canonical_personality_write=false."
+  "resolved_shadow_boundaries_retained": [
+    "ProtectedObject EXPERIENCE_CANDIDATE cannot carry executable authority scope; ProtectedObject never implies generalized self-preservation.",
+    "Goal surfacing remains proposal-only with authority_from_drive=0, external_action_allowed=false and no canonical personality write.",
+    "LIVE_SHADOW_ADOPTABLE ledger mode fails closed without an external trusted anchor and bound workspace identity; RESEARCH_ONLY ledger records are not promotion evidence.",
+    "All uncalibrated coefficients and thresholds remain TEST_REQUIRED."
   ],
-  "intentionally_not_modified": [
+  "open_or_partial_quantum_items": [
     {
-      "quantum_veto": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
-      "reason": "self_origin_evidence.py is outside windchime shadow_r_and_d_allowed for this Spirit turn. Leave the HIGH veto open for Quantum/next authorized scope."
+      "id": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
+      "status": "OPEN_HIGH_OUTSIDE_THIS_SPIRIT_SCOPE",
+      "reason": "self_origin_evidence.py is not in the current Windchime shadow_r_and_d_allowed list. No mutation performed."
     },
     {
-      "quantum_veto": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
-      "reason": "value_desire_kernel.py/live kernel integration is outside this Spirit turn's allowed module list. No claim that every live ingestion route is forced through the appraisal choke point."
+      "id": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+      "status": "RED_TEST_AUTHORED_REPAIR_NOT_PERFORMED",
+      "reason": "The defective decay location is in value_desire_kernel.py, outside this Spirit turn's allowed module list."
     },
     {
-      "module": "outcome_prediction_error_closure",
-      "reason": "No fresh evidence-backed bounded veto required an in-scope change this turn."
-    },
-    {
-      "module": "live_shadow_dashboard_event_adapter",
-      "reason": "No fresh evidence-backed bounded veto required an in-scope change this turn."
+      "id": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
+      "status": "PARTIAL_OUTSIDE_THIS_SPIRIT_SCOPE",
+      "reason": "Mandatory live Appraisal->Kernel wiring requires value_desire_kernel/live integration changes outside the allowed list. No claim of closure."
     }
   ],
   "hard_invariants": [
     "drive/desire never grants authority",
     "no external action from self-generated goal",
     "no live base Personality/Identity/Governance write",
-    "ProtectedObject never implies generalized self-preservation",
-    "heartbeat/poll/retry/reconnect is not Experience and contributes zero personality-learning evidence",
-    "all uncalibrated coefficients and thresholds remain TEST_REQUIRED",
-    "research candidate/self-test/authored tests are never formal Builder/C PASS"
+    "no generalized self-preservation",
+    "heartbeat/poll/retry/reconnect/wake is not Experience and must not influence personality learning through count or decay cadence",
+    "research candidate/self-test/red test is never formal Builder/C PASS"
   ],
   "quantum_recheck_required": [
-    "Recheck QV-012 against explicit RESEARCH_ONLY vs LIVE_SHADOW_ADOPTABLE mode separation and verify there is no remaining optional-anchor promotion path.",
-    "Define or veto the independently retained trusted anchor provider and installation/reconciler workspace identity binding; both remain TEST_REQUIRED and outside this candidate's authority.",
-    "QV-008 remains open until SelfOriginEvidenceChain consumes validated DerivedAppraisal bytes/ref rather than free trust/alignment fields; no repair claimed because it is outside this turn's allowed scope.",
-    "QV-007 remains partial until every live ingestion route is forced through the appraisal choke point; live kernel integration is outside this turn's allowed scope.",
-    "Require the full 10000 mixed HEARTBEAT/LIVENESS/POLL/RETRY/RECONNECT/WAKE integration pollution case before formal adoption; runtime-only events must not become Experience/personality evidence."
+    "Confirm the red fixture correctly captures QV-013 without expanding authority scope.",
+    "Require an authorized kernel repair to move decay onto explicit trusted elapsed cognitive time/metabolism semantics and prove 1-vs-10000 pulse invariance.",
+    "Keep QV-008 open until SelfOriginEvidenceChain binds canonical DerivedAppraisal bytes/ref.",
+    "Keep QV-007 partial until every live ingestion route is forced through the appraisal choke point.",
+    "Independently verify trusted ledger anchor provider and installation/reconciler workspace identity before promotion evidence is accepted."
   ],
-  "next_spirit_action": "Wait for Quantum independent recheck. If it returns another evidence-backed bounded repair inside windchime shadow_r_and_d_allowed, modify only that scope and extend deterministic/adversarial tests; otherwise no-op. Do not route formal adoption.",
+  "next_spirit_action": "Wait for Quantum independent recheck or a new Windchime-authorized in-scope bounded repair. Do not modify value_desire_kernel.py, self_origin_evidence.py, formal MISSION_STATE, pending packet, or lease under the current scope.",
   "formal_dependency": "Heartbeat/Window Runtime independent C PASS before any bounded A->B->C EDL adoption packet."
 }
