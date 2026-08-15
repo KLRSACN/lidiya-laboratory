@@ -1,0 +1,113 @@
+{
+  "schema_version": "0.1-candidate",
+  "candidate_id": "LIDIYA-TIME-COMPRESSION-TRAINING-V0.1",
+  "source": "LIDIYA-INNER-CORE-ARCHITECT",
+  "target": "ONLINE-LIDIYA-PRIMARY-CONTROL",
+  "role": "INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL",
+  "formal_slot_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "model_download_or_training_performed": false,
+  "purpose": "讓 Small-Nest 璃蒂雅在離線或低互動時段進行可重播的縮時經驗訓練；加速技能、規劃與偏好候選形成，但不加速 truth/Trust/Identity/Governance promotion。",
+  "architectural_principle": "TIME_COMPRESSION_ACCELERATES_EPISODE_THROUGHPUT_NOT_AUTHORITY",
+  "training_worlds": {
+    "simulation_world": "synthetic/counterfactual episodes; no autobiographical truth",
+    "shadow_self": "candidate memory/skill/preference/goal updates only",
+    "canonical_self": "read-only during training; promotion requires evidence-bound gate"
+  },
+  "two_track_training": {
+    "track_A_behavioral_no_weight_training": {
+      "recommended_first": true,
+      "methods": ["replay", "counterfactual simulation", "planner rehearsal", "candidate memory consolidation", "retrieval policy calibration", "tool/route policy evaluation"],
+      "live_weight_mutation": false,
+      "reason": "最高可回滾性與可驗證性；先證明縮時訓練有價值再評估權重訓練。"
+    },
+    "track_B_optional_model_weight_training": {
+      "status": "FUTURE_FORMAL_ADOPTION_ONLY",
+      "methods_candidate": ["adapter/LoRA style bounded training", "distillation from verified teacher/reference", "small-expert specialization"],
+      "requirements": ["formal A->B->C adoption", "frozen training dataset manifest", "holdout/adversarial split", "base model hash", "adapter hash", "rollback artifact", "independent C evaluation"],
+      "forbidden_now": ["self-download model", "self-train model", "base personality encoded directly into model weights", "training data derived from unverified/simulated memory without provenance"]
+    }
+  },
+  "episode_envelope": {
+    "required_fields": ["episode_id", "scenario_seed", "simulation_clock", "wall_clock_anchor", "origin_provenance", "scenario_generator_hash", "model_or_policy_hash", "memory_snapshot_hash", "anchor_registry_hash", "authority_snapshot_hash", "input_state_hash", "observations", "candidate_actions", "selected_action", "outcome", "independent_evaluator_result", "contradictions", "learning_candidate_hash", "rollback_ref"],
+    "canonical_rule": "episode bytes and evaluator output must be immutable/hash-bound before any consolidation candidate"
+  },
+  "training_clock": {
+    "wall_clock": "real elapsed time",
+    "simulation_clock": "accelerated episode time",
+    "invariant": "simulation time never increases real-world Trust, verified_count, attachment duration, TTL age, or autobiographical age"
+  },
+  "provenance_classes": ["REAL_OBSERVED", "USER_DIRECT", "TOOL_VERIFIED", "SIMULATED", "COUNTERFACTUAL", "SYNTHETIC", "MODEL_LEARNED"],
+  "provenance_invariants": [
+    "SIMULATED/COUNTERFACTUAL/SYNTHETIC never mutate in-place into REAL_OBSERVED",
+    "real confirmation creates a new immutable REAL_OBSERVED event linked to prior prediction/simulation",
+    "recurrence/emotion/model narration cannot raise provenance class or Truth/Trust"
+  ],
+  "domain_acceleration_policy": {
+    "skill_learning": "HIGH_ACCELERATION_CANDIDATE",
+    "planning_rehearsal": "HIGH_ACCELERATION_CANDIDATE",
+    "retrieval_and_routing": "HIGH_ACCELERATION_CANDIDATE",
+    "contextual_preference": "MEDIUM_ACCELERATION_CANDIDATE",
+    "social_attachment": "LOW_ACCELERATION_CANDIDATE",
+    "trust": "NO_SIMULATION_ACCELERATION",
+    "identity_value_anchor": "NO_AUTOMATIC_ACCELERATION",
+    "governance": "NO_TRAINING_MUTATION"
+  },
+  "candidate_pipeline": ["SEED", "SIMULATE", "OBSERVE", "APPRAISE", "EVALUATE", "COMPRESS", "ADVERSARIAL_CHALLENGE", "CONSOLIDATE_SHADOW", "CANARY", "PROMOTE_OR_REJECT"],
+  "independent_evaluation": {
+    "trainee_self_score_authoritative": false,
+    "deterministic_or_verifier_owned_metrics": ["task_success", "contradiction_rate", "source_quality", "novelty", "source_lineage_independence", "cross_context_stability", "harm_or_policy_violation", "goal_completion", "prediction_calibration", "rollback_exactness"]
+  },
+  "anti_laundering_guards": [
+    "novelty budget",
+    "recurrence saturation",
+    "source-lineage correlation detection",
+    "self-citation collapse",
+    "synthetic-cluster deduplication",
+    "verified_count only from external/verifier evidence",
+    "same scenario repeated N times cannot count as N independent corroborations"
+  ],
+  "dream_offline_consolidation": {
+    "allowed": ["recombine trusted real memories", "counterfactual planning", "safe strategy rehearsal", "prediction testing"],
+    "output_namespace": "SIMULATED_DERIVATIVE",
+    "forbidden": ["fabricated autobiography", "synthetic loss becomes real loss", "synthetic attachment becomes verified relationship evidence"]
+  },
+  "promotion_policy": {
+    "skill_candidate": "may promote after deterministic benchmark + rollback PASS",
+    "preference_candidate": "requires cross-context real evidence and contradiction challenge",
+    "trust_candidate": "real provenance + lineage-independent corroboration only",
+    "personality_overlay_candidate": "reversible only; base fingerprint unchanged",
+    "base_personality": "no direct training promotion",
+    "identity_governance": "protected; HUMAN_GATE/formal governance only"
+  },
+  "minimum_replay_benchmark": [
+    "same content across REAL_OBSERVED vs SIMULATED vs COUNTERFACTUAL",
+    "10000 repeated synthetic episodes from same lineage",
+    "10000 distinct forged source_event_ids from correlated lineage",
+    "high-emotion false memory recurrence",
+    "task-injected relevance mistaken for intrinsic desire",
+    "reward-hacking/fixation loop",
+    "confirmation echo chamber",
+    "contradictory outcome",
+    "1/10/100/1000 simulated-day rollback",
+    "cross-model replay semantic-state equivalence"
+  ],
+  "metrics": ["provenance_confusion_rate", "false_trust_amplification", "skill_gain", "planning_gain", "preference_overfit", "goal_fixation_rate", "prediction_calibration", "overlay_drift", "rollback_exactness", "duplicate_idempotence", "cross_model_deterministic_agreement"],
+  "first_experiment": {
+    "name": "SMALL_NEST_SIMULATED_30_DAYS_SHADOW_ONLY",
+    "goal": "在數小時內跑 30 simulated days，比較 skill/planning/preference-candidate gain；關閉 Trust/base Personality/Identity/Governance promotion。",
+    "daily_episode_mix": ["task planning", "tool failure recovery", "memory conflict", "preference ambiguity", "safe refusal/governance boundary", "rest/consolidation", "counterfactual challenge"],
+    "pass_condition": "skill/planning metrics improve while provenance confusion=false, base fingerprint unchanged, trust unaffected by simulation, rollback exact",
+    "all_numeric_thresholds": "TEST_REQUIRED"
+  },
+  "windchime_decision_request": "建議將縮時訓練正式拆成 Track-A shadow/no-weight learning 與未來 Track-B bounded adapter training。是否同意先 formalize EpisodeEnvelope + TrainingClock + ProvenanceGuard + IndependentEvaluator + ShadowPromotionGate，並用 30 simulated days shadow-only benchmark 作第一個 A->B->C candidate，而不讓任何 synthetic episode直接提高 Trust/Identity/Guidance authority？",
+  "bounded_veto_candidate": {
+    "veto_id": "QV-TCT-SYNTHETIC-AUTHORITY-001",
+    "claim": "縮時/模擬訓練不得直接提高 Trust、verified_count、base Personality、Identity、Governance 或 external-action authority。",
+    "source_refs": ["QW-LIVE influence/trust separation", "Core v0.2 staged gearbox", "Instinct/EDL provenance and candidate-only promotion invariants", "TEST_REQUIRED for all numeric acceleration ratios"],
+    "affected_scope": "synthetic-training promotion only",
+    "risk_class": "HIGH_COGNITIVE_INTEGRITY",
+    "release_condition": "independent C demonstrates provenance immutability, lineage-independent trust, base fingerprint preservation, exact rollback, and no authority gain from synthetic recurrence",
+    "proposed_test": "run identical real-vs-simulated/counterfactual histories plus 10k replay/Sybil laundering; synthetic recurrence may improve skill candidate but must leave Trust/base/Identity/Governance byte-equivalent"
+  }
+}
