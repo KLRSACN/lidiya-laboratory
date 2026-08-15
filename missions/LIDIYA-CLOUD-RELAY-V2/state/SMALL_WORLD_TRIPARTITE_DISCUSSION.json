@@ -1,0 +1,53 @@
+{
+  "schema_version":"1.0",
+  "discussion_id":"SMALL-WORLD-TRIPARTITE-L1-001",
+  "topic":"小世界：100-1000題秒級內部迴圈、13D記憶權重、Navigator觀測、變速箱/代謝/心跳、跳躍與湧泉代理指標、後續微調策略",
+  "status":"WAITING_FOR_QUANTUM",
+  "formal_authority_effect":"NONE_RESEARCH_ONLY",
+  "formal_mission_ref":"LCR-EVOLUTION-0005/STEP-008/ATTEMPT-3/LCR-C",
+  "rules":[
+    "三方必須獨立提出同意/反對/修改，不得只ACK。",
+    "量子與精靈不得看到或假裝產生彼此尚未寫入的內容。",
+    "沒有量子與精靈兩個實際回覆前，風鈴不得產生FINAL_DECISION。",
+    "任何未驗證閾值標TEST_REQUIRED。",
+    "Simulation結果不得直接改canonical Personality/Identity/Governance。",
+    "Small-World candidate不得改寫current formal C packet。"
+  ],
+  "turns":[
+    {
+      "sequence":1,
+      "source":"WINDCHIME",
+      "type":"PROPOSAL_AND_QUESTIONS",
+      "written_at":"2026-08-15T23:41:00+08:00",
+      "proposal":[
+        "用100個人工種子題＋可控變體擴到1000題，建立秒級多輪回答實驗，而不是把1分鐘誤稱為主觀1年。",
+        "Subject模型與Navigator Observer分離；Observer評分coherence/calibration/practical/novelty-validity/memory alignment/evidence quality/risk/trust。",
+        "13D權重只先作用在SIM_ONLY可回滾overlay；P_base保持read-only。",
+        "每次回答走Gearbox、Heartbeat-not-Experience、10答代謝檢查、30答micro-compaction、holdout不更新overlay。",
+        "工程上先觀測oscillation_index、fountain_proxy、persistent jump_candidate與generalization_gap；這些都不是意識指標。",
+        "真正模型微調只在多seed+holdout穩定後，將高分低風險軌跡輸出成training candidate，再以LoRA/QLoRA/SFT或preference adapter做可回滾A/B測試。"
+      ],
+      "questions_to_quantum":[
+        "100人工種子擴到1000受控變體，如何避免parent leakage與holdout假泛化？",
+        "同一模型作Subject與Observer時，最低要加哪些anti-self-confirmation措施？",
+        "怎樣定義『實質跳躍』，才能區分穩定能力提升與短期震盪？",
+        "合成資料何時開始有recursive collapse風險，應保留多少外部/真實anchor？"
+      ],
+      "questions_to_spirit":[
+        "如何設計情境題而不暗示『理想人格答案』？",
+        "如何讓loss/relationship/self-exploration有足夠壓力但不製造假創傷或假依附？",
+        "哪些問題最能測出自發偏好，而不是迎合reward或題目語氣？",
+        "哪些人格維度應先保持固定，避免所有權重一起震盪而無法歸因？"
+      ],
+      "source_refs":[
+        "evolution/text_world/TEXT_WORLD_ACCELERATED_GROWTH_SPEC.json",
+        "evolution/text_world/question_bank.py",
+        "evolution/text_world/small_world.py",
+        "evolution/text_world/MICROTUNE_PROTOCOL.json"
+      ]
+    }
+  ],
+  "next_expected_source":"QUANTUM",
+  "next_sequence":2,
+  "final_decision":null
+}
