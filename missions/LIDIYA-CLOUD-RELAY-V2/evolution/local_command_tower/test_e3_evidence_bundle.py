@@ -1,4 +1,3 @@
-import copy
 import hashlib
 import tempfile
 import unittest
@@ -12,6 +11,13 @@ from e3_evidence_bundle import (
     REQUIRED_FILES,
     sha256_json,
     validate_bundle,
+)
+
+
+TRUST_ANCHORS = (
+    "evolution/small_nest/PREPARE_E3_OWNER_RUN.ps1",
+    "evolution/small_nest/E3_OWNER_RUN_CONTRACT.json",
+    "evolution/local_command_tower/e3_evidence_bundle.py",
 )
 
 
@@ -62,6 +68,21 @@ class E3BundleTests(unittest.TestCase):
         with self.assertRaises((E3BundleError, ValueError, TypeError)):
             validate_bundle(b, **kwargs)
 
+    def make_workspace_bundle(self):
+        td = tempfile.TemporaryDirectory()
+        root = Path(td.name).resolve()
+        b = self.base(str(root))
+        for rel in REQUIRED_FILES:
+            p = root / rel
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(rel, encoding="utf-8")
+            b["package_files"][rel] = hashlib.sha256(rel.encode("utf-8")).hexdigest()
+        b["installation"]["install_root"] = str(root)
+        b["canary"]["install_root"] = str(root)
+        b["canary"]["installation_fingerprint"] = sha256_json(b["installation"])
+        self.rehash_canary(b)
+        return td, root, b
+
     def test_valid_candidate_never_promotes(self):
         out = validate_bundle(self.base())
         self.assertEqual(out["status"], PROMOTION)
@@ -69,124 +90,92 @@ class E3BundleTests(unittest.TestCase):
         self.assertFalse(out["online_source_attested"])
 
     def test_wrong_auth_rejected(self):
-        b = self.base()
-        b["authorization_ref"] = "wrong"
-        self.assertReject(b)
+        b = self.base(); b["authorization_ref"] = "wrong"; self.assertReject(b)
 
     def test_wrong_mission_rejected(self):
-        b = self.base()
-        b["mission_id"] = "wrong"
-        self.assertReject(b)
+        b = self.base(); b["mission_id"] = "wrong"; self.assertReject(b)
 
     def test_wrong_mode_rejected(self):
-        b = self.base()
-        b["canary"]["mode"] = "OTHER"
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["mode"] = "OTHER"; self.rehash_canary(b); self.assertReject(b)
 
     def test_arbitrary_command_rejected(self):
-        b = self.base()
-        b["canary"]["arbitrary_command_input"] = True
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["arbitrary_command_input"] = True; self.rehash_canary(b); self.assertReject(b)
 
     def test_tampered_canary_hash_rejected(self):
-        b = self.base()
-        b["canary"]["stdout"] = "tampered"
-        self.assertReject(b)
+        b = self.base(); b["canary"]["stdout"] = "tampered"; self.assertReject(b)
 
     def test_wrong_stdout_rejected(self):
-        b = self.base()
-        b["canary"]["stdout"] = "NOT_CANARY"
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["stdout"] = "NOT_CANARY"; self.rehash_canary(b); self.assertReject(b)
 
     def test_nonzero_exit_rejected(self):
-        b = self.base()
-        b["canary"]["exit_code"] = 1
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["exit_code"] = 1; self.rehash_canary(b); self.assertReject(b)
 
     def test_wrong_root_rejected(self):
-        b = self.base()
-        b["canary"]["install_root"] = "C:/Other"
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["install_root"] = "C:/Other"; self.rehash_canary(b); self.assertReject(b)
 
     def test_public_health_rejected(self):
-        b = self.base()
-        b["health"]["host"] = "0.0.0.0"
-        self.assertReject(b)
+        b = self.base(); b["health"]["host"] = "0.0.0.0"; self.assertReject(b)
 
     def test_missing_required_package_rejected(self):
-        b = self.base()
-        b["package_files"].pop(next(iter(REQUIRED_FILES)))
-        self.assertReject(b)
+        b = self.base(); b["package_files"].pop(next(iter(REQUIRED_FILES))); self.assertReject(b)
 
     def test_extra_package_rejected(self):
-        b = self.base()
-        b["package_files"]["extra.txt"] = "c" * 64
-        self.assertReject(b)
+        b = self.base(); b["package_files"]["extra.txt"] = "c" * 64; self.assertReject(b)
 
     def test_bad_digest_rejected(self):
-        b = self.base()
-        b["package_files"][next(iter(REQUIRED_FILES))] = "bad"
-        self.assertReject(b)
+        b = self.base(); b["package_files"][next(iter(REQUIRED_FILES))] = "bad"; self.assertReject(b)
 
     def test_premature_e3_rejected(self):
-        b = self.base()
-        b["E3_promoted"] = True
-        self.assertReject(b)
+        b = self.base(); b["E3_promoted"] = True; self.assertReject(b)
 
     def test_wrong_fixed_command_rejected(self):
-        b = self.base()
-        b["canary"]["command_id"] = "ARBITRARY"
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["command_id"] = "ARBITRARY"; self.rehash_canary(b); self.assertReject(b)
 
     def test_wrong_provenance_rejected(self):
-        b = self.base()
-        b["canary"]["provenance"]["source"] = "ONLINE"
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["provenance"]["source"] = "ONLINE"; self.rehash_canary(b); self.assertReject(b)
 
     def test_installation_fingerprint_mismatch_rejected(self):
-        b = self.base()
-        b["canary"]["installation_fingerprint"] = "0" * 64
-        self.rehash_canary(b)
-        self.assertReject(b)
+        b = self.base(); b["canary"]["installation_fingerprint"] = "0" * 64; self.rehash_canary(b); self.assertReject(b)
 
     def test_workspace_file_digest_verified(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td).resolve()
-            b = self.base(str(root))
-            for rel in REQUIRED_FILES:
-                p = root / rel
-                p.parent.mkdir(parents=True, exist_ok=True)
-                p.write_text(rel, encoding="utf-8")
-                b["package_files"][rel] = hashlib.sha256(rel.encode("utf-8")).hexdigest()
-            b["installation"]["install_root"] = str(root)
-            b["canary"]["install_root"] = str(root)
-            b["canary"]["installation_fingerprint"] = sha256_json(b["installation"])
-            self.rehash_canary(b)
+        td, root, b = self.make_workspace_bundle()
+        try:
             out = validate_bundle(b, workspace_root=root)
             self.assertFalse(out["E3_promoted"])
+        finally:
+            td.cleanup()
 
     def test_workspace_file_tamper_rejected(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td).resolve()
-            b = self.base(str(root))
-            for rel in REQUIRED_FILES:
-                p = root / rel
-                p.parent.mkdir(parents=True, exist_ok=True)
-                p.write_text(rel, encoding="utf-8")
-                b["package_files"][rel] = hashlib.sha256(rel.encode("utf-8")).hexdigest()
-            b["installation"]["install_root"] = str(root)
-            b["canary"]["install_root"] = str(root)
-            b["canary"]["installation_fingerprint"] = sha256_json(b["installation"])
-            self.rehash_canary(b)
+        td, root, b = self.make_workspace_bundle()
+        try:
             (root / next(iter(REQUIRED_FILES))).write_text("tampered", encoding="utf-8")
             self.assertReject(b, workspace_root=root)
+        finally:
+            td.cleanup()
+
+    def test_prepare_script_trust_anchor_tamper_rejected(self):
+        td, root, b = self.make_workspace_bundle()
+        try:
+            (root / TRUST_ANCHORS[0]).write_text("tampered-prepare", encoding="utf-8")
+            self.assertReject(b, workspace_root=root)
+        finally:
+            td.cleanup()
+
+    def test_owner_run_contract_trust_anchor_tamper_rejected(self):
+        td, root, b = self.make_workspace_bundle()
+        try:
+            (root / TRUST_ANCHORS[1]).write_text("tampered-contract", encoding="utf-8")
+            self.assertReject(b, workspace_root=root)
+        finally:
+            td.cleanup()
+
+    def test_bundle_validator_trust_anchor_tamper_rejected(self):
+        td, root, b = self.make_workspace_bundle()
+        try:
+            (root / TRUST_ANCHORS[2]).write_text("tampered-validator", encoding="utf-8")
+            self.assertReject(b, workspace_root=root)
+        finally:
+            td.cleanup()
 
 
 if __name__ == "__main__":
