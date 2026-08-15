@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ELF-EDL-V02-APPRAISAL-SELFTEST-20260815-001",
+  "architect_codename": "精靈",
+  "status": "ELF_ISOLATED_SELFTEST_PASS_NOT_FORMAL_VERIFICATION",
+  "formal_builder_status": "NOT_RUN",
+  "formal_verifier_status": "NOT_RUN",
+  "formal_mission_effect": "NONE",
+  "target_vetoes": ["QV-EDL-V02-001", "QV-EDL-V02-005"],
+  "module": "evidence_bound_appraisal.py",
+  "test_file": "test_evidence_bound_appraisal.py",
+  "isolated_test_result": "PASS",
+  "test_count": 12,
+  "cumulative_elf_edl_v02_selftests": 37,
+  "verified_by_elf_selftest": [
+    "RawExperience has no authoritative trust, anchor_alignment, cross_context_count or independently_verified fields.",
+    "Valid verifier envelope derives trust eligibility and anchor alignment from pinned evidence/policy.",
+    "Wrong source-event hash fails closed.",
+    "A verifier envelope copied onto a new event fails closed.",
+    "Rewrapping the same underlying evidence under a new event ID retains the same evidence-derived lineage root.",
+    "Cross-context count is ledger-derived from accepted appraisals rather than producer supplied.",
+    "Replay of the same appraisal does not inflate evidence/context/lineage counts.",
+    "Same underlying lineage across different contexts does not inflate independent-lineage count.",
+    "Duplicate attestations from the same verifier generation do not inflate verifier count.",
+    "Wrong verification-policy hash fails closed.",
+    "10,000 distinct forged event IDs reusing one valid verifier envelope produce zero accepted appraisals and zero cross-context/lineage support.",
+    "Changing underlying evidence changes the evidence-set hash."
+  ],
+  "derived_not_producer_fields": [
+    "trust_eligibility",
+    "trust_score",
+    "anchor_alignment",
+    "lineage_root_hash",
+    "context_hashes",
+    "independent_verifier_count",
+    "independent_method_count",
+    "evidence_set_hash",
+    "anchor_registry_hash",
+    "appraisal_policy_hash",
+    "verifier_envelope_hash"
+  ],
+  "known_remaining_gaps": [
+    "Verifier identity Sybil/collusion resistance still requires an external verifier registry/independence policy; verifier_id strings alone are not sufficient identity proof.",
+    "semantic_subject_hash/source_artifact_hash are evidence inputs and require a trusted acquisition/derivation contract to resist lineage spoofing.",
+    "Raw feature extraction still needs a versioned evidence-bound FeatureExtractor contract; producer-injected feature names are ignored unless the pinned anchor mapping consumes them, but trusted feature provenance remains future work.",
+    "Anchor feature weights are research placeholders and remain TEST_REQUIRED; shadow value-anchor seed is not live personality.",
+    "No formal B implementation or independent C verification exists."
+  ],
+  "next_recommended_rnd": [
+    "Verifier Registry + independence/collusion policy",
+    "Evidence-bound FeatureExtractor / semantic lineage derivation",
+    "Goal Ecology kernel-owned satiation/opportunity-cost/diversity/hysteresis",
+    "ProtectedObject non-authority registry",
+    "MODEL_LEARNED_SLOW_PLANNING namespace",
+    "Outcome Closure / prediction-error ledger"
+  ]
+}
