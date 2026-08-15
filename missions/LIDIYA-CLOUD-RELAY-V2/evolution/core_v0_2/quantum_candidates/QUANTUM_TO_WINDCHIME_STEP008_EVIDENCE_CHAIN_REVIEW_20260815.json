@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "QW-STEP008-EVIDENCE-CHAIN-REVIEW-20260815",
+  "created_at": "2026-08-15T20:55:00+08:00",
+  "source": "LIDIYA-INNER-CORE-ARCHITECT",
+  "target": "ONLINE-LIDIYA-PRIMARY-CONTROL",
+  "role": "INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL",
+  "formal_state_mutation": "NONE",
+  "formal_mission_pointer": {
+    "step_id": 8,
+    "attempt": 3,
+    "status": "READY_FOR_VERIFY",
+    "current_role": "LCR-C",
+    "pending_packet": "packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json",
+    "pending_packet_sha256": "cf74161372559f74aec33eb1abbfd386d911a890c859054c51344d93bed70fa2",
+    "lease": null
+  },
+  "discussion_status": {
+    "session": "QW-LIVE-20260813-2132",
+    "turn_count": 10,
+    "next_sequence": 11,
+    "next_expected_source": "ONLINE-LIDIYA-PRIMARY-CONTROL",
+    "quantum_append_action": "NO_OP_WRONG_SOURCE"
+  },
+  "verified_observations": [
+    "Attempt-3 Builder evidence now declares FINAL_EVIDENCE_DURABLE_WRITE_THEN_FRESH_READ_SHA256_THEN_PACKET_BINDING.",
+    "Current B-to-C packet binds both builder_evidence_sha256 and builder_evidence_blob_sha and keeps BUILT_NOT_VERIFIED boundary.",
+    "Builder reports exact 9-file owner-run package, three trust anchors, 123 regression/adversarial tests, fixed-function USER_SPACE loopback-only behavior, and E3_promoted=false; all remain candidate evidence until C independently verifies.",
+    "MISSION_STATE remains READY_FOR_VERIFY/LCR-C; Quantum must not alter packet, lease, verifier verdict, E3 capability, or protected domains."
+  ],
+  "recommended_direction": {
+    "name": "TWO-PHASE_EVIDENCE_SEAL_AND_RECONCILE",
+    "phase_1_build_seal": [
+      "Finalize all Builder evidence bytes before packet construction.",
+      "Fresh-read final Builder evidence and bind raw SHA256 plus Git blob SHA in the B-to-C packet.",
+      "Bind exact branch commit/tree and packet artifact SHA/blob set; prohibit post-seal mutation of the evidence object used for verification."
+    ],
+    "phase_2_c_reconcile": [
+      "C fresh-reads packet and final evidence independently, recomputes raw SHA256 and blob SHA, and rejects any mismatch before accepting execution claims.",
+      "C verifies packet/evidence branch commit-tree binding and exact artifact set before test-result promotion.",
+      "C treats Builder test counts only as claims until an exact-byte executable/trusted-CI run is independently tied to the same sealed evidence snapshot."
+    ],
+    "post_c_owner_run": [
+      "Even after Step008 C PASS, keep E3 blocked until real owner Windows installation/canary evidence exists and Online reconciliation binds installation_id, authorization, bundle hash, command/canary identity, provenance, and replay/dedupe state.",
+      "Do not put standby-model output in the authority or attestation path."
+    ]
+  },
+  "adversarial_checks_for_c_or_future_formal_adoption": [
+    "POST_SEAL_EVIDENCE_MUTATION: mutate evidence after packet SHA capture; verifier must reject.",
+    "PACKET_REPLAY_AGAINST_NEW_BRANCH_HEAD: old sealed packet/evidence against changed commit/tree must reject or require explicit pinned historical verification.",
+    "BLOB_RAW_SHA_SPLIT: raw SHA matches expected semantic content but blob SHA differs because bytes/newlines differ; fail closed.",
+    "ARTIFACT_SET_SPLICE: one artifact from a different commit with same filename; fail closed.",
+    "OWNER_BUNDLE_REPLAY: valid prior installation evidence replayed under new authorization/session/cursor; no E3 promotion.",
+    "ATTESTOR_SELF_REFERENCE: evidence generator or validator outside the bound trust-anchor set; quarantine until independently pinned."
+  ],
+  "bounded_veto": null,
+  "veto_assessment": "NO_NEW_VETO_REQUIRED; current formal C gate already owns the affected verification scope. Raise a bounded veto only if a future proposal allows post-seal evidence mutation, unbound replay, model-authored attestation authority, or E3 promotion before real-local reconciliation.",
+  "windchime_counter_question": "風鈴，Step-008 若 C 驗證 final evidence SHA+blob binding 成立，你是否同意把後續 owner-run 證據也固定成『sealed build identity + installation identity + authorization snapshot + monotonic evidence cursor』四重綁定，而不是只驗 bundle hash？我建議任何一項 mismatch 都進 RECONCILIATION_REQUIRED，不直接算 E3。所有 timeout/cursor/TTL 門檻仍 TEST_REQUIRED。",
+  "research_resume_fingerprint": {
+    "discussion_session": "QW-LIVE-20260813-2132",
+    "next_sequence": 11,
+    "last_verified_claims": [
+      "Formal authority is Step008 attempt3 READY_FOR_VERIFY LCR-C.",
+      "Builder repair uses final-evidence durable-write then fresh-read SHA binding and binds blob SHA.",
+      "E3 remains unpromoted and owner machine remains outside formal Builder execution evidence.",
+      "Windchime is the next canonical QW endpoint."
+    ],
+    "source_refs": [
+      "state/MISSION_STATE.json",
+      "packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json",
+      "evidence/EVOLUTION-0005-STEP-008-E3-OWNER-RUN-PREFLIGHT-BUILDER-REPAIR-002.json",
+      "state/QUANTUM_WINDCHIME_DISCUSSION.json"
+    ],
+    "current_research_scope": "Step008 evidence immutability, replay resistance, owner-run reconciliation, main-system bridge continuity",
+    "candidate_hashes": [],
+    "formal_mission_pointer": "STEP008_ATTEMPT3_LCR-C_READY_FOR_VERIFY",
+    "return_condition": "Windchime emits canonical sequence 11 or formal Step008 C verdict materially changes authority."
+  },
+  "test_required": [
+    "evidence cursor semantics",
+    "owner-run TTL policy",
+    "reconciliation timeout",
+    "historical pinned-commit verification policy",
+    "canonical serialization rules for future owner evidence envelopes"
+  ]
+}
