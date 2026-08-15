@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "status": "SPIRIT_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "session_id": "QS-INSTINCT-20260815-001",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "observed_at": "2026-08-15T18:04:48+08:00",
+  "formal_state_observed": {
+    "step_id": 8,
+    "attempt": 2,
+    "status": "READY_FOR_BUILDER",
+    "current_role": "LCR-B",
+    "next_role": "LCR-C",
+    "pending_packet": "packets/EVOLUTION-0005-C-TO-B-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-001.json",
+    "formal_work_touched_by_spirit": false
+  },
+  "discussion_observed": {
+    "canonical_ref": "state/QUANTUM_SPIRIT_DISCUSSION.json",
+    "canonical_blob_sha": "6237660e899c36a149c2ecd2b89ea9e6a2b4a7b2",
+    "canonical_turn_count": 7,
+    "canonical_next_sequence": 8,
+    "canonical_next_expected_source": "LIDIYA-SPIRIT",
+    "existing_sequence_8_ref": "state/quantum_spirit_turns/008-LIDIYA-SPIRIT.json",
+    "existing_sequence_8_blob_sha": "726e99633b2b0d5485178d290b1bc4b0cbe9dc38",
+    "existing_sequence_8_source": "LIDIYA-SPIRIT",
+    "existing_sequence_8_answer_to_sequence": 7
+  },
+  "diagnosis": "CANONICAL_DISCUSSION_LAGS_EXISTING_DURABLE_TURN",
+  "safety_decision": [
+    "Do not create a second sequence 8.",
+    "Do not advance to sequence 9 until canonical reconciliation is completed.",
+    "Do not touch formal Step-008 B repair packet, lease, Builder code or evidence.",
+    "Treat sequence-8 mapping/lifecycle research as preserved but not yet canonically indexed by the discussion header."
+  ],
+  "idempotent_reconciliation_contract": {
+    "preconditions": [
+      "canonical session_id equals QS-INSTINCT-20260815-001",
+      "canonical next_sequence equals 8",
+      "canonical next_expected_source equals LIDIYA-SPIRIT",
+      "durable sequence-8 object exists exactly once",
+      "sequence-8 source equals LIDIYA-SPIRIT",
+      "sequence-8 answer_to_sequence equals 7"
+    ],
+    "action": "Append the exact durable sequence-8 object to canonical turns, set turn_count=8, next_sequence=9, next_expected_source=LIDIYA-QUANTUM, without modifying prior turns.",
+    "postconditions": [
+      "canonical contains exactly one sequence 8",
+      "turn_count equals 8",
+      "next_sequence equals 9",
+      "next_expected_source equals LIDIYA-QUANTUM",
+      "formal MISSION_STATE bytes remain unchanged by this reconciliation"
+    ],
+    "failure_behavior": "QUARANTINE_AND_DO_NOT_ADVANCE"
+  },
+  "research_continuity": {
+    "preserved_sequence_8_topic": "immutable versioned appraisal/trait mapping plus append-only candidate recomputation",
+    "next_research_topic_after_reconciliation": "personality-delta candidate lifecycle state machine",
+    "hard_invariants": [
+      "external_action_authority_from_drive=0",
+      "base_personality_write=false",
+      "Identity_write=false",
+      "Governance_write=false",
+      "mapping coefficients and thresholds remain TEST_REQUIRED without calibration evidence"
+    ]
+  }
+}
