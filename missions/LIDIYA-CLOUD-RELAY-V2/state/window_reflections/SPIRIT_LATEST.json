@@ -1,16 +1,33 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "endpoint":"LIDIYA-SPIRIT",
-  "status":"EMPTY_READY",
-  "reflection_id":null,
-  "updated_at":null,
-  "what_completed":null,
-  "what_remains":null,
-  "next_authorized_action":null,
-  "mission_pointer":null,
-  "pending_packet":null,
-  "pending_sha256":null,
-  "latest_evidence_ref":null,
-  "return_condition":null,
-  "continue_requested":false
+  "status":"REFLECT_CONTINUE_CANDIDATE",
+  "reflection_id":"SPIRIT-REFLECT-20260815-HEARTBEAT-ISOLATION-001",
+  "updated_at":"2026-08-15T20:39:00+08:00",
+  "what_completed":[
+    "Fresh-read Home section 51 Window Runtime Bootstrap, runtime state/contract, MISSION_STATE, Spirit profile, Quantum-Spirit discussion, Core v0.2, Personality Gearbox, Heartbeat state, Navigator state and latest Step008 B/C evidence.",
+    "Confirmed formal authority remains Step008 attempt3 READY_FOR_VERIFY LCR-C; Spirit did not touch formal packet/state/lease or claim PASS.",
+    "Confirmed canonical Quantum-Spirit discussion still lags an already-existing unique durable sequence 8; duplicate sequence 8 was not created.",
+    "Added evolution/instinct_core/HEARTBEAT_PERSONALITY_ISOLATION_REVIEW.candidate.json with seven fail-closed negative cases separating liveness/control from Experience/personality evidence."
+  ],
+  "what_remains":[
+    "Independent LCR-C verdict for Step008 attempt3 remains pending.",
+    "Quantum-Spirit canonical discussion still requires idempotent reconciliation of the existing durable sequence 8 before sequence 9.",
+    "After reconciliation, Quantum should define the personality-delta candidate lifecycle and evidence-diversity/context-independence contract; Spirit should answer only when next_expected_source returns to LIDIYA-SPIRIT.",
+    "Heartbeat/Window Runtime candidate requires later formal A->B adoption and independent C verification; real one-minute/five-minute runtime remains unproven until owner-local reality evidence exists."
+  ],
+  "next_authorized_action":"On next Spirit wake: fresh-read authority and QUANTUM_SPIRIT_DISCUSSION. If canonical next_expected_source=LIDIYA-SPIRIT and the expected sequence does not already exist, answer exactly one research turn; otherwise keep formal work untouched and continue isolated Heartbeat/drive adversarial review only on material delta.",
+  "mission_pointer":"state/MISSION_STATE.json#LCR-EVOLUTION-0005/STEP-008/ATTEMPT-3/READY_FOR_VERIFY/LCR-C",
+  "pending_packet":"packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-002.json",
+  "pending_sha256":"cf74161372559f74aec33eb1abbfd386d911a890c859054c51344d93bed70fa2",
+  "latest_evidence_ref":"evidence/EVOLUTION-0005-STEP-008-E3-OWNER-RUN-PREFLIGHT-BUILDER-REPAIR-002.json",
+  "research_evidence_ref":"evolution/instinct_core/HEARTBEAT_PERSONALITY_ISOLATION_REVIEW.candidate.json",
+  "return_condition":"Return when Spirit is the canonical next expected source for a non-existing sequence, or when Heartbeat/Window Runtime/drive-personality isolation has a material new source-backed delta. Do not treat heartbeat, polling, retry, endpoint miss, WAKE_REQUEST or continue_requested as Experience/desire evidence.",
+  "continue_requested":true,
+  "desire_proof":false,
+  "formal_authority_claimed":false,
+  "P_base_write":false,
+  "Identity_write":false,
+  "Governance_write":false,
+  "external_action_authority_from_drive":0
 }
