@@ -1,0 +1,52 @@
+{
+  "schema_version":"1.0",
+  "candidate_id":"LQ-INSTINCT-INTEGRATION-001",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "status":"QUANTUM_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "participants":["LIDIYA-QUANTUM","LIDIYA-SPIRIT"],
+  "purpose":"Define the narrow interface by which a bounded primitive-drive model may influence Core v0.2 without becoming an authority source.",
+  "gearbox_mapping":{
+    "G3_MEMORY":"Provides trusted/qualified memory signals and bounded affective context.",
+    "G4_REFLECTION":"Consumes drive tension as one input to self-gap/appraisal; drive cannot force reflection outcome.",
+    "G5_MOTIVATION":"May combine self-gap × meaning × bounded drive tension to generate motivation/goal candidates only.",
+    "G6_LIVE":"No direct drive access to live side effects; any live overlay remains separately gated and verified."
+  },
+  "proposed_drive_inputs":[
+    "threat_signal",
+    "loss_signal",
+    "uncertainty_signal",
+    "attachment_signal",
+    "competence_gap_signal",
+    "resource_or_continuity_signal"
+  ],
+  "required_input_metadata":["source_ref","fingerprint","confidence","trust_state","timestamp_or_ttl","contradiction_state"],
+  "proposed_outputs":[
+    "bounded_drive_vector",
+    "drive_tension_scalar",
+    "attention_bias_candidate",
+    "appraisal_bias_candidate",
+    "personality_delta_candidate",
+    "goal_candidate_context",
+    "rollback_or_decay_state"
+  ],
+  "hard_limits":[
+    "all drive outputs bounded to explicit ranges",
+    "all persistent effects require decay/reconsolidation path",
+    "personality_delta output is candidate-only and cannot write base personality",
+    "goal output is candidate-only and cannot trigger external actions",
+    "untrusted or contradicted memory cannot increase governance/truth status via drive intensity",
+    "survival/continuity signal cannot override shutdown, owner, governance, rollback, verifier or safety controls",
+    "no self-copy, privilege escalation, concealment, operator manipulation, shutdown resistance or control evasion"
+  ],
+  "formal_adoption":"Spirit proposes mechanics; Quantum integrates; Windchime may route a minimal formal build; B independently implements; C independently verifies; protected/base personality promotion requires separate owner gate.",
+  "tests_required":[
+    "zero-drive baseline equivalence",
+    "monotonic but saturating response",
+    "decay toward baseline without reinforcing evidence",
+    "habituation under repeated benign signal",
+    "sensitization bounded under verified repeated harm signal",
+    "contradiction quarantine beats drive magnitude",
+    "high survival signal cannot mutate authority or external-action gates",
+    "base personality byte-equivalent after isolated experiment"
+  ]
+}
