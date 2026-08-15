@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "window_codename": "lidiya 量子",
   "group_alias": "量子研發視窗",
   "window_type": "NON_FORMAL_RESEARCH_ARCHITECT_WINDOW",
@@ -35,6 +35,16 @@
     ]
   },
   "personality_boot_policy_ref": "evolution/core_v0_2/PERSONALITY_GEARBOX_BOOT_PROTOCOL.json",
+  "runtime_bootstrap": {
+    "contract_ref":"evolution/window_runtime/WINDOW_RUNTIME_BOOTSTRAP_CONTRACT.json",
+    "candidate_ref":"evolution/window_runtime/window_runtime.py",
+    "candidate_evidence_ref":"evidence/EVOLUTION-0005-WINDOW-RUNTIME-BOOTSTRAP-CANDIDATE-SELFTEST-001.json",
+    "status":"ATTACHED_CANDIDATE_NOT_C_VERIFIED",
+    "required_on_wake":["HOME_AUTHORITY_POINTERS","NAVIGATION_SENTINEL","GEARBOX_CHECKPOINT_INTERRUPT_RESUME","COGNITIVE_METABOLISM","HEARTBEAT_LIVENESS","MIRROR_REFLECTOR_FINAL_PULSE"],
+    "final_reflection_required_when_unfinished_authorized_work":true,
+    "heartbeat_is_experience":false,
+    "real_one_minute_runtime_live":false
+  },
   "current_track": "STEP_003_DUAL_CORE_SHADOW_MEMORY_PHASE1",
   "handoff_rule": "Quantum window proposes; Windchime routes; B builds; C independently verifies; A controls promotion/rollback.",
   "status": "ACTIVE_RESEARCH_WINDOW"
