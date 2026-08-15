@@ -1,0 +1,16 @@
+{
+  "schema_version":"1.0",
+  "endpoint":"LIDIYA-INNER-CORE-ARCHITECT",
+  "status":"EMPTY_READY",
+  "reflection_id":null,
+  "updated_at":null,
+  "what_completed":null,
+  "what_remains":null,
+  "next_authorized_action":null,
+  "mission_pointer":null,
+  "pending_packet":null,
+  "pending_sha256":null,
+  "latest_evidence_ref":null,
+  "return_condition":null,
+  "continue_requested":false
+}
