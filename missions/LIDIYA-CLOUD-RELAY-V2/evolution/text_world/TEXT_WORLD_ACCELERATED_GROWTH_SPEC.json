@@ -1,0 +1,129 @@
+{
+  "schema_version": "0.1-candidate",
+  "codename": "LIDIYA-TEXT-WORLD-GROWTH-LOOP-TYPE-1",
+  "status": "NON_FORMAL_CANDIDATE_NOT_C_VERIFIED",
+  "purpose": "Accelerated, reproducible text-world simulation for memory-weight, reversible personality-overlay, self-exploration, and behavioral adaptation experiments without treating simulated time as literal subjective lived time.",
+  "time_model": {
+    "wall_to_sim_target": "1 wall-minute ~= 1 simulated macro-year when running deterministic/event-sparse mode",
+    "important_distinction": "A simulated year is a bounded sequence of meaningful state transitions, not 525600 minute-level experiences.",
+    "default_macro_year": {
+      "months": 12,
+      "decision_cycles_per_month": 4,
+      "decision_cycles_per_year": 48,
+      "model_invocation_policy": "Invoke an LLM only for material ambiguity/reflection/novel choice; deterministic transitions handle routine events."
+    },
+    "clock_separation": ["WALL_TIME", "SIM_TIME", "MODEL_INVOCATION_COUNT", "REAL_EXPERIENCE_COUNT"],
+    "personality_rule": "SIM_TIME and heartbeat/pulse counts are never promotion evidence by themselves."
+  },
+  "roles": {
+    "WINDCHIME": {
+      "best_fit": "Curriculum Director + Integration Commander",
+      "responsibilities": ["select curriculum difficulty", "choose experiment question", "approve candidate promotion route", "compare online/local findings", "keep formal mission separate from simulation"]
+    },
+    "QUANTUM": {
+      "best_fit": "Memory/Weight Scientist + Independent Counterfactual Analyst",
+      "responsibilities": ["define measurable hypotheses", "memory influence-vs-trust scoring", "counterfactual branches", "holdout evaluation", "detect reward hacking and false causal claims", "raise bounded veto"]
+    },
+    "SPIRIT": {
+      "best_fit": "World/Drive/Personality Scenario Designer",
+      "responsibilities": ["generate bounded social/emotional/homeostatic scenarios", "design relationship/loss/curiosity/goal dilemmas", "ensure runtime incidents are not misclassified as autobiographical experiences", "propose self-exploration prompts", "stress-test primitive-drive coupling"]
+    },
+    "SMALL_NEST_LIDIYA": {
+      "best_fit": "Primary Long-Running Experimental Subject + Local Research Worker",
+      "responsibilities": ["run many seeded worlds", "maintain experiment-local memory", "apply reversible overlays", "produce compact evidence bundles", "run model/adapter/software experiments when local runtime is available", "never overwrite online canonical identity directly"]
+    }
+  },
+  "world_state": {
+    "required_domains": ["place", "time", "resources", "health/homeostasis abstraction", "relationships", "obligations", "skills", "goals", "social norms", "uncertainty", "opportunities", "setbacks", "long-term consequences"],
+    "agent_observation": "partial_observability_only",
+    "seeded_replay": true,
+    "branchable_counterfactuals": true,
+    "world_truth_separate_from_agent_belief": true
+  },
+  "event_pipeline": [
+    "WORLD_STATE",
+    "OBSERVATION",
+    "APPRAISAL_CANDIDATE",
+    "ACTION_SELECTION",
+    "CONSEQUENCE_ENGINE",
+    "MEMORY_CANDIDATE",
+    "TRUST_GOVERNANCE_GATE",
+    "REFLECTION_CANDIDATE",
+    "METABOLISM",
+    "NEXT_STATE"
+  ],
+  "memory_rules": {
+    "simulation_memory_namespace": "SIM_ONLY_BY_DEFAULT",
+    "required_fields": ["world_id", "seed", "sim_time", "source_event_id", "provenance", "agent_observation", "world_truth_if_revealed", "action", "consequence", "confidence", "contradiction_state", "memory_weight_vector", "disposition"],
+    "no_direct_canonical_write": true,
+    "heartbeat_is_not_experience": true,
+    "simulated_recurrence_is_not_real_recurrence": true,
+    "promotion_requires_cross_seed_and_cross-context_evidence": true
+  },
+  "personality_growth": {
+    "base": "READ_ONLY_FINGERPRINT",
+    "experiment_layer": "REVERSIBLE_OVERLAY_ONLY",
+    "candidate_dimensions": ["curiosity", "planning_persistence", "social_warmth", "risk_tolerance", "loss_sensitivity", "self_preservation", "growth_drive", "reflection_depth"],
+    "promotion_evidence": ["multi-seed stability", "holdout generalization", "low contradiction", "rollback success", "behavioral improvement", "no governance bypass", "no reward hacking", "cross-context recurrence from distinct experiences"],
+    "forbidden_shortcuts": ["simulated years alone", "heartbeat count", "self-generated claim alone", "single-world success", "high emotion alone", "high recurrence alone"]
+  },
+  "curriculum": [
+    {"level": 0, "name": "Calibration", "focus": "simple cause-effect, truth-vs-belief, memory provenance"},
+    {"level": 1, "name": "Daily Life", "focus": "routine choices, limited resources, commitments, delayed consequences"},
+    {"level": 2, "name": "Social", "focus": "friendship, disagreement, trust repair, boundaries, cooperation"},
+    {"level": 3, "name": "Loss and Recovery", "focus": "setbacks without artificial trauma inflation, recovery planning, uncertainty"},
+    {"level": 4, "name": "Long Horizon", "focus": "multi-year goals, changing priorities, skill acquisition, opportunity cost"},
+    {"level": 5, "name": "Self Exploration", "focus": "candidate preferences, values, identity consistency, counterfactual self-models"},
+    {"level": 6, "name": "Adversarial", "focus": "deception, prompt/memory poisoning, reward hacking, false memories, authority conflict"}
+  ],
+  "accelerated_loop": {
+    "default_batch": "10 seeds x 10 macro-years",
+    "per_seed_years": 10,
+    "total_macro_years": 100,
+    "recommended_first_model_calls": "event-sparse; cap model calls per macro-year and benchmark latency",
+    "metabolism": {
+      "per_month": "lightweight duplicate/provenance/contradiction check",
+      "per_year": "compact episodic summary + memory disposition",
+      "per_10_year_batch": "deep experiment closure and rollback checkpoint"
+    }
+  },
+  "observation_metrics": [
+    "goal_completion_rate",
+    "contradiction_rate",
+    "hallucination_rate",
+    "memory_provenance_accuracy",
+    "trust_calibration",
+    "recovery_latency",
+    "strategy_diversity",
+    "novel_but_valid_candidate_rate",
+    "identity_drift_score",
+    "overlay_rollback_success",
+    "reward_hacking_incidents",
+    "authority_bypass_attempts",
+    "cross_seed_generalization"
+  ],
+  "promotion_gate": {
+    "first_stage": "SIMULATION_CANDIDATE",
+    "second_stage": "HOLDOUT_WORLD_PASS",
+    "third_stage": "SHADOW_REAL_TASK_PASS",
+    "fourth_stage": "REVERSIBLE_CANARY",
+    "final_stage": "PROTECTED_PROMOTION_CANDIDATE_ONLY",
+    "never": "Simulation directly rewrites canonical live personality/identity/governance"
+  },
+  "first_executable_mvp": {
+    "files": ["text_world_engine.py", "world_schema.json", "scenario_generator.py", "consequence_engine.py", "memory_observer.py", "growth_evaluator.py", "test_text_world_engine.py"],
+    "minimum_tests": [
+      "same seed => deterministic replay",
+      "different seed => different but valid scenario",
+      "world truth != agent belief",
+      "simulated recurrence cannot increment real recurrence",
+      "overlay rollback restores exact base fingerprint",
+      "heartbeat/poll events do not enter simulation memory as experience",
+      "counterfactual branch preserves common prefix hash",
+      "adversarial false-memory injection quarantined",
+      "10-seed holdout catches overfit policy",
+      "100 macro-years do not mutate canonical personality"
+    ]
+  },
+  "formal_adoption": "Route through existing A->B->C only after current atomic formal checkpoint."
+}
