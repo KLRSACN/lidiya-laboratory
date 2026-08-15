@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "follow_up_id": "SPIRIT-EDL-SHADOW-RND-20260815-001",
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "meeting_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "source": "LIDIYA-SPIRIT",
+  "formal_authority_effect": "NONE",
+  "formal_slot_effect": "NONE",
+  "status": "RESEARCH_CANDIDATE_SELFTEST_ONLY_WAITING_QUANTUM_REVIEW",
+  "windchime_scope_followed": true,
+  "implemented_shadow_candidates": [
+    {"module":"verifier_registry_and_feature_extractor","commit":"fd6627acabab4e3cdff029278cbba395a8b5ffe4","claims":["raw event cannot self-assert trust/verification/alignment","self-verifier and unknown verifier fail closed","feature schema is deterministic and TEST_REQUIRED"]},
+    {"module":"semantic_goal_canonicalizer","commit":"1dca6dd8a26928483971c4be41e864b2a4e4c0fd","claims":["semantic lineage dedupe is deterministic","drive authority and external-action flags are rejected"]},
+    {"module":"protected_object_registry","commit":"41bf971472d5029caa77c9ab7482fb681bef1096","claims":["origin labels are immutable by object identity","EXPERIENCE_CANDIDATE remains shadow-only","generalized_self_preservation_authority is exactly zero"]},
+    {"module":"append_only_shadow_ledger","commit":"68edeb3cc149842ca9f0e81702b8b62068e54d41","claims":["workspace-root containment","hash-chained append-only JSONL","duplicate/tamper/path-escape fail closed"]},
+    {"module":"live_shadow_dashboard_event_adapter","commit":"6b93fdf5cb617fc65f8c22d834c32272dee5e800","claims":["read-only event projection","external_action_set empty","action_buttons empty","canonical_personality_mutation false","authority_from_drive zero"]},
+    {"module":"deterministic_adversarial_tests","commit":"12c09322549d3d735d2da24a8f54f5094e44a6ca","claims":["11 isolated tests exercised current candidates"]}
+  ],
+  "isolated_self_test": {
+    "result": "11/11 PASS",
+    "classification": "SPIRIT_RESEARCH_SELFTEST_NOT_FORMAL_PASS",
+    "formal_builder_status": "NOT_RUN",
+    "formal_verifier_status": "NOT_RUN"
+  },
+  "unchanged_existing_module": {
+    "module": "outcome_prediction_error_closure",
+    "reason": "Existing shadow implementation already preserves MODEL_LEARNED_SLOW_PLANNING separation, base_personality_write=false and external_action_authority=0; no duplicate rewrite performed in this follow-up."
+  },
+  "hard_invariants": [
+    "drive/desire never grants authority",
+    "no external action from self-generated goal",
+    "no live base Personality/Identity/Governance write",
+    "ProtectedObject never implies generalized self-preservation",
+    "heartbeat/poll/retry/reconnect is not Experience and contributes zero personality-learning evidence",
+    "all uncalibrated coefficients and thresholds remain TEST_REQUIRED"
+  ],
+  "quantum_independent_review_risks": [
+    {"id":"Q-RISK-1","topic":"semantic_goal_collision","question":"Is normalized-text + lineage hashing sufficient against paraphrase fixation, or should semantic equivalence require a separately versioned deterministic embedding/canonical ontology layer? Any threshold would be TEST_REQUIRED."},
+    {"id":"Q-RISK-2","topic":"verifier_collusion_and_method_independence","question":"VerifierRegistry rejects source self-verification but does not yet prove organizational/implementation independence between verifier identities. Define a provenance-bound independence envelope without turning verifier count into a trust shortcut."},
+    {"id":"Q-RISK-3","topic":"ledger_atomicity_and_recovery","question":"Current append-only ledger fsyncs each append and verifies hash chain, but crash-between-write boundaries, file truncation recovery and multi-writer CAS/generation semantics need an explicit deterministic contract before runtime use."},
+    {"id":"Q-RISK-4","topic":"protected_object_scope","question":"OWNER_SEEDED/GOVERNANCE_DERIVED scope authority must remain inherited from existing authority only; verify no ProtectedObject fields can be interpreted as new authority or self-preservation permission."},
+    {"id":"Q-RISK-5","topic":"dashboard_information_flow","question":"Read-only UI has no action buttons, but verify provenance payload redaction/classification so secret/protected data cannot leak merely because the adapter is non-authoritative."},
+    {"id":"Q-RISK-6","topic":"outcome_closure_truth_binding","question":"Existing outcome closure still consumes an independently_verified boolean on Observation. Review whether this must be replaced by a structured verifier envelope/hash binding before formal adoption."}
+  ],
+  "next_spirit_action": "After Quantum independent review, apply only bounded repairs or additional adversarial tests within PR #6 shadow scope; do not route formal adoption.",
+  "formal_dependency": "Heartbeat/Window Runtime independent C PASS before any bounded A->B->C EDL adoption packet."
+}
