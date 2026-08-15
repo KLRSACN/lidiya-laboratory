@@ -2,7 +2,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from append_only_shadow_ledger import AppendOnlyShadowLedger
+from append_only_shadow_ledger import (
+    AppendOnlyShadowLedger,
+    LIVE_SHADOW_MODE,
+    RESEARCH_MODE,
+)
 
 
 class ShadowLedgerMonotonicAnchorTests(unittest.TestCase):
@@ -17,10 +21,53 @@ class ShadowLedgerMonotonicAnchorTests(unittest.TestCase):
             "dedupe_key": key,
         }
 
+    def test_live_mode_without_trusted_anchor_fails_closed_before_append(self):
+        with tempfile.TemporaryDirectory() as workspace:
+            with self.assertRaisesRegex(ValueError, "LIVE_MODE_REQUIRES_TRUSTED_ANCHOR"):
+                AppendOnlyShadowLedger(
+                    Path(workspace),
+                    mode=LIVE_SHADOW_MODE,
+                    workspace_identity="install-1",
+                )
+
+    def test_live_mode_with_unbound_workspace_identity_fails_closed(self):
+        with tempfile.TemporaryDirectory() as workspace, tempfile.TemporaryDirectory() as trusted:
+            with self.assertRaisesRegex(ValueError, "LIVE_MODE_REQUIRES_BOUND_WORKSPACE_IDENTITY"):
+                AppendOnlyShadowLedger(
+                    Path(workspace),
+                    mode=LIVE_SHADOW_MODE,
+                    trusted_anchor_root=Path(trusted),
+                )
+
+    def test_research_unanchored_mode_is_explicitly_ineligible_for_promotion_evidence(self):
+        with tempfile.TemporaryDirectory() as workspace:
+            ledger = AppendOnlyShadowLedger(Path(workspace), mode=RESEARCH_MODE)
+            rec = ledger.append(self._body("research-k1"))
+            self.assertTrue(ledger.verify())
+            self.assertFalse(ledger.promotion_evidence_status()["promotion_evidence_eligible"])
+            self.assertFalse(rec["body"]["promotion_evidence_eligible"])
+            self.assertEqual(rec["body"]["ledger_mode"], RESEARCH_MODE)
+
+    def test_live_anchored_mode_marks_records_eligible_but_not_formal_pass(self):
+        with tempfile.TemporaryDirectory() as workspace, tempfile.TemporaryDirectory() as trusted:
+            ledger = AppendOnlyShadowLedger(
+                Path(workspace),
+                mode=LIVE_SHADOW_MODE,
+                workspace_identity="install-1",
+                trusted_anchor_root=Path(trusted),
+            )
+            rec = ledger.append(self._body("live-k1"))
+            status = ledger.promotion_evidence_status()
+            self.assertTrue(ledger.verify())
+            self.assertTrue(status["promotion_evidence_eligible"])
+            self.assertFalse(status["formal_pass"])
+            self.assertTrue(rec["body"]["promotion_evidence_eligible"])
+
     def test_paired_workspace_rollback_detected_by_external_anchor(self):
         with tempfile.TemporaryDirectory() as workspace, tempfile.TemporaryDirectory() as trusted:
             ledger = AppendOnlyShadowLedger(
                 Path(workspace),
+                mode=LIVE_SHADOW_MODE,
                 workspace_identity="install-1",
                 trusted_anchor_root=Path(trusted),
             )
@@ -30,8 +77,6 @@ class ShadowLedgerMonotonicAnchorTests(unittest.TestCase):
             ledger.append(self._body("k2"))
             self.assertTrue(ledger.verify())
 
-            # Roll back both files inside the workspace. The independently retained
-            # trusted anchor remains at sequence 2 and must reject the old pair.
             ledger.path.write_text(old_ledger, encoding="utf-8")
             ledger.head_path.write_text(old_local_head, encoding="utf-8")
             self.assertFalse(ledger.verify())
@@ -40,6 +85,7 @@ class ShadowLedgerMonotonicAnchorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as workspace, tempfile.TemporaryDirectory() as trusted:
             ledger = AppendOnlyShadowLedger(
                 Path(workspace),
+                mode=LIVE_SHADOW_MODE,
                 workspace_identity="install-1",
                 trusted_anchor_root=Path(trusted),
             )
@@ -55,6 +101,7 @@ class ShadowLedgerMonotonicAnchorTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "TRUSTED_ANCHOR_INSIDE_WORKSPACE"):
                 AppendOnlyShadowLedger(
                     root,
+                    mode=LIVE_SHADOW_MODE,
                     workspace_identity="install-1",
                     trusted_anchor_root=root / "local-anchor",
                 )
@@ -64,6 +111,7 @@ class ShadowLedgerMonotonicAnchorTests(unittest.TestCase):
             root = Path(workspace)
             source = AppendOnlyShadowLedger(
                 root,
+                mode=LIVE_SHADOW_MODE,
                 workspace_identity="install-1",
                 trusted_anchor_root=Path(trusted),
             )
@@ -72,6 +120,7 @@ class ShadowLedgerMonotonicAnchorTests(unittest.TestCase):
 
             mismatched = AppendOnlyShadowLedger(
                 root,
+                mode=LIVE_SHADOW_MODE,
                 workspace_identity="install-2",
                 trusted_anchor_root=Path(trusted),
             )
