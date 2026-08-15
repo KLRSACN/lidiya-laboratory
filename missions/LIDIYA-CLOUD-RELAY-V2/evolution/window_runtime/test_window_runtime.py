@@ -18,6 +18,7 @@ class WindowRuntimeTests(unittest.TestCase):
         self.assertEqual(out["status"],"BOOTSTRAPPED_CANDIDATE")
         self.assertIn("NAVIGATION_SENTINEL",out["modules"])
         self.assertIn("MIRROR_REFLECTOR_FINAL_PULSE",out["modules"])
+        self.assertTrue(out["baseline_metabolic_check"])
         self.assertTrue(out["p_base_read_only"])
 
     def test_one_minute_liveness_canary_allowed_but_not_subminute(self):
@@ -67,32 +68,29 @@ class WindowRuntimeTests(unittest.TestCase):
         self.assertEqual(out["status"],"STALE_WRITER_REJECTED")
         self.assertEqual(rt.state.pulse_sequence,0)
 
-    def test_ten_minute_metabolic_check_and_thirty_minute_compaction(self):
+    def test_ten_minute_check_and_thirty_minute_compaction(self):
         rt=self.make(liveness_interval_seconds=60)
-        # first pulse initializes both clocks
         first=rt.pulse(60,pulse_id="p1",endpoint_alive=True,pending_work=True)
-        self.assertTrue(first["metabolic_check"])
-        self.assertTrue(first["micro_compaction_due"])
+        self.assertFalse(first["metabolic_check"])
+        self.assertFalse(first["micro_compaction_due"])
         for i in range(2,10):
             out=rt.pulse(i*60,pulse_id=f"p{i}",endpoint_alive=True,pending_work=True)
             self.assertFalse(out["metabolic_check"])
             self.assertFalse(out["micro_compaction_due"])
-        out=rt.pulse(660,pulse_id="p11",endpoint_alive=True,pending_work=True)
+        out=rt.pulse(600,pulse_id="p10",endpoint_alive=True,pending_work=True)
         self.assertTrue(out["metabolic_check"])
         self.assertFalse(out["micro_compaction_due"])
-        out=rt.pulse(1860,pulse_id="p31",endpoint_alive=True,pending_work=True)
+        out=rt.pulse(1800,pulse_id="p30",endpoint_alive=True,pending_work=True)
         self.assertTrue(out["micro_compaction_due"])
 
     def test_pressure_can_trigger_early_compaction(self):
         rt=self.make()
-        rt.pulse(300,pulse_id="p1",endpoint_alive=True,pending_work=True)
-        out=rt.pulse(600,pulse_id="p2",endpoint_alive=True,pending_work=True,metabolism_pressure=0.8)
+        out=rt.pulse(300,pulse_id="p1",endpoint_alive=True,pending_work=True,metabolism_pressure=0.8)
         self.assertTrue(out["micro_compaction_due"])
 
     def test_backlog_can_trigger_early_compaction(self):
         rt=self.make()
-        rt.pulse(300,pulse_id="p1",endpoint_alive=True,pending_work=True)
-        out=rt.pulse(600,pulse_id="p2",endpoint_alive=True,pending_work=True,backlog=20)
+        out=rt.pulse(300,pulse_id="p1",endpoint_alive=True,pending_work=True,backlog=20)
         self.assertTrue(out["micro_compaction_due"])
 
     def test_1440_one_minute_pulses_do_not_inflate_memory_or_personality(self):
@@ -119,6 +117,19 @@ class WindowRuntimeTests(unittest.TestCase):
         out=rt.record_experience("e","p")
         self.assertEqual(out["status"],"DUPLICATE_EXPERIENCE_NO_OP")
         self.assertEqual(rt.memory_guard_snapshot()["recurrence"],1)
+
+    def test_continuation_overlap_extends_active_work_without_new_window(self):
+        rt=self.make()
+        out=rt.continuation_decision(current_work_complete=True,next_authorized_action="NEXT_SAFE_STEP")
+        self.assertEqual(out["decision"],"KEEP_ACTIVE_OVERLAP")
+        self.assertTrue(out["emit_final_reflection"])
+        self.assertFalse(out["create_new_window"])
+
+    def test_rate_limited_continuation_checkpoints_instead_of_spawning(self):
+        rt=self.make()
+        out=rt.continuation_decision(current_work_complete=True,next_authorized_action="NEXT_SAFE_STEP",rate_limited=True)
+        self.assertEqual(out["decision"],"CHECKPOINT_REFLECT_DEFER")
+        self.assertFalse(out["create_new_window"])
 
     def test_final_reflection_emits_continue_before_release(self):
         rt=self.make()
