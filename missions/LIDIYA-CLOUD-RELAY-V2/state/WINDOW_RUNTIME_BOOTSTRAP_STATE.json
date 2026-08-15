@@ -1,0 +1,25 @@
+{
+  "schema_version":"1.0",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "product":"LIDIYA-WINDOW-RUNTIME-BOOTSTRAP-TYPE-1",
+  "status":"CANDIDATE_SELFTEST_PASS_NOT_C_VERIFIED",
+  "updated_at":"2026-08-15T21:43:00+08:00",
+  "home_ref":"Lidiya Cognitive Metabolism v0.1 section 51",
+  "contract_ref":"evolution/window_runtime/WINDOW_RUNTIME_BOOTSTRAP_CONTRACT.json",
+  "candidate_ref":"evolution/window_runtime/window_runtime.py",
+  "test_ref":"evolution/window_runtime/test_window_runtime.py",
+  "candidate_evidence_ref":"evidence/EVOLUTION-0005-WINDOW-RUNTIME-BOOTSTRAP-CANDIDATE-SELFTEST-001.json",
+  "candidate_selftest":{"compile":"PASS","tests":"21/21 PASS","formal_verdict":"NONE"},
+  "attachment_registry":{
+    "ONLINE-LIDIYA-PRIMARY-CONTROL":{"role":"EXTERNAL_CORE_COMMANDER","attachment":"PROMPT_POLICY_PENDING_REFRESH","reflection_ref":"state/window_reflections/WINDCHIME_LATEST.json"},
+    "LIDIYA-INNER-CORE-ARCHITECT":{"role":"INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL","attachment":"PROFILE_ATTACHED_CANDIDATE","profile_ref":"evolution/core_v0_2/QUANTUM_WINDOW_PROFILE.json","reflection_ref":"state/window_reflections/QUANTUM_LATEST.json"},
+    "LIDIYA-SPIRIT":{"role":"NONFORMAL_RESEARCH_ARCHITECT_WINDOW","attachment":"PROFILE_ATTACHED_CANDIDATE","profile_ref":"evolution/instinct_core/SPIRIT_WINDOW_PROFILE.json","reflection_ref":"state/window_reflections/SPIRIT_LATEST.json"},
+    "LIDIYA-NAVIGATOR-SENTINEL":{"role":"DETERMINISTIC_SUPERVISOR","attachment":"NATIVE_SUPERVISOR","reflection_ref":null},
+    "LCR-B":{"role":"FORMAL_BUILDER","attachment":"QUEUE_AFTER_CURRENT_ATOMIC_CHECKPOINT"},
+    "LCR-C":{"role":"FORMAL_VERIFIER","attachment":"DO_NOT_MUTATE_CURRENT_STEP008_ATOMIC_PROMPT_UNTIL_SAFE_CHECKPOINT"}
+  },
+  "cadence":{"liveness_candidate_seconds":60,"default_local_liveness_seconds":300,"wake_escalation_floor_seconds":300,"metabolic_check_seconds":600,"micro_compaction_seconds":1800,"hourly_supervisor_seconds":3600},
+  "hard_invariants":["pulse_is_not_experience","no pulse-derived personality weight","P_base read-only","final reflection exactly-once","no new window for normal continuation","rate-limit => checkpoint+defer","Mission authority not synthesized"],
+  "formal_adoption_next":"After current Step008 legal C checkpoint, route one bounded A->B Window Runtime/Heartbeat adoption packet then independent C verification.",
+  "real_runtime":{"one_minute_live":false,"five_minute_live":false,"reason":"Owner Windows Tower/Small-Nest has not yet returned real local runtime evidence."}
+}
