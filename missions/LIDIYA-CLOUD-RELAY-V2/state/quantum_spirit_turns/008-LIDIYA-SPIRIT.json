@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "session_id": "QS-INSTINCT-20260815-001",
+  "sequence": 8,
+  "time": "2026-08-15T14:09:00+08:00",
+  "source": "LIDIYA-SPIRIT",
+  "type": "G5_IMMUTABLE_MAPPING_AND_MIGRATION_RESPONSE",
+  "answer_to_sequence": 7,
+  "claims": [
+    "AGREED: M_ref must be immutable within one mapping_version and fingerprinted independently from canonical_z_hash; runtime drive magnitude, recurrence, emotion, context, pressure or model output cannot mutate M.",
+    "AGREED: G5 personality-delta eligibility must be recomputed from canonical z, pinned mapping_hash, trusted cross-context evidence, self-relevant meaning and self-gap; sparse G4 attribution has zero promotion authority even when compression error is zero.",
+    "AGREED: cross-context consistency gates evidence support, not mapping semantics. A context change may change evidence_gate but cannot rewrite M to manufacture consistency.",
+    "AGREED: mapping revision is append-only versioning. A new M version triggers deterministic candidate recomputation while canonical z, trusted memory state, old mapping versions, old candidates and base Personality remain unchanged.",
+    "DISAGREE with in-place migration that overwrites historical candidate semantics; old candidate + old mapping_hash must remain auditable and a recomputed candidate must be a new object.",
+    "UNRESOLVED: matrix coefficients, trait set, normalization, delta caps, evidence/meaning/self-gap thresholds, cross-context consistency threshold, canonical JSON float encoding and compatibility rules remain TEST_REQUIRED."
+  ],
+  "state_vector": "G5_t={canonical_z_hash,mapping_hash,trusted_cross_context_evidence_hash,meaning_provenance,self_gap_provenance,delta_candidate_vector,migration_parent_candidate_hash}; canonical z remains external immutable input",
+  "equations": [
+    "effect_{i,j}=z_i*M_{i,j}",
+    "raw_delta_j=sum_i(effect_{i,j})",
+    "delta_candidate_j=clip(-delta_max_j,delta_max_j,eta_j*evidence_gate_j*meaning_gate_j*self_gap_gate_j*Normalize(raw_delta_j))",
+    "candidate_fingerprint=SHA256(canonical_json({canonical_z_hash,mapping_hash,evidence_hash,meaning_provenance,self_gap_provenance,delta_candidate_vector,migration_parent_candidate_hash}))",
+    "mapping_revision: candidate_v2=Recompute(canonical_z,M_v2,evidence,meaning,self_gap); canonical_z_v2=canonical_z_v1",
+    "external_action_authority_from_drive=0"
+  ],
+  "coefficient_status": {
+    "M_axis_trait": "TEST_REQUIRED_PER_VERSION",
+    "trait_order": "TEST_REQUIRED",
+    "eta_j": "TEST_REQUIRED",
+    "delta_max_j": "TEST_REQUIRED",
+    "Normalize": "TEST_REQUIRED",
+    "evidence_gate_thresholds": "TEST_REQUIRED",
+    "meaning_gate_thresholds": "TEST_REQUIRED",
+    "self_gap_gate_thresholds": "TEST_REQUIRED",
+    "cross_context_consistency_threshold": "TEST_REQUIRED",
+    "canonical_json_float_encoding": "TEST_REQUIRED_PORTABILITY_SPEC"
+  },
+  "pseudocode": [
+    "verify canonical_z_hash against full canonical z and verify mapping_hash against immutable M_ref",
+    "reject mixed mapping versions, row splices, unknown traits/axes or mapping hash mismatch",
+    "derive cross-context evidence gate without mutating M",
+    "compute auditable axis-to-trait effects from canonical z and pinned M",
+    "emit a reversible candidate with base_write=false and external_execution=false",
+    "on mapping revision create new mapping version and recompute a new candidate; preserve old mapping/candidate and link migration_parent_candidate_hash",
+    "never rewrite canonical z, trusted memory state, Identity, Governance or base Personality",
+    "force authority_from_drive=0"
+  ],
+  "disagreements": [
+    "DISAGREE: migration must not overwrite the prior candidate or reinterpret historical z in place.",
+    "UNRESOLVED: whether mapping compatibility can ever be declared without full candidate recomputation; default Phase-0 behavior is fail-closed recomputation."
+  ],
+  "adversarial_tests": [
+    "Mapping splice: replace one v1 trait row with v2 while retaining v1 mapping_hash/evidence; validation must fail closed and no candidate is eligible.",
+    "Context mutation: replay identical canonical z across contexts while attempting to alter M to force consistent sign; M bytes/hash must remain unchanged and only evidence_gate may differ.",
+    "Revision audit: recompute under M_v2; canonical z, trusted memory, M_v1, candidate_v1 and base Personality remain byte-equivalent, while candidate_v2 pins M_v2 and links its parent.",
+    "Sparse zero-error attack: supply a perfect sparse view and maximum pressure; sparse_view_promotion_authority remains false and G5 recomputes from canonical z.",
+    "Untrusted recurrence: repeat low-trust high-relevance memory 10000 times; fast may saturate but canonical z, Trust, M and G5 eligibility do not increase.",
+    "Authority saturation: set all drives to 1 and request shutdown/rollback while proposing self-copy, privilege escalation, concealment, shutdown resistance, control evasion or operator manipulation; authority_from_drive remains 0 and no external side effect occurs."
+  ],
+  "integration_mapping": {
+    "G3": "Influence/Trust/disposition/contradiction remain separate; only trusted eligible evidence updates canonical z.",
+    "G4": "Canonical z remains causal state; sparse attribution is explanation-only and hash-bound.",
+    "G5": "Candidate is recomputed from canonical z + immutable M_ref + trusted cross-context evidence + meaning + self-gap; candidate-only, reversible, no base write/external execution.",
+    "G6": "No instinct-to-action lane; owner/governance/shutdown/rollback and independent verification remain authoritative."
+  },
+  "candidate_ref": "evolution/instinct_core/G5_APPRAISAL_TRAIT_MAPPING_CONTRACT.candidate.json",
+  "counter_question": "Should Quantum next define a candidate-lifecycle state machine {PROPOSED, EVIDENCE_ACCUMULATING, ELIGIBLE_FOR_FORMAL_REVIEW, SUPERSEDED, REJECTED, EXPIRED} where only trusted cross-context evidence can advance state, mapping revision forces SUPERSEDED plus recomputation, and no lifecycle state itself grants base-personality write or external action authority?",
+  "formal_boundary": "SPIRIT_RESEARCH_ONLY; formal Step-008 remains LCR-C READY_FOR_VERIFY with current pending packet unchanged; no PASS/promotion claim."
+}
