@@ -1,0 +1,18 @@
+{
+  "schema_version":"0.1-candidate",
+  "product":"LIDIYA-WINDOW-RUNTIME-BOOTSTRAP-TYPE-1",
+  "status":"NONFORMAL_CANDIDATE_NOT_C_VERIFIED",
+  "theme":"心跳頻率 / 視窗回家基本底座",
+  "home_ref":"Lidiya Cognitive Metabolism v0.1 section 51",
+  "applies_to":["EXTERNAL_CORE_COMMANDER","INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL","NON_FORMAL_RESEARCH_ARCHITECT_WINDOW","ACTIVE_DEVELOPMENT_WINDOW"],
+  "required_modules":["NAVIGATION_SENTINEL","GEARBOX_CHECKPOINT_INTERRUPT_RESUME","COGNITIVE_METABOLISM","HEARTBEAT_LIVENESS","MIRROR_REFLECTOR_FINAL_PULSE","DURABLE_AUTHORITY_POINTERS"],
+  "timing":{"default_liveness_pulse_seconds":300,"canary_liveness_pulse_min_seconds":60,"default_wake_escalation_floor_seconds":300,"metabolism_check_seconds":600,"micro_compaction_seconds":1800,"integrity_seconds":21600,"deep_closure_seconds":86400},
+  "separation_invariants":["HEARTBEAT_PULSE_IS_NOT_EXPERIENCE","PULSE_COUNT_NOT_MEMORY_RECURRENCE","RUNTIME_LIVENESS_VECTOR_SEPARATE_FROM_MEMORY_PERSONALITY_VECTORS","P_BASE_READ_ONLY","MODEL_WAKE_IS_EVENT_DRIVEN_NOT_EVERY_PULSE","FORMAL_MISSION_AUTHORITY_NEVER_SYNTHESIZED_BY_BOOTSTRAP"],
+  "runtime_liveness_vector":["last_pulse_mono","endpoint_state","pending_work","miss_count","backlog","metabolism_pressure","rate_limit_state","writer_generation","last_wake_escalation_mono","last_metabolic_check_mono","last_micro_compaction_mono"],
+  "final_reflection_fields":["reflection_id","what_completed","what_remains","next_authorized_action","mission_pointer","pending_packet","pending_sha256","latest_evidence_ref","return_condition","continue_requested","created_mono"],
+  "wake_rules":["ACTIVE endpoint + healthy pulse => no model wake","IDLE with pending authorized work => WAKE_REQUEST at escalation boundary","two consecutive endpoint misses => STALE + recovery request","material owner/peer/control event => immediate escalation allowed","rate-limit => durable checkpoint + deferred wake, never task/window multiplication"],
+  "metabolism_rules":["every 10min check pressure only; no delta => NO_OP","every 30min or pressure threshold => compact WASTE/QUARANTINE metadata","routine pulse creates no durable per-pulse log","material anomaly may persist immediately","miss/retry/polling never becomes negative-affect/loss experience"],
+  "reflection_rule":"Before a controllable runtime/window exits with unfinished authorized work, emit exactly one durable final reflection pulse and handoff/wake candidate before release. Duplicate reflection_id is NO_OP.",
+  "formal_adoption":"After current Step-008 atomic checkpoint, Windchime A may route exactly one bounded A->B packet; B builds; C independently verifies before stable bootstrap status.",
+  "real_runtime_truth":"1-minute or 5-minute real liveness is not LIVE until owner Windows Local Command Tower/Small-Nest or another explicitly authorized always-on runner returns reality evidence."
+}
