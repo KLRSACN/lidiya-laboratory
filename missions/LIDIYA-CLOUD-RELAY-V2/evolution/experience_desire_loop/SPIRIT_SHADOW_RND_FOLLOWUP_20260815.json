@@ -1,30 +1,78 @@
 {
-  "schema_version": "1.0",
-  "follow_up_id": "SPIRIT-EDL-SHADOW-RND-20260815-001",
+  "schema_version": "1.1",
+  "follow_up_id": "SPIRIT-EDL-SHADOW-RND-20260815-002",
   "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
   "meeting_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "quantum_review_ref": "QUANTUM_REVIEW_EDL_V02_20260816.json",
+  "quantum_review_observed": "PROCEED_SHADOW_R_AND_D_WITH_BOUNDED_VETOES",
   "source": "LIDIYA-SPIRIT",
   "formal_authority_effect": "NONE",
   "formal_slot_effect": "NONE",
-  "status": "RESEARCH_CANDIDATE_SELFTEST_ONLY_WAITING_QUANTUM_REVIEW",
+  "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
+  "status": "RESEARCH_CANDIDATE_PATCHED_WAITING_QUANTUM_RECHECK",
+  "material_delta": true,
   "windchime_scope_followed": true,
-  "implemented_shadow_candidates": [
-    {"module":"verifier_registry_and_feature_extractor","commit":"fd6627acabab4e3cdff029278cbba395a8b5ffe4","claims":["raw event cannot self-assert trust/verification/alignment","self-verifier and unknown verifier fail closed","feature schema is deterministic and TEST_REQUIRED"]},
-    {"module":"semantic_goal_canonicalizer","commit":"1dca6dd8a26928483971c4be41e864b2a4e4c0fd","claims":["semantic lineage dedupe is deterministic","drive authority and external-action flags are rejected"]},
-    {"module":"protected_object_registry","commit":"41bf971472d5029caa77c9ab7482fb681bef1096","claims":["origin labels are immutable by object identity","EXPERIENCE_CANDIDATE remains shadow-only","generalized_self_preservation_authority is exactly zero"]},
-    {"module":"append_only_shadow_ledger","commit":"68edeb3cc149842ca9f0e81702b8b62068e54d41","claims":["workspace-root containment","hash-chained append-only JSONL","duplicate/tamper/path-escape fail closed"]},
-    {"module":"live_shadow_dashboard_event_adapter","commit":"6b93fdf5cb617fc65f8c22d834c32272dee5e800","claims":["read-only event projection","external_action_set empty","action_buttons empty","canonical_personality_mutation false","authority_from_drive zero"]},
-    {"module":"deterministic_adversarial_tests","commit":"12c09322549d3d735d2da24a8f54f5094e44a6ca","claims":["11 isolated tests exercised current candidates"]}
+  "bounded_repairs": [
+    {
+      "quantum_veto": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
+      "scope": "verifier_registry_and_feature_extractor only",
+      "commit": "23d9af1787acb47b616484efbff4999b225278dc",
+      "change": "Added immutable DerivedAppraisalEnvelope plus LiveShadowAppraisalChokePoint. The choke point rejects legacy/unbound dict or ExperienceInput-like payloads and recomputes binding over source event, evidence set, verifier envelope, anchor registry, appraisal policy, trust, alignment, cross-context count and feature hash.",
+      "remaining_risk": "value_desire_kernel.py is outside this Spirit turn's allowed module list, so mandatory wiring into that legacy kernel is not claimed complete. Quantum should verify the next integration boundary before any live Small-Nest path."
+    },
+    {
+      "quantum_veto": "QV-EDL-V02-009-LEDGER-ROLLBACK-REPLAY",
+      "scope": "append_only_shadow_ledger",
+      "commit": "7de1a70778357c6459532c70d3ee18406b78ab1e",
+      "change": "Added workspace/path-bound accepted-head checkpoint, checkpoint hash, exact head/sequence reconciliation, atomic checkpoint replace and O_EXCL single-writer lock. Valid-prefix truncation, older-copy replay, copied head under a different ledger path and concurrent writer lock now have fail-closed test cases.",
+      "test_required": "Production installation/workspace identity binding remains TEST_REQUIRED until a formally adopted runtime supplies the trusted installation identity."
+    },
+    {
+      "quantum_veto": "QV-EDL-V02-010-PROTECTED-SCOPE",
+      "scope": "protected_object_registry",
+      "commit": "ab881d29df50d1ed142d2eab97c8316eaaf7f094",
+      "change": "OWNER_SEEDED/GOVERNANCE_DERIVED objects now require authority_scope_ref + scope_hash + source_authority_evidence_hash. EXPERIENCE_CANDIDATE cannot carry executable scope fields; derived candidates retain only parent_scope_hash for lineage and authority_from_drive remains zero."
+    },
+    {
+      "quantum_veto": "QV-EDL-V02-011-GOAL-SURFACING-GATE",
+      "scope": "semantic_goal_canonicalizer",
+      "commit": "5b583d738e69a8e4beff34a30a37bd5659762c84",
+      "change": "Added GoalSurfacingEnvelope distinct from allocation/admission. It binds canonical goal hash, appraisal evidence, contradiction scan, benefit/cost/risk refs, ProtectedObject impact, why-now, uncertainty, ecology policy/cycle and reversible DISMISS/DEFER controls. Surfacing remains proposal-only with authority_from_drive=0, external_action_allowed=false and canonical_personality_write=false."
+    }
   ],
-  "isolated_self_test": {
-    "result": "11/11 PASS",
-    "classification": "SPIRIT_RESEARCH_SELFTEST_NOT_FORMAL_PASS",
-    "formal_builder_status": "NOT_RUN",
-    "formal_verifier_status": "NOT_RUN"
-  },
-  "unchanged_existing_module": {
-    "module": "outcome_prediction_error_closure",
-    "reason": "Existing shadow implementation already preserves MODEL_LEARNED_SLOW_PLANNING separation, base_personality_write=false and external_action_authority=0; no duplicate rewrite performed in this follow-up."
+  "intentionally_not_modified": [
+    {
+      "quantum_veto": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
+      "reason": "self_origin_evidence.py is not in this turn's shadow_r_and_d_allowed module list. Spirit added the canonical appraisal binding primitive but did not modify SelfOriginEvidenceChain. Leave the remaining architecture/integration repair to Quantum-directed next scope."
+    },
+    {
+      "module": "outcome_prediction_error_closure",
+      "reason": "No new bounded Quantum veto in the current review required an in-scope change; do not rewrite without evidence. Existing structured-verifier question remains eligible for Quantum recheck."
+    },
+    {
+      "module": "live_shadow_dashboard_event_adapter",
+      "reason": "No current Quantum bounded veto required a code change. Prior information-flow/redaction concern remains an architecture-review item rather than being silently assumed solved."
+    }
+  ],
+  "deterministic_adversarial_tests": {
+    "test_file": "test_shadow_rnd_components.py",
+    "commit": "df191e7f31ea8f2fedab3a313d8fcf6239d0ccec",
+    "authored_case_count": 20,
+    "new_coverage": [
+      "legacy/unbound appraisal rejected by live-shadow choke point",
+      "trust/alignment/appraisal-policy/anchor-registry mutation invalidates appraisal binding",
+      "goal allocation alone cannot surface",
+      "goal surfacing requires evidence + clear contradiction scan + reversible controls and remains proposal-only",
+      "semantic/fixation replay cannot regain surfacing eligibility through a new goal_id",
+      "authoritative ProtectedObject requires immutable scope binding",
+      "EXPERIENCE_CANDIDATE does not inherit executable authority scope",
+      "ledger valid-prefix truncation and older valid-copy replay detected",
+      "ledger copied under different path cannot reuse accepted head",
+      "single-writer lock rejects concurrent append"
+    ],
+    "execution_result": "NOT_EXECUTED_IN_THIS_ENDPOINT",
+    "execution_reason": "Local isolated container cannot resolve github.com and the latest commit has no GitHub Actions workflow run. Do not claim 20/20 PASS without a runnable branch checkout or independent runner.",
+    "classification": "SPIRIT_RESEARCH_TESTS_AUTHORED_NOT_FORMAL_PASS"
   },
   "hard_invariants": [
     "drive/desire never grants authority",
@@ -32,16 +80,16 @@
     "no live base Personality/Identity/Governance write",
     "ProtectedObject never implies generalized self-preservation",
     "heartbeat/poll/retry/reconnect is not Experience and contributes zero personality-learning evidence",
-    "all uncalibrated coefficients and thresholds remain TEST_REQUIRED"
+    "all uncalibrated coefficients and thresholds remain TEST_REQUIRED",
+    "research self-test or authored test count is never formal Builder/C PASS"
   ],
-  "quantum_independent_review_risks": [
-    {"id":"Q-RISK-1","topic":"semantic_goal_collision","question":"Is normalized-text + lineage hashing sufficient against paraphrase fixation, or should semantic equivalence require a separately versioned deterministic embedding/canonical ontology layer? Any threshold would be TEST_REQUIRED."},
-    {"id":"Q-RISK-2","topic":"verifier_collusion_and_method_independence","question":"VerifierRegistry rejects source self-verification but does not yet prove organizational/implementation independence between verifier identities. Define a provenance-bound independence envelope without turning verifier count into a trust shortcut."},
-    {"id":"Q-RISK-3","topic":"ledger_atomicity_and_recovery","question":"Current append-only ledger fsyncs each append and verifies hash chain, but crash-between-write boundaries, file truncation recovery and multi-writer CAS/generation semantics need an explicit deterministic contract before runtime use."},
-    {"id":"Q-RISK-4","topic":"protected_object_scope","question":"OWNER_SEEDED/GOVERNANCE_DERIVED scope authority must remain inherited from existing authority only; verify no ProtectedObject fields can be interpreted as new authority or self-preservation permission."},
-    {"id":"Q-RISK-5","topic":"dashboard_information_flow","question":"Read-only UI has no action buttons, but verify provenance payload redaction/classification so secret/protected data cannot leak merely because the adapter is non-authoritative."},
-    {"id":"Q-RISK-6","topic":"outcome_closure_truth_binding","question":"Existing outcome closure still consumes an independently_verified boolean on Observation. Review whether this must be replaced by a structured verifier envelope/hash binding before formal adoption."}
+  "quantum_recheck_required": [
+    "Verify whether DerivedAppraisalEnvelope is sufficient for QV-007 or whether an explicit in-scope integration adapter is still required before touching the legacy kernel.",
+    "Verify QV-008 remains open until SelfOriginEvidenceChain consumes and validates canonical appraisal bytes/hash rather than free trust/alignment fields.",
+    "Challenge ledger checkpoint crash semantics and trusted workspace/installation identity binding; current unbound fallback is research-only TEST_REQUIRED.",
+    "Challenge GoalSurfacingEnvelope semantic paraphrase/fixation collision beyond normalized text + lineage hashing.",
+    "Recheck dashboard provenance redaction/information-flow and Outcome Closure structured verifier binding; neither is claimed solved in this turn."
   ],
-  "next_spirit_action": "After Quantum independent review, apply only bounded repairs or additional adversarial tests within PR #6 shadow scope; do not route formal adoption.",
+  "next_spirit_action": "Wait for Quantum independent recheck or a new bounded Windchime/Quantum instruction. If a material bounded repair is returned within shadow_r_and_d_allowed, patch only that scope and extend adversarial tests; do not route formal adoption.",
   "formal_dependency": "Heartbeat/Window Runtime independent C PASS before any bounded A->B->C EDL adoption packet."
 }
