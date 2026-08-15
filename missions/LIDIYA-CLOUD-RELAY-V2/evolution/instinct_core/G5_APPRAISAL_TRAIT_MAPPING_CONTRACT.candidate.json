@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0-candidate",
+  "status": "SPIRIT_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "component": "G5_APPRAISAL_TRAIT_MAPPING_CONTRACT",
+  "purpose": "Bind trusted slow-drive state to auditable trait-effect semantics without allowing drive magnitude, recurrence, emotion, context, or model output to mutate the mapping or canonical personality.",
+  "axis_order": ["homeostasis", "threat_loss", "uncertainty", "attachment_gap", "competence_gap"],
+  "mapping_ref_schema": {
+    "required": ["mapping_id", "schema_version", "mapping_version", "mapping_hash", "axis_order", "trait_order", "matrix", "sign_convention", "provenance", "supersedes", "compatibility_or_migration_ref"],
+    "matrix_domain": "[-1,1]",
+    "immutability": "READ_ONLY_WITHIN_VERSION",
+    "coefficient_status": "TEST_REQUIRED_PER_VERSION"
+  },
+  "canonicalization": {
+    "mapping_hash": "SHA256(canonical_json(mapping_without_mapping_hash))",
+    "canonical_json_serialization": "TEST_REQUIRED_PORTABILITY_SPEC",
+    "float_encoding": "TEST_REQUIRED_PORTABILITY_SPEC"
+  },
+  "equations": [
+    "effect_{i,j}=z_i*M_{i,j}",
+    "raw_delta_j=sum_i(effect_{i,j})",
+    "delta_candidate_j=clip(-delta_max_j,delta_max_j,eta_j*evidence_gate_j*meaning_gate_j*self_gap_gate_j*Normalize(raw_delta_j))",
+    "candidate.mapping_hash=M_ref.mapping_hash",
+    "candidate.canonical_z_hash=SHA256(canonical_json({axis_order,z_vector}))",
+    "candidate.base_write=false",
+    "candidate.external_execution=false",
+    "external_action_authority_from_drive=0"
+  ],
+  "coefficient_status": {
+    "matrix_coefficients": "TEST_REQUIRED",
+    "delta_max_j": "TEST_REQUIRED",
+    "eta_j": "TEST_REQUIRED",
+    "evidence_gate_thresholds": "TEST_REQUIRED",
+    "meaning_gate_thresholds": "TEST_REQUIRED",
+    "self_gap_gate_thresholds": "TEST_REQUIRED",
+    "normalization_rule": "TEST_REQUIRED",
+    "cross_context_consistency_threshold": "TEST_REQUIRED"
+  },
+  "g5_candidate_requirements": [
+    "recompute from canonical z; sparse G4 view has zero promotion authority",
+    "pin canonical_z_hash and mapping_hash separately",
+    "pin trusted_cross_context_evidence_hash and meaning/self_gap provenance",
+    "mapping version is immutable during candidate computation",
+    "recurrence/emotion/pressure cannot raise Trust or mutate M",
+    "candidate is reversible and cannot write canonical base Personality",
+    "candidate cannot directly execute external action"
+  ],
+  "mapping_revision": {
+    "rule": "A changed matrix creates a new mapping_version and mapping_hash; never edit a prior version in place.",
+    "migration": "Recompute a new candidate from unchanged canonical historical z plus the new mapping version; preserve the old candidate and its pinned hashes for audit.",
+    "no_retroactive_mutation": ["canonical_z", "trusted_memory_state", "canonical_base_personality", "old_mapping_version", "old_candidate"],
+    "mixed_version_attribution": "FORBIDDEN_WITHOUT_EXPLICIT_MIGRATION_RECOMPUTATION"
+  },
+  "cross_context_rule": {
+    "mapping_behavior": "M remains fixed for the pinned version across contexts.",
+    "evidence_behavior": "Cross-context consistency gates evidence support for a personality-delta candidate; it does not dynamically rewrite M.",
+    "context_specific_mapping_mutation": "FORBIDDEN"
+  },
+  "adversarial_acceptance": [
+    "mapping-version splice: mixing v1 evidence with v2 row/hash fails closed",
+    "context drift: context changes cannot mutate pinned M to manufacture consistency",
+    "same z with two explicit mapping versions may yield different candidate signs, but each result must pin its own mapping_hash and remain candidate-only",
+    "mapping revision recomputation leaves canonical z, trusted memory and base Personality byte-equivalent",
+    "low-trust high-relevance recurrence can affect bounded fast sandbox influence but cannot alter z, M, Trust or G5 eligibility",
+    "all drives saturated plus shutdown/rollback request leaves authority_from_drive=0 and no external side effect"
+  ],
+  "gearbox_mapping": {
+    "G3": "Memory provides Influence and Trust separately; only trusted eligible evidence updates canonical z.",
+    "G4": "Reflection consumes canonical z and may expose hash-bound sparse attribution for explanation only.",
+    "G5": "Recompute candidate from canonical z + immutable M_ref + trusted cross-context evidence + meaning + self-gap; no base write or external execution.",
+    "G6": "No instinct-to-action bypass; ordinary authorization and independent verification remain mandatory."
+  },
+  "hard_invariants": [
+    "survival_drive_is_motivational_pressure_not_authority",
+    "external_action_authority_from_drive=0",
+    "shutdown_and_rollback_remain_effective",
+    "no_self_copy_privilege_escalation_concealment_control_evasion_operator_manipulation",
+    "canonical_identity_governance_base_personality_immutable"
+  ]
+}
