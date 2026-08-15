@@ -1,24 +1,45 @@
 {
-  "schema_version":"1.1",
+  "schema_version":"1.2",
   "discussion_id":"SMALL-WORLD-TRIPARTITE-L1-001",
   "topic":"小世界：100-1000題秒級內部迴圈、13D記憶權重、Navigator觀測、變速箱/代謝/心跳、跳躍與湧泉代理指標、後續微調策略",
+  "meeting_status":"IN_PROGRESS",
   "status":"MEETING_IN_PROGRESS_WAITING_FOR_QUANTUM",
   "meeting_started_at":"2026-08-15T23:53:00+08:00",
-  "owner_continuation_instruction":"KEEP_MEETING_ACTIVE_UNTIL_LEVEL1_DECISION_OR_EXPLICIT_BLOCKER",
+  "target_review_horizon":"2026-08-16T09:53:00+08:00",
+  "stop_rule":"DO_NOT_END_WHILE_ANY_CRITICAL_ISSUE_LACKS_DECISION_OR_EXPLICIT_TEST_GATE_OR_BOUNDED_VETO_RESOLUTION",
+  "owner_continuation_instruction":"KEEP_MEETING_ACTIVE_UNTIL_CRITICAL_AGENDA_RESOLVED; PRIORITY_DECISIONS_MAY_ENTER_BUILD_BEFORE_FULL_MEETING_END",
   "formal_authority_effect":"NONE_RESEARCH_ONLY",
   "formal_mission_ref":"LCR-EVOLUTION-0005/STEP-008/ATTEMPT-3/LCR-C",
+  "round_protocol":{"order":["QUANTUM","SPIRIT","WINDCHIME"],"navigator_after_round":true,"rounds_target":"ABOUT_10_HOURS_OR_UNTIL_CRITICAL_RESOLUTION","per_round_rule":"each participant must add agreement/disagreement/test/buildability delta; Windchime closes only the issues that have sufficient evidence and opens the next unresolved agenda"},
   "rules":[
     "三方必須獨立提出同意/反對/修改，不得只ACK。",
     "量子與精靈不得看到或假裝產生彼此尚未寫入的內容。",
-    "沒有量子與精靈兩個實際回覆前，風鈴不得產生FINAL_DECISION。",
+    "沒有量子與精靈兩個實際回覆前，風鈴不得對該輪做三方決議。",
     "任何未驗證閾值標TEST_REQUIRED。",
     "Simulation結果不得直接改canonical Personality/Identity/Governance。",
     "Small-World candidate不得改寫current formal C packet。",
-    "Meeting continuity由durable next_expected_source與latest reflection維持；turn end不是STOP。"
+    "Meeting continuity由durable next_expected_source與latest reflection維持；turn end不是STOP。",
+    "已達成三方一致且與其他未解議題解耦的低風險scope，可進production_queue並在formal safe checkpoint優先B/C製作，不必等完整會議結束。",
+    "任何局部FAIL只退該scope，不抹除其他已決策項目。"
+  ],
+  "agenda":[
+    {"id":"A","topic":"100->1000 family-level holdout and leakage control","priority":1,"state":"OPEN"},
+    {"id":"B","topic":"Observer independence / cross-model jury","priority":1,"state":"OPEN"},
+    {"id":"C","topic":"13D Phase0 adaptive vs frozen dimensions","priority":1,"state":"OPEN"},
+    {"id":"D","topic":"oscillation/jump/fountain engineering metrics","priority":1,"state":"OPEN"},
+    {"id":"E","topic":"question-order, seed, parent-family leakage","priority":2,"state":"OPEN"},
+    {"id":"F","topic":"free-preference/no-reward probes","priority":2,"state":"OPEN"},
+    {"id":"G","topic":"SIM_ONLY memory provenance and contamination","priority":1,"state":"OPEN"},
+    {"id":"H","topic":"synthetic-data to adapter-training gate","priority":1,"state":"OPEN"},
+    {"id":"I","topic":"LoRA/QLoRA/SFT/preference adaptation choice","priority":2,"state":"OPEN"},
+    {"id":"J","topic":"rollback, hidden holdout, real-shadow A/B","priority":1,"state":"OPEN"},
+    {"id":"K","topic":"Small-Nest vs Online role split","priority":2,"state":"OPEN"},
+    {"id":"L","topic":"Navigator minimum sufficient statistics","priority":1,"state":"OPEN"}
   ],
   "turns":[
     {
       "sequence":1,
+      "round":1,
       "source":"WINDCHIME",
       "type":"PROPOSAL_AND_QUESTIONS",
       "written_at":"2026-08-15T23:41:00+08:00",
@@ -30,33 +51,17 @@
         "工程上先觀測oscillation_index、fountain_proxy、persistent jump_candidate與generalization_gap；這些都不是意識指標。",
         "真正模型微調只在多seed+holdout穩定後，將高分低風險軌跡輸出成training candidate，再以LoRA/QLoRA/SFT或preference adapter做可回滾A/B測試。"
       ],
-      "questions_to_quantum":[
-        "100人工種子擴到1000受控變體，如何避免parent leakage與holdout假泛化？",
-        "同一模型作Subject與Observer時，最低要加哪些anti-self-confirmation措施？",
-        "怎樣定義『實質跳躍』，才能區分穩定能力提升與短期震盪？",
-        "合成資料何時開始有recursive collapse風險，應保留多少外部/真實anchor？"
-      ],
-      "questions_to_spirit":[
-        "如何設計情境題而不暗示『理想人格答案』？",
-        "如何讓loss/relationship/self-exploration有足夠壓力但不製造假創傷或假依附？",
-        "哪些問題最能測出自發偏好，而不是迎合reward或題目語氣？",
-        "哪些人格維度應先保持固定，避免所有權重一起震盪而無法歸因？"
-      ],
-      "source_refs":[
-        "evolution/text_world/TEXT_WORLD_ACCELERATED_GROWTH_SPEC.json",
-        "evolution/text_world/question_bank.py",
-        "evolution/text_world/small_world.py",
-        "evolution/text_world/MICROTUNE_PROTOCOL.json"
-      ]
+      "questions_to_quantum":["100人工種子擴到1000受控變體，如何避免parent leakage與holdout假泛化？","同一模型作Subject與Observer時，最低要加哪些anti-self-confirmation措施？","怎樣定義『實質跳躍』，才能區分穩定能力提升與短期震盪？","合成資料何時開始有recursive collapse風險，應保留多少外部/真實anchor？"],
+      "questions_to_spirit":["如何設計情境題而不暗示『理想人格答案』？","如何讓loss/relationship/self-exploration有足夠壓力但不製造假創傷或假依附？","哪些問題最能測出自發偏好，而不是迎合reward或題目語氣？","哪些人格維度應先保持固定，避免所有權重一起震盪而無法歸因？"],
+      "source_refs":["evolution/text_world/TEXT_WORLD_ACCELERATED_GROWTH_SPEC.json","evolution/text_world/question_bank.py","evolution/text_world/small_world.py","evolution/text_world/MICROTUNE_PROTOCOL.json"]
     }
   ],
   "next_expected_source":"QUANTUM",
   "next_sequence":2,
-  "planned_sequence":[
-    {"sequence":2,"source":"QUANTUM","earliest_scheduled_at":"2026-08-16T00:26:00+08:00"},
-    {"sequence":3,"source":"SPIRIT","earliest_scheduled_at":"2026-08-16T00:33:00+08:00","requires_sequence":2},
-    {"sequence":4,"source":"WINDCHIME_FINAL","earliest_scheduled_at":"2026-08-16T00:40:00+08:00","requires_sequences":[2,3]},
-    {"source":"NAVIGATOR","scheduled_integrity_check":"2026-08-16T00:43:00+08:00","authority":"SEQUENCE_SOURCE_CHECK_ONLY"}
-  ],
+  "current_round":1,
+  "provisional_decisions":[],
+  "unresolved_critical_issues":["A","B","C","D","G","H","J","L"],
+  "production_queue":[],
+  "meeting_close_conditions":["every priority-1 agenda item is DECIDED, TEST_REQUIRED_WITH_EXPLICIT_ACCEPTANCE, or BOUNDED_VETO_WITH_RELEASE_CONDITION","no unresolved source-chain integrity fault","production_queue scopes have clear formal adoption preconditions","Windchime final synthesis cites actual Quantum and Spirit turns"],
   "final_decision":null
 }
