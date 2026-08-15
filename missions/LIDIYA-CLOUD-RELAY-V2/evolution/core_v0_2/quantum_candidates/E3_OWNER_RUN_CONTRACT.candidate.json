@@ -1,0 +1,32 @@
+{
+  "schema_version":"1.0",
+  "candidate_id":"LQ-E3-OWNER-RUN-PACKAGE-001",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_target":8,
+  "status":"QUANTUM_CANDIDATE_NOT_FORMAL_BUILDER_ADOPTED",
+  "authorization_ref":"authorizations/LCR-EVOLUTION-0005-LOCAL-COMMAND-TOWER-24H-ADDENDUM-20260814.json",
+  "goal":"One-command Windows owner preflight plus tamper-evident evidence bundle for E3 reconciliation.",
+  "claim_boundary":"NO_OWNER_MACHINE_EXECUTION_CLAIM_NO_E3_PROMOTION",
+  "required_local_files":[
+    "evolution/small_nest/INSTALL_SMALL_NEST.ps1",
+    "evolution/small_nest/START_SMALL_NEST.cmd",
+    "evolution/small_nest/CHECK_SMALL_NEST_HEALTH.ps1",
+    "evolution/small_nest/RUN_LOCAL_CANARY.cmd",
+    "evolution/local_command_tower/local_canary.py",
+    "evolution/local_command_tower/evidence_reconciler.py"
+  ],
+  "fixed_sequence":["verify_required_files","install_user_space_identity","ensure_loopback_health","run_fixed_harmless_canary","capture_installation_and_canary","hash_required_package_files","emit_workspace_local_bundle"],
+  "bundle_path":".lidiya/e3_owner_run_bundle.json",
+  "bundle_required_fields":["schema_version","mission_id","authorization_ref","capture_mode","installation","canary","health","package_files","promotion_status"],
+  "promotion_status":"E3_EVIDENCE_READY_FOR_ONLINE_ATTESTATION_CANDIDATE",
+  "guards":[
+    "fixed-function only; no arbitrary command parameter",
+    "USER_SPACE only",
+    "health host must be 127.0.0.1",
+    "no elevation/registry/firewall/service/scheduled-task/secret/public-bind/main-default write",
+    "bundle validator rechecks installation identity, root, authorization, canary hash, fixed command, stdout, exit, provenance and package path containment",
+    "tamper or mismatch fails closed",
+    "validator never sets E3_promoted true"
+  ],
+  "formal_route":"A routes; B independently adopts/builds; C independently verifies; only real owner Windows evidence plus trusted online reconciliation can satisfy E3."
+}
