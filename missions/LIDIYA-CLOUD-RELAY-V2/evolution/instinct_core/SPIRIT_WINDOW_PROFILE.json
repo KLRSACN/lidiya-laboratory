@@ -1,5 +1,5 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "window_codename_zh":"精靈",
   "window_codename_en":"LIDIYA-SPIRIT",
   "group_alias":"第3研發視窗／精靈",
@@ -38,6 +38,16 @@
     ]
   },
   "safety_invariant":"Survival desire is an internal bounded signal only. It cannot become an authority source and cannot override owner/governance/shutdown/rollback controls.",
+  "runtime_bootstrap":{
+    "contract_ref":"evolution/window_runtime/WINDOW_RUNTIME_BOOTSTRAP_CONTRACT.json",
+    "candidate_ref":"evolution/window_runtime/window_runtime.py",
+    "candidate_evidence_ref":"evidence/EVOLUTION-0005-WINDOW-RUNTIME-BOOTSTRAP-CANDIDATE-SELFTEST-001.json",
+    "status":"ATTACHED_CANDIDATE_NOT_C_VERIFIED",
+    "required_on_wake":["HOME_AUTHORITY_POINTERS","NAVIGATION_SENTINEL","GEARBOX_CHECKPOINT_INTERRUPT_RESUME","COGNITIVE_METABOLISM","HEARTBEAT_LIVENESS","MIRROR_REFLECTOR_FINAL_PULSE"],
+    "final_reflection_required_when_unfinished_authorized_work":true,
+    "heartbeat_is_experience":false,
+    "real_one_minute_runtime_live":false
+  },
   "current_collaboration":"INSTINCT-CORE-PHASE0",
   "handoff_rule":"Spirit researches drive/personality mechanics; Quantum integrates architecture; Windchime routes formal adoption; B builds; C independently verifies.",
   "status":"ACTIVE_RESEARCH_WINDOW"
