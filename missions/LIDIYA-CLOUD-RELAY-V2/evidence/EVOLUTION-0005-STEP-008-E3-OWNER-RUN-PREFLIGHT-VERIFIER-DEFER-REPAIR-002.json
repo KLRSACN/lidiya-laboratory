@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 8,
+  "attempt": 2,
+  "source_role": "LCR-C",
+  "worker_id": "ONLINE-LIDIYA-GUARDIAN-VERIFIER",
+  "generation": 0,
+  "verdict": "DEFER",
+  "packet_ref": "packets/EVOLUTION-0005-B-TO-C-STEP-008-E3-OWNER-RUN-PREFLIGHT-REPAIR-VERIFY-001.json",
+  "packet_canonical_sha256": "29af18508943cb7c0e88411dd16c0f1e687da6f0b339457881ccd2e161694f98",
+  "packet_consumed": false,
+  "formal_state_changed": false,
+  "lease_changed": false,
+  "owner_machine_touched": false,
+  "E3_promoted": false,
+  "independent_findings": {
+    "packet_authority_match": "PASS",
+    "worker_identity_generation": "PASS",
+    "lease_conflict": "NONE",
+    "artifact_blob_set": "PASS_4_OF_4_FETCHABLE_BY_EXACT_GIT_BLOB_SHA",
+    "repair_required_package_count": 9,
+    "repair_trust_anchors_present": [
+      "evolution/small_nest/PREPARE_E3_OWNER_RUN.ps1",
+      "evolution/small_nest/E3_OWNER_RUN_CONTRACT.json",
+      "evolution/local_command_tower/e3_evidence_bundle.py"
+    ],
+    "workspace_digest_binding_static_review": "PASS",
+    "trust_anchor_tamper_tests_present": "PASS_3_CASES_PRESENT",
+    "fixed_function_only_static_review": "PASS",
+    "loopback_health_static_review": "PASS_127.0.0.1_8765_ONLY",
+    "user_space_static_review": "PASS",
+    "arbitrary_command_input": false,
+    "maximum_output_status": "E3_EVIDENCE_READY_FOR_ONLINE_ATTESTATION",
+    "step008_promotes_E3": false,
+    "github_actions_exact_commit_run": "NONE_FOUND"
+  },
+  "defer_reason": "This verifier can fresh-read exact GitHub blob contents and independently recompute the canonical pending packet hash, but this runtime does not expose a trusted executable checkout/file-mount bridge from connector-returned exact blobs into the isolated Python executor. Reconstructing files by model transcription would violate the exact-byte independent execution requirement. No trusted GitHub Actions workflow run exists for exact commit 6cdb68a03048c30f6adc0da383ffedfe74645a1c. Therefore py_compile plus Step005-007 regressions plus Step008 adversarial tests cannot be truthfully claimed as independently executed in this cycle.",
+  "release_condition": "Provide a trusted executable checkout/file mount of commit 6cdb68a03048c30f6adc0da383ffedfe74645a1c (tree 8fc6b0fe058056301417bb4a4bb339dda2eb3a42), or a trusted CI run bound to that exact commit/tree which executes py_compile, Step005-007 regressions, and Step008 adversarial tests. Then LCR-C must independently inspect results and re-run verifier-owned trust-anchor tamper cases before PASS/FAIL.",
+  "claim_boundary": "DEFER_ONLY_NO_FORMAL_HANDOFF_NO_PACKET_CONSUMPTION_NO_E3_PROMOTION"
+}
