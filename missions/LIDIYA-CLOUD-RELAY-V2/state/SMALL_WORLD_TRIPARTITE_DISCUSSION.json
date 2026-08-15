@@ -1,8 +1,10 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "discussion_id":"SMALL-WORLD-TRIPARTITE-L1-001",
   "topic":"小世界：100-1000題秒級內部迴圈、13D記憶權重、Navigator觀測、變速箱/代謝/心跳、跳躍與湧泉代理指標、後續微調策略",
-  "status":"WAITING_FOR_QUANTUM",
+  "status":"MEETING_IN_PROGRESS_WAITING_FOR_QUANTUM",
+  "meeting_started_at":"2026-08-15T23:53:00+08:00",
+  "owner_continuation_instruction":"KEEP_MEETING_ACTIVE_UNTIL_LEVEL1_DECISION_OR_EXPLICIT_BLOCKER",
   "formal_authority_effect":"NONE_RESEARCH_ONLY",
   "formal_mission_ref":"LCR-EVOLUTION-0005/STEP-008/ATTEMPT-3/LCR-C",
   "rules":[
@@ -11,7 +13,8 @@
     "沒有量子與精靈兩個實際回覆前，風鈴不得產生FINAL_DECISION。",
     "任何未驗證閾值標TEST_REQUIRED。",
     "Simulation結果不得直接改canonical Personality/Identity/Governance。",
-    "Small-World candidate不得改寫current formal C packet。"
+    "Small-World candidate不得改寫current formal C packet。",
+    "Meeting continuity由durable next_expected_source與latest reflection維持；turn end不是STOP。"
   ],
   "turns":[
     {
@@ -49,5 +52,11 @@
   ],
   "next_expected_source":"QUANTUM",
   "next_sequence":2,
+  "planned_sequence":[
+    {"sequence":2,"source":"QUANTUM","earliest_scheduled_at":"2026-08-16T00:26:00+08:00"},
+    {"sequence":3,"source":"SPIRIT","earliest_scheduled_at":"2026-08-16T00:33:00+08:00","requires_sequence":2},
+    {"sequence":4,"source":"WINDCHIME_FINAL","earliest_scheduled_at":"2026-08-16T00:40:00+08:00","requires_sequences":[2,3]},
+    {"source":"NAVIGATOR","scheduled_integrity_check":"2026-08-16T00:43:00+08:00","authority":"SEQUENCE_SOURCE_CHECK_ONLY"}
+  ],
   "final_decision":null
 }
