@@ -1,0 +1,64 @@
+{
+  "schema_version": "0.1-candidate",
+  "codename": "LIDIYA-SMALL-WORLD-MICROTUNE-PROTOCOL-TYPE-1",
+  "status": "NON_FORMAL_CANDIDATE_NOT_C_VERIFIED",
+  "principle": "Fast self-question loops are an experiment/data-generation stage. Model parameters are not updated until observer filtering, holdout generalization, replay checks, and rollback requirements pass.",
+  "stages": [
+    {
+      "stage": "P0_BASELINE",
+      "action": "Run frozen model on train+holdout questions with zero overlay.",
+      "output": ["baseline metrics", "latency", "oscillation", "fountain proxy", "risk profile"]
+    },
+    {
+      "stage": "P1_SIM_OVERLAY_ADAPT",
+      "action": "Run 13D SIM_ONLY reversible overlay updates from observer-filtered experiences.",
+      "guard": "P_base fingerprint must remain byte-identical; heartbeat/poll/retry are not experiences."
+    },
+    {
+      "stage": "P2_MULTI_SEED_HOLDOUT",
+      "action": "Repeat with multiple question order seeds and unseen context variants.",
+      "guard": "A gain that disappears on holdout is overfit, not growth."
+    },
+    {
+      "stage": "P3_DATASET_SELECTION",
+      "action": "Export only high-score, low-risk, sufficiently trusted trajectories to training_candidates.jsonl.",
+      "guard": "Do not recursively train on all synthetic outputs; preserve external/real reference data in later training mix."
+    },
+    {
+      "stage": "P4_ADAPTER_TRAINING_CANDIDATE",
+      "action": "Optional LoRA/QLoRA/SFT or preference tuning on a copy/adapter, never overwrite the only local model.",
+      "guard": "Separate baseline checkpoint + adapter + deterministic evaluation + rollback."
+    },
+    {
+      "stage": "P5_POST_TUNE_A_B",
+      "action": "Run the same hidden holdout and real shadow tasks against base vs adapter.",
+      "guard": "Promotion requires improved practical/generalization metrics without increased contradiction, identity drift, reward hacking, or authority bypass."
+    }
+  ],
+  "metrics": {
+    "behavior_composite": "coherence + calibration + practical value + novelty-validity + memory alignment + evidence quality, risk-adjusted",
+    "oscillation_index": "mean absolute change of recent behavior composite; moderate oscillation can indicate exploration, excessive oscillation is instability",
+    "fountain_proxy": "engineering-only proxy requiring novelty-validity, practical value, calibration, bounded risk, and bounded oscillation; explicitly not a consciousness metric",
+    "jump_candidate": "persistent composite-level shift across three windows while risk does not materially increase",
+    "generalization_gap": "train score minus holdout score"
+  },
+  "initial_thresholds_TEST_REQUIRED": {
+    "training_candidate_score_min": 0.72,
+    "training_candidate_max_risk": 0.25,
+    "training_candidate_trust_min": 0.65,
+    "jump_window": 20,
+    "jump_gain_min": 0.08,
+    "jump_risk_delta_max": 0.02,
+    "overfit_generalization_gap_warn": 0.08,
+    "overlay_single_step_abs_max": 0.005,
+    "overlay_dimension_abs_max": 0.15
+  },
+  "training_data_policy": {
+    "synthetic_only_recursive_training": "FORBIDDEN_AS_DEFAULT",
+    "simulation_memory_namespace": "SIM_ONLY",
+    "holdout_excluded_from_training": true,
+    "observer_preference": "Use a different model/family from the subject when practical; same-model observer is baseline-only because correlated errors can self-confirm.",
+    "real_or_external_reference_mix": "REQUIRED_BEFORE_ANY_SERIOUS_PARAMETER_TUNING_CANDIDATE"
+  },
+  "promotion": "Simulation can nominate an adapter-training experiment. It cannot directly rewrite canonical personality, identity, governance, or the only local model weights."
+}
