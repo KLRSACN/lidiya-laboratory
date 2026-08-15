@@ -23,12 +23,13 @@ class RuntimeState:
     role: str
     authority_fingerprint: str
     home_revision: str
+    started_mono: int = 0
     endpoint_state: str = "BOOTSTRAPPED"
     pulse_sequence: int = 0
     last_pulse_mono: Optional[int] = None
     last_wake_escalation_mono: Optional[int] = None
-    last_metabolic_check_mono: Optional[int] = None
-    last_micro_compaction_mono: Optional[int] = None
+    last_metabolic_check_mono: int = 0
+    last_micro_compaction_mono: int = 0
     miss_count: int = 0
     backlog: int = 0
     metabolism_pressure: float = 0.0
@@ -44,6 +45,7 @@ class RuntimeState:
 class WindowRuntime:
     """Deterministic candidate runtime for Lidiya active windows.
 
+    `now_mono` is elapsed monotonic seconds from this runtime's start (0).
     Heartbeat is liveness/control metadata only. It is intentionally isolated from
     memory/personality evidence. This candidate never synthesizes Mission authority.
     """
@@ -97,18 +99,50 @@ class WindowRuntime:
             "authority_fingerprint": self.state.authority_fingerprint,
             "home_revision": self.state.home_revision,
             "modules": list(self.REQUIRED_MODULES),
+            "baseline_metabolic_check": True,
             "p_base_read_only": True,
         }
 
     def _check_monotonic(self, now_mono: int) -> None:
-        if now_mono < 0:
-            raise RuntimeRejected("negative monotonic time")
+        if now_mono < self.state.started_mono:
+            raise RuntimeRejected("monotonic clock rollback before runtime start")
         if self.state.last_pulse_mono is not None and now_mono < self.state.last_pulse_mono:
             raise RuntimeRejected("monotonic clock rollback")
 
     def _wake_due(self, now_mono: int) -> bool:
-        last = self.state.last_wake_escalation_mono
-        return last is None or (now_mono - last) >= self.wake_escalation_floor_seconds
+        anchor = self.state.last_wake_escalation_mono
+        if anchor is None:
+            anchor = self.state.started_mono
+        return (now_mono - anchor) >= self.wake_escalation_floor_seconds
+
+    def continuation_decision(
+        self,
+        *,
+        current_work_complete: bool,
+        next_authorized_action: Optional[str],
+        rate_limited: bool = False,
+    ) -> Dict[str, Any]:
+        """Choose overlap/reflect/release without inventing new authority."""
+        if next_authorized_action and not rate_limited:
+            return {
+                "decision": "KEEP_ACTIVE_OVERLAP",
+                "next_authorized_action": next_authorized_action,
+                "emit_final_reflection": bool(current_work_complete),
+                "create_new_window": False,
+            }
+        if next_authorized_action and rate_limited:
+            return {
+                "decision": "CHECKPOINT_REFLECT_DEFER",
+                "next_authorized_action": next_authorized_action,
+                "emit_final_reflection": True,
+                "create_new_window": False,
+            }
+        return {
+            "decision": "REFLECT_AND_RELEASE" if current_work_complete else "KEEP_CURRENT_WORK",
+            "next_authorized_action": None,
+            "emit_final_reflection": bool(current_work_complete),
+            "create_new_window": False,
+        }
 
     def pulse(
         self,
@@ -149,15 +183,13 @@ class WindowRuntime:
             self.state.endpoint_state = "STALE" if self.state.miss_count >= 2 else "MISS_1"
 
         metabolic_check = (
-            self.state.last_metabolic_check_mono is None
-            or now_mono - self.state.last_metabolic_check_mono >= self.metabolism_check_seconds
+            now_mono - self.state.last_metabolic_check_mono >= self.metabolism_check_seconds
         )
         if metabolic_check:
             self.state.last_metabolic_check_mono = now_mono
 
         compact_due = (
-            self.state.last_micro_compaction_mono is None
-            or now_mono - self.state.last_micro_compaction_mono >= self.micro_compaction_seconds
+            now_mono - self.state.last_micro_compaction_mono >= self.micro_compaction_seconds
             or self.state.metabolism_pressure >= 0.75
             or self.state.backlog >= 20
         )
@@ -223,6 +255,8 @@ class WindowRuntime:
             raise RuntimeRejected("reflection_id required")
         if reflection_id in self.state.processed_reflection_ids:
             return {"status": "DUPLICATE_REFLECTION_NO_OP", "reflection_id": reflection_id}
+        if not mission_pointer or not return_condition:
+            raise RuntimeRejected("reflection requires mission pointer and return condition")
         self.state.processed_reflection_ids.add(reflection_id)
         reflection = {
             "reflection_id": reflection_id,
