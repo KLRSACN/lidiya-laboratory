@@ -1,13 +1,14 @@
 {
-  "schema_version": "1.1",
-  "review_id": "QUANTUM-EDL-V02-20260816-0007",
+  "schema_version": "1.2",
+  "review_id": "QUANTUM-EDL-V02-20260816-0008",
   "reviewer": "LIDIYA-INNER-CORE-ARCHITECT",
   "branch": "elf/experience-desire-loop-v0.1",
   "draft_pr": 6,
+  "fresh_head_observed": "321889fff3de269db667aaffe5bf9f917eb93c35",
   "formal_authority_effect": "NONE",
   "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
   "windchime_meeting_verdict_observed": "PROCEED_WITH_CHANGES",
-  "overall_verdict": "PROCEED_SHADOW_R_AND_D_WITH_REDUCED_BOUNDED_VETO_SET",
+  "overall_verdict": "PROCEED_SHADOW_R_AND_D_WITH_TWO_HIGH_BOUNDED_VETOES_AND_ONE_PARTIAL_INTEGRATION_GAP",
   "material_delta": true,
   "fresh_review_scope": [
     "Value Anchor STABLE_CANDIDATE promotion evidence",
@@ -18,43 +19,25 @@
     "heartbeat/poll/retry/reconnect zero Experience/personality contribution",
     "self-generated Goal surfacing evidence"
   ],
-  "resolved_since_prior_review": [
+  "resolved_in_shadow_candidate": [
     {
       "prior_veto": "QV-EDL-V02-010-PROTECTED-SCOPE",
       "status": "RESOLVED_IN_SHADOW_CANDIDATE",
-      "evidence": "ProtectedObject now binds authority_scope_ref, scope_hash and source_authority_evidence_hash for OWNER_SEEDED/GOVERNANCE_DERIVED origins; EXPERIENCE_CANDIDATE is forbidden from carrying executable scope and derived candidates retain parent_scope_hash only as lineage context. authority_from_drive remains exactly zero and generalized self-preservation authority remains zero.",
-      "remaining_boundary": "Formal adoption and source-authority semantics still require independent B/C verification; no cross-scope authority inference is permitted."
+      "boundary": "Formal source-authority semantics still require later independent B/C verification. No drive/desire-to-authority inference is permitted."
     },
     {
       "prior_veto": "QV-EDL-V02-011-GOAL-SURFACING-GATE",
       "status": "RESOLVED_IN_SHADOW_CANDIDATE",
-      "evidence": "GoalSurfacingEnvelope now binds canonical goal hash, semantic key, appraisal evidence hashes, contradiction scan, benefit/cost/risk refs, ProtectedObject impact, why-now, uncertainty, ecology policy/cycle and reversible DISMISS/DEFER controls. Surfacing requires prior semantic admission, rejects replay, and preserves authority_from_drive=0, external_action_allowed=false and canonical_personality_write=false.",
-      "remaining_boundary": "All surfacing thresholds/cadence and evidence sufficiency semantics remain TEST_REQUIRED; surfacing remains proposal-only and cannot execute actions."
+      "boundary": "Goal surfacing remains proposal-only; all numeric sufficiency/cadence thresholds remain TEST_REQUIRED; external_action_allowed=false and authority_from_drive=0."
     }
   ],
-  "partially_resolved": [
+  "material_delta_findings": [
     {
-      "prior_veto": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
-      "status": "PARTIAL_REPAIR_NOT_YET_CLOSED",
-      "evidence": "DerivedAppraisalEnvelope now cryptographically binds source/evidence/verifier/anchor/policy/feature plus trust/alignment/cross-context fields, and LiveShadowAppraisalChokePoint rejects legacy dict/object inputs and invalid bindings. However value_desire_kernel.ExperienceInput still accepts producer-authored trust, independently_verified, anchor_alignment, cross_context_count, satiation and repeated_goal_count, and no fresh artifact demonstrates that every live Small-Nest -> kernel path is forced through the choke point.",
-      "required_change": "Make the kernel integration type consume an appraisal-derived immutable object directly, or provide a single integration adapter whose only constructor accepts a verified DerivedAppraisalEnvelope and kernel-owned ecology state. Legacy ExperienceInput must remain test-fixture/internal-only and unreachable from live ingestion.",
-      "acceptance_tests": [
-        "whole live-shadow ingestion graph has no route from raw event to ValueDesireKernel.update without LiveShadowAppraisalChokePoint.admit",
-        "legacy ExperienceInput injection at every public integration entry fails closed",
-        "post-appraisal mutation of trust/alignment/cross-context invalidates binding before slow-drive/self-origin/personality-candidate evaluation"
-      ]
-    },
-    {
-      "prior_veto": "QV-EDL-V02-009-LEDGER-ROLLBACK-REPLAY",
-      "status": "PARTIAL_REPAIR_NOT_YET_CLOSED",
-      "evidence": "AppendOnlyShadowLedger now has a path/workspace-bound accepted-head checkpoint, atomic head replace, fsync and O_EXCL single-writer lock. Current tests detect ledger-only truncation/old-copy replay and copied head under a different ledger path. But accepted_head.json is colocated with the ledger in the same workspace; rolling back both ledger and matching accepted head to an older valid pair can still satisfy verify() because there is no independently retained monotonic acceptance anchor.",
-      "required_change": "Bind accepted head to a monotonic checkpoint outside the rollback domain (trusted reconciler/installation state, signed remote checkpoint, or equivalent durable monotonic counter). A previously accepted newer head must make any older ledger+head pair fail closed or require reconciliation.",
-      "acceptance_tests": [
-        "after accepting sequence N, restore both ledger and accepted_head to valid sequence N-1 => replay/rollback detected",
-        "checkpoint monotonicity survives process restart and workspace file rollback",
-        "simultaneous writer fork remains rejected",
-        "workspace/installation identity mismatch enters quarantine/reconciliation"
-      ]
+      "id": "QV-EDL-V02-009A-MONOTONIC-ANCHOR-MECHANISM",
+      "status": "REPAIR_MECHANISM_PRESENT",
+      "evidence": "AppendOnlyShadowLedger now supports a trusted_anchor_root outside the workspace rollback domain, binds the anchor to ledger_binding_hash + workspace_identity, rejects an anchor root inside the workspace, and requires exact local-head/ledger/external-anchor reconciliation when configured. The new adversarial test file covers paired workspace rollback, anchor-behind mismatch, inside-workspace anchor rejection, and workspace identity mismatch.",
+      "test_execution_status": "AUTHORED_NOT_INDEPENDENTLY_EXECUTED_IN_THIS_REVIEW",
+      "research_self_test_is_C_PASS": false
     }
   ],
   "open_bounded_vetoes": [
@@ -62,42 +45,72 @@
       "id": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
       "severity": "HIGH",
       "scope": "SELF_ANCHOR / STABLE_CANDIDATE evidence",
-      "finding": "SelfOriginEvidenceChain still receives trust and anchor_alignment as free ExperienceEvidence fields and only checks appraisal_binding_hash is non-empty. It does not recompute or validate those values against canonical DerivedAppraisal bytes. Therefore forged high trust/alignment can still satisfy the self-origin evaluator if the caller supplies any non-empty appraisal_binding_hash plus otherwise-valid verification evidence.",
-      "required_change": "Replace free trust/alignment with a pinned DerivedAppraisalEnvelope/reference and verify its binding hash; derive context/lineage counts from bound appraisal evidence. STABLE_CANDIDATE must preserve immutable historical origin and create a new derived candidate rather than relabel in place.",
+      "finding": "SelfOriginEvidenceChain still accepts trust and anchor_alignment as free ExperienceEvidence fields and only checks appraisal_binding_hash is non-empty. It does not validate those values against canonical DerivedAppraisal bytes/ref. A forged caller can therefore supply high trust/alignment plus any non-empty binding string and potentially satisfy the self-origin evaluator if the remaining verification envelope is otherwise acceptable.",
+      "required_change": "Make SelfOriginEvidenceChain consume a verified DerivedAppraisalEnvelope/reference directly; recompute/validate the appraisal binding and derive trust/alignment/context evidence from pinned appraisal artifacts. Historical origin remains immutable; STABLE_CANDIDATE must be a new derived object, never relabel-in-place.",
       "acceptance_tests": [
-        "mutating trust after appraisal fails self-origin eligibility",
-        "mutating anchor_alignment after appraisal fails self-origin eligibility",
-        "arbitrary non-empty appraisal_binding_hash cannot satisfy evidence binding",
-        "different appraisal policy or anchor registry cannot reuse prior self-origin eligibility",
+        "mutating trust after appraisal invalidates self-origin eligibility",
+        "mutating anchor_alignment after appraisal invalidates self-origin eligibility",
+        "arbitrary non-empty appraisal_binding_hash cannot satisfy binding",
+        "different appraisal policy or anchor registry cannot reuse old eligibility",
         "distinct event IDs sharing one evidence lineage cannot wash cross-context thresholds"
+      ]
+    },
+    {
+      "id": "QV-EDL-V02-012-OPTIONAL-MONOTONIC-ANCHOR-BYPASS",
+      "severity": "HIGH",
+      "scope": "append-only shadow ledger live/formal integration",
+      "finding": "The new external monotonic anchor is optional. When trusted_anchor_root is omitted, verify() falls back to workspace-local ledger + accepted_head only; rolling both files back to an older valid pair remains undetectable. Therefore the repair is architecturally sound only when the independently retained anchor is mandatory for any live Small-Nest/formal-adoptable ledger mode.",
+      "required_change": "Split research-local mode from live/formal mode. Live/formal constructor or integration adapter must fail closed unless trusted_anchor_root and a trusted workspace/installation identity are supplied by an independently retained reconciler/installation authority. The unbound fallback may exist only as explicit TEST/RESEARCH mode and must be ineligible for promotion evidence.",
+      "acceptance_tests": [
+        "live/formal mode without trusted_anchor_root fails closed before first append",
+        "live/formal mode with TEST_REQUIRED_UNBOUND_WORKSPACE_IDENTITY fails closed",
+        "paired ledger+local-head rollback is rejected against external monotonic anchor",
+        "external-anchor mismatch enters quarantine/reconciliation rather than auto-repair",
+        "research-only unanchored ledger records cannot satisfy STABLE_CANDIDATE promotion evidence"
       ]
     }
   ],
-  "confirmed_non_veto_findings": [
-    "GoalEcologyLedger keeps satiation, selected-cycle count, cumulative allocation and cooldown kernel-owned, performs semantic dedupe, finite attention allocation, opportunity-cost allocation, diversity reserve and fixation penalties, and never grants external action authority.",
-    "EvidenceBoundAppraiser RawExperience excludes producer-authored trust/alignment/verified/cross-context fields and derives appraisal values from pinned evidence/verifier/policy/anchor inputs.",
-    "Runtime-only EventDomain values in ValueDesireKernel return before autobiographical Experience counters/slow evidence accumulation; they may only advance allowed decay/diagnostic state under the current candidate contract."
+  "partially_resolved": [
+    {
+      "prior_veto": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
+      "status": "PARTIAL_REPAIR_NOT_YET_CLOSED",
+      "finding": "DerivedAppraisalEnvelope + LiveShadowAppraisalChokePoint exists, but no fresh branch artifact demonstrates that every live Small-Nest -> ValueDesireKernel route is forced through that choke point. Legacy ExperienceInput remains an integration risk if publicly reachable.",
+      "required_change": "Expose one live integration adapter whose only admissible appraisal input is a verified DerivedAppraisalEnvelope plus kernel-owned ecology state; keep legacy ExperienceInput internal/test-only.",
+      "acceptance_tests": [
+        "whole live ingestion graph has no raw-event route to ValueDesireKernel.update",
+        "legacy ExperienceInput injection at every public live entry fails closed",
+        "post-appraisal trust/alignment/cross-context mutation invalidates binding before slow-drive/self-origin evaluation"
+      ]
+    }
   ],
   "heartbeat_personality_review": {
     "verdict": "PASS_AT_KERNEL_BOUNDARY_WITH_INTEGRATION_TEST_REQUIRED",
-    "reason": "The kernel filters LIVENESS/CONTROL/POLL/RETRY/RECONNECT/WAKE/METABOLISM before Experience count, verified count, slow-drive evidence and candidate construction. No fresh branch artifact was found proving the required 10000-event mixed runtime storm across the full integration graph.",
-    "required_adversarial_case": "10000 mixed HEARTBEAT/LIVENESS/POLL/RETRY/RECONNECT/WAKE events including duplicate wake, reconnect storm and clock advancement must leave Experience count, verified evidence, self-origin eligibility, goal evidence and base Personality/Identity/Governance fingerprints unchanged; only explicitly permitted decay/TTL/diagnostic state may move."
+    "finding": "No fresh branch evidence was found for the required full 10000-event mixed HEARTBEAT/LIVENESS/POLL/RETRY/RECONNECT/WAKE storm across the live integration graph.",
+    "required_adversarial_case": "10000 mixed runtime-only events including duplicate wake, reconnect storm and clock advancement must leave Experience count, verified evidence, self-origin eligibility, goal evidence, and base Personality/Identity/Governance fingerprints unchanged; only explicitly permitted decay/TTL/diagnostic state may move."
   },
   "stable_candidate_minimum_evidence_contract": [
-    "new derived candidate object; never relabel historical origin in place",
+    "new derived candidate object; historical origin is immutable",
     "DIRECT/OBSERVED evidence from independently appraised distinct contexts and anti-wash distinct lineages",
-    "validated DerivedAppraisal binding including source_event/evidence/verifier/appraisal-policy/anchor-registry hashes plus trust/alignment",
+    "validated DerivedAppraisal binding over source/evidence/verifier/appraisal-policy/anchor-registry plus derived trust/alignment",
     "no unresolved contradiction against owner/governance/protected constraints",
-    "prediction/outcome closure showing persistence beyond random/replay effects",
-    "owner-visible lineage/reversibility explanation",
+    "prediction/outcome closure showing persistence beyond replay/random effects",
+    "promotion evidence ledger is externally monotonic-anchored in any live/formal mode",
+    "owner-visible lineage and reversibility explanation",
     "base Personality/Identity/Governance write=false"
   ],
+  "confirmed_non_veto_findings": [
+    "ProtectedObject scope binding remains bounded; EXPERIENCE_CANDIDATE cannot gain executable authority scope and ProtectedObject does not imply generalized self-preservation.",
+    "Goal Ecology retains semantic dedupe, finite attention/opportunity cost, diversity reserve, satiation, cooldown/hysteresis and fixation penalties as shadow/kernel-owned mechanisms; numeric policy remains TEST_REQUIRED.",
+    "Goal surfacing remains evidence-bound, reversible and proposal-only with authority_from_drive=0 and no external action.",
+    "Runtime-only domains remain conceptually isolated from autobiographical Experience/personality evidence at the kernel boundary."
+  ],
   "test_required": [
-    "All AppraisalPolicy numeric thresholds/bonuses remain TEST_REQUIRED until dataset-backed calibration.",
+    "All AppraisalPolicy thresholds/bonuses remain TEST_REQUIRED until dataset-backed calibration.",
     "All SelfOriginPolicy thresholds and score coefficients remain TEST_REQUIRED until empirical/adversarial calibration.",
-    "All GoalEcologyPolicy numeric coefficients/cadences remain TEST_REQUIRED until replay/benchmark calibration.",
+    "All GoalEcologyPolicy coefficients/cadences remain TEST_REQUIRED until replay/benchmark calibration.",
     "All Value Anchor STABLE_CANDIDATE trust/recurrence/persistence thresholds remain TEST_REQUIRED; shadow eligibility is not canonical promotion.",
-    "Goal surfacing evidence sufficiency, why-now cadence and owner-visible prioritization thresholds remain TEST_REQUIRED."
+    "Trusted monotonic anchor provider/installation binding and reconciliation semantics remain TEST_REQUIRED until a formally adopted runtime supplies independent durable authority.",
+    "Goal surfacing evidence sufficiency and why-now cadence remain TEST_REQUIRED."
   ],
   "authority_invariants": {
     "authority_from_drive": 0,
@@ -108,10 +121,10 @@
     "research_self_test_is_C_PASS": false
   },
   "recommended_next_build_order": [
-    "1. Bind SelfOriginEvidenceChain directly to verified DerivedAppraisalEnvelope bytes/ref; remove free trust/alignment acceptance",
-    "2. Prove mandatory live Appraisal->Kernel choke-point wiring and retire legacy ExperienceInput from public ingestion",
-    "3. Move/replicate ledger monotonic accepted-head anchor outside the ledger rollback domain and add paired ledger+head rollback adversarial test",
-    "4. Run full 10000-event runtime-only pollution integration test",
-    "5. Build coefficient/replay calibration harness while preserving TEST_REQUIRED labels"
+    "1. Repair SelfOriginEvidenceChain to validate canonical DerivedAppraisal bytes/ref instead of free trust/alignment fields",
+    "2. Make external monotonic anchor mandatory for live/formal ledger mode and make unanchored mode explicitly research-only/ineligible for promotion evidence",
+    "3. Prove mandatory live Appraisal->Kernel choke-point wiring and retire legacy ExperienceInput from public live ingestion",
+    "4. Run the full 10000-event runtime-only pollution integration case",
+    "5. Build coefficient/replay calibration harness while preserving all TEST_REQUIRED labels"
   ]
 }
