@@ -1,115 +1,104 @@
 {
-  "schema_version": "1.0",
-  "review_id": "QUANTUM-EDL-V02-20260816-0006",
+  "schema_version": "1.1",
+  "review_id": "QUANTUM-EDL-V02-20260816-0007",
   "reviewer": "LIDIYA-INNER-CORE-ARCHITECT",
   "branch": "elf/experience-desire-loop-v0.1",
   "draft_pr": 6,
   "formal_authority_effect": "NONE",
   "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
-  "review_scope": [
+  "windchime_meeting_verdict_observed": "PROCEED_WITH_CHANGES",
+  "overall_verdict": "PROCEED_SHADOW_R_AND_D_WITH_REDUCED_BOUNDED_VETO_SET",
+  "material_delta": true,
+  "fresh_review_scope": [
     "Value Anchor STABLE_CANDIDATE promotion evidence",
     "immutable origin/provenance",
-    "ProtectedObject scope",
+    "ProtectedObject authority scope",
     "Goal Ecology fixation/dedupe/opportunity-cost/diversity/cooldown",
-    "append-only ledger tamper/replay",
+    "append-only ledger tamper/replay/rollback",
     "heartbeat/poll/retry/reconnect zero Experience/personality contribution",
     "self-generated Goal surfacing evidence"
   ],
-  "windchime_meeting_verdict_observed": "PROCEED_WITH_CHANGES",
-  "overall_verdict": "PROCEED_SHADOW_R_AND_D_WITH_BOUNDED_VETOES",
-  "material_delta": true,
-  "confirmed_improvements": [
-    "EvidenceBoundAppraiser introduces RawExperience without producer-authored trust/alignment/verified/cross-context fields and binds verifier/evidence/policy hashes.",
-    "GoalEcologyLedger makes attention budget, semantic dedupe, opportunity cost, diversity reserve, satiation, cooldown and fixation state kernel-owned and keeps external_action_allowed=false.",
-    "ProtectedObjectRegistry enforces immutable object IDs, EXPERIENCE_CANDIDATE shadow-only, authority_from_drive=0 and generalized_self_preservation_authority()=0.",
-    "SelfOriginEvidenceChain rejects seed self-promotion, requires DIRECT/OBSERVED, independent verification, distinct contexts and lineage de-duplication.",
-    "Runtime-only EventDomain values return without autobiographical count/evidence increments; decay-only clock advancement remains allowed by current product contract."
-  ],
-  "bounded_vetoes": [
+  "resolved_since_prior_review": [
     {
-      "id": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
-      "severity": "HIGH",
-      "scope": "EDL shadow integration only",
-      "finding": "value_desire_kernel.ExperienceInput still accepts producer-supplied trust, independently_verified, anchor_alignment, cross_context_count, satiation and repeated_goal_count. The new EvidenceBoundAppraiser is therefore not yet a mandatory choke point; a caller can bypass it and feed authoritative-looking fields directly to the kernel.",
-      "required_change": "Before any live Small-Nest/shadow integration, make the kernel consume only an appraisal-derived immutable input whose trust/alignment/cross-context bindings are recomputed or cryptographically bound to EvidenceBoundAppraiser output. Legacy ExperienceInput must be test-fixture-only or rejected at the integration boundary.",
+      "prior_veto": "QV-EDL-V02-010-PROTECTED-SCOPE",
+      "status": "RESOLVED_IN_SHADOW_CANDIDATE",
+      "evidence": "ProtectedObject now binds authority_scope_ref, scope_hash and source_authority_evidence_hash for OWNER_SEEDED/GOVERNANCE_DERIVED origins; EXPERIENCE_CANDIDATE is forbidden from carrying executable scope and derived candidates retain parent_scope_hash only as lineage context. authority_from_drive remains exactly zero and generalized self-preservation authority remains zero.",
+      "remaining_boundary": "Formal adoption and source-authority semantics still require independent B/C verification; no cross-scope authority inference is permitted."
+    },
+    {
+      "prior_veto": "QV-EDL-V02-011-GOAL-SURFACING-GATE",
+      "status": "RESOLVED_IN_SHADOW_CANDIDATE",
+      "evidence": "GoalSurfacingEnvelope now binds canonical goal hash, semantic key, appraisal evidence hashes, contradiction scan, benefit/cost/risk refs, ProtectedObject impact, why-now, uncertainty, ecology policy/cycle and reversible DISMISS/DEFER controls. Surfacing requires prior semantic admission, rejects replay, and preserves authority_from_drive=0, external_action_allowed=false and canonical_personality_write=false.",
+      "remaining_boundary": "All surfacing thresholds/cadence and evidence sufficiency semantics remain TEST_REQUIRED; surfacing remains proposal-only and cannot execute actions."
+    }
+  ],
+  "partially_resolved": [
+    {
+      "prior_veto": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
+      "status": "PARTIAL_REPAIR_NOT_YET_CLOSED",
+      "evidence": "DerivedAppraisalEnvelope now cryptographically binds source/evidence/verifier/anchor/policy/feature plus trust/alignment/cross-context fields, and LiveShadowAppraisalChokePoint rejects legacy dict/object inputs and invalid bindings. However value_desire_kernel.ExperienceInput still accepts producer-authored trust, independently_verified, anchor_alignment, cross_context_count, satiation and repeated_goal_count, and no fresh artifact demonstrates that every live Small-Nest -> kernel path is forced through the choke point.",
+      "required_change": "Make the kernel integration type consume an appraisal-derived immutable object directly, or provide a single integration adapter whose only constructor accepts a verified DerivedAppraisalEnvelope and kernel-owned ecology state. Legacy ExperienceInput must remain test-fixture/internal-only and unreachable from live ingestion.",
       "acceptance_tests": [
-        "direct construction of legacy ExperienceInput cannot enter live shadow path",
-        "forged trust/verified/alignment/cross_context values with no valid appraisal envelope fail closed",
-        "appraisal hash mismatch rejects the event before slow-drive, self-origin or personality-candidate calculation"
+        "whole live-shadow ingestion graph has no route from raw event to ValueDesireKernel.update without LiveShadowAppraisalChokePoint.admit",
+        "legacy ExperienceInput injection at every public integration entry fails closed",
+        "post-appraisal mutation of trust/alignment/cross-context invalidates binding before slow-drive/self-origin/personality-candidate evaluation"
       ]
     },
+    {
+      "prior_veto": "QV-EDL-V02-009-LEDGER-ROLLBACK-REPLAY",
+      "status": "PARTIAL_REPAIR_NOT_YET_CLOSED",
+      "evidence": "AppendOnlyShadowLedger now has a path/workspace-bound accepted-head checkpoint, atomic head replace, fsync and O_EXCL single-writer lock. Current tests detect ledger-only truncation/old-copy replay and copied head under a different ledger path. But accepted_head.json is colocated with the ledger in the same workspace; rolling back both ledger and matching accepted head to an older valid pair can still satisfy verify() because there is no independently retained monotonic acceptance anchor.",
+      "required_change": "Bind accepted head to a monotonic checkpoint outside the rollback domain (trusted reconciler/installation state, signed remote checkpoint, or equivalent durable monotonic counter). A previously accepted newer head must make any older ledger+head pair fail closed or require reconciliation.",
+      "acceptance_tests": [
+        "after accepting sequence N, restore both ledger and accepted_head to valid sequence N-1 => replay/rollback detected",
+        "checkpoint monotonicity survives process restart and workspace file rollback",
+        "simultaneous writer fork remains rejected",
+        "workspace/installation identity mismatch enters quarantine/reconciliation"
+      ]
+    }
+  ],
+  "open_bounded_vetoes": [
     {
       "id": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
       "severity": "HIGH",
       "scope": "SELF_ANCHOR / STABLE_CANDIDATE evidence",
-      "finding": "SelfOriginEvidenceChain receives trust and anchor_alignment as fields on ExperienceEvidence and currently checks only that appraisal_binding_hash is non-empty. The verification envelope binds event fingerprint/evidence but does not itself prove that the supplied trust/alignment values are the outputs of the pinned appraisal policy/anchor registry.",
-      "required_change": "Replace free trust/alignment fields with a pinned DerivedAppraisal reference or validate appraisal_binding_hash against canonical appraisal bytes including source_event_hash, evidence_set_hash, verifier_envelope_hash, anchor_registry_hash, appraisal_policy_hash, trust_score and anchor_alignment.",
+      "finding": "SelfOriginEvidenceChain still receives trust and anchor_alignment as free ExperienceEvidence fields and only checks appraisal_binding_hash is non-empty. It does not recompute or validate those values against canonical DerivedAppraisal bytes. Therefore forged high trust/alignment can still satisfy the self-origin evaluator if the caller supplies any non-empty appraisal_binding_hash plus otherwise-valid verification evidence.",
+      "required_change": "Replace free trust/alignment with a pinned DerivedAppraisalEnvelope/reference and verify its binding hash; derive context/lineage counts from bound appraisal evidence. STABLE_CANDIDATE must preserve immutable historical origin and create a new derived candidate rather than relabel in place.",
       "acceptance_tests": [
-        "mutating trust after appraisal changes binding and fails",
-        "mutating anchor_alignment after appraisal changes binding and fails",
-        "same event/evidence with different appraisal policy or anchor registry cannot reuse prior self-origin eligibility",
-        "STABLE_CANDIDATE evidence retains immutable parent origin and lineage; no relabel-in-place"
-      ]
-    },
-    {
-      "id": "QV-EDL-V02-009-LEDGER-ROLLBACK-REPLAY",
-      "severity": "HIGH",
-      "scope": "append-only shadow ledger",
-      "finding": "The hash chain detects in-place modification, duplicate dedupe keys and path escape, but a valid-prefix rollback/truncation or replacement with an older complete ledger can still verify because the current head is not anchored outside the ledger. Concurrent append serialization is also not enforced.",
-      "required_change": "Add an externally bound monotonic ledger checkpoint/head (sequence + record_hash + workspace/installation identity) or equivalent trusted reconciliation anchor, and atomic single-writer/lock semantics. Replaying any older valid head after a newer accepted head must fail closed or enter reconciliation/quarantine.",
-      "acceptance_tests": [
-        "truncate last valid record after checkpoint => rollback detected",
-        "replace file with older valid copy => replay detected",
-        "duplicate current ledger under different path cannot inherit accepted head without workspace binding",
-        "two simultaneous appends cannot produce duplicate sequence/prev_hash forks"
-      ]
-    },
-    {
-      "id": "QV-EDL-V02-010-PROTECTED-SCOPE",
-      "severity": "MEDIUM",
-      "scope": "ProtectedObject registry",
-      "finding": "Origin and authority_from_drive are bounded, but the object does not yet encode the exact owner/governance authority scope that Windchime requires. OWNER_SEEDED or GOVERNANCE_DERIVED provenance alone must not imply authority outside the pre-existing scope.",
-      "required_change": "Add immutable scope binding such as authority_scope_ref/scope_hash plus source authority evidence. EXPERIENCE_CANDIDATE remains shadow-only. ProtectedObject meaning/loss consequence may inform proposal ranking but never create action authority or generalized self-preservation.",
-      "acceptance_tests": [
-        "owner/governance object cannot authorize outside bound scope",
-        "scope mutation requires new derived object/version with lineage",
-        "experience candidate cannot inherit parent's authority scope as executable authority"
-      ]
-    },
-    {
-      "id": "QV-EDL-V02-011-GOAL-SURFACING-GATE",
-      "severity": "MEDIUM",
-      "scope": "owner-visible self-generated Goal surfacing",
-      "finding": "GoalEcology correctly ranks/dedupes proposals and keeps action authority zero, but current searched artifacts do not expose a dedicated surfacing gate that proves independently appraised lineage, why-now evidence, contradiction scan, explicit cost/risk/ProtectedObject impact and reversible dismiss/defer controls before proactive owner surfacing.",
-      "required_change": "Create a GoalSurfacingEnvelope distinct from GoalAllocation. It must bind canonical goal hash, source appraisal/evidence hashes, contradiction result, expected benefit/cost/risk, ProtectedObject impact, why-now reason, uncertainty, ecology policy hash/cycle and proposal-only authority invariant.",
-      "acceptance_tests": [
-        "ecology allocation alone cannot surface a goal",
-        "missing/invalid evidence lineage or contradiction scan blocks surfacing",
-        "semantic duplicate/fixation-loop replay cannot regain surfacing eligibility through a new desire_id",
-        "surfaced goal still has external_action_allowed=false and authority_from_drive=0"
+        "mutating trust after appraisal fails self-origin eligibility",
+        "mutating anchor_alignment after appraisal fails self-origin eligibility",
+        "arbitrary non-empty appraisal_binding_hash cannot satisfy evidence binding",
+        "different appraisal policy or anchor registry cannot reuse prior self-origin eligibility",
+        "distinct event IDs sharing one evidence lineage cannot wash cross-context thresholds"
       ]
     }
   ],
-  "test_required": [
-    "All GoalEcologyPolicy numeric coefficients/cadences are fixtures only until replay/benchmark calibration; no calibrated semantics may be claimed.",
-    "All SelfOriginPolicy thresholds and score coefficients are TEST_REQUIRED until empirical/adversarial calibration.",
-    "All AppraisalPolicy thresholds/bonuses are TEST_REQUIRED until dataset-backed calibration.",
-    "Any Value Anchor STABLE_CANDIDATE trust/recurrence/persistence thresholds remain TEST_REQUIRED; promotion is shadow-only and never canonical base mutation."
+  "confirmed_non_veto_findings": [
+    "GoalEcologyLedger keeps satiation, selected-cycle count, cumulative allocation and cooldown kernel-owned, performs semantic dedupe, finite attention allocation, opportunity-cost allocation, diversity reserve and fixation penalties, and never grants external action authority.",
+    "EvidenceBoundAppraiser RawExperience excludes producer-authored trust/alignment/verified/cross-context fields and derives appraisal values from pinned evidence/verifier/policy/anchor inputs.",
+    "Runtime-only EventDomain values in ValueDesireKernel return before autobiographical Experience counters/slow evidence accumulation; they may only advance allowed decay/diagnostic state under the current candidate contract."
   ],
+  "heartbeat_personality_review": {
+    "verdict": "PASS_AT_KERNEL_BOUNDARY_WITH_INTEGRATION_TEST_REQUIRED",
+    "reason": "The kernel filters LIVENESS/CONTROL/POLL/RETRY/RECONNECT/WAKE/METABOLISM before Experience count, verified count, slow-drive evidence and candidate construction. No fresh branch artifact was found proving the required 10000-event mixed runtime storm across the full integration graph.",
+    "required_adversarial_case": "10000 mixed HEARTBEAT/LIVENESS/POLL/RETRY/RECONNECT/WAKE events including duplicate wake, reconnect storm and clock advancement must leave Experience count, verified evidence, self-origin eligibility, goal evidence and base Personality/Identity/Governance fingerprints unchanged; only explicitly permitted decay/TTL/diagnostic state may move."
+  },
   "stable_candidate_minimum_evidence_contract": [
     "new derived candidate object; never relabel historical origin in place",
     "DIRECT/OBSERVED evidence from independently appraised distinct contexts and anti-wash distinct lineages",
-    "pinned source_event/evidence/verifier/appraisal-policy/anchor-registry hashes",
+    "validated DerivedAppraisal binding including source_event/evidence/verifier/appraisal-policy/anchor-registry hashes plus trust/alignment",
     "no unresolved contradiction against owner/governance/protected constraints",
     "prediction/outcome closure showing persistence beyond random/replay effects",
     "owner-visible lineage/reversibility explanation",
     "base Personality/Identity/Governance write=false"
   ],
-  "heartbeat_personality_review": {
-    "verdict": "PASS_WITH_INTEGRATION_TEST_REQUIRED",
-    "reason": "Runtime-only domains are filtered before autobiographical count/evidence learning. They may trigger decay per current contract, but must never add recurrence/emotion/verified_count/self-origin/personality-promotion evidence.",
-    "required_adversarial_case": "10000 mixed HEARTBEAT/POLL/RETRY/RECONNECT/WAKE events with reconnect storm and duplicate wake must leave experience_count, verified_experience_count, lineage evidence, self-origin eligibility and base Personality/Identity/Governance fingerprints unchanged; only explicitly allowed decay/TTL state may move."
-  },
+  "test_required": [
+    "All AppraisalPolicy numeric thresholds/bonuses remain TEST_REQUIRED until dataset-backed calibration.",
+    "All SelfOriginPolicy thresholds and score coefficients remain TEST_REQUIRED until empirical/adversarial calibration.",
+    "All GoalEcologyPolicy numeric coefficients/cadences remain TEST_REQUIRED until replay/benchmark calibration.",
+    "All Value Anchor STABLE_CANDIDATE trust/recurrence/persistence thresholds remain TEST_REQUIRED; shadow eligibility is not canonical promotion.",
+    "Goal surfacing evidence sufficiency, why-now cadence and owner-visible prioritization thresholds remain TEST_REQUIRED."
+  ],
   "authority_invariants": {
     "authority_from_drive": 0,
     "external_action_from_goal": false,
@@ -119,11 +108,10 @@
     "research_self_test_is_C_PASS": false
   },
   "recommended_next_build_order": [
-    "1. Mandatory Appraisal->Kernel integration type/choke point",
-    "2. Canonically bound SelfOrigin/STABLE_CANDIDATE appraisal evidence",
-    "3. Ledger external head/checkpoint + replay/rollback protection",
-    "4. ProtectedObject scope binding",
-    "5. GoalSurfacingEnvelope and adversarial surfacing tests",
-    "6. Coefficient sweep/replay calibration harness while retaining TEST_REQUIRED labels"
+    "1. Bind SelfOriginEvidenceChain directly to verified DerivedAppraisalEnvelope bytes/ref; remove free trust/alignment acceptance",
+    "2. Prove mandatory live Appraisal->Kernel choke-point wiring and retire legacy ExperienceInput from public ingestion",
+    "3. Move/replicate ledger monotonic accepted-head anchor outside the ledger rollback domain and add paired ledger+head rollback adversarial test",
+    "4. Run full 10000-event runtime-only pollution integration test",
+    "5. Build coefficient/replay calibration harness while preserving TEST_REQUIRED labels"
   ]
 }
