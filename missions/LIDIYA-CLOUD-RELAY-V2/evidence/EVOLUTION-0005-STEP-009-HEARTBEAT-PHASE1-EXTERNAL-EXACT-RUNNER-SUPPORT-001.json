@@ -1,60 +1,21 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
   "evidence_id":"EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001",
-  "mission_id":"LCR-EVOLUTION-0005",
-  "step_id":9,
-  "attempt":2,
-  "source":"W01_WINDCHIME_EXTERNAL_SUPPORT_RUNNER",
-  "formal_role":"NONE_SUPPORT_ONLY",
-  "created_at":"2026-08-17T07:33:20+08:00",
-  "purpose":"Provide executable support evidence on byte-for-byte current branch artifacts without replacing LCR-B Builder evidence or LCR-C independent verdict.",
-  "exact_byte_method":{
-    "method":"Fresh GitHub connector content was reconstructed in an isolated runtime; each reconstructed byte stream was accepted only after its computed Git blob SHA exactly matched the fresh GitHub blob SHA.",
-    "nonmatching_bytes_policy":"REJECT_NOT_EXECUTED_AS_EXACT_EVIDENCE"
-  },
+  "mission_id":"LCR-EVOLUTION-0005","step_id":9,"attempt":2,
+  "source":"W01_WINDCHIME_EXTERNAL_SUPPORT_RUNNER","formal_role":"NONE_SUPPORT_ONLY","created_at":"2026-08-17T07:33:20+08:00","updated_at":"2026-08-17T07:36:00+08:00",
+  "exact_byte_method":{"method":"Fresh GitHub connector content reconstructed in isolated runtime; every local byte stream accepted only after computed Git blob SHA matched fresh GitHub blob SHA.","nonmatching_bytes_policy":"REJECT_NOT_EXECUTED_AS_EXACT_EVIDENCE"},
   "artifacts":{
     "evolution/local_command_tower/heartbeat_engine.py":{"blob_sha":"80dd527befea14abf5bc9d8803f586084e7f61d5","sha256":"a315bfe2c530677f824d11bfb52da0485f9ea30192aaf375d1e360fe7c3b527f","bytes":8680,"repair_changed":true},
     "evolution/local_command_tower/test_heartbeat_engine.py":{"blob_sha":"8a5ce867b9bd86c2c50baa8429f7566da8bd4182","sha256":"92d2fbe3aa35815994f7ef7c2946b75816675ed2f248ceba4206189c9abfbe03","bytes":5640,"repair_changed":true},
     "evolution/local_command_tower/HEARTBEAT_CONTRACT.json":{"blob_sha":"0de4ee76398c86b32c3e60d2dfab55fb175f54ff","sha256":"2e80d5041a1922731de4c98c2ce52e14edaccd4b5f3b846e910eb075784b56de","bytes":1640,"repair_changed":true},
-    "evolution/small_nest/heartbeat_agent.py":{"blob_sha":"d6b584373d6a62dcef3a87e0e7d9eec489a882b7","sha256":"17d9b0320ee9bf25209e87534dc4f03ebd6cfdfe1735a066842a25c489b9b5c6","bytes":2422,"repair_changed":false,"matches_attempt1":true},
-    "evolution/small_nest/test_heartbeat_agent.py":{"blob_sha":"b899be61d06bdc3ded0932d56299ae7b272c89a6","sha256":"2594271e112a3c71be17ddfc183c6351d08d0106285d9e4fd88a8aaa11868cb4","bytes":2044,"repair_changed":false,"matches_attempt1":true},
-    "evolution/small_nest/START_HEARTBEAT.cmd":{"blob_sha":"5fa662d78601e66093f9e28d1856831ed039cbc3","sha256":"ebf7acc083103382ed12c9593680605995d17a1d10d0c0e59f11299c22460af6","bytes":306,"repair_changed":false,"matches_attempt1":true}
+    "evolution/small_nest/heartbeat_agent.py":{"blob_sha":"d6b584373d6a62dcef3a87e0e7d9eec489a882b7","sha256":"17d9b0320ee9bf25209e87534dc4f03ebd6cfdfe1735a066842a25c489b9b5c6","repair_changed":false,"matches_attempt1":true},
+    "evolution/small_nest/test_heartbeat_agent.py":{"blob_sha":"b899be61d06bdc3ded0932d56299ae7b272c89a6","sha256":"2594271e112a3c71be17ddfc183c6351d08d0106285d9e4fd88a8aaa11868cb4","repair_changed":false,"matches_attempt1":true},
+    "evolution/small_nest/START_HEARTBEAT.cmd":{"blob_sha":"5fa662d78601e66093f9e28d1856831ed039cbc3","sha256":"ebf7acc083103382ed12c9593680605995d17a1d10d0c0e59f11299c22460af6","repair_changed":false,"matches_attempt1":true}
   },
-  "runner":{
-    "python":"3.13.5",
-    "implementation":"CPython",
-    "platform":"Linux x86_64 glibc 2.41",
-    "py_compile":{"files":["heartbeat_engine.py","test_heartbeat_engine.py"],"returncode":0,"result":"PASS"},
-    "engine_suite":{"tests":21,"returncode":0,"result":"PASS","elapsed_seconds_approx":2.506},
-    "small_nest_agent_suite":{"tests":5,"returncode":0,"result":"PASS","elapsed_seconds_approx":0.047},
-    "full_suite":{"tests":26,"returncode":0,"result":"PASS"}
-  },
-  "test_count_reconciliation":{
-    "attempt1_builder_total":23,
-    "attempt1_composition":"18 heartbeat-engine tests + 5 Small-Nest agent tests",
-    "attempt2_current_composition":"21 heartbeat-engine tests + unchanged 5 Small-Nest agent tests",
-    "delta":"+3 repair adversarial tests; no test-count regression"
-  },
-  "repair_specific_observations":[
-    ">512 unique pulses then prefix pulse replay returns DUPLICATE_NO_OP with state unchanged",
-    "restart after >512 pulses then prefix replay returns DUPLICATE_NO_OP with state unchanged",
-    "dedupe storage remains bounded and recent_pulse_ids is absent",
-    "288 virtual 300-second pulses remain exactly 288 unique pulses with zero Experience delta",
-    "Small-Nest agent creates no per-pulse durable log files",
-    "three unchanged Small-Nest artifacts retain Attempt-1 blob identities"
-  ],
-  "runtime_warning":{
-    "observed":"Python startup emitted an artifact_tool spreadsheet warmup RemoteError to stderr.",
-    "heartbeat_test_effect":"NONE_OBSERVED",
-    "basis":"Both unittest suites and py_compile returned exit code 0; the warning originated from unrelated spreadsheet runtime warmup."
-  },
-  "boundary":{
-    "builder_verdict":"NOT_PROVIDED",
-    "c_verdict":"NOT_PROVIDED",
-    "formal_state_mutated":false,
-    "pending_packet_consumed":false,
-    "real_5min_runtime_live":false,
-    "allowed_use":"LCR-B may fresh-read this as external exact-runner support after independently confirming artifact blob identities; LCR-C still performs independent verification under its own role."
-  },
-  "overall":"SUPPORT_PASS_EXACT_CURRENT_BYTES_NOT_FORMAL_VERDICT"
+  "existing_suite":{"py_compile":"PASS","engine_tests":{"count":21,"result":"PASS"},"agent_tests":{"count":5,"result":"PASS"},"full_count":26,"result":"PASS","attempt1_total":23,"test_count_delta":"+3 repair tests; no count regression"},
+  "critical_negative_test":{"defect_id":"HEARTBEAT-BLOOM-FP-DEADLOCK-001","status":"REPRODUCED_ON_EXACT_CURRENT_BYTES","method":"Use current canonical_pulse_id(sequence,scheduled_at) at 300-second cadence with current persisted Bloom filter.","first_false_duplicate":{"attempted_pulse_number":689,"new_unique_pulse_id":"hb-6bfbc4b7f509f94691f9dec3","scheduled_at_seconds":206400,"elapsed":"57h20m","disposition":"DUPLICATE_NO_OP","pulse_sequence_after":688,"next_due_at_after":206400},"persistence_of_failure":[{"now":206700,"disposition":"DUPLICATE_NO_OP","pulse_sequence":688,"next_due_at":206400},{"now":207000,"disposition":"DUPLICATE_NO_OP","pulse_sequence":688,"next_due_at":206400},{"now":210000,"disposition":"DUPLICATE_NO_OP","pulse_sequence":688,"next_due_at":206400}],"root_cause":"A Bloom false positive on a genuinely new canonical pulse is fail-closed as duplicate. Because duplicate handling does not advance sequence or next_due_at, all later automatic pulses regenerate the same canonical ID and remain permanently suppressed.","impact":"Deterministic long-run heartbeat liveness deadlock after about 2 days 9 hours on current canonical sequence; unsuitable for persistent autonomous runtime.","existing_suite_gap":"Current 26 tests cover old-ID replay but do not test long-run canonical unique-pulse false-positive liveness."},
+  "required_before_handoff":["Replace or redesign the dedupe scheme so bounded storage does not permanently suppress a new unique canonical pulse.","Preserve exact replay rejection across >512 pulses and restart.","Add long-run canonical cadence test with at least 10000 unique pulses (about 34.7 days at 300s) and zero false duplicate / zero liveness stall; exact threshold is an engineering acceptance floor, not a consciousness metric.","Add restart during long-run test, bounded storage check, zero-Experience check, no burst catch-up and stale-writer checks.","Do not weaken historical Step008 or unrelated verified capabilities."],
+  "runtime_warning":{"observed":"Python startup emitted unrelated artifact_tool spreadsheet warmup stderr.","heartbeat_test_effect":"NONE_OBSERVED","basis":"unittest and py_compile exit codes were zero."},
+  "boundary":{"builder_verdict":"NOT_PROVIDED","c_verdict":"NOT_PROVIDED","formal_state_mutated":false,"pending_packet_consumed":false,"real_5min_runtime_live":false,"allowed_use":"Use as negative support evidence. LCR-B MUST NOT hand off the current Bloom candidate as repair-ready; it must repair HEARTBEAT-BLOOM-FP-DEADLOCK-001 first. LCR-C remains independent."},
+  "overall":"EXISTING_SUITE_PASS_BUT_CRITICAL_LIVENESS_DEFECT_FOUND_NOT_HANDOFF_READY"
 }
