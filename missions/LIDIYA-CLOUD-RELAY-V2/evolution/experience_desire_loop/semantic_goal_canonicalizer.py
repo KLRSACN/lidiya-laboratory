@@ -139,12 +139,17 @@ class SemanticGoalCanonicalizer:
             raise ValueError("GOAL_ALLOCATION_OR_ADMISSION_REQUIRED_BEFORE_SURFACING")
         if candidate.semantic_key in self._surfaced:
             raise ValueError("GOAL_SURFACING_REPLAY_FORBIDDEN")
+        # Fail closed on producer/caller type ambiguity. Python truthiness coercion
+        # (for example bool("false") == True) must never satisfy a contradiction gate.
+        # This is a structural safety invariant, not a calibrated threshold.
+        if not isinstance(contradiction_clear, bool):
+            raise ValueError("NON_BOOLEAN_CONTRADICTION_CLEAR")
         envelope = GoalSurfacingEnvelope(
             canonical_goal_hash=candidate.canonical_goal_hash(),
             semantic_key=candidate.semantic_key,
             appraisal_evidence_hashes=tuple(sorted(set(str(x) for x in appraisal_evidence_hashes if x))),
             contradiction_scan_hash=contradiction_scan_hash,
-            contradiction_clear=bool(contradiction_clear),
+            contradiction_clear=contradiction_clear,
             expected_benefit_ref=expected_benefit_ref,
             expected_cost_ref=expected_cost_ref,
             expected_risk_ref=expected_risk_ref,
