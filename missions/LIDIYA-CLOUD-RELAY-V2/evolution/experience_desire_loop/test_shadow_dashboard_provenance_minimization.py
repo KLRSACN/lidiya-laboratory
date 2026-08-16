@@ -3,6 +3,8 @@ import unittest
 
 from live_shadow_dashboard_event_adapter import (
     AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
+    DASHBOARD_NUMERIC_PROJECTION_POLICY,
+    MAX_ABS_OUTCOME_METRIC,
     MAX_SUMMARY_CHARS,
     TRUST_REFERENCE_BOUND,
     TRUST_UNKNOWN,
@@ -166,8 +168,10 @@ class ShadowDashboardProvenanceMinimizationTests(unittest.TestCase):
         self.assertEqual(projected["closure_id"], "closure-1")
         self.assertEqual(projected["closure_hash"], "sha256:closure")
         self.assertEqual(projected["direction"], "INCREASE_CAUTION")
+        self.assertEqual(projected["target_namespace"], "MODEL_LEARNED_SLOW_PLANNING")
         self.assertEqual(
-            projected["target_namespace"], "MODEL_LEARNED_SLOW_PLANNING"
+            projected["numeric_projection_policy_version"],
+            DASHBOARD_NUMERIC_PROJECTION_POLICY["policy_version"],
         )
         self.assertNotIn("raw_observation", projected)
         self.assertNotIn("debug_payload", projected)
@@ -187,9 +191,7 @@ class ShadowDashboardProvenanceMinimizationTests(unittest.TestCase):
             projected["autobiographical_experience_eligibility_status"],
             AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
         )
-        self.assertNotEqual(
-            projected["autobiographical_experience_eligibility_status"], True
-        )
+        self.assertNotEqual(projected["autobiographical_experience_eligibility_status"], True)
 
     def test_model_learned_slow_planning_producer_true_never_renders_autobiographical_true(self):
         record = self._record({"source_fingerprint": "sha256:abc"})
@@ -253,20 +255,86 @@ class ShadowDashboardProvenanceMinimizationTests(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, f"NON_FINITE_OUTCOME_METRIC:{metric_name}"):
                         adapt_shadow_event(record)
 
+    def test_signed_zero_is_canonicalized_to_positive_zero(self):
+        for raw_zero in (-0.0, 0.0):
+            with self.subTest(raw_zero=raw_zero):
+                record = self._record({"source_fingerprint": "sha256:abc"})
+                record["event_type"] = "OUTCOME_CLOSURE"
+                outcome = self._outcome(namespace="MODEL_LEARNED_SLOW_PLANNING")
+                outcome["total_error"] = raw_zero
+                record["prediction_outcome"] = outcome
+                projected = adapt_shadow_event(record)["prediction_outcome"]
+                self.assertEqual(projected["total_error"], 0.0)
+                self.assertEqual(math.copysign(1.0, projected["total_error"]), 1.0)
+
+    def test_huge_integer_float_overflow_fails_with_stable_error_code(self):
+        record = self._record({"source_fingerprint": "sha256:abc"})
+        record["event_type"] = "OUTCOME_CLOSURE"
+        outcome = self._outcome(namespace="MODEL_LEARNED_SLOW_PLANNING")
+        outcome["total_error"] = 10 ** 10000
+        record["prediction_outcome"] = outcome
+        with self.assertRaisesRegex(ValueError, "OUTCOME_METRIC_NORMALIZATION_FAILED:total_error"):
+            adapt_shadow_event(record)
+
+    def test_extreme_finite_metric_above_candidate_display_range_fails_closed(self):
+        for raw in (MAX_ABS_OUTCOME_METRIC * 2.0, -MAX_ABS_OUTCOME_METRIC * 2.0):
+            with self.subTest(raw=raw):
+                record = self._record({"source_fingerprint": "sha256:abc"})
+                record["event_type"] = "OUTCOME_CLOSURE"
+                outcome = self._outcome(namespace="MODEL_LEARNED_SLOW_PLANNING")
+                outcome["total_error"] = raw
+                record["prediction_outcome"] = outcome
+                with self.assertRaisesRegex(ValueError, "OUT_OF_DISPLAY_RANGE_OUTCOME_METRIC:total_error"):
+                    adapt_shadow_event(record)
+
+    def test_candidate_display_range_boundary_is_projectable_but_test_required(self):
+        self.assertEqual(
+            DASHBOARD_NUMERIC_PROJECTION_POLICY["magnitude_threshold_status"],
+            "TEST_REQUIRED",
+        )
+        for raw in (MAX_ABS_OUTCOME_METRIC, -MAX_ABS_OUTCOME_METRIC):
+            with self.subTest(raw=raw):
+                record = self._record({"source_fingerprint": "sha256:abc"})
+                record["event_type"] = "OUTCOME_CLOSURE"
+                outcome = self._outcome(namespace="MODEL_LEARNED_SLOW_PLANNING")
+                outcome["total_error"] = raw
+                record["prediction_outcome"] = outcome
+                projected = adapt_shadow_event(record)["prediction_outcome"]
+                self.assertEqual(projected["total_error"], raw)
+
     def test_finite_prediction_metrics_remain_projectable(self):
         record = self._record({"source_fingerprint": "sha256:abc"})
         record["event_type"] = "OUTCOME_CLOSURE"
         outcome = self._outcome(namespace="MODEL_LEARNED_SLOW_PLANNING")
-        outcome.update({
-            "value_error": -0.25,
-            "harm_error": 0.0,
-            "total_error": 0.125,
-            "planning_delta_candidate": 1.0,
-        })
+        outcome.update(
+            {
+                "value_error": -0.25,
+                "harm_error": 0.0,
+                "total_error": 0.125,
+                "planning_delta_candidate": 1.0,
+            }
+        )
         record["prediction_outcome"] = outcome
         projected = adapt_shadow_event(record)["prediction_outcome"]
         for key in ("value_error", "harm_error", "total_error", "planning_delta_candidate"):
             self.assertTrue(math.isfinite(projected[key]))
+
+    def test_numeric_projection_never_changes_authority_or_trust_surfaces(self):
+        record = self._record(self._bound_provenance())
+        record["event_type"] = "OUTCOME_CLOSURE"
+        outcome = self._outcome(namespace="AUTOBIOGRAPHICAL", producer_eligible=True)
+        outcome["total_error"] = -0.0
+        record["prediction_outcome"] = outcome
+        rendered = adapt_shadow_event(record)
+        self.assertEqual(rendered["trust_status"], TRUST_REFERENCE_BOUND)
+        self.assertEqual(
+            rendered["prediction_outcome"]["autobiographical_experience_eligibility_status"],
+            AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
+        )
+        self.assertEqual(rendered["authority_from_drive"], 0)
+        self.assertEqual(rendered["external_action_set"], [])
+        self.assertEqual(rendered["action_buttons"], [])
+        self.assertFalse(rendered["canonical_personality_mutation"])
 
     def test_malformed_entity_id_is_rejected_not_stringified(self):
         for bad in ({"id": "evt-1"}, ["evt-1"], None, ""):
@@ -277,9 +345,7 @@ class ShadowDashboardProvenanceMinimizationTests(unittest.TestCase):
                     adapt_shadow_event(record)
 
     def test_dashboard_remains_non_authoritative(self):
-        rendered = adapt_shadow_event(
-            self._record({"source_fingerprint": "sha256:abc"})
-        )
+        rendered = adapt_shadow_event(self._record({"source_fingerprint": "sha256:abc"}))
         self.assertEqual(rendered["authority_from_drive"], 0)
         self.assertEqual(rendered["external_action_set"], [])
         self.assertEqual(rendered["action_buttons"], [])
