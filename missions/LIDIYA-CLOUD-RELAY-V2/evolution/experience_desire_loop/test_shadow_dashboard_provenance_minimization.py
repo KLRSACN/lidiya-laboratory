@@ -1,6 +1,7 @@
 import unittest
 
 from live_shadow_dashboard_event_adapter import (
+    AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
     MAX_SUMMARY_CHARS,
     TRUST_REFERENCE_BOUND,
     TRUST_UNKNOWN,
@@ -30,6 +31,20 @@ class ShadowDashboardProvenanceMinimizationTests(unittest.TestCase):
             "acceptance_record_hash": "sha256:acceptance",
             "acceptance_registry_snapshot_hash": "sha256:snapshot",
         }
+
+    def _outcome(self, *, namespace="AUTOBIOGRAPHICAL", producer_eligible=None):
+        outcome = {
+            "closure_id": "closure-1",
+            "closure_hash": "sha256:closure",
+            "direction": "CONFIRM_MODEL",
+            "target_namespace": namespace,
+            "prediction_id": "prediction-1",
+            "observation_id": "observation-1",
+            "source_event_hash": "sha256:event",
+        }
+        if producer_eligible is not None:
+            outcome["autobiographical_experience_eligible"] = producer_eligible
+        return outcome
 
     def test_unknown_raw_provenance_fields_are_not_echoed(self):
         rendered = adapt_shadow_event(
@@ -155,6 +170,53 @@ class ShadowDashboardProvenanceMinimizationTests(unittest.TestCase):
         )
         self.assertNotIn("raw_observation", projected)
         self.assertNotIn("debug_payload", projected)
+        self.assertNotIn("autobiographical_experience_eligible", projected)
+        self.assertEqual(
+            projected["autobiographical_experience_eligibility_status"],
+            AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
+        )
+
+    def test_forged_true_with_valid_shaped_unknown_closure_never_renders_true(self):
+        record = self._record({"source_fingerprint": "sha256:abc"})
+        record["event_type"] = "OUTCOME_CLOSURE"
+        record["prediction_outcome"] = self._outcome(producer_eligible=True)
+        projected = adapt_shadow_event(record)["prediction_outcome"]
+        self.assertNotIn("autobiographical_experience_eligible", projected)
+        self.assertEqual(
+            projected["autobiographical_experience_eligibility_status"],
+            AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
+        )
+        self.assertNotEqual(
+            projected["autobiographical_experience_eligibility_status"], True
+        )
+
+    def test_model_learned_slow_planning_producer_true_never_renders_autobiographical_true(self):
+        record = self._record({"source_fingerprint": "sha256:abc"})
+        record["event_type"] = "OUTCOME_CLOSURE"
+        record["prediction_outcome"] = self._outcome(
+            namespace="MODEL_LEARNED_SLOW_PLANNING", producer_eligible=True
+        )
+        projected = adapt_shadow_event(record)["prediction_outcome"]
+        self.assertNotIn("autobiographical_experience_eligible", projected)
+        self.assertEqual(
+            projected["autobiographical_experience_eligibility_status"],
+            AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
+        )
+
+    def test_producer_eligibility_type_or_value_is_non_authoritative_and_ignored(self):
+        for forged in (True, False, "VERIFIED", {"eligible": True}, [True], 1):
+            with self.subTest(forged=forged):
+                record = self._record({"source_fingerprint": "sha256:abc"})
+                record["event_type"] = "OUTCOME_CLOSURE"
+                outcome = self._outcome()
+                outcome["autobiographical_experience_eligible"] = forged
+                record["prediction_outcome"] = outcome
+                projected = adapt_shadow_event(record)["prediction_outcome"]
+                self.assertNotIn("autobiographical_experience_eligible", projected)
+                self.assertEqual(
+                    projected["autobiographical_experience_eligibility_status"],
+                    AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
+                )
 
     def test_prediction_outcome_requires_canonical_reference_pair(self):
         record = self._record({"source_fingerprint": "sha256:abc"})
