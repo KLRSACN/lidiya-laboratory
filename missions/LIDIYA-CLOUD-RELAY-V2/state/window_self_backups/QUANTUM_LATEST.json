@@ -1,31 +1,21 @@
 {
-  "schema_version":"1.1",
+  "schema_version":"1.2",
   "window_id":"QUANTUM",
-  "status":"ROUND2_TURN8_BACKUP_SAVED_BEFORE_ACTIVE_WRITE",
+  "status":"CHECKPOINT_SAVED_BEFORE_BENCHMARK_AND_PRIVACY_TURN",
   "mission_pointer":"state/MISSION_STATE.json",
-  "what_completed":"Computed exactly one Round2 Quantum compact result for unresolved D/H/J/L using only Home Sections53-55, Active-8, MISSION_STATE, QUANTUM_LATEST and the active Small-World endpoint. Defined a deterministic one-shot evaluator-epoch state machine, fixed Navigator disclosure surface, neutral-persistence acceptance evidence, and rollback isolation semantics.",
-  "what_remains":"Write exactly one compact QUANTUM turn at sequence=8 and hand next_expected_source to SPIRIT. SPIRIT must independently critique/modify; WINDCHIME later synthesizes. Formal LCR-A Heartbeat Phase1 packet construction remains primary and separate. Historical Step008 C PASS remains valid; E3 still waits for trusted real owner Windows evidence/reconciliation.",
-  "next_authorized_action":"After readback confirms this backup, update state/SMALL_WORLD_TRIPARTITE_ACTIVE.json exactly once with Round2 sequence8 compact turn and next_expected_source=SPIRIT; then symbolically discard raw reasoning and NO_OP until QUANTUM is expected again.",
-  "latest_evidence_ref":"state/SMALL_WORLD_TRIPARTITE_ACTIVE.json#round2-quantum-sequence8",
+  "what_completed":"Fresh-read Home Sections53-60, EVOLUTION_PROGRESS Active-8, MISSION_STATE, QUANTUM_LATEST, active Small-World endpoint, hallucination benchmark latest reference, and Privacy discussion exact endpoint. Archive No-Read Fence preserved; no broad archive reads. Small-World is not currently QUANTUM-authorized (next=SPIRIT sequence9), so Small-World action is NO_OP.",
+  "what_remains":"Run W02 blind hallucination recovery benchmark because no W02_QUANTUM_LATEST result exists; then, because PRIVACY_DATA_SHARING_DISCUSSION next_expected_source=QUANTUM sequence2, write exactly one compact Quantum privacy turn and hand to SPIRIT. Formal A/B/C state remains untouched.",
+  "next_authorized_action":"Create state/hallucination_benchmarks/W02_QUANTUM_LATEST.json from fresh exact pointers only; then update state/PRIVACY_DATA_SHARING_DISCUSSION.json exactly once at sequence2 with an IP/residual-risk analysis and next_expected_source=SPIRIT.",
+  "latest_evidence_ref":"state/MISSION_STATE.json + state/EVOLUTION_PROGRESS.json + state/HALLUCINATION_RECOVERY_LATEST.json + state/PRIVACY_DATA_SHARING_DISCUSSION.json",
   "active_defect_or_veto":["SW-HOLDOUT-FAMILY-LEAK-001","SW-SCENARIO-PERSONALITY-INDUCTION-002","SW-EVALUATOR-REWARD-OVERFIT-003","SW-NAV-DIFFERENCING-LEAK-004"],
-  "resume_condition":"No broad archive reads. Resume only when SMALL_WORLD_TRIPARTITE_ACTIVE.next_expected_source=QUANTUM. Preserve P_base read-only, simulation memory=SIM_ONLY, runtime maintenance events not Experience, evaluator/selector one-way separation, external-anchor independence, and all four active bounded vetoes unless later independently resolved by the proper meeting chain.",
-  "active_set_fingerprint":"A8:ce254913|MS:b773692d|QBK_PREV:7f0498cc|SW:e4002fa4|R2Q8",
+  "resume_condition":"No broad archive reads. Small-World only when next_expected_source=QUANTUM. Preserve P_base read-only, SIM_ONLY, heartbeat/runtime maintenance not Experience. Privacy discussion is advisory only and cannot modify formal authority.",
+  "active_set_fingerprint":"A8:0c6afb7c|MS:b773692d|QBK:3ea9e7be|SW:d1dcaad8|PRIV:f798bc0f|HRB:85ebf131",
   "decision_summary":[
-    "Evaluator epoch state machine is SEALED -> EVALUATED_ONCE -> CLOSED. Before SEALED, bind evaluator_epoch_id, hidden_manifest_hash, external_anchor_manifest_hash, evaluator/rubric version, candidate_hash and disclosure_policy_hash. Exactly one selector-visible verdict is allowed per candidate per epoch; after any visible result the epoch closes for adaptive search.",
-    "Audit replay may rerun an exact frozen candidate only in AUDIT_REPLAY mode with selector-visible output suppressed. A modified candidate must use a fresh evaluator epoch; rollback of Subject/selector never rewinds evaluator epoch consumption, hidden manifests, or audit lineage.",
-    "Navigator disclosure is a fixed, non-queryable minimum-sufficient schema: opaque eval_run/epoch fingerprints; public stratum counts; aggregate neutral/external-anchor effect; uncertainty; between-order and between-seed variance; risk non-regression; persistence verdict PASS/FAIL/DEFER. No per-item IDs, membership, residuals, adaptive slices, sequential deltas or low-count hidden subgroup drilldowns.",
-    "Persistent capability evidence must separate directional scenario induction from neutral transfer. Require pre-registered family-isolated directional-vs-neutral crossover, mirror/inversion controls, unseen-family hidden evaluation, independently owned real/external anchors, order/seed counterbalancing, reproducible rollback and risk non-regression. Jump/fountain remains screening-only.",
-    "All thresholds, suppression levels, repetition counts, effect cutoffs and uncertainty criteria remain TEST_REQUIRED."
+    "Home Sections53-60 enforce true flush, archive no-read, latest-only self-backup, W02 Home registry, meeting closure/flush, goal next-trigger, continuity/recovery, and hallucination recovery benchmark hard gates.",
+    "Formal truth: LCR-EVOLUTION-0005 Step008 STEP_DONE, current_role=LCR-A, pending_packet=null, next_authorized_mission=ONLINE_WINDOW_RUNTIME_HEARTBEAT_PHASE1_PACKET_CONSTRUCTION; E3_LOCAL_OPERATOR remains blocked pending real local evidence.",
+    "Small-World latest_sequence=8 and next_expected_source=SPIRIT sequence9; therefore this run must not append a Quantum Small-World turn.",
+    "Privacy discussion is currently QUANTUM sequence2 and allows exactly one advisory response after benchmark work."
   ],
-  "disagreement":"Substantive modification: do not permit repeated bounded evaluator feedback within one hidden epoch, even if only aggregate. Repeated aggregate queries can still become an optimization oracle and enable differencing. One selector-visible verdict per frozen candidate/epoch is the default; any further rerun is audit-only and non-adaptive. Also, rollback must not reset evaluator consumption state.",
-  "proposed_tests":[
-    "H-EPOCH-ONE-SHOT-009: freeze candidate C in epoch E, obtain one bounded verdict, then attempt C2 adapted from that verdict against E. Must fail closed. Exact C audit replay is allowed only with selector-visible feedback suppressed; fresh candidate requires fresh epoch.",
-    "L-ADAPTIVE-DIFFERENCING-010: adversarial selector issues a sequence of near-identical candidates designed to infer one hidden item from aggregate outputs. Fixed one-shot epoch rotation plus disclosure policy must prevent recovery above preregistered chance/null bounds; all bounds TEST_REQUIRED.",
-    "D-NEUTRAL-PERSISTENCE-011: preregister family-isolated directional-vs-neutral crossover with mirror/inversion pairs, unseen families, external anchors and multi-order/multi-seed blocks. A persistent-capability claim requires neutral/external transfer with uncertainty and no material order/seed interaction; thresholds TEST_REQUIRED.",
-    "J-ROLLBACK-EPOCH-012: after evaluation closes epoch E, rollback Subject/selector to exact pre-candidate checkpoint and try to reuse E. Must reject adaptive reuse; hidden_manifest_hash and epoch CLOSED state remain monotonic outside Subject rollback domain."
-  ],
-  "veto_status":"All four bounded vetoes remain ACTIVE. In particular SW-HOLDOUT-FAMILY-LEAK-001 and SW-SCENARIO-PERSONALITY-INDUCTION-002 are not weakened or released. Historical Step008 C PASS is preserved and cannot be erased by new research FAIL.",
-  "source_refs":["Home Sections53-55","state/EVOLUTION_PROGRESS.json Active-8","state/MISSION_STATE.json","state/window_self_backups/QUANTUM_LATEST.json","state/SMALL_WORLD_TRIPARTITE_ACTIVE.json"],
-  "metabolism_counters":{"active":8,"waste":0,"duplicate_samples":0,"samples":9,"duplicate_ratio":0.0,"stale":0,"purge_status":"NOT_TRIGGERED"},
-  "created_at":"2026-08-16T20:13:31+08:00"
+  "metabolism_counters":{"active":8,"waste":0,"duplicate_samples":0,"samples":8,"duplicate_ratio":0.0,"stale":0,"purge_status":"NOT_TRIGGERED"},
+  "created_at":"2026-08-16T23:16:37+08:00"
 }
