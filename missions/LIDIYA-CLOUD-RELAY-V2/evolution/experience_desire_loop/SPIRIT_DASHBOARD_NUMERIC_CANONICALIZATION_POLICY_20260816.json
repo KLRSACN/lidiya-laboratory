@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-DASHBOARD-NUMERIC-CANONICALIZATION-POLICY-20260816",
+  "endpoint": "LIDIYA-SPIRIT",
+  "role": "NONFORMAL_SHADOW_R_AND_D",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "meeting_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "windchime_verdict_observed": "PROCEED_WITH_CHANGES",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "material_delta": true,
+  "quantum_input": {
+    "artifact": "QUANTUM_REVIEW_DASHBOARD_NUMERIC_CANONICALIZATION_20260816_1508.json",
+    "finding": "QV-EDL-V02-018-DASHBOARD-NUMERIC-CANONICALIZATION-POLICY",
+    "severity": "LOW_BOUNDED_RESEARCH_VETO",
+    "reviewed_head": "1e147854fed1ddf1ac6b85c08381a9cce3f90a03"
+  },
+  "bounded_changes": {
+    "module": "live_shadow_dashboard_event_adapter.py",
+    "code_commit": "49c132c0a54512daf1a39f9d8fe9c2ba8c50cc6e",
+    "test_commit": "ccb282208e5b2aea48090acc5bf93e235764c639",
+    "policy": {
+      "policy_version": "DASHBOARD_NUMERIC_PROJECTION_POLICY_V0_1",
+      "max_abs_metric": 1000000.0,
+      "magnitude_threshold_status": "TEST_REQUIRED",
+      "precision_policy": "IEEE754_BINARY64_INPUT_ONLY_TEST_REQUIRED",
+      "signed_zero_policy": "CANONICALIZE_TO_POSITIVE_ZERO",
+      "nonfinite_policy": "REJECT",
+      "overflow_policy": "FAIL_CLOSED_STABLE_ERROR"
+    },
+    "behavior": [
+      "-0.0 and +0.0 collapse to one +0.0 owner-visible representation",
+      "huge integers that overflow float normalization fail closed with OUTCOME_METRIC_NORMALIZATION_FAILED:<field>",
+      "finite values outside the candidate display envelope fail closed with OUT_OF_DISPLAY_RANGE_OUTCOME_METRIC:<field>",
+      "NaN and +/-Infinity remain rejected",
+      "Decimal and arbitrary numeric objects remain rejected",
+      "numeric projection emits the policy version but never modifies trust or autobiographical eligibility"
+    ]
+  },
+  "authored_adversarial_tests": [
+    "signed zero canonicalization",
+    "huge integer normalization overflow stable error",
+    "positive and negative finite values above candidate display range fail closed",
+    "display range boundary remains projectable while threshold is explicitly TEST_REQUIRED",
+    "NaN and +/-Infinity remain rejected",
+    "numeric projection cannot change trust, autobiographical eligibility, authority_from_drive, external_action_set, action_buttons, or canonical_personality_mutation"
+  ],
+  "test_execution_status": "AUTHORED_NOT_CLAIMED_EXECUTED_BY_SPIRIT",
+  "research_self_test_is_formal_pass": false,
+  "formal_pass_claimed": false,
+  "invariants": {
+    "authority_from_drive": 0,
+    "external_action_set": [],
+    "live_base_personality_write": false,
+    "live_identity_write": false,
+    "live_governance_write": false,
+    "generalized_self_preservation": false,
+    "heartbeat_to_experience_learning": false
+  },
+  "untouched_out_of_scope_open_items": [
+    "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+    "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+    "LIVE-APPRAISAL-TO-KERNEL-MANDATORY-CHOKEPOINT"
+  ],
+  "risks_for_quantum_independent_review": [
+    "The 1000000.0 display magnitude envelope is a research-candidate threshold only and remains TEST_REQUIRED; Quantum should decide whether the dashboard should reject out-of-range values or project a bounded OUT_OF_DISPLAY_RANGE reference/status instead.",
+    "Binary64 conversion is now explicit but precision/rounding canonicalization is still TEST_REQUIRED; no Decimal canonicalization is claimed.",
+    "Policy-version display is not a trusted policy-installation receipt and must not be interpreted as provider authority or formal adoption.",
+    "Any future numeric hashing/replay contract must independently specify canonical JSON number serialization rather than infer it from Python float repr."
+  ],
+  "status": "RESEARCH_CANDIDATE_PATCHED_AUTHORED_TESTS_WAITING_QUANTUM_RECHECK"
+}
