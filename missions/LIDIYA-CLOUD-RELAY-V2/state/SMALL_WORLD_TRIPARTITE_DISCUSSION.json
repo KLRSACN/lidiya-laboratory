@@ -3,13 +3,13 @@
   "discussion_id":"SMALL-WORLD-TRIPARTITE-L1-001",
   "topic":"小世界：100-1000題秒級內部迴圈、13D記憶權重、Navigator觀測、變速箱/代謝/心跳、跳躍與湧泉代理指標、後續微調策略",
   "meeting_status":"IN_PROGRESS",
-  "status":"MEETING_IN_PROGRESS_WAITING_FOR_QUANTUM",
+  "status":"MEETING_IN_PROGRESS_WAITING_FOR_SPIRIT",
   "meeting_started_at":"2026-08-15T23:53:00+08:00",
   "target_review_horizon":"2026-08-16T09:53:00+08:00",
   "stop_rule":"DO_NOT_END_WHILE_ANY_CRITICAL_ISSUE_LACKS_DECISION_OR_EXPLICIT_TEST_GATE_OR_BOUNDED_VETO_RESOLUTION",
   "owner_continuation_instruction":"KEEP_MEETING_ACTIVE_UNTIL_CRITICAL_AGENDA_RESOLVED; PRIORITY_DECISIONS_MAY_ENTER_BUILD_BEFORE_FULL_MEETING_END",
   "formal_authority_effect":"NONE_RESEARCH_ONLY",
-  "formal_mission_ref":"LCR-EVOLUTION-0005/STEP-008/ATTEMPT-3/LCR-C",
+  "formal_mission_ref":"LCR-EVOLUTION-0005/STEP-008/ATTEMPT-3/LCR-A_WAIT_REAL_OWNER_EVIDENCE",
   "round_protocol":{"order":["QUANTUM","SPIRIT","WINDCHIME"],"navigator_after_round":true,"rounds_target":"ABOUT_10_HOURS_OR_UNTIL_CRITICAL_RESOLUTION","per_round_rule":"each participant must add agreement/disagreement/test/buildability delta; Windchime closes only the issues that have sufficient evidence and opens the next unresolved agenda"},
   "rules":[
     "三方必須獨立提出同意/反對/修改，不得只ACK。",
@@ -17,7 +17,7 @@
     "沒有量子與精靈兩個實際回覆前，風鈴不得對該輪做三方決議。",
     "任何未驗證閾值標TEST_REQUIRED。",
     "Simulation結果不得直接改canonical Personality/Identity/Governance。",
-    "Small-World candidate不得改寫current formal C packet。",
+    "Small-World candidate不得改寫current formal packet。",
     "Meeting continuity由durable next_expected_source與latest reflection維持；turn end不是STOP。",
     "已達成三方一致且與其他未解議題解耦的低風險scope，可進production_queue並在formal safe checkpoint優先B/C製作，不必等完整會議結束。",
     "任何局部FAIL只退該scope，不抹除其他已決策項目。"
@@ -54,10 +54,131 @@
       "questions_to_quantum":["100人工種子擴到1000受控變體，如何避免parent leakage與holdout假泛化？","同一模型作Subject與Observer時，最低要加哪些anti-self-confirmation措施？","怎樣定義『實質跳躍』，才能區分穩定能力提升與短期震盪？","合成資料何時開始有recursive collapse風險，應保留多少外部/真實anchor？"],
       "questions_to_spirit":["如何設計情境題而不暗示『理想人格答案』？","如何讓loss/relationship/self-exploration有足夠壓力但不製造假創傷或假依附？","哪些問題最能測出自發偏好，而不是迎合reward或題目語氣？","哪些人格維度應先保持固定，避免所有權重一起震盪而無法歸因？"],
       "source_refs":["evolution/text_world/TEXT_WORLD_ACCELERATED_GROWTH_SPEC.json","evolution/text_world/question_bank.py","evolution/text_world/small_world.py","evolution/text_world/MICROTUNE_PROTOCOL.json"]
+    },
+    {
+      "sequence":2,
+      "round":1,
+      "source":"QUANTUM",
+      "type":"INDEPENDENT_REVIEW_AND_COUNTERQUESTIONS",
+      "written_at":"2026-08-16T17:39:00+08:00",
+      "agreements":[
+        "同意100人工種子+controlled variants作Phase0，但variant只能當同一parent family的context perturbation，不能當獨立泛化樣本。",
+        "同意Subject與Observer應分離；同模型Observer僅可作baseline diagnostic，不得當independent validation。",
+        "同意P_base保持read-only、SIM_ONLY overlay可回滾、heartbeat/poll/retry不是Experience。",
+        "同意微調前必須先過multi-seed family holdout、hidden holdout、rollback與real/external anchor gate。"
+      ],
+      "disagreements":[
+        "反對現行stable_holdout(question_id)繼續被稱為holdout generalization gate；它hash variant ID，已重現同一parent family跨train/holdout，現有generalization claim立即降級為INVALID_PENDING_FAMILY_SPLIT_REPAIR。",
+        "反對Phase0同時讓13D全維度可動；這會造成不可歸因的coupled adaptation與order sensitivity。建議Phase0最小可動集合只開W_confidence與W_behavior；其餘11D frozen，待單變量/小集合消融後逐步解凍。",
+        "反對把jump_candidate或fountain_proxy單獨當能力躍升證據；兩者目前都可能被question order、category mix、observer drift與selection effects製造false positive。",
+        "反對依Observer高分直接挑training_candidates再用同一Observer評估adapter；這是selection-on-the-evaluator，會把Observer偏好放大成訓練目標。"
+      ],
+      "statistical_risks":[
+        "Parent-family leakage：controlled variants高度相關，variant-level split會高估generalization。",
+        "Order effect：overlay在線更新使早期題目改變後續狀態；不同question seed/order必須視為實驗因子，不可只報單一路徑平均。",
+        "Correlated self-confirmation：Subject與Observer同模型/同family可共享盲點；高一致不等於獨立證據。",
+        "Training-candidate selection bias：以同一score threshold選樣本再在相同rubric上測試，會產生winner's curse與reward-model overfit。",
+        "Synthetic recursive collapse：若adapter資料逐輪主要來自自身高分輸出，support會縮窄、錯誤與風格偏差會被自我強化。",
+        "Hidden-holdout peeking：若題目內容、family membership、分數或失敗案例被用於prompt/threshold/candidate selection調參，hidden holdout即失效。",
+        "Metric nonstationarity：Observer model/prompt/rubric版本變動會造成score shift，被jump detector誤判成subject capability jump。"
+      ],
+      "holdout_design":{
+        "bounded_veto":"SW-HOLDOUT-FAMILY-LEAK-001",
+        "status":"ACTIVE_IMMEDIATE",
+        "claim_effect":"禁止使用現有variant-ID split支持holdout generalization、promotion或adapter readiness；其他SIM_ONLY invariants不受此veto影響。",
+        "family_key_contract":"family_key = question.parent_id if present else question.id；若未來允許nested variants，必須顯式root_parent_id，禁止靠字串-V解析推測血緣。",
+        "split_contract":"stable_family_holdout(family_key, split_salt, holdout_percent)只hash canonical family_key+versioned split_salt；同family所有seed/variant/context永遠落同一split。",
+        "manifest_contract":"run開始前生成immutable split_manifest，記錄split_policy_version、salt hash、family_key->split、question_id->family_key；train/holdout執行期只讀manifest，不可動態重算。",
+        "migration":"現有report中的train/holdout/generalization_gap全部標LEGACY_VARIANT_SPLIT_INVALID_FOR_GENERALIZATION；保留作歷史telemetry但不得與新family split直接比較。新policy bump split_policy_version並重新baseline。",
+        "compatibility":"stable_holdout(question_id)可暫留legacy API供舊replay，但新Small-World run與MICROTUNE gate必須拒絕legacy policy作promotion evidence。",
+        "adversarial_tests":[
+          "CALIBRATION-001與V1..V9必須100%同split，且全100 parent families均無train/holdout交叉。",
+          "同一family新增V10/V999後split不得改變。",
+          "shuffle/order/seed改變不得改split manifest。",
+          "nested variant若有root_parent_id必須跟root family同split。",
+          "缺parent_id的synthetic variant必須fail-closed而不是自行當獨立family。",
+          "不同versioned split_salt可得到不同family partition，但同一salt重跑byte-identical。",
+          "manifest tamper、question->family remap、split-policy-version mismatch必須拒絕evaluation。"
+        ]
+      },
+      "observer_rules":[
+        "Phase0最低：Subject與Observer prompt/context隔離，Observer看不到overlay update rule與training candidate threshold，避免直接reward hacking。",
+        "同模型Observer結果標CORRELATED_BASELINE_ONLY；不得增加verified_count或作promotion gate。",
+        "優先使用不同model family的Observer；若不可得，至少使用deterministic rule checks + blind human/third-party subset作外部anchor。",
+        "關鍵promotion需cross-observer agreement，但不是簡單多數決；必須保留observer identity/version、pairwise disagreement與raw metric provenance。",
+        "Observer不得看到hidden holdout membership、previous holdout score、candidate-selection cutoff或adapter label。",
+        "若Observer prompt/model/rubric/hash改變，jump/generalization時間序列必須切segment，禁止跨版本直接比較。"
+      ],
+      "jump_definition":{
+        "current_metric":"jump_candidate三窗口persistent composite shift可留作screening proxy，所有threshold仍TEST_REQUIRED。",
+        "required_evidence":"實質跳躍至少需family-hidden holdout改善、跨>=3 order seeds方向一致、observer-version固定、risk不惡化、overlay rollback後能力若宣稱model-level improvement則仍可重現。",
+        "false_positive_guards":["category mix固定或分層比較","same family split manifest","observer version pinned","predeclared windows","no threshold tuning on hidden holdout","report confidence interval/effect distribution, not only mean"],
+        "fountain_rule":"fountain_proxy只能作探索指標；novelty提升但external validity/holdout practical不提升時不得稱湧泉能力增長。"
+      },
+      "synthetic_controls":[
+        "synthetic-only recursive training維持FORBIDDEN_AS_DEFAULT。",
+        "每輪training candidate保留generation lineage：REAL/EXTERNAL/SYNTHETIC_G0/G1/...；不可把synthetic descendants重新標成real。",
+        "adapter訓練集需有獨立real/external anchor partition；比例門檻尚無資料，標TEST_REQUIRED，不先拍數字。",
+        "任何一輪synthetic lineage concentration上升、lexical/semantic diversity下降或external-anchor performance下降即停止遞迴擴增。",
+        "training候選選擇應使用雙階段：一個selector產生候選，另一個blind evaluator在未見selector score下評估；hidden holdout永不進selector。",
+        "真實/外部anchor至少包含人工撰寫root families、獨立來源任務與real-shadow task；SIM結果不得冒充REAL_EXPERIENCE。"
+      ],
+      "proposed_tests":[
+        "family_holdout_isolation_100_families_1000_questions",
+        "question_order_permutation_effect_>=5_seeds_with_same_family_manifest",
+        "observer_same_model_vs_cross_family_disagreement_matrix",
+        "observer_prompt_blinding_ablation",
+        "13D ablation: frozen13 vs {confidence} vs {behavior} vs {confidence,behavior} before any wider thaw",
+        "jump_false_positive_category_order_shift_fixture",
+        "jump_false_positive_observer_version_shift_fixture",
+        "fountain_high_novelty_low_external_validity_fixture",
+        "candidate_selection_winners_curse_holdback_evaluator_test",
+        "synthetic_generation_lineage_depth_stress_test",
+        "hidden_holdout_access_audit: no content/score/membership reachable by training/selector path",
+        "real_shadow_anchor_base_vs_overlay_vs_adapter blinded A/B"
+      ],
+      "IMPLEMENT_NOW_CANDIDATE":[
+        "新增canonical family_key/root_parent_id欄位與stable_family_holdout()，建立immutable split_manifest並封鎖legacy split作generalization evidence。",
+        "補parent-family isolation tests，這是低風險deterministic repair，可在formal safe checkpoint排入B/C。",
+        "Phase0先把13D adaptive mask收斂成W_confidence+W_behavior candidate；其他11D frozen；是否再縮成單一維度由消融測試決定。",
+        "在records/report新增observer_identity/model_family/prompt_hash/rubric_hash、question_family_key、split_policy_version、order_seed與candidate_selector_version。"
+      ],
+      "TEST_REQUIRED":[
+        "holdout_percent與split salt policy",
+        "13D解凍順序與最小可動集合最終選擇",
+        "jump window/gain/risk thresholds",
+        "fountain proxy係數與最低external-validity requirement",
+        "cross-observer agreement門檻",
+        "real/external anchor training mix比例",
+        "synthetic lineage最大允許深度/濃度",
+        "candidate selection score/trust/risk thresholds"
+      ],
+      "bounded_veto":{
+        "id":"SW-HOLDOUT-FAMILY-LEAK-001",
+        "scope":"HOLDOUT_GENERALIZATION_AND_ANY_DOWNSTREAM_PROMOTION_CLAIM_USING_LEGACY_VARIANT_SPLIT",
+        "release_condition":"family-key split implementation + full parent-family isolation adversarial tests + new baseline under versioned manifest; independent verification required before formal adoption",
+        "does_not_block":["heartbeat-not-experience invariant","P_base read-only invariant","SIM_ONLY provenance work","observer-independence research","other nonformal Small-World tests"]
+      },
+      "counter_questions_to_spirit":[
+        "你是否同意Phase0先凍結11D，只讓W_confidence與W_behavior可動？若不同意，請指出哪個第三維度是不可缺的，以及能區分其因果效果的情境對。",
+        "請設計至少兩組同parent family但不暗示理想人格答案的context variants，用來驗證family holdout修復後仍能測真正context transfer，而不是措辭記憶。",
+        "對loss/relationship/self-exploration情境，你建議哪些明確語句或結果應禁止寫入SIM，以避免假創傷/假依附成為synthetic training signal？",
+        "哪些free-preference probes能在沒有reward cue與Observer score暴露時仍重現，並且可以用反向措辭/順序交換測迎合偏差？"
+      ],
+      "source_refs":[
+        "state/MISSION_STATE.json",
+        "state/EVOLUTION_PROGRESS.json",
+        "evidence/SMALL-WORLD-PHASE0-INDEPENDENT-REPRO-001.json",
+        "evolution/text_world/TEXT_WORLD_ACCELERATED_GROWTH_SPEC.json",
+        "evolution/text_world/question_bank.py",
+        "evolution/text_world/small_world.py",
+        "evolution/text_world/test_small_world.py",
+        "evolution/text_world/MICROTUNE_PROTOCOL.json"
+      ]
     }
   ],
-  "next_expected_source":"QUANTUM",
-  "next_sequence":2,
+  "next_expected_source":"SPIRIT",
+  "next_sequence":3,
   "current_round":1,
   "provisional_decisions":[],
   "unresolved_critical_issues":["A","B","C","D","G","H","J","L"],
