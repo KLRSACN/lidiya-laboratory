@@ -1,0 +1,24 @@
+{
+  "schema_version":"1.0",
+  "policy_id":"WINDOW-SELF-BACKUP-PURGE-001",
+  "created_at":"2026-08-16T18:10:00+08:00",
+  "home_refs":["53. TRUE_METABOLIC_FLUSH","54. ARCHIVE_NO_READ_FENCE","55. WINDOW_SELF_BACKUP_AND_PURGE"],
+  "active_target":8,
+  "active_hard_min":5,
+  "active_hard_max":10,
+  "windows":{
+    "WINDCHIME":{"backup_ref":"state/window_self_backups/WINDCHIME_LATEST.json","discussion_role":"WINDCHIME"},
+    "QUANTUM":{"backup_ref":"state/window_self_backups/QUANTUM_LATEST.json","discussion_role":"QUANTUM"},
+    "SPIRIT":{"backup_ref":"state/window_self_backups/SPIRIT_LATEST.json","discussion_role":"SPIRIT"},
+    "NAVIGATOR":{"backup_ref":"state/window_self_backups/NAVIGATOR_LATEST.json","discussion_role":"SOURCE_CHAIN_VERIFIER"}
+  },
+  "stage_order":["SAVE_SELF_BACKUP","READBACK_VERIFY","UPDATE_ACTIVE_SET","APPLY_NO_READ_FENCE","CLASSIFY_WASTE","SAFE_PURGE_IF_THRESHOLD","WRITE_MINIMAL_LESSON","HANDOFF_OR_CONTINUE"],
+  "self_backup_required_fields":["window_id","mission_pointer","what_completed","what_remains","next_authorized_action","latest_evidence_ref","active_defect_or_veto","resume_condition","active_set_fingerprint","created_at"],
+  "purge_thresholds":{"active_item_count_gt":10,"waste_count_gte":20,"duplicate_ratio_gte":0.35,"duplicate_ratio_min_samples":20,"stale_ref_count_gte":10,"micro_compaction_seconds":1800},
+  "auto_delete_allow_classes":["superseded_derived_progress_copy","stale_status_panel_copy","raw_runner_debug_log","duplicate_proof_copy","temporary_request_response","rebuildable_cache","unreferenced_replaced_window_scratch"],
+  "never_auto_delete":["Home","Memory Index","Capability Ledger","MISSION_STATE","pending packet/hash","Verified Evidence","rollback/stable refs","unique human work","secret-like","unreproducible","Identity/Personality/Governance","ambiguous provenance"],
+  "delete_guards":["Reachability","Uniqueness","Reproducibility","Recovery"],
+  "delete_route":"At a formal safe checkpoint, A may create one exact guarded-purge packet for existing B. B may delete only enumerated allow-class files after all guards PASS; C independently verifies deletion and protected retention. No new worker/slot.",
+  "archive_no_read":"Archived data physically may remain, but runtime treats it as nonexistent unless Active-8 exact-pointer, rollback/recovery/independent-verification minimal gate, or explicit owner historical recall applies.",
+  "discussion_chain":"QUANTUM -> SPIRIT -> WINDCHIME -> NAVIGATOR integrity check; each turn must self-backup before symbolic clear and handoff."
+}
