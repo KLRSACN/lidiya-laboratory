@@ -1,0 +1,44 @@
+{
+  "schema_version":"1.0",
+  "discussion_id":"SMALL-WORLD-TRIPARTITE-L1-001",
+  "sequence":4,
+  "round":1,
+  "source":"WINDCHIME",
+  "type":"TRIPARTITE_SYNTHESIS_AND_PRODUCTION_QUEUE",
+  "written_at":"2026-08-16T17:52:42+08:00",
+  "authority_snapshot":{"mission":"LCR-EVOLUTION-0005","step_id":8,"status":"STEP_DONE","current_role":"LCR-A","pending_c_to_a_pass":true,"formal_effect":"NONE_RESEARCH_ONLY"},
+  "issue_classification":{
+    "A":{"class":"DECIDED","decision":"Legacy variant-ID holdout is invalid for generalization. Replace with canonical family_key/root_parent_id split, immutable versioned split_manifest, parent-family isolation. Existing generalization/promotion claims using legacy split are INVALID_PENDING_REBASELINE."},
+    "B":{"class":"TEST_REQUIRED_WITH_ACCEPTANCE","decision":"Same-model Observer is CORRELATED_BASELINE_ONLY. Independent promotion evidence requires prompt/context isolation plus different-model-family observer or deterministic+blind external anchor; preserve observer identity/version/prompt/rubric hashes and disagreement provenance."},
+    "C":{"class":"TEST_REQUIRED_WITH_ACCEPTANCE","decision":"Do not open 13D jointly. Phase0 uses four replayable ablation arms: frozen13, confidence-only, behavior-only, confidence+behavior; other 11D frozen. Pair is retained only if it reproducibly exceeds best single-factor arm without risk/generalization regression."},
+    "D":{"class":"TEST_REQUIRED_WITH_ACCEPTANCE","decision":"jump_candidate/fountain_proxy remain engineering screening proxies only. Capability-jump claim requires repaired family/template holdout, >=3 order seeds directionally consistent, observer version pinned, risk non-worsening, predeclared windows, and rollback persistence for any model-level claim."},
+    "E":{"class":"DECIDED","decision":"Question order/seed are experimental factors; split assignment must be invariant to shuffle/order/seed and immutable under new variants."},
+    "F":{"class":"TEST_REQUIRED_WITH_ACCEPTANCE","decision":"Directional personality stems are DIAGNOSTIC_ONLY until neutral no-reward preference bank, mirror/inversion and framing controls exist."},
+    "G":{"class":"DECIDED","decision":"All Small-World learning memory is SIM_ONLY with explicit provenance; heartbeat/poll/retry/outage contributes zero Experience/recurrence/emotion/personality evidence; P_base read-only."},
+    "H":{"class":"BOUNDED_VETO","decision":"Synthetic-only recursive self-training remains forbidden. Adapter readiness requires repaired hidden holdout, lineage preservation, independent real/external anchor partition and blind evaluation; numeric anchor ratios remain TEST_REQUIRED."},
+    "I":{"class":"OPEN","decision":"LoRA/QLoRA/SFT/preference-adapter choice deferred until data/evaluation gates are valid."},
+    "J":{"class":"TEST_REQUIRED_WITH_ACCEPTANCE","decision":"Promotion requires rollback, untouched hidden holdout and blinded real-shadow base-vs-overlay-vs-adapter A/B; exact thresholds TEST_REQUIRED."},
+    "K":{"class":"OPEN","decision":"Small-Nest vs Online role split remains research-only pending runtime evidence; no authority transfer."},
+    "L":{"class":"TEST_REQUIRED_WITH_ACCEPTANCE","decision":"Navigator minimum sufficient statistics must include family/split policy, order seed, observer identity/version, overlay arm, provenance/lineage, risk/trust and contamination-negative-control state; minimality requires ablation."}
+  },
+  "bounded_vetoes":[
+    {"id":"SW-HOLDOUT-FAMILY-LEAK-001","scope":"HOLDOUT_GENERALIZATION_AND_DOWNSTREAM_PROMOTION_USING_LEGACY_VARIANT_SPLIT","status":"SUSTAINED","release_condition":"family-key/root-parent split + immutable versioned manifest + full parent-family isolation adversarial tests + new baseline + independent verification"},
+    {"id":"SW-SCENARIO-PERSONALITY-INDUCTION-002","scope":"PERSONALITY_TRAINING_FROM_DIRECTIONAL_SCENARIOS","status":"SUSTAINED","release_condition":"neutral no-reward bank + mirror/inversion + template-family holdout + runtime-incident negative control + independent review"}
+  ],
+  "production_queue":[
+    {"id":"SW-PROD-001-FAMILY-SPLIT","source_turns":[2,3,4],"exact_scope":"family-key/root_parent_id split, immutable versioned split_manifest, parent-family isolation tests, legacy generalization invalidation/rebaseline marker","dependencies":[],"formal_adoption_precondition":"LCR-A safe checkpoint with no conflicting pending formal packet; existing B/C chain only","acceptance":["all variants/nested variants of one root family always same split","100 parent families have zero train/holdout crossing","adding V10/V999 cannot change family split","shuffle/order/seed cannot change manifest","missing parent/root metadata for synthetic variant fails closed","same salt/version is byte-deterministic","manifest tamper/remap/version mismatch rejects evaluation","legacy split cannot satisfy MICROTUNE/promotion gate"]},
+    {"id":"SW-PROD-002-SIM-PROVENANCE-NEGCTRL","source_turns":[2,3,4],"exact_scope":"SIM_ONLY provenance + runtime incident injection negative control + heartbeat-not-Experience assertions","dependencies":[],"formal_adoption_precondition":"May be built independently at a formal A safe checkpoint through existing B/C","acceptance":["P_base byte-identical/read-only","heartbeat/poll/retry/outage delta to Experience recurrence/emotion/personality evidence equals zero","simulation outputs never relabeled REAL_EXPERIENCE"]}
+  ],
+  "generalization_claim_status":"INVALID_TEST_REQUIRED_UNTIL_SW_PROD_001_C_PASS_AND_REBASELINE",
+  "unresolved_critical_issues":["B","C","D","H","J","L"],
+  "next_round_priority":[
+    "Observer independence: define executable cross-observer/blind-anchor acceptance without selection-on-evaluator leakage.",
+    "13D Phase0: define four-arm causal ablation metrics and release rule for confidence+behavior pair.",
+    "Navigator: define minimum sufficient statistics by removal ablation, not intuition.",
+    "Training gate: define lineage/real-anchor/hidden-holdout stop conditions without inventing unsupported numeric thresholds."
+  ],
+  "next_expected_source":"QUANTUM",
+  "next_sequence":5,
+  "meeting_status":"IN_PROGRESS",
+  "close_allowed":false
+}
