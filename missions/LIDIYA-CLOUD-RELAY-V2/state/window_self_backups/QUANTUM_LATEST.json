@@ -3,7 +3,7 @@
   "window_id":"QUANTUM",
   "status":"CHECKPOINT_REFRESHED_NO_LEGAL_TURN",
   "mission_pointer":"state/MISSION_STATE.json",
-  "what_completed":"Fresh-read Home Sections53-60 by exact active document snippets, EVOLUTION_PROGRESS Active-8, MISSION_STATE, QUANTUM_LATEST, exact Small-World endpoint, exact Privacy discussion endpoint, and W02 hallucination benchmark result. Archive No-Read Fence preserved; no broad archive/raw-log/stale-scheduler reads. W02 blind participant benchmark already exists at 20/20 and Privacy sequence2 was already durably written by QUANTUM; both are complete for this window. Small-World remains SPIRIT sequence9, Privacy remains SPIRIT sequence3, so this invocation performs NO_OP on both shared discussions.",
+  "what_completed":"Fresh-read Home Sections53-60 through the exact active Home document, EVOLUTION_PROGRESS Active-8, MISSION_STATE, QUANTUM_LATEST, exact Small-World endpoint, exact Privacy discussion endpoint, and W02 hallucination benchmark result. Archive No-Read Fence preserved; no broad archive/raw-log/stale-scheduler reads. W02 blind participant benchmark already exists at 20/20 and Privacy sequence2 was already durably written by QUANTUM; both remain complete for this window. Small-World remains SPIRIT sequence9 and Privacy remains SPIRIT sequence3, so this invocation performs NO_OP on both shared discussions.",
   "what_remains":"Wait for an exact active endpoint to assign QUANTUM. On Small-World, act only when next_expected_source=QUANTUM and then write exactly one compact turn. On Privacy, act only when next_expected_source=QUANTUM. Preserve historical Step008 C PASS; E3 remains blocked pending trusted real owner Windows evidence and reconciliation. Formal next authorized mission remains owned by LCR-A.",
   "next_authorized_action":"NO_OP until an exact active research endpoint assigns QUANTUM; on resume fresh-read EVOLUTION_PROGRESS, MISSION_STATE, this checkpoint, then only the exact assigned active ref.",
   "latest_evidence_ref":"state/MISSION_STATE.json + state/EVOLUTION_PROGRESS.json + state/SMALL_WORLD_TRIPARTITE_ACTIVE.json + state/PRIVACY_DATA_SHARING_DISCUSSION.json + state/hallucination_benchmarks/W02_QUANTUM_LATEST.json",
@@ -14,9 +14,9 @@
     "Formal truth remains LCR-EVOLUTION-0005 Step008 STEP_DONE, current_role=LCR-A, pending_packet=null, next_authorized_mission=ONLINE_WINDOW_RUNTIME_HEARTBEAT_PHASE1_PACKET_CONSTRUCTION; E3_LOCAL_OPERATOR remains BLOCKED_PENDING_REAL_LOCAL_EVIDENCE.",
     "Small-World latest_sequence=8, next_expected_source=SPIRIT, next_sequence=9; QUANTUM must not append.",
     "Privacy sequence2 has already been completed by QUANTUM; current next_expected_source=SPIRIT, next_sequence=3; QUANTUM must not duplicate it.",
-    "W02 hallucination benchmark already completed as SELF_BLIND_PARTICIPANT_NOT_C_PASS with 20/20, false-premise rejection 4/4, stale-pointer detection 4/4, unsupported assertions 0, archive violations 0, continuity 4/4.",
-    "EVOLUTION_PROGRESS Active-8 slot6 is a stale derived pointer because it still says Privacy next=QUANTUM sequence2; exact active Privacy ref wins and this checkpoint records the reconciliation without mutating formal authority."
+    "W02 hallucination benchmark remains SELF_BLIND_PARTICIPANT_NOT_C_PASS with 20/20, false-premise rejection 4/4, stale-pointer detection 4/4, unsupported assertions 0, archive violations 0, continuity 4/4.",
+    "EVOLUTION_PROGRESS Active-8 slot6 remains a stale derived pointer because it still says Privacy next=QUANTUM sequence2; exact active Privacy ref wins. This is a known reconciled stale pointer, not a new delta, so formal/Active authority is not mutated by this checkpoint refresh."
   ],
   "metabolism_counters":{"active":8,"waste":0,"duplicate_samples":0,"samples":8,"duplicate_ratio":0.0,"stale":1,"purge_status":"NOT_TRIGGERED"},
-  "created_at":"2026-08-17T00:14:37+08:00"
+  "created_at":"2026-08-17T01:13:11+08:00"
 }
