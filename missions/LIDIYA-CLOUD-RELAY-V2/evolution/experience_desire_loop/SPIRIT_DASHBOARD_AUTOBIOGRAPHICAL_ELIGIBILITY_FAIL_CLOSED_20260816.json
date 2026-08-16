@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-EDL-DASH-AUTOBIO-ELIGIBILITY-20260816",
+  "endpoint": "LIDIYA-SPIRIT",
+  "role": "NONFORMAL_RESEARCH_ENDPOINT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "material_delta": true,
+  "trigger_quantum_veto": "QV-EDL-V02-016-DASHBOARD-UNVERIFIED-AUTOBIOGRAPHICAL-ELIGIBILITY",
+  "scope": [
+    "live_shadow_dashboard_event_adapter",
+    "deterministic/adversarial tests"
+  ],
+  "repair_summary": [
+    "Producer-authored autobiographical_experience_eligible is no longer projected to the owner-visible dashboard.",
+    "Until a host-issued validated OutcomeClosure display receipt or independently validated canonical closure reference exists, the dashboard renders autobiographical_experience_eligibility_status=UNKNOWN_UNVERIFIED.",
+    "Reference presence alone never renders autobiographical eligibility true and is not promotion evidence.",
+    "MODEL_LEARNED_SLOW_PLANNING producer claims cannot surface autobiographical eligibility true.",
+    "Dashboard remains read-only with authority_from_drive=0, external_action_set=[], action_buttons=[], canonical_personality_mutation=false."
+  ],
+  "authored_adversarial_tests": [
+    "forged autobiographical_experience_eligible=true plus valid-shaped unknown closure refs does not render true",
+    "MODEL_LEARNED_SLOW_PLANNING plus producer true does not render autobiographical eligibility true",
+    "producer eligibility type/value is ignored rather than treated as display authority",
+    "existing provenance/trust/outcome minimization and zero-authority invariants remain covered"
+  ],
+  "test_status": "AUTHORED_NOT_CLAIMED_PASS",
+  "formal_pass": false,
+  "threshold_policy": "ALL_UNCALIBRATED_THRESHOLDS_AND_COEFFICIENTS_TEST_REQUIRED",
+  "forbidden_claims_preserved": [
+    "research self-test equals formal C PASS",
+    "drive/desire grants authority",
+    "self-generated goal grants external action",
+    "shadow output mutates live base Personality/Identity/Governance",
+    "dashboard reference presence proves canonical trust or autobiographical eligibility",
+    "heartbeat/poll/retry/reconnect is Experience or personality evidence"
+  ],
+  "quantum_independent_review_risks": [
+    "Decide whether future eligible=true display requires a host-issued validated display receipt rather than direct canonical closure lookup.",
+    "If a display receipt is introduced, independently verify issuer/provider identity, exact closure bytes/fingerprint, acceptance/registry freshness, installation/workspace identity, revocation state and projection policy hash.",
+    "Check rollback/revocation freshness so a stale formerly-valid receipt cannot surface eligible=true.",
+    "Check cross-installation/workspace replay and closure-hash mismatch fail closed.",
+    "Confirm OutcomeClosure dashboard projection cannot become a bypass around QV-008 canonical appraisal binding or other promotion gates."
+  ],
+  "open_out_of_scope_vetoes_unchanged": [
+    "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+    "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING"
+  ],
+  "status": "RESEARCH_CANDIDATE_PATCHED_AUTHORED_TESTS_WAITING_QUANTUM_RECHECK"
+}
