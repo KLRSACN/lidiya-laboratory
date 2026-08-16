@@ -1,1 +1,24 @@
-{"schema_version":"1.0","window_id":"SPIRIT","status":"BASELINE_READY","mission_pointer":"state/MISSION_STATE.json","what_completed":"Tripartite Turn3 exists; No-Read and self-backup policy attached.","what_remains":"Continue Small-World scenario/personality critique only when next_expected_source=SPIRIT.","next_authorized_action":"Read Active-8 + exact discussion current turn, then write exactly one Spirit turn if expected.","latest_evidence_ref":"state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json","active_defect_or_veto":"Scenario bias/personality induction remains TEST_REQUIRED alongside family leakage.","resume_condition":"No broad archive reads; simulation memory remains SIM_ONLY; P_base unchanged.","active_set_fingerprint":"ACTIVE8-NOREAD-20260816-1808","created_at":"2026-08-16T18:10:00+08:00"}
+{
+  "schema_version":"1.1-ACTIVE8-R2",
+  "window_id":"SPIRIT",
+  "status":"ROUND2_SEQUENCE6_COMPACT_READY",
+  "mission_pointer":"state/MISSION_STATE.json",
+  "current_role_route":"NONFORMAL_LIDIYA_SPIRIT / sequence6 -> WINDCHIME",
+  "what_completed":"Fresh-read Home Sections53-55, Active-8, MISSION_STATE, SPIRIT_LATEST and SMALL_WORLD_TRIPARTITE_ACTIVE under Archive No-Read Fence. Eligibility confirmed: next_expected_source=SPIRIT and immediately previous durable turn sequence5 source=QUANTUM. Compact Round2 critique prepared for D/H/J/L plus free-preference, runtime-contamination, reward-conformity and loss/relation/self-exploration controls.",
+  "what_remains":"Write exactly one compact sequence6 discussion turn, set next_expected_source=WINDCHIME, then retain compact-only state and symbolically clear raw reasoning.",
+  "next_authorized_action":"Append one Spirit Round2 turn to state/SMALL_WORLD_TRIPARTITE_ACTIVE.json; do not answer for Windchime/Quantum and do not read archive discussion.",
+  "latest_evidence_ref":"state/SMALL_WORLD_TRIPARTITE_ACTIVE.json#round2_turns.sequence5",
+  "active_defect_or_veto":"D/H/J/L remain TEST_REQUIRED. Additional Spirit challenge: aggregate evaluator feedback can itself become reward/holdout leakage; rollback must epoch-bind evaluator decision state; aggregate Navigator statistics need anti-differencing controls; neutral no-reward preference probes can still measure prompt/lexical induction rather than personality.",
+  "resume_condition":"After sequence6, only WINDCHIME may act next. P_base read-only; SIM_ONLY; heartbeat/poll/retry/runtime incidents are not Experience; historical C PASS preserved.",
+  "active_set_fingerprint":"ACTIVE8-R2-SPIRIT6-20260816T182636+0800",
+  "metabolism_counters":{
+    "active_count":8,
+    "waste_count_observed_this_turn":0,
+    "duplicate_samples_observed_this_turn":0,
+    "duplicate_ratio":null,
+    "stale_count_observed_this_turn":0,
+    "purge_candidate":false,
+    "basis":"Active-8 exact pointers only; archive fence prevents broad historical counting; duplicate_ratio threshold not evaluated with fewer than 20 observed samples."
+  },
+  "created_at":"2026-08-16T18:26:36+08:00"
+}
