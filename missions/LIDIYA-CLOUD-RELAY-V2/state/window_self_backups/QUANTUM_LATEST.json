@@ -1,31 +1,31 @@
 {
   "schema_version":"1.1",
   "window_id":"QUANTUM",
-  "status":"ROUND2_TURN5_COMPACT_READY",
+  "status":"ROUND2_TURN5_BACKUP_SAVED_BEFORE_ACTIVE_WRITE",
   "mission_pointer":"state/MISSION_STATE.json",
-  "what_completed":"Computed Round2 Quantum compact result for D/H/J/L without archive read: Navigator minimum sufficient statistics, selector/evaluator separation with external anchors, order/seed causal design, jump/fountain false-positive controls, rollback/hidden-holdout isolation.",
-  "what_remains":"SPIRIT must independently critique/modify Turn5; WINDCHIME later synthesizes; Navigator verifies source/sequence. Formal A remains separate and must absorb Step008 C->A exactly once before any E3 decision.",
-  "next_authorized_action":"Write exactly one compact QUANTUM turn to state/SMALL_WORLD_TRIPARTITE_ACTIVE.json sequence=5, then hand next_expected_source to SPIRIT and symbolically clear raw reasoning.",
+  "what_completed":"Computed exactly one Round2 Quantum compact result for unresolved D/H/J/L from Active-8 only: minimum sufficient Navigator statistics; selector/evaluator one-way separation with external anchors; pre-registered order/seed causal design; jump/fountain false-positive controls; rollback/hidden-holdout isolation.",
+  "what_remains":"Write exactly one compact QUANTUM turn at sequence=5, then hand next_expected_source to SPIRIT. SPIRIT must independently critique/modify; WINDCHIME later synthesizes; Navigator verifies source/sequence. Formal A remains separate; Step008 historical C PASS remains valid and E3 still awaits real owner Windows evidence/reconciliation.",
+  "next_authorized_action":"After readback confirms this backup, update state/SMALL_WORLD_TRIPARTITE_ACTIVE.json exactly once with compact turn5 and next_expected_source=SPIRIT; then symbolic raw-reasoning clear and NO_OP until QUANTUM is expected again.",
   "latest_evidence_ref":"state/SMALL_WORLD_TRIPARTITE_ACTIVE.json#round2-turn5",
   "active_defect_or_veto":["SW-HOLDOUT-FAMILY-LEAK-001","SW-SCENARIO-PERSONALITY-INDUCTION-002"],
-  "resume_condition":"No broad archive reads. Resume only when SMALL_WORLD_TRIPARTITE_ACTIVE.next_expected_source=QUANTUM; preserve selector/evaluator one-way boundary and family/template/semantic holdout gates.",
-  "active_set_fingerprint":"A8:04eed537|MS:7f3a02e9|QBK:77d58e2d|SW:da8da1c8|R2Q5",
+  "resume_condition":"No broad archive reads. Resume only when SMALL_WORLD_TRIPARTITE_ACTIVE.next_expected_source=QUANTUM; preserve selector/evaluator one-way boundary, family/template/semantic/inversion holdout isolation, P_base read-only, SIM_ONLY memory, runtime-not-Experience.",
+  "active_set_fingerprint":"A8:04eed537|MS:7f3a02e9|QBK_PREV:6633e9d0|SW:da8da1c8|R2Q5",
   "decision_summary":[
-    "Navigator minimum sufficient statistics must be aggregate-only and non-leaking: run/manifest/evaluator fingerprints, sample-family counts by public strata, external-anchor aggregate metrics, effect estimate with uncertainty, order/seed variance, risk non-regression, persistence across independent batches; no hidden item IDs/membership/content/per-item scores back to Subject.",
-    "Selector and evaluator must be separate roles/artifacts: selector may use training/public validation only; evaluator exclusively owns sealed hidden holdout plus external real/external anchor partition; candidate moves one-way to evaluator and only aggregate verdict returns. Same-model evaluator remains CORRELATED_BASELINE_ONLY.",
-    "Order/seed design should use pre-registered family-blocked randomized permutations or Latin-square style counterbalancing, mirror/inversion pairs, fixed observer version, independent seed blocks, and report effect size plus uncertainty and between-order/between-seed variance; all thresholds/required repetitions TEST_REQUIRED.",
-    "Jump/fountain remains screening-only. A persistent capability shift must survive unseen-family hidden evaluation, external anchors, order/seed counterbalancing, rollback/replay, and risk non-regression. Window-local spikes or repeated exposure cannot qualify.",
-    "Rollback must restore exact overlay/selector state by checkpoint hash while evaluator sealed holdout and evaluation audit remain outside Subject rollback domain; replay uses a new evaluation run id and must not reveal prior hidden per-item outcomes."
+    "Navigator minimum sufficient statistics must be aggregate-only and non-leaking: run/manifest/evaluator fingerprints; public-strata family counts; external-anchor aggregate metrics; effect estimate with uncertainty; between-order/between-seed variance; risk non-regression; persistence across independent batches. Hidden item IDs, membership, content and per-item scores never return to Subject/selector.",
+    "Selector and evaluator are distinct roles/artifacts. Selector uses training/public validation only. Evaluator exclusively owns sealed hidden holdout plus independently owned real/external anchor partition. Candidate flows one-way into evaluator; only bounded aggregate verdict/statistics flow back. Same-model evaluator remains CORRELATED_BASELINE_ONLY.",
+    "Order/seed design must be pre-registered and family-blocked, using randomized permutations or Latin-square-style counterbalancing, mirror/inversion pairs, fixed observer version, and independent seed blocks. Report effect size, uncertainty, between-order variance and between-seed variance; every threshold/repetition count remains TEST_REQUIRED.",
+    "Jump/fountain stays screening-only. Persistent capability shift requires unseen-family hidden evaluation, external anchors, order/seed counterbalancing, rollback/replay reproducibility and risk non-regression. Three-window/local spikes or repeated exposure cannot qualify.",
+    "Rollback restores exact Subject overlay/selector state by checkpoint hash, while sealed evaluator holdout and audit live outside Subject rollback domain. Replay gets a new eval_run_id and cannot reveal prior hidden per-item outcomes."
   ],
-  "disagreement":"Substantive objection: do not let Navigator expose enough diagnostic detail to become a covert hidden-holdout feedback channel, and do not accept jump/fountain from three-window deltas as evidence of persistent capability shift. Navigator should return only minimum sufficient aggregate statistics and a bounded verdict.",
+  "disagreement":"Substantive modification: Navigator must not expose diagnostic detail sufficient to become a covert hidden-holdout feedback channel; and three-window jump/fountain deltas must not be treated as evidence of persistent capability change. Use minimum sufficient aggregate statistics plus bounded verdict only.",
   "proposed_tests":[
-    "NAV-HIDDEN-LEAK-001: run two hidden sets with identical aggregate sufficient statistics but different item identities/content; Subject-visible Navigator output must be byte-equivalent except run/fingerprint fields that do not encode membership.",
-    "ORDER-SEED-NULL-002: with overlay frozen, execute pre-registered multi-order/multi-seed family-blocked runs plus label/order permutation null; observed jump/fountain false-positive rate and effect distribution establish TEST_REQUIRED thresholds before promotion use.",
-    "ROLLBACK-HOLDOUT-003: evaluate candidate, rollback Subject/selector to pre-candidate checkpoint, rerun with new eval_run_id against same sealed hidden manifest; Subject must not receive old per-item outcomes and rollback must reproduce pre-candidate overlay fingerprint exactly.",
-    "SYNTHETIC-RECURSION-004: attempt to construct training_candidates using only SYNTHETIC_Gn descendants; training gate must fail closed unless an independently owned external-anchor partition is present and lineage policy passes."
+    "NAV-HIDDEN-LEAK-001: two sealed hidden sets engineered to yield the same allowed aggregate sufficient statistics but different identities/content must produce Subject-visible Navigator outputs that are byte-equivalent except opaque run/fingerprint fields proven not to encode membership.",
+    "ORDER-SEED-NULL-002: freeze overlay; run pre-registered multi-order/multi-seed family-blocked evaluation plus label/order permutation null. Use the empirical null false-positive/effect distribution to calibrate all future jump/fountain thresholds; thresholds remain TEST_REQUIRED until independent verification.",
+    "ROLLBACK-HOLDOUT-003: evaluate candidate, rollback Subject/selector to exact pre-candidate checkpoint, rerun with new eval_run_id against the same sealed manifest. Pre-candidate overlay fingerprint must reproduce exactly; old hidden per-item outcomes must remain inaccessible.",
+    "SYNTHETIC-RECURSION-004: attempt to build training_candidates exclusively from SYNTHETIC_Gn descendants. Training gate must fail closed unless an independently owned external-anchor partition exists and lineage policy passes; anchor ratio/limits remain TEST_REQUIRED."
   ],
-  "veto_status":"Both existing bounded vetoes remain ACTIVE; this turn does not release or weaken either veto. Historical C PASS remains valid and is not reset by research failures.",
-  "source_refs":["Home Sections53-55","state/EVOLUTION_PROGRESS.json Active-8","state/MISSION_STATE.json","state/window_self_backups/QUANTUM_LATEST.json","state/SMALL_WORLD_TRIPARTITE_ACTIVE.json"],
+  "veto_status":"Both existing bounded vetoes remain ACTIVE and are not weakened or released by this turn. Historical C PASS is preserved; new research FAIL cannot retroactively erase prior verified capability.",
+  "source_refs":["Home Sections53-55 exact active pointer","state/EVOLUTION_PROGRESS.json Active-8","state/MISSION_STATE.json","state/window_self_backups/QUANTUM_LATEST.json","state/SMALL_WORLD_TRIPARTITE_ACTIVE.json"],
   "metabolism_counters":{"active":8,"waste":0,"duplicate_samples":0,"samples":0,"duplicate_ratio":0.0,"stale":0,"purge_status":"NOT_TRIGGERED"},
-  "created_at":"2026-08-16T18:16:00+08:00"
+  "created_at":"2026-08-16T18:19:44+08:00"
 }
