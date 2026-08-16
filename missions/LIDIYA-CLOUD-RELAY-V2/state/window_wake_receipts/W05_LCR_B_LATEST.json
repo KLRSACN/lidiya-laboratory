@@ -1,0 +1,27 @@
+{
+  "schema_version":"1.0",
+  "window_id":"W05_LCR_B",
+  "wake_id_or_timestamp":"2026-08-17T07:46:14+08:00",
+  "authority_or_research_pointer":{
+    "mission_state":"state/MISSION_STATE.json",
+    "pending_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json",
+    "pending_packet_sha256":"2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee"
+  },
+  "outcome":"DEFER_RECOVERABLE",
+  "what_was_attempted":"Repaired HEARTBEAT-BLOOM-FP-DEADLOCK-001 within the three allowed Step009 files by separating canonical automatic monotonic identity from the bounded probabilistic external replay guard; added known-pulse-689 and 10000-canonical-pulse-with-restart liveness tests; wrote and fresh-read candidate blobs.",
+  "material_delta_or_reason_for_no_delta":"Material code delta exists and local isolated engine suite is 23/23 PASS including 10000 canonical pulses, zero false duplicate and zero liveness stall. Formal handoff is deferred because the required new W01 external exact-current-byte runner support has not yet revalidated the new GitHub blobs and full engine+agent suite.",
+  "exact_artifact_refs":[
+    "evolution/local_command_tower/heartbeat_engine.py@75ba749b509cb5d8ebe87395a773933ed6648c2e",
+    "evolution/local_command_tower/test_heartbeat_engine.py@446c8b4978b5b3899f254c6b32e01cc3d5a647b4",
+    "evolution/local_command_tower/HEARTBEAT_CONTRACT.json@589b8595e338d717fb5723808338975e1801fa98",
+    "evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json",
+    "state/window_self_backups/BUILDER_LATEST.json@3e84f156236d8a2046c2ed1990bdcc91109ea63c"
+  ],
+  "readback_status":"PASS_FOR_THREE_CANDIDATE_BLOBS_AND_BUILDER_SELF_BACKUP; NEW_EXTERNAL_SUPPORT_NOT_YET_AVAILABLE",
+  "next_trigger":"W01_EXTERNAL_EXACT_CURRENT_BYTE_RUNNER_RETESTS_CURRENT_THREE_BLOBS_AND_WRITES_NEW_SUPPORT_EVIDENCE_WITH_LONG_RUN_PASS",
+  "verified_baseline_preserved":true,
+  "formal_state_mutated":false,
+  "pending_packet_consumed":false,
+  "b_to_c_packet_created":false,
+  "real_5min_runtime_live":false
+}
