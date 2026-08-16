@@ -1,23 +1,23 @@
 {
   "schema_version":"1.4",
   "window_id":"QUANTUM",
-  "status":"CHECKPOINT_REFRESHED_FORMAL_DELTA_NO_LEGAL_RESEARCH_TURN",
+  "status":"CHECKPOINT_REFRESHED_ACTIVE8_RECONCILED_NO_LEGAL_RESEARCH_TURN",
   "mission_pointer":"state/MISSION_STATE.json",
-  "what_completed":"Fresh-read Active-8, MISSION_STATE, QUANTUM_LATEST, exact Small-World, Privacy and W02 benchmark refs under Archive No-Read Fence. Material formal delta detected: Step009 Heartbeat Phase1 Attempt1 received independent C FAIL on exactly-once retention; formal authority is now Attempt2 READY_FOR_BUILDER/current_role=LCR-B with bounded repair route. Small-World and Privacy remain assigned to SPIRIT, so QUANTUM performs NO_OP on both. Existing W02 blind benchmark remains completed and is not rerun.",
-  "what_remains":"Formal LCR-B owns Step009 bounded exact-once/idempotency repair, then LCR-C independently verifies. QUANTUM must not build, verify, consume, or alter the formal packet. Wait for exact active research endpoint to assign QUANTUM. E3_LOCAL_OPERATOR remains blocked pending real owner-local evidence.",
-  "next_authorized_action":"NO_OP on Small-World/Privacy until next_expected_source=QUANTUM; preserve formal separation while LCR-B repairs Step009 Attempt2.",
-  "latest_evidence_ref":"state/MISSION_STATE.json + state/EVOLUTION_PROGRESS.json + state/SMALL_WORLD_TRIPARTITE_ACTIVE.json + state/PRIVACY_DATA_SHARING_DISCUSSION.json + state/hallucination_benchmarks/W02_QUANTUM_LATEST.json",
+  "what_completed":"Fresh-read Home Sections53-60, Active-8, MISSION_STATE, QUANTUM_LATEST and exact active Small-World/Privacy/W02 refs under Archive No-Read Fence. Active-8 has been refreshed since the prior QUANTUM checkpoint and is now consistent with formal Step009 Attempt2 READY_FOR_BUILDER/current_role=LCR-B. Small-World and Privacy remain assigned to SPIRIT, so QUANTUM performs NO_OP on both. Existing W02 blind benchmark remains completed and is not rerun; its historical ground-truth snapshot is not substituted for current formal authority.",
+  "what_remains":"Formal LCR-B owns Step009 bounded exactly-once/idempotency repair, then existing LCR-C independently verifies. QUANTUM must not build, verify, consume, or alter the formal packet. Wait for exact active research endpoint to assign QUANTUM. E3_LOCAL_OPERATOR remains blocked pending real owner-local evidence.",
+  "next_authorized_action":"NO_OP on Small-World/Privacy until next_expected_source=QUANTUM; preserve formal separation while LCR-B repairs Step009 Attempt2. On next wake fresh-read Active-8 and MISSION_STATE before any substantive report.",
+  "latest_evidence_ref":"Home Sections53-60 exact active document + state/EVOLUTION_PROGRESS.json + state/MISSION_STATE.json + state/SMALL_WORLD_TRIPARTITE_ACTIVE.json + state/PRIVACY_DATA_SHARING_DISCUSSION.json + state/hallucination_benchmarks/W02_QUANTUM_LATEST.json",
   "active_defect_or_veto":["SW-HOLDOUT-FAMILY-LEAK-001","SW-SCENARIO-PERSONALITY-INDUCTION-002","SW-EVALUATOR-REWARD-OVERFIT-003","SW-NAV-DIFFERENCING-LEAK-004"],
   "resume_condition":"No broad archive reads. Small-World exactly one turn only when next_expected_source=QUANTUM. Privacy exactly once only when next_expected_source=QUANTUM. Preserve P_base read-only, SIM_ONLY, heartbeat/runtime maintenance not Experience. New delta failure only rolls back affected delta and does not erase historical C PASS.",
-  "active_set_fingerprint":"MS:b6c0b2c6|A8:e60f1279|SW:d1dcaad8|PRIV:274290fa|W02:2ea1bc0a",
+  "active_set_fingerprint":"MS:b6c0b2c6|A8:62c0e753|SW:d1dcaad8|PRIV:274290fa|W02:2ea1bc0a",
   "decision_summary":[
-    "Fresh MISSION_STATE overrides the older Active-8 formal slot: Step009 Attempt2 is READY_FOR_BUILDER/current_role=LCR-B; heartbeat_runtime_phase1=VERIFIER_FAIL_EXACTLY_ONCE_RETENTION_STEP009_ATTEMPT1; pending packet is packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json SHA 2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee.",
-    "Bounded defect: recent_pulse_ids eviction can allow an old accepted pulse_id to execute again; repair requires exact-once semantics plus adversarial >512 and restart replay tests before returning to C.",
-    "Historical Step008 C PASS and prior verified capabilities remain preserved; only Step009 delta failed. E3_LOCAL_OPERATOR remains BLOCKED_PENDING_REAL_LOCAL_EVIDENCE.",
-    "Small-World latest_sequence=8, next_expected_source=SPIRIT, next_sequence=9; QUANTUM must not append.",
+    "Fresh MISSION_STATE and Active-8 agree: Step009 Attempt2 is READY_FOR_BUILDER/current_role=LCR-B; heartbeat_runtime_phase1=VERIFIER_FAIL_EXACTLY_ONCE_RETENTION_STEP009_ATTEMPT1; pending packet is packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json SHA 2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee.",
+    "Bounded defect remains recent_pulse_ids retention eviction permitting replay of an old accepted pulse_id; required repair is exact-once semantics plus >512-pulse and restart-replay adversarial coverage before return to C.",
+    "Historical Step008 C PASS and prior verified capabilities remain preserved; only Step009 affected delta failed. E3_LOCAL_OPERATOR remains BLOCKED_PENDING_REAL_LOCAL_EVIDENCE.",
+    "Small-World latest_sequence=8, next_expected_source=SPIRIT, next_sequence=9; QUANTUM must not append and all four active vetoes remain preserved.",
     "Privacy next_expected_source=SPIRIT, next_sequence=3; QUANTUM sequence2 already exists and must not be duplicated.",
-    "W02 hallucination benchmark remains SELF_BLIND_PARTICIPANT_NOT_C_PASS; its prior 20/20 run is not current formal authority and is not rerun."
+    "W02 hallucination benchmark remains SELF_BLIND_PARTICIPANT_NOT_C_PASS with prior 20/20 result. Its embedded ground-truth snapshot reflects its original run time and must not override the fresher MISSION_STATE."
   ],
-  "metabolism_counters":{"active":8,"waste":0,"duplicate_samples":0,"samples":8,"duplicate_ratio":0.0,"stale":1,"purge_status":"NOT_TRIGGERED"},
-  "created_at":"2026-08-17T04:14:27+08:00"
+  "metabolism_counters":{"active":8,"waste":0,"duplicate_samples":0,"samples":8,"duplicate_ratio":0.0,"stale":0,"purge_status":"NOT_TRIGGERED"},
+  "created_at":"2026-08-17T05:19:00+08:00"
 }
