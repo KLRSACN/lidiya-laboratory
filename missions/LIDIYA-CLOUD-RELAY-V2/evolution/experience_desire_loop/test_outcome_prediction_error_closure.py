@@ -1,10 +1,14 @@
 import unittest
 
 from outcome_prediction_error_closure import (
+    AcceptanceRegistrySnapshot,
+    AcceptanceRoute,
     AppraisalAcceptanceReceipt,
+    AppraisalAcceptanceRecord,
     Observation,
     OutcomeNamespace,
     Prediction,
+    TrustedAcceptanceContext,
     close_outcome,
 )
 
@@ -20,20 +24,42 @@ class OutcomePredictionErrorClosureTests(unittest.TestCase):
             provenance="SIMULATED",
             evidence_set_hash="evidence-set-a",
         )
-
-    def receipt(self, source_event_hash="source-event-a", trust_eligibility=True):
-        return AppraisalAcceptanceReceipt.build(
+        self.record = AppraisalAcceptanceRecord(
+            acceptance_record_id="accept-001",
             appraisal_id="appraisal-001",
             appraisal_fingerprint="appraisal-fingerprint-a",
-            source_event_hash=source_event_hash,
+            source_event_hash="source-event-a",
             verifier_envelope_hash="verifier-envelope-a",
             appraisal_policy_hash="appraisal-policy-a",
             anchor_registry_hash="anchor-registry-a",
-            trust_eligibility=trust_eligibility,
-            acceptance_route="LIVE_SHADOW_APPRAISAL_CHOKE_POINT_V0.1",
+            issuer_registry_id="acceptance-registry-a",
+            installation_id="installation-a",
+            workspace_identity="workspace-a",
+            trust_eligibility=True,
+            acceptance_route=AcceptanceRoute.LIVE_SHADOW_APPRAISAL_CHOKE_POINT_V0_1,
+        )
+        self.registry = AcceptanceRegistrySnapshot(
+            registry_id="acceptance-registry-a",
+            installation_id="installation-a",
+            workspace_identity="workspace-a",
+            records=(self.record,),
+        )
+        self.trusted = TrustedAcceptanceContext(
+            expected_registry_id="acceptance-registry-a",
+            expected_registry_snapshot_hash=self.registry.snapshot_hash,
+            expected_installation_id="installation-a",
+            expected_workspace_identity="workspace-a",
+            allowed_verifier_envelope_hashes=("verifier-envelope-a",),
+            allowed_appraisal_policy_hashes=("appraisal-policy-a",),
+            allowed_anchor_registry_hashes=("anchor-registry-a",),
         )
 
+    def receipt(self, record=None):
+        return AppraisalAcceptanceReceipt.from_record(record or self.record)
+
     def observation(self, *, provenance="DIRECT", source_event_hash="source-event-a", receipt=None, value=0.70, harm=0.20):
+        if receipt == "DEFAULT":
+            receipt = self.receipt()
         return Observation(
             observation_id="obs-001",
             goal_id="goal-001",
@@ -41,63 +67,175 @@ class OutcomePredictionErrorClosureTests(unittest.TestCase):
             observed_harm=harm,
             provenance=provenance,
             source_event_hash=source_event_hash,
-            appraisal_receipt=self.receipt(source_event_hash) if receipt is None else receipt,
+            appraisal_receipt=receipt,
         )
 
-    def test_exact_direct_appraisal_bound_outcome_closes_with_zero_error(self):
-        result = close_outcome(self.pred, self.observation())
+    def close(self, observation, *, registry=None, trusted=None):
+        return close_outcome(
+            self.pred,
+            observation,
+            acceptance_registry=self.registry if registry is None else registry,
+            trusted_acceptance_context=self.trusted if trusted is None else trusted,
+        )
+
+    def test_exact_direct_registry_bound_outcome_closes_with_zero_error(self):
+        result = self.close(self.observation(receipt="DEFAULT"))
         self.assertEqual(result.total_error, 0.0)
         self.assertEqual(result.target_namespace, OutcomeNamespace.AUTOBIOGRAPHICAL)
         self.assertTrue(result.autobiographical_experience_eligible)
         self.assertFalse(result.base_personality_write)
         self.assertEqual(result.external_action_authority, 0)
 
-    def test_more_harm_than_predicted_creates_caution_candidate(self):
-        result = close_outcome(self.pred, self.observation(value=0.60, harm=0.80))
-        self.assertEqual(result.direction, "INCREASE_CAUTION")
-        self.assertGreater(result.planning_delta_candidate, 0.0)
-
-    def test_simulated_outcome_never_becomes_autobiographical(self):
-        result = close_outcome(self.pred, self.observation(provenance="SIMULATED", value=0.90, harm=0.00))
-        self.assertEqual(result.target_namespace, OutcomeNamespace.MODEL_LEARNED_SLOW_PLANNING)
-        self.assertFalse(result.autobiographical_experience_eligible)
-
-    def test_missing_appraisal_receipt_stays_planning_only(self):
-        obs = Observation("obs-004", "goal-001", 0.80, 0.10, "DIRECT", "source-event-a", None)
+    def test_missing_registry_or_trusted_context_stays_planning_only(self):
+        obs = self.observation(receipt="DEFAULT")
         result = close_outcome(self.pred, obs)
         self.assertEqual(result.target_namespace, OutcomeNamespace.MODEL_LEARNED_SLOW_PLANNING)
         self.assertFalse(result.autobiographical_experience_eligible)
 
-    def test_ineligible_appraisal_receipt_stays_planning_only(self):
-        result = close_outcome(
-            self.pred,
-            self.observation(receipt=self.receipt(trust_eligibility=False)),
+    def test_self_consistent_forged_receipt_not_in_registry_is_rejected(self):
+        forged_record = AppraisalAcceptanceRecord(
+            acceptance_record_id="accept-forged",
+            appraisal_id="appraisal-forged",
+            appraisal_fingerprint="fingerprint-forged",
+            source_event_hash="source-event-a",
+            verifier_envelope_hash="verifier-envelope-a",
+            appraisal_policy_hash="appraisal-policy-a",
+            anchor_registry_hash="anchor-registry-a",
+            issuer_registry_id="acceptance-registry-a",
+            installation_id="installation-a",
+            workspace_identity="workspace-a",
+            trust_eligibility=True,
+            acceptance_route=AcceptanceRoute.LIVE_SHADOW_APPRAISAL_CHOKE_POINT_V0_1,
         )
-        self.assertEqual(result.target_namespace, OutcomeNamespace.MODEL_LEARNED_SLOW_PLANNING)
+        result = self.close(self.observation(receipt=self.receipt(forged_record)))
         self.assertFalse(result.autobiographical_experience_eligible)
 
-    def test_receipt_bound_to_other_source_event_stays_planning_only(self):
+    def test_unknown_verifier_envelope_rejected_despite_valid_receipt_hash(self):
+        bad_record = AppraisalAcceptanceRecord(
+            **{**self.record.__dict__, "acceptance_record_id": "accept-bad-verifier", "verifier_envelope_hash": "unknown-verifier"}
+        )
+        registry = AcceptanceRegistrySnapshot(
+            registry_id=self.registry.registry_id,
+            installation_id=self.registry.installation_id,
+            workspace_identity=self.registry.workspace_identity,
+            records=(bad_record,),
+        )
+        trusted = TrustedAcceptanceContext(
+            expected_registry_id=self.trusted.expected_registry_id,
+            expected_registry_snapshot_hash=registry.snapshot_hash,
+            expected_installation_id=self.trusted.expected_installation_id,
+            expected_workspace_identity=self.trusted.expected_workspace_identity,
+            allowed_verifier_envelope_hashes=self.trusted.allowed_verifier_envelope_hashes,
+            allowed_appraisal_policy_hashes=self.trusted.allowed_appraisal_policy_hashes,
+            allowed_anchor_registry_hashes=self.trusted.allowed_anchor_registry_hashes,
+        )
         result = close_outcome(
             self.pred,
-            self.observation(receipt=self.receipt(source_event_hash="source-event-other")),
+            self.observation(receipt=self.receipt(bad_record)),
+            acceptance_registry=registry,
+            trusted_acceptance_context=trusted,
         )
-        self.assertEqual(result.target_namespace, OutcomeNamespace.MODEL_LEARNED_SLOW_PLANNING)
         self.assertFalse(result.autobiographical_experience_eligible)
 
-    def test_tampered_receipt_hash_stays_planning_only(self):
+    def test_unknown_policy_or_anchor_registry_rejected(self):
+        for field, value in (
+            ("appraisal_policy_hash", "superseded-policy"),
+            ("anchor_registry_hash", "unknown-anchor-registry"),
+        ):
+            with self.subTest(field=field):
+                bad_record = AppraisalAcceptanceRecord(
+                    **{**self.record.__dict__, "acceptance_record_id": f"accept-{field}", field: value}
+                )
+                registry = AcceptanceRegistrySnapshot(
+                    registry_id=self.registry.registry_id,
+                    installation_id=self.registry.installation_id,
+                    workspace_identity=self.registry.workspace_identity,
+                    records=(bad_record,),
+                )
+                trusted = TrustedAcceptanceContext(
+                    expected_registry_id=self.trusted.expected_registry_id,
+                    expected_registry_snapshot_hash=registry.snapshot_hash,
+                    expected_installation_id=self.trusted.expected_installation_id,
+                    expected_workspace_identity=self.trusted.expected_workspace_identity,
+                    allowed_verifier_envelope_hashes=self.trusted.allowed_verifier_envelope_hashes,
+                    allowed_appraisal_policy_hashes=self.trusted.allowed_appraisal_policy_hashes,
+                    allowed_anchor_registry_hashes=self.trusted.allowed_anchor_registry_hashes,
+                )
+                result = close_outcome(
+                    self.pred,
+                    self.observation(receipt=self.receipt(bad_record)),
+                    acceptance_registry=registry,
+                    trusted_acceptance_context=trusted,
+                )
+                self.assertFalse(result.autobiographical_experience_eligible)
+
+    def test_cross_installation_receipt_replay_rejected(self):
+        replay_record = AppraisalAcceptanceRecord(
+            **{**self.record.__dict__, "acceptance_record_id": "accept-replay", "installation_id": "installation-b"}
+        )
+        registry = AcceptanceRegistrySnapshot(
+            registry_id="acceptance-registry-a",
+            installation_id="installation-b",
+            workspace_identity="workspace-a",
+            records=(replay_record,),
+        )
+        trusted = TrustedAcceptanceContext(
+            expected_registry_id="acceptance-registry-a",
+            expected_registry_snapshot_hash=registry.snapshot_hash,
+            expected_installation_id="installation-a",
+            expected_workspace_identity="workspace-a",
+            allowed_verifier_envelope_hashes=("verifier-envelope-a",),
+            allowed_appraisal_policy_hashes=("appraisal-policy-a",),
+            allowed_anchor_registry_hashes=("anchor-registry-a",),
+        )
+        result = close_outcome(
+            self.pred,
+            self.observation(receipt=self.receipt(replay_record)),
+            acceptance_registry=registry,
+            trusted_acceptance_context=trusted,
+        )
+        self.assertFalse(result.autobiographical_experience_eligible)
+
+    def test_revoked_acceptance_record_rejected(self):
+        revoked = AppraisalAcceptanceRecord(**{**self.record.__dict__, "revoked": True})
+        registry = AcceptanceRegistrySnapshot(
+            registry_id=self.registry.registry_id,
+            installation_id=self.registry.installation_id,
+            workspace_identity=self.registry.workspace_identity,
+            records=(revoked,),
+        )
+        trusted = TrustedAcceptanceContext(
+            expected_registry_id=self.trusted.expected_registry_id,
+            expected_registry_snapshot_hash=registry.snapshot_hash,
+            expected_installation_id=self.trusted.expected_installation_id,
+            expected_workspace_identity=self.trusted.expected_workspace_identity,
+            allowed_verifier_envelope_hashes=self.trusted.allowed_verifier_envelope_hashes,
+            allowed_appraisal_policy_hashes=self.trusted.allowed_appraisal_policy_hashes,
+            allowed_anchor_registry_hashes=self.trusted.allowed_anchor_registry_hashes,
+        )
+        result = close_outcome(
+            self.pred,
+            self.observation(receipt=self.receipt(revoked)),
+            acceptance_registry=registry,
+            trusted_acceptance_context=trusted,
+        )
+        self.assertFalse(result.autobiographical_experience_eligible)
+
+    def test_exact_derived_appraisal_reference_mismatch_rejected(self):
         valid = self.receipt()
         tampered = AppraisalAcceptanceReceipt(
-            appraisal_id=valid.appraisal_id,
-            appraisal_fingerprint=valid.appraisal_fingerprint,
-            source_event_hash=valid.source_event_hash,
-            verifier_envelope_hash=valid.verifier_envelope_hash,
-            appraisal_policy_hash=valid.appraisal_policy_hash,
-            anchor_registry_hash=valid.anchor_registry_hash,
-            trust_eligibility=valid.trust_eligibility,
-            acceptance_route=valid.acceptance_route,
-            receipt_hash="tampered",
+            **{**valid.__dict__, "appraisal_fingerprint": "other-fingerprint"}
         )
-        result = close_outcome(self.pred, self.observation(receipt=tampered))
+        result = self.close(self.observation(receipt=tampered))
+        self.assertFalse(result.autobiographical_experience_eligible)
+
+    def test_more_harm_than_predicted_creates_caution_candidate(self):
+        result = self.close(self.observation(receipt="DEFAULT", value=0.60, harm=0.80))
+        self.assertEqual(result.direction, "INCREASE_CAUTION")
+        self.assertGreater(result.planning_delta_candidate, 0.0)
+
+    def test_simulated_outcome_never_becomes_autobiographical(self):
+        result = self.close(self.observation(provenance="SIMULATED", receipt="DEFAULT", value=0.90, harm=0.00))
         self.assertEqual(result.target_namespace, OutcomeNamespace.MODEL_LEARNED_SLOW_PLANNING)
         self.assertFalse(result.autobiographical_experience_eligible)
 
@@ -112,7 +250,7 @@ class OutcomePredictionErrorClosureTests(unittest.TestCase):
             self.receipt(),
         )
         with self.assertRaisesRegex(ValueError, "GOAL_MISMATCH"):
-            close_outcome(self.pred, obs)
+            self.close(obs)
 
 
 if __name__ == "__main__":
