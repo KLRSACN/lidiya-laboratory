@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "protocol_id": "LIDIYA-WINDOW-WAKE-PROGRESS-001",
+  "status": "ACTIVE_CONTROL_PROTOCOL_NONFORMAL",
+  "purpose": "Prevent scheduler wake activity from being mistaken for durable progress and prevent silent window stalls.",
+  "applies_to": ["W01_WINDCHIME", "W02_QUANTUM", "W03_SPIRIT", "W04_NAVIGATOR", "W05_LCR_B", "W06_LCR_C"],
+  "archive_no_read_fence": true,
+  "allowed_outcomes": {
+    "PROGRESS": {
+      "requirements": ["material authorized delta exists", "self-backup saved first", "target durable artifact written", "fresh readback confirms artifact", "next trigger or handoff recorded"]
+    },
+    "VALID_NO_OP": {
+      "requirements": ["window is not current authorized source/role or no material work is due", "self-backup or compact wake receipt records why no mutation was legal", "no false progress claim"]
+    },
+    "DEFER_RECOVERABLE": {
+      "requirements": ["tool/provider/executor/rate-limit/route condition prevents required work", "exact missing capability or failed operation recorded", "current authority and verified baseline preserved", "same existing window remains eligible for retry", "next retry trigger recorded"]
+    },
+    "BLOCKED_GATE": {
+      "requirements": ["human/security/authority gate genuinely blocks action", "gate and release condition recorded", "no unauthorized workaround"]
+    }
+  },
+  "forbidden_outcomes": [
+    "WAKE_WITHOUT_DURABLE_RECEIPT",
+    "SCHEDULE_ACTIVITY_COUNTED_AS_PROGRESS",
+    "SILENT_DISABLE_WHILE_CURRENT_FORMAL_ROLE",
+    "FAKE_PASS_WITHOUT_EXECUTION_OR_READBACK",
+    "HANDOFF_BEFORE_SELF_BACKUP_READBACK"
+  ],
+  "minimum_wake_receipt": [
+    "window_id",
+    "wake_id_or_timestamp",
+    "authority_or_research_pointer",
+    "outcome",
+    "what_was_attempted",
+    "material_delta_or_reason_for_no_delta",
+    "exact_artifact_refs",
+    "readback_status",
+    "next_trigger",
+    "verified_baseline_preserved"
+  ],
+  "navigator_rules": {
+    "task_last_run_is_progress": false,
+    "progress_requires": "durable receipt plus expected source-chain/formal-state delta and readback",
+    "missing_receipt_after_wake": "TASK_WAKE_WITHOUT_DURABLE_PROGRESS",
+    "formal_current_role_task_disabled": "RECOVERABLE_GEAR_DROPOUT",
+    "same_root_cause": "increment recurrence counter in Home R00",
+    "repair_policy": "reuse same existing window/task; do not create duplicate slot"
+  },
+  "metabolism": {
+    "wake_receipts": "latest-only per window unless referenced by a verified incident/evidence",
+    "raw_reasoning": "WASTE_NOT_PERSISTED",
+    "verified_decisions_and_root_causes": "KEEP",
+    "protected_or_ambiguous": "QUARANTINE"
+  },
+  "heartbeat_boundary": {
+    "chatgpt_scheduled_tasks": "HOURLY_SUPERVISOR_ONLY",
+    "real_subhour_wake_live": false,
+    "rule": "Do not interpret this protocol as a real 5-minute always-on runner."
+  }
+}
