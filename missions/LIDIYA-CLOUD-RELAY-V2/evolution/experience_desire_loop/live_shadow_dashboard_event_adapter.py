@@ -44,6 +44,21 @@ TRUST_UNKNOWN = "UNKNOWN_UNVERIFIED"
 TRUST_REFERENCE_BOUND = "REFERENCE_BOUND_UNVERIFIED"
 AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN = "UNKNOWN_UNVERIFIED"
 
+# Versioned owner-visible numeric projection policy. The magnitude bound is a
+# research-candidate presentation envelope only; it is not a cognitive coefficient,
+# personality threshold, trust threshold or authority threshold. Its value remains
+# TEST_REQUIRED until calibrated against real dashboard/replay requirements.
+DASHBOARD_NUMERIC_PROJECTION_POLICY = {
+    "policy_version": "DASHBOARD_NUMERIC_PROJECTION_POLICY_V0_1",
+    "max_abs_metric": 1_000_000.0,
+    "magnitude_threshold_status": "TEST_REQUIRED",
+    "precision_policy": "IEEE754_BINARY64_INPUT_ONLY_TEST_REQUIRED",
+    "signed_zero_policy": "CANONICALIZE_TO_POSITIVE_ZERO",
+    "nonfinite_policy": "REJECT",
+    "overflow_policy": "FAIL_CLOSED_STABLE_ERROR",
+}
+MAX_ABS_OUTCOME_METRIC = DASHBOARD_NUMERIC_PROJECTION_POLICY["max_abs_metric"]
+
 ALLOWED_QUARANTINE_REASON_CODES = {
     "PROVENANCE_AMBIGUOUS",
     "PROVENANCE_MISMATCH",
@@ -154,6 +169,28 @@ def _project_quarantine_reason(value: object) -> dict | None:
     return projected
 
 
+def _canonicalize_outcome_metric(metric: object, *, field: str) -> float:
+    if isinstance(metric, bool) or not isinstance(metric, (int, float)):
+        raise ValueError(f"NON_SCALAR_OUTCOME_METRIC:{field}")
+
+    try:
+        normalized = float(metric)
+    except (OverflowError, TypeError, ValueError) as exc:
+        raise ValueError(f"OUTCOME_METRIC_NORMALIZATION_FAILED:{field}") from exc
+
+    if not math.isfinite(normalized):
+        raise ValueError(f"NON_FINITE_OUTCOME_METRIC:{field}")
+
+    if abs(normalized) > MAX_ABS_OUTCOME_METRIC:
+        raise ValueError(f"OUT_OF_DISPLAY_RANGE_OUTCOME_METRIC:{field}")
+
+    # Collapse IEEE-754 signed zero into one owner-visible/replay representation.
+    # This avoids -0.0/+0.0 serialization drift while preserving numeric equality.
+    if normalized == 0.0:
+        return 0.0
+    return normalized
+
+
 def _project_prediction_outcome(value: object) -> dict | None:
     if value is None:
         return None
@@ -192,6 +229,7 @@ def _project_prediction_outcome(value: object) -> dict | None:
         # validated canonical closure reference exists, owner-visible eligibility is
         # explicitly UNKNOWN_UNVERIFIED and never promotion evidence.
         "autobiographical_experience_eligibility_status": AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
+        "numeric_projection_policy_version": DASHBOARD_NUMERIC_PROJECTION_POLICY["policy_version"],
     }
 
     for key in ("prediction_id", "observation_id", "source_event_hash"):
@@ -202,16 +240,7 @@ def _project_prediction_outcome(value: object) -> dict | None:
     for key in OUTCOME_NUMERIC_FIELDS:
         if key not in value or value[key] is None:
             continue
-        metric = value[key]
-        if isinstance(metric, bool) or not isinstance(metric, (int, float)):
-            raise ValueError(f"NON_SCALAR_OUTCOME_METRIC:{key}")
-        normalized_metric = float(metric)
-        # NaN/Infinity are not portable canonical JSON numbers and make replay,
-        # comparison and aggregation non-deterministic across consumers. They are
-        # rejected at the dashboard projection boundary rather than displayed.
-        if not math.isfinite(normalized_metric):
-            raise ValueError(f"NON_FINITE_OUTCOME_METRIC:{key}")
-        projected[key] = normalized_metric
+        projected[key] = _canonicalize_outcome_metric(value[key], field=key)
 
     # Unknown/nested producer fields, including autobiographical_experience_eligible,
     # are never copied into the owner-visible view.
