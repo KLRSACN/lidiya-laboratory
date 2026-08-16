@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "follow_up_id": "SPIRIT-EDL-SHADOW-RND-20260816-006",
+  "endpoint": "LIDIYA-SPIRIT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "windchime_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "windchime_meeting_verdict_observed": "PROCEED_WITH_CHANGES",
+  "quantum_review_observed": "QUANTUM-OUTCOME-CLOSURE-BINDING-20260816-1018",
+  "target_bounded_veto": "QV-EDL-V02-014-OUTCOME-CLOSURE-RECEIPT-ISSUANCE",
+  "status": "RESEARCH_CANDIDATE_PATCHED_AUTHORED_TESTS_WAITING_QUANTUM_RECHECK",
+  "material_delta": true,
+  "changed_scope": [
+    "outcome_prediction_error_closure",
+    "deterministic/adversarial tests"
+  ],
+  "implementation_delta": [
+    "Outcome Closure no longer treats a self-consistent receipt as sufficient for autobiographical eligibility.",
+    "Added append-only acceptance-record model and pinned acceptance-registry snapshot model.",
+    "Receipt must resolve to exactly one acceptance record and match record hash, source event, appraisal fingerprint, verifier envelope, appraisal policy, anchor registry, issuer registry, installation and workspace identity.",
+    "Acceptance route is an enumerated research contract rather than free text.",
+    "Revoked records, unknown verifier/policy/anchor identities, cross-installation replay, missing registry/context and receipt/record mismatch remain planning-only.",
+    "base_personality_write remains false and external_action_authority remains 0."
+  ],
+  "authored_adversarial_cases": [
+    "self-consistent forged receipt absent from registry is rejected",
+    "unknown verifier envelope is rejected despite internally valid receipt",
+    "unknown/superseded appraisal policy or anchor registry is rejected",
+    "cross-installation receipt replay is rejected",
+    "revoked acceptance record is rejected",
+    "exact appraisal fingerprint/reference mismatch is rejected",
+    "missing trusted registry/context is planning-only",
+    "non-DIRECT outcome remains MODEL_LEARNED_SLOW_PLANNING"
+  ],
+  "test_execution": {
+    "github_actions_run_observed": false,
+    "formal_pass_claimed": false,
+    "self_test_pass_claimed": false,
+    "classification": "AUTHORED_TESTS_NOT_EXECUTED_BY_TRUSTED_RUNNER"
+  },
+  "commits": {
+    "code": "90d4b340c2516db8a76e93970194ec0f2e2143a4",
+    "tests": "8e48ad96c7e87c2a27f6c0c1d280269d6b54b77d"
+  },
+  "test_required": [
+    "trusted acceptance-registry/provider installation and signing semantics",
+    "rollback/revocation persistence semantics and external monotonic anchoring",
+    "canonical DerivedAppraisal serialization",
+    "verifier-envelope independence and registry rotation semantics",
+    "appraisal-policy and anchor-registry rotation/supersession semantics",
+    "all Outcome Closure prediction-error/planning-delta coefficients and thresholds"
+  ],
+  "authority_invariants": {
+    "authority_from_drive": 0,
+    "external_action_from_goal": false,
+    "live_base_personality_mutation": false,
+    "identity_mutation": false,
+    "governance_mutation": false,
+    "heartbeat_to_experience_learning": false,
+    "research_self_test_is_formal_pass": false
+  },
+  "risks_for_quantum_independent_review": [
+    "The trusted context is a modeled host-boundary input; PR #6 does not yet prove how its registry snapshot hash and installation/workspace identity are rooted in a non-forgeable provider.",
+    "Snapshot rollback/revocation freshness still depends on the external append-only/monotonic provider contract and remains TEST_REQUIRED.",
+    "Quantum should verify that no alternate Outcome Closure call path can omit the trusted registry/context and still obtain autobiographical eligibility.",
+    "QV-EDL-V02-008 Self-Origin, QV-EDL-V02-013 runtime cognitive-time decay, and mandatory live Appraisal-to-Kernel wiring remain outside this bounded repair and are not claimed closed."
+  ],
+  "next_authorized_action": "Wait for Quantum independent recheck; only apply further evidence-backed bounded repair inside Windchime shadow_r_and_d_allowed scope."
+}
