@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from typing import Mapping
 
 
@@ -204,7 +205,13 @@ def _project_prediction_outcome(value: object) -> dict | None:
         metric = value[key]
         if isinstance(metric, bool) or not isinstance(metric, (int, float)):
             raise ValueError(f"NON_SCALAR_OUTCOME_METRIC:{key}")
-        projected[key] = float(metric)
+        normalized_metric = float(metric)
+        # NaN/Infinity are not portable canonical JSON numbers and make replay,
+        # comparison and aggregation non-deterministic across consumers. They are
+        # rejected at the dashboard projection boundary rather than displayed.
+        if not math.isfinite(normalized_metric):
+            raise ValueError(f"NON_FINITE_OUTCOME_METRIC:{key}")
+        projected[key] = normalized_metric
 
     # Unknown/nested producer fields, including autobiographical_experience_eligible,
     # are never copied into the owner-visible view.
