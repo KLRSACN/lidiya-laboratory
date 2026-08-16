@@ -1,50 +1,60 @@
 {
-  "schema_version": "1.0",
-  "window": "LCR-B",
-  "worker_id": "ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
-  "generation": 1,
-  "saved_at": "2026-08-17T01:53:19+08:00",
-  "mission_id": "LCR-EVOLUTION-0005",
-  "step_id": 9,
-  "status": "BUILT_NOT_VERIFIED",
-  "current_action": "BUILD_HEARTBEAT_GEARBOX_RUNTIME_PHASE1",
-  "authority": {
-    "mission_state_ref": "state/MISSION_STATE.json",
-    "pending_packet_ref": "packets/EVOLUTION-0005-A-TO-B-STEP-009-HEARTBEAT-PHASE1-001.json",
-    "pending_packet_sha256": "779c7702e8276335cf9df748da16ef88fa8ec6904fc3f5b0bdcae07e9babf55c",
-    "lease": null,
-    "formal_slot_count": 3,
-    "slot4": "FORBIDDEN"
+  "schema_version":"1.0",
+  "window":"LCR-B",
+  "worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
+  "generation":1,
+  "saved_at":"2026-08-17T07:46:14+08:00",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "step_id":9,
+  "attempt":2,
+  "status":"DEFER_RECOVERABLE_REPAIR_CANDIDATE_AWAITING_EXTERNAL_EXACT_RUNNER",
+  "current_action":"REPAIR_HEARTBEAT_GEARBOX_RUNTIME_PHASE1",
+  "authority":{
+    "mission_state_ref":"state/MISSION_STATE.json",
+    "pending_packet_ref":"packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json",
+    "pending_packet_sha256":"2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee",
+    "lease":null,
+    "formal_slot_count":3,
+    "slot4":"FORBIDDEN"
   },
-  "builder_result": {
-    "py_compile": "PASS",
-    "unit_tests": 23,
-    "unit_tests_result": "PASS",
-    "static_acceptance": "PASS",
-    "real_5min_runtime_live": false,
-    "owner_machine_touched": false,
-    "builder_ceiling": "BUILT_NOT_VERIFIED"
+  "defect_repaired_candidate":{
+    "defect_id":"HEARTBEAT-BLOOM-FP-DEADLOCK-001",
+    "old_failure":"probabilistic Bloom membership was used as canonical automatic identity truth and could permanently suppress a genuinely new pulse",
+    "repair_design":"HYBRID_MONOTONIC_CANONICAL_PLUS_BOUNDED_EXTERNAL_REPLAY_GUARD",
+    "canonical_automatic_truth":"persisted pulse_sequence + next_due_at; automatic pulse_id=None never consults probabilistic membership",
+    "external_replay_guard":"bounded persisted Bloom; inserted old/replayed IDs remain conservative NO_OP across restart",
+    "bounded_storage":true,
+    "per_pulse_durable_log":false,
+    "real_5min_runtime_live":false
   },
-  "artifacts": {
-    "evolution/local_command_tower/heartbeat_engine.py": {"blob_sha":"c6712734f2fc0001b5d5d1e53520387914046060","sha256":"77b4f83829fe0475593fc588fcbf0b5c91f39105c3fee5b39539c41bb8bb965a"},
-    "evolution/local_command_tower/test_heartbeat_engine.py": {"blob_sha":"41514c8f897b99af1ddef06f0995a9f8712bceb7","sha256":"8113c5f66776f7d28a1f9f91308f02838f38699598e61ee9e6424990fa089892"},
-    "evolution/small_nest/heartbeat_agent.py": {"blob_sha":"d6b584373d6a62dcef3a87e0e7d9eec489a882b7","sha256":"17d9b0320ee9bf25209e87534dc4f03ebd6cfdfe1735a066842a25c489b9b5c6"},
-    "evolution/small_nest/test_heartbeat_agent.py": {"blob_sha":"b899be61d06bdc3ded0932d56299ae7b272c89a6","sha256":"2594271e112a3c71be17ddfc183c6351d08d0106285d9e4fd88a8aaa11868cb4"},
-    "evolution/local_command_tower/HEARTBEAT_CONTRACT.json": {"blob_sha":"ee15e8de5144e59116a01924a5a37a68b4a69136","sha256":"3afc6cc3521f3749e0f95679764f7f99690c59e6f0742b3333a1b38d9a28414c"},
-    "evolution/small_nest/START_HEARTBEAT.cmd": {"blob_sha":"5fa662d78601e66093f9e28d1856831ed039cbc3","sha256":"ebf7acc083103382ed12c9593680605995d17a1d10d0c0e59f11299c22460af6"}
+  "candidate_artifacts":{
+    "evolution/local_command_tower/heartbeat_engine.py":{"blob_sha":"75ba749b509cb5d8ebe87395a773933ed6648c2e"},
+    "evolution/local_command_tower/test_heartbeat_engine.py":{"blob_sha":"446c8b4978b5b3899f254c6b32e01cc3d5a647b4"},
+    "evolution/local_command_tower/HEARTBEAT_CONTRACT.json":{"blob_sha":"589b8595e338d717fb5723808338975e1801fa98"}
   },
-  "acceptance_summary": [
-    "300s target and 300-600s allowed cadence enforced",
-    "pulse exactly-once/idempotent with duplicate NO_OP",
-    "monotonic persisted event_cursor and writer generation CAS",
-    "bounded catch-up with no burst replay",
-    "two misses => STALE; verified recovery deduped and state-gated",
-    "compact state every 12 pulses/material anomaly; no per-pulse log files",
-    "24h virtual 300s cadence => exactly 288 unique pulses",
-    "heartbeat control state contains no formal Mission/pending/dialogue fields",
-    "288 pulses produce zero recurrence/emotion/self-identity/verified_count/P_base deltas",
-    "Experience requires distinct source_event_id + provenance and cannot reuse pulse_id",
-    "real 5-minute runtime remains false pending real owner/authorized runner evidence"
-  ],
-  "next_expected_role": "LCR-C"
+  "local_diagnostic_only":{
+    "engine_tests":23,
+    "result":"PASS",
+    "known_false_positive_pulse_689":"EXECUTED_NO_DEADLOCK",
+    "canonical_long_run_pulses":10000,
+    "midrun_restart":true,
+    "false_duplicate_count":0,
+    "liveness_stall_count":0,
+    "zero_experience_delta":true,
+    "formal_evidence_status":"NOT_SUFFICIENT_FOR_HANDOFF_UNTIL_NEW_EXTERNAL_EXACT_RUNNER_SUPPORT"
+  },
+  "external_support_gate":{
+    "previous_ref":"evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json",
+    "previous_overall":"EXISTING_SUITE_PASS_BUT_CRITICAL_LIVENESS_DEFECT_FOUND_NOT_HANDOFF_READY",
+    "required_next":"W01 exact-current-byte runner must fresh-read new three blobs and execute full engine+agent suite including >=10000 canonical pulses with restart, zero false duplicate, zero liveness stall, old-prefix replay/restart replay, bounded storage, zero-Experience, bounded catch-up/CAS/stale/recovery regression",
+    "handoff_allowed_before_new_support":false
+  },
+  "formal_mutations_this_wake":{
+    "pending_packet_consumed":false,
+    "b_to_c_packet_created":false,
+    "mission_state_changed":false,
+    "c_enabled_by_this_wake":false
+  },
+  "next_expected_trigger":"NEW_EXTERNAL_EXACT_RUNNER_SUPPORT_ON_CURRENT_BLOBS",
+  "verified_baseline_preserved":true
 }
