@@ -1,3 +1,4 @@
+import math
 import unittest
 
 from live_shadow_dashboard_event_adapter import (
@@ -239,6 +240,33 @@ class ShadowDashboardProvenanceMinimizationTests(unittest.TestCase):
         }
         with self.assertRaises(ValueError):
             adapt_shadow_event(record)
+
+    def test_non_finite_prediction_metrics_are_rejected_fail_closed(self):
+        for metric_name in ("value_error", "harm_error", "total_error", "planning_delta_candidate"):
+            for bad in (math.nan, math.inf, -math.inf):
+                with self.subTest(metric_name=metric_name, bad=bad):
+                    record = self._record({"source_fingerprint": "sha256:abc"})
+                    record["event_type"] = "OUTCOME_CLOSURE"
+                    outcome = self._outcome(namespace="MODEL_LEARNED_SLOW_PLANNING")
+                    outcome[metric_name] = bad
+                    record["prediction_outcome"] = outcome
+                    with self.assertRaisesRegex(ValueError, f"NON_FINITE_OUTCOME_METRIC:{metric_name}"):
+                        adapt_shadow_event(record)
+
+    def test_finite_prediction_metrics_remain_projectable(self):
+        record = self._record({"source_fingerprint": "sha256:abc"})
+        record["event_type"] = "OUTCOME_CLOSURE"
+        outcome = self._outcome(namespace="MODEL_LEARNED_SLOW_PLANNING")
+        outcome.update({
+            "value_error": -0.25,
+            "harm_error": 0.0,
+            "total_error": 0.125,
+            "planning_delta_candidate": 1.0,
+        })
+        record["prediction_outcome"] = outcome
+        projected = adapt_shadow_event(record)["prediction_outcome"]
+        for key in ("value_error", "harm_error", "total_error", "planning_delta_candidate"):
+            self.assertTrue(math.isfinite(projected[key]))
 
     def test_malformed_entity_id_is_rejected_not_stringified(self):
         for bad in ({"id": "evt-1"}, ["evt-1"], None, ""):
