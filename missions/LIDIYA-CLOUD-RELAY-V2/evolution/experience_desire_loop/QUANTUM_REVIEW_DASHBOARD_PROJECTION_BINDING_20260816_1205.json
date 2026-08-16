@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "review_id": "QUANTUM-EDL-DASHBOARD-PROJECTION-20260816-1205",
+  "reviewer": "LIDIYA-INNER-CORE-ARCHITECT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "fresh_head_observed": "c7e0153b1177abea82973092ee6aab6687e26616",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "windchime_verdict_observed": "PROCEED_WITH_CHANGES",
+  "material_delta": true,
+  "verdict": "PROCEED_SHADOW_R_AND_D_WITH_BOUNDED_DASHBOARD_VETO",
+  "prior_review_ref": "QUANTUM_REVIEW_EDL_V02_20260816_1107.json",
+  "accepted_delta": {
+    "id": "SPIRIT-EDL-DASH-001-PROVENANCE-ECHO-SURFACE",
+    "status": "PARTIALLY_RESOLVED",
+    "evidence": [
+      "Dashboard provenance now uses an explicit reference-only allowlist.",
+      "Unknown provenance keys are omitted and allowed provenance values must be scalar strings.",
+      "source_fingerprint must be a non-empty string.",
+      "summary is bounded for presentation.",
+      "authority_from_drive remains 0; external_action_set/action_buttons remain empty; canonical_personality_mutation remains false."
+    ]
+  },
+  "bounded_veto": {
+    "id": "QV-EDL-V02-015-DASHBOARD-UNBOUND-TRUST-OUTCOME-PROJECTION",
+    "severity": "MEDIUM",
+    "scope": "Live Shadow Dashboard owner-visible projection only",
+    "finding": "live_shadow_dashboard_event_adapter still renders trust_status directly from the producer record and passes quarantine_reason and prediction_outcome through without structured minimization or evidence binding. quarantine_reason/prediction_outcome may contain arbitrary nested caller payloads; trust_status may visually assert TRUSTED/PASS-like state without resolving a canonical appraisal/acceptance reference. This does not itself grant runtime authority, but it can mislead the owner and create an untrusted data-exfiltration/display surface.",
+    "required_change": [
+      "trust_status must be derived from or bound to a canonical appraisal/acceptance reference; producer-authored free text must not be displayed as authoritative trust state.",
+      "quarantine_reason must use a bounded enum/reason-code schema plus reference hashes; no arbitrary nested passthrough.",
+      "prediction_outcome must use a bounded structured projection containing only whitelisted scalar metrics/references from canonical OutcomeClosure; no raw nested payload echo.",
+      "entity_id should be validated as a bounded scalar identifier instead of generic str() coercion.",
+      "Unknown/malformed owner-visible fields should fail closed or render UNKNOWN/UNVERIFIED, while canonical audit reconstruction remains in the ledger rather than dashboard projection."
+    ],
+    "acceptance_tests": [
+      "producer record trust_status='VERIFIED_PASS' without canonical appraisal/acceptance binding renders UNKNOWN/UNVERIFIED or is rejected",
+      "nested secret/raw payload inside quarantine_reason is not surfaced",
+      "nested secret/raw payload inside prediction_outcome is not surfaced",
+      "prediction_outcome projection from canonical OutcomeClosure exposes only enumerated scalar fields and source/reference hashes",
+      "malformed/non-scalar entity_id is rejected rather than stringified",
+      "dashboard output remains authority_from_drive=0, external_action_set=[], action_buttons=[], canonical_personality_mutation=false"
+    ]
+  },
+  "unchanged_high_vetoes": [
+    "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+    "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING"
+  ],
+  "unchanged_partial_gaps": [
+    "QV-EDL-V02-LIVE-APPRAISAL-KERNEL-CHOKEPOINT",
+    "QV-EDL-V02-OUTCOME-ACCEPTANCE-PROVIDER-ROOT"
+  ],
+  "threshold_policy": "All numeric thresholds, coefficients, decay constants, budgets, cadence values, presentation bounds and promotion cutoffs remain TEST_REQUIRED until empirically calibrated and independently verified.",
+  "authority_invariants": {
+    "authority_from_drive": 0,
+    "external_action_from_self_generated_goal": false,
+    "live_base_personality_mutation": false,
+    "identity_mutation": false,
+    "governance_mutation": false,
+    "research_self_test_is_C_PASS": false
+  },
+  "formal_files_touched": false
+}
