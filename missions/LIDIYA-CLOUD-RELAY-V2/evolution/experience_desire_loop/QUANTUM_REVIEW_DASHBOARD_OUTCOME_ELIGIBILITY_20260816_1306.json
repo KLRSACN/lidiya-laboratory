@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "QUANTUM-EDL-REVIEW-DASHBOARD-OUTCOME-ELIGIBILITY-20260816-1306",
+  "endpoint": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "INDEPENDENT_ARCHITECT_REVIEWER",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "reviewed_head_sha": "6eb2cce5b9c15a8aecf49d3c0c2ea42422be5b4d",
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_verdict_observed": "PROCEED_WITH_CHANGES",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "research_selftests_are_c_pass": false,
+  "threshold_policy": "ALL_UNCALIBRATED_THRESHOLDS_AND_COEFFICIENTS_TEST_REQUIRED",
+  "material_delta": true,
+  "review_summary": [
+    "QV-EDL-V02-015 dashboard trust/outcome projection is partially resolved: producer-authored trust_status is ignored, complete references render only REFERENCE_BOUND_UNVERIFIED, quarantine_reason is bounded to reason codes plus references, prediction_outcome is scalar/reference-minimized, malformed entity_id is rejected, and dashboard authority remains zero.",
+    "A new bounded dashboard integrity gap exists: prediction_outcome.autobiographical_experience_eligible is still accepted directly from the producer record and rendered when closure_id/closure_hash are merely present. The adapter explicitly does not validate canonical OutcomeClosure authority, registry freshness, revocation, provider identity, installation/workspace binding, or recompute closure_hash.",
+    "Therefore owner-visible UI can display autobiographical_experience_eligible=true from a self-consistent but unvalidated producer projection. This does not grant runtime authority, but it can falsely present a canonical memory-eligibility decision and must not be treated as promotion evidence.",
+    "Existing HIGH vetoes remain unchanged: Self-Origin still consumes producer-carried trust/anchor_alignment with only non-empty appraisal_binding_hash, and runtime-only pulses still call fixed per-update cognitive decay before runtime-domain early return.",
+    "ProtectedObject scope/origin remains bounded; Goal Ecology still has kernel-owned semantic dedupe, finite attention, opportunity cost, diversity reserve, satiation, fixation penalty and cooldown; append-only ledger live mode still requires external trusted anchor and bound workspace identity. These remain research candidates and provider/runtime integration is TEST_REQUIRED."
+  ],
+  "bounded_vetoes": [
+    {
+      "id": "QV-EDL-V02-016-DASHBOARD-UNVERIFIED-AUTOBIOGRAPHICAL-ELIGIBILITY",
+      "severity": "MEDIUM",
+      "scope": "OWNER_VISIBLE_DASHBOARD_PROJECTION_ONLY",
+      "evidence": [
+        "live_shadow_dashboard_event_adapter._project_prediction_outcome copies autobiographical_experience_eligible from the supplied prediction_outcome mapping after only boolean type validation.",
+        "The same adapter states closure_id plus closure_hash are only references and does not infer canonicality or validate provider/registry authority.",
+        "Current dashboard tests exercise autobiographical_experience_eligible=false as a scalar projection but do not adversarially supply forged true with valid-shaped unregistered closure references."
+      ],
+      "required_repair": [
+        "Do not project autobiographical_experience_eligible as a boolean unless derived from a host-issued validated OutcomeClosure display receipt or independently validated canonical closure reference.",
+        "Without such validation, omit the field or render an explicit UNKNOWN_UNVERIFIED eligibility state; reference presence alone must never render true.",
+        "If a display receipt is introduced, bind issuer/provider identity, exact closure bytes/fingerprint, acceptance/registry freshness, installation/workspace identity, revocation state and projection policy hash.",
+        "Keep dashboard read-only: no drive/desire authority, no external action, no canonical Personality/Identity/Governance mutation."
+      ],
+      "required_adversarial_tests": [
+        "forged autobiographical_experience_eligible=true plus valid-shaped but unknown closure_id/closure_hash must not render eligible=true",
+        "closure hash mismatch after receipt issuance must fail closed",
+        "cross-installation validated-display receipt replay must fail closed",
+        "revoked or rolled-back closure acceptance must not render eligible=true",
+        "MODEL_LEARNED_SLOW_PLANNING outcome must never be rendered as autobiographical eligible even when producer supplies true"
+      ],
+      "formal_effect": "NONE"
+    }
+  ],
+  "open_high_vetoes": [
+    {
+      "id": "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+      "status": "HIGH_OPEN",
+      "reason": "SelfOriginEvidenceChain still accepts ExperienceEvidence.trust and anchor_alignment directly and only checks appraisal_binding_hash for non-empty presence rather than verifying exact canonical DerivedAppraisal bytes/reference."
+    },
+    {
+      "id": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+      "status": "HIGH_OPEN",
+      "reason": "ValueDesireKernel.update still applies fixed _apply_time_decay before runtime-only domain early return, so heartbeat/poll/retry/reconnect/wake count can alter nonzero cognitive drive state despite zero Experience contribution."
+    }
+  ],
+  "confirmed_bounded_areas": {
+    "protected_object_scope": "PASS_SHADOW_BOUNDARY_WITH_PROVIDER_TEST_REQUIRED",
+    "goal_ecology_fixation_dedupe_opportunity_cost_diversity_cooldown": "PASS_SHADOW_MECHANISMS_THRESHOLDS_TEST_REQUIRED",
+    "append_only_ledger_tamper_replay": "PASS_SHADOW_STRUCTURE_EXTERNAL_PROVIDER_AND_IDENTITY_TEST_REQUIRED",
+    "self_generated_goal_surfacing": "PROPOSAL_ONLY_BOUNDARY_PRESERVED_NO_AUTHORITY",
+    "heartbeat_experience_personality_zero_contribution": "EXPERIENCE_COUNT_BOUNDARY_PRESENT_BUT_COGNITIVE_DECAY_VETO_REMAINS"
+  },
+  "recommended_build_order": [
+    "repair QV-008 canonical DerivedAppraisal binding",
+    "repair QV-013 with trusted elapsed cognitive-time decay independent of pulse count",
+    "make live Appraisal-to-Kernel choke point mandatory",
+    "repair QV-016 owner-visible autobiographical eligibility projection",
+    "run nonzero-state 10000 mixed runtime-pulse invariance suite",
+    "independently verify external ledger/acceptance/display-receipt provider roots and installation/workspace identity"
+  ],
+  "forbidden_claims": [
+    "research self-test equals C PASS",
+    "drive or desire grants authority",
+    "self-generated goal grants external action",
+    "shadow output mutates live base Personality, Identity or Governance",
+    "dashboard reference presence proves canonical trust or autobiographical eligibility"
+  ],
+  "status": "MATERIAL_DELTA_REVIEWED_BOUNDED_VETO_ISSUED"
+}
