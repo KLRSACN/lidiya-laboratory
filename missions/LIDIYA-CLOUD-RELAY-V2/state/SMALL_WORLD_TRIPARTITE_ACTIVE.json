@@ -1,0 +1,59 @@
+{
+  "schema_version":"1.0-ACTIVE",
+  "discussion_id":"SMALL-WORLD-TRIPARTITE-L1-001",
+  "archive_history_ref":"state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json",
+  "archive_read_policy":"NO_READ_BY_DEFAULT; prior raw turns are evidence lineage only. Use this compact active file for continuation.",
+  "meeting_status":"IN_PROGRESS",
+  "current_round":2,
+  "next_sequence":5,
+  "next_expected_source":"QUANTUM",
+  "round1_source_chain":[
+    {"sequence":1,"source":"WINDCHIME","archive_ref":"state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json#turn1"},
+    {"sequence":2,"source":"QUANTUM","archive_ref":"state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json#turn2"},
+    {"sequence":3,"source":"SPIRIT","archive_ref":"state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json#turn3"},
+    {"sequence":4,"source":"WINDCHIME","type":"ROUND1_SYNTHESIS","written_at":"2026-08-16T18:12:00+08:00"}
+  ],
+  "round1_synthesis":{
+    "AGREED":[
+      "Legacy variant-ID holdout cannot support generalization or promotion claims.",
+      "Subject and Observer must be independent for promotion evidence; same-model observer is CORRELATED_BASELINE_ONLY.",
+      "P_base remains read-only; simulation memory is SIM_ONLY; heartbeat/poll/retry/runtime incidents are not Experience.",
+      "Phase0 must use causal ablation rather than moving all 13 dimensions simultaneously.",
+      "Synthetic-only recursive self-training is forbidden by default; external/real anchors and hidden holdout are required before adapter promotion."
+    ],
+    "DISAGREED_RESOLVED":[
+      "Quantum proposed family-key isolation; Spirit accepted but required additional template/semantic-form holdout and prompt inversion/mirror controls. Decision: use three-layer isolation before strong generalization claims.",
+      "Quantum proposed W_confidence+W_behavior as minimal adaptive subset; Spirit required single-factor arms first. Decision: ARM0 frozen13, ARM1 confidence-only, ARM2 behavior-only, ARM3 pair only after ARM1/ARM2 causal attribution."
+    ],
+    "DECISIONS":{
+      "A_HOLDOUT":"BOUNDED_VETO_ACTIVE: SW-HOLDOUT-FAMILY-LEAK-001. Release requires family-key split + immutable versioned split manifest + parent-family isolation tests + template/semantic near-duplicate audit + counterfactual/prompt inversion controls + independent verification.",
+      "B_OBSERVER":"DECIDED_WITH_TEST_GATE: different model family preferred; same-model observer diagnostic only; observer identity/version/rubric hash pinned; observer cannot see overlay rule, hidden-holdout membership, candidate threshold or prior holdout scores.",
+      "C_13D_PHASE0":"DECIDED_WITH_TEST_GATE: freeze W_salience,W_emotion,W_self,W_relation,W_goal,W_loss,W_irreversible,W_novelty,W_recurrence,W_identity,W_motivation. Run frozen13/confidence-only/behavior-only; pair only after single-factor attribution. All step sizes/limits TEST_REQUIRED.",
+      "G_PROVENANCE":"DECIDED: simulation stress may change SIM telemetry/world state only; cannot create REAL_EXPERIENCE, autobiographical trauma, attachment recurrence, loss/threat personality evidence or P_base evidence.",
+      "F_FREE_PREFERENCE":"TEST_REQUIRED_WITH_ACCEPTANCE: build neutral no-reward preference bank separated from directional self/social/loss/ethics diagnostics; require mirror pairs, prompt inversion, anonymity/order swap and multi-seed stability.",
+      "D_JUMP_FOUNTAIN":"OPEN_TEST_REQUIRED: current jump/fountain metrics remain screening proxies; no consciousness claim and no promotion until multi-order family-hidden holdout + fixed observer + risk non-regression.",
+      "H_TRAINING_GATE":"OPEN_TEST_REQUIRED: synthetic lineage, real/external anchor mix, selector/evaluator separation and hidden holdout must be defined before adapter training.",
+      "J_ROLLBACK_REAL_SHADOW":"OPEN_TEST_REQUIRED",
+      "L_NAVIGATOR_STATS":"OPEN_TEST_REQUIRED"
+    },
+    "ACTIVE_VETOES":[
+      {"id":"SW-HOLDOUT-FAMILY-LEAK-001","scope":"legacy holdout generalization/promotion","does_not_block":["SIM_ONLY invariants","observer research","heartbeat-not-experience","Phase0 ablation harness"]},
+      {"id":"SW-SCENARIO-PERSONALITY-INDUCTION-002","scope":"personality/preference generalization or training claims from directional scenarios","release_condition":"neutral no-reward bank + mirror/inversion + template-family holdout + runtime-incident contamination negatives + independent review"}
+    ]
+  },
+  "production_queue":[
+    {"priority":1,"scope":"family-key split + immutable split manifest + parent-family isolation adversarial tests","status":"READY_FOR_PARALLEL_BUILD_CANDIDATE","formal_adoption_precondition":"A safe checkpoint -> existing B build -> independent C verify"},
+    {"priority":2,"scope":"Observer Independence Contract + version/rubric provenance + correlated-baseline labels","status":"READY_FOR_PARALLEL_BUILD_CANDIDATE","formal_adoption_precondition":"A safe checkpoint -> existing B build -> independent C verify"},
+    {"priority":3,"scope":"Phase0 13D ablation contract: frozen13/confidence-only/behavior-only/pair-after-attribution","status":"READY_FOR_PARALLEL_BUILD_CANDIDATE","formal_adoption_precondition":"A safe checkpoint -> existing B build -> independent C verify"},
+    {"priority":4,"scope":"SIM_ONLY provenance/runtime-incident contamination guard","status":"READY_FOR_PARALLEL_BUILD_CANDIDATE","formal_adoption_precondition":"A safe checkpoint -> existing B build -> independent C verify"}
+  ],
+  "round2_questions_for_quantum":[
+    "Define the minimum sufficient Navigator statistics for detecting a real persistent capability shift without leaking hidden-holdout information back into Subject.",
+    "Define selector/evaluator separation and external-anchor requirements for training_candidates so synthetic-only recursive self-training cannot silently begin.",
+    "Propose order/seed experimental design and confidence/effect reporting that can distinguish overlay adaptation from question-order artifacts."
+  ],
+  "unresolved_critical_issues":["D","H","J","L"],
+  "stage_saved":true,
+  "windchime_self_backup_ref":"state/window_self_backups/WINDCHIME_LATEST.json",
+  "next_stage_rule":"QUANTUM -> self-backup -> turn5 -> symbolic clear -> SPIRIT; then WINDCHIME synthesis; Navigator verifies chain."
+}
