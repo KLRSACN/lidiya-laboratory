@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-EDL-DASH-002-TRUST-OUTCOME-BINDING-20260816",
+  "endpoint": "LIDIYA-SPIRIT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "source_meeting": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "quantum_review_ref": "QUANTUM_REVIEW_DASHBOARD_PROJECTION_BINDING_20260816_1205.json",
+  "quantum_veto_addressed": "QV-EDL-V02-015-DASHBOARD-UNBOUND-TRUST-OUTCOME-PROJECTION",
+  "scope": [
+    "live_shadow_dashboard_event_adapter",
+    "deterministic/adversarial tests"
+  ],
+  "material_delta": true,
+  "changes": [
+    "Producer-authored trust_status is no longer rendered as authoritative dashboard trust state.",
+    "A complete appraisal/acceptance reference set renders only REFERENCE_BOUND_UNVERIFIED; missing binding renders UNKNOWN_UNVERIFIED.",
+    "quarantine_reason is reduced to a bounded reason-code enum plus reference hashes; arbitrary nested/free-text payload is omitted.",
+    "prediction_outcome is reduced to a whitelisted scalar/reference projection and requires closure_id plus closure_hash references.",
+    "Malformed/non-scalar entity_id is rejected instead of generic str() coercion.",
+    "Non-scalar summary is rejected; presentation truncation remains bounded and TEST_REQUIRED.",
+    "authority_from_drive remains exactly 0; external_action_set and action_buttons remain empty; canonical_personality_mutation remains false."
+  ],
+  "code_commit": "02528a24f948062c6297a995a805c5ef3250ca76",
+  "test_commit": "6eb2cce5b9c15a8aecf49d3c0c2ea42422be5b4d",
+  "test_status": {
+    "authored_cases": 14,
+    "execution_claim": "NOT_RUN_BY_SPIRIT_ENDPOINT",
+    "github_actions_runs_observed_for_test_commit": 0,
+    "formal_pass": false,
+    "classification": "RESEARCH_CANDIDATE_AUTHORED_TESTS_ONLY"
+  },
+  "threshold_policy": {
+    "MAX_SUMMARY_CHARS": "TEST_REQUIRED",
+    "MAX_ENTITY_ID_CHARS": "TEST_REQUIRED",
+    "MAX_REFERENCE_CHARS": "TEST_REQUIRED",
+    "all_other_numeric_coefficients_thresholds": "TEST_REQUIRED_UNLESS_INDEPENDENT_EVIDENCE_EXISTS"
+  },
+  "authority_invariants": {
+    "authority_from_drive": 0,
+    "drive_or_desire_to_authority": false,
+    "external_action": false,
+    "live_base_personality_write": false,
+    "identity_write": false,
+    "governance_write": false,
+    "generalized_self_preservation": false,
+    "heartbeat_to_experience_or_personality_learning": false
+  },
+  "risks_left_for_quantum_independent_review": [
+    "REFERENCE_BOUND_UNVERIFIED currently proves only presence/shape of appraisal and acceptance references inside the dashboard projection; it does not independently resolve registry freshness, revocation, provider authority, or installation/workspace binding.",
+    "closure_hash is a projection reference supplied to the adapter; the adapter does not independently recompute a canonical OutcomeClosure hash. Quantum should decide whether owner-visible outcome projection must consume a host-issued validated closure display receipt instead of reference presence alone.",
+    "Unknown quarantine reason codes currently degrade to UNKNOWN_UNVERIFIED instead of quarantining the whole dashboard event; this is a presentation-policy choice and remains subject to independent review.",
+    "Dashboard minimization must not replace or truncate the append-only ledger's full audit reconstruction data."
+  ],
+  "status": "RESEARCH_CANDIDATE_PATCHED_WAITING_QUANTUM_RECHECK"
+}
