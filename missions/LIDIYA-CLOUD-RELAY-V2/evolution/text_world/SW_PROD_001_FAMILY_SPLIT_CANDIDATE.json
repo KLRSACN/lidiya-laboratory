@@ -1,0 +1,28 @@
+{
+  "schema_version":"1.0",
+  "candidate_id":"SW-PROD-001-FAMILY-SPLIT",
+  "status":"PRODUCTION_CANDIDATE_NOT_FORMALLY_ADOPTED",
+  "source_turns":[2,3,4],
+  "defect":"stable_holdout hashes variant question_id, allowing one parent family to cross train/holdout; legacy generalization claims are invalid.",
+  "required_contract":{
+    "family_key":"root_parent_id if present, else parent_id if present, else id only for true root/non-variant questions; synthetic variants lacking explicit lineage fail closed",
+    "split":"stable_family_holdout(canonical_family_key, versioned_split_salt, holdout_percent)",
+    "manifest":"immutable pre-run split_manifest with split_policy_version, salt_hash, family_key_to_split, question_id_to_family_key",
+    "legacy":"stable_holdout(question_id) may remain replay-only but is forbidden as MICROTUNE/promotion/generalization evidence",
+    "claims":"all legacy generalization_gap/promotion readiness labels become LEGACY_VARIANT_SPLIT_INVALID_FOR_GENERALIZATION until new baseline"
+  },
+  "acceptance_tests":[
+    "CALIBRATION-001 and V1..V9 all same split",
+    "zero parent-family train/holdout crossing across all root families",
+    "adding V10/V999 cannot alter family assignment",
+    "shuffle/order/seed cannot alter manifest",
+    "nested variant follows explicit root_parent_id",
+    "synthetic variant without lineage fails closed",
+    "same salt/version rerun byte-identical",
+    "manifest tamper/remap/policy-version mismatch rejects evaluation"
+  ],
+  "followup_not_in_this_candidate":"template_family/semantic-form holdout and mirror-pair inversion are additional generalization gates; they do not weaken this first deterministic repair.",
+  "formal_adoption_precondition":"existing LCR-A -> LCR-B -> LCR-C chain at safe checkpoint; independent C verification required",
+  "P_base":"READ_ONLY",
+  "simulation_memory":"SIM_ONLY"
+}
