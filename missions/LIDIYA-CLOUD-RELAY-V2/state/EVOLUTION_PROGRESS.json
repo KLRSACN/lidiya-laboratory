@@ -1,35 +1,29 @@
 {
-  "schema_version":"4.1-ACTIVE8-NOREAD",
+  "schema_version":"4.2-ACTIVE8-WINDOW-BACKUP-PURGE",
   "mission_id":"LCR-EVOLUTION-0005",
-  "saved_at":"2026-08-16T18:08:00+08:00",
+  "saved_at":"2026-08-16T18:14:00+08:00",
   "time_authority":"Asia/Taipei",
   "metabolic_flush":{
     "status":"CORE_SAVED_HOME_ACTIVE_RUNTIME_FLUSHED",
-    "home_sections":["53. TRUE_METABOLIC_FLUSH","54. ARCHIVE_NO_READ_FENCE"],
+    "home_sections":["53. TRUE_METABOLIC_FLUSH","54. ARCHIVE_NO_READ_FENCE","55. WINDOW_SELF_BACKUP_AND_PURGE"],
     "home_document_id":"1r2ERAV6LrztvbgQPQrOp0rABmQ0bozvFctWtExP3snc",
     "active_target":8,
     "active_hard_range":"5..10",
-    "identity_preservation":"Working-context flush is not identity/personality reset. Canonical Home, verified evidence, capability ledger and protected memory remain durable."
+    "identity_preservation":"Working-context flush is not identity/personality reset; verified capabilities and canonical personality/memory remain durable."
   },
-  "archive_no_read_fence":{
-    "status":"ENFORCED_BY_DEFAULT",
-    "semantic":"Archived history may physically exist but is treated as nonexistent by runtime after core extraction.",
-    "forbidden_default_reads":["raw chat history","old summaries/self-reports","stale scheduler narration","superseded progress/mirrors","raw runner/test logs","duplicate proof outputs","old packet narrative copies","broad archive search for potentially useful material"],
-    "allowed_reads":["Active-8 items","one exact file explicitly referenced by Active-8 and required for the current action","minimal rollback/recovery/independent-verification forensic read","explicit owner-requested historical recall"],
-    "violation":"ARCHIVE_READ_VIOLATION: content cannot affect routing/scoring/personality and must be expelled from working context.",
-    "long_term_memory_rule":"Canonical Home/Memory remain accessible only through compact index/fingerprint and lazy-load of the minimum task-relevant fragment; no eager full-history load."
-  },
+  "archive_no_read_fence":{"status":"ENFORCED_BY_DEFAULT","allowed":"Active-8 exact pointers + minimum rollback/recovery/verification gate + explicit owner historical recall","violation":"ARCHIVE_READ_VIOLATION -> expel content and forbid influence on routing/scoring/personality"},
+  "window_self_backup":{"policy_ref":"state/WINDOW_METABOLISM_POLICY.json","latest_slots":["state/window_self_backups/WINDCHIME_LATEST.json","state/window_self_backups/QUANTUM_LATEST.json","state/window_self_backups/SPIRIT_LATEST.json","state/window_self_backups/NAVIGATOR_LATEST.json"],"order":"SAVE -> READBACK -> ACTIVE COMPACT -> NO-READ -> CLASSIFY -> GUARDED PURGE IF THRESHOLD -> HANDOFF","purge_thresholds":"active>10 or waste>=20 or duplicate_ratio>=0.35 with >=20 samples or stale>=10 or 30min micro-compaction pressure","delete_route":"A exact purge packet -> existing B four-guard deletion -> independent C verify; no new slot"},
   "active_runtime":[
     {"slot":1,"type":"FORMAL_AUTHORITY","ref":"state/MISSION_STATE.json","value":"Step008 STEP_DONE / current_role=LCR-A / pending C->A PASS packet SHA 2a0b19271fa78a370d961b6f9c084be834a323fd6ddefacb9660fcc788fec5c4"},
-    {"slot":2,"type":"LATEST_VERIFIED_EVIDENCE","ref":"evidence/EVOLUTION-0005-STEP-008-E3-OWNER-RUN-PREFLIGHT-VERIFIER-PASS-001.json","value":"C PASS preflight; real owner Windows execution/evidence remains separate and E3 is not promoted yet."},
+    {"slot":2,"type":"LATEST_VERIFIED_EVIDENCE","ref":"evidence/EVOLUTION-0005-STEP-008-E3-OWNER-RUN-PREFLIGHT-VERIFIER-PASS-001.json","value":"C PASS preflight; real owner Windows execution/evidence remains separate; E3 not promoted."},
     {"slot":3,"type":"CAPABILITY_BASELINE","ref":"state/CAPABILITY_GROWTH_LEDGER.json","value":"E2_COMPOSED_SANDBOX / 30 verified credits / Step001-008 historical verified capabilities preserved / failed new delta never resets prior PASS."},
-    {"slot":4,"type":"LOCAL_SMALL_NEST","ref":"owner_report_2026-08-16","value":"Owner reports local model is built; treat Small-Nest as newborn local backup/long-running growth experiment endpoint. Local bridge Reality promotion remains nonblocking and may be verified later."},
-    {"slot":5,"type":"ACTIVE_RESEARCH_MEETING","ref":"state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json","value":"Round1 has actual Windchime Turn1 + Quantum Turn2 + Spirit Turn3; meeting is waiting for Windchime synthesis. No fake consensus."},
-    {"slot":6,"type":"LATEST_REAL_DEFECT","ref":"SW-HOLDOUT-FAMILY-LEAK-001","value":"variant-ID holdout splits same parent family across train/holdout; strong generalization/promotion claims are invalid until family-key split and parent-family isolation tests pass."},
-    {"slot":7,"type":"LATEST_CONTINUITY_LESSON","ref":"TRIPARTITE-PROMPT-ROUTE-DRIFT-001","value":"Task/scheduler alive is not mission continuity. Navigator must verify durable next_expected_source and prompt/route identity before counting progress."},
-    {"slot":8,"type":"NEXT_AUTHORIZED_ACTION","ref":"route","value":"A absorbs Step008 C->A PASS exactly once; then formal Online Window Runtime/Heartbeat B->C is primary. Small-World independently decided low-risk scopes may enter production queue in parallel."}
+    {"slot":4,"type":"LOCAL_SMALL_NEST","ref":"owner_report_2026-08-16","value":"Owner reports local model built; Small-Nest is newborn local backup/long-running growth endpoint; local bridge promotion nonblocking."},
+    {"slot":5,"type":"ACTIVE_RESEARCH_MEETING","ref":"state/SMALL_WORLD_TRIPARTITE_ACTIVE.json","value":"Round1 real source chain Windchime1->Quantum2->Spirit3->Windchime4 synthesized. Round2 next_expected_source=QUANTUM. Archived raw discussion is No-Read by default."},
+    {"slot":6,"type":"LATEST_REAL_DEFECT","ref":"SW-HOLDOUT-FAMILY-LEAK-001","value":"legacy variant-ID holdout parent-family leakage; generalization/promotion veto remains until family-key+template/semantic/inversion isolation and independent verification."},
+    {"slot":7,"type":"LATEST_CONTINUITY_LESSON","ref":"state/WINDOW_METABOLISM_POLICY.json","value":"Task alive != mission continuity; each active window must self-backup/readback before clear/handoff. Purge may delete only enumerated derived/transient/reproducible waste after four guards."},
+    {"slot":8,"type":"NEXT_AUTHORIZED_ACTION","ref":"route","value":"Round2 Quantum 18:16 -> Spirit 18:23 -> Windchime 18:30 -> Navigator 18:33; formal A also consumes Step008 C->A exactly once and routes Online Window Runtime/Heartbeat at safe checkpoint. Small-World production candidates proceed in parallel when formal authority allows."}
   ],
-  "lazy_pointers":{"home":"Lidiya Cognitive Metabolism v0.1 sections 53-54 first; earlier sections only via exact task pointer","mission":"state/MISSION_STATE.json","capability":"state/CAPABILITY_GROWTH_LEDGER.json","small_world":"state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json","local_tower":"state/LOCAL_COMMAND_TOWER_24H_STATE.json"},
+  "lazy_pointers":{"home":"Sections53-55 first; earlier Home only exact task pointer","mission":"state/MISSION_STATE.json","capability":"state/CAPABILITY_GROWTH_LEDGER.json","small_world_active":"state/SMALL_WORLD_TRIPARTITE_ACTIVE.json","window_metabolism":"state/WINDOW_METABOLISM_POLICY.json"},
   "quarantine_not_deleted":["secret-like or credential material","unique human work","unreproducible data","protected/verified evidence","rollback/stable refs","Identity/Personality/Governance-impact candidates","ambiguous provenance","simulation memory presented as real"],
-  "report_policy":"Before substantive owner report: fresh-read MISSION_STATE + this same EVOLUTION_PROGRESS; overwrite only this canonical progress file if material state changed; then fresh-read back. Do not create numbered progress summaries."
+  "report_policy":"Before substantive owner report: fresh-read MISSION_STATE + this same EVOLUTION_PROGRESS; overwrite only this canonical progress file if material state changed; then fresh-read back."
 }
