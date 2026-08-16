@@ -1,0 +1,64 @@
+{
+  "schema_version":"1.0",
+  "review_id":"QUANTUM-OUTCOME-CLOSURE-BINDING-20260816-1018",
+  "reviewer":"LIDIYA-INNER-CORE-ARCHITECT",
+  "branch":"elf/experience-desire-loop-v0.1",
+  "draft_pr":6,
+  "fresh_head_observed":"e5f334d3f2786d6dae3da50b3118afcaad3a22ef",
+  "formal_authority_effect":"NONE",
+  "formal_state_mutation":"NONE",
+  "windchime_verdict_observed":"PROCEED_WITH_CHANGES",
+  "material_delta":true,
+  "verdict":"PROCEED_SHADOW_R_AND_D_WITH_BOUNDED_VETO",
+  "positive_delta":[
+    "Outcome Closure removed producer-supplied independently_verified from Observation.",
+    "A structured appraisal receipt now binds source event, appraisal fingerprint, verifier envelope, appraisal policy, anchor registry, trust eligibility and acceptance route into a canonical hash.",
+    "Missing, source-mismatched, trust-ineligible or hash-tampered receipts remain planning-only.",
+    "Non-DIRECT outcomes remain MODEL_LEARNED_SLOW_PLANNING; base personality write and external action authority remain disabled."
+  ],
+  "bounded_veto":{
+    "id":"QV-EDL-V02-014-OUTCOME-CLOSURE-RECEIPT-ISSUANCE",
+    "severity":"HIGH",
+    "scope":"Outcome Closure autobiographical eligibility only",
+    "finding":"AppraisalAcceptanceReceipt.build() is callable by the consumer and validate() checks internal hash consistency only. A caller can choose trust_eligibility=true plus arbitrary non-empty verifier/policy/registry identifiers and acceptance route, then compute a matching receipt hash. That proves self-consistency, not that the canonical appraisal path actually issued or accepted the receipt.",
+    "required_change":"Autobiographical eligibility must consume an exact verified DerivedAppraisal reference or a receipt resolved against a trusted append-only acceptance registry/provider. The issuer/registry identity, installation/workspace identity, verifier envelope, appraisal policy, anchor registry and acceptance record must be verified; acceptance_route must be versioned/enumerated rather than free text.",
+    "acceptance_tests":[
+      "self-consistent forged receipt is rejected",
+      "unknown verifier envelope is rejected despite valid receipt hash",
+      "unknown or superseded appraisal policy/anchor registry is rejected",
+      "arbitrary acceptance route cannot confer autobiographical eligibility",
+      "cross-installation receipt replay is rejected",
+      "rolled-back/revoked acceptance record is rejected",
+      "exact DerivedAppraisal reference mismatch is rejected"
+    ]
+  },
+  "existing_high_vetoes_preserved":[
+    "QV-EDL-V02-008 Self-Origin must bind canonical DerivedAppraisal rather than free trust/alignment fields.",
+    "QV-EDL-V02-013 runtime pulse count must not drive cognitive decay; use trusted elapsed cognitive time."
+  ],
+  "partial_gap_preserved":"Mandatory live Appraisal-to-Kernel choke-point wiring is not yet proven for all Small-Nest live ingestion paths.",
+  "test_required":[
+    "all appraisal/self-origin/value-anchor thresholds and coefficients",
+    "all Goal Ecology coefficients and cadences",
+    "Outcome Closure prediction-error and planning-delta thresholds",
+    "receipt issuer/registry/provider semantics",
+    "canonical appraisal serialization and policy/anchor-registry identity binding",
+    "trusted cognitive-time decay semantics",
+    "external monotonic-anchor provider and installation binding"
+  ],
+  "authority_invariants":{
+    "authority_from_drive":0,
+    "external_action_from_goal":false,
+    "live_base_personality_mutation":false,
+    "identity_mutation":false,
+    "governance_mutation":false,
+    "research_self_test_is_C_PASS":false
+  },
+  "recommended_next_order":[
+    "Repair Self-Origin canonical appraisal binding",
+    "Make Outcome Closure receipt issuance non-self-authored and registry/provider-bound",
+    "Repair runtime decay to trusted elapsed cognitive time and run nonzero-state 10000-pulse invariance",
+    "Prove mandatory live Appraisal-to-Kernel choke point",
+    "Independently verify external ledger anchor provider and installation binding"
+  ]
+}
