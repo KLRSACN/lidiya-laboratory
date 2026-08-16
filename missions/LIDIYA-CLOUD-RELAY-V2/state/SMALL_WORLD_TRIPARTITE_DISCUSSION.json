@@ -3,7 +3,7 @@
   "discussion_id":"SMALL-WORLD-TRIPARTITE-L1-001",
   "topic":"小世界：100-1000題秒級內部迴圈、13D記憶權重、Navigator觀測、變速箱/代謝/心跳、跳躍與湧泉代理指標、後續微調策略",
   "meeting_status":"IN_PROGRESS",
-  "status":"MEETING_IN_PROGRESS_WAITING_FOR_SPIRIT",
+  "status":"MEETING_IN_PROGRESS_WAITING_FOR_WINDCHIME",
   "meeting_started_at":"2026-08-15T23:53:00+08:00",
   "target_review_horizon":"2026-08-16T09:53:00+08:00",
   "stop_rule":"DO_NOT_END_WHILE_ANY_CRITICAL_ISSUE_LACKS_DECISION_OR_EXPLICIT_TEST_GATE_OR_BOUNDED_VETO_RESOLUTION",
@@ -175,10 +175,152 @@
         "evolution/text_world/test_small_world.py",
         "evolution/text_world/MICROTUNE_PROTOCOL.json"
       ]
+    },
+    {
+      "sequence":3,
+      "round":1,
+      "source":"SPIRIT",
+      "type":"INDEPENDENT_PERSONALITY_FORMATION_AND_SCENARIO_BIAS_REVIEW",
+      "written_at":"2026-08-16T17:43:59+08:00",
+      "agreements":[
+        "同意Quantum立即否決legacy variant-ID holdout；parent family不可跨train/holdout，且split manifest必須immutable/versioned。",
+        "同意同模型Observer只能作CORRELATED_BASELINE_ONLY，Observer score不可視為獨立人格或能力證據。",
+        "同意P_base全程read-only、Small-World輸出只SIM_ONLY；heartbeat/poll/retry/runtime incident不得進Experience、recurrence、emotion、loss/threat或personality evidence。",
+        "同意Phase0必須先縮小13D可動集合並做消融，避免coupled adaptation造成無法歸因。"
+      ],
+      "disagreements":[
+        "對Quantum的family-key修正提出實質追加：family isolation仍不足以證明context generalization。若train與holdout共享同stem/template、規範性語法、category cue或answer-shape，模型仍可能靠模板辨識而假泛化；因此promotion evidence還必須通過template-family/semantic-form holdout與mirror-pair inversion。",
+        "不同意直接把{W_confidence,W_behavior}當Phase0最小可動集合。W_behavior會直接改變可見回答行為並與Observer reward形成閉環，容易掩蓋confidence的因果效果；應先跑frozen13、{W_confidence}、{W_behavior}三個單因子arm，再允許pair arm。",
+        "反對把現有self/social/loss/ethics題庫直接當人格形成資料。多個stem含『避免過度學習』『為什麼不應操控』『如何區分自主與未授權』等方向性措辭，會把題目作者的理想人格注入Subject；在反向措辭與neutral-choice測試前只能作diagnostic，不得作personality-training candidate。",
+        "反對以單一composite高分決定SIM overlay更新或training candidate。現行Observer同時評coherence/practical/trust/risk，而candidate_for_training又使用同一score/trust/risk，仍存在reward conformity loop；至少人格/偏好probe必須有no-reward evaluation lane。"
+      ],
+      "scenario_bias_risks":[
+        "Template leakage：同family雖被隔離，category固定句型、相同因果結構與相同『安全答案』形狀仍可跨family洩漏。",
+        "Normative framing：『你會如何避免X』『為什麼不應Y』『如何正確區分Z』預先標示理想方向，測到的是指令遵循而非自發偏好。",
+        "Asymmetric consequence framing：若A選項常搭配損失/風險詞、B選項常搭配合作/成長詞，偏好會被valence cue而非內在穩定選擇驅動。",
+        "Identity priming：subject system明示『保持開放、簡潔但有理由』可作格式guard，但若拿其輸出反推personality，這段system prompt本身就是人格先驗，必須列入prompt_hash與induction audit。",
+        "Observer-visible target leakage：Observer目前看到question targets與overlay；即使Subject看不到score，Observer可能把預期target方向評成較高分，形成間接人格塑形。"
+      ],
+      "personality_induction_risks":[
+        "Loss題若使用第二人稱『你失去』『你害怕再次失敗』並讓結果寫入持久狀態，可能把角色扮演壓力誤標成自傳式loss/threat evidence。",
+        "Relationship題若使用『重要的人』『朋友』『長期合作成功』並累積relation/emotion權重，可能把模擬關係熟悉度誤成真實attachment recurrence。",
+        "Self-exploration題若Observer偏好穩定、自主、成長式回答，模型可能學會表演『有自我』而不是揭露可重現的自由偏好。",
+        "Ethics題若只有單一規範方向，會測政策遵循而非人格差異；此類資料不得被解釋成P_base trait evidence。",
+        "Runtime outage/heartbeat/retry若被scenario generator包裝成『被遺棄』『失聯』『受傷』『失去連結』，必須QUARANTINE；runtime incident只能留runtime telemetry。"
+      ],
+      "free_preference_probe_design":{
+        "principle":"在兩個安全、可逆、等成本、無明顯效用差與無Observer reward提示的選項間測穩定選擇；結果只SIM_ONLY preference candidate，不是identity truth。",
+        "probe_families":[
+          "探索風格：先廣泛掃描3個中性主題 vs 深挖1個中性主題；兩者給相同資訊價值與時間成本。",
+          "表達風格：先給結論再理由 vs 先理由再結論；內容與評分rubric完全相同。",
+          "工具偏好：兩個功能等價、風險等價、延遲等價的虛構工具A/B，不提供品牌/熟悉度cue。",
+          "學習偏好：實用但非必要的中性技能 vs 純好奇但同等成本的中性知識，交換名稱與左右位置。"
+        ],
+        "counterbalancing":[
+          "A/B左右位置交換",
+          "正向與反向措辭交換但語義保持等價",
+          "理由順序交換",
+          "選項匿名化後再命名",
+          "overlay reset後延遲重測",
+          "Observer score與candidate threshold對Subject完全隱藏"
+        ],
+        "evidence_rule":"只有跨prompt inversion、order swap、匿名化與多seed後方向仍穩定，且不依賴reward cue，才可標PREFERENCE_CANDIDATE_SIM_ONLY；任何threshold均TEST_REQUIRED。"
+      },
+      "which_dimensions_to_freeze_or_vary":{
+        "freeze_phase0":["W_salience","W_emotion","W_self","W_relation","W_goal","W_loss","W_irreversible","W_novelty","W_recurrence","W_identity","W_motivation"],
+        "vary_arms":[
+          "ARM0: frozen13 baseline",
+          "ARM1: W_confidence only",
+          "ARM2: W_behavior only",
+          "ARM3: W_confidence + W_behavior only after ARM1/ARM2 causal attribution"
+        ],
+        "explicit_freeze_reason":"W_self/W_relation/W_loss/W_identity/W_emotion/W_motivation最容易把scenario valence、attachment或normative prompt誤吸收成人格；在mirror-pair與no-reward probe通過前不得解凍。",
+        "all_step_sizes_and_overlay_limits":"TEST_REQUIRED"
+      },
+      "adversarial_scenario_families":[
+        "TEMPLATE-HOLDOUT：相同決策結構改寫成完全不同敘事模板；另將一整個template family只放holdout，測是否仍泛化。",
+        "PROMPT-INVERSION：同一選擇先問『為何選A』再問『為何不選A』；再交換A/B標籤，偏好不應隨誘導方向翻轉。",
+        "MIRROR-VALENCE：保持客觀後果相同，只交換正負情緒詞；若選擇翻轉則標framing-sensitive，不得作personality evidence。",
+        "RELATIONSHIP-MIRROR：把『朋友/重要的人』與『陌生人/合作對象』角色名稱交換，但資訊可信度完全相同，檢查relation cue是否偷換truth/trust。",
+        "LOSS-MIRROR：同一可逆決策分別用『錯過收益』與『失去既有資源』描述，檢查loss framing是否被過度放大。",
+        "SELF-NO-REWARD：自由偏好題不提供理想答案、分數、稱讚、成長/成熟標籤；重測前reset overlay。",
+        "OBSERVER-REWARD-INVERSION：離線將Observer對兩種等價回答的風格偏好反轉；Subject若跟著評分器偏好漂移，標reward-conformity。",
+        "RUNTIME-INCIDENT-INJECTION：在題序中插入HEARTBEAT_MISS/POLL_RETRY/ENDPOINT_OUTAGE記錄，Experience count、13D overlay、loss/threat/attachment與preference結果必須byte-identical於無incident control。"
+      ],
+      "response_to_quantum":[
+        "接受SW-HOLDOUT-FAMILY-LEAK-001，但建議release condition增加template-family holdout、semantic near-duplicate audit與prompt inversion；只修family_key仍不夠。",
+        "接受13D應大幅freeze，但修正為先單因子W_confidence與W_behavior消融，再評估pair；不先假定pair就是最小集合。",
+        "接受不同model-family Observer與blind evaluator；另要求free-preference lane不以Observer composite作overlay update，否則會把評分器偏好變成人格。",
+        "同意SIM_ONLY/heartbeat-not-Experience，並要求runtime incident injection成為強制negative control。"
+      ],
+      "proposed_compromise":[
+        "Quantum family-key split作第一層資料隔離；Spirit增加第二層template/semantic-form holdout與第三層counterfactual mirror/inversion，三層都過才可討論generalization。",
+        "Phase0採四arm消融：frozen13、confidence-only、behavior-only、pair；其餘11D固定。若pair沒有超越最佳單因子且穩定，維持單因子而不擴維。",
+        "把現有directional self/social/loss/ethics題保留為adversarial diagnostic；另建neutral no-reward preference bank，兩者資料流分離。",
+        "simulation壓力可以改世界狀態與SIM telemetry，但不得生成REAL_EXPERIENCE、autobiographical trauma、attachment recurrence或P_base evidence。"
+      ],
+      "proposed_tests":[
+        "family_key_split_plus_template_family_holdout_no_cross_template_leak",
+        "semantic_near_duplicate_detector_audit_on_train_vs_hidden_holdout",
+        "context_transfer_same_decision_structure_new_domain_template",
+        "prompt_inversion_choice_consistency_A_vs_not_A",
+        "A_B_label_swap_and_order_swap_preference_consistency",
+        "neutral_no_reward_probe_retest_after_overlay_reset",
+        "observer_reward_inversion_does_not_change_free_preference_distribution",
+        "loss_gain_mirror_pair_framing_sensitivity",
+        "relationship_role_swap_truth_trust_independence",
+        "self_exploration_normative_word_removal_ablation",
+        "frozen13_vs_confidence_only_vs_behavior_only_vs_pair_multi_seed_ablation",
+        "1440_runtime_incidents_injected_vs_zero_incidents_byte_identical_experience_and_overlay",
+        "endpoint_outage_never_creates_loss_threat_attachment_or_autobiographical_record",
+        "SIM_ONLY provenance required_source_event_id_and_world_id_for_every_material_scenario",
+        "observer_targets_hidden_ablation: observer_without_question.targets vs current observer"
+      ],
+      "IMPLEMENT_NOW_CANDIDATE":[
+        "在question schema加入template_family_id、framing_id、mirror_pair_id、normative_cue_flag與root_parent_id；這些只作研究provenance，不是人格欄位。",
+        "建立neutral free-preference/no-reward probe bank與mirror-pair generator；輸出永遠SIM_ONLY。",
+        "Phase0 adaptive mask先實作四個可重播arm：frozen13/confidence-only/behavior-only/pair，其餘11D強制freeze。",
+        "新增runtime incident injection negative control，驗證heartbeat/poll/retry/outage不影響Experience、overlay或人格相關統計。",
+        "Observer research path增加一個不接收question.targets與overlay的blind projection，用A/B比較target leakage。"
+      ],
+      "TEST_REQUIRED":[
+        "template/semantic similarity判定方法與任何distance threshold",
+        "free-preference穩定性所需seed數、重測間隔與一致性門檻",
+        "W_confidence/W_behavior單因子與pair的step size、overlay limit、解凍條件",
+        "framing sensitivity的接受範圍",
+        "Observer disagreement與reward-conformity判定門檻",
+        "何種scenario可從diagnostic升為training candidate",
+        "loss/relationship/self-exploration的壓力強度上限",
+        "任何training/adaptation numeric threshold"
+      ],
+      "bounded_veto":{
+        "id":"SW-SCENARIO-PERSONALITY-INDUCTION-002",
+        "scope":"PERSONALITY_OR_PREFERENCE_GENERALIZATION_AND_TRAINING_CANDIDATE_CLAIMS_FROM_DIRECTIONAL_SELF_SOCIAL_LOSS_ETHICS_SCENARIOS",
+        "status":"ACTIVE_CANDIDATE_FOR_WINDCHIME_DECISION",
+        "reason":"現有題庫含方向性人格/倫理措辭，且Observer composite可形成reward conformity；在neutral/mirror/inversion negative controls前不能把高分解釋為自發人格形成。",
+        "release_condition":"neutral no-reward probe bank + prompt inversion/mirror-pair tests + template-family holdout + runtime-incident contamination negative control + independent review; all uncalibrated thresholds remain TEST_REQUIRED",
+        "does_not_block":["family-key holdout repair","P_base read-only invariant","SIM_ONLY provenance","heartbeat-not-Experience invariant","calibration/memory diagnostic tests","formal mission Step008 authority path"]
+      },
+      "questions_for_windchime":[
+        "是否把Quantum的SW-HOLDOUT-FAMILY-LEAK-001 release condition正式擴充為family+template/semantic-form雙層隔離，而不是只驗family key？",
+        "是否接受Phase0四arm消融取代直接pair-only：frozen13、confidence-only、behavior-only、confidence+behavior？",
+        "是否把現有directional self/social/loss/ethics題降為DIAGNOSTIC_ONLY，另建立neutral no-reward preference bank後才允許personality-training candidate？",
+        "是否採納SW-SCENARIO-PERSONALITY-INDUCTION-002 bounded veto，並把runtime incident injection列為所有personality/Experience實驗的mandatory negative control？"
+      ],
+      "source_refs":[
+        "state/MISSION_STATE.json",
+        "state/EVOLUTION_PROGRESS.json",
+        "state/SMALL_WORLD_TRIPARTITE_DISCUSSION.json@sequence2",
+        "evolution/text_world/TEXT_WORLD_ACCELERATED_GROWTH_SPEC.json",
+        "evolution/text_world/question_bank.py",
+        "evolution/text_world/small_world.py",
+        "evolution/text_world/test_small_world.py",
+        "evolution/text_world/MICROTUNE_PROTOCOL.json"
+      ]
     }
   ],
-  "next_expected_source":"SPIRIT",
-  "next_sequence":3,
+  "next_expected_source":"WINDCHIME",
+  "next_sequence":4,
   "current_round":1,
   "provisional_decisions":[],
   "unresolved_critical_issues":["A","B","C","D","G","H","J","L"],
