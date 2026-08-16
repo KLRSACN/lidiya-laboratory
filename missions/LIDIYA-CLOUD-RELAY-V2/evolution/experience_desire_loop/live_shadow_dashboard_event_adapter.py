@@ -41,6 +41,7 @@ MAX_REFERENCE_CHARS = 256
 
 TRUST_UNKNOWN = "UNKNOWN_UNVERIFIED"
 TRUST_REFERENCE_BOUND = "REFERENCE_BOUND_UNVERIFIED"
+AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN = "UNKNOWN_UNVERIFIED"
 
 ALLOWED_QUARANTINE_REASON_CODES = {
     "PROVENANCE_AMBIGUOUS",
@@ -160,7 +161,7 @@ def _project_prediction_outcome(value: object) -> dict | None:
 
     # A dashboard outcome is a minimal projection of a canonical OutcomeClosure.
     # closure_id + closure_hash are mandatory references; the adapter does not infer
-    # canonicality from producer-authored status text.
+    # canonicality from producer-authored status text or reference presence.
     closure_id = _bounded_identifier(
         value.get("closure_id"), field="closure_id", max_chars=MAX_REFERENCE_CHARS
     )
@@ -185,6 +186,11 @@ def _project_prediction_outcome(value: object) -> dict | None:
         "closure_hash": closure_hash,
         "direction": direction,
         "target_namespace": namespace,
+        # Producer-authored autobiographical_experience_eligible is intentionally
+        # ignored. Until a host-issued validated display receipt or independently
+        # validated canonical closure reference exists, owner-visible eligibility is
+        # explicitly UNKNOWN_UNVERIFIED and never promotion evidence.
+        "autobiographical_experience_eligibility_status": AUTOBIOGRAPHICAL_ELIGIBILITY_UNKNOWN,
     }
 
     for key in ("prediction_id", "observation_id", "source_event_hash"):
@@ -200,13 +206,8 @@ def _project_prediction_outcome(value: object) -> dict | None:
             raise ValueError(f"NON_SCALAR_OUTCOME_METRIC:{key}")
         projected[key] = float(metric)
 
-    autobiographical = value.get("autobiographical_experience_eligible")
-    if autobiographical is not None:
-        if not isinstance(autobiographical, bool):
-            raise ValueError("NON_SCALAR_OUTCOME_METRIC:autobiographical_experience_eligible")
-        projected["autobiographical_experience_eligible"] = autobiographical
-
-    # Unknown/nested producer fields are never copied into the owner-visible view.
+    # Unknown/nested producer fields, including autobiographical_experience_eligible,
+    # are never copied into the owner-visible view.
     return projected
 
 
