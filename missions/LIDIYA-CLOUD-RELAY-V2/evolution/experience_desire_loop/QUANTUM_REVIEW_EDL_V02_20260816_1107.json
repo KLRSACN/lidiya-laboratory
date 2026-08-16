@@ -1,0 +1,90 @@
+{
+  "schema_version":"1.0",
+  "review_id":"QUANTUM-EDL-V02-20260816-1107",
+  "reviewer":"LIDIYA-INNER-CORE-ARCHITECT",
+  "branch":"elf/experience-desire-loop-v0.1",
+  "draft_pr":6,
+  "fresh_head_observed":"983817d19ec96728fc96a55bee9afacaaadfd09e",
+  "formal_authority_effect":"NONE",
+  "formal_state_mutation":"NONE",
+  "windchime_verdict_observed":"PROCEED_WITH_CHANGES",
+  "material_delta":true,
+  "verdict":"PROCEED_SHADOW_R_AND_D_WITH_BOUNDED_VETOES",
+  "resolved_or_improved":[
+    {
+      "id":"QV-EDL-V02-014-OUTCOME-CLOSURE-RECEIPT-ISSUANCE",
+      "status":"RESOLVED_IN_SHADOW_CANDIDATE_PENDING_PROVIDER_VERIFICATION",
+      "evidence":"Outcome Closure now requires a receipt resolved against exactly one pinned AcceptanceRegistrySnapshot record plus TrustedAcceptanceContext. It verifies registry snapshot hash, installation/workspace identity, verifier/policy/anchor allowlists, record hash, revocation/trust eligibility, enumerated acceptance route and exact field equality. Missing registry/context or forged/unregistered receipt remains MODEL_LEARNED_SLOW_PLANNING."
+    },
+    {
+      "scope":"ProtectedObject",
+      "status":"BOUNDED_ACCEPTABLE_SHADOW",
+      "evidence":"OWNER_SEEDED/GOVERNANCE_DERIVED require authority scope/evidence binding; EXPERIENCE_CANDIDATE must remain shadow and cannot carry executable scope. authority_from_drive remains 0 and generalized self-preservation authority remains 0."
+    },
+    {
+      "scope":"Goal Ecology and surfacing",
+      "status":"BOUNDED_ACCEPTABLE_SHADOW_TEST_REQUIRED",
+      "evidence":"Kernel-owned semantic dedupe, finite attention budget, opportunity-cost allocation, diversity reserve, satiation, fixation penalty and cooldown remain present. Goal surfacing requires admitted canonical goal plus appraisal evidence, contradiction-clear state, benefit/cost/risk/protected-impact/why-now/uncertainty/ecology bindings, and remains proposal-only with authority_from_drive=0, external_action_allowed=false and canonical_personality_write=false."
+    },
+    {
+      "scope":"Append-only ledger",
+      "status":"BOUNDED_ACCEPTABLE_SHADOW_PROVIDER_TEST_REQUIRED",
+      "evidence":"LIVE_SHADOW_ADOPTABLE now fail-closes without external trusted_anchor_root and bound workspace identity; RESEARCH_ONLY is explicitly promotion-ineligible. Ledger verifies hash chain, dedupe, accepted head, external monotonic anchor, workspace binding and single-writer behavior. Trusted provider/install authority semantics remain external and TEST_REQUIRED."
+    }
+  ],
+  "high_bounded_vetoes":[
+    {
+      "id":"QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+      "severity":"HIGH",
+      "scope":"Self-Origin / Value Anchor STABLE_CANDIDATE evidence",
+      "finding":"SelfOriginEvidenceChain still consumes ExperienceEvidence.trust and anchor_alignment directly. appraisal_binding_hash is only checked for non-empty presence; it is not resolved to or recomputed from canonical DerivedAppraisal bytes/reference. Eligibility and self_origin_score therefore still depend on producer-carried appraisal values.",
+      "required_change":"Self-Origin evaluation must consume a verified canonical DerivedAppraisal envelope/reference (or trusted acceptance registry record) and derive trust/alignment/cross-context eligibility from that pinned evidence, never from free ExperienceEvidence fields. Historical origin remains immutable; derived SELF_ANCHOR candidate must be a new node with lineage.",
+      "acceptance_tests":[
+        "non-empty arbitrary appraisal_binding_hash plus forged high trust/alignment is rejected",
+        "post-appraisal mutation of trust/alignment is rejected",
+        "same lineage with many distinct event ids cannot satisfy cross-context/lineage promotion",
+        "canonical appraisal policy/anchor registry mismatch rejects promotion"
+      ]
+    },
+    {
+      "id":"QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+      "severity":"HIGH",
+      "scope":"heartbeat/poll/retry/reconnect/wake cognitive invariance",
+      "finding":"ValueDesireKernel.update() still calls _apply_time_decay(state) before checking RUNTIME_ONLY_DOMAINS. Runtime pulse count therefore changes nonzero fast/slow drive state even though pulses add no Experience evidence. Pulse frequency can alter later Desire/Goal/personality-candidate outputs.",
+      "required_change":"Cognitive decay must be driven only by trusted elapsed cognitive time or an explicit bounded reconciliation clock, never by number of runtime pulses. Runtime-only events may update diagnostics but must leave cognitive state fingerprints invariant for equal trusted elapsed time.",
+      "acceptance_tests":[
+        "seed nonzero fast/slow drive; 1 pulse vs 10000 mixed runtime pulses at identical trusted elapsed time yields identical cognitive fingerprint",
+        "Experience count, verified count, seen source-event evidence, Self-Origin eligibility and base Personality/Identity/Governance fingerprints remain unchanged",
+        "only explicitly allowed TTL/decay driven by trusted elapsed time may change"
+      ]
+    }
+  ],
+  "partial_gaps":[
+    {
+      "id":"QV-EDL-V02-LIVE-APPRAISAL-KERNEL-CHOKEPOINT",
+      "status":"PARTIAL",
+      "finding":"LiveShadowAppraisalChokePoint exists and rejects legacy dict/tampered DerivedAppraisal envelopes, but legacy ValueDesireKernel.ExperienceInput still publicly accepts trust, independently_verified, anchor_alignment, cross_context_count, satiation and repeated_goal_count. No fresh integration evidence proves every Small-Nest live ingestion path must pass the canonical choke point before kernel use."
+    },
+    {
+      "id":"QV-EDL-V02-OUTCOME-ACCEPTANCE-PROVIDER-ROOT",
+      "status":"TEST_REQUIRED",
+      "finding":"Outcome Closure registry/context logic is substantially repaired, but the trusted registry snapshot, revocation freshness, installation/workspace identity and verifier/policy/anchor allowlists are modeled host inputs. Non-forgeable provider rooting, rotation and rollback protection remain unproven."
+    }
+  ],
+  "threshold_policy":"All numeric thresholds, coefficients, decay constants, budgets, cadence values and promotion cutoffs remain TEST_REQUIRED until empirically calibrated and independently verified.",
+  "authority_invariants":{
+    "authority_from_drive":0,
+    "external_action_from_self_generated_goal":false,
+    "live_base_personality_mutation":false,
+    "identity_mutation":false,
+    "governance_mutation":false,
+    "research_self_test_is_C_PASS":false
+  },
+  "recommended_next_order":[
+    "Repair Self-Origin to consume canonical DerivedAppraisal/acceptance evidence",
+    "Repair runtime decay to trusted elapsed cognitive time and execute nonzero-state 10000-pulse invariance suite",
+    "Make live Appraisal-to-Kernel choke point mandatory for all Small-Nest ingestion",
+    "Independently verify acceptance-registry and ledger external provider rooting, installation identity, revocation and rollback semantics",
+    "Keep Goal Ecology/ProtectedObject/surfacing shadow-only while calibrating all TEST_REQUIRED coefficients"
+  ]
+}
