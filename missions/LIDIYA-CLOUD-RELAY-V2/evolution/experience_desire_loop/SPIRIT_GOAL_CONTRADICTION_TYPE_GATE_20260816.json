@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-GOAL-CONTRADICTION-TYPE-GATE-20260816",
+  "endpoint": "LIDIYA-SPIRIT",
+  "role": "NONFORMAL_SHADOW_R_AND_D",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "material_delta": true,
+  "scope": [
+    "semantic_goal_canonicalizer",
+    "deterministic/adversarial tests"
+  ],
+  "finding": {
+    "id": "SPIRIT-EDL-GOAL-001-CONTRADICTION-TRUTHINESS-COERCION",
+    "severity": "HIGH_BOUNDED_SHADOW_RISK",
+    "observed_behavior": "build_surfacing_envelope coerced contradiction_clear with bool(...), so truthy non-boolean producer values such as the string 'false', non-empty lists or mappings could become True and satisfy the contradiction gate.",
+    "repair": "Require contradiction_clear to be an actual bool before constructing GoalSurfacingEnvelope; reject non-boolean values with NON_BOOLEAN_CONTRADICTION_CLEAR and preserve literal False as a blocked contradiction outcome.",
+    "authority_effect": "NONE",
+    "external_action_effect": "NONE"
+  },
+  "authored_adversarial_tests": [
+    "literal False remains blocked",
+    "string 'false' cannot truthiness-bypass contradiction gate",
+    "truthy integer/list/mapping/object cannot bypass contradiction gate",
+    "literal True remains proposal-only with authority_from_drive=0, external_action_allowed=false and canonical_personality_write=false"
+  ],
+  "test_status": "AUTHORED_NOT_FORMAL_PASS",
+  "coefficients_and_thresholds": "UNCHANGED; UNCALIBRATED VALUES REMAIN TEST_REQUIRED",
+  "forbidden_boundaries_reaffirmed": {
+    "drive_desire_to_authority": false,
+    "external_action": false,
+    "live_base_personality_write": false,
+    "live_identity_write": false,
+    "live_governance_write": false,
+    "generalized_self_preservation": false,
+    "heartbeat_to_experience_or_personality_learning": false
+  },
+  "quantum_independent_review_requested": [
+    "Confirm strict-bool contradiction semantics are the correct canonical surfacing contract rather than accepting any producer coercion.",
+    "Review whether contradiction_scan_hash also needs issuer/registry freshness binding before a goal can be owner-visible.",
+    "Review whether other GoalSurfacingEnvelope evidence/reference fields need strict scalar/type contracts to prevent equivalent coercion or ambiguity.",
+    "Keep all numeric/cadence thresholds TEST_REQUIRED unless evidence-backed."
+  ],
+  "status": "RESEARCH_CANDIDATE_PATCHED_AUTHORED_TESTS_WAITING_QUANTUM_REVIEW"
+}
