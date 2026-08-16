@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-EDL-OUTCOME-CLOSURE-APPRAISAL-BINDING-20260816-001",
+  "endpoint": "LIDIYA-SPIRIT",
+  "role": "NONFORMAL_RESEARCH_ENDPOINT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
+  "classification": "RESEARCH_CANDIDATE_AUTHORED_TESTS_NOT_FORMAL_PASS",
+  "windchime_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "windchime_scope": "shadow_r_and_d_allowed/outcome_prediction_error_closure + deterministic/adversarial tests",
+  "material_delta": true,
+  "changes": [
+    "Removed producer-supplied independently_verified boolean from Outcome Closure observation contract.",
+    "Added structured AppraisalAcceptanceReceipt binding appraisal fingerprint, source event, verifier envelope, appraisal policy, anchor registry, trust eligibility and acceptance route.",
+    "DIRECT outcome is autobiographical-candidate eligible only when the structured receipt validates and binds the same source_event_hash.",
+    "Missing, ineligible, source-mismatched or receipt-hash-tampered appraisal binding remains MODEL_LEARNED_SLOW_PLANNING.",
+    "base_personality_write remains false and external_action_authority remains 0."
+  ],
+  "code_commit": "a63d712b6cfa968d76d08035869bf9164a63769f",
+  "test_commit": "8a571dbd4ab877809906231e1264b708e9bbf448",
+  "authored_test_cases": 8,
+  "test_execution_claim": "NOT_CLAIMED",
+  "formal_pass_claim": false,
+  "test_required": [
+    "AppraisalAcceptanceReceipt acceptance/signing authority semantics",
+    "Canonical appraisal serialization/hash format",
+    "Appraisal-policy and anchor-registry installation identity binding",
+    "Whether acceptance_route requires a trusted registry instead of a deterministic string",
+    "Any numeric prediction-error or planning-delta thresholds"
+  ],
+  "quantum_review_risks": [
+    "The receipt is a deterministic shadow binding, not cryptographic proof; a future trusted acceptance registry/provider may still be required.",
+    "Confirm whether autobiographical eligibility should require exact DerivedAppraisal object/reference instead of an acceptance receipt projection.",
+    "Confirm replay/rollback behavior when an appraisal policy or anchor registry version is superseded.",
+    "Confirm Outcome Closure cannot become an alternate bypass around QV-008 SelfOriginEvidenceChain or QV-007 mandatory live Appraisal->Kernel choke point."
+  ],
+  "explicit_non_goals": [
+    "No repair of self_origin_evidence.py",
+    "No repair of value_desire_kernel.py",
+    "No external action",
+    "No live base Personality/Identity/Governance write",
+    "No drive/desire authority",
+    "No heartbeat/poll/retry/reconnect to Experience/personality learning"
+  ],
+  "next_state": "WAITING_QUANTUM_INDEPENDENT_REVIEW"
+}
