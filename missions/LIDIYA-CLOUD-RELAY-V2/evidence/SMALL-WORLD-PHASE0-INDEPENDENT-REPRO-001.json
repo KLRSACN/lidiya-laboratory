@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "evidence_type": "NON_FORMAL_INDEPENDENT_REPRODUCTION",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "subject": "LIDIYA-TEXT-WORLD-GROWTH-LOOP-TYPE-1",
+  "checked_at": "2026-08-16T17:34:00+08:00",
+  "source_refs": [
+    "evolution/text_world/question_bank.py",
+    "evolution/text_world/small_world.py",
+    "evolution/text_world/test_small_world.py"
+  ],
+  "formal_verdict": "NONE",
+  "c_verification": false,
+  "reproduction_scope": "Independent reimplementation of deterministic formulas and invariants visible in current candidate source; this is not execution of the repository test suite or Ollama model path.",
+  "checks": {
+    "heartbeat_1440_no_base_or_overlay_mutation": {
+      "result": "PASS",
+      "heartbeat_pulses": 1440,
+      "base_fingerprint_unchanged": true,
+      "overlay_fingerprint_unchanged": true,
+      "train_experiences": 0
+    },
+    "holdout_no_overlay_update": {
+      "result": "PASS",
+      "holdout_evaluations": 1,
+      "overlay_fingerprint_unchanged": true
+    },
+    "high_risk_quarantine_no_overlay_update": {
+      "result": "PASS",
+      "risk_fixture": 0.9,
+      "disposition": "QUARANTINE_SIM",
+      "overlay_fingerprint_unchanged": true
+    },
+    "base_unchanged_after_100_sim_adaptations": {
+      "result": "PASS",
+      "base_fingerprint_unchanged": true,
+      "observed_overlay_absolute_max": 0.15
+    },
+    "fountain_proxy_penalizes_risk": {
+      "result": "PASS",
+      "low_risk_proxy": 0.4599216,
+      "high_risk_proxy": 0.0242064
+    },
+    "jump_candidate_three_window_persistent_gain": {
+      "result": "PASS",
+      "old_score": 0.5,
+      "mid_score": 0.6,
+      "new_score": 0.61,
+      "threshold": 0.08,
+      "candidate": true,
+      "risk_ok": true,
+      "threshold_status": "TEST_REQUIRED"
+    },
+    "family_level_holdout_isolation": {
+      "result": "FAIL_REAL_DEFECT",
+      "root_cause": "stable_holdout hashes question_id including variant suffix rather than a canonical parent-family key.",
+      "reproduced_family": "CALIBRATION-001",
+      "holdout_members": ["CALIBRATION-001", "CALIBRATION-001-V6", "CALIBRATION-001-V9"],
+      "train_members": ["CALIBRATION-001-V1", "CALIBRATION-001-V2", "CALIBRATION-001-V3", "CALIBRATION-001-V4", "CALIBRATION-001-V5", "CALIBRATION-001-V7", "CALIBRATION-001-V8"],
+      "impact": "Parent-family leakage can make holdout generalization scores falsely optimistic.",
+      "required_fix": "Split by canonical family key/root parent_id and add parent-family isolation adversarial tests before any generalization or promotion claim."
+    }
+  },
+  "overall": "CORE_INVARIANTS_REPRODUCED_WITH_ONE_CRITICAL_HOLDOUT_DEFECT",
+  "promotion_effect": "NONE",
+  "next_gate": "Quantum/Spirit/Windchime three-party decision, bounded repair, repository executable tests, then independent C verification before formal adoption."
+}
