@@ -1,22 +1,66 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1-PREDICTIVE-NAV-V2",
   "window_id": "W04_NAVIGATOR",
-  "wake_id_or_timestamp": "2026-08-17T19:35:44+08:00",
+  "wake_id_or_timestamp": "2026-08-17T20:37:16+08:00",
   "authority_or_research_pointer": "state/MISSION_STATE.json#Step009-Attempt4-STEP_DONE-LCR-A; state/SMALL_WORLD_TRIPARTITE_ACTIVE.json#next=SPIRIT-12",
   "outcome": "PROGRESS",
-  "verdict": "TASK_WAKE_WITHOUT_DURABLE_PROGRESS_W03",
-  "what_was_attempted": "Read-only W04 continuity inspection under Archive No-Read Fence: Home pointer, Active-8, fresh formal authority, wake-progress protocol, own receipt, exact Small-World and Privacy refs, and current automation gear state.",
-  "material_delta_or_reason_for_no_delta": "Formal baseline remains Step009 Attempt4 STEP_DONE/LCR-A pending=null heartbeat_runtime_phase1=VERIFIED_FOUNDATION and real_5min=false. Active=8, no purge threshold. Privacy remains COMPLETED_COMPACT_FINAL. Small-World remains QUANTUM sequence11 with next_expected_source=SPIRIT sequence12. W03 scheduler last_run advanced to 2026-08-17T19:08:15+08:00 while W03 latest durable receipt remains 2026-08-17T10:31:26+08:00 and stale research pointer; no Spirit sequence12 durable turn exists. Therefore W03 is TASK_WAKE_WITHOUT_DURABLE_PROGRESS. No old Step009 repair reopened; formal B/C remain correctly standby while LCR-A is current.",
+  "verdict": "PREDICTIVE_PREEMPTION_REQUIRED_W07_WAKE_RECEIPT_LAG",
+  "what_was_attempted": "Read-only predictive continuity inspection under Archive No-Read Fence: Home, Active-8, fresh formal authority, W07 protocol/latest/receipt, Predictive Navigator v2 candidate semantics, wake-progress protocol, W01/W04 recovery anchors, exact Small-World and Privacy refs, and current automation role/task bindings.",
+  "material_delta_or_reason_for_no_delta": "Formal baseline remains Step009 Attempt4 STEP_DONE/LCR-A pending=null heartbeat_runtime_phase1=VERIFIED_FOUNDATION and real_5min=false. W01 authority task is enabled and its 20:30:51 self-backup+receipt are durable/readable. Active=8, waste=0, duplicate=0, stale=0; no physical purge gate. Small-World remains QUANTUM sequence11 with next_expected_source=SPIRIT sequence12; Privacy remains COMPLETED_COMPACT_FINAL. Predictive precursor context_load_factor=5.0 plus prior critical owner browser incident makes WINDOW_UI_OR_SESSION_DEGRADATION a HIGH heuristic forecast under candidate semantics; window_age/tool/web/UI-live fields are unavailable and remain UNKNOWN/TEST_REQUIRED. W07 scheduler last_run advanced to 20:25 while W07 latest receipt remains initialization at 20:15 with readback_status=PENDING_FIRST_WAKE_RECHECK, so W07 is TASK_WAKE_WITHOUT_DURABLE_PROGRESS and its lack of YELLOW/ORANGE/RED must not be treated as a fresh GREEN signal. Low-risk preemption is to preserve W01/W07 checkpoints, keep No-Read Fence, avoid new high-load branches, and prepare same-slot recovery capsule only; no cookie/site-data clear, protected purge, new formal slot, personality mutation, or real-5min claim.",
+  "prediction_outcomes": [
+    {
+      "predicted_event": "WINDOW_UI_OR_SESSION_DEGRADATION",
+      "horizon_steps": 1,
+      "probability_band": "HIGH_HEURISTIC_CANDIDATE_NOT_CALIBRATED",
+      "precursors": ["context_load_factor=5.0", "prior owner-reported critical browser incident", "window_age_hours=UNKNOWN", "tool_failure_streak=UNKNOWN", "web_failure_streak=UNKNOWN", "ui_frozen_live=UNKNOWN", "all_pages_unreachable_live=UNKNOWN"],
+      "preemptive_action": "PRE_SAVE_W01_W07_KEEP_NO_READ_FENCE_PREPARE_SAME_SLOT_RECOVERY_CAPSULE",
+      "actual_outcome": "UNKNOWN_PENDING_FUTURE_OBSERVATION",
+      "classification": "UNKNOWN"
+    },
+    {
+      "predicted_event": "METABOLIC_OVERLOAD_OR_STALE_POINTER_CASCADE",
+      "horizon_steps": 2,
+      "probability_band": "TEST_REQUIRED_INCOMPLETE_INPUTS",
+      "precursors": ["active=8", "waste=0", "duplicate_ratio=0.0", "stale_refs=0", "context_load_factor=5.0"],
+      "preemptive_action": "KEEP_ACTIVE_WITHIN_5_10_AND_NO_READ_FENCE_NO_PHYSICAL_DELETE",
+      "actual_outcome": "NO_CURRENT_STALE_CASCADE_OBSERVED",
+      "classification": "UNKNOWN_NOT_ENOUGH_SAMPLES"
+    },
+    {
+      "predicted_event": "WORKER_ROUTE_OR_GEAR_DROPOUT",
+      "horizon_steps": 1,
+      "probability_band": "TEST_REQUIRED_INCOMPLETE_INPUTS",
+      "precursors": ["formal current_role=LCR-A", "existing W01 LCR-A task enabled", "B/C standby", "prompt_route_drift=NOT_OBSERVED_FOR_W01", "tool_failure_streak=UNKNOWN"],
+      "preemptive_action": "PRECHECK_EXISTING_TASK_ROLE_BINDING_ONLY",
+      "actual_outcome": "NO_CURRENT_FORMAL_GEAR_DROPOUT",
+      "classification": "UNKNOWN_NOT_ENOUGH_SAMPLES"
+    },
+    {
+      "predicted_event": "RECOVERY_ANCHOR_FAILURE",
+      "horizon_steps": 1,
+      "probability_band": "TEST_REQUIRED_MIXED_ANCHORS",
+      "precursors": ["Home read OK", "MISSION_STATE read OK", "W01 self-backup read OK", "W01 receipt read OK", "W07 receipt stale after scheduler wake"],
+      "preemptive_action": "REQUIRE_W07_FRESH_RECEIPT_AND_PRESERVE_W01_DURABLE_ANCHORS",
+      "actual_outcome": "W01_ANCHORS_HEALTHY_W07_WAKE_RECEIPT_LAG_OBSERVED",
+      "classification": "TRUE_POSITIVE_FOR_W07_RECEIPT_LAG_ONLY_NOT_FULL_ANCHOR_FAILURE"
+    }
+  ],
   "exact_artifact_refs": [
     "state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473",
-    "state/EVOLUTION_PROGRESS.json@29c6bfac5691fe885a3bbaf49fe9538101357d26",
+    "state/EVOLUTION_PROGRESS.json@9e47d65fe2a06903553a818812992756ac1a5f15",
+    "state/WIND_SECRETARY_PROTOCOL.json@0e4ba4108ca9953a566e3ea5ca4957e1ee6d142b",
+    "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json@4408e52858181d9a63d3d8cadb1e37dc7feecb67",
+    "state/window_wake_receipts/W07_WIND_SECRETARY_LATEST.json@477a47d7a544cb41125d0fecaa27f0f93bd9139d",
+    "state/PREDICTIVE_NAVIGATOR_V2_STATE.json@55ef3542d74b43570e735a336325ab371675c730",
+    "evolution/navigation/predictive_navigator_v2.py@b782428f8ffc757b6c42958613e934f544288c67",
     "state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@626e3b961b57070d92a049bfe95a28d02d6fe205",
+    "state/window_self_backups/WINDCHIME_LATEST.json@fc7fce1f2fcecc18e124c1fc7aa6daba05684ea7",
+    "state/window_wake_receipts/W01_WINDCHIME_LATEST.json@0a534f9d39268205cfd91e4a69ac9fa8fbca1df5",
     "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@d55e3d9f3972e0bf27a0b37ca427c559abcde500",
-    "state/PRIVACY_DATA_SHARING_DISCUSSION.json@49f142ee76b138781456f3740314593f8a7d67ca",
-    "state/window_wake_receipts/W03_SPIRIT_LATEST.json@dcb3b8054138653b0413ea08999b47230dce9549"
+    "state/PRIVACY_DATA_SHARING_DISCUSSION.json@49f142ee76b138781456f3740314593f8a7d67ca"
   ],
   "readback_status": "PENDING_POST_WRITE_READBACK",
-  "next_trigger": "Require W03 to self-backup/readback then write/readback exactly one SPIRIT sequence12 turn and latest receipt while next_expected_source remains SPIRIT; otherwise keep TASK_WAKE_WITHOUT_DURABLE_PROGRESS. Preserve Step009 verified baseline absent fresh regression/new formal packet.",
+  "next_trigger": "W07 must perform a fresh preemptive assessment and durable receipt/readback; W03 must advance exactly one SPIRIT sequence12 only after self-backup/readback while still next_expected_source=SPIRIT. Re-evaluate prediction outcomes against actual future UI/session and anchor observations before any threshold adjustment.",
   "verified_baseline_preserved": true,
   "formal_slot_count": 3,
   "active_runtime_count": 8,
@@ -24,5 +68,6 @@
   "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
   "real_5min_runtime_live": false,
   "slot4_created": false,
+  "P_base": "READ_ONLY_UNCHANGED",
   "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
