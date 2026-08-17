@@ -1,71 +1,58 @@
 {
-  "schema_version": "1.1-PREDICTIVE-NAV-V2",
+  "schema_version": "1.2-GEARBOX-V2.1-PREDICTIVE",
   "window_id": "W04_NAVIGATOR",
-  "wake_id_or_timestamp": "2026-08-17T20:37:16+08:00",
-  "authority_or_research_pointer": "state/MISSION_STATE.json#Step009-Attempt4-STEP_DONE-LCR-A; state/SMALL_WORLD_TRIPARTITE_ACTIVE.json#next=SPIRIT-12",
+  "wake_id_or_timestamp": "2026-08-17T22:31:00+08:00",
+  "authority_or_research_pointer": "state/MISSION_STATE.json#Step009-Attempt4-STEP_DONE-LCR-A; state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
   "outcome": "PROGRESS",
-  "verdict": "PREDICTIVE_PREEMPTION_REQUIRED_W07_WAKE_RECEIPT_LAG",
-  "what_was_attempted": "Read-only predictive continuity inspection under Archive No-Read Fence: Home, Active-8, fresh formal authority, W07 protocol/latest/receipt, Predictive Navigator v2 candidate semantics, wake-progress protocol, W01/W04 recovery anchors, exact Small-World and Privacy refs, and current automation role/task bindings.",
-  "material_delta_or_reason_for_no_delta": "Formal baseline remains Step009 Attempt4 STEP_DONE/LCR-A pending=null heartbeat_runtime_phase1=VERIFIED_FOUNDATION and real_5min=false. W01 authority task is enabled and its 20:30:51 self-backup+receipt are durable/readable. Active=8, waste=0, duplicate=0, stale=0; no physical purge gate. Small-World remains QUANTUM sequence11 with next_expected_source=SPIRIT sequence12; Privacy remains COMPLETED_COMPACT_FINAL. Predictive precursor context_load_factor=5.0 plus prior critical owner browser incident makes WINDOW_UI_OR_SESSION_DEGRADATION a HIGH heuristic forecast under candidate semantics; window_age/tool/web/UI-live fields are unavailable and remain UNKNOWN/TEST_REQUIRED. W07 scheduler last_run advanced to 20:25 while W07 latest receipt remains initialization at 20:15 with readback_status=PENDING_FIRST_WAKE_RECHECK, so W07 is TASK_WAKE_WITHOUT_DURABLE_PROGRESS and its lack of YELLOW/ORANGE/RED must not be treated as a fresh GREEN signal. Low-risk preemption is to preserve W01/W07 checkpoints, keep No-Read Fence, avoid new high-load branches, and prepare same-slot recovery capsule only; no cookie/site-data clear, protected purge, new formal slot, personality mutation, or real-5min claim.",
-  "prediction_outcomes": [
-    {
-      "predicted_event": "WINDOW_UI_OR_SESSION_DEGRADATION",
-      "horizon_steps": 1,
-      "probability_band": "HIGH_HEURISTIC_CANDIDATE_NOT_CALIBRATED",
-      "precursors": ["context_load_factor=5.0", "prior owner-reported critical browser incident", "window_age_hours=UNKNOWN", "tool_failure_streak=UNKNOWN", "web_failure_streak=UNKNOWN", "ui_frozen_live=UNKNOWN", "all_pages_unreachable_live=UNKNOWN"],
-      "preemptive_action": "PRE_SAVE_W01_W07_KEEP_NO_READ_FENCE_PREPARE_SAME_SLOT_RECOVERY_CAPSULE",
-      "actual_outcome": "UNKNOWN_PENDING_FUTURE_OBSERVATION",
-      "classification": "UNKNOWN"
-    },
-    {
-      "predicted_event": "METABOLIC_OVERLOAD_OR_STALE_POINTER_CASCADE",
-      "horizon_steps": 2,
-      "probability_band": "TEST_REQUIRED_INCOMPLETE_INPUTS",
-      "precursors": ["active=8", "waste=0", "duplicate_ratio=0.0", "stale_refs=0", "context_load_factor=5.0"],
-      "preemptive_action": "KEEP_ACTIVE_WITHIN_5_10_AND_NO_READ_FENCE_NO_PHYSICAL_DELETE",
-      "actual_outcome": "NO_CURRENT_STALE_CASCADE_OBSERVED",
-      "classification": "UNKNOWN_NOT_ENOUGH_SAMPLES"
-    },
-    {
-      "predicted_event": "WORKER_ROUTE_OR_GEAR_DROPOUT",
-      "horizon_steps": 1,
-      "probability_band": "TEST_REQUIRED_INCOMPLETE_INPUTS",
-      "precursors": ["formal current_role=LCR-A", "existing W01 LCR-A task enabled", "B/C standby", "prompt_route_drift=NOT_OBSERVED_FOR_W01", "tool_failure_streak=UNKNOWN"],
-      "preemptive_action": "PRECHECK_EXISTING_TASK_ROLE_BINDING_ONLY",
-      "actual_outcome": "NO_CURRENT_FORMAL_GEAR_DROPOUT",
-      "classification": "UNKNOWN_NOT_ENOUGH_SAMPLES"
-    },
-    {
-      "predicted_event": "RECOVERY_ANCHOR_FAILURE",
-      "horizon_steps": 1,
-      "probability_band": "TEST_REQUIRED_MIXED_ANCHORS",
-      "precursors": ["Home read OK", "MISSION_STATE read OK", "W01 self-backup read OK", "W01 receipt read OK", "W07 receipt stale after scheduler wake"],
-      "preemptive_action": "REQUIRE_W07_FRESH_RECEIPT_AND_PRESERVE_W01_DURABLE_ANCHORS",
-      "actual_outcome": "W01_ANCHORS_HEALTHY_W07_WAKE_RECEIPT_LAG_OBSERVED",
-      "classification": "TRUE_POSITIVE_FOR_W07_RECEIPT_LAG_ONLY_NOT_FULL_ANCHOR_FAILURE"
-    }
-  ],
+  "verdict": "GEARBOX_V2_1_BOUNDED_VETO_ACTIVE_PREDICTIVE_INPUT_TYPING_DEFECT_FOUND",
+  "what_was_attempted": "Archive-fenced read-only synthesis of Home latest continuity/gearbox rules, Active-8, fresh MISSION_STATE, W07 latest/receipt, exact Gearbox v1/v2/v2.1 code/tests, W02 review, available W03 state, and Predictive Navigator v2 code/tests/state. Updated Navigator synthesis only; formal Mission was not modified and no C verdict was issued.",
+  "material_delta_or_reason_for_no_delta": "Fresh formal baseline remains Step009 Attempt4 STEP_DONE/LCR-A pending=null, Heartbeat VERIFIED_FOUNDATION, Gearbox v1 VERIFIED_PASS, P_base unchanged, real_5min=false. W02 bounded vetoes remain active for secretary freshness/authority binding, verified evidence binding and evidence-lineage dedupe. New predictive finding: predictive_navigator_v2._flag uses bool(value), so a non-empty string such as 'false' is interpreted as True; missing continuity flags default False and are not represented as UNKNOWN. This can create false predictive escalation or false recovery-anchor failure and therefore is a new BOUNDED_VETO before predictive output may influence Gearbox adoption. W07 latest remains newer than its initialization-only receipt, so W07 is stale for gear influence. No fresh dedicated W03 Gearbox v2.1 review was discovered. Current exact test blobs are identified as v1=21 tests, v2=16, v2.1=12, but this W04 run did not produce one combined exact-current executable regression artifact; exact runner remains a release gate.",
+  "classification": {
+    "DECIDED": [
+      "v1 verified baseline survives v2/v2.1 candidate failure",
+      "stale secretary must not affect gear; fresh authority conflict invalidates secretary",
+      "anti-thrash cannot delay risk/recovery downshift",
+      "heartbeat/window age/poll/retry/reconnect/scheduler wake are zero Experience; P_base unchanged"
+    ],
+    "TEST_REQUIRED": [
+      "anti-thrash sample/window/cooldown and bounded performance recovery",
+      "clean baseline plus incident replay predictive calibration with false-positive/missed-warning statistics",
+      "paired matched-workload speed validation using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio, recovery_latency"
+    ],
+    "BOUNDED_VETO": [
+      "trusted secretary freshness/authority envelope missing",
+      "verified Experience exact evidence/verifier receipt binding missing and unsafe bool coercion",
+      "Experience dedupe is event_id-only rather than evidence/provenance lineage",
+      "Predictive Navigator boolean/missing-input typing is unsafe",
+      "combined exact-current v1+v2+v2.1 runner evidence missing",
+      "fresh W03/Spirit Gearbox v2.1 adversarial review missing"
+    ]
+  },
   "exact_artifact_refs": [
     "state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473",
-    "state/EVOLUTION_PROGRESS.json@9e47d65fe2a06903553a818812992756ac1a5f15",
-    "state/WIND_SECRETARY_PROTOCOL.json@0e4ba4108ca9953a566e3ea5ca4957e1ee6d142b",
-    "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json@4408e52858181d9a63d3d8cadb1e37dc7feecb67",
+    "state/EVOLUTION_PROGRESS.json@22ea821029edb724141ae7aeb19a1591cd9e6720",
+    "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json@495c3bb9e0e47132c7a00a4408cf337cc223e28e",
     "state/window_wake_receipts/W07_WIND_SECRETARY_LATEST.json@477a47d7a544cb41125d0fecaa27f0f93bd9139d",
-    "state/PREDICTIVE_NAVIGATOR_V2_STATE.json@55ef3542d74b43570e735a336325ab371675c730",
+    "evolution/gearbox_controller.py@c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
+    "evolution/test_gearbox_controller.py@11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
+    "evolution/gearbox_controller_v2.py@45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
+    "evolution/test_gearbox_controller_v2.py@38799e41561e6cdbc7378e9bd94596a18d4ab672",
+    "evolution/gearbox_controller_v2_1.py@d65094039504a2f46985be71006a25201d592136",
+    "evolution/test_gearbox_controller_v2_1.py@0a6904f1eeb2d43d6d819490cef1bad5319c7083",
     "evolution/navigation/predictive_navigator_v2.py@b782428f8ffc757b6c42958613e934f544288c67",
-    "state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@626e3b961b57070d92a049bfe95a28d02d6fe205",
-    "state/window_self_backups/WINDCHIME_LATEST.json@fc7fce1f2fcecc18e124c1fc7aa6daba05684ea7",
-    "state/window_wake_receipts/W01_WINDCHIME_LATEST.json@0a534f9d39268205cfd91e4a69ac9fa8fbca1df5",
-    "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@d55e3d9f3972e0bf27a0b37ca427c559abcde500",
-    "state/PRIVACY_DATA_SHARING_DISCUSSION.json@49f142ee76b138781456f3740314593f8a7d67ca"
+    "evolution/self_repair/test_wind_secretary_and_predictive_navigation.py@799ed35264a577248cd052237a4717f04e68a521",
+    "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json@8d3d9865e1ee224b2bbe4912b36ec897f91fc6da",
+    "state/window_self_backups/SPIRIT_LATEST.json@759f34ddb87306df66b65c7f6e7442f27a44ccba",
+    "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@4b5fcc535202b4196ffb6406d4c718e3806ff3f0"
   ],
   "readback_status": "PENDING_POST_WRITE_READBACK",
-  "next_trigger": "W07 must perform a fresh preemptive assessment and durable receipt/readback; W03 must advance exactly one SPIRIT sequence12 only after self-backup/readback while still next_expected_source=SPIRIT. Re-evaluate prediction outcomes against actual future UI/session and anchor observations before any threshold adjustment.",
+  "next_trigger": "Resolve predictive strict-input typing and Gearbox v2.1 secretary/evidence-lineage vetoes; obtain fresh W03 review; then run one exact-current v1+v2+v2.1 combined regression plus clean/incident predictive validation and paired speed benchmark. Only zero unreleased vetoes plus regression PASS can become READY_FOR_FORMAL_CANDIDATE.",
   "verified_baseline_preserved": true,
   "formal_slot_count": 3,
-  "active_runtime_count": 8,
-  "purge_threshold_met": false,
   "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+  "gearbox_v1": "VERIFIED_PASS",
+  "gearbox_v2_1": "CANDIDATE_NOT_FORMAL",
+  "ready_for_formal_candidate": false,
   "real_5min_runtime_live": false,
   "slot4_created": false,
   "P_base": "READ_ONLY_UNCHANGED",
