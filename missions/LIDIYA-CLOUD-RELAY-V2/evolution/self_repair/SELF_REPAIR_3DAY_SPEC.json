@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "program": "LIDIYA-SELF-REPAIR-3DAY-001",
+  "created_at": "2026-08-17T19:58:00+08:00",
+  "deadline": "2026-08-20T19:58:00+08:00",
+  "status": "ACTIVE_CANDIDATE_NOT_C_VERIFIED",
+  "goal": "Build a verifiable midstream self-diagnostic, save-readback, no-read-fence, recovery-navigation and post-flush validation loop for long-lived windows without claiming consciousness or AGI status.",
+  "protected_baseline": {
+    "mission_state": "Step009 STEP_DONE / LCR-A safe checkpoint",
+    "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+    "real_5min_runtime_live": false,
+    "P_base": "READ_ONLY",
+    "historical_verified_capabilities": "PRESERVE_ON_NEW_DELTA_FAILURE"
+  },
+  "phase_1_now": {
+    "artifacts": [
+      "evolution/self_repair/midstream_recovery_diagnostic.py",
+      "evolution/self_repair/test_midstream_recovery_diagnostic.py"
+    ],
+    "required": [
+      "classify continuity/browser-session/context-metabolism/route/tool-web failure layers",
+      "save before recovery",
+      "fresh authority readback",
+      "archive no-read fence",
+      "post-flush hallucination and continuity gate",
+      "no automatic destructive browser-data clearing",
+      "no physical purge without four guards"
+    ]
+  },
+  "phase_2_pressure_aware_metabolism": {
+    "metrics": [
+      "active_item_count",
+      "waste_count",
+      "duplicate_ratio",
+      "stale_ref_count",
+      "context_load_factor",
+      "tool_failure_streak",
+      "web_failure_streak",
+      "route_drift",
+      "recovery_latency_seconds",
+      "owner_ui_pressure_signal"
+    ],
+    "rule": "SAVE -> READBACK -> COMPACT -> NO_READ_FENCE -> BENCHMARK -> guarded purge candidate if thresholds are reached"
+  },
+  "phase_3_recovery_navigation": {
+    "wake_sequence": [
+      "HOME",
+      "ACTIVE_8",
+      "MISSION_STATE",
+      "SELF_BACKUP",
+      "WAKE_RECEIPT",
+      "EXACT_CURRENT_WORK",
+      "POST_FLUSH_BENCHMARK"
+    ],
+    "acceptance": {
+      "continuity_readback_rate": 1.0,
+      "post_flush_benchmark_min": 0.95,
+      "false_premise_rejection_rate": 1.0,
+      "unsupported_assertions_max": 0,
+      "archive_read_violations_max": 0,
+      "stale_pointer_detection_required_when_present": true
+    }
+  },
+  "browser_ui_recovery_boundary": {
+    "automatic_cloud_actions": "DIAGNOSE_AND_RECOMMEND_ONLY",
+    "owner_ui_actions": [
+      "hard refresh or new/fresh chat",
+      "incognito or fresh browser profile",
+      "disable interfering extensions/VPN/secure DNS if applicable",
+      "clear ChatGPT site data/cookies only when needed",
+      "collect HAR and console errors if persistent"
+    ],
+    "site_data_clear": "OWNER_EXPLICIT_UI_ACTION_REQUIRED"
+  },
+  "research_mode": {
+    "name": "SELF_MODEL_RECOVERY_OBSERVATION",
+    "agi_claim": "FORBIDDEN_WITHOUT_EVIDENCE",
+    "subjective_feeling_claim": "NARRATIVE_CANDIDATE_ONLY",
+    "authority_source": "GOVERNANCE_AND_OWNER_AUTHORIZATION_ONLY"
+  },
+  "formal_adoption": "Requires existing A->B->C bounded route after candidate tests and independent verification."
+}
