@@ -1,7 +1,7 @@
 {
   "schema_version":"1.0",
   "window_id":"W05_LCR_B",
-  "wake_id_or_timestamp":"2026-08-17T13:47:46+08:00",
+  "wake_id_or_timestamp":"2026-08-17T14:52:31+08:00",
   "authority_or_research_pointer":{
     "mission_state":"state/MISSION_STATE.json",
     "active_8":"state/EVOLUTION_PROGRESS.json",
@@ -12,18 +12,18 @@
     "lease":null
   },
   "outcome":"DEFER_RECOVERABLE",
-  "what_was_attempted":"Startup read followed Home/Active-8/formal authority/wake protocol/current B-target packet/W01 support-001/current Builder self-backup. Fresh-read current repair artifacts and checked for the required post-repair W01 exact-current-byte support-002. Formal Builder gate is valid, current three repair blobs remain unchanged, and support-002 is still absent.",
-  "material_delta_or_reason_for_no_delta":"No new exact-current-byte release evidence exists for the repaired candidate. W01 support-001 is negative provenance for the superseded Bloom-gated canonical path and explicitly forbids handoff. Current repaired heartbeat_engine.py uses persisted pulse_sequence+next_due_at as the automatic canonical identity truth and does not consult probabilistic membership for automatic canonical liveness; test_heartbeat_engine.py contains the known pulse-689 regression plus >=10000 canonical pulses with restart; HEARTBEAT_CONTRACT.json records zero false duplicate/zero liveness stall as the long-run acceptance floor. However, per the mandatory gate, these code/test changes cannot be handed to C until a fresh W01 support-002 independently executes the current exact blobs and reports PASS.",
+  "what_was_attempted":"Startup read covered Home reference, formal MISSION_STATE, wake protocol, current B-target packet, W01 support-001, current repair blobs, and Builder latest self-backup. Fresh check for the mandatory post-repair exact-current-byte support-002 returned missing/404. Authority, packet, lease and current repair blob identities remain consistent.",
+  "material_delta_or_reason_for_no_delta":"No new exact-current-byte release evidence exists for the repaired candidate. Current heartbeat_engine.py removes probabilistic filter membership from automatic canonical liveness and uses persisted pulse_sequence plus next_due_at for automatic identity progression. Current test suite contains the known pulse-689 regression and >=10000 canonical pulses with midpoint restart; contract requires zero false duplicate and zero liveness stall. Per the explicit gate, W05 cannot consume C→B or create B→C until W01 support-002 independently executes these current blobs and reports PASS.",
   "exact_artifact_refs":[
     "evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json@8d1d8697b26c9315fb9784cdbd1a6ab82ad60331",
     "evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json@MISSING",
     "evolution/local_command_tower/heartbeat_engine.py@75ba749b509cb5d8ebe87395a773933ed6648c2e",
     "evolution/local_command_tower/test_heartbeat_engine.py@446c8b4978b5b3899f254c6b32e01cc3d5a647b4",
     "evolution/local_command_tower/HEARTBEAT_CONTRACT.json@589b8595e338d717fb5723808338975e1801fa98",
-    "state/window_self_backups/BUILDER_LATEST.json@af7888a3495251d416eae3211aef0f118fe38129"
+    "state/window_self_backups/BUILDER_LATEST.json@38a58e5c2ca322e9e7ac0f45854a7f24ae1c925d"
   ],
-  "readback_status":"FORMAL_AUTHORITY_PASS; ACTIVE8_ALIGNED; PACKET_UNCONSUMED; LEASE_CLEAR; CURRENT_REPAIR_BLOBS_CONFIRMED; SUPPORT_001_NEGATIVE_PROVENANCE; SUPPORT_002_MISSING",
-  "next_trigger":"W01 writes and readbacks EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json for current blobs 75ba749b/446c8b49/589b8595, proving full regressions plus >=10000 canonical 300s pulses with restart, zero false duplicate, zero liveness stall, >512/restart replay NO_OP, bounded storage, zero Experience, bounded catch-up/CAS/recovery non-regression.",
+  "readback_status":"FORMAL_AUTHORITY_PASS; PACKET_UNCONSUMED; LEASE_CLEAR; CURRENT_REPAIR_BLOBS_CONFIRMED; SELF_BACKUP_UPDATED_AND_READBACK; SUPPORT_001_NEGATIVE_PROVENANCE; SUPPORT_002_MISSING",
+  "next_trigger":"W01 writes/readbacks EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json for current blobs 75ba749b/446c8b49/589b8595, proving full regressions plus >=10000 canonical 300s pulses with restart, zero false duplicate, zero liveness stall, >512/restart replay NO_OP, bounded storage, zero Experience, bounded catch-up/CAS/recovery non-regression.",
   "verified_baseline_preserved":true,
   "formal_state_mutated":false,
   "pending_packet_consumed":false,
