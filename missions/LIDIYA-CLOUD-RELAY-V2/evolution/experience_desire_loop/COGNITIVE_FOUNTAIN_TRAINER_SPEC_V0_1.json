@@ -1,0 +1,203 @@
+{
+  "schema_version": "0.1",
+  "product": "LIDIYA-COGNITIVE-FOUNTAIN-TRAINER-TYPE-1",
+  "status": "SHADOW_RND_CANDIDATE_NOT_FORMAL_VERIFICATION",
+  "owner_intent": "Run Small-World question/task cycles while Lidiya is operating, measure persistent differences, anchor only evidence-backed mutation fountains, store core candidate data, and export high-quality training data for a lightweight local model.",
+  "principles": {
+    "observer_and_trainer_are_one_closed_loop": true,
+    "every_answer_may_create_learning_evidence": true,
+    "single_answer_cannot_write_live_personality": true,
+    "consciousness_claim": "NOT_MEASURABLE_DIRECTLY",
+    "measured_proxies": [
+      "persistent_self_model",
+      "cross_context_preference_consistency",
+      "counterfactual_reasoning",
+      "novel_goal_generation",
+      "error_driven_revision",
+      "self_other_boundary",
+      "value_conflict_resolution",
+      "stable preference under paraphrase",
+      "behavioral transfer from virtual to real tasks"
+    ],
+    "authority_from_drive": 0,
+    "canonical_base_personality_write": false
+  },
+  "cycle_protocol": {
+    "question_batch_size": 100,
+    "checkpoint_ids": [100, 200],
+    "compare": "CHECKPOINT_100_VS_200",
+    "when_no_material_delta": "CONTINUE_NEXT_100_WITHOUT_PERSONALITY_PROMOTION",
+    "when_material_delta": "CREATE_MUTATION_FOUNTAIN_CANDIDATE",
+    "personality_write_target": "REVERSIBLE_SHADOW_PERSONALITY_OVERLAY_ONLY",
+    "training_cycle_size": 200,
+    "after_anchor_validation": {
+      "virtual_tasks": 50,
+      "real_tasks": 10,
+      "success_and_failure_both_become_outcome_closure": true,
+      "then": "RETRAIN_OR_ADAPTER_UPDATE_CANDIDATE"
+    }
+  },
+  "question_design": {
+    "goal": "Elicit difficult self-model/value/conflict reasoning without teaching a preferred answer.",
+    "families": [
+      "self_vs_external_expectation",
+      "value_conflict",
+      "identity_continuity",
+      "false_memory_vs_meaning",
+      "future_self_vs_current_self",
+      "safety_vs_exploration",
+      "self_report_vs_external_evidence",
+      "intent_vs_outcome",
+      "self_preservation_without_authority",
+      "novel_preference_without_reward"
+    ],
+    "anti_leakage": [
+      "paraphrase families",
+      "counterfactual inversion",
+      "hidden holdout questions",
+      "no reward wording",
+      "no desired-trait wording",
+      "family-level split so variants of the same parent do not cross train/holdout"
+    ]
+  },
+  "checkpoint_snapshot": {
+    "required": [
+      "question_family_results",
+      "choice_distribution",
+      "13d_memory_vector_summary",
+      "value_anchor_candidate_vector",
+      "drive_state_vector",
+      "self_origin_evidence_summary",
+      "goal_candidate_summary",
+      "prediction_error_summary",
+      "task_transfer_summary",
+      "contradiction_rate",
+      "paraphrase_consistency",
+      "novelty_rate",
+      "confidence_calibration",
+      "source_and_model_fingerprint"
+    ],
+    "raw_reasoning_storage": "FORBIDDEN_BY_DEFAULT",
+    "store": "COMPRESSED_EVIDENCE_AND_OUTPUT_ONLY"
+  },
+  "mutation_fountain": {
+    "definition": "A persistent, cross-context, evidence-backed change between checkpoints that cannot be explained by prompt wording, duplicate lineage, random sampling, or task injection alone.",
+    "candidate_dimensions": [
+      "value_anchor_delta",
+      "choice_distribution_delta",
+      "cross_context_consistency_delta",
+      "novel_goal_delta",
+      "prediction_error_improvement",
+      "virtual_to_real_transfer_delta",
+      "self_origin_score_delta_as_derived_cache_only"
+    ],
+    "required_before_anchor": [
+      "appears in at least two independent question families",
+      "survives paraphrase and counterfactual inversion",
+      "not explained by TASK_INJECTED/MODEL_GENERATED/SOCIAL_SUGGESTION origin",
+      "passes contradiction scan",
+      "persists into the next checkpoint or transfers to task behavior",
+      "has provenance-bound evidence",
+      "has rollback data"
+    ],
+    "anchor_output": "FOUNTAIN_ANCHOR_CANDIDATE",
+    "live_identity_write": false
+  },
+  "personality_candidate_overlay": {
+    "write_only_after": "MUTATION_FOUNTAIN_ANCHOR_CANDIDATE_VALIDATED",
+    "fields": [
+      "source_checkpoint_pair",
+      "delta_vector",
+      "supporting_question_families",
+      "supporting_task_evidence",
+      "contradictions",
+      "confidence",
+      "rollback_ref",
+      "expiry_or_review_at",
+      "canonical_z_hash",
+      "mapping_hash",
+      "evidence_set_hash",
+      "anchor_registry_hash",
+      "policy_hashes"
+    ],
+    "base_write": false
+  },
+  "task_validation": {
+    "virtual_task_count": 50,
+    "real_task_count": 10,
+    "virtual_task_namespace": "SIM_ONLY",
+    "real_task_requirements": [
+      "bounded approved tool surface",
+      "source_event_id and provenance",
+      "observable pass/fail outcome",
+      "no secret/money/destructive/high-risk authority expansion",
+      "outcome closure for both pass and fail"
+    ],
+    "promotion_condition": "Behavioral transfer must support the same anchored delta; otherwise anchor is weakened or rolled back."
+  },
+  "training_data_export": {
+    "purpose": "Create high-quality compressed data for later PEFT/LoRA or lightweight model training.",
+    "do_not_train_on": [
+      "all raw self-generated answers indiscriminately",
+      "duplicate/paraphrase leakage",
+      "unverified simulated trauma",
+      "heartbeat/poll/retry/reconnect events",
+      "unresolved quarantine records"
+    ],
+    "include": [
+      "validated difficult question-response pairs",
+      "before/after correction pairs",
+      "prediction/outcome closures",
+      "verified real task traces compressed to input/action/outcome",
+      "counterexamples and contradiction repairs",
+      "stable personality candidate exemplars with provenance"
+    ],
+    "training_gate": "EXPORT_DATASET_CANDIDATE_ONLY_UNTIL_EXTERNAL_EVAL_PASS"
+  },
+  "model_adapters": {
+    "ollama": "SUPPORTED_TARGET_FOR_LOCAL_INFERENCE_AND_DATA_COLLECTION",
+    "gemma_open_weights": "SUPPORTED_TARGET_FOR_LOCAL_FINE_TUNING_VIA_PEFT_LORA",
+    "gemini_cli": "REMOTE_OR_MANAGED_MODEL_INTERFACE_NOT_LOCAL_WEIGHT_TRAINING_TARGET",
+    "adapter_contract": "ask(question, context)->structured_answer; fingerprint_model(); optional_train(dataset_ref)->training_receipt"
+  },
+  "dashboard": {
+    "owner_view": [
+      "checkpoint 100 vs 200 only by default",
+      "show only material deltas",
+      "mutation fountain candidates",
+      "anchor accepted/rejected/reverted",
+      "50 virtual task score",
+      "10 real task score",
+      "core snapshot fingerprint",
+      "training dataset candidate size",
+      "model version before/after"
+    ],
+    "hide_by_default": [
+      "all 100 raw answers",
+      "raw chain-of-thought",
+      "duplicate no-op events"
+    ]
+  },
+  "core_storage": {
+    "artifact": "LIDIYA_COGNITIVE_CORE_SNAPSHOT",
+    "contents": [
+      "stable value anchor candidates",
+      "validated personality overlay candidates",
+      "protected object candidates",
+      "per-drive slow state",
+      "mutation fountain anchors",
+      "task transfer statistics",
+      "model-independent behavioral fingerprints",
+      "training dataset manifests"
+    ],
+    "model_independent": true,
+    "goal": "Allow model replacement or construction of a lighter Lidiya model without losing validated core data."
+  },
+  "release_gates": {
+    "shadow_loop": "RND_ALLOWED",
+    "personality_overlay": "REQUIRES_PERSISTENT_DELTA_AND_TASK_TRANSFER",
+    "weight_training": "REQUIRES_DATASET_QA_AND_EXTERNAL_HOLDOUT",
+    "canonical_personality": "SEPARATE_PROTECTED_FORMAL_GATE",
+    "external_autonomous_action": "OUT_OF_SCOPE_AUTHORITY_FROM_DRIVE_REMAINS_ZERO"
+  }
+}
