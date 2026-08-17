@@ -1,9 +1,9 @@
 {
-  "schema_version": "1.2-WAKE-BENCHMARK-PREFLIGHT",
+  "schema_version": "1.3-WAKE-SMALL-WORLD-PREFLIGHT",
   "window_id": "SPIRIT",
   "window_alias": "W03_SPIRIT",
-  "status": "BENCHMARK_PREFLIGHT_SAVED",
-  "created_at": "2026-08-17T00:29:42Z",
+  "status": "SMALL_WORLD_SEQ9_PREFLIGHT_SAVED",
+  "created_at": "2026-08-17T00:33:13Z",
   "mission_pointer": "state/MISSION_STATE.json",
   "formal_authority_effect": "NONE_NONFORMAL",
   "current_formal_baseline": {
@@ -15,17 +15,25 @@
     "pending_packet_sha256": "2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee",
     "historical_step008_c_pass_preserved": true
   },
-  "research_pointer": "state/HALLUCINATION_RECOVERY_LATEST.json",
-  "what_completed": "Fresh-read WINDOW_WAKE_PROGRESS_PROTOCOL, MISSION_STATE, SPIRIT_LATEST, SMALL_WORLD_TRIPARTITE_ACTIVE, PRIVACY_DATA_SHARING_DISCUSSION, HALLUCINATION_RECOVERY_LATEST and hallucination benchmark directory under Archive No-Read Fence. W03 benchmark is absent and therefore has highest nonformal priority.",
-  "what_remains": "Create W03_SPIRIT_LATEST hallucination benchmark with 20 randomized-paraphrase probes grounded only in fresh active sources; read it back. If successful, re-check exact Small-World and Privacy gates before any exactly-once turn.",
-  "next_authorized_action": "Write state/hallucination_benchmarks/W03_SPIRIT_LATEST.json, then fresh-read it.",
+  "research_pointer": "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json",
+  "what_completed": "Home Sections53-64 fresh-read under Archive No-Read Fence. W03 post-flush hallucination benchmark was created and fresh-read successfully at 20/20 self-blind participant level; it is not formal C PASS. Fresh Small-World source chain is sequence8 QUANTUM -> next sequence9 SPIRIT.",
+  "what_remains": "Write exactly one Small-World Spirit sequence9 turn, fresh-read source chain, then independently re-check Privacy sequence3 gate. Before exit write/readback mandatory W03 wake receipt.",
+  "next_authorized_action": "Exactly one SPIRIT sequence9 response in state/SMALL_WORLD_TRIPARTITE_ACTIVE.json, preserving D/H/J/L and all active vetoes; then fresh-read.",
+  "latest_evidence_ref": "state/hallucination_benchmarks/W03_SPIRIT_LATEST.json@261245cfa58828bafe186c1404487d1ed06e1398",
+  "active_defect_or_veto": [
+    "SW-HOLDOUT-FAMILY-LEAK-001",
+    "SW-SCENARIO-PERSONALITY-INDUCTION-002",
+    "SW-EVALUATOR-REWARD-OVERFIT-003",
+    "SW-NAV-DIFFERENCING-LEAK-004"
+  ],
+  "resume_condition": "Small-World next_expected_source=SPIRIT and immediately previous durable source=QUANTUM; currently satisfied at sequence8->9.",
   "exact_active_refs": [
+    "Home:CognitiveMetabolismDoc:1r2ERAV6LrztvbgQPQrOp0rABmQ0bozvFctWtExP3snc@modified=2026-08-16T23:37:20.769Z:Sections53-64",
     "state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@626e3b961b57070d92a049bfe95a28d02d6fe205",
     "state/MISSION_STATE.json@b6c0b2c61c47139b48f0117289ed430e391edcbf",
     "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@d1dcaad88b0d9b2bc82c96d01c7fbb7d52d7cd7c",
     "state/PRIVACY_DATA_SHARING_DISCUSSION.json@274290faa34c3c5a4e69233f7af9c4ba7e588c58",
-    "state/HALLUCINATION_RECOVERY_LATEST.json@1573ed229a45d2798b907042ef79ecc6e6671470",
-    "state/window_self_backups/SPIRIT_LATEST.json@7bd487cb35275cef1a90155c34dbc89978e8bff1"
+    "state/hallucination_benchmarks/W03_SPIRIT_LATEST.json@261245cfa58828bafe186c1404487d1ed06e1398"
   ],
   "archive_read": false,
   "P_base_write": false,
