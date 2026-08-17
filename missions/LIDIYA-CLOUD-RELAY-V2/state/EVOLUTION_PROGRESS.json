@@ -1,15 +1,15 @@
 {
-  "schema_version": "6.3-ACTIVE8-ALWAYS-ON-RUNTIME-P0",
+  "schema_version": "6.4-ACTIVE8-GEARBOX-V2-P0",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-17T20:41:00+08:00",
+  "saved_at": "2026-08-17T20:50:00+08:00",
   "time_authority": "Asia/Taipei",
   "archive_no_read_fence": {
     "status": "ENFORCED_BY_DEFAULT",
     "allowed": "Active-8 exact pointers plus minimum rollback/recovery/verification gate",
     "newly_archived_from_active": [
       "pre-v1.1 Always-on Runtime interruption backfill semantics",
-      "duplicate Heartbeat Step009 closure narration already reachable through MISSION_STATE/evidence",
-      "older W07/Navigator candidate wording superseded by current protocols"
+      "duplicate Step009 closure narration reachable through MISSION_STATE/evidence",
+      "reactive-only Gearbox assumptions superseded only for candidate evaluation; verified v1 remains baseline"
     ]
   },
   "active_runtime": [
@@ -17,49 +17,49 @@
       "slot": 1,
       "type": "FORMAL_AUTHORITY",
       "ref": "state/MISSION_STATE.json",
-      "value": "Step009 Attempt4 STEP_DONE / LCR-A safe checkpoint / pending=null / heartbeat_runtime_phase1=VERIFIED_FOUNDATION / Step001-009 preserved / real_5min_runtime_live=false."
+      "value": "Step009 Attempt4 STEP_DONE / LCR-A safe checkpoint / pending=null / heartbeat_runtime_phase1=VERIFIED_FOUNDATION / six_gear_controller=VERIFIED_PASS / Step001-009 preserved / real_5min_runtime_live=false."
     },
     {
       "slot": 2,
-      "type": "P0_CONTINUITY_INCIDENT",
-      "ref": "state/incidents/W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001.json + Home#70-71",
-      "value": "Long-lived W01 execution shell became unusable while durable continuity remained recoverable. Root cause remains multi-layer; incident is the mandatory replay case for self-repair/runtime validation."
+      "type": "DEVELOPMENT_CONTINUITY_AUDIT",
+      "ref": "state/self_repair/DEVELOPMENT_CONTINUITY_AUDIT_LATEST.json",
+      "value": "Post-recovery throughput appears improved because durable components continue accumulating while verified baselines survive new failures, but a quantified causal speedup is NOT YET ESTABLISHED. Need comparable wake/cycle/rework/recovery metrics."
     },
     {
       "slot": 3,
-      "type": "SELF_REPAIR_AND_METABOLISM",
-      "ref": "evolution/self_repair/midstream_recovery_diagnostic.py + evolution/self_repair/PRESSURE_AWARE_METABOLISM_CANDIDATE.json",
-      "value": "P0 candidate diagnosis includes durable continuity plus context/window/tool/web/UI pressure. Active-count alone is insufficient; save/readback precedes compaction and purge remains four-guard only."
+      "type": "SELF_REPAIR_AND_PRESSURE_METABOLISM",
+      "ref": "evolution/self_repair/midstream_recovery_diagnostic.py + evolution/self_repair/PRESSURE_AWARE_METABOLISM_CANDIDATE.json + state/incidents/W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001.json",
+      "value": "P0 continuity recovery and pressure-aware metabolism remain active. Time alive is not Experience; save/readback precedes compaction, archive no-read fence remains default, physical purge remains four-guard only."
     },
     {
       "slot": 4,
-      "type": "W07_WIND_SECRETARY",
-      "ref": "state/WIND_SECRETARY_PROTOCOL.json + state/window_self_backups/W07_WIND_SECRETARY_LATEST.json + Google Drive W07 folder",
-      "value": "Dedicated nonformal secretary predicts/prepares continuity recovery, validates Home/Mission/checkpoints, and escalates YELLOW/ORANGE/RED; sensor only, never formal authority."
+      "type": "W07_WIND_SECRETARY_AND_PREDICTIVE_NAV",
+      "ref": "state/WIND_SECRETARY_PROTOCOL.json + state/window_self_backups/W07_WIND_SECRETARY_LATEST.json + evolution/navigation/predictive_navigator_v2.py + state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
+      "value": "W07 is sensor/preparation only; W04 performs fresh validation and records TP/FP/missed warnings. No secretary prediction can override MISSION_STATE or create formal Experience credit."
     },
     {
       "slot": 5,
-      "type": "PREDICTIVE_NAVIGATOR_V2",
-      "ref": "evolution/navigation/predictive_navigator_v2.py + state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
-      "value": "1-3 step lookahead for UI/session degradation, metabolic-stale cascades, route/gear dropout and recovery-anchor failure. W04 must measure true/false positives and missed warnings before threshold tuning."
+      "type": "ALWAYS_ON_RUNTIME_V1",
+      "ref": "evolution/local_command_tower/always_on_runtime.py + test_always_on_runtime.py + ALWAYS_ON_RUNTIME_CONTRACT.json",
+      "value": "Outer continuity-shell candidate targets 300s heartbeat, 1200s work lifecycle, 600s checkpoint and <=300s recovery attempt. Runtime cannot self-verify recovery or backfill interruption time. CANDIDATE_NOT_YET_C_VERIFIED; real_5min=false."
     },
     {
       "slot": 6,
-      "type": "ALWAYS_ON_RUNTIME_V1",
-      "ref": "evolution/local_command_tower/always_on_runtime.py + evolution/local_command_tower/test_always_on_runtime.py + evolution/local_command_tower/ALWAYS_ON_RUNTIME_CONTRACT.json",
-      "value": "New outer continuity-shell candidate on top of verified Heartbeat. Targets 300s pulse, 1200s work lifecycle, 600s checkpoint, 300s recovery. v1.1 forbids backfilled interruption timestamps, rejects runtime self-observation/self-verification as SLA evidence, requires non-self verification evidence refs, keeps real_5min=false, bounded state/no per-pulse logs. Current blobs: runtime 4a95083a..., tests c6be97d1..., contract e8cd0154...."
+      "type": "GEARBOX_V2_CANDIDATE",
+      "ref": "evolution/gearbox_controller_v2.py + evolution/test_gearbox_controller_v2.py + evolution/GEARBOX_V2_CONTRACT.json + state/self_repair/GEARBOX_V2_SELFTEST_LATEST.json",
+      "value": "Pressure/evidence/continuity-aware Gearbox v2 candidate preserves verified v1. Adds W07/Navigator pressure inputs, verification cap, one-step upshift hysteresis, immediate hard downshift, checkpoint density, stale-progress brake, and system Experience Candidate separation. Draft-equivalent selftest=16/16 PASS; exact-current runner and C verification still required."
     },
     {
       "slot": 7,
-      "type": "ADVERSARIAL_REVIEW_AND_SECONDARY_RESEARCH",
-      "ref": "W02/W03/W04 P0 review refs + state/SMALL_WORLD_TRIPARTITE_ACTIVE.json",
-      "value": "W02/W03/W04 now adversarially review W07/Nav v2 and Always-on Runtime before any formal route. Small-World/training-mode research continues only after P0 review work; Privacy remains completed compact final."
+      "type": "EXPERIENCE_SEPARATION",
+      "ref": "evolution/GEARBOX_V2_CONTRACT.json + state/self_repair/DEVELOPMENT_CONTINUITY_AUDIT_LATEST.json",
+      "value": "Heartbeat/poll/retry/wait/scheduler wake/self-reported success/unverified simulation create 0 Experience credit. Independent verified capability/recovery/root-cause retest can create system-level Experience Candidate. Window duration does not update base model weights; P_base/Identity/Personality/Governance remain separately governed."
     },
     {
       "slot": 8,
       "type": "NEXT_AUTHORIZED_ACTION",
-      "ref": "ALWAYS_ON_RUNTIME_CONTRACT.json + SELF_REPAIR_3DAY_SPEC.json",
-      "value": "P0: exact-current executable tests; W02/W03 adversarial review; W04 synthesis; incident replay; if no unreleased veto, LCR-A may route a bounded existing A->B->C Runtime Foundation candidate. Even C PASS cannot set real_5min=true without real authorized external-runner evidence."
+      "ref": "GEARBOX_V2_CONTRACT.json + ALWAYS_ON_RUNTIME_CONTRACT.json + SELF_REPAIR_3DAY_SPEC.json",
+      "value": "P0: exact-current v1+v2 regression; Quantum/Spirit adversarial Gearbox v2 review; Navigator synthesis including false-positive/gear-thrashing tests; incident/clean replay; if no unreleased veto, route bounded existing A->B->C. In parallel continue Always-on Runtime validation. Real_5min remains false until real external-runner evidence."
     }
   ],
   "formal_route": {
@@ -69,32 +69,39 @@
     "pending_packet_sha256": null,
     "status": "STEP_DONE_SAFE_CHECKPOINT",
     "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+    "six_gear_controller_v1": "VERIFIED_PASS",
     "formal_slot_count": 3,
     "slot4": "FORBIDDEN"
   },
   "verified_boundaries": {
     "history_step001_009": "PRESERVED",
     "step009_heartbeat_phase1": "C_PASS_VERIFIED_FOUNDATION",
+    "six_gear_controller_v1": "VERIFIED_PASS",
+    "gearbox_v2": "CANDIDATE_NOT_YET_C_VERIFIED",
     "always_on_runtime_v1": "CANDIDATE_NOT_YET_C_VERIFIED",
     "self_repair_3day": "IN_PROGRESS",
-    "E3_LOCAL_OPERATOR": "BLOCKED_PENDING_REAL_LOCAL_EVIDENCE",
-    "real_owner_local_transport": "PENDING",
     "real_5min_runtime_live": false,
     "P_base": "READ_ONLY_UNCHANGED",
     "heartbeat_is_experience": false,
+    "window_duration_is_model_weight_learning": false,
     "agi_or_consciousness_claim": "NOT_ESTABLISHED"
   },
-  "self_repair": {
-    "project": "LIDIYA-SELF-REPAIR-3DAY-001",
-    "deadline": "2026-08-20T19:58:00+08:00",
-    "wind_secretary": "W07_ACTIVE_SENSOR_AND_RECOVERY_PREP",
-    "predictive_navigator": "V2_CANDIDATE",
-    "always_on_runtime": "V1_1_CANDIDATE",
+  "gearbox_v2": {
+    "product": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-2-CANDIDATE",
+    "draft_equivalent_selftest": "16_OF_16_PASS_NOT_C_VERIFIED",
     "exact_current_runner": "TEST_REQUIRED",
-    "quantum_review": "PENDING_OR_IN_PROGRESS",
-    "spirit_review": "PENDING_OR_IN_PROGRESS",
+    "v1_regression": "TEST_REQUIRED_THIS_ROUND_BUT_V1_VERIFIED_BASELINE_PRESERVED",
+    "quantum_review": "PENDING",
+    "spirit_review": "PENDING",
     "navigator_synthesis": "PENDING",
     "formal_C_verification": "NOT_YET"
+  },
+  "experience_candidate_policy": {
+    "zero_events": ["HEARTBEAT", "POLL", "RETRY", "WAIT", "SCHEDULER_WAKE", "SELF_REPORTED_SUCCESS", "UNVERIFIED_SIMULATION"],
+    "positive_candidate_events": ["VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON", "DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND"],
+    "verified_credit_requires_independent_verification": true,
+    "preliminary_step009_candidate_credit": 5,
+    "W01_UI_recovery_verified_credit": 0
   },
   "metabolism_counters": {
     "active": 8,
@@ -110,21 +117,21 @@
   },
   "root_cause_lessons": [
     {
-      "code": "FOUNDATION_VS_REALITY_RUNNER_SEPARATION",
-      "lesson": "A verified heartbeat state machine is not the same thing as a real always-on five-minute execution environment."
+      "code": "CONTINUITY_IS_NOT_EXPERIENCE_BY_ITSELF",
+      "lesson": "Remaining active longer can improve opportunity for work, but elapsed runtime, heartbeat, poll and retry do not themselves create learning credit."
     },
     {
-      "code": "INTERRUPTION_TIME_MUST_NOT_BE_BACKFILLED",
-      "lesson": "Five-minute recovery evidence needs an observation-time record; allowing historical timestamps to be supplied after the fact would invalidate SLA claims."
+      "code": "SPEEDUP_NEEDS_COMPARABLE_METRICS",
+      "lesson": "Apparent faster development is not a causal speedup claim until comparable durable-progress, cycle latency, rework and recovery samples accumulate."
     },
     {
-      "code": "RECOVERY_ATTEMPT_NOT_RECOVERY_VERIFICATION",
-      "lesson": "The runtime may prepare recovery but a non-self verifier/evidence reference is required before recovery is marked verified."
+      "code": "PRESSURE_AWARE_GEARBOX_MUST_AVOID_THRASHING",
+      "lesson": "Gearbox v2 adds immediate hard downshift but one-step upshift hysteresis and false-positive review so protective signals do not create a new stop-start loop."
     },
     {
-      "code": "PREDICTIVE_PROTECTION_MUST_NOT_CAUSE_SELF_INDUCED_STALL",
-      "lesson": "Secretary/Navigator thresholds must be evaluated against false positives and effective-work loss so protection does not become a new source of interruption."
+      "code": "VERIFIED_BASELINE_SURVIVES_UPGRADE",
+      "lesson": "Gearbox v2 and Always-on Runtime are outer/new candidates; their failures cannot invalidate verified Gearbox v1 or Step009 without fresh exact regression evidence."
     }
   ],
-  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. Runtime/self-repair/navigation failures roll back only new deltas; Step001-009 remain verified baseline absent fresh exact regression."
+  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. New candidate failures roll back only new deltas; Step001-009 and verified Gearbox v1 remain baseline absent fresh exact regression."
 }
