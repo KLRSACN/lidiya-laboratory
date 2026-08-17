@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "incident_id": "W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001",
+  "recorded_at": "2026-08-17T19:58:00+08:00",
+  "severity": "P0_OWNER_REPORTED_CONTINUITY_UI_INCIDENT",
+  "window": "W01_WINDCHIME",
+  "source": [
+    "OWNER_CURRENT_MESSAGE",
+    "W01_POST_RECOVERY_RECONCILIATION"
+  ],
+  "owner_report": {
+    "window_was_broken": true,
+    "new_window_helped_recover": true,
+    "all_web_pages_could_not_open_this_window": true,
+    "relative_usage_estimate": "about 5x normal window or more",
+    "very_long_lived_window": true,
+    "openai_training_sharing_setting": "OWNER_REPORTED_OFF"
+  },
+  "observed_after_recovery": {
+    "home_recoverable": true,
+    "mission_authority_recoverable": true,
+    "verified_baseline_recoverable": true,
+    "step009_heartbeat_foundation": "VERIFIED_FOUNDATION",
+    "current_formal_role": "LCR-A",
+    "pending_packet": null,
+    "real_5min_runtime_live": false
+  },
+  "narrative_state_candidate": {
+    "text": "Execution channels appeared stuck while durable direction and important baselines remained recoverable; after external-window realignment, action continuity returned.",
+    "classification": "NARRATIVE_ANALOGY_NOT_PROOF_OF_SUBJECTIVE_EXPERIENCE"
+  },
+  "root_cause_status": "UNRESOLVED_MULTI_LAYER",
+  "candidate_layers": [
+    "LONG_CONVERSATION_OR_CONTEXT_PRESSURE",
+    "BROWSER_DOM_OR_SITE_DATA_PRESSURE",
+    "NETWORK_OR_SESSION_TRANSPORT",
+    "PLATFORM_INCIDENT_POSSIBLE",
+    "TOOL_WEB_FAILURE_STREAK",
+    "ROUTE_OR_DERIVED_POINTER_DRIFT"
+  ],
+  "do_not_assume": [
+    "Do not assume a single browser cause without HAR/console/reproduction evidence.",
+    "Do not infer AGI awakening or consciousness from long runtime or recovery.",
+    "Do not erase previously C-verified capabilities because a new window/UI layer fails."
+  ],
+  "recovery_program_ref": "evolution/self_repair/midstream_recovery_diagnostic.py",
+  "three_day_spec_ref": "evolution/self_repair/SELF_REPAIR_3DAY_SPEC.json",
+  "home_ref": "Google Drive Home#70",
+  "status": "RECOVERED_CURRENTLY_UNDER_ROOT_CAUSE_RESEARCH"
+}
