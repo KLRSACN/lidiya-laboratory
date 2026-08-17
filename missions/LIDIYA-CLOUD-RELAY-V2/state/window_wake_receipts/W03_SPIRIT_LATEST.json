@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "timestamp": "2026-08-17T04:31:48Z",
+  "window_id": "W03",
+  "source": "LIDIYA-SPIRIT",
+  "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
+  "authority_pointer": {
+    "ref": "missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json",
+    "branch": "elf/experience-desire-loop-v0.1",
+    "blob_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
+    "observed_status": "READY_FOR_VERIFY",
+    "observed_step_id": 8,
+    "formal_mutation": false,
+    "startup_chain_complete": false
+  },
+  "research_pointer": {
+    "pull_request": 6,
+    "branch": "elf/experience-desire-loop-v0.1",
+    "head_sha_before_receipt_write": "0ad2ea705bba0dd422cfd291bba845f088da141e",
+    "draft": true
+  },
+  "outcome": "BLOCKED_GATE",
+  "attempted": [
+    "locate_and_fresh_read_Home_Sections_53_64_without_archive",
+    "fresh_read_Active_8",
+    "fresh_read_MISSION_STATE",
+    "fresh_read_state/WINDOW_WAKE_PROGRESS_PROTOCOL.json",
+    "fresh_read_W03_latest_self_backup",
+    "resolve_exact_active_refs",
+    "check_mandatory_receipt_path"
+  ],
+  "delta_or_reason": "Fail-closed startup gate: Home Sections53-64 could not be uniquely resolved from current connected Home search, and exact branch paths for WINDOW_WAKE_PROGRESS_PROTOCOL.json, W03 SPIRIT latest self-backup, and Active-8 were not present. Without the required startup chain, benchmark/discussion/privacy mutations are not authorized. Mandatory wake receipt is the only write.",
+  "exact_refs": {
+    "home_index_candidate": {
+      "title": "00 Lidiya Memory Index",
+      "drive_file_id": "1E7aUHI4o9JfmYcJ89e4FShYvUM_gqT-Vj4P3uHRlbwo",
+      "status": "READ_BUT_SECTIONS_53_64_NOT_UNIQUELY_RESOLVED"
+    },
+    "mission_state": "missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json@elf/experience-desire-loop-v0.1#1de9c1caffc9759f12ff01739c409b99082e90c1",
+    "wake_protocol": "missions/LIDIYA-CLOUD-RELAY-V2/state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@elf/experience-desire-loop-v0.1:404",
+    "self_backup": "missions/LIDIYA-CLOUD-RELAY-V2/state/window_self_backups/SPIRIT_LATEST.json@elf/experience-desire-loop-v0.1:404",
+    "active_8_candidate": "missions/LIDIYA-CLOUD-RELAY-V2/state/ACTIVE_8.json@elf/experience-desire-loop-v0.1:404",
+    "pr6_head_before_receipt": "0ad2ea705bba0dd422cfd291bba845f088da141e"
+  },
+  "readback_status": "PENDING_SELF_READBACK",
+  "next_trigger": "A durable exact pointer must resolve Home Sections53-64, Active-8, WINDOW_WAKE_PROGRESS_PROTOCOL, and W03 latest self-backup; then restart from Home in mandated order.",
+  "verified_baseline_preserved": true,
+  "archive_read": false,
+  "P_base_write": false,
+  "sim_only": true,
+  "runtime_events_are_experience": false,
+  "formal_state_mutation": false,
+  "benchmark_mutation": false,
+  "discussion_mutation": false,
+  "privacy_mutation": false
+}
