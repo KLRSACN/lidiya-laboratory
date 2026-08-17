@@ -4,72 +4,19 @@
   "window_id":"W05_LCR_B",
   "worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
   "generation":1,
-  "saved_at":"2026-08-17T08:47:09+08:00",
+  "saved_at":"2026-08-17T09:49:51+08:00",
   "mission_id":"LCR-EVOLUTION-0005",
   "step_id":9,
   "attempt":2,
   "status":"DEFER_RECOVERABLE_REPAIR_CANDIDATE_AWAITING_NEW_W01_EXACT_RUNNER_SUPPORT",
   "current_action":"REPAIR_HEARTBEAT_GEARBOX_RUNTIME_PHASE1",
-  "authority":{
-    "mission_state_ref":"state/MISSION_STATE.json",
-    "status":"READY_FOR_BUILDER",
-    "current_role":"LCR-B",
-    "pending_packet_ref":"packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json",
-    "pending_packet_sha256":"2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee",
-    "pending_consumed":false,
-    "lease":null,
-    "formal_slot_count":3,
-    "slot4":"FORBIDDEN"
-  },
-  "external_support_baseline":{
-    "support_001_ref":"evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json",
-    "support_001_overall":"EXISTING_SUITE_PASS_BUT_CRITICAL_LIVENESS_DEFECT_FOUND_NOT_HANDOFF_READY",
-    "support_001_defect":"HEARTBEAT-BLOOM-FP-DEADLOCK-001",
-    "support_002_expected_ref":"evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json",
-    "support_002_present":false
-  },
-  "defect_repair_candidate":{
-    "design":"HYBRID_MONOTONIC_CANONICAL_PLUS_BOUNDED_EXTERNAL_REPLAY_GUARD",
-    "canonical_automatic_truth":"persisted pulse_sequence + next_due_at; automatic pulse_id=None does not consult probabilistic Bloom membership",
-    "caller_supplied_replay_guard":"bounded persisted Bloom fail-closed",
-    "known_bloom_false_positive_pulse_689":"covered by adversarial regression and required to execute on canonical automatic path",
-    "long_run_test":"10000 canonical pulses at 300s with restart at pulse 5000, zero false duplicate, zero liveness stall",
-    "old_prefix_replay_after_512":"DUPLICATE_NO_OP required",
-    "restart_prefix_replay":"DUPLICATE_NO_OP required",
-    "bounded_storage":true,
-    "per_pulse_durable_log":false,
-    "zero_experience_required":true,
-    "real_5min_runtime_live":false
-  },
-  "candidate_artifacts":{
-    "evolution/local_command_tower/heartbeat_engine.py":{"blob_sha":"75ba749b509cb5d8ebe87395a773933ed6648c2e"},
-    "evolution/local_command_tower/test_heartbeat_engine.py":{"blob_sha":"446c8b4978b5b3899f254c6b32e01cc3d5a647b4"},
-    "evolution/local_command_tower/HEARTBEAT_CONTRACT.json":{"blob_sha":"589b8595e338d717fb5723808338975e1801fa98"}
-  },
-  "handoff_gate":{
-    "required_before_handoff":"NEW_W01_EXACT_CURRENT_BYTE_SUPPORT_ON_CURRENT_THREE_BLOBS",
-    "required_runner_coverage":[
-      "fresh blob SHA match for all three repair artifacts",
-      "full engine + unchanged agent regression suite",
-      ">=10000 canonical pulses at 300s",
-      "midrun restart",
-      "zero false duplicate",
-      "zero liveness stall",
-      "old prefix replay >512 and after restart remains NO_OP",
-      "bounded storage",
-      "288-pulse zero Experience",
-      "bounded catch-up, CAS/stale writer and recovery non-regression"
-    ],
-    "handoff_allowed_now":false
-  },
-  "formal_mutations_this_wake":{
-    "repair_artifacts_modified":false,
-    "pending_packet_consumed":false,
-    "b_to_c_packet_created":false,
-    "mission_state_changed":false,
-    "c_enabled":false,
-    "e3_promoted":false
-  },
-  "next_expected_trigger":"W01_WRITES_NEW_EXACT_RUNNER_SUPPORT_FOR_CURRENT_BLOBS_WITH_LONG_RUN_PASS",
+  "authority":{"status":"READY_FOR_BUILDER","current_role":"LCR-B","pending_packet_ref":"packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json","pending_packet_sha256":"2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee","pending_consumed":false,"lease":null,"formal_slot_count":3,"slot4":"FORBIDDEN"},
+  "external_support":{"support_001_overall":"EXISTING_SUITE_PASS_BUT_CRITICAL_LIVENESS_DEFECT_FOUND_NOT_HANDOFF_READY","support_002_present":false},
+  "candidate_artifacts":{"heartbeat_engine.py":"75ba749b509cb5d8ebe87395a773933ed6648c2e","test_heartbeat_engine.py":"446c8b4978b5b3899f254c6b32e01cc3d5a647b4","HEARTBEAT_CONTRACT.json":"589b8595e338d717fb5723808338975e1801fa98"},
+  "handoff_allowed_now":false,
+  "reason":"New W01 exact-current-byte support-002 is still absent. Support-001 is negative provenance for older defective Bloom candidate and cannot authorize handoff of current monotonic-canonical repair.",
+  "next_expected_trigger":"W01_WRITES_NEW_EXACT_RUNNER_SUPPORT_FOR_CURRENT_BLOBS_WITH_10000_CANONICAL_PULSE_RESTART_PASS",
+  "formal_mutations":{"pending_packet_consumed":false,"b_to_c_packet_created":false,"mission_state_changed":false,"c_enabled":false,"e3_promoted":false},
+  "real_5min_runtime_live":false,
   "verified_baseline_preserved":true
 }
