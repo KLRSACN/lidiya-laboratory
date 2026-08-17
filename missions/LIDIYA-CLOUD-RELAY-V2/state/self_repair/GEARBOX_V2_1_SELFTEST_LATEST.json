@@ -3,21 +3,21 @@
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "PASS_CANDIDATE_ONLY",
   "formal_c_verification": "NOT_YET",
-  "current_head_sha": "9f22e4114edb8eee83da641f08bc9696e764b405",
-  "current_tree_sha": "de6da52cdcc51de68751091a0a648236fb66fb2e",
+  "current_head_sha": "1b1a4e81a57c35dc6c4ee931b8615cf0f30e6146",
+  "current_tree_sha": "0f00a2dd7efce5020e34eeb22c8b8b62b48a7bef",
   "executor_check": {
     "provider": "GitHub Actions",
     "workflow": "LCR State + Autonomy Tests",
-    "workflow_run_id": 32061450013,
-    "job_id": 95483427804,
+    "workflow_run_id": 32066329935,
+    "job_id": 95499218490,
     "job_name": "P0 exact-current Gearbox + Always-on candidate regression",
     "runner": "ubuntu-latest / GitHub-hosted",
-    "head_sha": "9f22e4114edb8eee83da641f08bc9696e764b405",
+    "head_sha": "1b1a4e81a57c35dc6c4ee931b8615cf0f30e6146",
     "compile_step": "SUCCESS",
     "combined_regression_step": "SUCCESS",
-    "artifact_id": 9298276371,
+    "artifact_id": 9300023998,
     "artifact_name": "lcr-p0-exact-current-candidate-evidence",
-    "artifact_digest": "sha256:bc1fe6c5dda5cf88f13c4b911d24f9e92abcb1da9200babea8fd550a975c98c0",
+    "artifact_digest": "sha256:8a2d6bd8c4d34cbf0554f272c963e31cb09f5bfed610b662211a8c26fb690d28",
     "fresh_same_runner_execution_performed_for_current_head": true,
     "claim_boundary": "Current-head same-runner executable candidate evidence only; does not replace LCR-C verification."
   },
@@ -39,7 +39,7 @@
     "v2_1": {"tests": 12, "status": "PASS"}
   },
   "gearbox_total_tests": 49,
-  "suite_count_provenance": "All six Gearbox source/test blob SHAs are byte-identical to the previously counted suites; current-head workflow run 32061450013 executed the same exact three unittest files together and succeeded.",
+  "suite_count_provenance": "The current-head artifact binds the same six Gearbox source/test blob SHAs as the previously counted suites; run 32066329935/job 95499218490 executed the exact three unittest files together and succeeded.",
   "compile_exit_code": 0,
   "combined_test_exit_code": 0,
   "baseline": {
@@ -56,7 +56,7 @@
     "real_5min_runtime_live": false
   },
   "formal_adoption_gate": "BLOCKED_BY_W02_HIGH_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_SYNTHESIS",
-  "latest_review_delta": "W02 review QUANTUM-GEARBOX-V2.1-20260818-0333 adds immutable EventIdentity rebinding as a HIGH bounded veto; W03 dedicated review remains absent; W04 synthesis remains stale relative to current W02.",
+  "latest_review_delta": "W02 review QUANTUM-GEARBOX-V2.1-20260818-0431 remains BOUNDED_VETO_ACTIVE and adds HIGH direct-credit bypass: select_gear_v2_1 can recompute Experience credit from caller facts without a durable accepted ledger receipt. Dedicated W03 review remains absent; W04 synthesis remains stale relative to current W02.",
   "claim_boundary": "Exact-current executable regression passes on current head, but v2/v2.1 remain candidates and no formal adoption is authorized while review vetoes/gaps remain.",
-  "recorded_at": "2026-08-18T04:26:58+08:00"
+  "recorded_at": "2026-08-18T05:26:28+08:00"
 }
