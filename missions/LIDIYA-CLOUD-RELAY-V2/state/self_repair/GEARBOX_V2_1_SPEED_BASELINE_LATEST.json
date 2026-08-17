@@ -15,8 +15,8 @@
     "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
   },
   "pairing_rule": "Use matched baseline/candidate workloads and equal-or-better verification quality/risk before estimating any multiplier.",
-  "current_candidate_executor_note": "Current-head Gearbox exact-current regression is PASS_CANDIDATE_ONLY on run 32061450013/job 95483427804, but executable correctness is not a paired speed sample and contributes no multiplier by itself.",
-  "review_gate_note": "W02 high vetoes, missing dedicated W03 review and stale W04 synthesis also block formal adoption independently of speed sampling.",
+  "current_candidate_executor_note": "Current-head Gearbox exact-current regression is PASS_CANDIDATE_ONLY on run 32066329935/job 95499218490; executable correctness is not a paired speed sample and contributes no multiplier by itself.",
+  "review_gate_note": "W02 high vetoes including the direct-credit bypass, missing dedicated W03 review, and stale W04 synthesis block formal adoption independently of speed sampling.",
   "interpretation": "No statistically defensible paired speed claim exists yet.",
-  "recorded_at": "2026-08-18T04:26:58+08:00"
+  "recorded_at": "2026-08-18T05:26:28+08:00"
 }
