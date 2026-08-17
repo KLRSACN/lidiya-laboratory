@@ -5,18 +5,19 @@
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Fresh current branch head is 9f22e4114edb8eee83da641f08bc9696e764b405 and has successful exact-current Gearbox runner 32061450013/job 95483427804.",
-    "All six Gearbox source/test blob SHAs remain unchanged; current-head result is v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49 PASS_CANDIDATE_ONLY.",
-    "W02 review QUANTUM-GEARBOX-V2.1-20260818-0333 remains BOUNDED_VETO_ACTIVE and adds HIGH immutable EventIdentity rebinding protection; dedicated W03 review is still absent; W04 remains stale and veto-active.",
-    "Gearbox latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed."
+    "Fresh execution head 1b1a4e81a57c35dc6c4ee931b8615cf0f30e6146 has successful same-runner P0 exact-current Gearbox run 32066329935/job 95499218490.",
+    "Artifact 9300023998 binds the unchanged six Gearbox source/test blobs; current-byte suites remain v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49 PASS_CANDIDATE_ONLY.",
+    "W02 review QUANTUM-GEARBOX-V2.1-20260818-0431 remains BOUNDED_VETO_ACTIVE and adds HIGH direct-credit bypass: select_gear_v2_1 can recompute Experience credit from caller facts without a durable accepted ledger receipt.",
+    "Dedicated W03 Gearbox v2.1 review remains absent; W04 remains veto-active and stale relative to current W02; speed baseline remains INSUFFICIENT_SAMPLE.",
+    "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed and formal A->B->C routing remains blocked."
   ],
   "observations": [
-    "Exact current Gearbox blobs: v1 code c29e3b2c / tests 11527a9e, v2 code 45fe6e72 / tests 38799e41, v2.1 code d6509403 / tests 0a6904f1.",
-    "Executor artifact 9298276371 digest sha256:bc1fe6c5dda5cf88f13c4b911d24f9e92abcb1da9200babea8fd550a975c98c0 is bound to current head.",
-    "W02 HIGH blockers include trusted secretary freshness/authority, strict bool typing, exact verifier-evidence binding, canonical event/evidence lineage dedupe, cross-run/restart replay resistance, immutable event identity sealing/rebinding rejection, and authenticated anti-thrash shift-rate derivation.",
-    "No dedicated W03/Spirit Gearbox v2.1 adversarial review is present at the expected reviews path.",
-    "W04 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE and is stale relative to current W02.",
-    "Paired speed baseline remains INSUFFICIENT_SAMPLE for all eight required metrics; speed_multiplier remains NOT_ESTABLISHED.",
+    "Exact Gearbox blobs: v1 code c29e3b2c / tests 11527a9e, v2 code 45fe6e72 / tests 38799e41, v2.1 code d6509403 / tests 0a6904f1.",
+    "Executor artifact digest sha256:8a2d6bd8c4d34cbf0554f272c963e31cb09f5bfed610b662211a8c26fb690d28.",
+    "W02 HIGH blockers include trusted secretary freshness/authority binding, strict bool typing, exact verifier-evidence binding, canonical event/evidence lineage dedupe, cross-run/restart replay resistance, immutable EventIdentity rebinding rejection, direct-credit bypass removal, and authenticated anti-thrash shift-rate derivation.",
+    "No dedicated W03/Spirit Gearbox v2.1 adversarial review exists in the current reviews directory.",
+    "W04 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE and predates the W02 04:31 direct-credit-bypass review.",
+    "All eight paired speed metrics remain INSUFFICIENT_SAMPLE; speed_multiplier remains NOT_ESTABLISHED.",
     "No A->B->C Gearbox v2.1 formal candidate was routed; Always-on Runtime remains independent P0 and cannot serve as Gearbox proof."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
@@ -29,5 +30,5 @@
   "checkpoint_ref": "state/window_reflections/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS_REQUIRED_THIS_WAKE",
-  "saved_at": "2026-08-18T04:26:58+08:00"
+  "saved_at": "2026-08-18T05:26:28+08:00"
 }
