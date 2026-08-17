@@ -1,30 +1,44 @@
 {
   "schema_version":"1.0",
   "window":"LCR-B",
+  "window_id":"W05_LCR_B",
   "worker_id":"ONLINE-LIDIYA-SECONDARY-INTEGRATOR",
   "generation":1,
-  "saved_at":"2026-08-17T07:46:14+08:00",
+  "saved_at":"2026-08-17T08:47:09+08:00",
   "mission_id":"LCR-EVOLUTION-0005",
   "step_id":9,
   "attempt":2,
-  "status":"DEFER_RECOVERABLE_REPAIR_CANDIDATE_AWAITING_EXTERNAL_EXACT_RUNNER",
+  "status":"DEFER_RECOVERABLE_REPAIR_CANDIDATE_AWAITING_NEW_W01_EXACT_RUNNER_SUPPORT",
   "current_action":"REPAIR_HEARTBEAT_GEARBOX_RUNTIME_PHASE1",
   "authority":{
     "mission_state_ref":"state/MISSION_STATE.json",
+    "status":"READY_FOR_BUILDER",
+    "current_role":"LCR-B",
     "pending_packet_ref":"packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json",
     "pending_packet_sha256":"2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee",
+    "pending_consumed":false,
     "lease":null,
     "formal_slot_count":3,
     "slot4":"FORBIDDEN"
   },
-  "defect_repaired_candidate":{
-    "defect_id":"HEARTBEAT-BLOOM-FP-DEADLOCK-001",
-    "old_failure":"probabilistic Bloom membership was used as canonical automatic identity truth and could permanently suppress a genuinely new pulse",
-    "repair_design":"HYBRID_MONOTONIC_CANONICAL_PLUS_BOUNDED_EXTERNAL_REPLAY_GUARD",
-    "canonical_automatic_truth":"persisted pulse_sequence + next_due_at; automatic pulse_id=None never consults probabilistic membership",
-    "external_replay_guard":"bounded persisted Bloom; inserted old/replayed IDs remain conservative NO_OP across restart",
+  "external_support_baseline":{
+    "support_001_ref":"evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json",
+    "support_001_overall":"EXISTING_SUITE_PASS_BUT_CRITICAL_LIVENESS_DEFECT_FOUND_NOT_HANDOFF_READY",
+    "support_001_defect":"HEARTBEAT-BLOOM-FP-DEADLOCK-001",
+    "support_002_expected_ref":"evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json",
+    "support_002_present":false
+  },
+  "defect_repair_candidate":{
+    "design":"HYBRID_MONOTONIC_CANONICAL_PLUS_BOUNDED_EXTERNAL_REPLAY_GUARD",
+    "canonical_automatic_truth":"persisted pulse_sequence + next_due_at; automatic pulse_id=None does not consult probabilistic Bloom membership",
+    "caller_supplied_replay_guard":"bounded persisted Bloom fail-closed",
+    "known_bloom_false_positive_pulse_689":"covered by adversarial regression and required to execute on canonical automatic path",
+    "long_run_test":"10000 canonical pulses at 300s with restart at pulse 5000, zero false duplicate, zero liveness stall",
+    "old_prefix_replay_after_512":"DUPLICATE_NO_OP required",
+    "restart_prefix_replay":"DUPLICATE_NO_OP required",
     "bounded_storage":true,
     "per_pulse_durable_log":false,
+    "zero_experience_required":true,
     "real_5min_runtime_live":false
   },
   "candidate_artifacts":{
@@ -32,29 +46,30 @@
     "evolution/local_command_tower/test_heartbeat_engine.py":{"blob_sha":"446c8b4978b5b3899f254c6b32e01cc3d5a647b4"},
     "evolution/local_command_tower/HEARTBEAT_CONTRACT.json":{"blob_sha":"589b8595e338d717fb5723808338975e1801fa98"}
   },
-  "local_diagnostic_only":{
-    "engine_tests":23,
-    "result":"PASS",
-    "known_false_positive_pulse_689":"EXECUTED_NO_DEADLOCK",
-    "canonical_long_run_pulses":10000,
-    "midrun_restart":true,
-    "false_duplicate_count":0,
-    "liveness_stall_count":0,
-    "zero_experience_delta":true,
-    "formal_evidence_status":"NOT_SUFFICIENT_FOR_HANDOFF_UNTIL_NEW_EXTERNAL_EXACT_RUNNER_SUPPORT"
-  },
-  "external_support_gate":{
-    "previous_ref":"evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json",
-    "previous_overall":"EXISTING_SUITE_PASS_BUT_CRITICAL_LIVENESS_DEFECT_FOUND_NOT_HANDOFF_READY",
-    "required_next":"W01 exact-current-byte runner must fresh-read new three blobs and execute full engine+agent suite including >=10000 canonical pulses with restart, zero false duplicate, zero liveness stall, old-prefix replay/restart replay, bounded storage, zero-Experience, bounded catch-up/CAS/stale/recovery regression",
-    "handoff_allowed_before_new_support":false
+  "handoff_gate":{
+    "required_before_handoff":"NEW_W01_EXACT_CURRENT_BYTE_SUPPORT_ON_CURRENT_THREE_BLOBS",
+    "required_runner_coverage":[
+      "fresh blob SHA match for all three repair artifacts",
+      "full engine + unchanged agent regression suite",
+      ">=10000 canonical pulses at 300s",
+      "midrun restart",
+      "zero false duplicate",
+      "zero liveness stall",
+      "old prefix replay >512 and after restart remains NO_OP",
+      "bounded storage",
+      "288-pulse zero Experience",
+      "bounded catch-up, CAS/stale writer and recovery non-regression"
+    ],
+    "handoff_allowed_now":false
   },
   "formal_mutations_this_wake":{
+    "repair_artifacts_modified":false,
     "pending_packet_consumed":false,
     "b_to_c_packet_created":false,
     "mission_state_changed":false,
-    "c_enabled_by_this_wake":false
+    "c_enabled":false,
+    "e3_promoted":false
   },
-  "next_expected_trigger":"NEW_EXTERNAL_EXACT_RUNNER_SUPPORT_ON_CURRENT_BLOBS",
+  "next_expected_trigger":"W01_WRITES_NEW_EXACT_RUNNER_SUPPORT_FOR_CURRENT_BLOBS_WITH_LONG_RUN_PASS",
   "verified_baseline_preserved":true
 }
