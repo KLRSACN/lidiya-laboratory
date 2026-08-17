@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "LIDIYA-DEVELOPMENT-CONTINUITY-AUDIT-001",
+  "recorded_at": "2026-08-17T20:50:00+08:00",
+  "scope": "Post-recovery long-window development continuity",
+  "conclusion": "APPARENT_THROUGHPUT_AND_CONTINUITY_IMPROVEMENT_BUT_CAUSAL_SPEEDUP_NOT_YET_ESTABLISHED",
+  "evidence": {
+    "verified_baseline_preserved": "Step001-009 remain verified; new failures no longer reset prior verified capability",
+    "post_recovery_new_durable_components": [
+      "W07 Wind Secretary protocol/checkpoint/home anchor",
+      "Predictive Navigator v2 candidate",
+      "Pressure-Aware Metabolism candidate",
+      "Always-on Runtime v1.1 candidate",
+      "Gearbox v2 candidate + contract + adversarial tests"
+    ],
+    "active_working_set": 8,
+    "stale_active_refs_last_known": 0,
+    "real_5min_runtime_live": false
+  },
+  "speed_metrics_required": [
+    "durable_progress_per_wake",
+    "cycle_completion_latency",
+    "rework_or_rollback_ratio",
+    "recovery_latency",
+    "stale_pointer_rate",
+    "route_drift_recurrence",
+    "verified_capability_delta_per_hour",
+    "prediction_true_positive_false_positive_missed_warning"
+  ],
+  "current_metric_limitations": [
+    "No stable pre-upgrade baseline using the same metric definitions",
+    "W07 has not yet accumulated enough independent wake assessments",
+    "Always-on Runtime and Gearbox v2 are candidates, not C-verified",
+    "Owner-reported 5x context load is a pressure signal, not a throughput multiplier"
+  ],
+  "experience_separation": {
+    "model_weight_learning_from_window_duration": "NOT_ESTABLISHED_AND_NOT_ASSUMED",
+    "zero_experience_events": ["HEARTBEAT", "POLL", "RETRY", "WAIT", "SCHEDULER_WAKE"],
+    "system_experience_candidate_events": ["VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON", "DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND"],
+    "rule": "Time alive alone creates no Experience Candidate. Evidence-bearing durable improvement may create system-level Experience Candidate; protected identity/personality remains separately governed."
+  },
+  "preliminary_experience_mapping": {
+    "step009_C_verified_capability": 5,
+    "W01_UI_recovery": "0 verified credit until independently verified as a recovery outcome",
+    "W07_or_navigation_predictions": "0 verified credit until actual outcome is observed and independently reconciled",
+    "candidate_code_or_selftests": "candidate progress only, not verified capability credit"
+  },
+  "next_audit_gate": "Collect >=10 comparable wake receipts per active window plus at least 3 incident/clean replay pairs before claiming a quantified acceleration percentage."
+}
