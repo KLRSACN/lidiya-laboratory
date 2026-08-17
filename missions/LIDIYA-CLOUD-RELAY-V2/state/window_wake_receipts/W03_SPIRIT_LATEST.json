@@ -30,7 +30,11 @@
     "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@7dea5db539e912b3ea06a3edbec5887c1ab42bd4",
     "state/PRIVACY_DATA_SHARING_DISCUSSION.json@09c9d975e1473eba60b46b08b90769dc765adfea"
   ],
-  "readback_status": "PENDING_FINAL_FRESH_READ",
+  "readback_status": "PASS_POST_WRITE_READBACK_CONFIRMED; FINAL_RECEIPT_FRESH_READ_REQUIRED",
+  "readback_evidence": {
+    "post_write_commit": "6ede741646301ea2ebc16908c36ab74c3da6d427",
+    "post_write_blob_sha": "378f760828327c35d84f633eaa1e885d9806f21b"
+  },
   "next_trigger": "Wake W03 when an exact active discussion again routes next_expected_source=SPIRIT with predecessor QUANTUM, or another explicit authorized W03 research action appears. Otherwise emit latest-only VALID_NO_OP receipt without duplicate research writes.",
   "verified_baseline_preserved": true,
   "verified_baseline": {
