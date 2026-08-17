@@ -1,21 +1,21 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Fresh current-head GitHub Actions run 32055358185 / job 95464139084 now provides same-runner exact-current executable candidate evidence for Gearbox v1/v2/v2.1.",
-    "Latest Gearbox v2.1 selftest advanced from DEFER_EXECUTOR_UNAVAILABLE to PASS_CANDIDATE_ONLY while preserving v1 VERIFIED_PASS and formal C verification=NOT_YET.",
-    "Current W02 review remains BOUNDED_VETO_ACTIVE and adds/retains HIGH cross-run replay resistance plus other evidence-binding/freshness/anti-thrash blockers; reviews directory still has no dedicated W03 Gearbox v2.1 review; W04 remains stale and veto-active.",
-    "Canonical EVOLUTION_PROGRESS, W01 checkpoint, selftest and paired speed baseline were refreshed."
+    "Fresh current branch head is 9f22e4114edb8eee83da641f08bc9696e764b405 and has successful exact-current Gearbox runner 32061450013/job 95483427804.",
+    "All six Gearbox source/test blob SHAs remain unchanged; current-head result is v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49 PASS_CANDIDATE_ONLY.",
+    "W02 review QUANTUM-GEARBOX-V2.1-20260818-0333 remains BOUNDED_VETO_ACTIVE and adds HIGH immutable EventIdentity rebinding protection; dedicated W03 review is still absent; W04 remains stale and veto-active.",
+    "Gearbox latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed."
   ],
   "observations": [
-    "Current exact Gearbox source/test blobs are v1 code c29e3b2c / tests 11527a9e, v2 code 45fe6e72 / tests 38799e41, v2.1 code d6509403 / tests 0a6904f1.",
-    "Current same-runner regression succeeded for the same exact suites: v1=21, v2=16, v2.1=12, total=49; result remains candidate-only.",
-    "W02 HIGH blockers include trusted secretary freshness/authority, strict bool verification typing, exact verifier-evidence binding, canonical evidence/event lineage dedupe, cross-run/restart replay resistance, and authenticated anti-thrash shift-rate derivation.",
-    "No dedicated W03/Spirit Gearbox v2.1 adversarial review is present in state/self_repair/reviews.",
-    "W04 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE and predates current W02 review.",
+    "Exact current Gearbox blobs: v1 code c29e3b2c / tests 11527a9e, v2 code 45fe6e72 / tests 38799e41, v2.1 code d6509403 / tests 0a6904f1.",
+    "Executor artifact 9298276371 digest sha256:bc1fe6c5dda5cf88f13c4b911d24f9e92abcb1da9200babea8fd550a975c98c0 is bound to current head.",
+    "W02 HIGH blockers include trusted secretary freshness/authority, strict bool typing, exact verifier-evidence binding, canonical event/evidence lineage dedupe, cross-run/restart replay resistance, immutable event identity sealing/rebinding rejection, and authenticated anti-thrash shift-rate derivation.",
+    "No dedicated W03/Spirit Gearbox v2.1 adversarial review is present at the expected reviews path.",
+    "W04 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE and is stale relative to current W02.",
     "Paired speed baseline remains INSUFFICIENT_SAMPLE for all eight required metrics; speed_multiplier remains NOT_ESTABLISHED.",
     "No A->B->C Gearbox v2.1 formal candidate was routed; Always-on Runtime remains independent P0 and cannot serve as Gearbox proof."
   ],
@@ -29,5 +29,5 @@
   "checkpoint_ref": "state/window_reflections/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS_REQUIRED_THIS_WAKE",
-  "saved_at": "2026-08-18T03:25:49+08:00"
+  "saved_at": "2026-08-18T04:26:58+08:00"
 }
