@@ -1,15 +1,16 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Reconciled canonical EVOLUTION_PROGRESS to the already-completed exact-current same-runner Gearbox regression at head afc3da9a0594b036a873f439135ea298671dc960: v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49 candidate-only tests.",
-    "W02 Quantum remains BOUNDED_VETO_ACTIVE with HIGH findings on secretary freshness/authority proof, verified-evidence binding, and canonical event-lineage dedupe.",
-    "W04 synthesis remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE; dedicated fresh W03/Spirit Gearbox v2.1 review is still missing.",
-    "Paired speed baseline remains INSUFFICIENT_SAMPLE; no multiplier estimated from forbidden proxies.",
-    "No A->B->C Gearbox v2.1 formal candidate was routed; v1 VERIFIED_PASS and Step001-009 verified baseline remain immutable/preserved."
+    "Fresh current Gearbox v1/v2/v2.1 source and test blob SHAs still match the same-runner 49/49 PASS_CANDIDATE_ONLY evidence; no rerun claim was fabricated.",
+    "Fresh W02 Quantum review is newer than W04 synthesis and remains BOUNDED_VETO_ACTIVE; HIGH blockers now explicitly include strict verification-type coercion in addition to secretary freshness/authority proof, verifier-evidence binding, and canonical event/evidence lineage dedupe.",
+    "Dedicated W03/Spirit Gearbox v2.1 adversarial review is still absent; W03 latest receipt/reflection concerns unrelated Small-World/Privacy/runtime work and is not concurrence.",
+    "W04 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE and must be refreshed only after current W02 issues and a dedicated W03 review are available.",
+    "Paired speed baseline remains INSUFFICIENT_SAMPLE; no speed multiplier estimated.",
+    "No A->B->C Gearbox v2.1 formal candidate was routed; v1 VERIFIED_PASS and Step001-009 verified baseline remain preserved."
   ],
   "immutable_baseline": {
     "six_gear_controller_v1": "VERIFIED_PASS",
@@ -17,11 +18,14 @@
     "P_base": "READ_ONLY_UNCHANGED",
     "real_5min_runtime_live": false
   },
-  "candidate_gate": "BLOCKED_W02_W04_VETO_PLUS_MISSING_W03_REVIEW",
+  "candidate_gate": "BLOCKED_W02_HIGH_VETO_PLUS_MISSING_W03_REVIEW_PLUS_W04_REFRESH_REQUIRED",
   "selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
   "speed_ref": "state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
   "w02_ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json",
+  "w03_status": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
   "w04_ref": "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
+  "checkpoint_ref": "state/window_reflections/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
-  "saved_at": "2026-08-17T23:24:44+08:00"
+  "readback_status": "PASS_REQUIRED_THIS_WAKE",
+  "saved_at": "2026-08-18T00:23:40+08:00"
 }
