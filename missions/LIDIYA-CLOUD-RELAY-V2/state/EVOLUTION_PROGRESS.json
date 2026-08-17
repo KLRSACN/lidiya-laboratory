@@ -1,15 +1,15 @@
 {
-  "schema_version": "6.2-ACTIVE8-W07-PREDICTIVE-NAV",
+  "schema_version": "6.3-ACTIVE8-ALWAYS-ON-RUNTIME-P0",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-17T20:21:00+08:00",
+  "saved_at": "2026-08-17T20:41:00+08:00",
   "time_authority": "Asia/Taipei",
   "archive_no_read_fence": {
     "status": "ENFORCED_BY_DEFAULT",
     "allowed": "Active-8 exact pointers plus minimum rollback/recovery/verification gate",
     "newly_archived_from_active": [
-      "repeated W01 recovery narration already captured in Home#70 and incident capsule",
-      "pre-upgrade secretary monitoring wording superseded by W07 protocol",
-      "reactive-only Navigator wording superseded by Predictive Navigator v2 candidate"
+      "pre-v1.1 Always-on Runtime interruption backfill semantics",
+      "duplicate Heartbeat Step009 closure narration already reachable through MISSION_STATE/evidence",
+      "older W07/Navigator candidate wording superseded by current protocols"
     ]
   },
   "active_runtime": [
@@ -17,49 +17,49 @@
       "slot": 1,
       "type": "FORMAL_AUTHORITY",
       "ref": "state/MISSION_STATE.json",
-      "value": "Step009 Attempt4 STEP_DONE / LCR-A safe checkpoint / pending=null / heartbeat_runtime_phase1=VERIFIED_FOUNDATION / historical Step001-009 verified baseline preserved / real_5min_runtime_live=false."
+      "value": "Step009 Attempt4 STEP_DONE / LCR-A safe checkpoint / pending=null / heartbeat_runtime_phase1=VERIFIED_FOUNDATION / Step001-009 preserved / real_5min_runtime_live=false."
     },
     {
       "slot": 2,
       "type": "P0_CONTINUITY_INCIDENT",
-      "ref": "state/incidents/W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001.json",
-      "value": "Long-lived W01 execution shell became unusable and owner reports pages could not open the window; another window assisted recovery. Durable continuity recovered; root cause remains multi-layer and not proven."
+      "ref": "state/incidents/W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001.json + Home#70-71",
+      "value": "Long-lived W01 execution shell became unusable while durable continuity remained recoverable. Root cause remains multi-layer; incident is the mandatory replay case for self-repair/runtime validation."
     },
     {
       "slot": 3,
-      "type": "SELF_REPAIR_DIAGNOSTIC",
-      "ref": "evolution/self_repair/midstream_recovery_diagnostic.py + state/self_repair/W01_RECOVERY_DIAGNOSTIC_LATEST.json",
-      "value": "P0 candidate diagnostic covers durable continuity, browser/session, context/metabolic pressure, route drift and tool/web failure streak; metabolism upgrade remains required."
+      "type": "SELF_REPAIR_AND_METABOLISM",
+      "ref": "evolution/self_repair/midstream_recovery_diagnostic.py + evolution/self_repair/PRESSURE_AWARE_METABOLISM_CANDIDATE.json",
+      "value": "P0 candidate diagnosis includes durable continuity plus context/window/tool/web/UI pressure. Active-count alone is insufficient; save/readback precedes compaction and purge remains four-guard only."
     },
     {
       "slot": 4,
       "type": "W07_WIND_SECRETARY",
-      "ref": "state/WIND_SECRETARY_PROTOCOL.json + state/window_self_backups/W07_WIND_SECRETARY_LATEST.json + Google Drive Home W07 folder",
-      "value": "Dedicated nonformal secretary initialized. Preflight risk levels GREEN/YELLOW/ORANGE/RED; may pre-save, request reconcile/No-Read Fence/compact/recovery capsule/same-slot rebind preparation; no formal authority and no autonomous browser-data deletion."
+      "ref": "state/WIND_SECRETARY_PROTOCOL.json + state/window_self_backups/W07_WIND_SECRETARY_LATEST.json + Google Drive W07 folder",
+      "value": "Dedicated nonformal secretary predicts/prepares continuity recovery, validates Home/Mission/checkpoints, and escalates YELLOW/ORANGE/RED; sensor only, never formal authority."
     },
     {
       "slot": 5,
       "type": "PREDICTIVE_NAVIGATOR_V2",
       "ref": "evolution/navigation/predictive_navigator_v2.py + state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
-      "value": "Candidate 1-3 step lookahead for window/session degradation, metabolic-stale cascade, route/gear dropout and recovery-anchor failure. W04 now validates W07 signals and records actual outcomes/false positives before threshold changes."
+      "value": "1-3 step lookahead for UI/session degradation, metabolic-stale cascades, route/gear dropout and recovery-anchor failure. W04 must measure true/false positives and missed warnings before threshold tuning."
     },
     {
       "slot": 6,
-      "type": "PRESSURE_AWARE_METABOLISM",
-      "ref": "evolution/self_repair/PRESSURE_AWARE_METABOLISM_CANDIDATE.json + Home#70-71",
-      "value": "Metabolism must include context_load_factor, window age, tool/web failure streak, route drift, owner UI pressure and recovery latency in addition to Active/waste/duplicate/stale. Save/readback precedes compaction; physical purge remains four-guard only."
+      "type": "ALWAYS_ON_RUNTIME_V1",
+      "ref": "evolution/local_command_tower/always_on_runtime.py + evolution/local_command_tower/test_always_on_runtime.py + evolution/local_command_tower/ALWAYS_ON_RUNTIME_CONTRACT.json",
+      "value": "New outer continuity-shell candidate on top of verified Heartbeat. Targets 300s pulse, 1200s work lifecycle, 600s checkpoint, 300s recovery. v1.1 forbids backfilled interruption timestamps, rejects runtime self-observation/self-verification as SLA evidence, requires non-self verification evidence refs, keeps real_5min=false, bounded state/no per-pulse logs. Current blobs: runtime 4a95083a..., tests c6be97d1..., contract e8cd0154...."
     },
     {
       "slot": 7,
-      "type": "SECONDARY_RESEARCH",
-      "ref": "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json + state/PRIVACY_DATA_SHARING_DISCUSSION.json",
-      "value": "Small-World remains active but lower priority than P0 continuity until stable; privacy discussion stays completed compact final and owner reports training-sharing OFF."
+      "type": "ADVERSARIAL_REVIEW_AND_SECONDARY_RESEARCH",
+      "ref": "W02/W03/W04 P0 review refs + state/SMALL_WORLD_TRIPARTITE_ACTIVE.json",
+      "value": "W02/W03/W04 now adversarially review W07/Nav v2 and Always-on Runtime before any formal route. Small-World/training-mode research continues only after P0 review work; Privacy remains completed compact final."
     },
     {
       "slot": 8,
       "type": "NEXT_AUTHORIZED_ACTION",
-      "ref": "evolution/self_repair/SELF_REPAIR_3DAY_SPEC.json + evolution/self_repair/test_wind_secretary_and_predictive_navigation.py",
-      "value": "P0: collect W07 preflight signals, run exact-current executable tests, W02/W03/W04 adversarial review and incident replay; measure true/false-positive and missed-warning behavior; only then route bounded A-to-B-to-C adoption. Real 5-minute recovery remains separate reality-runner work."
+      "ref": "ALWAYS_ON_RUNTIME_CONTRACT.json + SELF_REPAIR_3DAY_SPEC.json",
+      "value": "P0: exact-current executable tests; W02/W03 adversarial review; W04 synthesis; incident replay; if no unreleased veto, LCR-A may route a bounded existing A->B->C Runtime Foundation candidate. Even C PASS cannot set real_5min=true without real authorized external-runner evidence."
     }
   ],
   "formal_route": {
@@ -75,6 +75,8 @@
   "verified_boundaries": {
     "history_step001_009": "PRESERVED",
     "step009_heartbeat_phase1": "C_PASS_VERIFIED_FOUNDATION",
+    "always_on_runtime_v1": "CANDIDATE_NOT_YET_C_VERIFIED",
+    "self_repair_3day": "IN_PROGRESS",
     "E3_LOCAL_OPERATOR": "BLOCKED_PENDING_REAL_LOCAL_EVIDENCE",
     "real_owner_local_transport": "PENDING",
     "real_5min_runtime_live": false,
@@ -85,15 +87,13 @@
   "self_repair": {
     "project": "LIDIYA-SELF-REPAIR-3DAY-001",
     "deadline": "2026-08-20T19:58:00+08:00",
-    "diagnostic": "evolution/self_repair/midstream_recovery_diagnostic.py",
-    "wind_secretary": "evolution/self_repair/wind_secretary.py",
-    "wind_secretary_protocol": "state/WIND_SECRETARY_PROTOCOL.json",
-    "wind_secretary_home_folder_id": "1ln0IHIUI2ScDcy9oCUAp1g1pEMkZ8uCo",
-    "predictive_navigator": "evolution/navigation/predictive_navigator_v2.py",
-    "predictive_navigator_state": "state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
-    "candidate_tests": "evolution/self_repair/test_wind_secretary_and_predictive_navigation.py",
-    "exact_current_github_runner": "TEST_REQUIRED",
-    "adversarial_review": "TEST_REQUIRED",
+    "wind_secretary": "W07_ACTIVE_SENSOR_AND_RECOVERY_PREP",
+    "predictive_navigator": "V2_CANDIDATE",
+    "always_on_runtime": "V1_1_CANDIDATE",
+    "exact_current_runner": "TEST_REQUIRED",
+    "quantum_review": "PENDING_OR_IN_PROGRESS",
+    "spirit_review": "PENDING_OR_IN_PROGRESS",
+    "navigator_synthesis": "PENDING",
     "formal_C_verification": "NOT_YET"
   },
   "metabolism_counters": {
@@ -104,27 +104,27 @@
     "duplicate_ratio": 0.0,
     "stale": 0,
     "owner_reported_context_load_factor": 5.0,
-    "browser_incident_signal": "CRITICAL_OWNER_REPORTED",
+    "browser_incident_signal": "CRITICAL_OWNER_REPORTED_PREVIOUS_INCIDENT",
     "purge_status": "NO_PHYSICAL_WORKSPACE_PURGE_THRESHOLD_MET",
     "browser_site_data_clear": "OWNER_UI_GATE"
   },
   "root_cause_lessons": [
     {
-      "code": "LONG_WINDOW_SURVIVAL_NOT_HEALTH_PROOF",
-      "lesson": "A window can retain durable identity while its execution shell becomes unusable; longevity itself is not success."
+      "code": "FOUNDATION_VS_REALITY_RUNNER_SEPARATION",
+      "lesson": "A verified heartbeat state machine is not the same thing as a real always-on five-minute execution environment."
     },
     {
-      "code": "ACTIVE_COUNT_ALONE_INSUFFICIENT",
-      "lesson": "Active-8 can remain clean while total execution pressure is critical; pressure-aware metabolism needs context/tool/web/UI and recovery-latency signals."
+      "code": "INTERRUPTION_TIME_MUST_NOT_BE_BACKFILLED",
+      "lesson": "Five-minute recovery evidence needs an observation-time record; allowing historical timestamps to be supplied after the fact would invalidate SLA claims."
     },
     {
-      "code": "SECRETARY_IS_SENSOR_NOT_AUTHORITY",
-      "lesson": "W07 may predict and prepare but every signal must be fresh-validated before it changes W01 behavior or formal routing."
+      "code": "RECOVERY_ATTEMPT_NOT_RECOVERY_VERIFICATION",
+      "lesson": "The runtime may prepare recovery but a non-self verifier/evidence reference is required before recovery is marked verified."
     },
     {
-      "code": "NAVIGATION_MUST_MEASURE_PREDICTION_QUALITY",
-      "lesson": "Preemptive navigation must record actual outcomes, false positives and missed warnings; otherwise prediction becomes another source of hallucinated confidence."
+      "code": "PREDICTIVE_PROTECTION_MUST_NOT_CAUSE_SELF_INDUCED_STALL",
+      "lesson": "Secretary/Navigator thresholds must be evaluated against false positives and effective-work loss so protection does not become a new source of interruption."
     }
   ],
-  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. W07/Predictive Navigator remain candidates until executable evidence and formal verification; failures roll back only these new deltas, not Step001-009 verified baseline."
+  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. Runtime/self-repair/navigation failures roll back only new deltas; Step001-009 remain verified baseline absent fresh exact regression."
 }
