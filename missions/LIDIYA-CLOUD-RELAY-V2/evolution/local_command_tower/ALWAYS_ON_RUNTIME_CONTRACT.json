@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "product_id": "LIDIYA-ALWAYS-ON-RUNTIME-V1-CANDIDATE",
   "status": "NON_FORMAL_CANDIDATE_NOT_C_VERIFIED",
   "depends_on": {
@@ -18,7 +18,10 @@
     "P_base and formal authority are read-only to this runtime candidate.",
     "real_5min_runtime_live remains false until real authorized always-on execution evidence and formal promotion exist.",
     "No per-pulse durable log; durable state and evidence remain bounded.",
+    "Interruption SLA timestamps are registered at observation time through observe_interruption; step() accepts no caller-supplied historical interruption timestamp.",
+    "Runtime self-observation cannot be used as external five-minute SLA evidence.",
     "Recovery is two-stage: prepare_recovery then mark_recovery_verified.",
+    "mark_recovery_verified requires a non-self verifier identity and an explicit verification evidence reference.",
     "A recovery attempt is not a verified recovery.",
     "Scheduled task last_run is not durable progress.",
     "New runtime failure rolls back only this candidate delta and never invalidates Step001-009 verified baseline without exact regression evidence."
@@ -31,19 +34,23 @@
   ],
   "evidence_required_for_real_live": [
     "An authorized external runner actually invokes the runtime at sub-hour cadence.",
-    "Observed 300-second heartbeat cadence with durable timestamps.",
-    "At least one real interruption followed by a recovery attempt within 300 seconds.",
-    "Recovery must be independently verified, not self-declared by the candidate.",
-    "20-minute work-lifecycle continuity must show durable progress or an explicit bounded recovery path.",
-    "Restart/outage must recover from persisted cursor/state without Experience contamination.",
-    "C verifier must bind exact current artifacts and evidence before any live promotion."
+    "Observed 300-second heartbeat cadence with durable trusted timestamps.",
+    "At least one real interruption is registered when observed, not backfilled after recovery.",
+    "A recovery attempt occurs within 300 seconds of that trusted observation.",
+    "Recovery is independently verified with a durable evidence reference, not self-declared by the runtime.",
+    "20-minute work-lifecycle continuity shows durable progress or an explicit bounded recovery path.",
+    "Restart/outage recovers from persisted cursor/state without Experience contamination.",
+    "C verifier binds exact current artifacts and evidence before any live promotion."
   ],
   "phase0_acceptance": [
     "py_compile passes",
     "all candidate unit tests pass",
     "restart persistence passes",
+    "duplicate interruption observation is no-op",
+    "runtime self-observation is rejected as SLA evidence",
+    "recovery verification rejects self-verifier identities",
     "20-minute lifecycle test passes",
-    "5-minute recovery-target calculation passes",
+    "5-minute recovery-target calculation uses observation-time evidence",
     "candidate cannot self-promote real_5min_runtime_live",
     "compact evidence remains bounded",
     "W02/W03/W04 adversarial reviews have no unreleased veto",
@@ -53,7 +60,9 @@
     "real_5min_runtime_live=true without reality evidence",
     "continuous subjective awareness",
     "AGI or consciousness proof",
-    "Scheduled Tasks equals a real five-minute runner"
+    "Scheduled Tasks equals a real five-minute runner",
+    "Backfilled interruption timestamps count as five-minute SLA evidence",
+    "Runtime self-verification counts as independent recovery verification"
   ],
   "formal_adoption_route": "LCR-A -> existing LCR-B -> existing LCR-C",
   "main_default_write": "FORBIDDEN_NO_SUBGATE"
