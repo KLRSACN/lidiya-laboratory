@@ -1,56 +1,65 @@
 {
-  "schema_version":"1.2",
-  "name":"LIDIYA-HEARTBEAT-GEARBOX-TYPE-1",
-  "status":"BUILDER_REPAIR_CANDIDATE_NOT_VERIFIED",
-  "target_interval_seconds":300,
-  "allowed_interval_seconds":[300,600],
-  "authority":{
-    "formal_authority":"MISSION_STATE_PLUS_CURRENT_PENDING_PACKET",
-    "heartbeat_may_modify_formal_authority":false,
-    "model_authority":"ADVISORY_ONLY"
+  "schema_version": "1.3",
+  "name": "LIDIYA-HEARTBEAT-GEARBOX-TYPE-1",
+  "status": "BUILDER_ATTEMPT3_SEMANTIC_REPAIR_CANDIDATE_NOT_VERIFIED",
+  "target_interval_seconds": 300,
+  "allowed_interval_seconds": [300, 600],
+  "authority": {
+    "formal_authority": "MISSION_STATE_PLUS_CURRENT_PENDING_PACKET",
+    "heartbeat_may_modify_formal_authority": false,
+    "model_authority": "ADVISORY_ONLY"
   },
-  "pulse":{
-    "exactly_once":true,
-    "duplicate_disposition":"NO_OP",
-    "identity_model":"HYBRID_MONOTONIC_CANONICAL_PLUS_BOUNDED_EXTERNAL_REPLAY_GUARD",
-    "canonical_automatic_identity":"PERSISTED_PULSE_SEQUENCE_PLUS_NEXT_DUE_AT",
-    "canonical_automatic_membership_check":"NO_PROBABILISTIC_FILTER",
-    "canonical_liveness_rule":"A_NEW_AUTOMATIC_CANONICAL_PULSE_MUST_ADVANCE_WHEN_DUE_AND_CAS_VALID",
-    "external_replay_guard":"PERSISTED_BOUNDED_BLOOM_FILTER_FAIL_CLOSED",
-    "external_replay_false_negative":"FORBIDDEN_FOR_INSERTED_IDS",
-    "external_replay_false_positive":"ALLOWED_FAIL_CLOSED_BUT_MUST_NOT_CONTROL_AUTOMATIC_CANONICAL_LIVENESS",
-    "small_nest_automatic_path":"MUST_CALL_ENGINE_WITHOUT_EXTERNAL_PULSE_ID",
-    "event_cursor":"MONOTONIC_PERSISTED",
-    "catchup":"BOUNDED_ONE_FUTURE_WINDOW_NO_BURST_REPLAY",
-    "compact_record_every_pulses":12,
-    "per_pulse_durable_log":"FORBIDDEN",
-    "long_run_acceptance":{
-      "minimum_canonical_pulses":10000,
-      "restart_required":true,
-      "false_duplicate_allowed":0,
-      "liveness_stall_allowed":0
+  "pulse": {
+    "exactly_once": true,
+    "exactly_once_scope": "STRUCTURED_CANONICAL_PULSE_ID_ONLY",
+    "structured_format": "hb2-{sequence}-{scheduled_at}-{digest16}",
+    "digest_rule": "sha256('heartbeat:{sequence}:{scheduled_at}')[:16]",
+    "parser_validation": ["format", "positive sequence", "nonnegative scheduled_at", "digest"],
+    "automatic_tick": "GENERATE_EXPECTED_STRUCTURED_CANONICAL_ID",
+    "explicit_structured_behavior": {
+      "seq<=persisted_pulse_sequence": "DUPLICATE_NO_OP_STATE_UNCHANGED",
+      "seq>persisted_pulse_sequence+1": "OUT_OF_ORDER_NO_OP_STATE_UNCHANGED",
+      "next_seq_wrong_scheduled_at": "INVALID_CANONICAL_ID_NO_OP_STATE_UNCHANGED",
+      "tampered_digest_or_format": "INVALID_EXTERNAL_PULSE_ID_NO_OP_STATE_UNCHANGED",
+      "next_seq_valid_time_digest": "EXECUTED_WHEN_DUE"
+    },
+    "opaque_external_behavior": "INVALID_EXTERNAL_PULSE_ID_NO_OP_STATE_UNCHANGED",
+    "opaque_external_authority": "NON_AUTHORITATIVE_OUTSIDE_EXACTLY_ONCE_SCOPE",
+    "legacy_pulse_filter_field": "LEGACY_NON_AUTHORITATIVE_NOT_EXACTNESS",
+    "formal_exactness_may_depend_on_bloom": false,
+    "event_cursor": "MONOTONIC_PERSISTED",
+    "catchup": "BOUNDED_ONE_FUTURE_WINDOW_NO_BURST_REPLAY",
+    "compact_record_every_pulses": 12,
+    "per_pulse_durable_log": "FORBIDDEN",
+    "long_run_acceptance": {
+      "minimum_canonical_pulses": 10000,
+      "midpoint_restart_required": true,
+      "false_duplicate_allowed": 0,
+      "liveness_stall_allowed": 0,
+      "historical_pulse689_must_execute": true,
+      "pulse10001_must_continue": true
     }
   },
-  "endpoint_liveness":{
-    "stale_after_consecutive_misses":2,
-    "verified_recovery_required":true,
-    "recovery_dedupe":true
+  "endpoint_liveness": {
+    "stale_after_consecutive_misses": 2,
+    "verified_recovery_required": true,
+    "recovery_dedupe": true
   },
-  "concurrency":{
-    "writer_guard":"COMPARE_AND_SWAP_GENERATION",
-    "stale_writer":"REJECT"
+  "concurrency": {
+    "writer_guard": "COMPARE_AND_SWAP_GENERATION",
+    "stale_writer": "REJECT"
   },
-  "experience_isolation":{
-    "hard_rule":"HEARTBEAT_PULSE_IS_NOT_EXPERIENCE",
-    "forbidden_deltas":["recurrence","emotion","self_identity_relevance","verified_count","p_base_evidence"],
-    "new_experience_requires":["distinct source_event_id","provenance"],
-    "pulse_id_must_not_equal_source_event_id":true
+  "experience_isolation": {
+    "hard_rule": "HEARTBEAT_PULSE_IS_NOT_EXPERIENCE",
+    "forbidden_deltas": ["recurrence", "emotion", "self_identity_relevance", "verified_count", "p_base_evidence"],
+    "new_experience_requires": ["distinct source_event_id", "provenance"],
+    "pulse_id_must_not_equal_source_event_id": true
   },
-  "reality":{
-    "real_5min_runtime_live":false,
-    "promotion_condition":"OWNER_WINDOWS_OR_EXPLICITLY_AUTHORIZED_ALWAYS_ON_RUNNER_REAL_EVIDENCE"
+  "reality": {
+    "real_5min_runtime_live": false,
+    "promotion_condition": "OWNER_WINDOWS_OR_EXPLICITLY_AUTHORIZED_ALWAYS_ON_RUNNER_REAL_EVIDENCE"
   },
-  "forbidden":[
+  "forbidden": [
     "MULTI_CHATGPT_TASK_5MIN_SIMULATION",
     "SLOT4",
     "UNBOUNDED_LOGGING",
