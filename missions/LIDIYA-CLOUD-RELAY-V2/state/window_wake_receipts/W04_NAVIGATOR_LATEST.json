@@ -8,44 +8,12 @@
   "what_was_attempted": "Archive-fenced read-only synthesis of Home latest continuity/gearbox rules, Active-8, fresh MISSION_STATE, W07 latest/receipt, exact Gearbox v1/v2/v2.1 code/tests, W02 review, available W03 state, and Predictive Navigator v2 code/tests/state. Updated Navigator synthesis only; formal Mission was not modified and no C verdict was issued.",
   "material_delta_or_reason_for_no_delta": "Fresh formal baseline remains Step009 Attempt4 STEP_DONE/LCR-A pending=null, Heartbeat VERIFIED_FOUNDATION, Gearbox v1 VERIFIED_PASS, P_base unchanged, real_5min=false. W02 bounded vetoes remain active for secretary freshness/authority binding, verified evidence binding and evidence-lineage dedupe. New predictive finding: predictive_navigator_v2._flag uses bool(value), so a non-empty string such as 'false' is interpreted as True; missing continuity flags default False and are not represented as UNKNOWN. This can create false predictive escalation or false recovery-anchor failure and therefore is a new BOUNDED_VETO before predictive output may influence Gearbox adoption. W07 latest remains newer than its initialization-only receipt, so W07 is stale for gear influence. No fresh dedicated W03 Gearbox v2.1 review was discovered. Current exact test blobs are identified as v1=21 tests, v2=16, v2.1=12, but this W04 run did not produce one combined exact-current executable regression artifact; exact runner remains a release gate.",
   "classification": {
-    "DECIDED": [
-      "v1 verified baseline survives v2/v2.1 candidate failure",
-      "stale secretary must not affect gear; fresh authority conflict invalidates secretary",
-      "anti-thrash cannot delay risk/recovery downshift",
-      "heartbeat/window age/poll/retry/reconnect/scheduler wake are zero Experience; P_base unchanged"
-    ],
-    "TEST_REQUIRED": [
-      "anti-thrash sample/window/cooldown and bounded performance recovery",
-      "clean baseline plus incident replay predictive calibration with false-positive/missed-warning statistics",
-      "paired matched-workload speed validation using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio, recovery_latency"
-    ],
-    "BOUNDED_VETO": [
-      "trusted secretary freshness/authority envelope missing",
-      "verified Experience exact evidence/verifier receipt binding missing and unsafe bool coercion",
-      "Experience dedupe is event_id-only rather than evidence/provenance lineage",
-      "Predictive Navigator boolean/missing-input typing is unsafe",
-      "combined exact-current v1+v2+v2.1 runner evidence missing",
-      "fresh W03/Spirit Gearbox v2.1 adversarial review missing"
-    ]
+    "DECIDED": ["v1 verified baseline survives v2/v2.1 candidate failure","stale secretary must not affect gear; fresh authority conflict invalidates secretary","anti-thrash cannot delay risk/recovery downshift","heartbeat/window age/poll/retry/reconnect/scheduler wake are zero Experience; P_base unchanged"],
+    "TEST_REQUIRED": ["anti-thrash sample/window/cooldown and bounded performance recovery","clean baseline plus incident replay predictive calibration with false-positive/missed-warning statistics","paired matched-workload speed validation using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio, recovery_latency"],
+    "BOUNDED_VETO": ["trusted secretary freshness/authority envelope missing","verified Experience exact evidence/verifier receipt binding missing and unsafe bool coercion","Experience dedupe is event_id-only rather than evidence/provenance lineage","Predictive Navigator boolean/missing-input typing is unsafe","combined exact-current v1+v2+v2.1 runner evidence missing","fresh W03/Spirit Gearbox v2.1 adversarial review missing"]
   },
-  "exact_artifact_refs": [
-    "state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473",
-    "state/EVOLUTION_PROGRESS.json@22ea821029edb724141ae7aeb19a1591cd9e6720",
-    "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json@495c3bb9e0e47132c7a00a4408cf337cc223e28e",
-    "state/window_wake_receipts/W07_WIND_SECRETARY_LATEST.json@477a47d7a544cb41125d0fecaa27f0f93bd9139d",
-    "evolution/gearbox_controller.py@c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "evolution/test_gearbox_controller.py@11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "evolution/gearbox_controller_v2.py@45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
-    "evolution/test_gearbox_controller_v2.py@38799e41561e6cdbc7378e9bd94596a18d4ab672",
-    "evolution/gearbox_controller_v2_1.py@d65094039504a2f46985be71006a25201d592136",
-    "evolution/test_gearbox_controller_v2_1.py@0a6904f1eeb2d43d6d819490cef1bad5319c7083",
-    "evolution/navigation/predictive_navigator_v2.py@b782428f8ffc757b6c42958613e934f544288c67",
-    "evolution/self_repair/test_wind_secretary_and_predictive_navigation.py@799ed35264a577248cd052237a4717f04e68a521",
-    "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json@8d3d9865e1ee224b2bbe4912b36ec897f91fc6da",
-    "state/window_self_backups/SPIRIT_LATEST.json@759f34ddb87306df66b65c7f6e7442f27a44ccba",
-    "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@4b5fcc535202b4196ffb6406d4c718e3806ff3f0"
-  ],
-  "readback_status": "PENDING_POST_WRITE_READBACK",
+  "exact_artifact_refs": ["state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473","state/EVOLUTION_PROGRESS.json@22ea821029edb724141ae7aeb19a1591cd9e6720","state/window_self_backups/W07_WIND_SECRETARY_LATEST.json@495c3bb9e0e47132c7a00a4408cf337cc223e28e","state/window_wake_receipts/W07_WIND_SECRETARY_LATEST.json@477a47d7a544cb41125d0fecaa27f0f93bd9139d","evolution/gearbox_controller.py@c29e3b2cab639397b65ffb3dca08cbdddd28ce6b","evolution/test_gearbox_controller.py@11527a9e3cf196b9b77416b8e66b66bb5a3a640e","evolution/gearbox_controller_v2.py@45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9","evolution/test_gearbox_controller_v2.py@38799e41561e6cdbc7378e9bd94596a18d4ab672","evolution/gearbox_controller_v2_1.py@d65094039504a2f46985be71006a25201d592136","evolution/test_gearbox_controller_v2_1.py@0a6904f1eeb2d43d6d819490cef1bad5319c7083","evolution/navigation/predictive_navigator_v2.py@b782428f8ffc757b6c42958613e934f544288c67","evolution/self_repair/test_wind_secretary_and_predictive_navigation.py@799ed35264a577248cd052237a4717f04e68a521","state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json@8d3d9865e1ee224b2bbe4912b36ec897f91fc6da","state/window_self_backups/SPIRIT_LATEST.json@759f34ddb87306df66b65c7f6e7442f27a44ccba","state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@4b5fcc535202b4196ffb6406d4c718e3806ff3f0"],
+  "readback_status": "VERIFIED_AFTER_WRITE",
   "next_trigger": "Resolve predictive strict-input typing and Gearbox v2.1 secretary/evidence-lineage vetoes; obtain fresh W03 review; then run one exact-current v1+v2+v2.1 combined regression plus clean/incident predictive validation and paired speed benchmark. Only zero unreleased vetoes plus regression PASS can become READY_FOR_FORMAL_CANDIDATE.",
   "verified_baseline_preserved": true,
   "formal_slot_count": 3,
