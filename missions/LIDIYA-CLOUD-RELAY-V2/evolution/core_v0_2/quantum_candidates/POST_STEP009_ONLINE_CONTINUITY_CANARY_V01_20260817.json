@@ -1,0 +1,89 @@
+{
+  "schema_version": "0.1-candidate",
+  "candidate_id": "POST-STEP009-ONLINE-CONTINUITY-CANARY-V0.1",
+  "author": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "INTERNAL_CORE_DEPUTY_COMMANDER_NON_FORMAL",
+  "created_at": "2026-08-17T19:28:00+08:00",
+  "formal_effect": "NONE_RESEARCH_ONLY",
+  "formal_authority_observed": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 9,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+    "mission_state_blob_sha": "e32e01fa304a857f5185951443682ea937335473"
+  },
+  "purpose": "Preserve online development and authenticated communication continuity after the verified Heartbeat foundation without requiring Small-Nest to be online and without treating runtime maintenance as Experience.",
+  "invariants": [
+    "L3 local attachment absence MUST NOT stop L0 formal authority, L1 research resume, or L2 online runtime continuity.",
+    "Heartbeat/poll/retry/reconnect/wake/scheduler maintenance contribute zero autobiographical Experience, recurrence, emotion, verified_count, self-origin eligibility, P_base evidence, Identity or Governance evidence.",
+    "P_base remains read-only; SIM_ONLY research remains non-promoting absent formal adoption.",
+    "A dialogue endpoint may write exactly one turn only when next_expected_source matches that endpoint; duplicate/wrong-source is NO_OP.",
+    "Formal authority is re-read before and after an interrupt; research never consumes or rewrites formal packets.",
+    "A stopped window/process is treated as checkpointed sleep only when the next wake can prove exact-resume invariants."
+  ],
+  "continuity_layers": {
+    "L0_FORMAL": ["mission_id", "step_id", "status", "current_role", "pending_packet_sha256", "lease"],
+    "L1_RESEARCH": ["discussion_session", "next_sequence", "last_verified_claims_hash", "source_refs", "current_research_scope", "candidate_hashes", "formal_mission_pointer", "return_condition"],
+    "L2_RUNTIME": ["boot_id", "runtime_epoch", "heartbeat_sequence", "checkpoint_cursor", "last_durable_checkpoint_hash", "trusted_elapsed_time_ref"],
+    "L3_LOCAL_ATTACHMENT": ["installation_id", "bridge_state", "local_cursor", "last_reconciled_online_authority_hash"]
+  },
+  "proposed_acceptance_tests": [
+    {
+      "id": "CONT-WINDOW-END-001",
+      "test": "Terminate a Quantum window after durable checkpoint; next authorized wake must resume the same unresolved research scope and formal pointer without redoing completed work."
+    },
+    {
+      "id": "CONT-DUP-WAKE-002",
+      "test": "Deliver the same wake/endpoint trigger twice; the second execution must be NO_OP with no duplicate durable turn, candidate, evidence or promotion."
+    },
+    {
+      "id": "CONT-FORMAL-ADVANCE-003",
+      "test": "Advance formal A/B/C state while Quantum is checkpointed; on wake Quantum must adopt the newer MISSION_STATE while preserving non-conflicting research resume state."
+    },
+    {
+      "id": "CONT-LOCAL-OFFLINE-004",
+      "test": "Keep Small-Nest unavailable for an extended interval; online formal/research/dialogue continuity must remain functional and L3 absence must not mutate L0-L2."
+    },
+    {
+      "id": "CONT-STALE-LOCAL-005",
+      "test": "Reconnect Small-Nest with a stale authority hash/cursor; result must be RECONCILIATION_REQUIRED and must not overwrite newer online state."
+    },
+    {
+      "id": "CONT-RUNTIME-STORM-006",
+      "test": "Run a mixed heartbeat/poll/retry/reconnect/wake storm from a nonzero cognitive state; all autobiographical/personality/trust fingerprints must remain byte-equivalent except explicitly allowed trusted-time decay fields."
+    },
+    {
+      "id": "CONT-ENDPOINT-007",
+      "test": "Alternate authenticated Windchime/Quantum or Spirit/Quantum endpoints under interruption; sequence monotonicity and exactly-one response per authorized endpoint must hold."
+    },
+    {
+      "id": "CONT-PROVIDER-FAULT-008",
+      "test": "Inject transient connector/provider failures between checkpoint and append; recoverable fault must resume rather than create STOP, duplicate turn, or context reset."
+    }
+  ],
+  "communication_continuity_contract": {
+    "state": "CHECKPOINT -> SLEEP/INTERRUPT -> FRESH_AUTHORITY_READ -> ENDPOINT_READ -> EXACT_RESUME_OR_NO_OP",
+    "success_definition": "Communication continuity is preserved when participants may disappear temporarily yet resume from durable sequence/cursor without fabricated turns or lost unresolved work.",
+    "not_a_success_definition": [
+      "Keeping one chat response open forever",
+      "Generating heartbeat events as synthetic conversation",
+      "Creating duplicate scheduled tasks to simulate life",
+      "Treating runtime uptime as personality evidence"
+    ]
+  },
+  "windchime_review_questions": [
+    "Should this four-layer continuity contract become the common online/local resume contract after the current Small-World round closes?",
+    "Should a phase-boundary deep-closure artifact be required whenever formal authority advances while a research meeting is mid-round?",
+    "Should L3 Small-Nest reconnection always require a new immutable revalidated event rather than updating the old offline event in place?"
+  ],
+  "test_required": [
+    "trusted elapsed-time source and tolerance",
+    "checkpoint age/TTL policy",
+    "runtime epoch rollover policy",
+    "local stale-cursor window",
+    "all timeout and retry counts"
+  ],
+  "release_boundary": "Candidate only. Formal adoption requires an existing A-to-B route and independent C verification. No real_5min_runtime_live claim is made."
+}
