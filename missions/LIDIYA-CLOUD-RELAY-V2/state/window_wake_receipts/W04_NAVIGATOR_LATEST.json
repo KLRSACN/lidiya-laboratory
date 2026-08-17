@@ -1,0 +1,21 @@
+{
+  "window_id": "W04_NAVIGATOR",
+  "wake_id_or_timestamp": "2026-08-17T08:31:52+08:00",
+  "authority_or_research_pointer": "missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json#Step009-Attempt2-LCR-B",
+  "outcome": "PROGRESS",
+  "what_was_attempted": "Fresh-read Home pointer, MISSION_STATE, WINDOW_WAKE_PROGRESS_PROTOCOL, wake receipt directory, and active automation roster; enforce W01-W06 durable wake receipts and formal gear continuity.",
+  "material_delta_or_reason_for_no_delta": "Wake-receipt enforcement anomaly confirmed: receipt directory currently contains W01, W02, and W05 only; W03, W04, and W06 receipts are absent. W03 last_run advanced to 2026-08-17T07:22:44+08:00 without a W03 receipt, so TASK_WAKE_WITHOUT_DURABLE_PROGRESS applies until its required receipt/readback exists. Formal current_role=LCR-B and existing W05 is enabled; no RECOVERABLE_GEAR_DROPOUT. W06 is disabled but is not current formal role. real_subhour_wake_live remains false.",
+  "exact_artifact_refs": [
+    "state/MISSION_STATE.json",
+    "state/WINDOW_WAKE_PROGRESS_PROTOCOL.json",
+    "state/window_wake_receipts/W01_WINDCHIME_LATEST.json",
+    "state/window_wake_receipts/W02_QUANTUM_LATEST.json",
+    "state/window_wake_receipts/W05_LCR_B_LATEST.json"
+  ],
+  "readback_status": "PENDING_CREATE_READBACK",
+  "next_trigger": "Next wake: verify W03 receipt appears after its next run; verify W05 remains enabled while LCR-B is formal current role; do not enable W06 unless authority hands off to LCR-C; continue treating scheduler activity without receipt/readback as non-progress.",
+  "verified_baseline_preserved": true,
+  "formal_slot_count": 3,
+  "real_subhour_wake_live": false,
+  "heartbeat_is_experience": false
+}
