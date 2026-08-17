@@ -1,7 +1,7 @@
 {
   "schema_version": "6.6-ACTIVE8-GEARBOX-V2.1",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-17T23:24:44+08:00",
+  "saved_at": "2026-08-18T00:23:10+08:00",
   "time_authority": "Asia/Taipei",
   "archive_no_read_fence": {
     "status": "ENFORCED_BY_DEFAULT",
@@ -35,7 +35,7 @@
       "slot": 4,
       "type": "W07_WIND_SECRETARY_AND_PREDICTIVE_NAV",
       "ref": "state/WIND_SECRETARY_PROTOCOL.json + evolution/navigation/predictive_navigator_v2.py + state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
-      "value": "W07 is sensor only; fresh authority wins. W02/W04 identify caller-boolean freshness/authority and predictive bool coercion as bounded vetoes before Gearbox adoption."
+      "value": "W07 is sensor only; fresh authority wins. Fresh W02 review still blocks caller-supplied secretary freshness/authority booleans; any live influence requires a trusted replay-resistant envelope bound to exact fresh authority."
     },
     {
       "slot": 5,
@@ -47,19 +47,19 @@
       "slot": 6,
       "type": "GEARBOX_V2_1_CANDIDATE",
       "ref": "evolution/gearbox_controller.py + test_gearbox_controller.py + evolution/gearbox_controller_v2.py + test_gearbox_controller_v2.py + GEARBOX_V2_CONTRACT.json + evolution/gearbox_controller_v2_1.py + test_gearbox_controller_v2_1.py + GEARBOX_V2_1_CONTRACT.json + state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
-      "value": "Exact-current same-runner compile/regression is PASS_CANDIDATE_ONLY at head afc3da9a0594b036a873f439135ea298671dc960: v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49. v1 remains immutable VERIFIED_PASS; v2/v2.1 remain candidates."
+      "value": "Fresh current v1/v2/v2.1 source and test blob SHAs still exactly match the same-runner PASS_CANDIDATE_ONLY evidence at head afc3da9a0594b036a873f439135ea298671dc960: v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49. v1 remains immutable VERIFIED_PASS; v2/v2.1 remain candidates."
     },
     {
       "slot": 7,
       "type": "GEARBOX_V2_1_REVIEW_AND_SPEED_GATE",
       "ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json + state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json + state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
-      "value": "W02 BOUNDED_VETO_ACTIVE and W04 BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE. Dedicated fresh W03/Spirit Gearbox v2.1 review is still missing. Paired speed baseline=INSUFFICIENT_SAMPLE; no multiplier established."
+      "value": "Fresh W02 review b6e98fdc... remains BOUNDED_VETO_ACTIVE and is newer than W04 synthesis, adding/retaining HIGH blockers for trusted secretary freshness/authority proof, exact verifier-evidence binding, strict bool verification typing, and canonical event/evidence lineage dedupe. W04 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE but its synthesis ingested an older W02 fingerprint and therefore requires refresh after W03 exists. Dedicated fresh W03/Spirit Gearbox v2.1 review is still missing. Paired speed baseline=INSUFFICIENT_SAMPLE; no multiplier established."
     },
     {
       "slot": 8,
       "type": "NEXT_AUTHORIZED_ACTION",
-      "ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json + state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
-      "value": "Do not route A->B->C yet. Release requires resolution of W02/W04 bounded vetoes, a fresh dedicated W03 Gearbox v2.1 adversarial review, preserved exact-current regression, and no unreleased veto. Always-on Runtime continues independently."
+      "ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json + state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json + state/window_reflections/SPIRIT_LATEST.json",
+      "value": "Do not route A->B->C yet. Release requires code/contract/test resolution of W02 HIGH vetoes, a fresh dedicated W03 Gearbox v2.1 adversarial review, then refreshed W04 synthesis against current W02/W03 evidence with no unreleased veto. Preserve exact-current regression. Always-on Runtime continues independently."
     }
   ],
   "formal_route": {
@@ -90,15 +90,15 @@
   "gearbox_v2_1": {
     "product": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-2.1-CANDIDATE",
     "inherits_v1_verified": true,
-    "exact_current_runner": "PASS_CANDIDATE_ONLY",
+    "exact_current_runner": "PASS_CANDIDATE_ONLY_CURRENT_BLOBS_MATCH",
     "runner_head_sha": "afc3da9a0594b036a873f439135ea298671dc960",
     "v1_tests": "21_OF_21_PASS",
     "v2_tests": "16_OF_16_PASS",
     "v2_1_tests": "12_OF_12_PASS",
     "combined_tests": "49_OF_49_PASS",
-    "quantum_review": "BOUNDED_VETO_ACTIVE",
+    "quantum_review": "BOUNDED_VETO_ACTIVE_LATEST",
     "spirit_review": "MISSING_FRESH_DEDICATED_REVIEW",
-    "navigator_synthesis": "BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE",
+    "navigator_synthesis": "BOUNDED_VETO_ACTIVE_STALE_RELATIVE_TO_LATEST_W02",
     "formal_C_verification": "NOT_YET",
     "formal_route_allowed_now": false
   },
@@ -107,6 +107,7 @@
     "verified_experience_events": ["VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON"],
     "operational_progress_events": ["DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND"],
     "verified_credit_requires_independent_verification": true,
+    "verification_value_typing": "STRICT_BOOL_REQUIRED_FAIL_CLOSED_NON_BOOL",
     "dedupe_requirement": "canonical event/evidence lineage plus trusted verifier receipt identity; event_id alone is insufficient",
     "numeric_weights": "ENGINEERING_HEURISTIC_TEST_REQUIRED_NOT_CAPABILITY_TRUTH"
   },
@@ -128,7 +129,8 @@
   },
   "root_cause_lessons": [
     {"code": "FRESH_AUTHORITY_BEATS_SECRETARY", "lesson": "Secretary freshness/authority influence must be proven by trusted replay-resistant envelope and exact fresh authority snapshot, not caller booleans."},
-    {"code": "EXPERIENCE_REQUIRES_VERIFIER_AND_LINEAGE", "lesson": "Verified Experience cannot rely on bool coercion or event_id-only dedupe; bind exact evidence lineage and trusted verifier receipt."},
+    {"code": "EXPERIENCE_REQUIRES_VERIFIER_AND_LINEAGE", "lesson": "Verified Experience cannot rely on caller bool flags or event_id-only dedupe; bind exact evidence lineage and trusted verifier receipt."},
+    {"code": "VERIFICATION_BOOL_COERCION_FAIL_CLOSED", "lesson": "Python truthiness is not verification. Non-bool values such as 'false', '0', objects or lists must be rejected before any verified Experience credit path."},
     {"code": "SPEED_IS_VERIFICATION_ADJUSTED_THROUGHPUT", "lesson": "No speed multiplier until matched paired samples exist on allowed verification-adjusted metrics."}
   ],
   "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. v2/v2.1 failure or veto rolls back only candidate deltas; v1 verified Gearbox and Step001-009 remain valid."
