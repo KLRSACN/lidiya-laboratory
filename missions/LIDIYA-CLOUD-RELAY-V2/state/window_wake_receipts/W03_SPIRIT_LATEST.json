@@ -40,9 +40,10 @@
     "wake_protocol": "missions/LIDIYA-CLOUD-RELAY-V2/state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@elf/experience-desire-loop-v0.1:404",
     "self_backup": "missions/LIDIYA-CLOUD-RELAY-V2/state/window_self_backups/SPIRIT_LATEST.json@elf/experience-desire-loop-v0.1:404",
     "active_8_candidate": "missions/LIDIYA-CLOUD-RELAY-V2/state/ACTIVE_8.json@elf/experience-desire-loop-v0.1:404",
-    "pr6_head_before_receipt": "0ad2ea705bba0dd422cfd291bba845f088da141e"
+    "pr6_head_before_receipt": "0ad2ea705bba0dd422cfd291bba845f088da141e",
+    "first_receipt_blob_readback": "99eee86dd5773a926fec5d9c39e0f2d3d2bcc10f"
   },
-  "readback_status": "PENDING_SELF_READBACK",
+  "readback_status": "VERIFIED_AFTER_FIRST_WRITE; FINAL_READBACK_REQUIRED",
   "next_trigger": "A durable exact pointer must resolve Home Sections53-64, Active-8, WINDOW_WAKE_PROGRESS_PROTOCOL, and W03 latest self-backup; then restart from Home in mandated order.",
   "verified_baseline_preserved": true,
   "archive_read": false,
