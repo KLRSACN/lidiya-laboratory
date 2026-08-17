@@ -35,7 +35,8 @@
     "skip_Small_World_due_to_incomplete_startup_chain",
     "skip_Privacy_due_to_incomplete_startup_chain",
     "write_mandatory_W03_wake_receipt",
-    "fresh_read_wake_receipt"
+    "fresh_read_wake_receipt",
+    "confirm_final_readback_status"
   ],
   "delta_or_reason": "Fail-closed startup gate. The current durable sources available in this wake do not expose a uniquely resolvable Home Sections53-64 -> Active-8 exact pointer chain, so no archive or stale discussion was used to fill the gap. MISSION_STATE fresh-read succeeded and remains Step008 Attempt3 LCR-C READY_FOR_VERIFY. On Draft PR #6 branch, state/WINDOW_WAKE_PROGRESS_PROTOCOL.json and state/window_self_backups/SPIRIT_LATEST.json both returned 404. Because the mandated startup chain is incomplete, no hallucination benchmark, Small-World, Privacy, P_base, or formal mutation is authorized this wake. Mandatory receipt is the only write.",
   "exact_refs": {
@@ -43,9 +44,11 @@
     "active_8": "UNRESOLVED_NO_CURRENT_EXACT_POINTER",
     "mission_state": "missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json@elf/experience-desire-loop-v0.1#1de9c1caffc9759f12ff01739c409b99082e90c1",
     "wake_protocol": "missions/LIDIYA-CLOUD-RELAY-V2/state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@elf/experience-desire-loop-v0.1:404",
-    "self_backup": "missions/LIDIYA-CLOUD-RELAY-V2/state/window_self_backups/SPIRIT_LATEST.json@elf/experience-desire-loop-v0.1:404"
+    "self_backup": "missions/LIDIYA-CLOUD-RELAY-V2/state/window_self_backups/SPIRIT_LATEST.json@elf/experience-desire-loop-v0.1:404",
+    "receipt_first_write_commit": "3c0c8b90fc995799a47abdcbe04c81ea0bbd886a",
+    "receipt_first_readback_blob": "9b97b31d7c7f148bd698422d601ec102fb89b752"
   },
-  "readback_status": "PENDING_FRESH_READ",
+  "readback_status": "FINAL_FRESH_READ_VERIFIED",
   "next_trigger": "Current durable authority must expose a uniquely resolvable Home Sections53-64 -> Active-8 chain and existing WINDOW_WAKE_PROGRESS_PROTOCOL plus W03 latest self-backup exact refs. Then restart from Home; only after startup completes may W03 check the post-flush hallucination benchmark and exact Small-World/Privacy source gates.",
   "verified_baseline_preserved": true,
   "archive_read": false,
