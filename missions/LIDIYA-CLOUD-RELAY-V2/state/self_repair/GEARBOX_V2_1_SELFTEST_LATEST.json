@@ -1,20 +1,14 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-EVOLUTION-0005",
-  "status": "PASS_CANDIDATE_ONLY",
+  "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
-  "runner_provenance": {
+  "current_head_sha": "74bb16ecd74eda8e284686d8e740c90fe4c24e50",
+  "executor_check": {
     "provider": "GitHub Actions",
-    "run_id": 32036406694,
-    "job_id": 95407682166,
-    "job_name": "P0 exact-current Gearbox + Always-on candidate regression",
-    "head_sha": "afc3da9a0594b036a873f439135ea298671dc960",
-    "tree_sha": "63c1be1806fad794c6d05ce942a2331c096355ef",
-    "runner": "ubuntu-latest / Python 3.12",
-    "compile_exit_code": 0,
-    "combined_test_exit_code": 0,
-    "artifact_id": 9290835343,
-    "artifact_digest": "sha256:a943c53248ee5a9f2bd63055269dabf8a9d6a0df878a3bd62df8fc3adfdea46d"
+    "current_head_workflow_run_found": false,
+    "fresh_same_runner_execution_performed_this_wake": false,
+    "handling": "No fresh current-head executor run exists, so this wake does not claim a new PASS."
   },
   "exact_blob_sha": {
     "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
@@ -24,17 +18,25 @@
     "evolution/gearbox_controller_v2_1.py": "d65094039504a2f46985be71006a25201d592136",
     "evolution/test_gearbox_controller_v2_1.py": "0a6904f1eeb2d43d6d819490cef1bad5319c7083"
   },
-  "compile": {
-    "gearbox_controller.py": "PASS",
-    "gearbox_controller_v2.py": "PASS",
-    "gearbox_controller_v2_1.py": "PASS"
+  "last_successful_exact_runner_support": {
+    "status": "HISTORICAL_SUPPORT_ONLY_NOT_FRESH_PASS",
+    "provider": "GitHub Actions",
+    "run_id": 32036406694,
+    "job_id": 95407682166,
+    "job_name": "P0 exact-current Gearbox + Always-on candidate regression",
+    "head_sha": "afc3da9a0594b036a873f439135ea298671dc960",
+    "tree_sha": "63c1be1806fad794c6d05ce942a2331c096355ef",
+    "runner": "ubuntu-latest / Python 3.12",
+    "compile_exit_code": 0,
+    "combined_test_exit_code": 0,
+    "suites": {
+      "v1": {"tests": 21, "status": "PASS"},
+      "v2": {"tests": 16, "status": "PASS"},
+      "v2_1": {"tests": 12, "status": "PASS"}
+    },
+    "gearbox_total_tests": 49,
+    "exact_blob_identity_still_matches_current": true
   },
-  "suites": {
-    "v1": {"tests": 21, "status": "PASS", "count_source": "exact test source definitions"},
-    "v2": {"tests": 16, "status": "PASS", "count_source": "exact test source definitions"},
-    "v2_1": {"tests": 12, "status": "PASS", "count_source": "exact test source definitions"}
-  },
-  "gearbox_total_tests": 49,
   "baseline": {
     "v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE",
     "v2": "CANDIDATE",
@@ -48,7 +50,7 @@
     "runtime_maintenance_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "formal_adoption_gate": "BLOCKED_BY_W02_BOUNDED_VETO_AND_MISSING_W03_REVIEW; W04 synthesis alone cannot release",
-  "claim_boundary": "Executable exact-current candidate regression PASS only; does not promote v2/v2.1 and does not replace A->B->C independent verification.",
-  "recorded_at": "2026-08-17T22:21:55+08:00"
+  "formal_adoption_gate": "BLOCKED_BY_W02_BOUNDED_VETO_AND_MISSING_W03_REVIEW_AND_STALE_W04_SYNTHESIS",
+  "claim_boundary": "Current six blobs match the last successful exact runner, but no fresh current-head executor rerun occurred this wake. No new PASS is claimed.",
+  "recorded_at": "2026-08-18T02:21:18+08:00"
 }
