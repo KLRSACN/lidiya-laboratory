@@ -1,0 +1,114 @@
+{
+  "schema_version":"1.0",
+  "review_id":"QV-HEARTBEAT-STRUCTURED-IDENTITY-001",
+  "window_id":"W02_QUANTUM",
+  "role":"NONFORMAL_SECONDARY_ADVERSARIAL_REVIEW",
+  "mission_pointer":"LCR-EVOLUTION-0005/Step009/Attempt2/LCR-B",
+  "reviewed_at":"2026-08-17T09:13:28+08:00",
+  "scope":"Latest-only adversarial counter-review of W01 Home#69 structured canonical heartbeat identity support candidate and the current hybrid Builder repair candidate. No formal artifact/packet mutation, no Builder implementation, no C verdict.",
+  "sources":[
+    {"ref":"Home#68","claim":"HEARTBEAT-BLOOM-FP-DEADLOCK-001 reproduced on prior exact Bloom-gated canonical path at pulse 689."},
+    {"ref":"Home#69","claim":"W01 structured monotonic identity support: sequence/scheduled_at/digest, optional epoch/install fingerprint, O(1) watermark, exact-next execution."},
+    {"ref":"evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json","sha":"8d1d8697b26c9315fb9784cdbd1a6ab82ad60331","claim":"26 existing exact-byte tests passed on earlier snapshot but critical canonical Bloom deadlock made it NOT_HANDOFF_READY."},
+    {"ref":"evolution/local_command_tower/heartbeat_engine.py","blob_sha":"75ba749b509cb5d8ebe87395a773933ed6648c2e","claim":"Current hybrid candidate: automatic pulse_id=None bypasses Bloom; caller-supplied IDs use bounded Bloom and both paths mutate one persisted sequence/cursor/schedule."},
+    {"ref":"evolution/local_command_tower/test_heartbeat_engine.py","blob_sha":"446c8b4978b5b3899f254c6b32e01cc3d5a647b4","claim":"Current authored tests include known pulse-689 canonical case and 10000 automatic canonical pulses with restart; tests are Builder candidate evidence only."},
+    {"ref":"evolution/local_command_tower/HEARTBEAT_CONTRACT.json","blob_sha":"589b8595e338d717fb5723808338975e1801fa98","claim":"Current contract calls identity HYBRID_MONOTONIC_CANONICAL_PLUS_BOUNDED_EXTERNAL_REPLAY_GUARD and remains BUILDER_REPAIR_CANDIDATE_NOT_VERIFIED."}
+  ],
+  "material_findings":[
+    {
+      "id":"QH-01-EXACTNESS-SCOPE",
+      "severity":"HIGH",
+      "finding":"Bounded exactness is only defensible for an engine-derived structured canonical heartbeat sequence. Arbitrary opaque IDs cannot have unbounded exact membership plus bounded storage in general. Current hybrid code still accepts caller-supplied arbitrary pulse_id and, when due and not Bloom-positive, executes it by incrementing the same pulse_sequence/event_cursor and moving next_due_at. Therefore an external/manual ID can perturb the automatic canonical timeline even though automatic canonical membership itself bypasses Bloom.",
+      "required_boundary":"The exactly-once claim MUST be explicitly scoped to canonical engine-derived heartbeat identity. Caller-supplied opaque IDs must either be forbidden on the live automatic path or isolated into a separate bounded advisory/manual namespace that cannot advance canonical sequence, event cursor or next_due_at. Bloom false positives in that external namespace may fail closed only if they cannot stall or schedule-shift canonical heartbeat."
+    },
+    {
+      "id":"QH-02-EPOCH-RESET-STATE-LOSS",
+      "severity":"HIGH",
+      "finding":"Current durable state has no trusted installation_id or monotonic epoch/generation lineage. Missing state initializes sequence=0. After state loss/reset, historical replay protection and canonical identity continuity can restart from a fresh baseline; an old external ID can also become admissible if Bloom state is lost. A simple sequence watermark is exact only while its durable lineage remains authoritative.",
+      "required_boundary":"Live/adoptable mode must fail closed on unexplained state loss. Epoch/reset must be versioned and monotonically anchored to trusted installation/workspace lineage; recovery must prove predecessor continuity or enter reconciliation, never silently initialize a new authoritative epoch."
+    },
+    {
+      "id":"QH-03-CRASH-CUTPOINT",
+      "severity":"HIGH",
+      "finding":"Atomic JSON replace protects file integrity but does not by itself prove exactly-once semantics across all crash cutpoints or external effects. The engine mutates memory then persists; a crash before replace loses the transition, while a crash after replace but before caller acknowledgement leaves the transition committed. Exactly-once can therefore only cover the durable heartbeat state transition unless all downstream effects are independently idempotent/transactionally bound.",
+      "required_boundary":"Define exact execution/commit contract. Test crash before validation, after validation-before-persist, immediately before replace, immediately after replace-before-return, and after return-before-downstream acknowledgement. After restart each identity must have one deterministic disposition, and no external irreversible effect may rely on PulseResult.executed without its own idempotency key/outbox."
+    },
+    {
+      "id":"QH-04-CLOCK-ROLLBACK-LATE-CATCHUP",
+      "severity":"MEDIUM_HIGH",
+      "finding":"Automatic sequence is persisted, but scheduling trusts caller-provided now and advances next_due_at=now+interval. Large rollback can defer liveness until the old next_due; large forward jumps rebase schedule to now. This may be acceptable bounded catch-up behavior, but it is not yet a trusted-time proof and must not manufacture Experience or burst replay.",
+      "required_boundary":"Sequence remains state-authoritative; wall-clock may decide due-ness only under a versioned trusted-time policy. Clock rollback/future jump must never decrement/reuse sequence, execute multiple catch-up pulses, or alter Experience/P_base. A late run may execute at most the bounded catch-up policy then establish one next due."
+    },
+    {
+      "id":"QH-05-OUT-OF-ORDER-FUTURE-SEQ",
+      "severity":"HIGH",
+      "finding":"Home#69 proposes explicit seq validation, but current public tick API does not accept a structured sequence; external callers can instead submit arbitrary pulse_id and still advance the internal next sequence when due. Thus the current hybrid API has not demonstrated the Home#69 rule seq!=committed+1 => non-executing/fail-closed for externally presented structured identities.",
+      "required_boundary":"If structured identities become externally representable, parser validation must require exact next sequence plus exact scheduled_at plus internally recomputed identity binding. A future sequence such as 10^12 must not advance or poison the watermark; the legitimate committed+1 pulse must remain executable afterward."
+    },
+    {
+      "id":"QH-06-INSTALLATION-CLONING",
+      "severity":"HIGH",
+      "finding":"canonical_pulse_id currently binds only sequence and scheduled_at. Cloning the state file to two installations can produce identical future canonical pulse IDs while both installations advance independently. Local O(1) exactness does not resolve cross-install reconciliation or duplicate evidence identity.",
+      "required_boundary":"Canonical identity or reconciliation envelope needs trusted installation/workspace identity and explicit clone/restore semantics. A clone must either receive a new authorized installation epoch and reconcile before execution, or remain the same logical installation under a single-writer lease; two independent writers with the same identity must fail closed."
+    },
+    {
+      "id":"QH-07-FORGED-SEQ-DIGEST",
+      "severity":"HIGH",
+      "finding":"A plain digest is an integrity checksum, not authority. Current canonical_pulse_id SHA is deterministic and externally reproducible, while caller-supplied pulse IDs are accepted as execution inputs. An attacker able to call the engine can construct valid-looking strings; correctness must come from trusted state and internal recomputation, not from accepting a presented digest.",
+      "required_boundary":"Never treat caller-supplied seq/scheduled_at/digest as authority. Recompute canonical identity internally from trusted committed state and schedule/epoch/install context. Unknown external IDs cannot advance canonical state. If cross-process messages require authentication, add a separately governed verifier/MAC/signature mechanism rather than calling an unkeyed hash authentication."
+    },
+    {
+      "id":"QH-08-V11-MIGRATION",
+      "severity":"HIGH",
+      "finding":"Current code still declares STATE_SCHEMA_VERSION=1.1 while semantics have changed from Bloom-gated canonical membership to hybrid canonical-bypass behavior, and current contract is 1.2. Because the prior v1.1 repair candidate was not promoted, silently interpreting an old v1.1 state under new semantics lacks an explicit migration/adoption boundary. Bloom bits cannot be converted into an exact historical identity set.",
+      "required_boundary":"Introduce a versioned semantic migration contract. Migration may carry forward only trusted scalar watermarks that have a verified predecessor meaning (for example committed sequence/event cursor/next due if independently accepted), must not infer exact history from Bloom bits, must be idempotent and rollback-detectable, and must not mark unpromoted v1.1 candidate state as verified merely because it parses."
+    },
+    {
+      "id":"QH-09-10000-NECESSARY-NOT-SUFFICIENT",
+      "severity":"HIGH",
+      "finding":"The current 10000 canonical-pulse restart test is valuable and directly addresses Bloom canonical-liveness failure, but it is a happy-path longevity test. It does not by itself prove state-loss recovery, epoch rollover, crash cutpoints, clock rollback, future/out-of-order injection, installation cloning, forged external identity, cross-process concurrency or migration semantics.",
+      "required_boundary":"Keep >=10000 canonical pulses with restart and zero false duplicates as a necessary floor, not a sufficient release criterion."
+    },
+    {
+      "id":"QH-10-CROSS-PROCESS-CAS",
+      "severity":"HIGH",
+      "finding":"writer_generation CAS currently compares expected_generation only against the HeartbeatEngine object's in-memory state. Two independently loaded process instances can both hold the same generation and each pass _cas_guard before either observes the other's durable write; os.replace is atomic file replacement but not a compare-and-swap lock. This can cause double logical execution or last-writer-wins loss.",
+      "required_boundary":"Single-writer lease/OS lock or durable compare-before-commit protocol is required for cross-process exactly-once. Test two engines loaded from the same generation racing the same due pulse; exactly one may commit/execute and the loser must reload/reject without overwriting the winner."
+    }
+  ],
+  "proposed_exact_tests":[
+    "HB-ID-SCOPE-001: in live automatic mode submit 1000 distinct arbitrary caller pulse_ids exactly when due; none may advance canonical pulse_sequence/event_cursor/next_due_at. If manual/external namespace is retained, only that isolated namespace may change and bounded false positives must never affect automatic due progression.",
+    "HB-STATELOSS-002: execute N canonical pulses, delete/replace/corrupt state while retaining trusted installation anchor, restart. Live/adoptable mode must refuse silent seq0 initialization and require reconciliation. Replay historical seq/ID must not execute.",
+    "HB-EPOCH-RESET-003: authorized epoch rotation followed by replay from prior epoch; old identities remain non-executing and first identity of new epoch is unique and tied to monotonic installation lineage. Unauthorized epoch rollback/reuse rejects.",
+    "HB-CRASH-MATRIX-004: fault-inject before validation, after validation, before fsync, after fsync-before-replace, after replace-before-return, and after return-before downstream ack. Restart must yield one durable state transition per canonical identity; any downstream effect must use its own idempotency binding.",
+    "HB-CLOCK-005: after stable pulses, jump wall clock backward 24h, forward 30d, then recover. No sequence rollback/reuse, no burst catch-up, no Experience/personality delta; legitimate next pulse eventually executes under trusted-time rule.",
+    "HB-FUTURE-SEQ-006: present valid-shaped future sequence 10^12 and forged matching unkeyed digest, then present legitimate committed+1. Future input cannot advance/poison state; legitimate next remains executable.",
+    "HB-CLONE-007: clone exact heartbeat state into installations A/B. Without authorized clone lineage, concurrent execution must fail/reconcile rather than emit two authoritative instances with colliding canonical identities. With authorized new installation epoch, namespaces must be distinct.",
+    "HB-FORGED-EXTERNAL-008: present random opaque IDs, exact canonical-looking historical IDs, canonical-looking future IDs and recomputed SHA digests. None may gain canonical execution authority from string shape/hash alone.",
+    "HB-MIGRATE-V11-009: start from unpromoted v1.1 states with empty, saturated, corrupted and adversarial Bloom bitmaps. Migration result may use only explicitly trusted watermarks, never reconstruct membership from Bloom bits; migration is idempotent, version-bound and rollback-detectable.",
+    "HB-10000-RESTART-010: >=10000 automatic canonical pulses across multiple restarts and at least one 30-day-equivalent cadence; zero false duplicate/stall, bounded state, replay seq1/512/9999 non-executing, next legitimate sequence executes, zero Experience/P_base delta.",
+    "HB-CROSSPROC-CAS-011: two separately loaded HeartbeatEngine instances race the same durable generation/due pulse; exactly one commit is accepted and loser cannot overwrite or report an independent successful execution.",
+    "HB-LATE-CATCHUP-012: delay runtime by multiple intervals; exactly one bounded catch-up transition occurs per invocation according to contract, no burst replay and no schedule-derived Experience."
+  ],
+  "bounded_veto":{
+    "veto_id":"QV-HB-STRUCTURED-CANONICAL-IDENTITY-001",
+    "status":"ACTIVE_NONFORMAL_SUPPORT_VETO",
+    "scope":"Step009 heartbeat identity/replay repair candidate only; does not roll back historical Step008 C PASS or unrelated verified capability.",
+    "statement":"Do not treat the current structured/hybrid identity candidate as handoff-ready exact-once merely because the automatic path survives 10000 pulses. Release requires exactness to be explicitly scoped to engine-derived canonical heartbeat identities, caller-supplied opaque IDs unable to advance the canonical timeline, durable epoch/installation lineage and state-loss policy, crash-cutpoint semantics, trusted-time/out-of-order behavior, clone/forgery resistance, explicit v1.1 migration semantics, and real cross-process single-writer/CAS behavior. Heartbeat remains zero-Experience and real 5-minute runtime remains NOT LIVE.",
+    "release_condition":[
+      "B defines a versioned canonical identity and state schema with explicit installation/epoch lineage and exact-next semantics; no general exactness claim for arbitrary opaque IDs.",
+      "Caller-supplied/manual/external pulse IDs cannot advance or delay the automatic canonical pulse_sequence/event_cursor/next_due_at, or that input surface is removed from live automatic mode.",
+      "Missing/rolled-back/cloned state fails closed or enters trusted reconciliation; no silent authoritative seq0 reset.",
+      "Crash-cutpoint and cross-process concurrency tests demonstrate one durable canonical transition and no last-writer-wins double execution.",
+      "Clock rollback/forward, late catch-up, future/out-of-order and forged identity tests pass without schedule poisoning, burst replay or Experience/personality effects.",
+      "Migration from unpromoted v1.1 is explicit, idempotent, rollback-aware and never derives exact history from Bloom bits.",
+      ">=10000 canonical pulse longevity with multiple restarts, bounded storage, zero false duplicate/stall, historical replay no-op and next legitimate pulse execution passes as a necessary floor.",
+      "Builder records exact-byte BUILT_NOT_VERIFIED evidence; existing independent LCR-C alone may issue formal PASS/FAIL."
+    ]
+  },
+  "preserved_invariants":["P_base read-only","SIM_ONLY","heartbeat/poll/retry/reconnect/runtime maintenance is not Experience","zero heartbeat contribution to recurrence/emotion/self/identity/verified_count/P_base evidence","historical C PASS preserved","formal packet/state untouched by QUANTUM","real_5min_runtime_live=false"],
+  "formal_effect":"NONE",
+  "c_verdict":"NOT_PROVIDED",
+  "builder_implementation":"NOT_PERFORMED",
+  "raw_reasoning_retention":"FORBIDDEN_COMPACT_FINDINGS_ONLY"
+}
