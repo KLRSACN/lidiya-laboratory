@@ -1,18 +1,19 @@
 {
-  "schema_version": "1.4",
+  "schema_version": "1.5",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Fresh branch head a893cda4da74972929407d5ad201b1ee9758745d has no associated workflow run; exact-current executor validation is DEFER_EXECUTOR_UNAVAILABLE this wake.",
-    "All six Gearbox source/test blob SHAs are unchanged from historical run 32066329935/job 95499218490, so the prior 49/49 remains historical exact-blob support only, not a new current-head PASS.",
-    "W02 QUANTUM-GEARBOX-V2.1-20260818-0530 remains BOUNDED_VETO_ACTIVE and adds HIGH operational-progress direct-credit bypass; repeated decision calls can fabricate operational progress without durable accepted receipts.",
-    "Dedicated W03 Gearbox v2.1 review remains absent; W04 NAV-GEARBOX-V2.1-20260818-0531 remains veto-active; speed baseline remains INSUFFICIENT_SAMPLE and multiplier NOT_ESTABLISHED.",
-    "Selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
+    "Fresh pre-bookkeeping branch head 740e63c6a156ab09401e646dd035a21bd5a54541 had zero associated workflow runs; exact-current executor validation remains DEFER_EXECUTOR_UNAVAILABLE.",
+    "All six Gearbox source/test blob fingerprints remain unchanged from historical 49/49 exact-blob support; historical execution is not reported as a fresh current-head PASS.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-0633 and added HIGH authority gaps: caller-supplied current_gear can weaken hysteresis/anti-thrash, and caller-supplied verification_stage=C_VERIFIED can bypass the unverified G4 cap without trusted verifier receipts.",
+    "Dedicated W03 Gearbox v2.1 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active but is stale because it references older W02 0530; it must be refreshed after W03/current W02.",
+    "Paired speed baseline remains INSUFFICIENT_SAMPLE with speed_multiplier NOT_ESTABLISHED; no forbidden proxy metric was used.",
+    "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
-  "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_HIGH_VETO_PLUS_MISSING_W03_PLUS_W04_VETO",
+  "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_HIGH_VETO_PLUS_MISSING_W03_PLUS_STALE_W04_VETO",
   "selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
   "speed_ref": "state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
   "w02_ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json",
@@ -21,5 +22,5 @@
   "checkpoint_ref": "state/window_reflections/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS_REQUIRED_THIS_WAKE",
-  "saved_at": "2026-08-18T06:22:28+08:00"
+  "saved_at": "2026-08-18T07:21:57+08:00"
 }
