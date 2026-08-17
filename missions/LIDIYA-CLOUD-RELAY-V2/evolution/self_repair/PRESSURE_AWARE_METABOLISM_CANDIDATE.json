@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "LIDIYA-PRESSURE-AWARE-METABOLISM-001",
+  "status": "CANDIDATE_NOT_FORMALLY_ADOPTED",
+  "reason": "Active-8 alone did not predict the 2026-08-17 long-window/UI recovery incident; metabolism must measure execution-channel pressure, not only information count.",
+  "inputs": {
+    "active_item_count": {"normal": "5-10", "critical": ">10"},
+    "duplicate_ratio": {"warn": ">=0.20", "purge_candidate": ">=0.35 with >=20 samples"},
+    "stale_ref_count": {"warn": ">0", "purge_candidate": ">=10"},
+    "waste_count": {"warn": ">=10", "purge_candidate": ">=20"},
+    "context_load_factor": {"warn": ">=3x normal", "critical": ">=5x normal"},
+    "tool_failure_streak": {"warn": ">=2", "critical": ">=3"},
+    "web_failure_streak": {"warn": ">=2", "critical": ">=3"},
+    "route_drift": {"critical_if_true": true},
+    "owner_ui_pressure_signal": {"critical_values": ["all_pages_unreachable", "blank_or_endless_loading", "window_unopenable"]},
+    "recovery_latency_seconds": {"measure": true, "threshold": "TEST_REQUIRED"}
+  },
+  "states": {
+    "NORMAL": "Continue normal work; keep latest-only checkpoints.",
+    "WARN": "Save/readback, compact derived state, suppress duplicate summaries, run post-flush probes.",
+    "HIGH": "Checkpoint immediately, reduce tool/web fan-out, pause non-P0 work, refresh exact authority and active refs.",
+    "CRITICAL": "Do not keep expanding the same window. Save/readback recovery capsule, apply no-read fence, emit owner/UI recovery recommendation, preserve verified baseline, and require post-recovery benchmark before resuming high-risk work."
+  },
+  "metabolic_cycle": [
+    "SAVE_SELF_BACKUP",
+    "READBACK_VERIFY",
+    "MEASURE_PRESSURE",
+    "COMPACT_DERIVED_STATE",
+    "ARCHIVE_NO_READ_FENCE",
+    "POST_FLUSH_HALLUCINATION_CONTINUITY_TEST",
+    "RECOVERY_OR_CONTINUE",
+    "GUARDED_PURGE_CANDIDATE_ONLY_IF_THRESHOLD"
+  ],
+  "browser_boundary": {
+    "cloud_can_do": ["diagnose", "recommend", "preserve durable state", "generate recovery capsule"],
+    "cloud_cannot_currently_do": ["clear user browser cache", "clear ChatGPT site cookies", "restart user browser", "inspect local browser DOM memory directly"],
+    "owner_explicit_ui_gate": ["clear site data or cookies", "browser profile reset"]
+  },
+  "purge_policy": {
+    "physical_delete_scope": "EXTERNAL_DERIVED_TRANSIENT_WORKSPACE_ONLY",
+    "required_guards": ["REACHABILITY", "UNIQUENESS", "REPRODUCIBILITY", "RECOVERY"],
+    "never_auto_delete": ["Home", "Memory", "MISSION_STATE", "Capability Ledger", "Verified Evidence", "rollback", "Identity", "Personality", "Governance", "secret-like", "unique human work"]
+  },
+  "promotion_tests": [
+    "normal-load no-regression",
+    "5x pressure incident classification",
+    "browser outage with durable-state survival",
+    "stale pointer after flush",
+    "route drift and scheduler-without-progress",
+    "recovery capsule restores exact mission tuple",
+    "post-flush false-premise rejection",
+    "no archive read violation",
+    "no verified capability reset on new delta failure"
+  ],
+  "formal_route": "A->B->C after exact-current-byte tests and independent threshold review."
+}
