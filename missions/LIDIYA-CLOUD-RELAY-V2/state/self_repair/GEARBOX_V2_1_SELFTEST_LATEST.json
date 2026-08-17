@@ -1,15 +1,15 @@
 {
-  "schema_version": "1.4",
+  "schema_version": "1.5",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
-  "current_head_sha": "a893cda4da74972929407d5ad201b1ee9758745d",
-  "current_tree_sha": "e49d0c7790a70081a8e5f69ce4e3959386652942",
+  "current_head_sha": "740e63c6a156ab09401e646dd035a21bd5a54541",
+  "current_tree_sha": "704e46c454cd00c2e18eabb126520fdb1c9d3b3e",
   "executor_check": {
     "provider": "GitHub Actions",
     "current_head_workflow_runs_found": 0,
     "fresh_same_runner_execution_performed_for_current_head": false,
-    "reason": "No workflow run is associated with the fresh current branch head. Exact-current execution is therefore unavailable this wake.",
+    "reason": "No workflow run is associated with the fresh current branch head; exact-current execution is unavailable this wake.",
     "historical_exact_blob_support": {
       "workflow_run_id": 32066329935,
       "job_id": 95499218490,
@@ -18,7 +18,7 @@
       "artifact_digest": "sha256:8a2d6bd8c4d34cbf0554f272c963e31cb09f5bfed610b662211a8c26fb690d28",
       "result": "49_OF_49_PASS_CANDIDATE_ONLY_HISTORICAL_EXACT_BLOB_SUPPORT"
     },
-    "claim_boundary": "Historical runner evidence remains applicable only as exact-blob support because all six Gearbox source/test blobs are unchanged. It is not a fresh execution on current head and cannot be reported as a new exact-current PASS."
+    "claim_boundary": "Historical runner evidence remains exact-blob support only; it is not a fresh execution on current head and cannot be reported as a new exact-current PASS."
   },
   "commands_required_when_executor_available": {
     "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
@@ -51,8 +51,8 @@
     "runtime_maintenance_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_HIGH_VETOES_AND_MISSING_W03_REVIEW_AND_W04_VETO",
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-0530 remains BOUNDED_VETO_ACTIVE and adds HIGH operational-progress direct-credit bypass: repeated select_gear_v2_1 calls can fabricate operational progress without a durable accepted receipt. Dedicated W03 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0531 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_HIGH_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_VETO",
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-0633 remains BOUNDED_VETO_ACTIVE and adds HIGH canonical current_gear binding and trusted verification_stage binding defects. Dedicated W03 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and is stale because it references older W02 review QUANTUM-GEARBOX-V2.1-20260818-0530.",
   "claim_boundary": "No fresh current-head executor PASS exists this wake. v1 immutable VERIFIED_PASS remains valid; v2/v2.1 remain candidates; no formal adoption is authorized.",
-  "recorded_at": "2026-08-18T06:22:28+08:00"
+  "recorded_at": "2026-08-18T07:21:57+08:00"
 }
