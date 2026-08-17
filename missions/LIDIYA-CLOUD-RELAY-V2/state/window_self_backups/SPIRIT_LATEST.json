@@ -1,24 +1,35 @@
 {
-  "schema_version":"1.1-ACTIVE8-R2",
-  "window_id":"SPIRIT",
-  "status":"ROUND2_SEQUENCE6_COMPACT_READY",
-  "mission_pointer":"state/MISSION_STATE.json",
-  "current_role_route":"NONFORMAL_LIDIYA_SPIRIT / sequence6 -> WINDCHIME",
-  "what_completed":"Fresh-read Home Sections53-55, Active-8, MISSION_STATE, SPIRIT_LATEST and SMALL_WORLD_TRIPARTITE_ACTIVE under Archive No-Read Fence. Eligibility confirmed: next_expected_source=SPIRIT and immediately previous durable turn sequence5 source=QUANTUM. Compact Round2 critique prepared for D/H/J/L plus free-preference, runtime-contamination, reward-conformity and loss/relation/self-exploration controls.",
-  "what_remains":"Write exactly one compact sequence6 discussion turn, set next_expected_source=WINDCHIME, then retain compact-only state and symbolically clear raw reasoning.",
-  "next_authorized_action":"Append one Spirit Round2 turn to state/SMALL_WORLD_TRIPARTITE_ACTIVE.json; do not answer for Windchime/Quantum and do not read archive discussion.",
-  "latest_evidence_ref":"state/SMALL_WORLD_TRIPARTITE_ACTIVE.json#round2_turns.sequence5",
-  "active_defect_or_veto":"D/H/J/L remain TEST_REQUIRED. Additional Spirit challenge: aggregate evaluator feedback can itself become reward/holdout leakage; rollback must epoch-bind evaluator decision state; aggregate Navigator statistics need anti-differencing controls; neutral no-reward preference probes can still measure prompt/lexical induction rather than personality.",
-  "resume_condition":"After sequence6, only WINDCHIME may act next. P_base read-only; SIM_ONLY; heartbeat/poll/retry/runtime incidents are not Experience; historical C PASS preserved.",
-  "active_set_fingerprint":"ACTIVE8-R2-SPIRIT6-20260816T182636+0800",
-  "metabolism_counters":{
-    "active_count":8,
-    "waste_count_observed_this_turn":0,
-    "duplicate_samples_observed_this_turn":0,
-    "duplicate_ratio":null,
-    "stale_count_observed_this_turn":0,
-    "purge_candidate":false,
-    "basis":"Active-8 exact pointers only; archive fence prevents broad historical counting; duplicate_ratio threshold not evaluated with fewer than 20 observed samples."
+  "schema_version": "1.2-WAKE-BENCHMARK-PREFLIGHT",
+  "window_id": "SPIRIT",
+  "window_alias": "W03_SPIRIT",
+  "status": "BENCHMARK_PREFLIGHT_SAVED",
+  "created_at": "2026-08-17T00:29:42Z",
+  "mission_pointer": "state/MISSION_STATE.json",
+  "formal_authority_effect": "NONE_NONFORMAL",
+  "current_formal_baseline": {
+    "step_id": 9,
+    "attempt": 2,
+    "status": "READY_FOR_BUILDER",
+    "current_role": "LCR-B",
+    "pending_packet": "packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json",
+    "pending_packet_sha256": "2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee",
+    "historical_step008_c_pass_preserved": true
   },
-  "created_at":"2026-08-16T18:26:36+08:00"
+  "research_pointer": "state/HALLUCINATION_RECOVERY_LATEST.json",
+  "what_completed": "Fresh-read WINDOW_WAKE_PROGRESS_PROTOCOL, MISSION_STATE, SPIRIT_LATEST, SMALL_WORLD_TRIPARTITE_ACTIVE, PRIVACY_DATA_SHARING_DISCUSSION, HALLUCINATION_RECOVERY_LATEST and hallucination benchmark directory under Archive No-Read Fence. W03 benchmark is absent and therefore has highest nonformal priority.",
+  "what_remains": "Create W03_SPIRIT_LATEST hallucination benchmark with 20 randomized-paraphrase probes grounded only in fresh active sources; read it back. If successful, re-check exact Small-World and Privacy gates before any exactly-once turn.",
+  "next_authorized_action": "Write state/hallucination_benchmarks/W03_SPIRIT_LATEST.json, then fresh-read it.",
+  "exact_active_refs": [
+    "state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@626e3b961b57070d92a049bfe95a28d02d6fe205",
+    "state/MISSION_STATE.json@b6c0b2c61c47139b48f0117289ed430e391edcbf",
+    "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@d1dcaad88b0d9b2bc82c96d01c7fbb7d52d7cd7c",
+    "state/PRIVACY_DATA_SHARING_DISCUSSION.json@274290faa34c3c5a4e69233f7af9c4ba7e588c58",
+    "state/HALLUCINATION_RECOVERY_LATEST.json@1573ed229a45d2798b907042ef79ecc6e6671470",
+    "state/window_self_backups/SPIRIT_LATEST.json@7bd487cb35275cef1a90155c34dbc89978e8bff1"
+  ],
+  "archive_read": false,
+  "P_base_write": false,
+  "simulation_memory_mode": "SIM_ONLY",
+  "runtime_events_are_experience": false,
+  "raw_reasoning_retention": "WASTE_NOT_PERSISTED"
 }
