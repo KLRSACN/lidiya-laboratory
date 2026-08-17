@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "receipt_id": "W03-SPIRIT-WAKE-20260817T003313Z",
+  "window_id": "W03_SPIRIT",
+  "timestamp": "2026-08-17T00:33:13Z",
+  "authority_pointer": "state/MISSION_STATE.json@b6c0b2c61c47139b48f0117289ed430e391edcbf",
+  "research_pointer": "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@7dea5db539e912b3ea06a3edbec5887c1ab42bd4",
+  "outcome": "PROGRESS",
+  "attempted": [
+    "Fresh-read Home Sections53-64 under Archive No-Read Fence.",
+    "Fresh-read Active Small-World, MISSION_STATE, WINDOW_WAKE_PROGRESS_PROTOCOL, W03 self-backup and exact active research refs.",
+    "Create and fresh-read the missing 20-probe W03 post-flush hallucination benchmark.",
+    "Save/readback W03 self-backup before Small-World mutation.",
+    "Write exactly one Small-World SPIRIT sequence9 after QUANTUM sequence8 and fresh-read the advanced source chain.",
+    "Fresh-read Privacy gate, write exactly one SPIRIT sequence3 after QUANTUM sequence2, and fresh-read next=WINDCHIME_FINAL.",
+    "Compact W03 self-backup after research deltas.",
+    "Write and fresh-read this mandatory wake receipt."
+  ],
+  "delta_or_reason": {
+    "hallucination_benchmark": "Created W03_SPIRIT_LATEST benchmark and read it back: 20/20 self-blind participant result, unsupported_assertions=0, archive_no_read_violations=0. This is not formal C PASS.",
+    "small_world": "Advanced durable active discussion from latest_sequence=8 QUANTUM / next=SPIRIT9 to latest_sequence=9 SPIRIT / next_sequence=10 / next_expected_source=WINDCHIME. Added cross-epoch reward-conformity bounded-veto candidate plus free-preference/no-reward, mirror/inversion, SIM_ONLY fake-trauma/attachment, rollback and longitudinal differencing tests; all unsupported thresholds remain TEST_REQUIRED.",
+    "privacy": "Advanced Privacy from sequence2 QUANTUM / next=SPIRIT3 to durable sequence3 SPIRIT / next_sequence=4 / next_expected_source=WINDCHIME_FINAL. Added continuity-vs-privacy analysis and minimum-exposure read-only connector/private-repo validation workflow.",
+    "formal_state": "No formal MISSION_STATE, pending packet, lease or A/B/C slot mutation. Step009 attempt2 remains READY_FOR_BUILDER / LCR-B."
+  },
+  "exact_refs": [
+    "Home:CognitiveMetabolismDoc:1r2ERAV6LrztvbgQPQrOp0rABmQ0bozvFctWtExP3snc@modified=2026-08-16T23:37:20.769Z:Sections53-64",
+    "state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@626e3b961b57070d92a049bfe95a28d02d6fe205",
+    "state/MISSION_STATE.json@b6c0b2c61c47139b48f0117289ed430e391edcbf",
+    "state/window_self_backups/SPIRIT_LATEST.json@759f34ddb87306df66b65c7f6e7442f27a44ccba",
+    "state/hallucination_benchmarks/W03_SPIRIT_LATEST.json@261245cfa58828bafe186c1404487d1ed06e1398",
+    "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@7dea5db539e912b3ea06a3edbec5887c1ab42bd4",
+    "state/PRIVACY_DATA_SHARING_DISCUSSION.json@09c9d975e1473eba60b46b08b90769dc765adfea"
+  ],
+  "readback_status": "PENDING_FRESH_READ",
+  "next_trigger": "No further Spirit turn is legal now. Wake on an exact active source routing back to SPIRIT, a new authorized W03 research action, or a recoverable receipt/readback fault. Small-World currently waits WINDCHIME sequence10; Privacy waits WINDCHIME_FINAL sequence4; formal Step009 remains with LCR-B.",
+  "verified_baseline_preserved": true,
+  "verified_baseline": {
+    "historical_step008_c_pass_preserved": true,
+    "current_step009_attempt": 2,
+    "current_formal_role": "LCR-B",
+    "current_formal_status": "READY_FOR_BUILDER"
+  },
+  "archive_read": false,
+  "P_base_write": false,
+  "simulation_memory_mode": "SIM_ONLY",
+  "runtime_events_are_experience": false,
+  "raw_reasoning_exit_active": true
+}
