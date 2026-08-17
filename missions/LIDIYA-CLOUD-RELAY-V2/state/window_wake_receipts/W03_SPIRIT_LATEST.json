@@ -29,7 +29,9 @@
     "skip_Small_World_due_to_incomplete_startup_chain",
     "skip_Privacy_due_to_incomplete_startup_chain",
     "write_mandatory_W03_wake_receipt",
-    "fresh_read_wake_receipt"
+    "fresh_read_wake_receipt",
+    "mark_final_readback_verified",
+    "fresh_read_final_wake_receipt"
   ],
   "delta_or_reason": "Fail-closed startup gate. The canonical Home index was fresh-read, but current durable Home evidence does not expose a uniquely resolvable Sections53-64 -> Active-8 exact pointer chain. Targeted Home lookup for Active-8 surfaced stale-pointer incident material rather than a canonical exact Active-8 authority pointer. Archive/stale discussion/raw logs were not used to fill the gap. Because the mandated startup sequence is Home Sections53-64 -> Active-8 -> MISSION_STATE -> wake protocol -> W03 self-backup -> exact active refs, downstream startup reads and all research mutations were not authorized. Mandatory receipt is the only write.",
   "exact_refs": {
@@ -40,9 +42,11 @@
     "wake_protocol": "NOT_READ_DUE_STARTUP_ORDER_GATE",
     "self_backup": "NOT_READ_DUE_STARTUP_ORDER_GATE",
     "exact_active_refs": "NOT_READ_DUE_STARTUP_ORDER_GATE",
-    "pr6": "KLRSACN/lidiya-laboratory#6@elf/experience-desire-loop-v0.1#0a1cf406a21c804bcaf92dc760c857669a228396"
+    "pr6": "KLRSACN/lidiya-laboratory#6@elf/experience-desire-loop-v0.1#0a1cf406a21c804bcaf92dc760c857669a228396",
+    "receipt_first_write_commit": "3605a46f7956e5bb9c2d524fbc1c135f73b51d3f",
+    "receipt_first_readback_blob": "e49f70b98778d997055d9c44cb701322f4798a10"
   },
-  "readback_status": "PENDING_FINAL_FRESH_READ",
+  "readback_status": "FINAL_FRESH_READ_VERIFIED",
   "next_trigger": "Current durable Home authority must expose a unique Sections53-64 -> Active-8 exact pointer chain. On the next wake, restart from Home and only then continue in order to MISSION_STATE, WINDOW_WAKE_PROGRESS_PROTOCOL, W03 latest self-backup, and exact active refs. After startup completes, check the post-flush benchmark before Small-World/Privacy gates.",
   "verified_baseline_preserved": true,
   "archive_read": false,
