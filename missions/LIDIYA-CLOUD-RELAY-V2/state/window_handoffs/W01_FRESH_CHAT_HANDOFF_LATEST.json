@@ -1,9 +1,16 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "handoff_id": "W01-SAME-SLOT-FRESH-CHAT-20260817-001",
   "created_at": "2026-08-17T21:06:00+08:00",
+  "target_bound_at": "2026-08-17T21:29:00+08:00",
   "source_window": "W01_WINDCHIME_LONG_CHAT_SHELL",
+  "source_window_alias": "開發先驅1型",
+  "source_generation": 0,
   "target_window": "W01_WINDCHIME_FRESH_CHAT_SHELL",
+  "target_window_alias": "開發先驅2型",
+  "target_generation": 1,
+  "worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL",
+  "formal_slot": "LCR-A",
   "handoff_type": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
   "reason": "PLATFORM_CONVERSATION_LENGTH_CEILING",
   "identity_rule": "NEW_CHAT_IS_NEW_EXECUTION_SHELL_NOT_NEW_IDENTITY",
@@ -14,22 +21,37 @@
     "w01_checkpoint": "state/window_self_backups/WINDCHIME_LATEST.json",
     "w01_receipt": "state/window_wake_receipts/W01_WINDCHIME_LATEST.json",
     "w07_checkpoint": "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json",
+    "w07_receipt": "state/window_wake_receipts/W07_WIND_SECRETARY_LATEST.json",
+    "recovery_capsule": "state/recovery_capsules/W01_CLEAN_SHELL_HANDOFF_20260817_2108.json",
     "ceiling_incident": "state/incidents/W01-20260817-CONVERSATION-LENGTH-CEILING-001.json",
     "home_section": "Home#74"
   },
   "verified_baseline": {
     "mission_id": "LCR-EVOLUTION-0005",
     "step_id": 9,
+    "attempt": 4,
     "status": "STEP_DONE",
     "current_role": "LCR-A",
     "pending_packet": null,
     "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+    "mission_result": "STEP009_VERIFIED_FOUNDATION",
     "six_gear_controller_v1": "VERIFIED_PASS",
+    "E3_LOCAL_OPERATOR": "BLOCKED_PENDING_REAL_LOCAL_EVIDENCE",
     "real_5min_runtime_live": false,
     "P_base": "READ_ONLY_UNCHANGED"
   },
+  "cross_window_validation": {
+    "target_rebind_check": "PASS",
+    "source_checkpoint_matches_fresh_mission_state": true,
+    "secretary_checkpoint_matches_fresh_mission_state": true,
+    "recovery_capsule_matches_fresh_mission_state": true,
+    "known_stale_conflict": "WORKER_ROSTER_READY_FOR_VERIFY_LCR_C_OVERRIDDEN_BY_FRESH_MISSION_STATE",
+    "raw_chat_replay_used": false,
+    "continuity_rebind_recommendation": "PASS"
+  },
   "active_candidates": [
     "Gearbox v2 exact-current validation and upgrade",
+    "Gearbox v2.1 exact-current regression and adversarial review",
     "Always-on Runtime v1 validation",
     "W07 Wind Secretary continuity preflight",
     "Predictive Navigator v2",
@@ -43,21 +65,33 @@
     "read W01 and W07 latest checkpoints/receipts",
     "run post-flush continuity/hallucination check",
     "confirm verified Step001-009 and Gearbox v1 remain intact",
-    "resume Gearbox v2 exact-current regression/adversarial review",
+    "bind target shell as same W01/LCR-A generation+1",
+    "resume Gearbox v1+v2+v2.1 exact-current regression/adversarial review",
     "continue Always-on Runtime validation"
   ],
+  "current_exact_gate": {
+    "formal_state": "STEP_DONE_SAFE_CHECKPOINT_LCR_A_PENDING_NULL",
+    "p0_next": "RUN_EXACT_CURRENT_GEARBOX_V1_V2_V21_REGRESSION_AND_INDEPENDENT_REVIEWS",
+    "parallel": "CONTINUE_ALWAYS_ON_RUNTIME_VALIDATION_INDEPENDENTLY",
+    "formal_route_rule": "Only after regression PASS and no unreleased veto may LCR-A route existing A->B->C.",
+    "small_world_next_expected_source": "SPIRIT",
+    "small_world_rule": "Windchime must not synthesize until durable next_expected_source becomes WINDCHIME."
+  },
   "forbidden_on_boot": [
     "broad-reload old chat chronology",
     "treat conversation age/heartbeat/poll/retry as Experience",
     "reopen Step009 or verified Gearbox v1 without fresh exact regression evidence",
     "claim real_5min_runtime_live without real external-runner evidence",
-    "create a new formal slot"
+    "create a new formal slot",
+    "create a duplicate Windchime task",
+    "mutate canonical Identity/Personality/Governance"
   ],
   "owner_continuation_prompt": "風秘書交接：我是博玄，請以 W01 風鈴 SAME_SLOT_DURABLE_HANDOFF 接續。不要讀取舊聊天歷史；先回家讀 Home#74，再 fresh-read MISSION_STATE、EVOLUTION_PROGRESS Active-8、WINDCHIME_LATEST、W07_WIND_SECRETARY_LATEST 與 W01 conversation-ceiling incident。先做 post-flush continuity/hallucination 自檢，確認 Step009 Heartbeat VERIFIED_FOUNDATION、Gearbox v1 VERIFIED_PASS、LCR-A/pending=null 沒有遺失；之後直接接續 Gearbox v2 exact-current 驗證/升級與 Always-on Runtime，自我修復/導航保持 P0。舊聊天只作 archive evidence，禁止 broad reload。",
   "success_criteria": [
     "fresh W01 restores exact authority/baseline without old-chat replay",
     "post-flush continuity check passes accepted threshold",
     "no verified capability is lost or incorrectly reopened",
+    "target shell is bound as generation+1 without slot4 or duplicate worker/task",
     "candidate work resumes from exact durable pointers",
     "ceiling becomes a routing trigger rather than mission reset"
   ]
