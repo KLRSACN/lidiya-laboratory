@@ -17,7 +17,7 @@
     "state/window_wake_receipts/W05_LCR_B_LATEST.json@a2db04d0cf10f52ccb35b82ee6b2c40de11b64f6",
     "evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json@MISSING"
   ],
-  "readback_status": "PENDING_POST_WRITE_FRESH_READ",
+  "readback_status": "PASS_POST_WRITE_READBACK_CONFIRMED",
   "next_trigger": "Require W03 next wake to self-backup/readback then write exactly one SPIRIT sequence12 because fresh Small-World next_expected_source=SPIRIT with predecessor QUANTUM11. Require W01/W02/W05 next wakes to overwrite/readback their latest receipts even when outcome is VALID_NO_OP or DEFER_RECOVERABLE. Recheck support-002 and formal handoff ordering; restore only the same existing formal worker if current-role task becomes disabled. Do not claim real 5-minute wake until always-on evidence exists.",
   "verified_baseline_preserved": true,
   "formal_slot_count": 3,
