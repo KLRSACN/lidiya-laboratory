@@ -144,3 +144,111 @@ jobs:
       - name: Enforce required checks
         if: always() && (steps.compile.outcome != 'success' || steps.relay_tests.outcome != 'success' || steps.core_compile.outcome != 'success' || steps.core_tests.outcome != 'success')
         run: exit 1
+
+  p0_candidate_regression:
+    name: P0 exact-current Gearbox + Always-on candidate regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile exact-current P0 candidate sources
+        id: p0_compile
+        env:
+          PYTHONPATH: .:evolution:evolution/local_command_tower
+        run: >-
+          python -m py_compile
+          evolution/gearbox_controller.py
+          evolution/gearbox_controller_v2.py
+          evolution/gearbox_controller_v2_1.py
+          evolution/local_command_tower/always_on_runtime.py
+
+      - name: Run exact-current P0 candidate regressions
+        id: p0_tests
+        env:
+          PYTHONPATH: .:evolution:evolution/local_command_tower
+        run: >-
+          python -m unittest -v
+          evolution/test_gearbox_controller.py
+          evolution/test_gearbox_controller_v2.py
+          evolution/test_gearbox_controller_v2_1.py
+          evolution/local_command_tower/test_always_on_runtime.py
+
+      - name: Emit P0 candidate evidence
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.p0_compile.outcome }}
+          TEST_OUTCOME: ${{ steps.p0_tests.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          GITHUB_REF_VALUE: ${{ github.ref }}
+          GITHUB_REF_NAME_VALUE: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          bound = [
+              'state/MISSION_STATE.json',
+              'evolution/gearbox_controller.py',
+              'evolution/test_gearbox_controller.py',
+              'evolution/gearbox_controller_v2.py',
+              'evolution/test_gearbox_controller_v2.py',
+              'evolution/GEARBOX_V2_CONTRACT.json',
+              'evolution/gearbox_controller_v2_1.py',
+              'evolution/test_gearbox_controller_v2_1.py',
+              'evolution/GEARBOX_V2_1_CONTRACT.json',
+              'evolution/local_command_tower/always_on_runtime.py',
+              'evolution/local_command_tower/test_always_on_runtime.py',
+              'evolution/local_command_tower/ALWAYS_ON_RUNTIME_CONTRACT.json',
+          ]
+          evidence = {
+              'schema_version': '1.0',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'evidence_type': 'w01_p0_exact_current_candidate_regression',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'tree_sha': subprocess.check_output(['git', 'rev-parse', 'HEAD^{tree}'], text=True).strip(),
+              'ref': os.environ['GITHUB_REF_VALUE'],
+              'ref_name': os.environ['GITHUB_REF_NAME_VALUE'],
+              'compile_status': os.environ['COMPILE_OUTCOME'],
+              'test_status': os.environ['TEST_OUTCOME'],
+              'status': 'PASS' if os.environ['COMPILE_OUTCOME'] == 'success' and os.environ['TEST_OUTCOME'] == 'success' else 'FAIL',
+              'candidate_only': True,
+              'formal_c_verification': 'NOT_YET',
+              'real_5min_runtime_live': False,
+              'p_base': 'READ_ONLY_UNCHANGED',
+              'runtime_maintenance_counts_as_experience': False,
+              'formal_state_mutation': False,
+              'claim_boundary': 'Exact-current CI executable candidate evidence only. It does not promote Gearbox v2/v2.1, does not establish real always-on runtime, and does not replace independent LCR-C verification.',
+              'bound_files': {},
+          }
+          for rel in bound:
+              p = Path(rel)
+              data = p.read_bytes()
+              evidence['bound_files'][rel] = {
+                  'git_blob_sha': subprocess.check_output(['git', 'hash-object', rel], text=True).strip(),
+                  'sha256': hashlib.sha256(data).hexdigest(),
+                  'size_bytes': len(data),
+              }
+          path = Path('evidence/p0-exact-current-candidate-regression.json')
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(path.read_text(encoding='utf-8'))
+          PY
+
+      - name: Upload P0 candidate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-p0-exact-current-candidate-evidence
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-exact-current-candidate-regression.json
+          if-no-files-found: error
+          retention-days: 7
