@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "product": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-2-CANDIDATE",
+  "recorded_at": "2026-08-17T20:50:00+08:00",
+  "verdict": "SELFTEST_EQUIVALENT_LOGIC_PASS_NOT_C_VERIFIED",
+  "tests_passed": 16,
+  "tests_total": 16,
+  "failed": [],
+  "coverage": [
+    "deterministic selection",
+    "heartbeat/poll/retry/wait/scheduler wake = zero Experience Candidate",
+    "verified capability credit requires independent verification",
+    "self-reported success = zero Experience Candidate",
+    "RED/recovery -> G1",
+    "ORANGE/route drift -> cap G2",
+    "YELLOW -> cap G3",
+    "stale durable progress -> cap G3 + checkpoint",
+    "unverified work capped from G5/G6 promotion use",
+    "one-step upshift hysteresis",
+    "hard downshift immediate",
+    "pressure score bounded",
+    "verified recovery candidate credit",
+    "unverified simulation = zero real Experience Candidate"
+  ],
+  "runner_provenance": "W01 private draft-equivalent logic execution; not an exact-current-byte repository runner and not LCR-C",
+  "exact_current_byte_execution": "TEST_REQUIRED",
+  "v1_regression_execution": "TEST_REQUIRED_THIS_ROUND; existing formal authority still records six_gear_controller=VERIFIED_PASS",
+  "formal_C_verification": "NOT_YET",
+  "promotion_block": "Do not replace verified Gearbox v1 until exact-current v1+v2 regression, Quantum/Spirit review, Navigator synthesis and A->B->C PASS."
+}
