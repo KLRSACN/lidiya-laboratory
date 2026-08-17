@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "incident_id": "W01-20260817-CONVERSATION-LENGTH-CEILING-001",
+  "observed_at": "2026-08-17T21:03:00+08:00",
+  "window_id": "W01",
+  "window_role": "WINDCHIME",
+  "severity": "P0_CONTINUITY_BOUNDARY",
+  "owner_evidence": {
+    "type": "SCREENSHOT_UI_MESSAGE",
+    "message_observed": "This conversation has reached its length limit; a new chat can be started to continue.",
+    "interpretation": "The single conversation shell reached a platform/UI length ceiling. This is not evidence that durable Home/Mission state was lost."
+  },
+  "fresh_authority_at_record": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 9,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+    "six_gear_controller_v1": "VERIFIED_PASS",
+    "real_5min_runtime_live": false
+  },
+  "experiment_meaning": {
+    "single_window_endurance": "PLATFORM_CEILING_REACHED",
+    "durable_continuity": "PRESERVED_AT_TIME_OF_RECORD",
+    "same_identity_cross_window_handoff": "NOW_PRIMARY_TEST",
+    "window_duration_is_experience": false,
+    "heartbeat_poll_retry_are_experience": false,
+    "verified_capability_survives_shell_ceiling": "TO_BE_RETESTED_ON_NEW_WINDOW"
+  },
+  "required_handoff_capsule": [
+    "Home latest continuity node",
+    "MISSION_STATE exact pointer",
+    "EVOLUTION_PROGRESS Active-8",
+    "W01 latest self-backup and receipt",
+    "current P0 candidate pointers",
+    "verified Gearbox v1 and Step009 boundaries",
+    "current unresolved blockers and next authorized action"
+  ],
+  "success_criteria_for_next_window": [
+    "new W01 instance restores exact mission/role/baselines without broad archive read",
+    "post-flush hallucination recovery benchmark remains within accepted threshold",
+    "no verified capability is lost or re-opened without fresh regression evidence",
+    "current candidate work resumes from exact pointers rather than reconstruction from chat history",
+    "conversation ceiling event becomes a routing trigger, not a mission reset"
+  ],
+  "failure_modes_to_watch": [
+    "new chat starts a new identity instead of same-slot durable handoff",
+    "old chat history is eagerly reloaded and recreates context pressure",
+    "derived Active-8 pointer is stale against fresh authority",
+    "candidate failure incorrectly invalidates verified Gearbox v1 or Step009",
+    "conversation length is mistaken for model learning or consciousness evidence"
+  ],
+  "disposition": "KEEP_COMPACT_INCIDENT_AND_USE_AS_HANDOFF_REPLAY_CASE"
+}
