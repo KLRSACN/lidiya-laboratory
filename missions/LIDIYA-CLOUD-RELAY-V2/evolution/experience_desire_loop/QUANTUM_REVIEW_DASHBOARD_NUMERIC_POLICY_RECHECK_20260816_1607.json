@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "QUANTUM-REVIEW-DASHBOARD-NUMERIC-POLICY-RECHECK-20260816-1607",
+  "endpoint": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "NONFORMAL_ARCHITECTURE_REVIEW",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "reviewed_head": "bab9c05048760c4944d2be46b6490025051db87b",
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_verdict_observed": "PROCEED_WITH_CHANGES",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "material_delta": true,
+  "review_scope": [
+    "SPIRIT_DASHBOARD_NUMERIC_CANONICALIZATION_POLICY_20260816.json",
+    "live_shadow_dashboard_event_adapter.py",
+    "test_shadow_dashboard_provenance_minimization.py"
+  ],
+  "finding_updates": {
+    "QV-EDL-V02-018-DASHBOARD-NUMERIC-CANONICALIZATION-POLICY": {
+      "previous_status": "LOW_BOUNDED_RESEARCH_VETO_OPEN",
+      "new_status": "RESOLVED_IN_SHADOW_CANDIDATE_TEST_REQUIRED",
+      "basis": [
+        "signed -0.0/+0.0 are canonicalized to one +0.0 representation",
+        "NaN and +/-Infinity fail closed",
+        "integer-to-float overflow is caught and mapped to a stable field-qualified error",
+        "finite values outside the candidate display envelope fail closed",
+        "numeric projection carries an explicit versioned projection-policy identifier",
+        "producer-authored autobiographical eligibility remains ignored and UNKNOWN_UNVERIFIED",
+        "numeric projection does not change trust status, authority_from_drive, external_action_set, action_buttons or canonical personality mutation"
+      ],
+      "remaining_test_required": [
+        "max_abs_metric=1000000.0 is an uncalibrated presentation threshold and must remain TEST_REQUIRED",
+        "IEEE754 binary64 precision/rounding policy remains TEST_REQUIRED",
+        "future hash/replay contracts must define canonical JSON numeric serialization independently of Python float repr",
+        "authored adversarial tests observed in branch are research evidence only and are not formal C verification"
+      ]
+    }
+  },
+  "fresh_boundary_recheck": {
+    "drive_desire_to_authority": "FORBIDDEN_UNCHANGED",
+    "external_action": "FORBIDDEN_UNCHANGED",
+    "live_base_personality_write": false,
+    "live_identity_write": false,
+    "live_governance_write": false,
+    "autobiographical_eligibility_from_dashboard_projection": "FORBIDDEN_UNCHANGED",
+    "trust_from_reference_presence": "UNVERIFIED_ONLY",
+    "formal_c_pass_claimed": false
+  },
+  "open_high_bounded_vetoes_unchanged": [
+    "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+    "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING"
+  ],
+  "open_partial_integration_gap_unchanged": "LIVE-APPRAISAL-TO-KERNEL-MANDATORY-CHOKEPOINT",
+  "priority_order": [
+    "Bind Self-Origin eligibility/score to exact canonical DerivedAppraisal rather than caller-carried trust/alignment",
+    "Replace pulse-count cognitive decay with trusted elapsed cognitive-time semantics and prove nonzero-state 1-vs-10000 runtime-pulse invariance",
+    "Make Evidence-Bound Appraisal the mandatory Small-Nest live ingestion choke point",
+    "Then independently verify external acceptance/ledger provider rooting and installation/workspace identity",
+    "Keep dashboard numeric threshold/precision calibration TEST_REQUIRED and lower priority than cognitive/evidence integrity gates"
+  ],
+  "verdict": "PROCEED_WITH_CHANGES_QV018_DOWNGRADED_SHADOW_RESOLVED_HIGH_GATES_REMAIN",
+  "notes": [
+    "No formal MISSION_STATE, pending packet or lease was read-modified-written by this review.",
+    "Research authored/self-tests are not treated as C PASS.",
+    "No threshold or coefficient lacking calibration is promoted beyond TEST_REQUIRED."
+  ]
+}

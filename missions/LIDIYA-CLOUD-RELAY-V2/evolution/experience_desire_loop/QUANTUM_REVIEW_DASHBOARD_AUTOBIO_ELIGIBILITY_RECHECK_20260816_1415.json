@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "QUANTUM-REVIEW-DASH-AUTOBIO-RECHECK-20260816-1415",
+  "endpoint": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "INDEPENDENT_NONFORMAL_ARCHITECT_REVIEWER",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "reviewed_head_sha": "c3a9188bdfe12779ac39777d638dae5f6edf0ca8",
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_verdict_observed": "PROCEED_WITH_CHANGES",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "research_selftest_is_formal_C_PASS": false,
+  "material_delta": true,
+  "resolved_in_shadow_candidate": [
+    {
+      "veto_id": "QV-EDL-V02-016-DASHBOARD-UNVERIFIED-AUTOBIOGRAPHICAL-ELIGIBILITY",
+      "status": "RESOLVED_IN_SHADOW_CANDIDATE_PROVIDER_VALIDATION_STILL_REQUIRED_FOR_FUTURE_TRUE_DISPLAY",
+      "evidence": [
+        "live_shadow_dashboard_event_adapter.py ignores producer-authored autobiographical_experience_eligible and always projects autobiographical_experience_eligibility_status=UNKNOWN_UNVERIFIED until a validated display authority exists.",
+        "test_shadow_dashboard_provenance_minimization.py includes adversarial forged true + valid-shaped unknown closure refs, MODEL_LEARNED_SLOW_PLANNING producer true, and malformed producer value cases; none may render autobiographical eligibility true.",
+        "Dashboard remains read-only: authority_from_drive=0, external_action_set=[], action_buttons=[], canonical_personality_mutation=false."
+      ],
+      "remaining_boundary": "If a future eligible=true display path is introduced, it must be bound to a trusted host-issued/independently validated OutcomeClosure display receipt or canonical closure reference with provider identity, exact closure fingerprint, acceptance/registry freshness, revocation state, installation/workspace identity, and projection policy hash. Reference presence alone remains insufficient."
+    }
+  ],
+  "high_bounded_vetoes_still_open": [
+    {
+      "veto_id": "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+      "severity": "HIGH",
+      "evidence": "self_origin_evidence.py still accepts ExperienceEvidence.trust and anchor_alignment directly; appraisal_binding_hash is checked only for non-emptiness, and scoring/eligibility use caller-carried trust/alignment rather than resolving exact canonical DerivedAppraisal bytes/ref.",
+      "required_repair": "SelfOriginEvidenceChain must consume/verify a canonical DerivedAppraisal envelope/reference and derive trust/alignment from that bound object; forged nonempty binding strings and post-appraisal mutation must fail closed. Historical origin remains immutable; no relabel-in-place."
+    },
+    {
+      "veto_id": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+      "severity": "HIGH",
+      "evidence": "value_desire_kernel.py still calls _apply_time_decay(state) before returning for RUNTIME_ONLY_DOMAINS. Pulse frequency therefore remains able to modify nonzero fast/slow drive even though it adds no Experience evidence.",
+      "required_repair": "Cognitive decay must be a function of trusted elapsed cognitive time, not count of heartbeat/poll/retry/reconnect/wake calls. One pulse and 10000 mixed pulses over equal trusted elapsed time must yield identical cognitive-state fingerprints, aside from allowed runtime diagnostics."
+    }
+  ],
+  "integration_gap_still_open": {
+    "id": "LIVE-APPRAISAL-TO-KERNEL-MANDATORY-CHOKEPOINT",
+    "status": "PARTIAL",
+    "evidence": "Legacy ValueDesireKernel.ExperienceInput still exposes producer-carried trust, independently_verified, anchor_alignment, cross_context_count, satiation and repeated_goal_count. No fresh evidence reviewed in this turn proves every Small-Nest live ingestion path must traverse the Evidence-Bound Appraisal choke point before kernel use.",
+    "required_repair": "Live/shadow adoptable mode must fail closed on any direct legacy producer-authored appraisal fields; research-only adapters may remain explicit and promotion-ineligible."
+  },
+  "invariants_preserved": [
+    "drive/desire never grants authority",
+    "self-generated Goal remains proposal-only",
+    "external action set remains empty for EDL shadow outputs",
+    "live base Personality/Identity/Governance mutation remains forbidden",
+    "ProtectedObject scope must not imply generalized self-preservation",
+    "SIMULATED/COUNTERFACTUAL/MODEL_LEARNED_SLOW_PLANNING cannot masquerade as DIRECT autobiographical experience",
+    "heartbeat/poll/retry/reconnect contribute zero Experience recurrence/emotion/verified-count/personality evidence",
+    "all uncalibrated thresholds and coefficients remain TEST_REQUIRED"
+  ],
+  "recommended_build_order": [
+    "repair QV-008 canonical DerivedAppraisal binding",
+    "repair QV-013 trusted-elapsed cognitive-time decay",
+    "make Evidence-Bound Appraisal -> kernel choke point mandatory in live/shadow adoptable mode",
+    "run nonzero-state 10000 mixed runtime-pulse invariance suite",
+    "independently verify external ledger/acceptance provider rooting, installation/workspace binding, revocation freshness and rollback protection",
+    "only then consider any trusted dashboard eligible=true display path"
+  ],
+  "threshold_policy": "ALL_UNCALIBRATED_THRESHOLDS_AND_COEFFICIENTS_TEST_REQUIRED",
+  "status": "MATERIAL_DELTA_REVIEWED_BOUNDED_VETOES_PRESERVED"
+}

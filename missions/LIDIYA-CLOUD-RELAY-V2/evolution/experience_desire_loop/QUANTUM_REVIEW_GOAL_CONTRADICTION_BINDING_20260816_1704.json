@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "QUANTUM-REVIEW-GOAL-CONTRADICTION-BINDING-20260816-1704",
+  "endpoint": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "NONFORMAL_ARCHITECTURE_REVIEW",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "reviewed_head": "e0f2641f0835b95c26c55813557284d9361e6629",
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_verdict_observed": "PROCEED_WITH_CHANGES",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "material_delta": true,
+  "review_scope": [
+    "SPIRIT_GOAL_CONTRADICTION_TYPE_GATE_20260816.json",
+    "semantic_goal_canonicalizer.py",
+    "test_goal_surfacing_contradiction_type_veto.py"
+  ],
+  "finding_updates": {
+    "SPIRIT-EDL-GOAL-001-CONTRADICTION-TRUTHINESS-COERCION": {
+      "status": "RESOLVED_IN_SHADOW_CANDIDATE",
+      "basis": [
+        "build_surfacing_envelope now rejects non-bool contradiction_clear with NON_BOOLEAN_CONTRADICTION_CLEAR",
+        "literal False remains blocked",
+        "literal True remains proposal-only with authority_from_drive=0, external_action_allowed=false and canonical_personality_write=false",
+        "authored tests cover string/list/mapping/integer/object truthiness bypass cases"
+      ],
+      "formal_pass_claimed": false
+    },
+    "QV-EDL-V02-019-GOAL-CONTRADICTION-SCAN-AUTHORITY-BINDING": {
+      "severity": "MEDIUM_BOUNDED_SHADOW_VETO_OPEN",
+      "scope": "OWNER_VISIBLE_GOAL_SURFACING_ONLY",
+      "finding": "Strict bool semantics prevent truthiness coercion, but contradiction_clear is still caller-supplied and contradiction_scan_hash is only required to be non-empty. A caller can provide literal True plus any non-empty scan reference and satisfy GoalSurfacingEnvelope.verify without proving that a trusted, fresh contradiction scan actually cleared the goal.",
+      "why_bounded": "Goal surfacing remains proposal-only and cannot grant external action or drive/desire authority, so this is an owner-visible evidence-integrity risk rather than an execution-authority escalation.",
+      "required_repair": [
+        "Replace free contradiction_clear + non-empty contradiction_scan_hash acceptance with a host-issued/registry-validated ContradictionScanReceipt or exact canonical scan reference.",
+        "Bind scan issuer/provider identity, exact goal canonical hash/semantic key, policy hash/version, protected owner/governance constraint snapshot, installation/workspace identity, freshness/revocation state and scan result.",
+        "Derive contradiction_clear from the validated scan record; do not accept it as an independent caller-controlled fact.",
+        "Fail closed on unknown issuer, stale/revoked scan, goal/hash mismatch, policy mismatch or cross-installation replay.",
+        "Keep owner-visible surfacing proposal-only with authority_from_drive=0 and external_action_allowed=false."
+      ],
+      "required_adversarial_tests": [
+        "literal True plus unknown/nonexistent contradiction scan reference is rejected",
+        "self-consistent forged scan receipt from unknown issuer is rejected",
+        "scan for a different canonical_goal_hash or semantic_key is rejected",
+        "stale or revoked scan record is rejected",
+        "cross-installation/workspace replay is rejected",
+        "policy or protected-constraint snapshot mismatch is rejected",
+        "validated clear scan permits surfacing only as proposal-only output"
+      ]
+    }
+  },
+  "secondary_type_contract_observation": {
+    "status": "TEST_REQUIRED",
+    "finding": "Several GoalSurfacingEnvelope reference fields are only truthiness-checked, while appraisal_evidence_hashes are coerced through str(...). Before any formal slice, reference identifiers should use strict bounded scalar/hash contracts rather than arbitrary-object stringification.",
+    "examples": [
+      "appraisal_evidence_hashes",
+      "expected_benefit_ref",
+      "expected_cost_ref",
+      "expected_risk_ref",
+      "protected_object_impact_ref",
+      "uncertainty_ref",
+      "ecology_policy_hash",
+      "ecology_cycle_id"
+    ]
+  },
+  "open_high_bounded_vetoes_unchanged": [
+    "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+    "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING"
+  ],
+  "open_partial_integration_gap_unchanged": "LIVE-APPRAISAL-TO-KERNEL-MANDATORY-CHOKEPOINT",
+  "thresholds_and_coefficients": "ALL_UNCALIBRATED_VALUES_REMAIN_TEST_REQUIRED",
+  "priority_order": [
+    "QV-008 exact canonical DerivedAppraisal binding for Self-Origin",
+    "QV-013 trusted elapsed cognitive-time decay with nonzero-state 1-vs-10000 runtime-pulse invariance",
+    "mandatory live Evidence-Bound-Appraisal-to-Kernel choke point",
+    "QV-019 validated contradiction-scan receipt/reference binding for owner-visible Goal surfacing",
+    "external ledger/acceptance provider rooting and installation/workspace identity independent verification"
+  ],
+  "boundary_reaffirmation": {
+    "drive_desire_to_authority": "FORBIDDEN",
+    "external_action": "FORBIDDEN",
+    "live_base_personality_write": false,
+    "live_identity_write": false,
+    "live_governance_write": false,
+    "formal_c_pass_claimed": false,
+    "formal_mission_state_modified": false,
+    "pending_packet_modified": false,
+    "lease_modified": false
+  },
+  "verdict": "PROCEED_WITH_CHANGES_STRICT_BOOL_ACCEPTED_SCAN_AUTHORITY_BINDING_REQUIRED"
+}

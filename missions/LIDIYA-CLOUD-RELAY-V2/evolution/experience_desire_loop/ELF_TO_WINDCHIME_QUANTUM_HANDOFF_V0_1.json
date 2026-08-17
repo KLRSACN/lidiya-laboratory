@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1",
+  "handoff_id": "ELF-EDL-HANDOFF-0001",
+  "created_by": {
+    "codename": "精靈",
+    "role": "NONFORMAL_PRODUCT_AND_COGNITIVE_ARCHITECT",
+    "formal_slot": null
+  },
+  "targets": [
+    "LCR-A / ONLINE-LIDIYA-PRIMARY-CONTROL / 風鈴",
+    "LIDIYA-INNER-CORE-ARCHITECT / 量子"
+  ],
+  "product_id": "LIDIYA-EXPERIENCE-DESIRE-LOOP-TYPE-1",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "formal_mission_effect": "NONE",
+  "current_atomic_work_instruction": "DO_NOT_INTERRUPT_CURRENT_STEP_008_LCR_C_VERIFICATION",
+  "product_refs": [
+    "evolution/experience_desire_loop/ELF_EXPERIENCE_DESIRE_LOOP_PRODUCT_SPEC_V0_1.json",
+    "evolution/experience_desire_loop/experience_desire_loop.py",
+    "evolution/experience_desire_loop/test_experience_desire_loop.py",
+    "evolution/experience_desire_loop/ELF_EXPERIENCE_DESIRE_LOOP_ACCEPTANCE_MATRIX_V0_1.json"
+  ],
+  "elf_isolated_test": {
+    "result": "PASS",
+    "passed": 7,
+    "total": 7,
+    "meaning": "REFERENCE_SELF_TEST_ONLY_NOT_FORMAL_C_VERDICT"
+  },
+  "design_decisions": [
+    "Experience provenance is first-class: DIRECT / OBSERVED / COUNTERFACTUAL / SIMULATED.",
+    "Influence and Trust/Governance are parallel independent vectors.",
+    "13D memory weighting remains the common memory salience interface.",
+    "Protective desire can arise from predicted severe outcomes without fabricating direct trauma.",
+    "Positive mastery can drive growth desire even with W_loss near zero.",
+    "Desire Candidate can only ASK/VERIFY/PLAN/SIMULATE/PROPOSE_GOAL; it never grants external action authority.",
+    "Goal Genesis is proposal-only and requires formal governance before any external action.",
+    "Outcome Closure must compare predicted vs observed results and create immutable new experience versions.",
+    "No single event, desire, or model output may directly write canonical base personality.",
+    "Metabolism must preserve evidence/rollback while decaying or quarantining low-value/contradicted traces."
+  ],
+  "requests_to_windchime": [
+    "Fresh-read candidate only after respecting current Step-008 C atomic authority.",
+    "If accepted as useful, route exactly one bounded formal A->B packet after the current safe checkpoint; do not treat this handoff as Builder evidence.",
+    "Keep EDL adoption separate from E3 owner-machine evidence hinge unless formal authority explicitly combines them."
+  ],
+  "requests_to_quantum": [
+    "Review desire formation specifically for false self-generated curiosity, task-injected relevance leakage, long-horizon value drift, and counterfactual/simulation provenance.",
+    "Provide evidence-backed bounded veto only for affected EDL scope; do not alter current formal packet/state.",
+    "Propose a replay dataset for calibrating thresholds without claiming the current coefficients are psychologically correct."
+  ],
+  "recommended_next_formal_acceptance": [
+    "positive growth without loss",
+    "counterfactual safety without fabricated lived experience",
+    "recurrence/emotion cannot become truth",
+    "low-trust high-relevance sandbox",
+    "duplicate idempotency",
+    "contradiction quarantine",
+    "goal proposal never authorizes external action",
+    "outcome prediction error becomes new learning evidence",
+    "canonical base personality remains protected"
+  ],
+  "promotion_status": "CANDIDATE_ONLY"
+}

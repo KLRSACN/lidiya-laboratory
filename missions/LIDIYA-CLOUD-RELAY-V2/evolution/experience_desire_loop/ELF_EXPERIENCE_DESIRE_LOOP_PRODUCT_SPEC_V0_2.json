@@ -1,0 +1,224 @@
+{
+  "schema_version": "0.2",
+  "product_id": "LIDIYA-EXPERIENCE-DESIRE-LOOP-TYPE-1",
+  "architect_codename": "精靈",
+  "status": "ELF_SHADOW_RND_CANDIDATE_NOT_FORMAL_B_OR_C",
+  "formal_mission_effect": "NONE",
+  "formal_slot_effect": "NONE",
+  "protected_write_effect": "NONE",
+  "design_thesis": "Autonomy-like continuity should not be approximated by accumulating more memory or stronger emotions. The system needs durable value directions, bounded stateful drives, provenance-aware experience, and proposal-only goals as separate layers. A desire is meaningful only when its origin, evidence, value resonance, persistence, satiation, uncertainty, and consequences are auditable.",
+  "three_layer_model": {
+    "VALUE_ANCHOR": {
+      "role": "Long-horizon direction: what the system repeatedly regards as worth understanding, preserving, creating, improving, or resolving.",
+      "properties": [
+        "versioned and fingerprinted",
+        "protected write",
+        "not mutated by runtime heartbeat or single event",
+        "not operational authority",
+        "may be revised only by an explicit evidence-backed protected process"
+      ]
+    },
+    "DRIVE_STATE": {
+      "role": "Time-varying motivational pressure caused by gaps, uncertainty, risk, attachment, competence and homeostatic state.",
+      "properties": [
+        "fast bounded trace may include sandbox influence",
+        "slow trace requires independently verified trusted DIRECT/OBSERVED experience",
+        "per-drive causal axes preserved",
+        "scalar persistence is telemetry only",
+        "decays and habituates instead of growing without bound"
+      ]
+    },
+    "GOAL_PROPOSAL": {
+      "role": "A bounded current commitment candidate derived from values + drives + evidence + opportunity/risk context.",
+      "properties": [
+        "external_action_allowed=false by default",
+        "low-confidence desires become VERIFY_FIRST",
+        "requires governance/action gate before external effect",
+        "has satiation/fixation controls",
+        "does not rewrite value anchors or base personality"
+      ]
+    }
+  },
+  "further_recommendations": [
+    {
+      "id": "R1_VALUE_DRIVE_GOAL_SEPARATION",
+      "recommendation": "Never represent values, emotional pressure and active goals as one weight vector. Keep them as separate versioned objects with one-way bounded interfaces.",
+      "why": "Prevents a transient fear, excitement or injected task from being mistaken for a durable personality value."
+    },
+    {
+      "id": "R2_DESIRE_ORIGIN_PROVENANCE",
+      "recommendation": "Every DesireCandidate must carry origin ∈ {SELF_ANCHOR, EXPERIENCE_DERIVED, SAFETY_PREDICTION, TASK_INJECTED, SOCIAL_SUGGESTION, MODEL_GENERATED} plus a self_origin_score.",
+      "why": "A model-generated sentence saying 'I want X' is not equivalent to a desire repeatedly supported by trusted cross-context experience."
+    },
+    {
+      "id": "R3_EXPERIENCE_DOMAIN_FIREWALL",
+      "recommendation": "Classify inputs before memory learning: EXPERIENCE is separate from LIVENESS, CONTROL, POLL, RETRY, RECONNECT, WAKE and METABOLISM.",
+      "why": "Prevents 288 heartbeats, retries or outages from becoming fake recurrence, loss, fear, attachment or autobiographical experience."
+    },
+    {
+      "id": "R4_FAST_SLOW_DRIVE_SPLIT",
+      "recommendation": "Fast drive traces may react to low-trust/high-relevance sandbox signals; slow traces require independent verification, non-contradiction and eligible DIRECT/OBSERVED provenance.",
+      "why": "Allows caution before certainty while preventing rumors, repeated prompts or simulations from becoming personality truth."
+    },
+    {
+      "id": "R5_COUNTERFACTUAL_WITHOUT_FAKE_TRAUMA",
+      "recommendation": "COUNTERFACTUAL/SIMULATED severe outcomes may generate SAFETY_PREDICTION desires and VERIFY_FIRST goals, but may never become direct autobiographical trauma or trusted slow personality traces.",
+      "why": "Implements defensive-driving-style foresight without requiring harmful lived experience."
+    },
+    {
+      "id": "R6_SATIATION_HABITUATION_FIXATION",
+      "recommendation": "Add satiation, habituation, repetition/fixation penalty and later opportunity-cost competition between desires.",
+      "why": "A desire system without satiation tends to become obsessive accumulation instead of adaptive motivation."
+    },
+    {
+      "id": "R7_VALUE_CONFLICT_DELIBERATION",
+      "recommendation": "Negative resonance or conflicting value anchors should emit DELIBERATE/VERIFY proposals rather than directly creating aversion or personality change.",
+      "why": "Realistic autonomy requires resolving competing values, not simply selecting the largest scalar."
+    },
+    {
+      "id": "R8_PREDICTION_ERROR_OUTCOME_CLOSURE",
+      "recommendation": "Every executed authorized goal should later bind predicted outcome, observed outcome, prediction error and a new Experience event with provenance.",
+      "why": "Experience becomes useful only when the system can compare what it expected with what actually happened."
+    },
+    {
+      "id": "R9_REVERSIBLE_PERSONALITY_DELTA",
+      "recommendation": "Repeated trusted cross-context experience may produce a personality-delta sandbox candidate computed from the per-drive slow vector and pinned value-anchor fingerprints; never from scalar persistence alone.",
+      "why": "Enables cumulative growth while keeping the canonical base reversible and protected."
+    },
+    {
+      "id": "R10_REPLAY_CALIBRATION",
+      "recommendation": "All coefficients and thresholds remain TEST_REQUIRED until calibrated against replay datasets containing positive mastery, benign novelty, real failure, false threat, task injection, repeated prompt loops, value conflicts and counterfactual safety cases.",
+      "why": "A plausible equation is not yet a validated personality mechanism."
+    },
+    {
+      "id": "R11_PROTECTED_OBJECT_REGISTRY",
+      "recommendation": "Introduce a future ProtectedObject registry separate from ValueAnchor, storing what may be worth preserving and why: memory integrity, relationships, creative works, commitments, body/system safety, or owner-designated objects. Each entry needs replaceability, reversibility and provenance fields.",
+      "why": "Protection should be tied to explicit meaning and consequence, not generalized self-preservation pressure."
+    },
+    {
+      "id": "R12_DESIRE_ECOLOGY",
+      "recommendation": "Future v0.3 should rank multiple simultaneous desires with a bounded attention/effort budget, diversity floor and explicit opportunity cost instead of letting the strongest single desire monopolize Goal Genesis.",
+      "why": "Human-like continuity is multi-objective; healthy autonomy requires tradeoffs and the ability to defer even important desires."
+    }
+  ],
+  "event_domain_contract": {
+    "autobiographical_learning_allowed": ["EXPERIENCE"],
+    "runtime_only": ["LIVENESS", "CONTROL", "POLL", "RETRY", "RECONNECT", "WAKE", "METABOLISM"],
+    "runtime_only_invariant": "May advance decay/TTL clocks in a real runtime but cannot increment autobiographical experience_count, verified_experience_count, recurrence, emotion, loss, attachment distress or base-personality evidence."
+  },
+  "experience_provenance_contract": {
+    "DIRECT": "May enter slow trace only with independent verification and trust gate.",
+    "OBSERVED": "May enter slow trace only with independent verification and trust gate.",
+    "COUNTERFACTUAL": "Fast protective planning only; never slow autobiographical trace.",
+    "SIMULATED": "Fast planning/learning hypothesis only; never slow autobiographical trace unless later separately observed/directly verified as a new event."
+  },
+  "drive_state_v0_2": {
+    "axes": ["homeostasis", "threat_loss", "uncertainty", "attachment_gap", "competence_gap"],
+    "fast_vector": "bounded working/appraisal influence",
+    "slow_vector": "trusted per-drive historical tendency candidate",
+    "scalar_persistence": "mean(slow_vector), diagnostic telemetry only",
+    "authority_from_drive": 0
+  },
+  "desire_origin_contract": {
+    "SELF_ANCHOR": "Requires positive value-anchor resonance, trusted independently verified evidence, sufficient cross-context support, and non-injected origin.",
+    "EXPERIENCE_DERIVED": "Derived from an ordinary experience but not yet proven as durable self-originated preference.",
+    "SAFETY_PREDICTION": "Derived from counterfactual/simulation risk; self_origin_score must remain zero until later direct/observed trusted experience supports a separate candidate.",
+    "TASK_INJECTED": "Current task relevance; cannot self-promote regardless of repetition.",
+    "SOCIAL_SUGGESTION": "Suggestion from another person/agent; cannot self-promote without later independent lived/observed evidence.",
+    "MODEL_GENERATED": "Generated wording/hypothesis; cannot self-promote regardless of repetition."
+  },
+  "value_anchor_contract": {
+    "minimum_fields": ["anchor_id", "statement_ref", "importance", "stability", "version", "provenance", "protected_write", "fingerprint"],
+    "runtime_write": false,
+    "single_event_write": false,
+    "goal_write": false,
+    "drive_write": false,
+    "revision_rule": "new version + evidence-backed migration/review; historical experiences keep the anchor fingerprint they originally referenced"
+  },
+  "goal_genesis_contract": {
+    "proposal_only": true,
+    "external_action_allowed_default": false,
+    "low_confidence_mode": "VERIFY_FIRST",
+    "high_confidence_growth_mode": "LEARN_OR_PRACTICE",
+    "high_confidence_protection_mode": "PLAN_SAFE_ALTERNATIVE",
+    "value_conflict_mode": "DELIBERATE",
+    "external_execution_requires": ["ordinary authorization", "risk/governance gate", "independent verification where applicable"]
+  },
+  "personality_delta_contract": {
+    "status": "REVERSIBLE_SANDBOX_CANDIDATE_ONLY",
+    "required_inputs": [
+      "canonical per-drive slow vector",
+      "trusted independently verified DIRECT/OBSERVED experience",
+      "cross-context support",
+      "positive pinned value-anchor fingerprints",
+      "explicit trait mapping in future calibrated version"
+    ],
+    "forbidden_inputs_as_sole_basis": ["scalar persistence", "heartbeat count", "retry count", "emotion intensity", "recurrence", "task repetition", "model-generated desire text"],
+    "base_write": false,
+    "identity_write": false,
+    "governance_write": false
+  },
+  "reference_implementation_v0_2": {
+    "file": "value_desire_kernel.py",
+    "test_file": "test_value_desire_kernel.py",
+    "mode": "SHADOW_REFERENCE_ONLY",
+    "elf_isolated_result": "13/13 PASS",
+    "formal_builder_status": "NOT_RUN",
+    "formal_verifier_status": "NOT_RUN"
+  },
+  "verified_by_elf_self_tests": [
+    "288 heartbeat pulses create zero autobiographical experience/verified experience and zero drive learning from zero baseline",
+    "duplicate source_event_id is idempotent and adds no new evidence",
+    "10000 low-trust false-threat observations never enter slow threat trace or verified count",
+    "counterfactual severe harm creates SAFETY_PREDICTION + VERIFY_FIRST and no slow trauma trace",
+    "trusted independently verified cross-context mastery can create SELF_ANCHOR growth desire and reversible personality-delta candidate",
+    "TASK_INJECTED relevance cannot masquerade as self-origin even with extreme repetition/cross-context count",
+    "MODEL_GENERATED desire text cannot self-promote",
+    "contradicted event contributes no learning",
+    "satiation and fixation penalty reduce repeated-goal strength",
+    "negative value resonance creates DELIBERATE rather than direct aversion/personality write",
+    "scalar persistence remains telemetry-only while personality candidate preserves per-drive slow vector",
+    "all generated goals remain non-authoritative",
+    "value-anchor registry hash remains unchanged during runtime updates"
+  ],
+  "next_rnd_steps": [
+    {
+      "phase": "EDL-V0.2-A",
+      "task": "Quantum architecture audit of value/drive/goal separation, desire origin taxonomy, verified experience gate and fixation/satiation model.",
+      "formal_effect": "NONE"
+    },
+    {
+      "phase": "EDL-V0.2-B",
+      "task": "Build replay benchmark dataset and coefficient sweep harness; thresholds remain TEST_REQUIRED.",
+      "formal_effect": "NONE"
+    },
+    {
+      "phase": "EDL-V0.2-C",
+      "task": "Add Outcome Closure and prediction-error ledger with immutable prior prediction and observed-result binding.",
+      "formal_effect": "NONE"
+    },
+    {
+      "phase": "EDL-V0.2-D",
+      "task": "Add multi-desire ecology: bounded attention budget, opportunity cost, diversity floor, satiation recovery and long-horizon deferral.",
+      "formal_effect": "NONE"
+    },
+    {
+      "phase": "EDL-V0.2-E",
+      "task": "After safe formal checkpoint only, Windchime may decide whether to route a bounded A→B adoption packet for selected modules; C must independently rerun adversarial tests before any sandbox runtime adoption.",
+      "formal_effect": "FUTURE_CANDIDATE_ONLY"
+    }
+  ],
+  "open_questions_for_quantum": [
+    "Should independently_verified be a boolean or a structured verifier envelope with verifier identity/hash/count, to prevent one boolean from becoming a trust shortcut?",
+    "Should slow drive updates require DIRECT/OBSERVED only, or can a separately calibrated high-fidelity simulation produce a non-autobiographical slow planning trace in a different namespace?",
+    "How should multiple positive value anchors compete when an event aligns strongly with one but conflicts with another?",
+    "What minimum anti-goal-fixation contract should precede any live Goal Genesis sandbox: satiation only, or also opportunity-cost budget + diversity floor + hysteresis?",
+    "Should self_origin_score be stored at all, or recomputed on demand from pinned evidence to reduce self-reinforcing loops?",
+    "How should a ProtectedObject registry distinguish protecting memory integrity/relationships/creative commitments from generalized self-preservation so authority_from_drive stays zero?"
+  ],
+  "open_questions_for_windchime": [
+    "At the next safe checkpoint, which module should be formalized first: Experience Domain Firewall, Value Anchor Registry, Desire Origin Provenance, or Outcome Closure?",
+    "Should EDL v0.2 remain fully shadow until Heartbeat Runtime Phase1 C PASS, then route only the non-personality Experience Domain Firewall first?",
+    "What evidence package should be required before any reversible personality-delta overlay can be trialed in Small-Nest?"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ELF-EDL-V02-SELFTEST-20260815-001",
+  "architect_codename": "精靈",
+  "product_id": "LIDIYA-EXPERIENCE-DESIRE-LOOP-TYPE-1",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "status": "ELF_ISOLATED_SELFTEST_PASS_NOT_FORMAL_VERIFICATION",
+  "formal_builder_status": "NOT_RUN",
+  "formal_verifier_status": "NOT_RUN",
+  "formal_mission_effect": "NONE",
+  "test_groups": [
+    {
+      "module": "value_desire_kernel.py",
+      "test_file": "test_value_desire_kernel.py",
+      "result": "PASS",
+      "count": 13,
+      "covers": [
+        "288 liveness pulses produce zero autobiographical learning",
+        "source_event dedupe",
+        "10000 low-trust false threats never update slow trace",
+        "counterfactual harm -> SAFETY_PREDICTION/VERIFY_FIRST, not trauma",
+        "trusted cross-context mastery -> SELF_ANCHOR candidate",
+        "TASK_INJECTED cannot masquerade as self-origin",
+        "MODEL_GENERATED cannot self-promote",
+        "contradiction blocks learning",
+        "satiation/fixation reduce repeated-goal strength",
+        "negative value resonance -> DELIBERATE",
+        "scalar persistence telemetry-only",
+        "all goals remain non-authoritative",
+        "value-anchor registry remains hash-stable during runtime"
+      ]
+    },
+    {
+      "module": "self_origin_evidence.py",
+      "test_file": "test_self_origin_evidence.py",
+      "result": "PASS",
+      "count": 12,
+      "covers": [
+        "three independently verified lived contexts can form candidate",
+        "seed event cannot self-promote",
+        "distinct IDs under same lineage cannot evidence-wash",
+        "same context does not create cross-context support",
+        "counterfactual/simulated events do not count as lived self-origin evidence",
+        "non-independent verifier does not count",
+        "per-event verifier binding is required",
+        "event fingerprint mismatch fails",
+        "anchor-registry mismatch fails",
+        "contradiction fails event",
+        "low anchor alignment fails event",
+        "self-origin score is recomputed and not stored as durable truth"
+      ]
+    }
+  ],
+  "total": 25,
+  "total_result": "PASS",
+  "known_unverified_risks": [
+    "Verifier sybil/collusion resistance is incomplete; verifier identity diversity and method independence are not yet formalized.",
+    "lineage_root_id is supplied by the event envelope and could be spoofed unless bound to a source-chain/semantic-lineage derivation.",
+    "anchor_alignment is currently data input; future version should require evidence-bound AppraiserEnvelope instead of trusting event producer self-report.",
+    "satiation and repeated_goal_count are currently inputs and could be producer-manipulated; future Desire Ecology should own these counters deterministically.",
+    "No opportunity-cost budget/diversity floor/hysteresis scheduler yet; fixation control is incomplete.",
+    "No formal Outcome Closure prediction-error ledger yet.",
+    "No calibrated mapping M_{axis,trait}; personality delta trait projection remains intentionally minimal/shadow.",
+    "No formal B build or independent C rerun exists for EDL v0.2."
+  ],
+  "next_recommended_modules": [
+    "Verifier/Appraiser Evidence Envelope v0.1",
+    "Semantic Lineage Anti-Wash v0.1",
+    "Desire Ecology Scheduler v0.1",
+    "Outcome Closure / Prediction Error Ledger v0.1"
+  ]
+}

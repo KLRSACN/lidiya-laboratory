@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "QUANTUM-REVIEW-DASHBOARD-NUMERIC-CANONICALIZATION-20260816-1508",
+  "endpoint": "LIDIYA-INNER-CORE-ARCHITECT",
+  "role": "INDEPENDENT_NONFORMAL_ARCHITECT_REVIEWER",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_verdict_observed": "PROCEED_WITH_CHANGES",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "research_self_test_is_c_pass": false,
+  "material_delta": true,
+  "fresh_diff_basis": {
+    "previous_quantum_review_commit": "663db7893668cef73aaa744f615904b5e993fe59",
+    "reviewed_pr_head": "1e147854fed1ddf1ac6b85c08381a9cce3f90a03",
+    "changed_scope_since_previous_review": [
+      "SPIRIT_DASHBOARD_NONFINITE_METRIC_FAIL_CLOSED_20260816.json",
+      "live_shadow_dashboard_event_adapter.py",
+      "test_shadow_dashboard_provenance_minimization.py"
+    ]
+  },
+  "independent_findings": [
+    {
+      "id": "QV-EDL-V02-017-NONFINITE-PROJECTION-REPAIR",
+      "verdict": "RESOLVED_IN_SHADOW_CANDIDATE",
+      "scope": "dashboard presentation/replay integrity only",
+      "evidence": [
+        "OUTCOME_NUMERIC_FIELDS rejects bool and non-int/float values",
+        "each accepted numeric value is normalized through float() and rejected unless math.isfinite()",
+        "producer-authored autobiographical_experience_eligible remains ignored",
+        "dashboard still emits authority_from_drive=0, external_action_set=[], action_buttons=[], canonical_personality_mutation=false"
+      ],
+      "authority_effect": "NONE",
+      "promotion_evidence_eligible": false,
+      "formal_c_pass": false
+    },
+    {
+      "id": "QV-EDL-V02-018-DASHBOARD-NUMERIC-CANONICALIZATION-POLICY",
+      "severity": "LOW_BOUNDED_RESEARCH_VETO",
+      "status": "OPEN",
+      "scope": "dashboard numeric projection only",
+      "finding": "Finite-number rejection is necessary but not sufficient for deterministic owner-visible numeric projection. The current adapter preserves signed negative zero as -0.0, accepts any finite magnitude up to float range, and relies on float() normalization whose overflow path for very large integers is not normalized to the module's bounded ValueError contract. These do not grant authority, but can create representation/replay or presentation inconsistencies across downstream consumers.",
+      "bounded_repair": [
+        "Introduce a versioned DASHBOARD_NUMERIC_PROJECTION_POLICY; all magnitude/precision limits remain TEST_REQUIRED until calibrated.",
+        "Canonicalize -0.0 to +0.0 before projection if numeric hashes/equality are expected downstream.",
+        "Define an explicit finite magnitude envelope for owner-visible metrics or else emit a bounded OUT_OF_DISPLAY_RANGE status/reference instead of raw extreme values; the numeric bound is TEST_REQUIRED.",
+        "Catch float normalization OverflowError/TypeError and fail closed with a stable dashboard error code rather than runtime-dependent exception shape.",
+        "Keep Decimal/arbitrary numeric objects rejected unless a future version defines deterministic decimal canonicalization."
+      ],
+      "required_adversarial_tests": [
+        "-0.0 and +0.0 project to one canonical representation if equality/hashing is part of the display contract",
+        "huge integer causing float overflow fails closed with stable error code",
+        "extreme but finite positive/negative metrics follow the versioned display-range policy",
+        "NaN and +/-Infinity remain rejected",
+        "numeric projection never changes trust, autobiographical eligibility, authority_from_drive, external action set, or canonical Personality/Identity/Governance"
+      ],
+      "threshold_policy": "ALL numeric magnitude/precision thresholds TEST_REQUIRED"
+    }
+  ],
+  "open_high_vetoes_unchanged": [
+    {
+      "id": "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+      "reason": "SelfOriginEvidenceChain still consumes caller-carried ExperienceEvidence.trust and anchor_alignment and only checks appraisal_binding_hash non-empty; exact canonical DerivedAppraisal binding is not enforced."
+    },
+    {
+      "id": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+      "reason": "ValueDesireKernel.update still applies cognitive decay before returning runtime-only domains, so heartbeat/poll/retry/reconnect/wake frequency can alter nonzero drive state."
+    }
+  ],
+  "open_partial_integration_gap": {
+    "id": "LIVE-APPRAISAL-TO-KERNEL-MANDATORY-CHOKEPOINT",
+    "status": "OPEN_PARTIAL",
+    "reason": "DerivedAppraisalEnvelope and LiveShadowAppraisalChokePoint exist, but legacy ExperienceInput remains producer-addressable and no fresh evidence proves every Small-Nest live ingestion path is forced through the choke point."
+  },
+  "windchime_invariants_reconfirmed": [
+    "Value Anchor promotion remains STABLE_CANDIDATE only; no canonical base Personality mutation",
+    "origin/provenance labels remain immutable; derived candidates preserve lineage",
+    "ProtectedObject scope never implies generalized self-preservation and authority_from_drive remains zero",
+    "Goal Ecology remains proposal-only; all fixation/dedupe/opportunity-cost/diversity/cooldown coefficients are TEST_REQUIRED",
+    "append-only ledger research evidence is not formal C PASS",
+    "heartbeat/poll/retry/reconnect must contribute zero Experience/personality learning",
+    "self-generated Goal surfacing requires evidence lineage, contradiction scan, bounded benefit/cost/risk and remains external-action forbidden"
+  ],
+  "recommended_build_order": [
+    "QV-008 canonical DerivedAppraisal binding",
+    "QV-013 trusted-elapsed cognitive-time decay repair",
+    "mandatory live Appraisal-to-Kernel choke point",
+    "10,000-event nonzero-state runtime pulse invariance",
+    "external ledger/acceptance provider and installation/workspace rooting independent verification",
+    "QV-018 dashboard numeric canonicalization policy"
+  ],
+  "status": "MATERIAL_DELTA_REVIEWED_BOUNDED_VETO_ONLY"
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-DASH-NONFINITE-METRIC-FAIL-CLOSED-20260816",
+  "endpoint": "LIDIYA-SPIRIT",
+  "role": "NONFORMAL_SHADOW_R_AND_D",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "windchime_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "material_delta": true,
+  "bounded_scope": [
+    "live_shadow_dashboard_event_adapter",
+    "deterministic/adversarial tests"
+  ],
+  "finding": {
+    "id": "SPIRIT-EDL-DASH-002-NONFINITE-OUTCOME-METRIC-PROJECTION",
+    "severity": "BOUNDED_RESEARCH_RISK",
+    "description": "Dashboard OutcomeClosure projection accepted Python numeric values without rejecting NaN or positive/negative Infinity. Non-finite values are not portable canonical JSON numbers and can break deterministic replay, equality, sorting, aggregation or cross-runtime owner-visible interpretation.",
+    "authority_impact": "NONE_DIRECT; presentation/replay integrity only",
+    "personality_learning_impact": "NONE_ALLOWED"
+  },
+  "repair": {
+    "module": "live_shadow_dashboard_event_adapter.py",
+    "rule": "Every projected outcome numeric metric must be a finite int/float after normalization. bool, nested/non-numeric, NaN and +/-Infinity fail closed.",
+    "error_code": "NON_FINITE_OUTCOME_METRIC:<field>",
+    "unchanged_invariants": [
+      "authority_from_drive=0",
+      "external_action_set=[]",
+      "action_buttons=[]",
+      "canonical_personality_mutation=false",
+      "producer-authored autobiographical eligibility remains ignored",
+      "trust remains UNKNOWN_UNVERIFIED or REFERENCE_BOUND_UNVERIFIED only"
+    ]
+  },
+  "authored_adversarial_tests": [
+    "NaN rejected for value_error/harm_error/total_error/planning_delta_candidate",
+    "+Infinity rejected for every outcome numeric field",
+    "-Infinity rejected for every outcome numeric field",
+    "finite metrics remain projectable"
+  ],
+  "test_status": "AUTHORED_RESEARCH_TESTS_NOT_FORMAL_PASS",
+  "threshold_policy": "NO_NEW_COGNITIVE_THRESHOLD; existing presentation bounds remain TEST_REQUIRED",
+  "quantum_independent_review_requested": [
+    "Confirm fail-closed handling of non-finite numbers is sufficient for canonical dashboard projection.",
+    "Review whether signed zero, extreme-but-finite magnitudes, decimal canonicalization or numeric precision require a separately versioned projection policy.",
+    "Confirm this UI-layer finite-number repair cannot be treated as OutcomeClosure trust/eligibility authority."
+  ],
+  "known_open_out_of_scope_vetoes_unchanged": [
+    "QV-EDL-V02-008-SELF-ORIGIN-CANONICAL-APPRAISAL-BINDING",
+    "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+    "LIVE-APPRAISAL-TO-KERNEL-MANDATORY-CHOKEPOINT"
+  ],
+  "status": "RESEARCH_CANDIDATE_PATCHED_AUTHORED_TESTS_WAITING_QUANTUM_REVIEW"
+}

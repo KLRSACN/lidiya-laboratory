@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "SPIRIT-EDL-SHADOW-RND-DASHBOARD-PROVENANCE-20260816",
+  "endpoint": "LIDIYA-SPIRIT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "NONE",
+  "status": "RESEARCH_CANDIDATE_AUTHORED_TESTS_WAITING_QUANTUM_REVIEW",
+  "material_delta": true,
+  "in_scope_module": "live_shadow_dashboard_event_adapter",
+  "finding": {
+    "id": "SPIRIT-EDL-DASH-001-PROVENANCE-ECHO-SURFACE",
+    "severity": "MEDIUM",
+    "summary": "The dashboard adapter copied the complete producer-authored provenance mapping into an owner-visible event. Unknown nested/raw fields could therefore cross the adapter despite not being required for provenance display.",
+    "authority_escalation": false,
+    "personality_learning_effect": false
+  },
+  "bounded_repair": [
+    "Dashboard provenance is now reference-only through an explicit allowlist.",
+    "Unknown producer-authored provenance fields are omitted instead of echoed.",
+    "Allowed provenance fields must be scalar strings; nested structures fail closed.",
+    "source_fingerprint must be a non-empty string.",
+    "Owner-visible summary length is bounded; exact presentation bound remains TEST_REQUIRED.",
+    "authority_from_drive remains 0, external_action_set remains empty, action_buttons remain empty, and canonical_personality_mutation remains false."
+  ],
+  "authored_adversarial_tests": [
+    "unknown raw provenance fields are not echoed",
+    "nested value in an allowed provenance reference is rejected",
+    "missing/non-string source fingerprint is rejected",
+    "summary surface is bounded",
+    "dashboard remains non-authoritative"
+  ],
+  "test_status": "AUTHORED_NOT_FORMAL_PASS",
+  "test_required": [
+    "exact allowed provenance field policy",
+    "summary presentation length bound",
+    "whether quarantine_reason and prediction_outcome require separate structured minimization schemas",
+    "whether owner-visible entity_id/trust_status require enum/reference validation"
+  ],
+  "quantum_independent_review_requests": [
+    "Check whether omission of unknown provenance keys is preferable to quarantine for malformed producer records.",
+    "Review quarantine_reason and prediction_outcome for equivalent arbitrary nested data passthrough.",
+    "Check that dashboard minimization cannot hide evidence required for provenance/audit reconstruction; canonical audit data must remain in the ledger, not the dashboard projection.",
+    "Confirm no dashboard field can become an authority or Experience/personality-learning input."
+  ],
+  "invariants": {
+    "authority_from_drive": 0,
+    "external_action_from_goal": false,
+    "live_base_personality_mutation": false,
+    "identity_mutation": false,
+    "governance_mutation": false,
+    "heartbeat_to_experience": false,
+    "research_self_test_is_formal_pass": false
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "product": "LIDIYA-EXPERIENCE-DESIRE-LOOP-TYPE-1",
+  "module": "OUTCOME_PREDICTION_ERROR_CLOSURE",
+  "architect": "精靈",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "status": "ELF_ISOLATED_SELFTEST_PASS_NOT_FORMAL_VERIFICATION",
+  "formal_authority_effect": "NONE",
+  "self_test_result": "5/5 PASS",
+  "tested_cases": [
+    "exact direct verified outcome -> zero prediction error and autobiographical candidate",
+    "observed harm greater than predicted -> bounded INCREASE_CAUTION planning delta candidate",
+    "SIMULATED outcome -> MODEL_LEARNED_SLOW_PLANNING only, never autobiographical",
+    "unverified DIRECT claim -> planning only, no autobiographical eligibility",
+    "goal mismatch -> fail closed"
+  ],
+  "hard_invariants": [
+    "base_personality_write=false",
+    "external_action_authority=0",
+    "simulation/non-direct outcome cannot become autobiographical memory",
+    "DIRECT requires independent verification before autobiographical eligibility",
+    "prediction and observation must bind the same goal",
+    "prediction evidence_set_hash and observation verifier_envelope_hash are required"
+  ],
+  "known_gaps": [
+    "independently_verified is still a boolean input and should later be replaced by a verifier registry/envelope validation result",
+    "prediction error scalar weighting is TEST_REQUIRED and not calibrated",
+    "planning delta is candidate-only and has no formal adoption path yet",
+    "outcome value/harm feature extraction still requires evidence-bound feature provenance"
+  ],
+  "next_recommended_integration": "Bind this closure to Evidence-Bound Appraisal and an append-only shadow ledger; feed only verified DIRECT closure into autobiographical Experience candidates and route all other closure into MODEL_LEARNED_SLOW_PLANNING.",
+  "formal_verifier_status": "NOT_RUN"
+}

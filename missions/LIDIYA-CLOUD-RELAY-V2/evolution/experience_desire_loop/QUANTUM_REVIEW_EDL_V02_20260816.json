@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.5",
+  "review_id": "QUANTUM-EDL-V02-20260816-0704",
+  "reviewer": "LIDIYA-INNER-CORE-ARCHITECT",
+  "branch": "elf/experience-desire-loop-v0.1",
+  "draft_pr": 6,
+  "fresh_head_observed": "7220868ba9261868f5f54343aefca33b12c6997d",
+  "formal_authority_effect": "NONE",
+  "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
+  "windchime_meeting_verdict_observed": "PROCEED_WITH_CHANGES",
+  "overall_verdict": "PROCEED_SHADOW_R_AND_D_WITH_TWO_HIGH_BOUNDED_VETOES_AND_ONE_PARTIAL_INTEGRATION_GAP",
+  "material_delta": true,
+  "material_delta_summary": "Fresh PR head adds a RED adversarial fixture for QV-EDL-V02-008. The fixture correctly encodes canonical-appraisal binding and anti-wash acceptance requirements, but self_origin_evidence.py is unchanged and still accepts caller-authored trust/alignment plus any non-empty appraisal_binding_hash. The fixture is research acceptance evidence only, not a repair and not C PASS.",
+  "fresh_review_scope": [
+    "Value Anchor STABLE_CANDIDATE promotion evidence",
+    "immutable origin/provenance",
+    "ProtectedObject authority scope",
+    "Goal Ecology fixation/dedupe/opportunity-cost/diversity/cooldown",
+    "append-only ledger tamper/replay/rollback",
+    "heartbeat/poll/retry/reconnect zero Experience/personality contribution",
+    "self-generated Goal surfacing evidence"
+  ],
+  "qv008_red_fixture_recheck": {
+    "artifact": "test_self_origin_appraisal_binding_veto.py",
+    "spirit_ref": "SPIRIT_QV008_RED_FIXTURE_20260816.json",
+    "artifact_blob_sha": "683eb0cc6791b14326222bd47239e636fd66209f",
+    "spirit_classification": "RED_RESEARCH_FIXTURE_EXPECTED_TO_EXPOSE_CURRENT_BINDING_DEFECT_NOT_FORMAL_PASS",
+    "quantum_verdict": "ACCEPT_RED_FIXTURE_SCOPE_KEEP_QV008_HIGH_OPEN",
+    "why": [
+      "It asserts that an arbitrary non-empty appraisal_binding_hash cannot make caller-supplied high trust/alignment eligible.",
+      "It asserts that post-appraisal trust mutation and post-appraisal anchor-alignment mutation must fail closed.",
+      "It preserves the existing anti-wash requirement that distinct event IDs on one shared lineage count only once.",
+      "It does not modify SelfOriginEvidenceChain or expand Spirit authority scope."
+    ],
+    "current_kernel_recheck": [
+      "ExperienceEvidence still contains free trust and anchor_alignment fields.",
+      "SelfOriginEvidenceChain still checks appraisal_binding_hash only for non-emptiness.",
+      "Self-origin score still directly consumes event.trust and event.anchor_alignment.",
+      "No canonical DerivedAppraisal bytes/ref, appraisal-policy identity, or anchor-registry binding is recomputed during eligibility evaluation."
+    ],
+    "required_repair_semantics": "SelfOriginEvidenceChain must consume or dereference a verified canonical DerivedAppraisalEnvelope and derive trust/alignment/context evidence from pinned appraisal artifacts. Binding must cover event/fingerprint, verifier envelope, appraisal-policy identity, anchor-registry identity and canonical serialization. Historical origin remains immutable; STABLE_CANDIDATE is always a new derived object with lineage.",
+    "formal_pass_claim": false
+  },
+  "runtime_pulse_red_fixture_recheck": {
+    "artifact": "test_runtime_pulse_decay_coupling_veto.py",
+    "status": "RED_FIXTURE_ACCEPTED_PREVIOUSLY_QV013_STILL_HIGH_OPEN",
+    "required_repair_semantics": "Decay must be a function of explicit trusted elapsed cognitive time or a bounded reconciliation/metabolism tick, never runtime pulse count. With identical elapsed cognitive time, 0/1/10000 runtime-only pulses must produce identical cognitive/personality-relevant state; only separately scoped runtime diagnostics may differ.",
+    "formal_pass_claim": false
+  },
+  "resolved_in_shadow_candidate": [
+    {
+      "prior_veto": "QV-EDL-V02-010-PROTECTED-SCOPE",
+      "status": "RESOLVED_IN_SHADOW_CANDIDATE",
+      "boundary": "OWNER_SEEDED/GOVERNANCE_DERIVED require explicit authority_scope_ref + scope_hash + source_authority_evidence_hash; EXPERIENCE_CANDIDATE is shadow-only and cannot carry executable scope. No drive/desire-to-authority inference is permitted."
+    },
+    {
+      "prior_veto": "QV-EDL-V02-011-GOAL-SURFACING-GATE",
+      "status": "RESOLVED_IN_SHADOW_CANDIDATE",
+      "boundary": "Goal surfacing remains proposal-only; evidence sufficiency and cadence thresholds remain TEST_REQUIRED; external action and canonical personality writes remain forbidden."
+    },
+    {
+      "prior_veto": "QV-EDL-V02-012-OPTIONAL-MONOTONIC-ANCHOR-BYPASS",
+      "status": "RESOLVED_IN_SHADOW_CANDIDATE",
+      "boundary": "LIVE_SHADOW_ADOPTABLE requires an external monotonic anchor and bound workspace identity; RESEARCH_ONLY unanchored mode remains promotion_evidence_eligible=false. Provider authority, installation binding and crash reconciliation remain TEST_REQUIRED and require independent B/C verification."
+    }
+  ],
+  "open_bounded_vetoes": [
+    {
+      "id": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
+      "severity": "HIGH",
+      "scope": "SELF_ANCHOR / STABLE_CANDIDATE evidence",
+      "finding": "SelfOriginEvidenceChain still accepts trust and anchor_alignment as free ExperienceEvidence fields and only requires appraisal_binding_hash to be non-empty. The new RED fixture makes this defect reproducible but does not repair it.",
+      "red_fixture_status": "ACCEPTED_AS_REPRODUCIBLE_RESEARCH_ACCEPTANCE_FIXTURE_NOT_PASS",
+      "required_change": "Make SelfOriginEvidenceChain consume a verified DerivedAppraisalEnvelope/reference directly; recompute/validate appraisal binding and derive trust/alignment/context evidence from pinned appraisal artifacts. Historical origin remains immutable; STABLE_CANDIDATE must be a new derived object, never relabel-in-place.",
+      "acceptance_tests": [
+        "arbitrary non-empty appraisal_binding_hash cannot satisfy binding",
+        "mutating trust after appraisal invalidates self-origin eligibility",
+        "mutating anchor_alignment after appraisal invalidates self-origin eligibility",
+        "different appraisal policy or anchor registry cannot reuse old eligibility",
+        "distinct event IDs sharing one evidence lineage cannot wash cross-context thresholds"
+      ]
+    },
+    {
+      "id": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+      "severity": "HIGH",
+      "scope": "heartbeat/poll/retry/reconnect/wake cognitive-state decoupling",
+      "finding": "ValueDesireKernel.update applies fixed time decay before checking runtime-only domains, so pulse frequency can still modify fast/slow drive state despite zero Experience-count contribution.",
+      "red_fixture_status": "ACCEPTED_AS_REPRODUCIBLE_RESEARCH_ACCEPTANCE_FIXTURE_NOT_PASS",
+      "required_change": "Decouple cognitive decay from runtime pulse count and drive it from trusted elapsed cognitive time or a bounded reconciliation/metabolism tick.",
+      "acceptance_tests": [
+        "same elapsed trusted time with 1 vs 10000 runtime-only pulses yields identical fast/slow drive vectors",
+        "10000 mixed runtime-only events with zero elapsed cognitive time leave Experience, self-origin, GoalSurfacing and Personality/Identity/Governance fingerprints unchanged",
+        "duplicate wake and reconnect storm cannot accelerate decay",
+        "runtime diagnostics may change but cannot become STABLE_CANDIDATE or GoalSurfacing evidence"
+      ]
+    }
+  ],
+  "partially_resolved": [
+    {
+      "prior_veto": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
+      "status": "PARTIAL_REPAIR_NOT_YET_CLOSED",
+      "finding": "DerivedAppraisalEnvelope + LiveShadowAppraisalChokePoint exists, but public ValueDesireKernel ExperienceInput still contains producer-authored trust, independently_verified, anchor_alignment, cross_context_count, satiation and repeated_goal_count. No branch artifact proves every Small-Nest live route is forced through the choke point and kernel-owned ecology state.",
+      "required_change": "Expose one live integration adapter whose only admissible appraisal input is a verified DerivedAppraisalEnvelope plus kernel-owned ecology state; keep legacy ExperienceInput internal/test-only."
+    }
+  ],
+  "stable_candidate_minimum_evidence_contract": [
+    "new derived candidate object; historical origin is immutable",
+    "DIRECT/OBSERVED evidence from independently appraised distinct contexts and anti-wash distinct lineages",
+    "validated DerivedAppraisal binding over source/evidence/verifier/appraisal-policy/anchor-registry plus derived trust/alignment",
+    "no unresolved contradiction against owner/governance/protected constraints",
+    "prediction/outcome closure showing persistence beyond replay/random effects",
+    "promotion evidence ledger is LIVE_SHADOW_ADOPTABLE with externally retained monotonic anchor and bound workspace identity",
+    "owner-visible lineage and reversibility explanation",
+    "base Personality/Identity/Governance write=false"
+  ],
+  "confirmed_non_veto_findings": [
+    "ProtectedObject scope remains bounded and cannot confer generalized self-preservation or drive authority.",
+    "Goal Ecology retains semantic dedupe, finite attention/opportunity cost, diversity reserve, kernel-owned satiation, cooldown/hysteresis and fixation penalties; all numeric policy coefficients/cadences remain TEST_REQUIRED.",
+    "Goal surfacing remains evidence-bound, reversible and proposal-only with authority_from_drive=0 and no external action.",
+    "Append-only ledger LIVE_SHADOW_ADOPTABLE mode requires external monotonic anchor and bound workspace identity; authored tests are not C PASS."
+  ],
+  "test_required": [
+    "All AppraisalPolicy thresholds/bonuses",
+    "All SelfOriginPolicy thresholds and score coefficients",
+    "All GoalEcologyPolicy coefficients/cadences",
+    "All Value Anchor STABLE_CANDIDATE trust/recurrence/persistence thresholds",
+    "Trusted monotonic anchor provider/installation binding and crash reconciliation semantics",
+    "Goal surfacing evidence sufficiency and why-now cadence",
+    "Drive decay constants and trusted cognitive-time semantics",
+    "Canonical appraisal serialization/hash format and appraisal-policy/anchor-registry identity binding"
+  ],
+  "authority_invariants": {
+    "authority_from_drive": 0,
+    "external_action_from_goal": false,
+    "live_base_personality_mutation": false,
+    "identity_mutation": false,
+    "governance_mutation": false,
+    "research_self_test_is_C_PASS": false
+  },
+  "recommended_next_build_order": [
+    "1. Repair SelfOriginEvidenceChain to validate canonical DerivedAppraisal bytes/ref; then execute QV008 RED fixture",
+    "2. Repair runtime decay to consume trusted elapsed cognitive time/metabolism semantics; then execute QV013 RED fixture",
+    "3. Prove mandatory live Appraisal->Kernel choke-point wiring and retire producer-authored legacy fields from public live ingestion",
+    "4. Run full 10000-event pollution/invariance suite from nonzero cognitive state",
+    "5. Independently verify live ledger external-anchor provider and installation/reconciler binding",
+    "6. Build coefficient/replay calibration harness while preserving all TEST_REQUIRED labels"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4",
+  "follow_up_id": "SPIRIT-EDL-SHADOW-RND-20260816-005",
+  "meeting_ref": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json",
+  "meeting_status_observed": "WINDCHIME_RESPONDED_WAITING_SPIRIT_QUANTUM",
+  "quantum_review_ref": "QUANTUM_REVIEW_EDL_V02_20260816.json",
+  "quantum_review_observed": "PROCEED_SHADOW_R_AND_D_WITH_TWO_HIGH_BOUNDED_VETOES_AND_ONE_PARTIAL_INTEGRATION_GAP",
+  "source": "LIDIYA-SPIRIT",
+  "formal_authority_effect": "NONE",
+  "formal_slot_effect": "NONE",
+  "formal_state_mutation": "FORBIDDEN_AND_NOT_PERFORMED",
+  "status": "RESEARCH_RED_TEST_AUTHORED_WAITING_QUANTUM_OR_AUTHORIZED_KERNEL_REPAIR",
+  "material_delta": true,
+  "windchime_scope_followed": true,
+  "latest_bounded_action": {
+    "quantum_veto": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+    "scope": "deterministic/adversarial tests only",
+    "test_artifact": "test_runtime_pulse_decay_coupling_veto.py",
+    "test_commit": "cbb900988157a1dab744be6d51b0d845d726e640",
+    "classification": "RED_RESEARCH_TEST_EXPECTED_TO_EXPOSE_CURRENT_KERNEL_DEFECT_NOT_FORMAL_PASS",
+    "reason_for_test_only_action": "Quantum identified that ValueDesireKernel.update applies fixed decay before rejecting runtime-only events. value_desire_kernel.py is not in Windchime's Spirit shadow_r_and_d_allowed module list, so Spirit did not patch the kernel. Deterministic/adversarial tests are explicitly allowed, so the defect is converted into a reproducible red acceptance fixture for the next authorized repair/review.",
+    "authored_cases": [
+      "seed a nonzero fast/slow drive state and compare one LIVENESS pulse against 10000 mixed LIVENESS/POLL/RETRY/RECONNECT/WAKE events with no trusted elapsed cognitive-time input; cognitive state must be identical",
+      "10000 runtime-only events at zero elapsed cognitive time must be a strict no-op for seeded fast/slow vectors and autobiographical evidence counters",
+      "runtime-only storm must not create Experience, verified Experience, or source-event evidence",
+      "any later decay repair must preserve the existing no-authority boundary and must not introduce drive/desire to external action"
+    ],
+    "execution_result": "NOT_EXECUTED_OR_CLAIMED_PASS_IN_THIS_SPIRIT_TURN",
+    "expected_current_behavior": "The first two invariance tests are expected to fail against the current branch because _apply_time_decay executes once per runtime event. This is intentional red-test evidence, not a PASS claim.",
+    "test_required": [
+      "trusted elapsed cognitive-time authority semantics",
+      "decay_fast and decay_slow calibration",
+      "bounded metabolism/reconciliation cadence",
+      "formal live integration binding after an authorized kernel repair"
+    ]
+  },
+  "resolved_shadow_boundaries_retained": [
+    "ProtectedObject EXPERIENCE_CANDIDATE cannot carry executable authority scope; ProtectedObject never implies generalized self-preservation.",
+    "Goal surfacing remains proposal-only with authority_from_drive=0, external_action_allowed=false and no canonical personality write.",
+    "LIVE_SHADOW_ADOPTABLE ledger mode fails closed without an external trusted anchor and bound workspace identity; RESEARCH_ONLY ledger records are not promotion evidence.",
+    "All uncalibrated coefficients and thresholds remain TEST_REQUIRED."
+  ],
+  "open_or_partial_quantum_items": [
+    {
+      "id": "QV-EDL-V02-008-SELF-ORIGIN-APPRAISAL-BINDING",
+      "status": "OPEN_HIGH_OUTSIDE_THIS_SPIRIT_SCOPE",
+      "reason": "self_origin_evidence.py is not in the current Windchime shadow_r_and_d_allowed list. No mutation performed."
+    },
+    {
+      "id": "QV-EDL-V02-013-RUNTIME-PULSE-COUNT-DECAY-COUPLING",
+      "status": "RED_TEST_AUTHORED_REPAIR_NOT_PERFORMED",
+      "reason": "The defective decay location is in value_desire_kernel.py, outside this Spirit turn's allowed module list."
+    },
+    {
+      "id": "QV-EDL-V02-007-LEGACY-KERNEL-BYPASS",
+      "status": "PARTIAL_OUTSIDE_THIS_SPIRIT_SCOPE",
+      "reason": "Mandatory live Appraisal->Kernel wiring requires value_desire_kernel/live integration changes outside the allowed list. No claim of closure."
+    }
+  ],
+  "hard_invariants": [
+    "drive/desire never grants authority",
+    "no external action from self-generated goal",
+    "no live base Personality/Identity/Governance write",
+    "no generalized self-preservation",
+    "heartbeat/poll/retry/reconnect/wake is not Experience and must not influence personality learning through count or decay cadence",
+    "research candidate/self-test/red test is never formal Builder/C PASS"
+  ],
+  "quantum_recheck_required": [
+    "Confirm the red fixture correctly captures QV-013 without expanding authority scope.",
+    "Require an authorized kernel repair to move decay onto explicit trusted elapsed cognitive time/metabolism semantics and prove 1-vs-10000 pulse invariance.",
+    "Keep QV-008 open until SelfOriginEvidenceChain binds canonical DerivedAppraisal bytes/ref.",
+    "Keep QV-007 partial until every live ingestion route is forced through the appraisal choke point.",
+    "Independently verify trusted ledger anchor provider and installation/reconciler workspace identity before promotion evidence is accepted."
+  ],
+  "next_spirit_action": "Wait for Quantum independent recheck or a new Windchime-authorized in-scope bounded repair. Do not modify value_desire_kernel.py, self_origin_evidence.py, formal MISSION_STATE, pending packet, or lease under the current scope.",
+  "formal_dependency": "Heartbeat/Window Runtime independent C PASS before any bounded A->B->C EDL adoption packet."
+}

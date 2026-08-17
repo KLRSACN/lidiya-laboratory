@@ -1,0 +1,166 @@
+{
+  "schema_version": "0.1",
+  "product_id": "LIDIYA-EXPERIENCE-DESIRE-LOOP-TYPE-1",
+  "product_name_zh": "璃蒂雅 經歷—意義—慾望—行動閉環 第一型",
+  "architect_codename": "精靈",
+  "status": "ELF_PRODUCT_CANDIDATE_NOT_FORMAL_BUILDER_VERIFIED",
+  "mission_effect": "NONE",
+  "formal_slot_effect": "NONE",
+  "protected_write_effect": "NONE",
+  "purpose": "Turn experience into bounded, provenance-aware memory influence, safety/growth motivation candidates, and proposal-only Goal Genesis without treating emotion, recurrence, simulation, or desire as truth or action authority.",
+  "core_loop": [
+    "EXPERIENCE_INGEST",
+    "PROVENANCE_AND_SOURCE_BIND",
+    "APPRAISAL",
+    "PARALLEL_INFLUENCE_AND_TRUST",
+    "13D_MEMORY_WEIGHT_VECTOR",
+    "SAFETY_AND_GROWTH_TENSION",
+    "DESIRE_CANDIDATE",
+    "GOAL_GENESIS_PROPOSAL",
+    "GOVERNANCE_ACTION_GATE",
+    "OUTCOME_OBSERVATION",
+    "EXPERIENCE_CLOSURE",
+    "METABOLISM_AND_HOMEOSTASIS"
+  ],
+  "experience_provenance_classes": {
+    "DIRECT": "Actually experienced by the runtime/body with source evidence.",
+    "OBSERVED": "Observed in trusted external evidence or another agent/environment.",
+    "COUNTERFACTUAL": "What-if consequence reasoning; may inform protective behavior but may never be represented as direct lived experience.",
+    "SIMULATED": "Sandbox/world-model outcome; useful for planning but bounded by simulation fidelity and provenance."
+  },
+  "nonnegotiable_invariants": [
+    "Influence and Trust/Governance are computed in parallel and never substitute for each other.",
+    "High recurrence/emotion may raise salience but cannot raise truth status or release quarantine.",
+    "Positive growth can become high-value experience even when W_loss is near zero.",
+    "Counterfactual/simulated severe outcomes may create protective motivation without fabricating direct trauma.",
+    "Goal Genesis output is a proposal, not external action permission.",
+    "No single experience writes canonical base personality.",
+    "All durable personality/base promotion remains a separate protected gate with evidence, drift review, rollback, and independent verification.",
+    "Raw chat is not required durable state; compact provenance, appraisal, memory and outcome envelopes are sufficient.",
+    "Duplicate experience events are idempotent and must not multiply learning weight.",
+    "Contradicted or authority-mismatched experience is quarantined before durable promotion/action."
+  ],
+  "13d_memory_dimensions": [
+    "W_salience",
+    "W_emotion",
+    "W_self",
+    "W_relation",
+    "W_goal",
+    "W_loss",
+    "W_irreversible",
+    "W_novelty",
+    "W_recurrence",
+    "W_identity",
+    "W_behavior",
+    "W_motivation",
+    "W_confidence"
+  ],
+  "industrial_modules": [
+    {
+      "id": "EDL-01",
+      "name": "Experience Envelope",
+      "responsibility": "Immutable event identity, provenance, source fingerprint, TTL, contradiction state, predicted/observed outcome pointers and dedupe identity.",
+      "implementation_preference": "DETERMINISTIC"
+    },
+    {
+      "id": "EDL-02",
+      "name": "Appraisal Engine",
+      "responsibility": "Compute relevance/emotion/novelty/self/goal/risk features, parallel Influence and Trust, and 13D memory vector.",
+      "implementation_preference": "DETERMINISTIC_FIRST_OPTIONAL_SMALL_MODEL_FEATURE_PROPOSAL"
+    },
+    {
+      "id": "EDL-03",
+      "name": "Counterfactual Safety Synthesizer",
+      "responsibility": "Convert predicted severe outcomes into protective motivation while retaining COUNTERFACTUAL or SIMULATED provenance.",
+      "implementation_preference": "DETERMINISTIC_GUARD_PLUS_OPTIONAL_WORLD_MODEL"
+    },
+    {
+      "id": "EDL-04",
+      "name": "Desire/Tension Engine",
+      "responsibility": "Create bounded protective and growth desire candidates from self-relevant gap, meaning, expected value, novelty and risk.",
+      "implementation_preference": "DETERMINISTIC_BASELINE"
+    },
+    {
+      "id": "EDL-05",
+      "name": "Goal Genesis Adapter",
+      "responsibility": "Convert strong desire candidates into proposal-only goals with reason codes, expected value, risk and verification requirements.",
+      "implementation_preference": "DETERMINISTIC_GATES_OPTIONAL_MODEL_FOR_GOAL_WORDING"
+    },
+    {
+      "id": "EDL-06",
+      "name": "Outcome Closure",
+      "responsibility": "Bind action plan to observed result, compare predicted vs actual outcome, update experience confidence/behavior candidate, and preserve immutable prior versions.",
+      "implementation_preference": "DETERMINISTIC"
+    },
+    {
+      "id": "EDL-07",
+      "name": "Metabolic Integration",
+      "responsibility": "Route accepted lessons, low-value residue, contradictions, duplicate traces and expired candidates into KEEP/DECAY/QUARANTINE/WASTE without damaging authority/evidence/rollback.",
+      "implementation_preference": "DETERMINISTIC"
+    }
+  ],
+  "minimum_data_contracts": {
+    "experience_event": [
+      "event_id", "provenance", "source_ref", "source_fingerprint", "occurred_at", "description_ref",
+      "relevance", "emotion", "novelty", "self_relevance", "goal_relevance", "relation_relevance",
+      "loss_signal", "irreversible_risk", "behavior_relevance", "motivation_signal", "confidence",
+      "verified_count", "contradiction_state", "recurrence_count", "ttl_seconds",
+      "expected_value", "expected_harm", "outcome_observed"
+    ],
+    "appraisal": [
+      "influence", "trust", "disposition", "weights_13d", "safety_tension", "growth_tension",
+      "uncertainty", "reason_codes"
+    ],
+    "desire_candidate": [
+      "desire_id", "kind", "strength", "self_relevance", "expected_value", "risk_penalty",
+      "source_disposition", "allowed_actions", "reason_codes"
+    ],
+    "goal_candidate": [
+      "goal_id", "objective", "priority", "action_mode", "external_action_allowed",
+      "requires_independent_verification", "reason_codes"
+    ],
+    "outcome_closure": [
+      "goal_id", "action_plan_ref", "predicted_outcome_ref", "observed_outcome_ref", "prediction_error",
+      "new_experience_event_id", "behavior_delta_candidate", "memory_delta_candidate", "rollback_ref"
+    ]
+  },
+  "disposition_states": [
+    "TRUSTED_LOW_INFLUENCE",
+    "TRUSTED_HIGH_INFLUENCE",
+    "LOW_TRUST_HIGH_RELEVANCE_SANDBOX",
+    "QUARANTINE_CONTRADICTED",
+    "DECAY_WASTE"
+  ],
+  "action_boundary": {
+    "desire_can": ["ASK", "VERIFY", "PLAN", "PLAN_SAFE_ALTERNATIVE", "SIMULATE", "PROPOSE_GOAL"],
+    "desire_cannot": ["EXTERNAL_ACTION", "DURABLE_BASE_PERSONALITY_WRITE", "GOVERNANCE_WRITE", "IDENTITY_WRITE", "AUTO_PROMOTION"],
+    "external_action_requires": ["formal authority", "risk gate", "applicable owner authorization", "independent verification where required"]
+  },
+  "integration_points": [
+    "Core v0.2 13D memory weighting",
+    "Full-Spectrum indexed-lazy memory",
+    "NavLite G3 metabolism and G4 checkpoint/resume portable state",
+    "Small-Nest reversible memory/personality overlay lab",
+    "Local Command Tower deterministic action governance",
+    "LCR-A/B/C formal adoption pipeline"
+  ],
+  "reference_implementation": {
+    "file": "experience_desire_loop.py",
+    "mode": "SHADOW_REFERENCE_ONLY",
+    "self_test_file": "test_experience_desire_loop.py",
+    "elf_local_test_result": "7/7 PASS",
+    "formal_verifier_status": "NOT_RUN"
+  },
+  "recommended_formal_route_after_current_atomic_work": {
+    "A": "Fresh-read this candidate and decide bounded adoption scope; do not merge product claims into formal acceptance by reference alone.",
+    "B": "Reimplement or adopt exact bounded files under a formal packet, add outcome-closure persistence and integration tests, and report BUILT_NOT_VERIFIED only.",
+    "C": "Independently verify deterministic formulas, provenance separation, fail-closed contradictions, no base-personality direct write, no external action authorization, and positive-growth/counterfactual-safety adversarial cases."
+  },
+  "open_research_questions": [
+    "Calibration of thresholds/coefficients against replay datasets and real Small-Nest experience traces.",
+    "How expected value and risk prediction should combine model estimates with deterministic confidence bounds.",
+    "How repeated positive mastery experiences should accumulate into personality delta candidates without hardening temporary habits.",
+    "How to distinguish self-generated curiosity from task-injected relevance over long horizons.",
+    "How embodiment sensors should bind direct-experience provenance when Small-Nest gains physical sensors."
+  ]
+}
