@@ -1,27 +1,18 @@
 {
-  "schema_version": "1.3",
+  "schema_version": "1.4",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Fresh execution head 1b1a4e81a57c35dc6c4ee931b8615cf0f30e6146 has successful same-runner P0 exact-current Gearbox run 32066329935/job 95499218490.",
-    "Artifact 9300023998 binds the unchanged six Gearbox source/test blobs; current-byte suites remain v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49 PASS_CANDIDATE_ONLY.",
-    "W02 review QUANTUM-GEARBOX-V2.1-20260818-0431 remains BOUNDED_VETO_ACTIVE and adds HIGH direct-credit bypass: select_gear_v2_1 can recompute Experience credit from caller facts without a durable accepted ledger receipt.",
-    "Dedicated W03 Gearbox v2.1 review remains absent; W04 remains veto-active and stale relative to current W02; speed baseline remains INSUFFICIENT_SAMPLE.",
-    "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed and formal A->B->C routing remains blocked."
-  ],
-  "observations": [
-    "Exact Gearbox blobs: v1 code c29e3b2c / tests 11527a9e, v2 code 45fe6e72 / tests 38799e41, v2.1 code d6509403 / tests 0a6904f1.",
-    "Executor artifact digest sha256:8a2d6bd8c4d34cbf0554f272c963e31cb09f5bfed610b662211a8c26fb690d28.",
-    "W02 HIGH blockers include trusted secretary freshness/authority binding, strict bool typing, exact verifier-evidence binding, canonical event/evidence lineage dedupe, cross-run/restart replay resistance, immutable EventIdentity rebinding rejection, direct-credit bypass removal, and authenticated anti-thrash shift-rate derivation.",
-    "No dedicated W03/Spirit Gearbox v2.1 adversarial review exists in the current reviews directory.",
-    "W04 remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE and predates the W02 04:31 direct-credit-bypass review.",
-    "All eight paired speed metrics remain INSUFFICIENT_SAMPLE; speed_multiplier remains NOT_ESTABLISHED.",
-    "No A->B->C Gearbox v2.1 formal candidate was routed; Always-on Runtime remains independent P0 and cannot serve as Gearbox proof."
+    "Fresh branch head a893cda4da74972929407d5ad201b1ee9758745d has no associated workflow run; exact-current executor validation is DEFER_EXECUTOR_UNAVAILABLE this wake.",
+    "All six Gearbox source/test blob SHAs are unchanged from historical run 32066329935/job 95499218490, so the prior 49/49 remains historical exact-blob support only, not a new current-head PASS.",
+    "W02 QUANTUM-GEARBOX-V2.1-20260818-0530 remains BOUNDED_VETO_ACTIVE and adds HIGH operational-progress direct-credit bypass; repeated decision calls can fabricate operational progress without durable accepted receipts.",
+    "Dedicated W03 Gearbox v2.1 review remains absent; W04 NAV-GEARBOX-V2.1-20260818-0531 remains veto-active; speed baseline remains INSUFFICIENT_SAMPLE and multiplier NOT_ESTABLISHED.",
+    "Selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
-  "candidate_gate": "BLOCKED_W02_HIGH_VETO_PLUS_MISSING_W03_REVIEW_PLUS_W04_REFRESH_REQUIRED",
+  "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_HIGH_VETO_PLUS_MISSING_W03_PLUS_W04_VETO",
   "selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
   "speed_ref": "state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
   "w02_ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json",
@@ -30,5 +21,5 @@
   "checkpoint_ref": "state/window_reflections/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS_REQUIRED_THIS_WAKE",
-  "saved_at": "2026-08-18T05:26:28+08:00"
+  "saved_at": "2026-08-18T06:22:28+08:00"
 }
