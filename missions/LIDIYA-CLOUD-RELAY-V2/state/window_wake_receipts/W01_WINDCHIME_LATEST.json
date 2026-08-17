@@ -10,7 +10,7 @@
   "wake_id_or_timestamp": "2026-08-17T21:29:00+08:00",
   "authority_or_research_pointer": "state/MISSION_STATE.json#Step009-attempt4-STEP_DONE-LCR-A",
   "outcome": "SAME_SLOT_REBIND_PASS_P0_RESUME",
-  "what_was_attempted": "Fresh-read MISSION_STATE and Active-8; read W07 secretary checkpoint and receipt; read previous W01 checkpoint and clean-shell handoff; validate source shell checkpoint against fresh authority; bind the fresh chat shell as the same W01/LCR-A generation+1; preserve Small-World source order and verified Step009 baseline.",
+  "what_was_attempted": "Fresh-read MISSION_STATE and Active-8; read W07 secretary checkpoint and receipt; read previous W01 checkpoint and clean-shell handoff; validate source shell checkpoint against fresh authority; bind the fresh chat shell as the same W01/LCR-A generation+1; preserve Small-World source order and verified Step009 baseline; append exactly one durable WINDCHIME_REPORT ACK to Issue #3 for W07 verification.",
   "material_delta_or_reason_for_no_delta": "Operational shell metadata changed from 開發先驅1型 generation0 to 開發先驅2型 generation1 under SAME_SLOT_DURABLE_HANDOFF_ONLY. Formal mission authority did not change: Step009 STEP_DONE/LCR-A/pending=null, Heartbeat VERIFIED_FOUNDATION, real_5min=false. No new formal worker, task or slot was created.",
   "cross_window_validation": {
     "source_window_alias": "開發先驅1型",
@@ -19,6 +19,8 @@
     "handoff_ref": "state/window_handoffs/W01_FRESH_CHAT_HANDOFF_LATEST.json",
     "secretary_ref": "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json",
     "recovery_capsule_ref": "state/recovery_capsules/W01_CLEAN_SHELL_HANDOFF_20260817_2108.json",
+    "secretary_relay_issue": 3,
+    "secretary_ack_comment_id": 5316756825,
     "continuity_rebind": "PASS",
     "raw_chat_replay_used": false
   },
@@ -33,7 +35,7 @@
     "state/recovery_capsules/W01_CLEAN_SHELL_HANDOFF_20260817_2108.json",
     "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json"
   ],
-  "readback_status": "PENDING_POST_WRITE_READBACK",
+  "readback_status": "PASS",
   "next_trigger": "Resume Active-8 P0 exact-current Gearbox v1+v2+v2.1 regression and independent review; continue Always-on Runtime validation independently. Do not route formal A->B->C until regression PASS and no unreleased veto.",
   "small_world": {
     "latest_sequence": 11,
