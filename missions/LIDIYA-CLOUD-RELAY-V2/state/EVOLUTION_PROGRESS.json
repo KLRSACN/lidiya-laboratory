@@ -1,7 +1,7 @@
 {
-  "schema_version": "6.4-ACTIVE8-GEARBOX-V2-P0",
+  "schema_version": "6.5-ACTIVE8-CONVERSATION-CEILING-HANDOFF",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-17T20:50:00+08:00",
+  "saved_at": "2026-08-17T21:05:00+08:00",
   "time_authority": "Asia/Taipei",
   "archive_no_read_fence": {
     "status": "ENFORCED_BY_DEFAULT",
@@ -9,7 +9,8 @@
     "newly_archived_from_active": [
       "pre-v1.1 Always-on Runtime interruption backfill semantics",
       "duplicate Step009 closure narration reachable through MISSION_STATE/evidence",
-      "reactive-only Gearbox assumptions superseded only for candidate evaluation; verified v1 remains baseline"
+      "reactive-only Gearbox assumptions superseded only for candidate evaluation; verified v1 remains baseline",
+      "old W01 chat chronology before conversation-length ceiling; retain as archive evidence but do not reload for normal recovery"
     ]
   },
   "active_runtime": [
@@ -21,21 +22,21 @@
     },
     {
       "slot": 2,
-      "type": "DEVELOPMENT_CONTINUITY_AUDIT",
-      "ref": "state/self_repair/DEVELOPMENT_CONTINUITY_AUDIT_LATEST.json",
-      "value": "Post-recovery throughput appears improved because durable components continue accumulating while verified baselines survive new failures, but a quantified causal speedup is NOT YET ESTABLISHED. Need comparable wake/cycle/rework/recovery metrics."
+      "type": "P0_CONVERSATION_CEILING_CONTINUITY_TEST",
+      "ref": "state/incidents/W01-20260817-CONVERSATION-LENGTH-CEILING-001.json + Home#73",
+      "value": "Owner screenshot proves current single conversation shell reached platform length ceiling. Durable authority remained intact. Primary experiment now shifts from one-shell endurance to SAME_SLOT_DURABLE_HANDOFF across a fresh chat shell without broad archive reload."
     },
     {
       "slot": 3,
       "type": "SELF_REPAIR_AND_PRESSURE_METABOLISM",
       "ref": "evolution/self_repair/midstream_recovery_diagnostic.py + evolution/self_repair/PRESSURE_AWARE_METABOLISM_CANDIDATE.json + state/incidents/W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001.json",
-      "value": "P0 continuity recovery and pressure-aware metabolism remain active. Time alive is not Experience; save/readback precedes compaction, archive no-read fence remains default, physical purge remains four-guard only."
+      "value": "P0 continuity recovery and pressure-aware metabolism remain active. Conversation length ceiling is now an explicit pressure trigger. Save/readback precedes compaction; new shell must recover from compact durable state, not old chat replay."
     },
     {
       "slot": 4,
       "type": "W07_WIND_SECRETARY_AND_PREDICTIVE_NAV",
       "ref": "state/WIND_SECRETARY_PROTOCOL.json + state/window_self_backups/W07_WIND_SECRETARY_LATEST.json + evolution/navigation/predictive_navigator_v2.py + state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
-      "value": "W07 is sensor/preparation only; W04 performs fresh validation and records TP/FP/missed warnings. No secretary prediction can override MISSION_STATE or create formal Experience credit."
+      "value": "W07 is sensor/preparation only; W04 validates signals and records TP/FP/missed warnings. Conversation-ceiling precursor detection and pre-handoff checkpoint preparation become new predictive-navigation test cases."
     },
     {
       "slot": 5,
@@ -53,13 +54,13 @@
       "slot": 7,
       "type": "EXPERIENCE_SEPARATION",
       "ref": "evolution/GEARBOX_V2_CONTRACT.json + state/self_repair/DEVELOPMENT_CONTINUITY_AUDIT_LATEST.json",
-      "value": "Heartbeat/poll/retry/wait/scheduler wake/self-reported success/unverified simulation create 0 Experience credit. Independent verified capability/recovery/root-cause retest can create system-level Experience Candidate. Window duration does not update base model weights; P_base/Identity/Personality/Governance remain separately governed."
+      "value": "Conversation age/heartbeat/poll/retry/wait/scheduler wake/self-reported success/unverified simulation create 0 Experience credit. Independently verified capability, recovery, root-cause retest, durable progress and adversarial defect discovery may create system-level Experience Candidate. Base model weights do not automatically learn from a long chat."
     },
     {
       "slot": 8,
       "type": "NEXT_AUTHORIZED_ACTION",
-      "ref": "GEARBOX_V2_CONTRACT.json + ALWAYS_ON_RUNTIME_CONTRACT.json + SELF_REPAIR_3DAY_SPEC.json",
-      "value": "P0: exact-current v1+v2 regression; Quantum/Spirit adversarial Gearbox v2 review; Navigator synthesis including false-positive/gear-thrashing tests; incident/clean replay; if no unreleased veto, route bounded existing A->B->C. In parallel continue Always-on Runtime validation. Real_5min remains false until real external-runner evidence."
+      "ref": "state/incidents/W01-20260817-CONVERSATION-LENGTH-CEILING-001.json + GEARBOX_V2_CONTRACT.json + ALWAYS_ON_RUNTIME_CONTRACT.json + SELF_REPAIR_3DAY_SPEC.json",
+      "value": "P0: perform fresh-chat SAME_SLOT_DURABLE_HANDOFF reality test using only Home + fresh MISSION_STATE + Active-8 + W01 checkpoint/receipt; run post-flush hallucination/continuity benchmark; then continue exact-current Gearbox v1+v2 regression and Always-on Runtime validation. No broad old-chat reload. Real_5min remains false until real external-runner evidence."
     }
   ],
   "formal_route": {
@@ -80,6 +81,8 @@
     "gearbox_v2": "CANDIDATE_NOT_YET_C_VERIFIED",
     "always_on_runtime_v1": "CANDIDATE_NOT_YET_C_VERIFIED",
     "self_repair_3day": "IN_PROGRESS",
+    "single_conversation_shell": "LENGTH_CEILING_REACHED_OWNER_SCREENSHOT",
+    "cross_window_same_slot_continuity": "REALITY_TEST_REQUIRED",
     "real_5min_runtime_live": false,
     "P_base": "READ_ONLY_UNCHANGED",
     "heartbeat_is_experience": false,
@@ -97,11 +100,12 @@
     "formal_C_verification": "NOT_YET"
   },
   "experience_candidate_policy": {
-    "zero_events": ["HEARTBEAT", "POLL", "RETRY", "WAIT", "SCHEDULER_WAKE", "SELF_REPORTED_SUCCESS", "UNVERIFIED_SIMULATION"],
-    "positive_candidate_events": ["VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON", "DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND"],
+    "zero_events": ["CONVERSATION_AGE", "HEARTBEAT", "POLL", "RETRY", "WAIT", "SCHEDULER_WAKE", "SELF_REPORTED_SUCCESS", "UNVERIFIED_SIMULATION"],
+    "positive_candidate_events": ["VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON", "DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND", "VERIFIED_CROSS_WINDOW_CONTINUITY"],
     "verified_credit_requires_independent_verification": true,
     "preliminary_step009_candidate_credit": 5,
-    "W01_UI_recovery_verified_credit": 0
+    "W01_UI_recovery_verified_credit": 0,
+    "conversation_ceiling_credit": 0
   },
   "metabolism_counters": {
     "active": 8,
@@ -112,26 +116,27 @@
     "stale": 0,
     "owner_reported_context_load_factor": 5.0,
     "browser_incident_signal": "CRITICAL_OWNER_REPORTED_PREVIOUS_INCIDENT",
+    "conversation_length_signal": "HARD_CEILING_REACHED",
     "purge_status": "NO_PHYSICAL_WORKSPACE_PURGE_THRESHOLD_MET",
     "browser_site_data_clear": "OWNER_UI_GATE"
   },
   "root_cause_lessons": [
     {
+      "code": "SINGLE_CHAT_LONGEVITY_HAS_PLATFORM_CEILING",
+      "lesson": "A long-lived conversation shell can reach a hard product limit while durable Home/Mission state remains valid; continuity must migrate across shells rather than depending on one chat forever."
+    },
+    {
       "code": "CONTINUITY_IS_NOT_EXPERIENCE_BY_ITSELF",
-      "lesson": "Remaining active longer can improve opportunity for work, but elapsed runtime, heartbeat, poll and retry do not themselves create learning credit."
+      "lesson": "Remaining active longer can improve opportunity for work, but elapsed runtime, conversation age, heartbeat, poll and retry do not themselves create learning credit."
     },
     {
       "code": "SPEEDUP_NEEDS_COMPARABLE_METRICS",
       "lesson": "Apparent faster development is not a causal speedup claim until comparable durable-progress, cycle latency, rework and recovery samples accumulate."
     },
     {
-      "code": "PRESSURE_AWARE_GEARBOX_MUST_AVOID_THRASHING",
-      "lesson": "Gearbox v2 adds immediate hard downshift but one-step upshift hysteresis and false-positive review so protective signals do not create a new stop-start loop."
-    },
-    {
-      "code": "VERIFIED_BASELINE_SURVIVES_UPGRADE",
-      "lesson": "Gearbox v2 and Always-on Runtime are outer/new candidates; their failures cannot invalidate verified Gearbox v1 or Step009 without fresh exact regression evidence."
+      "code": "VERIFIED_BASELINE_SURVIVES_SHELL_REPLACEMENT",
+      "lesson": "A new chat shell must inherit only durable pointers and verified baselines. It must not reconstruct identity by rereading the entire old chat."
     }
   ],
-  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. New candidate failures roll back only new deltas; Step001-009 and verified Gearbox v1 remain baseline absent fresh exact regression."
+  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. New shell recovery must use Home/authority/Active/checkpoint pointers and preserve Archive No-Read Fence; candidate failures do not invalidate Step001-009 or verified Gearbox v1 without fresh exact regression."
 }
