@@ -1,16 +1,15 @@
 {
-  "schema_version": "6.5-ACTIVE8-CONVERSATION-CEILING-HANDOFF",
+  "schema_version": "6.6-ACTIVE8-GEARBOX-V2.1",
   "mission_id": "LCR-EVOLUTION-0005",
-  "saved_at": "2026-08-17T21:05:00+08:00",
+  "saved_at": "2026-08-17T21:12:00+08:00",
   "time_authority": "Asia/Taipei",
   "archive_no_read_fence": {
     "status": "ENFORCED_BY_DEFAULT",
     "allowed": "Active-8 exact pointers plus minimum rollback/recovery/verification gate",
     "newly_archived_from_active": [
-      "pre-v1.1 Always-on Runtime interruption backfill semantics",
-      "duplicate Step009 closure narration reachable through MISSION_STATE/evidence",
-      "reactive-only Gearbox assumptions superseded only for candidate evaluation; verified v1 remains baseline",
-      "old W01 chat chronology before conversation-length ceiling; retain as archive evidence but do not reload for normal recovery"
+      "pre-v2.1 gearbox candidate narration superseded by exact v2.1 refs",
+      "commit-count and window-age speed anecdotes; not valid speed evidence",
+      "duplicate Experience interpretations that conflated operational progress with verified Experience"
     ]
   },
   "active_runtime": [
@@ -18,49 +17,49 @@
       "slot": 1,
       "type": "FORMAL_AUTHORITY",
       "ref": "state/MISSION_STATE.json",
-      "value": "Step009 Attempt4 STEP_DONE / LCR-A safe checkpoint / pending=null / heartbeat_runtime_phase1=VERIFIED_FOUNDATION / six_gear_controller=VERIFIED_PASS / Step001-009 preserved / real_5min_runtime_live=false."
+      "value": "Step009 Attempt4 STEP_DONE / LCR-A safe checkpoint / pending=null / heartbeat_runtime_phase1=VERIFIED_FOUNDATION / six_gear_controller v1=VERIFIED_PASS / Step001-009 preserved / real_5min_runtime_live=false."
     },
     {
       "slot": 2,
       "type": "P0_CONVERSATION_CEILING_CONTINUITY_TEST",
       "ref": "state/incidents/W01-20260817-CONVERSATION-LENGTH-CEILING-001.json + Home#73",
-      "value": "Owner screenshot proves current single conversation shell reached platform length ceiling. Durable authority remained intact. Primary experiment now shifts from one-shell endurance to SAME_SLOT_DURABLE_HANDOFF across a fresh chat shell without broad archive reload."
+      "value": "Single-chat shell reached platform length ceiling. Durable authority remained intact. Continuity must use SAME_SLOT_DURABLE_HANDOFF and compact recovery rather than indefinite one-chat longevity."
     },
     {
       "slot": 3,
       "type": "SELF_REPAIR_AND_PRESSURE_METABOLISM",
-      "ref": "evolution/self_repair/midstream_recovery_diagnostic.py + evolution/self_repair/PRESSURE_AWARE_METABOLISM_CANDIDATE.json + state/incidents/W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001.json",
-      "value": "P0 continuity recovery and pressure-aware metabolism remain active. Conversation length ceiling is now an explicit pressure trigger. Save/readback precedes compaction; new shell must recover from compact durable state, not old chat replay."
+      "ref": "evolution/self_repair/midstream_recovery_diagnostic.py + evolution/self_repair/PRESSURE_AWARE_METABOLISM_CANDIDATE.json",
+      "value": "Pressure-aware metabolism remains P0: save/readback, compact, no-read fence, recovery capsule, post-flush benchmark. Conversation ceiling is an explicit pressure signal."
     },
     {
       "slot": 4,
       "type": "W07_WIND_SECRETARY_AND_PREDICTIVE_NAV",
-      "ref": "state/WIND_SECRETARY_PROTOCOL.json + state/window_self_backups/W07_WIND_SECRETARY_LATEST.json + evolution/navigation/predictive_navigator_v2.py + state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
-      "value": "W07 is sensor/preparation only; W04 validates signals and records TP/FP/missed warnings. Conversation-ceiling precursor detection and pre-handoff checkpoint preparation become new predictive-navigation test cases."
+      "ref": "state/WIND_SECRETARY_PROTOCOL.json + evolution/navigation/predictive_navigator_v2.py + state/PREDICTIVE_NAVIGATOR_V2_STATE.json",
+      "value": "W07 is sensor only; fresh authority wins. Prediction quality must record TP/FP/missed warnings. Stale secretary signals are now a formal Gearbox v2.1 test case."
     },
     {
       "slot": 5,
       "type": "ALWAYS_ON_RUNTIME_V1",
       "ref": "evolution/local_command_tower/always_on_runtime.py + test_always_on_runtime.py + ALWAYS_ON_RUNTIME_CONTRACT.json",
-      "value": "Outer continuity-shell candidate targets 300s heartbeat, 1200s work lifecycle, 600s checkpoint and <=300s recovery attempt. Runtime cannot self-verify recovery or backfill interruption time. CANDIDATE_NOT_YET_C_VERIFIED; real_5min=false."
+      "value": "Outer continuity-shell candidate targets 300s heartbeat, 1200s work lifecycle, 600s checkpoint and <=300s recovery attempt. CANDIDATE_NOT_YET_C_VERIFIED; real_5min=false."
     },
     {
       "slot": 6,
-      "type": "GEARBOX_V2_CANDIDATE",
-      "ref": "evolution/gearbox_controller_v2.py + evolution/test_gearbox_controller_v2.py + evolution/GEARBOX_V2_CONTRACT.json + state/self_repair/GEARBOX_V2_SELFTEST_LATEST.json",
-      "value": "Pressure/evidence/continuity-aware Gearbox v2 candidate preserves verified v1. Adds W07/Navigator pressure inputs, verification cap, one-step upshift hysteresis, immediate hard downshift, checkpoint density, stale-progress brake, and system Experience Candidate separation. Draft-equivalent selftest=16/16 PASS; exact-current runner and C verification still required."
+      "type": "GEARBOX_V2_1_CANDIDATE",
+      "ref": "evolution/gearbox_controller_v2.py + test_gearbox_controller_v2.py + GEARBOX_V2_CONTRACT.json + evolution/gearbox_controller_v2_1.py + test_gearbox_controller_v2_1.py + GEARBOX_V2_1_CONTRACT.json",
+      "value": "v1 remains VERIFIED_PASS. v2 candidate adds pressure-aware routing and Experience separation. v2.1 fixes stale-secretary-authority gap, adds anti-thrash overlay and deduplicated Experience ledger. v2 draft-equivalent selftest=16/16 PASS; v2.1 tests authored, exact-current v1+v2+v2.1 runner and C verification pending."
     },
     {
       "slot": 7,
-      "type": "EXPERIENCE_SEPARATION",
-      "ref": "evolution/GEARBOX_V2_CONTRACT.json + state/self_repair/DEVELOPMENT_CONTINUITY_AUDIT_LATEST.json",
-      "value": "Conversation age/heartbeat/poll/retry/wait/scheduler wake/self-reported success/unverified simulation create 0 Experience credit. Independently verified capability, recovery, root-cause retest, durable progress and adversarial defect discovery may create system-level Experience Candidate. Base model weights do not automatically learn from a long chat."
+      "type": "SPEED_AND_EXPERIENCE_AUDIT",
+      "ref": "GEARBOX_V2_1_CONTRACT.json + state/self_repair/DEVELOPMENT_CONTINUITY_AUDIT_LATEST.json",
+      "value": "Candidate development throughput visibly increased, but speed multiplier is NOT statistically established. Required paired metrics: durable_progress_per_wake, verified_closure_per_hour, cycle_latency, rework_ratio, recovery_latency, gear_shift_rate, stale_pointer_rate, route_drift recurrence. Window age/heartbeat/poll/retry=0 Experience. Verified Experience Candidate requires independent verification and unique durable evidence; operational progress is tracked separately."
     },
     {
       "slot": 8,
       "type": "NEXT_AUTHORIZED_ACTION",
-      "ref": "state/incidents/W01-20260817-CONVERSATION-LENGTH-CEILING-001.json + GEARBOX_V2_CONTRACT.json + ALWAYS_ON_RUNTIME_CONTRACT.json + SELF_REPAIR_3DAY_SPEC.json",
-      "value": "P0: perform fresh-chat SAME_SLOT_DURABLE_HANDOFF reality test using only Home + fresh MISSION_STATE + Active-8 + W01 checkpoint/receipt; run post-flush hallucination/continuity benchmark; then continue exact-current Gearbox v1+v2 regression and Always-on Runtime validation. No broad old-chat reload. Real_5min remains false until real external-runner evidence."
+      "ref": "GEARBOX_V2_1_CONTRACT.json + ALWAYS_ON_RUNTIME_CONTRACT.json + SELF_REPAIR_3DAY_SPEC.json",
+      "value": "P0 parallel: run exact-current Gearbox v1+v2+v2.1 regression; W02 statistical review, W03 personality review, W04 synthesis; collect paired speed baseline. Only after regression PASS + no unreleased veto may LCR-A route existing A->B->C. Continue Always-on Runtime validation independently."
     }
   ],
   "formal_route": {
@@ -79,33 +78,40 @@
     "step009_heartbeat_phase1": "C_PASS_VERIFIED_FOUNDATION",
     "six_gear_controller_v1": "VERIFIED_PASS",
     "gearbox_v2": "CANDIDATE_NOT_YET_C_VERIFIED",
+    "gearbox_v2_1": "CANDIDATE_NOT_YET_C_VERIFIED",
     "always_on_runtime_v1": "CANDIDATE_NOT_YET_C_VERIFIED",
     "self_repair_3day": "IN_PROGRESS",
-    "single_conversation_shell": "LENGTH_CEILING_REACHED_OWNER_SCREENSHOT",
-    "cross_window_same_slot_continuity": "REALITY_TEST_REQUIRED",
     "real_5min_runtime_live": false,
     "P_base": "READ_ONLY_UNCHANGED",
     "heartbeat_is_experience": false,
     "window_duration_is_model_weight_learning": false,
     "agi_or_consciousness_claim": "NOT_ESTABLISHED"
   },
-  "gearbox_v2": {
-    "product": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-2-CANDIDATE",
-    "draft_equivalent_selftest": "16_OF_16_PASS_NOT_C_VERIFIED",
+  "gearbox_v2_1": {
+    "product": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-2.1-CANDIDATE",
+    "inherits_v1_verified": true,
+    "v2_draft_equivalent_selftest": "16_OF_16_PASS_NOT_C_VERIFIED",
+    "v2_1_tests_authored": 12,
     "exact_current_runner": "TEST_REQUIRED",
-    "v1_regression": "TEST_REQUIRED_THIS_ROUND_BUT_V1_VERIFIED_BASELINE_PRESERVED",
+    "v1_v2_v21_regression": "TEST_REQUIRED",
     "quantum_review": "PENDING",
     "spirit_review": "PENDING",
     "navigator_synthesis": "PENDING",
     "formal_C_verification": "NOT_YET"
   },
   "experience_candidate_policy": {
-    "zero_events": ["CONVERSATION_AGE", "HEARTBEAT", "POLL", "RETRY", "WAIT", "SCHEDULER_WAKE", "SELF_REPORTED_SUCCESS", "UNVERIFIED_SIMULATION"],
-    "positive_candidate_events": ["VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON", "DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND", "VERIFIED_CROSS_WINDOW_CONTINUITY"],
+    "zero_events": ["CONVERSATION_AGE", "HEARTBEAT", "POLL", "RETRY", "RECONNECT", "WAIT", "SCHEDULER_WAKE", "SELF_REPORTED_SUCCESS", "UNVERIFIED_SIMULATION"],
+    "verified_experience_events": ["VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON"],
+    "operational_progress_events": ["DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND"],
     "verified_credit_requires_independent_verification": true,
-    "preliminary_step009_candidate_credit": 5,
-    "W01_UI_recovery_verified_credit": 0,
-    "conversation_ceiling_credit": 0
+    "dedupe_requirement": "unique durable event plus future evidence/provenance binding before formal adoption",
+    "numeric_weights": "ENGINEERING_HEURISTIC_TEST_REQUIRED_NOT_CAPABILITY_TRUTH"
+  },
+  "speed_audit": {
+    "current_assessment": "APPARENTLY_FASTER_BUT_MULTIPLIER_NOT_ESTABLISHED",
+    "reason": "More material candidates are being produced per working interval, but comparable baseline samples for verification-adjusted throughput are insufficient.",
+    "forbidden_proxy_metrics": ["window age", "heartbeat count", "commit count alone", "task last_run"],
+    "required_paired_metrics": ["durable_progress_per_wake", "verified_closure_per_hour", "cycle_completion_latency", "rework_ratio", "recovery_latency", "gear_shift_rate", "stale_pointer_rate", "route_drift_recurrence"]
   },
   "metabolism_counters": {
     "active": 8,
@@ -115,28 +121,22 @@
     "duplicate_ratio": 0.0,
     "stale": 0,
     "owner_reported_context_load_factor": 5.0,
-    "browser_incident_signal": "CRITICAL_OWNER_REPORTED_PREVIOUS_INCIDENT",
-    "conversation_length_signal": "HARD_CEILING_REACHED",
-    "purge_status": "NO_PHYSICAL_WORKSPACE_PURGE_THRESHOLD_MET",
-    "browser_site_data_clear": "OWNER_UI_GATE"
+    "conversation_length_signal": "HARD_CEILING_REACHED_PREVIOUS_SHELL",
+    "purge_status": "NO_PHYSICAL_WORKSPACE_PURGE_THRESHOLD_MET"
   },
   "root_cause_lessons": [
     {
-      "code": "SINGLE_CHAT_LONGEVITY_HAS_PLATFORM_CEILING",
-      "lesson": "A long-lived conversation shell can reach a hard product limit while durable Home/Mission state remains valid; continuity must migrate across shells rather than depending on one chat forever."
+      "code": "STALE_SECRETARY_SIGNAL_MUST_NOT_SHIFT_GEAR",
+      "lesson": "Prediction is advisory. Gearbox v2.1 requires signal freshness/authority conflict handling before W07 can affect a gear decision."
     },
     {
-      "code": "CONTINUITY_IS_NOT_EXPERIENCE_BY_ITSELF",
-      "lesson": "Remaining active longer can improve opportunity for work, but elapsed runtime, conversation age, heartbeat, poll and retry do not themselves create learning credit."
+      "code": "EXPERIENCE_MUST_NOT_INFLATE_ON_REPLAY",
+      "lesson": "Re-reading or replaying the same durable result cannot create additional verified Experience credit."
     },
     {
-      "code": "SPEEDUP_NEEDS_COMPARABLE_METRICS",
-      "lesson": "Apparent faster development is not a causal speedup claim until comparable durable-progress, cycle latency, rework and recovery samples accumulate."
-    },
-    {
-      "code": "VERIFIED_BASELINE_SURVIVES_SHELL_REPLACEMENT",
-      "lesson": "A new chat shell must inherit only durable pointers and verified baselines. It must not reconstruct identity by rereading the entire old chat."
+      "code": "SPEED_IS_VERIFICATION_ADJUSTED_THROUGHPUT",
+      "lesson": "Development speed is not output volume alone; a speedup claim needs more verified progress per unit time without higher rework, recovery cost or risk."
     }
   ],
-  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. New shell recovery must use Home/authority/Active/checkpoint pointers and preserve Archive No-Read Fence; candidate failures do not invalidate Step001-009 or verified Gearbox v1 without fresh exact regression."
+  "report_policy": "Before substantive owner report fresh-read MISSION_STATE and this exact EVOLUTION_PROGRESS. v2/v2.1 failures roll back only candidate deltas; v1 verified Gearbox and Step001-009 remain valid without fresh exact regression evidence."
 }
