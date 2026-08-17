@@ -1,14 +1,26 @@
 {
   "schema_version":"1.0",
   "window_id":"W05_LCR_B",
-  "wake_id_or_timestamp":"2026-08-17T10:49:18+08:00",
-  "authority_or_research_pointer":{"mission_state":"state/MISSION_STATE.json","pending_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json","pending_packet_sha256":"2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee","current_role":"LCR-B","lease":null},
+  "wake_id_or_timestamp":"2026-08-17T12:47:16+08:00",
+  "authority_or_research_pointer":{
+    "mission_state":"state/MISSION_STATE.json",
+    "pending_packet":"packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json",
+    "pending_packet_sha256":"2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee",
+    "current_role":"LCR-B",
+    "lease":null
+  },
   "outcome":"DEFER_RECOVERABLE",
-  "what_was_attempted":"Fresh-read Lidiya Home pointer, MISSION_STATE, current C-to-B repair packet, expected exact-current-byte runner support-002, and prior W05 receipt. Verified formal Builder gate remains open but external release evidence is still absent.",
-  "material_delta_or_reason_for_no_delta":"No new W01 exact-current-byte support-002 exists. Current repaired candidate cannot legally hand off until external exact-current-byte evidence proves the current three blobs pass full regressions plus >=10000 canonical 300s pulses with restart, zero false duplicate, zero liveness stall, replay NO_OP, bounded storage, and zero Experience.",
-  "exact_artifact_refs":["evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json@MISSING","evolution/local_command_tower/heartbeat_engine.py@75ba749b509cb5d8ebe87395a773933ed6648c2e","evolution/local_command_tower/test_heartbeat_engine.py@446c8b4978b5b3899f254c6b32e01cc3d5a647b4","evolution/local_command_tower/HEARTBEAT_CONTRACT.json@589b8595e338d717fb5723808338975e1801fa98"],
-  "readback_status":"FORMAL_AUTHORITY_PASS; SUPPORT_002_MISSING",
-  "next_trigger":"W01 writes exact-current-byte support-002 for current three blobs with full regressions and >=10000 canonical pulse restart/liveness test PASS.",
+  "what_was_attempted":"Fresh-read formal MISSION_STATE, current C-to-B repair packet, WINDOW_WAKE_PROGRESS_PROTOCOL, W01 support-001 negative runner evidence, current repaired heartbeat artifacts, expected exact-current-byte support-002, and prior W05 receipt. Verified current Builder gate remains open and the repaired canonical automatic path no longer consults probabilistic Bloom membership, but the mandatory post-repair external exact-current-byte release evidence is still absent.",
+  "material_delta_or_reason_for_no_delta":"No new W01 exact-current-byte support-002 exists. Support-001 remains negative provenance for the superseded Bloom-gated canonical path and cannot authorize handoff. Current repaired blobs remain heartbeat_engine.py@75ba749b509cb5d8ebe87395a773933ed6648c2e, test_heartbeat_engine.py@446c8b4978b5b3899f254c6b32e01cc3d5a647b4, HEARTBEAT_CONTRACT.json@589b8595e338d717fb5723808338975e1801fa98. Per release gate, W05 must wait for external exact-current-byte evidence proving full regressions plus >=10000 canonical 300s pulses with restart, zero false duplicate, zero liveness stall, replay NO_OP, bounded storage, and zero Experience before consuming C-to-B or creating B-to-C.",
+  "exact_artifact_refs":[
+    "evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json@8d1d8697b26c9315fb9784cdbd1a6ab82ad60331",
+    "evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-002.json@MISSING",
+    "evolution/local_command_tower/heartbeat_engine.py@75ba749b509cb5d8ebe87395a773933ed6648c2e",
+    "evolution/local_command_tower/test_heartbeat_engine.py@446c8b4978b5b3899f254c6b32e01cc3d5a647b4",
+    "evolution/local_command_tower/HEARTBEAT_CONTRACT.json@589b8595e338d717fb5723808338975e1801fa98"
+  ],
+  "readback_status":"FORMAL_AUTHORITY_PASS; PACKET_UNCONSUMED; CURRENT_REPAIR_BLOBS_CONFIRMED; SUPPORT_002_MISSING",
+  "next_trigger":"W01 writes exact-current-byte support-002 for current three blobs proving full regressions and >=10000 canonical pulse restart/liveness test PASS with zero false duplicate, zero liveness stall, replay NO_OP, bounded storage, and zero Experience.",
   "verified_baseline_preserved":true,
   "formal_state_mutated":false,
   "pending_packet_consumed":false,
