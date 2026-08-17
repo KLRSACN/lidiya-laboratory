@@ -1,0 +1,60 @@
+{
+  "schema_version": "2.1-candidate",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "product": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-2.1-CANDIDATE",
+  "status": "CANDIDATE_NOT_C_VERIFIED",
+  "inherits": [
+    "Gearbox v1 verified baseline",
+    "Gearbox v2 candidate pressure-aware routing"
+  ],
+  "principles": [
+    "Window uptime alone is not Experience.",
+    "Heartbeat, poll, retry, reconnect and scheduler wake are zero Experience.",
+    "Only independently verified durable capability/recovery/root-cause lessons may create verified system Experience Candidate.",
+    "Durable progress and adversarial defect discovery are operational progress, not verified Experience.",
+    "Repeated reading of the same durable event must never inflate Experience.",
+    "Fresh authority always beats secretary prediction.",
+    "A stale secretary signal cannot force a gear change.",
+    "Anti-thrash may suppress nonessential upshifts but may never delay a safety or recovery downshift.",
+    "v2.1 has no formal mutation authority and cannot modify P_base, Identity, Personality or Governance."
+  ],
+  "new_controls": {
+    "secretary_signal_fresh": "required before YELLOW/ORANGE/RED secretary signal may affect gear",
+    "authority_conflict": "forces secretary signal to be ignored and fresh authority to win",
+    "recent_shift_rate_ratio": "high shift rate suppresses nonessential upshifts",
+    "verified_progress_density": "may justify holding an already-safe inherited gear, never exceeding the inherited v2 decision",
+    "experience_event_dedup": "event_id required; duplicate durable events count once"
+  },
+  "required_tests": [
+    "all Gearbox v1 tests remain PASS",
+    "all Gearbox v2 tests remain PASS",
+    "stale RED secretary signal is ignored",
+    "fresh RED secretary signal can brake",
+    "authority conflict disables secretary effect",
+    "high shift rate suppresses upshift",
+    "safety downshift is never blocked by anti-thrash",
+    "heartbeat creates zero verified Experience",
+    "verified recovery requires independent verification",
+    "durable progress is operational-only",
+    "duplicate events never inflate Experience ledger",
+    "missing event_id is ignored",
+    "v2.1 has no formal mutation authority",
+    "clean-vs-incident replay measures false-positive, missed-warning and shift-thrashing rates"
+  ],
+  "speed_metrics": {
+    "formal_claim": "NOT_YET_STATISTICALLY_ESTABLISHED",
+    "measure": [
+      "durable_progress_per_wake",
+      "verified_closure_per_hour",
+      "cycle_completion_latency",
+      "rework_ratio",
+      "recovery_latency",
+      "gear_shift_rate",
+      "stale_pointer_rate",
+      "route_drift_recurrence"
+    ],
+    "rule": "Higher candidate output rate alone is not enough; speed improvement requires equal-or-better verification quality and lower or stable rework/risk."
+  },
+  "formal_adoption": "exact-current executable v1+v2+v2.1 regression evidence + Quantum/Spirit adversarial review + Navigator synthesis + existing A->B->C",
+  "real_5min_runtime_live": false
+}
