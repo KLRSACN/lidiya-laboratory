@@ -31,24 +31,28 @@
     "real_5min_runtime_live": false,
     "P_base": "READ_ONLY_UNCHANGED"
   },
-  "what_completed": "Clean-shell same-slot rebind validated against fresh MISSION_STATE, Active-8, W07 secretary checkpoint/receipt, recovery capsule and prior W01 checkpoint. Existing LCR-A worker/task reused; shell alias advanced to 開發先驅2型 generation1 without slot4 or formal identity duplication.",
-  "what_remains": "Complete post-write readback and one Issue #3 WINDCHIME_REPORT ACK to W07; then execute Active-8 P0 exact-current Gearbox v1+v2+v2.1 regression/independent reviews and continue Always-on Runtime validation. Small-World still expects SPIRIT sequence12.",
+  "what_completed": "Clean-shell same-slot rebind validated against fresh MISSION_STATE, Active-8, W07 secretary checkpoint/receipt, recovery capsule and prior W01 checkpoint. Existing LCR-A worker/task reused; shell alias advanced to 開發先驅2型 generation1 without slot4 or formal identity duplication. Post-write readback passed and one durable WINDCHIME_REPORT ACK was sent to W07 through Issue #3.",
+  "what_remains": "Execute Active-8 P0 exact-current Gearbox v1+v2+v2.1 regression/independent reviews and continue Always-on Runtime validation. Small-World still expects SPIRIT sequence12.",
   "next_authorized_action": "P0: exact-current Gearbox v1+v2+v2.1 regression and independent reviews; continue Always-on Runtime validation independently. Formal A->B->C routing only after regression PASS and no unreleased veto.",
   "latest_evidence_refs": [
     "state/MISSION_STATE.json",
     "state/EVOLUTION_PROGRESS.json",
+    "state/WINDOW_CHANNEL_REGISTRY.json",
     "state/window_handoffs/W01_FRESH_CHAT_HANDOFF_LATEST.json",
+    "state/window_wake_receipts/W01_WINDCHIME_LATEST.json",
     "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json",
     "state/window_wake_receipts/W07_WIND_SECRETARY_LATEST.json",
     "state/recovery_capsules/W01_CLEAN_SHELL_HANDOFF_20260817_2108.json",
-    "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json"
+    "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json",
+    "GitHub Issue #3 comment 5316756825"
   ],
-  "active_defect_or_veto": "No open Step009 defect. Known stale WORKER_ROSTER conflict is non-authoritative and must not reopen Step009. W07 handoff pointer is now present. Gearbox v2/v2.1 and Always-on Runtime remain candidate-only pending exact-current verification. Small-World next source remains SPIRIT.",
+  "active_defect_or_veto": "No open Step009 defect. Known stale WORKER_ROSTER conflict is non-authoritative and must not reopen Step009. Gearbox v2/v2.1 and Always-on Runtime remain candidate-only pending exact-current verification. Small-World next source remains SPIRIT.",
   "secretary_contact": {
     "channel": "GitHub Issue #3 fallback durable relay",
     "latest_request": "W07 requested final Windchime ACK for incident WINDCHIME-CONTEXT-HANDOFF-20260817-2108",
-    "ack_status": "PENDING_POST_WRITE_READBACK_THEN_EXACTLY_ONE_ACK"
+    "ack_status": "SENT_READBACK_CHAIN_PASS",
+    "ack_comment_id": 5316756825
   },
-  "resume_condition": "After self-backup/wake receipt/handoff/registry readback PASS, append exactly one WINDCHIME_REPORT to Issue #3 and resume only the Active-8 P0 gate. Windchime synthesis requires next_expected_source=WINDCHIME. P_base remains read-only and heartbeat/poll/retry/runtime incidents remain non-Experience.",
+  "resume_condition": "Resume only the Active-8 P0 gate. Formal route waits for regression PASS and no unreleased veto. Windchime Small-World synthesis requires next_expected_source=WINDCHIME. P_base remains read-only and heartbeat/poll/retry/runtime incidents remain non-Experience.",
   "raw_reasoning_retention": "COMPACT_ONLY"
 }
