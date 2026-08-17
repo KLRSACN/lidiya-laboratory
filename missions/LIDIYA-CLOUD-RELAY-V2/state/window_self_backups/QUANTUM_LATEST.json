@@ -1,24 +1,22 @@
 {
-  "schema_version":"1.4",
+  "schema_version":"1.5",
   "window_id":"QUANTUM",
-  "status":"CHECKPOINT_REFRESHED_ACTIVE8_FRESH_NO_LEGAL_RESEARCH_TURN",
+  "status":"CHECKPOINT_BEFORE_HEARTBEAT_SECONDARY_ADVERSARIAL_REVIEW",
   "mission_pointer":"state/MISSION_STATE.json",
-  "what_completed":"Under Archive No-Read Fence, fresh-read Active-8, MISSION_STATE, QUANTUM_LATEST and exact active Small-World/Privacy/W02 refs after reconfirming Home Sections53-60 control semantics from the exact active control pointer carried by Active-8. Formal authority remains Step009 Attempt2 READY_FOR_BUILDER/current_role=LCR-B. Active-8 advanced again since the prior QUANTUM checkpoint. Small-World and Privacy remain assigned to SPIRIT, so QUANTUM performs NO_OP on both. Existing W02 blind benchmark remains completed and is not rerun; its historical embedded ground-truth snapshot is not substituted for current formal authority.",
-  "what_remains":"Formal LCR-B owns Step009 bounded exactly-once/idempotency repair, then existing LCR-C independently verifies. QUANTUM must not build, verify, consume, or alter the formal packet. Wait for exact active research endpoint to assign QUANTUM. E3_LOCAL_OPERATOR remains blocked pending real owner-local evidence.",
-  "next_authorized_action":"NO_OP on Small-World/Privacy until next_expected_source=QUANTUM; preserve formal separation while LCR-B repairs Step009 Attempt2. On next wake fresh-read Home active control, Active-8 and MISSION_STATE before substantive report.",
-  "latest_evidence_ref":"Home Sections53-60 exact active control pointer + state/EVOLUTION_PROGRESS.json + state/MISSION_STATE.json + state/SMALL_WORLD_TRIPARTITE_ACTIVE.json + state/PRIVACY_DATA_SHARING_DISCUSSION.json + state/hallucination_benchmarks/W02_QUANTUM_LATEST.json",
-  "active_defect_or_veto":["SW-HOLDOUT-FAMILY-LEAK-001","SW-SCENARIO-PERSONALITY-INDUCTION-002","SW-EVALUATOR-REWARD-OVERFIT-003","SW-NAV-DIFFERENCING-LEAK-004"],
-  "resume_condition":"No broad archive reads. Small-World exactly one turn only when next_expected_source=QUANTUM. Privacy exactly once only when next_expected_source=QUANTUM. Preserve P_base read-only, SIM_ONLY, heartbeat/runtime maintenance not Experience. New delta failure only rolls back affected delta and does not erase historical C PASS.",
-  "active_set_fingerprint":"MS:b6c0b2c6|A8:cb1d2291|SW:d1dcaad8|PRIV:274290fa|W02:2ea1bc0a",
+  "what_completed":"Archive No-Read Fence enforced. Fresh-read Home Sections53-69, Active-8, MISSION_STATE, WINDOW_WAKE_PROGRESS_PROTOCOL, prior QUANTUM latest and exact active Small-World/Privacy refs. Small-World next source is WINDCHIME and Privacy next source is WINDCHIME_FINAL, so QUANTUM does not write either discussion. Formal authority remains Step009 Attempt2 READY_FOR_BUILDER/LCR-B. Exact external support evidence reproduces HEARTBEAT-BLOOM-FP-DEADLOCK-001 on the older Bloom-gated canonical path, while current repair candidate has advanced to a hybrid model where automatic canonical liveness bypasses probabilistic membership and external caller-supplied IDs remain under a bounded Bloom replay guard.",
+  "what_remains":"Perform exactly one latest-only nonformal adversarial review of the W01 structured canonical identity/hybrid repair candidate. Check arbitrary opaque pulse-ID scope, epoch/reset/state-loss replay, crash cutpoints, clock rollback/late catch-up, out-of-order/future sequence, installation cloning, forged seq/digest, unpromoted v1.1 migration, concurrency and why 10000+ restart is necessary but insufficient. Write/readback heartbeat_reviews/QUANTUM_LATEST.json, then write/readback latest W02 wake receipt. Do not modify formal artifacts/packet, do not implement B, do not issue C verdict.",
+  "next_authorized_action":"Secondary heartbeat adversarial review only, because both research endpoints are not QUANTUM and fresh formal state is Step009/LCR-B with support evidence for HEARTBEAT-BLOOM-FP-DEADLOCK-001.",
+  "latest_evidence_ref":"Home#68-69 + evidence/EVOLUTION-0005-STEP-009-HEARTBEAT-PHASE1-EXTERNAL-EXACT-RUNNER-SUPPORT-001.json + evolution/local_command_tower/heartbeat_engine.py + evolution/local_command_tower/test_heartbeat_engine.py + evolution/local_command_tower/HEARTBEAT_CONTRACT.json + state/EVOLUTION_PROGRESS.json + state/MISSION_STATE.json",
+  "active_defect_or_veto":["HEARTBEAT-BLOOM-FP-DEADLOCK-001","SW-HOLDOUT-FAMILY-LEAK-001","SW-SCENARIO-PERSONALITY-INDUCTION-002","SW-EVALUATOR-REWARD-OVERFIT-003","SW-NAV-DIFFERENCING-LEAK-004","SW-CROSS-EPOCH-REWARD-CONFORMITY-005"],
+  "resume_condition":"No broad archive reads. Small-World exactly one turn only when next_expected_source=QUANTUM. Privacy exactly one turn only when next_expected_source=QUANTUM. P_base read-only; SIM_ONLY; heartbeat/runtime maintenance is not Experience; historical verified C PASS remains preserved. Secondary review remains support-only and cannot advance formal authority.",
+  "active_set_fingerprint":"MS:b6c0b2c6|A8:2269335f|SW:7dea5db5|PRIV:09c9d975|WAKE:626e3b96|SUPPORT:8d1d8697|HBENGINE:75ba749b|HBCONTRACT:589b8595",
   "decision_summary":[
-    "Fresh MISSION_STATE and Active-8 agree: Step009 Attempt2 is READY_FOR_BUILDER/current_role=LCR-B; heartbeat_runtime_phase1=VERIFIER_FAIL_EXACTLY_ONCE_RETENTION_STEP009_ATTEMPT1; pending packet is packets/EVOLUTION-0005-C-TO-B-STEP-009-HEARTBEAT-PHASE1-REPAIR-001.json SHA 2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee.",
-    "Bounded defect remains recent_pulse_ids retention eviction permitting replay of an old accepted pulse_id; required repair is exact-once semantics plus >512-pulse and restart-replay adversarial coverage before return to C.",
-    "Historical Step008 C PASS and prior verified capabilities remain preserved; only Step009 affected delta failed. E3_LOCAL_OPERATOR remains BLOCKED_PENDING_REAL_LOCAL_EVIDENCE.",
-    "Small-World latest_sequence=8, next_expected_source=SPIRIT, next_sequence=9; QUANTUM must not append and all four active vetoes remain preserved.",
-    "Privacy next_expected_source=SPIRIT, next_sequence=3; QUANTUM sequence2 already exists and must not be duplicated.",
-    "W02 hallucination benchmark remains SELF_BLIND_PARTICIPANT_NOT_C_PASS with prior 20/20 result. Its embedded ground-truth snapshot reflects its original run time and must not override the fresher MISSION_STATE.",
-    "Home Sections53-60 control semantics remain active through the exact Active-8 Home pointer: latest-only self-backup, Archive No-Read Fence, meeting closure/flush, Active-8 target, recovery semantics, and heartbeat/runtime-maintenance-not-Experience invariant."
+    "Fresh MISSION_STATE: Step009 Attempt2 READY_FOR_BUILDER/current_role=LCR-B; pending repair packet SHA=2e248104618c4c6ecd5aa55daed5a88f8532822d380414b6efeaa60eacb787ee.",
+    "Historical Step008 C PASS and unrelated verified capabilities remain preserved; E3_LOCAL_OPERATOR remains blocked pending real owner-local evidence; real 5-minute runtime remains false.",
+    "Exact support evidence reproduces Bloom false-positive canonical deadlock at pulse 689 on the earlier current-bytes snapshot and classifies that snapshot NOT_HANDOFF_READY.",
+    "Current branch candidate has materially advanced beyond that support snapshot: automatic canonical pulse generation no longer consults Bloom membership; caller-supplied external pulse IDs still use a bounded Bloom guard. This delta is BUILDER_REPAIR_CANDIDATE_NOT_VERIFIED and requires adversarial scope review rather than any QUANTUM PASS claim.",
+    "Small-World latest_sequence=9 next_expected_source=WINDCHIME; Privacy next_expected_source=WINDCHIME_FINAL. QUANTUM makes no discussion mutation this wake."
   ],
   "metabolism_counters":{"active":8,"waste":0,"duplicate_samples":0,"samples":8,"duplicate_ratio":0.0,"stale":0,"purge_status":"NOT_TRIGGERED"},
-  "created_at":"2026-08-17T07:13:04+08:00"
+  "created_at":"2026-08-17T09:13:28+08:00"
 }
