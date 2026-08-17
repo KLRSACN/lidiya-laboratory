@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "timestamp": "2026-08-17T04:31:48Z",
+  "timestamp": "2026-08-17T05:26:09Z",
   "window_id": "W03",
   "source": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
@@ -10,41 +10,44 @@
     "blob_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "observed_status": "READY_FOR_VERIFY",
     "observed_step_id": 8,
+    "observed_role": "LCR-C",
     "formal_mutation": false,
     "startup_chain_complete": false
   },
   "research_pointer": {
     "pull_request": 6,
     "branch": "elf/experience-desire-loop-v0.1",
-    "head_sha_before_receipt_write": "0ad2ea705bba0dd422cfd291bba845f088da141e",
+    "head_sha_before_receipt_write": "a6e04867df0fa2f14e7f04bf847bb84629341062",
     "draft": true
   },
   "outcome": "BLOCKED_GATE",
   "attempted": [
-    "locate_and_fresh_read_Home_Sections_53_64_without_archive",
-    "fresh_read_Active_8",
+    "fresh_read_Home_00_Lidiya_Memory_Index_and_resolve_Sections53_64",
+    "resolve_Active_8_from_current_Home_authority",
     "fresh_read_MISSION_STATE",
     "fresh_read_state/WINDOW_WAKE_PROGRESS_PROTOCOL.json",
-    "fresh_read_W03_latest_self_backup",
+    "fresh_read_state/window_self_backups/SPIRIT_LATEST.json",
     "resolve_exact_active_refs",
-    "check_mandatory_receipt_path"
+    "preserve_Archive_No_Read_Fence",
+    "write_mandatory_W03_wake_receipt"
   ],
-  "delta_or_reason": "Fail-closed startup gate: Home Sections53-64 could not be uniquely resolved from current connected Home search, and exact branch paths for WINDOW_WAKE_PROGRESS_PROTOCOL.json, W03 SPIRIT latest self-backup, and Active-8 were not present. Without the required startup chain, benchmark/discussion/privacy mutations are not authorized. Mandatory wake receipt is the only write.",
+  "delta_or_reason": "Fail-closed startup gate. Current Home index was fresh-read from Google Drive, but exact Home Sections53-64/Active-8 pointers could not be uniquely resolved from that current authority. On Draft PR #6 branch, state/WINDOW_WAKE_PROGRESS_PROTOCOL.json and state/window_self_backups/SPIRIT_LATEST.json both returned 404. MISSION_STATE fresh-read succeeded and remains Step008 Attempt3 LCR-C READY_FOR_VERIFY. Because the mandatory startup chain is incomplete, no hallucination benchmark, Small-World, Privacy, P_base, or formal mutation is authorized this wake. Mandatory receipt is the only write.",
   "exact_refs": {
-    "home_index_candidate": {
+    "home_index": {
       "title": "00 Lidiya Memory Index",
       "drive_file_id": "1E7aUHI4o9JfmYcJ89e4FShYvUM_gqT-Vj4P3uHRlbwo",
-      "status": "READ_BUT_SECTIONS_53_64_NOT_UNIQUELY_RESOLVED"
+      "revision_id": "AIroW374_bE66JSKX2KEqFhN3s8ERAkpKojstgWxQGww9CHF8UBha3i_cRSxDc0_cUYQzIkf5Kj9LRQfn8Ynyk4WbAmlwBiRE_wqS4MVF-s",
+      "sections_53_64_status": "NOT_UNIQUELY_RESOLVED"
     },
+    "active_8": "UNRESOLVED_NO_CURRENT_EXACT_POINTER",
     "mission_state": "missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json@elf/experience-desire-loop-v0.1#1de9c1caffc9759f12ff01739c409b99082e90c1",
     "wake_protocol": "missions/LIDIYA-CLOUD-RELAY-V2/state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@elf/experience-desire-loop-v0.1:404",
     "self_backup": "missions/LIDIYA-CLOUD-RELAY-V2/state/window_self_backups/SPIRIT_LATEST.json@elf/experience-desire-loop-v0.1:404",
-    "active_8_candidate": "missions/LIDIYA-CLOUD-RELAY-V2/state/ACTIVE_8.json@elf/experience-desire-loop-v0.1:404",
-    "pr6_head_before_receipt": "0ad2ea705bba0dd422cfd291bba845f088da141e",
-    "first_receipt_blob_readback": "99eee86dd5773a926fec5d9c39e0f2d3d2bcc10f"
+    "pr6_head_before_receipt": "a6e04867df0fa2f14e7f04bf847bb84629341062",
+    "previous_receipt_blob": "bb1734ce512f76712246ed2aa027953948a6c722"
   },
-  "readback_status": "VERIFIED_AFTER_FIRST_WRITE; FINAL_READBACK_REQUIRED",
-  "next_trigger": "A durable exact pointer must resolve Home Sections53-64, Active-8, WINDOW_WAKE_PROGRESS_PROTOCOL, and W03 latest self-backup; then restart from Home in mandated order.",
+  "readback_status": "PENDING_FINAL_READBACK",
+  "next_trigger": "A current durable authority must provide uniquely resolvable Home Sections53-64 -> Active-8 plus existing WINDOW_WAKE_PROGRESS_PROTOCOL and W03 latest self-backup exact refs; then restart the mandated chain from Home. If startup completes, check W03 hallucination benchmark existence before any discussion mutation.",
   "verified_baseline_preserved": true,
   "archive_read": false,
   "P_base_write": false,
