@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
@@ -15,6 +15,7 @@
     "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
   },
   "pairing_rule": "Use matched baseline/candidate workloads and equal-or-better verification quality/risk before estimating any multiplier.",
-  "interpretation": "Candidate throughput may appear faster, but no statistically defensible paired speed claim exists yet.",
-  "recorded_at": "2026-08-17T22:21:55+08:00"
+  "current_candidate_executor_note": "Gearbox exact-current candidate regression is PASS_CANDIDATE_ONLY, but executable correctness is not a paired speed sample and contributes no multiplier by itself.",
+  "interpretation": "No statistically defensible paired speed claim exists yet.",
+  "recorded_at": "2026-08-18T03:25:49+08:00"
 }
