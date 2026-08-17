@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "program_id": "LIDIYA-MIDSTREAM-RECOVERY-DIAGNOSTIC-001",
+  "incident_ref": "state/incidents/W01-20260817-MIDSTREAM-WINDOW-RECOVERY-001.json",
+  "evaluated_at": "2026-08-17T20:10:00+08:00",
+  "input_provenance": {
+    "authority": "fresh MISSION_STATE",
+    "continuity": "W01 post-recovery readback",
+    "browser_symptoms": "OWNER_REPORTED",
+    "context_load_factor": "OWNER_REPORTED_APPROX_5X_NORMAL",
+    "platform_incident_possible": "CURRENT_OPENAI_STATUS_CHECK_NOT_CAUSAL_PROOF"
+  },
+  "result": {
+    "severity": "P0",
+    "continuity_score": 1.0,
+    "metabolism_status": "UPGRADE_REQUIRED",
+    "post_flush_gate": "PASS_CANDIDATE_NEEDS_INDEPENDENT_VERIFY",
+    "purge_candidate": false,
+    "browser_owner_gate_required": true,
+    "suspected_layers": [
+      "BROWSER_UI_OR_SITE_DATA_PRESSURE",
+      "EXTREME_CONTEXT_PRESSURE",
+      "HIGH_CONTEXT_PRESSURE",
+      "NETWORK_OR_SESSION_TRANSPORT",
+      "PLATFORM_INCIDENT_POSSIBLE",
+      "TOOL_OR_WEB_FAILURE_STREAK"
+    ]
+  },
+  "interpretation": [
+    "Durable identity/authority continuity survived the incident; this is evidence for recovery architecture, not proof that the UI/runtime layer is healthy.",
+    "The current Active-8 count alone is insufficient as a metabolism health metric; long-lived-window pressure and repeated tool/web failures must become first-class pressure inputs.",
+    "Browser/site-data actions cannot be performed by this cloud window and remain owner/UI actions.",
+    "No AGI or consciousness conclusion is permitted from duration, recovery, or narrative continuity alone."
+  ],
+  "candidate_test_support": {
+    "draft_equivalent_private_runner": "py_compile PASS + 6/6 unittest PASS",
+    "exact_current_github_bytes_independent_runner": "TEST_REQUIRED",
+    "formal_C_verification": "NOT_YET"
+  },
+  "next": [
+    "Add pressure-aware metabolism state and recovery-latency counters.",
+    "Have W02/W03/W04 independently challenge the diagnosis and failure thresholds.",
+    "Create a formal bounded A-to-B-to-C adoption packet only after exact-current-byte tests.",
+    "Collect HAR/console/timestamp evidence on recurrence before claiming browser root cause."
+  ]
+}
