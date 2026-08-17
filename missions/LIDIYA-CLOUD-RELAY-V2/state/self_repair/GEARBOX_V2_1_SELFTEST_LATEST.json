@@ -1,29 +1,29 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "PASS_CANDIDATE_ONLY",
   "formal_c_verification": "NOT_YET",
-  "current_head_sha": "27eda5027837ee298e4ca3c38d61f7f9c5a783a6",
-  "current_tree_sha": "857f7d651cbc98cd4081a0ddb45040d55aa6148b",
+  "current_head_sha": "9f22e4114edb8eee83da641f08bc9696e764b405",
+  "current_tree_sha": "de6da52cdcc51de68751091a0a648236fb66fb2e",
   "executor_check": {
     "provider": "GitHub Actions",
     "workflow": "LCR State + Autonomy Tests",
-    "workflow_run_id": 32055358185,
-    "job_id": 95464139084,
+    "workflow_run_id": 32061450013,
+    "job_id": 95483427804,
     "job_name": "P0 exact-current Gearbox + Always-on candidate regression",
-    "runner": "ubuntu-latest / Python 3.12",
-    "head_sha": "27eda5027837ee298e4ca3c38d61f7f9c5a783a6",
+    "runner": "ubuntu-latest / GitHub-hosted",
+    "head_sha": "9f22e4114edb8eee83da641f08bc9696e764b405",
     "compile_step": "SUCCESS",
     "combined_regression_step": "SUCCESS",
-    "artifact_id": 9296183232,
+    "artifact_id": 9298276371,
     "artifact_name": "lcr-p0-exact-current-candidate-evidence",
-    "artifact_digest": "sha256:1fca62371dd9a36e1d1bcbe2da403a4a313bd074b606d542dea98d6eaf5b5a2b",
+    "artifact_digest": "sha256:bc1fe6c5dda5cf88f13c4b911d24f9e92abcb1da9200babea8fd550a975c98c0",
     "fresh_same_runner_execution_performed_for_current_head": true,
     "claim_boundary": "Current-head same-runner executable candidate evidence only; does not replace LCR-C verification."
   },
   "commands": {
-    "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py evolution/local_command_tower/always_on_runtime.py",
-    "tests": "python -m unittest -v evolution/test_gearbox_controller.py evolution/test_gearbox_controller_v2.py evolution/test_gearbox_controller_v2_1.py evolution/local_command_tower/test_always_on_runtime.py"
+    "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
+    "tests": "python -m unittest -v evolution/test_gearbox_controller.py evolution/test_gearbox_controller_v2.py evolution/test_gearbox_controller_v2_1.py"
   },
   "exact_blob_sha": {
     "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
@@ -39,7 +39,7 @@
     "v2_1": {"tests": 12, "status": "PASS"}
   },
   "gearbox_total_tests": 49,
-  "suite_count_provenance": "The six exact Gearbox source/test blobs are unchanged from the prior per-suite-counted run; the current-head workflow executes the same three exact unittest files together and its combined regression step succeeds. Counts remain 21/16/12 for these exact test blobs.",
+  "suite_count_provenance": "All six Gearbox source/test blob SHAs are byte-identical to the previously counted suites; current-head workflow run 32061450013 executed the same exact three unittest files together and succeeded.",
   "compile_exit_code": 0,
   "combined_test_exit_code": 0,
   "baseline": {
@@ -55,7 +55,8 @@
     "runtime_maintenance_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "formal_adoption_gate": "BLOCKED_BY_W02_BOUNDED_VETO_AND_MISSING_W03_REVIEW_AND_STALE_W04_SYNTHESIS",
-  "claim_boundary": "Exact-current executable regression now passes on current head, but v2/v2.1 remain candidates and no formal adoption is authorized while review vetoes/gaps remain.",
-  "recorded_at": "2026-08-18T03:25:49+08:00"
+  "formal_adoption_gate": "BLOCKED_BY_W02_HIGH_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_SYNTHESIS",
+  "latest_review_delta": "W02 review QUANTUM-GEARBOX-V2.1-20260818-0333 adds immutable EventIdentity rebinding as a HIGH bounded veto; W03 dedicated review remains absent; W04 synthesis remains stale relative to current W02.",
+  "claim_boundary": "Exact-current executable regression passes on current head, but v2/v2.1 remain candidates and no formal adoption is authorized while review vetoes/gaps remain.",
+  "recorded_at": "2026-08-18T04:26:58+08:00"
 }
