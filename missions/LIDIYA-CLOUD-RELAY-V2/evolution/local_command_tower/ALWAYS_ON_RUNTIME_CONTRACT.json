@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "product_id": "LIDIYA-ALWAYS-ON-RUNTIME-V1-CANDIDATE",
+  "status": "NON_FORMAL_CANDIDATE_NOT_C_VERIFIED",
+  "depends_on": {
+    "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+    "heartbeat_engine_ref": "evolution/local_command_tower/heartbeat_engine.py"
+  },
+  "purpose": "Provide a deterministic persistent continuity shell for an external authorized runner without claiming that the runner is already live.",
+  "targets": {
+    "heartbeat_interval_seconds": 300,
+    "work_lifecycle_target_seconds": 1200,
+    "checkpoint_target_seconds": 600,
+    "recovery_target_seconds": 300
+  },
+  "hard_invariants": [
+    "Heartbeat/poll/retry/reconnect/runtime incidents are not Experience.",
+    "P_base and formal authority are read-only to this runtime candidate.",
+    "real_5min_runtime_live remains false until real authorized always-on execution evidence and formal promotion exist.",
+    "No per-pulse durable log; durable state and evidence remain bounded.",
+    "Recovery is two-stage: prepare_recovery then mark_recovery_verified.",
+    "A recovery attempt is not a verified recovery.",
+    "Scheduled task last_run is not durable progress.",
+    "New runtime failure rolls back only this candidate delta and never invalidates Step001-009 verified baseline without exact regression evidence."
+  ],
+  "recovery_classes": [
+    "INTERRUPTION_OBSERVED",
+    "HEARTBEAT_ENDPOINT_STALE",
+    "WORK_PROGRESS_STALLED_20M",
+    "SILENT_WORK_STEPS"
+  ],
+  "evidence_required_for_real_live": [
+    "An authorized external runner actually invokes the runtime at sub-hour cadence.",
+    "Observed 300-second heartbeat cadence with durable timestamps.",
+    "At least one real interruption followed by a recovery attempt within 300 seconds.",
+    "Recovery must be independently verified, not self-declared by the candidate.",
+    "20-minute work-lifecycle continuity must show durable progress or an explicit bounded recovery path.",
+    "Restart/outage must recover from persisted cursor/state without Experience contamination.",
+    "C verifier must bind exact current artifacts and evidence before any live promotion."
+  ],
+  "phase0_acceptance": [
+    "py_compile passes",
+    "all candidate unit tests pass",
+    "restart persistence passes",
+    "20-minute lifecycle test passes",
+    "5-minute recovery-target calculation passes",
+    "candidate cannot self-promote real_5min_runtime_live",
+    "compact evidence remains bounded",
+    "W02/W03/W04 adversarial reviews have no unreleased veto",
+    "incident replay includes the 2026-08-17 W01 midstream-window recovery incident"
+  ],
+  "forbidden_claims": [
+    "real_5min_runtime_live=true without reality evidence",
+    "continuous subjective awareness",
+    "AGI or consciousness proof",
+    "Scheduled Tasks equals a real five-minute runner"
+  ],
+  "formal_adoption_route": "LCR-A -> existing LCR-B -> existing LCR-C",
+  "main_default_write": "FORBIDDEN_NO_SUBGATE"
+}
