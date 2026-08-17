@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0-candidate",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "product": "LIDIYA-AUTONOMOUS-GEARBOX-TYPE-2-CANDIDATE",
+  "status": "CANDIDATE_NOT_C_VERIFIED",
+  "inherits_verified_v1": true,
+  "v1_baseline_ref": "evolution/gearbox_controller.py",
+  "v1_architecture_ref": "evolution/GEARBOX_ARCHITECTURE.json",
+  "principle": "Continuous runtime time is not Experience. Only evidence-bearing durable progress can create system-level Experience Candidate; model weights do not update merely because a window remains open.",
+  "new_inputs": [
+    "context_load_ratio",
+    "tool_failure_ratio",
+    "stale_pointer_ratio",
+    "route_drift",
+    "continuity_anchor_health",
+    "recovery_active",
+    "secretary_level",
+    "verification_stage",
+    "current_gear",
+    "durable_progress_age_ratio",
+    "event_kind",
+    "event_independently_verified"
+  ],
+  "new_controls": {
+    "pressure_aware_downshift": "RED/recovery/anchor failure -> G1; ORANGE/route drift/high pressure -> cap G2; YELLOW/moderate pressure -> cap G3",
+    "verification_cap": "UNVERIFIED/CANDIDATE work cannot use G5/G6 as promotion evidence",
+    "upshift_hysteresis": "upshift at most one gear per durable decision; hard downshift remains immediate",
+    "checkpoint_density": "pressure or stale durable progress can require checkpoint before new heavy work",
+    "secretary_authority": "W07 is sensor only; fresh authority beats secretary signal",
+    "baseline_preservation": "Gearbox v2 failure never invalidates verified Gearbox v1 or Step009 Heartbeat"
+  },
+  "experience_candidate": {
+    "meaning": "system-level learning/progress credit only, not subjective consciousness and not proof of model-weight learning",
+    "positive": {
+      "VERIFIED_CAPABILITY": 5,
+      "VERIFIED_RECOVERY": 4,
+      "ROOT_CAUSE_RETEST_PASS": 3,
+      "C_VERIFIED_LESSON": 3,
+      "DURABLE_PROGRESS": 1,
+      "ADVERSARIAL_DEFECT_FOUND": 1
+    },
+    "zero": [
+      "HEARTBEAT",
+      "POLL",
+      "RETRY",
+      "WAIT",
+      "SCHEDULER_WAKE",
+      "SELF_REPORTED_SUCCESS",
+      "UNVERIFIED_SIMULATION"
+    ],
+    "verified_credit_rule": "VERIFIED_CAPABILITY/VERIFIED_RECOVERY/ROOT_CAUSE_RETEST_PASS/C_VERIFIED_LESSON require independent verification or credit=0",
+    "promotion_rule": "Experience Candidate never changes P_base, authority, Identity, Personality or Governance directly"
+  },
+  "speed_metrics": [
+    "durable_progress_per_wake",
+    "cycle_completion_latency",
+    "rework_or_rollback_ratio",
+    "recovery_latency",
+    "stale_pointer_rate",
+    "route_drift_recurrence",
+    "verified_capability_delta",
+    "prediction_true_positive_false_positive_missed_warning"
+  ],
+  "pressure_score": {
+    "status": "ENGINEERING_HEURISTIC_NOT_PROBABILITY",
+    "components": {
+      "context_load_ratio": 0.30,
+      "tool_failure_ratio": 0.20,
+      "stale_pointer_ratio": 0.15,
+      "storage_pressure_ratio": 0.15,
+      "durable_progress_age_ratio": 0.10,
+      "continuity_anchor_degradation": 0.10
+    },
+    "thresholds": "TEST_REQUIRED before formal adoption"
+  },
+  "required_tests": [
+    "all Gearbox v1 tests remain PASS",
+    "heartbeat/poll/retry/wait never create Experience Candidate",
+    "verified capability/recovery credit requires independent verification",
+    "RED/recovery forces G1",
+    "ORANGE/route drift caps G2",
+    "YELLOW caps G3",
+    "stale durable progress caps G3 and requests checkpoint",
+    "unverified work cannot use G5/G6 for promotion evidence",
+    "upshift hysteresis prevents gear thrashing",
+    "hard downshift remains immediate",
+    "secretary stale signal cannot override fresh authority",
+    "pressure score false-positive/false-negative benchmark against clean and incident replays"
+  ],
+  "formal_adoption": "exact-current executable evidence + Quantum/Spirit adversarial review + Navigator synthesis + existing A->B->C",
+  "real_5min_runtime_live": false
+}
