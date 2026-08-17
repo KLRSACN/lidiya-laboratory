@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.2",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-0030",
+  "schema_version": "1.3",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-0130",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -26,9 +26,9 @@
     "gearbox_v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
   },
   "read_gap": {
-    "active_8_exact_path": "NOT_DISCOVERED_WITHOUT_BROAD_ARCHIVE_READ",
-    "home_latest_continuity_gearbox_exact_path": "NOT_DISCOVERED_WITHOUT_BROAD_ARCHIVE_READ",
-    "handling": "Archive No-Read Fence preserved; no stale derived state inferred. Fresh MISSION_STATE is authoritative for formal baseline; exact-current executable v1/v2/v2.1 files are authoritative for this review."
+    "active_8_exact_path": "NOT_DISCOVERED_WITH_TARGETED_SEARCH_WITHOUT_BROAD_ARCHIVE_READ",
+    "home_latest_continuity_gearbox_exact_path": "NOT_DISCOVERED_WITH_TARGETED_SEARCH_WITHOUT_BROAD_ARCHIVE_READ",
+    "handling": "Archive No-Read Fence preserved. No stale derived state inferred. Fresh MISSION_STATE is authoritative for formal baseline; exact-current executable v1/v2/v2.1 files are authoritative for this review."
   },
   "agreements": [
     "v2.1 separates verified_experience_delta from operational_progress_delta at the output boundary.",
@@ -36,7 +36,7 @@
     "Heartbeat/poll/retry/wait/scheduler wake remain zero Experience in inherited v2 semantics.",
     "Anti-thrash cannot block an inherited safety/recovery downshift because the hold only applies when selected_n > current_n.",
     "v2.1 keeps formal_mutation_allowed=false and therefore has no direct formal mutation authority.",
-    "The v2.1 contract correctly marks speedup as NOT_YET_STATISTICALLY_ESTABLISHED and names paired operational metrics rather than commit count or awake time."
+    "The v2.1 contract correctly marks speedup as NOT_YET_STATISTICALLY_ESTABLISHED and names operational metrics rather than commit count or awake time."
   ],
   "disagreements": [
     {
@@ -48,8 +48,8 @@
     {
       "id": "QV-GB21-SECRETARY-BOOL-COERCION-010",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh and authority_conflict are annotated bool but never strictly validated. In Python, a non-empty string such as 'false' is truthy; secretary_signal_fresh='false' therefore follows the fresh-signal path and can allow YELLOW/ORANGE/RED secretary influence instead of being rejected.",
-      "required_change": "Reject non-bool freshness/conflict values fail-closed before any secretary routing. Strict typing is necessary but does not replace the trusted freshness/authority envelope required by QV-GB21-FRESHNESS-AUTHORITY-001."
+      "finding": "secretary_signal_fresh and authority_conflict are annotated bool but never strictly validated. Non-empty strings such as 'false' are truthy and can alter secretary routing.",
+      "required_change": "Reject non-bool freshness/conflict values fail-closed before any secretary routing; strict typing does not replace trusted freshness/authority binding."
     },
     {
       "id": "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
@@ -60,8 +60,8 @@
     {
       "id": "QV-GB21-VERIFIER-TYPE-COERCION-009",
       "severity": "HIGH",
-      "finding": "aggregate_experience_events() and select_gear_v2_1() apply Python bool(...) to verification flags. Non-empty strings such as 'false' or '0', lists and mappings become True and can create verified Experience credit for verified event kinds.",
-      "required_change": "Reject non-bool verification values fail-closed before credit calculation; additionally require the evidence-bound verifier receipt in QV-GB21-VERIFIED-EVIDENCE-BINDING-002."
+      "finding": "aggregate_experience_events() and select_gear_v2_1() apply Python bool(...) to verification flags; strings such as 'false' or '0', lists and mappings become True and can create verified Experience credit.",
+      "required_change": "Reject non-bool verification values fail-closed before credit calculation and require evidence-bound verifier receipt."
     },
     {
       "id": "QV-GB21-EVENT-LINEAGE-DEDUPE-003",
@@ -70,15 +70,21 @@
       "required_change": "Deduplicate on canonical event/evidence lineage identity and verifier receipt identity; event_id may remain an index but cannot be uniqueness authority."
     },
     {
+      "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
+      "severity": "HIGH",
+      "finding": "recent_shift_rate_ratio is a free caller-supplied behavioral control. A forged low value can bypass anti-thrash entirely; a forged high value can suppress safe nonessential upshifts. The controller does not derive the ratio from an authenticated shift ledger/window, so anti-thrash behavior itself is not evidence-bound.",
+      "required_change": "Derive shift rate inside the trusted runtime from a canonical append-only shift ledger plus versioned observation-window policy. Bind numerator, denominator, window bounds, sample count, source/runtime identity and policy hash; caller-supplied ratio is diagnostic-only or rejected in adoptable mode."
+    },
+    {
       "id": "QV-GB21-ANTI-THRASH-SAMPLE-SIZE-004",
       "severity": "MEDIUM",
-      "finding": "recent_shift_rate_ratio>=0.50 suppresses any nonessential upshift, but the value has no sample count, observation window, denominator, confidence bound, or provenance. A 1/1 sample is indistinguishable from a stable high-rate regime.",
-      "required_change": "Bind the ratio to a versioned observation window plus sufficient-support metadata and release/cooldown semantics. Numeric thresholds and minimum sample sizes remain TEST_REQUIRED."
+      "finding": "recent_shift_rate_ratio>=0.50 has no sample count, observation window, denominator, confidence bound, or provenance. A 1/1 sample is indistinguishable from a stable high-rate regime.",
+      "required_change": "Require sufficient-support metadata and release/cooldown semantics. Numeric thresholds and minimum sample sizes remain TEST_REQUIRED."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-PERFORMANCE-005",
       "severity": "MEDIUM",
-      "finding": "The hold can keep current_gear indefinitely whenever the externally supplied shift rate remains high. Safety downshifts are preserved, but required safe upshifts can be delayed with no maximum hold, confidence decay, recovery bound, or service-level non-regression test.",
+      "finding": "The hold can keep current_gear indefinitely whenever shift rate remains high. Safety downshifts are preserved, but required safe upshifts can be delayed with no maximum hold, confidence decay, recovery bound, or service-level non-regression test.",
       "required_change": "Add bounded hold/release semantics and paired performance tests proving cycle latency, verified closure throughput and recovery latency do not regress materially while safety behavior is preserved."
     },
     {
@@ -101,7 +107,8 @@
     }
   ],
   "statistical_risks": [
-    "recent_shift_rate_ratio lacks denominator/window/sample-size semantics and is vulnerable to small-n false positives.",
+    "recent_shift_rate_ratio lacks authenticated numerator/denominator/window provenance, so both anti-thrash activation and bypass can be caller-induced.",
+    "recent_shift_rate_ratio lacks sample-size semantics and is vulnerable to small-n false positives.",
     "verified_progress_density lacks denominator/window/independence semantics and may suffer selection bias or become self-reinforcing if later connected to routing.",
     "Anti-thrash can mechanically improve gear_shift_rate while worsening cycle latency, recovery latency or verified closures.",
     "Credit weights 5/4/3 are ordinal heuristics rather than interval-scale capability measurements.",
@@ -124,7 +131,8 @@
     "GB21-OPERATIONAL-ONLY-013: DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND change only operational progress; verified Experience, P_base, Identity, Personality, Governance and formal authority remain byte-identical.",
     "GB21-CREDIT-SCORE-014: equal aggregate credit from different event mixes cannot be interpreted as equivalent capability and cannot alone trigger promotion.",
     "GB21-PAIRED-SPEED-015: matched baseline vs candidate workload reports durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio, recovery_latency and verification/risk non-regression; commit count/wake duration excluded.",
-    "GB21-V1-V2-NONREGRESSION-016: verified v1 baseline and current v2 regression suite remain preserved before any v2.1 adoption claim."
+    "GB21-V1-V2-NONREGRESSION-016: verified v1 baseline and current v2 regression suite remain preserved before any v2.1 adoption claim.",
+    "GB21-SHIFT-RATE-PROVENANCE-017: caller supplies recent_shift_rate_ratio=0 while trusted shift ledger implies high rate, and then supplies 1 while ledger implies low rate; adoptable controller must ignore/reject caller ratio and deterministically derive the same value from canonical ledger+window policy."
   ],
   "bounded_veto": [
     "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -132,6 +140,7 @@
     "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
     "QV-GB21-VERIFIER-TYPE-COERCION-009",
     "QV-GB21-EVENT-LINEAGE-DEDUPE-003",
+    "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
     "QV-GB21-ANTI-THRASH-SAMPLE-SIZE-004",
     "QV-GB21-ANTI-THRASH-PERFORMANCE-005",
     "QV-GB21-CREDIT-WEIGHTS-007",
@@ -143,6 +152,7 @@
     "Verification flags must be strict booleans and verified Experience must additionally require exact evidence hash plus trusted independent-verifier/C receipt and identity binding.",
     "Experience dedupe must resist same-event/new-ID replay using canonical evidence lineage identity.",
     "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only and cannot promote verified Experience, P_base or authority.",
+    "Anti-thrash shift rate must be derived from canonical authenticated shift history; caller-supplied recent_shift_rate_ratio cannot be routing authority in adoptable mode.",
     "Anti-thrash requires TEST_REQUIRED window/sample support and bounded recovery/performance non-regression while preserving immediate safety downshift.",
     "verified_progress_density remains observational until independently derived and tested against self-reinforcement and selection bias.",
     "5/4/3 weights remain heuristic; total credit cannot be used as capability truth or promotion threshold without independent calibration.",
@@ -150,5 +160,5 @@
     "Formal adoption still requires exact-current regression evidence, adversarial review, Navigator synthesis and the existing A->B->C route."
   ],
   "next_lane": "Return to Always-on Runtime / Small-World only when exact authority/endpoint permits; W02 performs no formal mutation.",
-  "created_at": "2026-08-18T00:30:00+08:00"
+  "created_at": "2026-08-18T01:30:00+08:00"
 }
