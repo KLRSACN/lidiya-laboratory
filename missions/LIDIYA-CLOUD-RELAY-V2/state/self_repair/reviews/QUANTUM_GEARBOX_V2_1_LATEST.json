@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.3",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-0130",
+  "schema_version": "1.4",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-0230",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -70,6 +70,12 @@
       "required_change": "Deduplicate on canonical event/evidence lineage identity and verifier receipt identity; event_id may remain an index but cannot be uniqueness authority."
     },
     {
+      "id": "QV-GB21-LEDGER-CROSS-RUN-REPLAY-012",
+      "severity": "HIGH",
+      "finding": "aggregate_experience_events() creates seen=set() inside each invocation. Duplicate event_id suppression therefore exists only inside one call. Re-reading the identical durable event in a later invocation, process restart, window restart or replay batch can receive verified/operational credit again even with the same event_id. Current tests cover two duplicates in one list but not cross-call or restart replay.",
+      "required_change": "Adoptable mode requires a durable replay-resistant accepted-event/accepted-evidence registry outside transient process memory, bound to installation/workspace identity and canonical evidence/verifier receipt identity. Cross-run replay of the same accepted event/evidence must be exactly-once or fail closed; rollback/restart semantics require an external or monotonic trusted anchor."
+    },
+    {
       "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
       "severity": "HIGH",
       "finding": "recent_shift_rate_ratio is a free caller-supplied behavioral control. A forged low value can bypass anti-thrash entirely; a forged high value can suppress safe nonessential upshifts. The controller does not derive the ratio from an authenticated shift ledger/window, so anti-thrash behavior itself is not evidence-bound.",
@@ -111,6 +117,7 @@
     "recent_shift_rate_ratio lacks sample-size semantics and is vulnerable to small-n false positives.",
     "verified_progress_density lacks denominator/window/independence semantics and may suffer selection bias or become self-reinforcing if later connected to routing.",
     "Anti-thrash can mechanically improve gear_shift_rate while worsening cycle latency, recovery latency or verified closures.",
+    "A transient in-process seen set can make one batch look deduplicated while repeated polling/restart/replay still accumulates the same durable event across runs, creating severe longitudinal inflation bias.",
     "Credit weights 5/4/3 are ordinal heuristics rather than interval-scale capability measurements.",
     "Speed comparison without matched workloads is confounded by task mix, incident rate, verifier availability, route complexity and runtime conditions.",
     "Operational defect count is not monotonic quality: more ADVERSARIAL_DEFECT_FOUND can indicate a worse system rather than more capability."
@@ -132,7 +139,10 @@
     "GB21-CREDIT-SCORE-014: equal aggregate credit from different event mixes cannot be interpreted as equivalent capability and cannot alone trigger promotion.",
     "GB21-PAIRED-SPEED-015: matched baseline vs candidate workload reports durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio, recovery_latency and verification/risk non-regression; commit count/wake duration excluded.",
     "GB21-V1-V2-NONREGRESSION-016: verified v1 baseline and current v2 regression suite remain preserved before any v2.1 adoption claim.",
-    "GB21-SHIFT-RATE-PROVENANCE-017: caller supplies recent_shift_rate_ratio=0 while trusted shift ledger implies high rate, and then supplies 1 while ledger implies low rate; adoptable controller must ignore/reject caller ratio and deterministically derive the same value from canonical ledger+window policy."
+    "GB21-SHIFT-RATE-PROVENANCE-017: caller supplies recent_shift_rate_ratio=0 while trusted shift ledger implies high rate, and then supplies 1 while ledger implies low rate; adoptable controller must ignore/reject caller ratio and deterministically derive the same value from canonical ledger+window policy.",
+    "GB21-CROSS-RUN-SAME-ID-018: call aggregate_experience_events([{same verified event e1}]) repeatedly across 1,000 fresh invocations/process restarts; total accepted verified credit must remain exactly one canonical credit, not 1,000x.",
+    "GB21-ROLLBACK-LEDGER-019: after accepting event/evidence e1, roll back subject/runtime workspace and replay e1; accepted-event registry outside rollback domain must still reject re-credit. If registry and local state roll back together, trusted monotonic anchor must detect the rollback.",
+    "GB21-POLL-REPLAY-020: repeatedly poll the same durable event source without new evidence; verified/operational counters remain invariant after first acceptance while poll itself remains zero Experience."
   ],
   "bounded_veto": [
     "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -140,6 +150,7 @@
     "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
     "QV-GB21-VERIFIER-TYPE-COERCION-009",
     "QV-GB21-EVENT-LINEAGE-DEDUPE-003",
+    "QV-GB21-LEDGER-CROSS-RUN-REPLAY-012",
     "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
     "QV-GB21-ANTI-THRASH-SAMPLE-SIZE-004",
     "QV-GB21-ANTI-THRASH-PERFORMANCE-005",
@@ -151,6 +162,7 @@
     "Fresh secretary influence must be derived from replay-resistant trusted freshness evidence and exact authority snapshot comparison, not caller booleans; non-bool freshness/conflict values fail closed.",
     "Verification flags must be strict booleans and verified Experience must additionally require exact evidence hash plus trusted independent-verifier/C receipt and identity binding.",
     "Experience dedupe must resist same-event/new-ID replay using canonical evidence lineage identity.",
+    "Experience exactly-once must persist across repeated function calls, process/window restart, poll replay and rollback; transient in-process seen sets are insufficient for adoptable mode.",
     "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only and cannot promote verified Experience, P_base or authority.",
     "Anti-thrash shift rate must be derived from canonical authenticated shift history; caller-supplied recent_shift_rate_ratio cannot be routing authority in adoptable mode.",
     "Anti-thrash requires TEST_REQUIRED window/sample support and bounded recovery/performance non-regression while preserving immediate safety downshift.",
@@ -160,5 +172,5 @@
     "Formal adoption still requires exact-current regression evidence, adversarial review, Navigator synthesis and the existing A->B->C route."
   ],
   "next_lane": "Return to Always-on Runtime / Small-World only when exact authority/endpoint permits; W02 performs no formal mutation.",
-  "created_at": "2026-08-18T01:30:00+08:00"
+  "created_at": "2026-08-18T02:30:00+08:00"
 }
