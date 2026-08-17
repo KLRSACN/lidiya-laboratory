@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "status": "INSUFFICIENT_SAMPLE",
+  "speed_multiplier": "NOT_ESTABLISHED",
+  "forbidden_proxies": ["awake_time", "window_age", "commit_count", "heartbeat_count", "poll_count", "retry_count", "task_last_run"],
+  "required_paired_metrics": {
+    "durable_progress_per_wake": "INSUFFICIENT_SAMPLE",
+    "verified_closure_per_hour": "INSUFFICIENT_SAMPLE",
+    "cycle_completion_latency": "INSUFFICIENT_SAMPLE",
+    "rework_ratio": "INSUFFICIENT_SAMPLE",
+    "recovery_latency": "INSUFFICIENT_SAMPLE",
+    "gear_shift_rate": "INSUFFICIENT_SAMPLE",
+    "stale_pointer_rate": "INSUFFICIENT_SAMPLE",
+    "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
+  },
+  "pairing_rule": "Use matched baseline/candidate workloads and equal-or-better verification quality/risk before estimating any multiplier.",
+  "interpretation": "Candidate throughput may appear faster, but no statistically defensible paired speed claim exists yet.",
+  "recorded_at": "2026-08-17T22:21:55+08:00"
+}
