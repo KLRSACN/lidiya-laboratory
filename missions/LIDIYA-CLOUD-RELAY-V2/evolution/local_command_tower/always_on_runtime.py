@@ -9,12 +9,13 @@ from typing import Any, Dict, Optional
 
 from heartbeat_engine import HeartbeatEngine, ZERO_EXPERIENCE_DELTA
 
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = "1.1"
 RUNTIME_ID = "LIDIYA-ALWAYS-ON-RUNTIME-V1-CANDIDATE"
 WORK_LIFECYCLE_TARGET_SECONDS = 20 * 60
 RECOVERY_TARGET_SECONDS = 5 * 60
 CHECKPOINT_TARGET_SECONDS = 10 * 60
 MAX_SILENT_STEPS_WITH_WORK = 4
+SELF_VERIFIERS = {"RUNTIME_SELF", "ALWAYS_ON_RUNTIME", "W01_RUNTIME"}
 
 
 class RuntimeContinuityError(RuntimeError):
@@ -31,8 +32,12 @@ class RuntimeState:
     last_progress_at: Optional[int] = None
     last_checkpoint_at: Optional[int] = None
     last_interruption_at: Optional[int] = None
+    last_interruption_observation_id: Optional[str] = None
+    last_interruption_source: Optional[str] = None
     last_recovery_attempt_at: Optional[int] = None
     last_recovery_verified_at: Optional[int] = None
+    last_recovery_evidence_ref: Optional[str] = None
+    last_recovery_verifier: Optional[str] = None
     work_lifecycle_started_at: Optional[int] = None
     lifecycle_cycles_completed: int = 0
     durable_progress_events: int = 0
@@ -81,10 +86,10 @@ def _atomic_write_json(path: Path, payload: Dict[str, Any]) -> None:
 class AlwaysOnRuntime:
     """Persistent continuity shell around the verified HeartbeatEngine.
 
-    This candidate does not make a process truly always-on by itself. It only
-    supplies deterministic state, liveness/recovery gates, and evidence fields
-    for an external authorized runner. `real_5min_runtime_live` is therefore
-    fail-closed and cannot be promoted by normal step/recovery calls.
+    The class is evidence plumbing, not an always-on process by itself. Formal
+    five-minute liveness needs an authorized external runner plus independent
+    verification. Interruption timestamps cannot be backfilled through step();
+    they must be registered when observed with an observation id/source.
     """
 
     def __init__(self, state_path: str | Path, heartbeat_state_path: str | Path):
@@ -102,18 +107,14 @@ class AlwaysOnRuntime:
             raise RuntimeContinuityError("unsupported runtime state schema")
         state = RuntimeState(**data)
         if state.real_5min_runtime_live:
-            raise RuntimeContinuityError(
-                "candidate runtime state cannot self-assert real_5min_runtime_live"
-            )
+            raise RuntimeContinuityError("candidate cannot self-assert real_5min_runtime_live")
         if state.writer_generation < 0:
             raise RuntimeContinuityError("invalid writer_generation")
         return state
 
     def _persist(self, state: RuntimeState) -> None:
         if state.real_5min_runtime_live:
-            raise RuntimeContinuityError(
-                "real_5min_runtime_live requires external reality evidence and formal promotion"
-            )
+            raise RuntimeContinuityError("real_5min runtime requires external evidence/formal promotion")
         _atomic_write_json(self.state_path, asdict(state))
 
     def snapshot(self) -> Dict[str, Any]:
@@ -125,6 +126,51 @@ class AlwaysOnRuntime:
                 f"stale runtime writer generation expected={expected_generation} actual={self.state.writer_generation}"
             )
 
+    def observe_interruption(
+        self,
+        *,
+        now: int,
+        observation_id: str,
+        source: str,
+        expected_generation: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Register an interruption at observation time; no caller-supplied past timestamp exists."""
+        self._cas_guard(expected_generation)
+        now = int(now)
+        oid = str(observation_id).strip()
+        src = str(source).strip()
+        if not oid or not src:
+            raise RuntimeContinuityError("observation_id and source required")
+        if src.upper() in SELF_VERIFIERS:
+            raise RuntimeContinuityError("runtime self-observation cannot serve as external SLA evidence")
+        if self.state.last_step_at is not None and now < self.state.last_step_at:
+            raise RuntimeContinuityError("interruption observation clock rollback detected")
+        if self.state.last_interruption_observation_id == oid:
+            return {
+                "disposition": "DUPLICATE_INTERRUPTION_OBSERVATION_NO_OP",
+                "changed": False,
+                "real_5min_runtime_live": False,
+                "experience_delta": dict(ZERO_EXPERIENCE_DELTA),
+            }
+        self.state.last_interruption_at = now
+        self.state.last_interruption_observation_id = oid
+        self.state.last_interruption_source = src
+        self.state.interruption_count += 1
+        self.state.pending_recovery_reason = "INTERRUPTION_OBSERVED"
+        self.state.status = "RECOVERY_REQUIRED"
+        self.state.writer_generation += 1
+        self.state.last_outcome = "INTERRUPTION_OBSERVED"
+        self._persist(self.state)
+        return {
+            "disposition": "INTERRUPTION_OBSERVED",
+            "changed": True,
+            "observed_at": now,
+            "observation_id": oid,
+            "source": src,
+            "real_5min_runtime_live": False,
+            "experience_delta": dict(ZERO_EXPERIENCE_DELTA),
+        }
+
     def step(
         self,
         *,
@@ -133,14 +179,12 @@ class AlwaysOnRuntime:
         durable_progress: bool = False,
         durable_checkpoint_ok: bool = False,
         endpoint_ok: bool = True,
-        interruption_observed_at: Optional[int] = None,
         expected_generation: Optional[int] = None,
     ) -> RuntimeStepResult:
         self._cas_guard(expected_generation)
         now = int(now)
         if self.state.last_step_at is not None and now < self.state.last_step_at:
             raise RuntimeContinuityError("runtime clock rollback detected")
-
         if self.state.started_at is None:
             self.state.started_at = now
         if self.state.work_lifecycle_started_at is None and work_pending:
@@ -148,18 +192,8 @@ class AlwaysOnRuntime:
 
         heartbeat = self.heartbeat.tick(now=now, endpoint_ok=endpoint_ok)
         self.state.last_step_at = now
-
-        if interruption_observed_at is not None:
-            observed = int(interruption_observed_at)
-            if observed > now:
-                raise RuntimeContinuityError("interruption_observed_at cannot be in the future")
-            if self.state.last_interruption_at != observed:
-                self.state.last_interruption_at = observed
-                self.state.interruption_count += 1
-                self.state.pending_recovery_reason = "INTERRUPTION_OBSERVED"
-
         if heartbeat.endpoint_status == "STALE":
-            self.state.pending_recovery_reason = "HEARTBEAT_ENDPOINT_STALE"
+            self.state.pending_recovery_reason = self.state.pending_recovery_reason or "HEARTBEAT_ENDPOINT_STALE"
 
         if durable_progress:
             self.state.last_progress_at = now
@@ -181,13 +215,10 @@ class AlwaysOnRuntime:
             if anchor is not None and now - anchor >= CHECKPOINT_TARGET_SECONDS:
                 checkpoint_required = True
 
-        if work_pending and self.state.last_progress_at is not None:
-            if now - self.state.last_progress_at >= WORK_LIFECYCLE_TARGET_SECONDS:
+        progress_anchor = self.state.last_progress_at or self.state.work_lifecycle_started_at
+        if work_pending and progress_anchor is not None:
+            if now - progress_anchor >= WORK_LIFECYCLE_TARGET_SECONDS:
                 self.state.pending_recovery_reason = "WORK_PROGRESS_STALLED_20M"
-        elif work_pending and self.state.work_lifecycle_started_at is not None:
-            if now - self.state.work_lifecycle_started_at >= WORK_LIFECYCLE_TARGET_SECONDS:
-                self.state.pending_recovery_reason = "WORK_PROGRESS_STALLED_20M"
-
         if work_pending and self.state.silent_steps_with_work >= MAX_SILENT_STEPS_WITH_WORK:
             self.state.pending_recovery_reason = self.state.pending_recovery_reason or "SILENT_WORK_STEPS"
 
@@ -206,7 +237,7 @@ class AlwaysOnRuntime:
         if recovery_required:
             self.state.status = "RECOVERY_REQUIRED"
             if self.state.last_interruption_at is not None:
-                recovery_sla_candidate = now - self.state.last_interruption_at <= RECOVERY_TARGET_SECONDS
+                recovery_sla_candidate = 0 <= now - self.state.last_interruption_at <= RECOVERY_TARGET_SECONDS
         elif work_pending:
             self.state.status = "ACTIVE"
         else:
@@ -216,47 +247,28 @@ class AlwaysOnRuntime:
         self.state.last_outcome = "STEP_RECORDED"
         self._persist(self.state)
         return RuntimeStepResult(
-            disposition="STEP_RECORDED",
-            status=self.state.status,
-            heartbeat_disposition=heartbeat.disposition,
-            heartbeat_sequence=heartbeat.pulse_sequence,
-            durable_progress_events=self.state.durable_progress_events,
-            checkpoint_required=checkpoint_required,
-            recovery_required=recovery_required,
-            recovery_sla_candidate=recovery_sla_candidate,
-            lifecycle_target_met=lifecycle_target_met,
-            writer_generation=self.state.writer_generation,
-            real_5min_runtime_live=False,
-            experience_delta=dict(ZERO_EXPERIENCE_DELTA),
+            "STEP_RECORDED", self.state.status, heartbeat.disposition,
+            heartbeat.pulse_sequence, self.state.durable_progress_events,
+            checkpoint_required, recovery_required, recovery_sla_candidate,
+            lifecycle_target_met, self.state.writer_generation, False,
+            dict(ZERO_EXPERIENCE_DELTA),
         )
 
-    def prepare_recovery(
-        self,
-        *,
-        now: int,
-        expected_generation: Optional[int] = None,
-    ) -> Dict[str, Any]:
+    def prepare_recovery(self, *, now: int, expected_generation: Optional[int] = None) -> Dict[str, Any]:
         self._cas_guard(expected_generation)
         now = int(now)
         if self.state.pending_recovery_reason is None:
-            return {
-                "disposition": "RECOVERY_NOT_REQUIRED",
-                "changed": False,
-                "real_5min_runtime_live": False,
-                "experience_delta": dict(ZERO_EXPERIENCE_DELTA),
-            }
+            return {"disposition": "RECOVERY_NOT_REQUIRED", "changed": False,
+                    "real_5min_runtime_live": False, "experience_delta": dict(ZERO_EXPERIENCE_DELTA)}
         self.state.last_recovery_attempt_at = now
         self.state.recovery_attempt_count += 1
         self.state.status = "RECOVERY_PREPARED"
         self.state.writer_generation += 1
         self.state.last_outcome = "RECOVERY_PREPARED"
         self._persist(self.state)
-        latency = None
-        if self.state.last_interruption_at is not None:
-            latency = now - self.state.last_interruption_at
+        latency = None if self.state.last_interruption_at is None else now - self.state.last_interruption_at
         return {
-            "disposition": "RECOVERY_PREPARED",
-            "changed": True,
+            "disposition": "RECOVERY_PREPARED", "changed": True,
             "reason": self.state.pending_recovery_reason,
             "recovery_latency_seconds": latency,
             "within_5min_target": latency is not None and 0 <= latency <= RECOVERY_TARGET_SECONDS,
@@ -269,20 +281,27 @@ class AlwaysOnRuntime:
         *,
         now: int,
         recovery_id: str,
+        verification_evidence_ref: str,
+        verified_by: str,
         expected_generation: Optional[int] = None,
     ) -> Dict[str, Any]:
+        """Close recovery only with an explicit non-self verifier/evidence reference."""
         self._cas_guard(expected_generation)
+        evidence = str(verification_evidence_ref).strip()
+        verifier = str(verified_by).strip()
+        if not evidence or not verifier:
+            raise RuntimeContinuityError("verification_evidence_ref and verified_by required")
+        if verifier.upper() in SELF_VERIFIERS:
+            raise RuntimeContinuityError("runtime cannot verify its own recovery")
         if self.state.pending_recovery_reason is None:
-            return {
-                "disposition": "RECOVERY_NOT_REQUIRED",
-                "changed": False,
-                "real_5min_runtime_live": False,
-                "experience_delta": dict(ZERO_EXPERIENCE_DELTA),
-            }
+            return {"disposition": "RECOVERY_NOT_REQUIRED", "changed": False,
+                    "real_5min_runtime_live": False, "experience_delta": dict(ZERO_EXPERIENCE_DELTA)}
         if self.state.last_recovery_attempt_at is None:
             raise RuntimeContinuityError("verified recovery requires a prior recovery attempt")
         heartbeat_recovery = self.heartbeat.mark_verified_recovery(recovery_id=recovery_id)
         self.state.last_recovery_verified_at = int(now)
+        self.state.last_recovery_evidence_ref = evidence
+        self.state.last_recovery_verifier = verifier
         self.state.recovery_verified_count += 1
         self.state.pending_recovery_reason = None
         self.state.silent_steps_with_work = 0
@@ -290,12 +309,10 @@ class AlwaysOnRuntime:
         self.state.writer_generation += 1
         self.state.last_outcome = "RECOVERY_VERIFIED"
         self._persist(self.state)
-        latency = None
-        if self.state.last_interruption_at is not None:
-            latency = int(now) - self.state.last_interruption_at
+        latency = None if self.state.last_interruption_at is None else int(now) - self.state.last_interruption_at
         return {
-            "disposition": "RECOVERY_VERIFIED",
-            "changed": True,
+            "disposition": "RECOVERY_VERIFIED", "changed": True,
+            "verified_by": verifier, "verification_evidence_ref": evidence,
             "heartbeat_recovery": heartbeat_recovery,
             "recovery_latency_seconds": latency,
             "within_5min_target": latency is not None and 0 <= latency <= RECOVERY_TARGET_SECONDS,
@@ -313,8 +330,12 @@ class AlwaysOnRuntime:
             "last_progress_at": self.state.last_progress_at,
             "last_checkpoint_at": self.state.last_checkpoint_at,
             "last_interruption_at": self.state.last_interruption_at,
+            "last_interruption_observation_id": self.state.last_interruption_observation_id,
+            "last_interruption_source": self.state.last_interruption_source,
             "last_recovery_attempt_at": self.state.last_recovery_attempt_at,
             "last_recovery_verified_at": self.state.last_recovery_verified_at,
+            "last_recovery_evidence_ref": self.state.last_recovery_evidence_ref,
+            "last_recovery_verifier": self.state.last_recovery_verifier,
             "lifecycle_cycles_completed": self.state.lifecycle_cycles_completed,
             "durable_progress_events": self.state.durable_progress_events,
             "checkpoint_count": self.state.checkpoint_count,
