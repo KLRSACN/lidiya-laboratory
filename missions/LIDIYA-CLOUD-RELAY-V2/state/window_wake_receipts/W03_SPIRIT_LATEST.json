@@ -46,9 +46,11 @@
     "mission_state": "missions/LIDIYA-CLOUD-RELAY-V2/state/MISSION_STATE.json@elf/experience-desire-loop-v0.1#1de9c1caffc9759f12ff01739c409b99082e90c1",
     "wake_protocol": "missions/LIDIYA-CLOUD-RELAY-V2/state/WINDOW_WAKE_PROGRESS_PROTOCOL.json@elf/experience-desire-loop-v0.1:404",
     "self_backup": "missions/LIDIYA-CLOUD-RELAY-V2/state/window_self_backups/SPIRIT_LATEST.json@elf/experience-desire-loop-v0.1:404",
-    "pr6_head_observed": "7913db3b317c58a908fceb4d8f290f3d0ec86766"
+    "pr6_head_observed": "7913db3b317c58a908fceb4d8f290f3d0ec86766",
+    "receipt_first_write_commit": "9de2aa26266a7ab844aa3e0caf3331105e1b6b21",
+    "receipt_first_readback_blob": "e1e4498dd520acd0a061f9ff487642c42ed30b8b"
   },
-  "readback_status": "PENDING_FRESH_READ",
+  "readback_status": "FINAL_FRESH_READ_VERIFIED",
   "next_trigger": "Current durable authority must provide uniquely resolvable Home Sections53-64 -> Active-8 and existing WINDOW_WAKE_PROGRESS_PROTOCOL plus W03 latest self-backup exact refs. Then restart from Home; if startup completes, check W03 hallucination benchmark existence before any discussion mutation.",
   "verified_baseline_preserved": true,
   "archive_read": false,
