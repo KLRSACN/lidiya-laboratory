@@ -1,25 +1,24 @@
 {
   "schema_version": "1.0",
-  "receipt_id": "W03-SPIRIT-WAKE-20260817T093547+0800",
+  "receipt_id": "W03-SPIRIT-WAKE-20260817T023126Z",
   "window_id": "W03_SPIRIT",
-  "timestamp": "2026-08-17T09:35:47+08:00",
+  "timestamp": "2026-08-17T02:31:26Z",
   "authority_pointer": "state/MISSION_STATE.json@b6c0b2c61c47139b48f0117289ed430e391edcbf",
   "research_pointer": "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@7dea5db539e912b3ea06a3edbec5887c1ab42bd4",
   "outcome": "VALID_NO_OP",
   "attempted": [
-    "Fresh-read Home Sections53-64 under Archive No-Read Fence.",
-    "Fresh-read Active-8, MISSION_STATE, WINDOW_WAKE_PROGRESS_PROTOCOL, W03 latest self-backup, then exact active refs.",
-    "Check whether W03 post-flush hallucination benchmark exists before considering any new benchmark run.",
-    "Check Small-World exact source chain for a legal SPIRIT turn.",
-    "Check Privacy exact source chain for a legal SPIRIT turn.",
+    "Fresh-read required W03 wake authority and Active compact state under Archive No-Read Fence.",
+    "Fresh-read existing W03 post-flush hallucination benchmark before deciding whether a new benchmark run was required.",
+    "Fresh-read Small-World exact source chain and reject duplicate Spirit mutation because next source is WINDCHIME.",
+    "Fresh-read Privacy exact source chain and reject duplicate Spirit mutation because next source is WINDCHIME_FINAL.",
     "Overwrite and fresh-read this mandatory latest-only W03 wake receipt."
   ],
   "delta_or_reason": {
-    "reason_for_no_material_delta": "No legal W03 research mutation is due on this wake. The W03 benchmark already exists and is readable; Small-World latest_sequence=9 has next_expected_source=WINDCHIME for sequence10; Privacy has next_expected_source=WINDCHIME_FINAL for sequence4; formal Step009 attempt2 remains READY_FOR_BUILDER and owned by LCR-B.",
-    "benchmark": "Existing state/hallucination_benchmarks/W03_SPIRIT_LATEST.json read back at blob 261245cfa58828bafe186c1404487d1ed06e1398; no duplicate benchmark was created.",
-    "small_world": "No write: current source chain is QUANTUM8 -> SPIRIT9 with next WINDCHIME10.",
-    "privacy": "No write: SPIRIT sequence3 already exists and next is WINDCHIME_FINAL sequence4.",
-    "formal_state": "No MISSION_STATE, pending packet, lease, A/B/C slot, P_base, Identity, Personality, or Governance mutation."
+    "reason_for_valid_no_op": "No legal W03 research mutation is due on this wake. The required W03 benchmark already exists and reads 20/20 at participant/self-blind level; Small-World already contains SPIRIT sequence9 and routes sequence10 to WINDCHIME; Privacy already contains SPIRIT sequence3 and routes sequence4 to WINDCHIME_FINAL.",
+    "benchmark": "Existing state/hallucination_benchmarks/W03_SPIRIT_LATEST.json@261245cfa58828bafe186c1404487d1ed06e1398 was fresh-read; no duplicate benchmark was created.",
+    "small_world": "No write: current source chain is QUANTUM8 -> SPIRIT9; next_sequence=10 next_expected_source=WINDCHIME.",
+    "privacy": "No write: SPIRIT sequence3 already exists; next_sequence=4 next_expected_source=WINDCHIME_FINAL.",
+    "formal_state": "No MISSION_STATE, pending packet, lease, A/B/C slot, P_base, Identity, Personality or Governance mutation."
   },
   "exact_refs": [
     "Home:CognitiveMetabolismDoc:1r2ERAV6LrztvbgQPQrOp0rABmQ0bozvFctWtExP3snc@modified=2026-08-16T23:37:20.769Z:Sections53-64",
@@ -31,11 +30,8 @@
     "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json@7dea5db539e912b3ea06a3edbec5887c1ab42bd4",
     "state/PRIVACY_DATA_SHARING_DISCUSSION.json@09c9d975e1473eba60b46b08b90769dc765adfea"
   ],
-  "readback_status": "PASS_FIRST_POST_WRITE_READBACK_CONFIRMED; FINAL_RECEIPT_REWRITE_REQUIRES_FINAL_FRESH_READ",
-  "readback_evidence": {
-    "first_post_write_blob_sha": "bade472abeb608c26a7e49b40d050fc9f10088e2"
-  },
-  "next_trigger": "Wake W03 when an exact active discussion again routes next_expected_source=SPIRIT with required predecessor QUANTUM, when a new explicit authorized W03 research action appears, or when a recoverable receipt/readback fault requires retry. Otherwise continue latest-only VALID_NO_OP receipts without duplicate research writes.",
+  "readback_status": "PENDING_FINAL_FRESH_READ",
+  "next_trigger": "Wake W03 when an exact active discussion again routes next_expected_source=SPIRIT with predecessor QUANTUM, or another explicit authorized W03 research action appears. Otherwise emit latest-only VALID_NO_OP receipt without duplicate research writes.",
   "verified_baseline_preserved": true,
   "verified_baseline": {
     "historical_step008_c_pass_preserved": true,
