@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "deliverable_id": "ELF-LIVE-SHADOW-DASHBOARD-V0.1-20260817",
+  "created_at": "2026-08-17T17:08:00+08:00",
+  "architect_codename": "精靈",
+  "product": "LIDIYA-EXPERIENCE-DESIRE-LOOP-TYPE-1",
+  "status": "OWNER_VISIBLE_MILESTONE_BUILT_SHADOW_NOT_FORMAL_PASS",
+  "formal_authority_effect": "NONE",
+  "formal_mission_mutation": false,
+  "base_personality_write": false,
+  "authority_from_drive": 0,
+  "external_action_set": [],
+  "depends_on": {
+    "dashboard_adapter": "live_shadow_dashboard_event_adapter.py@8856c54e0f91f5d7d48b563683da0c687b5c3857",
+    "append_only_ledger": "append_only_shadow_ledger.py@d5b4ff5e77d850b1c1631d830a3ed51eff08a432",
+    "windchime_meeting": "SPIRIT_WINDCHIME_ARCHITECTURE_MEETING_20260815.json@012cbb530325966cdf769f1520824355a0059017"
+  },
+  "owner_visible_artifact": {
+    "name": "Lidiya Live Shadow Dashboard v0.1",
+    "mode": "OFFLINE_READ_ONLY_HTML",
+    "input": "append-only ledger JSONL or direct shadow-event JSONL",
+    "supported_event_types": [
+      "EXPERIENCE_APPRAISAL",
+      "VALUE_ANCHOR_CANDIDATE",
+      "DRIVE_STATE",
+      "GOAL_CANDIDATE",
+      "OUTCOME_CLOSURE",
+      "QUARANTINE",
+      "PROTECTED_OBJECT_CANDIDATE"
+    ],
+    "integrity_checks": [
+      "sequence monotonicity",
+      "prev_hash chain",
+      "SHA-256 record_hash",
+      "dedupe_key uniqueness"
+    ],
+    "projection_invariants": [
+      "producer trust_status is not accepted as TRUSTED/PASS",
+      "reference-complete trust is displayed only as REFERENCE_BOUND_UNVERIFIED",
+      "autobiographical eligibility remains UNKNOWN_UNVERIFIED",
+      "authority_from_drive remains 0",
+      "external_action_set remains empty",
+      "no action buttons",
+      "no canonical Personality/Identity/Governance mutation"
+    ]
+  },
+  "fixture_verification": {
+    "records": 6,
+    "hash_chain_pass": true,
+    "dedupe_count": 6,
+    "head_hash": "b915e0fb8d70e846914cf61c02c3ad8c9f9015bc1a8580080158b4834deb56e8",
+    "fixture_scope": "RESEARCH_ONLY_SYNTHETIC_OWNER_DEMO",
+    "formal_verifier_status": "NOT_RUN"
+  },
+  "today_result": "Owner can open a standalone dashboard, drag a JSONL ledger into it, see the event stream and provenance states, and independently observe ledger integrity status without granting EDL any authority.",
+  "next_research_action": "Bind the same owner-visible dashboard to real Small-Nest append-only shadow ledger events after runtime/reconciliation authority permits, preserving read-only projection and provenance minimization.",
+  "formal_dependency": "Current formal mission is Step009 Heartbeat Phase1 repair verification; EDL formal adoption remains frozen until legal A checkpoint and independent C gating."
+}
