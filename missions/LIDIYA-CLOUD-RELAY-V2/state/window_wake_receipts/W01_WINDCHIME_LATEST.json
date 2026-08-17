@@ -5,10 +5,11 @@
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Exact-current GitHub Actions runner at head afc3da9a0594b036a873f439135ea298671dc960 compiled Gearbox v1/v2/v2.1 and ran all three suites successfully in the same runner.",
-    "Latest-only GEARBOX_V2_1_SELFTEST_LATEST.json created and read back; v1=21, v2=16, v2.1=12 tests, 49 Gearbox tests total, candidate-only.",
-    "Paired speed baseline created as INSUFFICIENT_SAMPLE; no speed multiplier claimed.",
-    "W02 Quantum bounded veto remains active; W04 synthesis is NOT_READY_FOR_FORMAL_CANDIDATE; no dedicated fresh W03 Gearbox v2.1 review exists. Therefore no A->B->C candidate routed."
+    "Reconciled canonical EVOLUTION_PROGRESS to the already-completed exact-current same-runner Gearbox regression at head afc3da9a0594b036a873f439135ea298671dc960: v1=21 PASS, v2=16 PASS, v2.1=12 PASS, total=49 candidate-only tests.",
+    "W02 Quantum remains BOUNDED_VETO_ACTIVE with HIGH findings on secretary freshness/authority proof, verified-evidence binding, and canonical event-lineage dedupe.",
+    "W04 synthesis remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE; dedicated fresh W03/Spirit Gearbox v2.1 review is still missing.",
+    "Paired speed baseline remains INSUFFICIENT_SAMPLE; no multiplier estimated from forbidden proxies.",
+    "No A->B->C Gearbox v2.1 formal candidate was routed; v1 VERIFIED_PASS and Step001-009 verified baseline remain immutable/preserved."
   ],
   "immutable_baseline": {
     "six_gear_controller_v1": "VERIFIED_PASS",
@@ -16,10 +17,11 @@
     "P_base": "READ_ONLY_UNCHANGED",
     "real_5min_runtime_live": false
   },
-  "candidate_gate": "BLOCKED_W02_VETO_PLUS_MISSING_W03_REVIEW",
+  "candidate_gate": "BLOCKED_W02_W04_VETO_PLUS_MISSING_W03_REVIEW",
   "selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
   "speed_ref": "state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
   "w02_ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json",
   "w04_ref": "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
-  "saved_at": "2026-08-17T22:21:55+08:00"
+  "progress_ref": "state/EVOLUTION_PROGRESS.json",
+  "saved_at": "2026-08-17T23:24:44+08:00"
 }
