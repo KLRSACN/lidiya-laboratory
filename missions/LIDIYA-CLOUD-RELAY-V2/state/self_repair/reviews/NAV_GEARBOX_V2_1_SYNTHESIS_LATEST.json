@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.1",
-  "synthesis_id": "NAV-GEARBOX-V2.1-20260817-2231",
+  "schema_version": "1.2",
+  "synthesis_id": "NAV-GEARBOX-V2.1-20260818-0335",
   "reviewer": "W04-LIDIYA-NAVIGATOR-SENTINEL",
   "role": "NON_FORMAL_SYNTHESIS",
   "status": "BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE",
@@ -15,72 +15,60 @@
     "p_base": "READ_ONLY_UNCHANGED",
     "real_5min_runtime_live": false
   },
-  "source_fingerprints": {
-    "evolution_progress": "22ea821029edb724141ae7aeb19a1591cd9e6720",
-    "gearbox_v1_code": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "gearbox_v1_tests": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "gearbox_v2_code": "45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
-    "gearbox_v2_tests": "38799e41561e6cdbc7378e9bd94596a18d4ab672",
-    "gearbox_v2_contract": "7c272b09264be765354fe2052eeb9e2f230f1705",
-    "gearbox_v2_1_code": "d65094039504a2f46985be71006a25201d592136",
-    "gearbox_v2_1_tests": "0a6904f1eeb2d43d6d819490cef1bad5319c7083",
-    "gearbox_v2_1_contract": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "predictive_navigator_v2": "b782428f8ffc757b6c42958613e934f544288c67",
-    "predictive_tests": "799ed35264a577248cd052237a4717f04e68a521",
-    "predictive_state": "55ef3542d74b43570e735a336325ab371675c730",
-    "w02_quantum_review": "8d3d9865e1ee224b2bbe4912b36ec897f91fc6da",
-    "w03_latest": "759f34ddb87306df66b65c7f6e7442f27a44ccba",
-    "w07_latest": "495c3bb9e0e47132c7a00a4408cf337cc223e28e",
-    "w07_receipt": "477a47d7a544cb41125d0fecaa27f0f93bd9139d"
+  "classifications": {
+    "DECIDED": [
+      "Gearbox v1 VERIFIED_PASS baseline survives all v2/v2.1 candidate FAIL/DEFER.",
+      "Stale secretary signal cannot influence gear; any conflict with fresher formal authority invalidates secretary influence.",
+      "Anti-thrash may suppress only nonessential upshift and must never delay risk/recovery downshift.",
+      "Heartbeat/window age/poll/retry/reconnect/wait/scheduler wake are zero Experience; P_base, Identity, Personality, Governance and formal authority remain unchanged."
+    ],
+    "TEST_REQUIRED": [
+      "Anti-thrash threshold/sample/window/cooldown and bounded safe-upshift recovery require clean baseline plus incident replay and false-positive/missed-warning accounting.",
+      "Pressure/gear probability bands remain heuristics until clean baseline + incident replay records TP/FP/TN/FN or equivalent false-positive/missed-warning statistics.",
+      "Speedup requires paired matched-workload metrics only: durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio, recovery_latency, with verification/risk non-regression. Window age, commits, wake count and task last_run are forbidden speed evidence."
+    ],
+    "BOUNDED_VETO": [
+      "Secretary freshness/conflict are caller booleans with no replay-resistant freshness envelope or exact authority-snapshot binding; non-bool values such as string 'false' are also truthy and unsafe.",
+      "Verified Experience accepts truthiness-coerced verification flags and lacks exact evidence hash + trusted verifier receipt/identity/policy/mission-step binding.",
+      "Experience dedupe is event_id-only and the seen set is recreated on every aggregate_experience_events invocation; same durable evidence can inflate credit under new IDs or across repeated calls/restarts/polls.",
+      "Adoptable Experience exactly-once needs a durable replay-resistant accepted-evidence registry keyed by canonical evidence_hash + provenance/source lineage + trusted verifier receipt identity, with rollback/restart monotonic anchoring.",
+      "recent_shift_rate_ratio is caller-controlled; adoptable anti-thrash must derive it from a canonical append-only shift ledger plus versioned observation-window policy and ignore/reject caller ratio.",
+      "Predictive Navigator strict TRUE/FALSE/UNKNOWN typing, provenance/freshness and UNKNOWN semantics remain unresolved.",
+      "No single exact-current runner evidence yet executes v1 + v2 + v2.1 suites together.",
+      "No fresh dedicated W03/Spirit Gearbox v2.1 adversarial review exists; unrelated Spirit state cannot be treated as concurrence."
+    ]
   },
-  "synthesis": [
-    {"id":"NAV-GB21-BASELINE-001","classification":"DECIDED","decision":"Gearbox v1 VERIFIED_PASS and Step001-009 verified baseline are preserved. Any v2/v2.1 FAIL/DEFER rolls back only the candidate delta."},
-    {"id":"NAV-GB21-SECRETARY-POLICY-002","classification":"DECIDED","decision":"A stale secretary signal must not influence gear, and a secretary signal conflicting with fresher formal authority must be invalidated. Formal authority always wins."},
-    {"id":"NAV-GB21-SECRETARY-IMPLEMENTATION-003","classification":"BOUNDED_VETO","decision":"Current v2.1 accepts caller booleans secretary_signal_fresh and authority_conflict. That is not a trusted freshness/authority proof. Require a replay-resistant SecretarySignalEnvelope bound to signal hash/source/issued_at/observed_at/TTL policy and exact fresh authority snapshot, with freshness/conflict derived inside a trusted boundary. W07 latest is newer than its still-initialization receipt, so W07 must not be treated as fresh GREEN."},
-    {"id":"NAV-GB21-DOWNSHIFT-004","classification":"DECIDED","decision":"Anti-thrash may suppress only nonessential upshift. Current v2.1 structurally gates anti-thrash on selected_gear > current_gear, so risk/recovery downshift is not delayed by the overlay; verified v1 lower-guard-first behavior remains the safety baseline."},
-    {"id":"NAV-GB21-ANTI-THRASH-CALIBRATION-005","classification":"TEST_REQUIRED","decision":"recent_shift_rate_ratio=0.50 is heuristic. Require versioned observation window, denominator/minimum support, release hysteresis/cooldown, clean baseline plus incident replay, false-positive/missed-warning accounting, and bounded upshift/recovery latency with throughput non-regression."},
-    {"id":"NAV-GB21-EXPERIENCE-LINEAGE-006","classification":"BOUNDED_VETO","decision":"event_id-only dedupe permits the same durable evidence to be replayed under new IDs and credited repeatedly. Require canonical evidence/event lineage identity including evidence_hash, provenance/source lineage and trusted verifier receipt identity; event_id may be an index only."},
-    {"id":"NAV-GB21-VERIFIER-BINDING-007","classification":"BOUNDED_VETO","decision":"bool(independently_verified) is unsafe: non-empty strings such as 'false' evaluate true. Verified Experience requires strict typed verification plus exact payload/evidence hash, trusted verifier receipt/identity/policy, mission/step binding and acceptance/revocation state."},
-    {"id":"NAV-GB21-EXPERIENCE-BOUNDARY-008","classification":"DECIDED","decision":"Heartbeat, window age, poll, retry, reconnect, wait and scheduler wake are zero Experience. DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational-only. P_base, Identity, Personality, Governance and formal authority remain unchanged."},
-    {"id":"NAV-GB21-SPEED-009","classification":"TEST_REQUIRED","decision":"No speedup is established. Only paired matched-workload evidence may support a claim: durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency, with equal-or-better verification/risk. Window age, commit count and task last_run are forbidden speed evidence."},
-    {"id":"NAV-PRED-THRESHOLDS-010","classification":"TEST_REQUIRED","decision":"Predictive Navigator probability bands and pressure/gear thresholds are engineering heuristics, not calibrated probabilities. Require clean baseline plus incident replay and TP/FP/TN/FN or false-positive/missed-warning statistics before threshold adoption."},
-    {"id":"NAV-PRED-INPUT-TYPING-011","classification":"BOUNDED_VETO","decision":"Predictive Navigator v2 uses bool(value) for boolean precursors. Non-empty strings such as 'false' therefore become True and can create false RED/HIGH precursors. Missing continuity flags also default to False, which can manufacture recovery-anchor failure rather than representing UNKNOWN. Require strict typed tri-state input validation (TRUE/FALSE/UNKNOWN), provenance/freshness metadata and fail-closed UNKNOWN handling before predictive output may influence Gearbox adoption."},
-    {"id":"NAV-GB21-EXACT-RUNNER-012","classification":"BOUNDED_VETO","decision":"One exact-current runner must execute v1 tests + v2 tests + v2.1 tests together. Current exact source/test blobs are identified (v1 21 tests, v2 16, v2.1 12), but no single combined exact-current execution evidence was produced in this Navigator run; existing v2 selftest is explicitly not sufficient."},
-    {"id":"NAV-GB21-W03-013","classification":"BOUNDED_VETO","decision":"No fresh dedicated W03/Spirit Gearbox v2.1 adversarial review is present. Existing SPIRIT_LATEST is older Small-World/Privacy work and cannot be treated as concurrence."}
-  ],
-  "required_adversarial_tests": [
-    "stale/forged secretary freshness cannot affect gear",
-    "newer fresh authority conflict invalidates secretary even if caller claims no conflict",
-    "secretary envelope TTL/replay/clock rollback cannot regain freshness",
-    "same canonical evidence under many event_ids credits exactly once",
-    "independently_verified values 'false', '0', objects and lists fail closed",
-    "same event_id with different evidence is identity conflict",
-    "anti-thrash small-n observations cannot activate production policy absent minimum support",
-    "transient thrash burst cannot indefinitely suppress required safe upshift; risk/recovery downshift remains immediate",
-    "Predictive Navigator strict boolean/tri-state test: string 'false' is rejected, not coerced true",
-    "Predictive Navigator missing precursor fields remain UNKNOWN and do not silently become negative/positive evidence",
-    "clean baseline plus W01 incident replay records false positives and missed warnings",
-    "paired matched baseline/candidate speed benchmark excludes window age, commits and task last_run",
-    "exact-current combined v1+v2+v2.1 regression run"
-  ],
-  "predictive_validation": {
-    "status": "BOUNDED_VETO_AND_TEST_REQUIRED",
+  "new_material_delta": {
+    "w02_review": "QUANTUM-GEARBOX-V2.1-20260818-0230",
+    "cross_run_replay_veto": "CONFIRMED_HIGH",
+    "shift_rate_provenance_veto": "CONFIRMED_HIGH",
     "w07_signal_status": "STALE_FOR_GEAR_INFLUENCE",
-    "w07_reason": "W07 latest is 21:06 while its mandatory receipt is still 20:15 initialization with PENDING_FIRST_WAKE_RECHECK; scheduler activity is not freshness evidence.",
-    "new_code_finding": "predictive_navigator_v2._flag uses bool(value), so string 'false' is truthy; absent continuity flags default false and are not distinguished from observed failure.",
-    "threshold_status": "TEST_REQUIRED_CLEAN_BASELINE_INCIDENT_REPLAY_TP_FP_MISSED",
-    "paired_speed_status": "TEST_REQUIRED"
+    "w07_reason": "W07 latest saved_at=2026-08-17T21:06+08:00 while mandatory receipt remains initialization at 20:15 with PENDING_FIRST_WAKE_RECHECK; task activity is not freshness evidence.",
+    "w03_status": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW"
   },
-  "w02_status": "BOUNDED_VETO_ACTIVE_REVIEW_2134_INGESTED",
-  "w03_status": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW_DISCOVERED",
+  "required_adversarial_tests": [
+    "stale/forged secretary freshness cannot affect gear and newer authority conflict wins even when caller claims no conflict",
+    "secretary_signal_fresh='false' and non-bool authority_conflict inputs fail closed",
+    "same canonical evidence under 10000 event_ids credits exactly once",
+    "same accepted evidence across 1000 fresh invocations/process restarts credits exactly once",
+    "workspace rollback plus replay cannot re-credit accepted evidence; monotonic anchor detects rollback",
+    "repeated polling of identical durable evidence leaves verified and operational counters invariant after first acceptance",
+    "verification values 'false','0', list, mapping, object and integer fail closed",
+    "caller recent_shift_rate_ratio conflicting with trusted shift ledger cannot affect adopted behavior",
+    "anti-thrash never delays risk/recovery downshift and cannot indefinitely suppress a required safe upshift",
+    "Predictive Navigator string 'false' rejected and missing precursor fields remain UNKNOWN",
+    "clean baseline plus incident replay records false positives and missed warnings",
+    "paired matched-workload speed benchmark excludes window age, commits and task last_run",
+    "one exact-current combined v1+v2+v2.1 regression run"
+  ],
   "release_condition": [
-    "Resolve all BOUNDED_VETO items in code/contract/tests.",
-    "Obtain fresh W03/Spirit Gearbox v2.1 adversarial review; do not infer agreement from unrelated Spirit state.",
-    "Run exact-current v1+v2+v2.1 tests together and preserve v1 baseline regardless of candidate outcome.",
-    "Run Predictive Navigator strict-input adversarial tests plus clean-baseline and W01-incident replay with false-positive/missed-warning accounting.",
+    "Resolve every BOUNDED_VETO in code/contract/tests.",
+    "Obtain fresh W03/Spirit Gearbox v2.1 adversarial review.",
+    "Run exact-current v1+v2+v2.1 tests together and preserve v1 baseline regardless of candidate result.",
+    "Run predictive strict-input tests plus clean-baseline/incident replay calibration with false-positive/missed-warning accounting.",
     "Run paired matched-workload speed validation using only allowed metrics.",
-    "Only after all above PASS and no unreleased veto may Navigator mark READY_FOR_FORMAL_CANDIDATE; formal verdict remains existing A->B->C only."
+    "Only zero unreleased vetoes plus exact-current regression PASS may set READY_FOR_FORMAL_CANDIDATE; formal verdict remains A->B->C only."
   ],
   "ready_for_formal_candidate": false,
-  "created_at": "2026-08-17T22:31:00+08:00"
+  "created_at": "2026-08-18T03:35:00+08:00"
 }
