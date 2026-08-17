@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
@@ -15,8 +15,8 @@
     "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
   },
   "pairing_rule": "Use matched baseline/candidate workloads and equal-or-better verification quality/risk before estimating any multiplier.",
-  "current_candidate_executor_note": "Current-head Gearbox exact-current regression is PASS_CANDIDATE_ONLY on run 32066329935/job 95499218490; executable correctness is not a paired speed sample and contributes no multiplier by itself.",
-  "review_gate_note": "W02 high vetoes including the direct-credit bypass, missing dedicated W03 review, and stale W04 synthesis block formal adoption independently of speed sampling.",
-  "interpretation": "No statistically defensible paired speed claim exists yet.",
-  "recorded_at": "2026-08-18T05:26:28+08:00"
+  "current_candidate_executor_note": "Fresh current head a893cda4da74972929407d5ad201b1ee9758745d has no associated workflow execution. Previous run 32066329935/job 95499218490 remains historical exact-blob support only because the six Gearbox source/test blobs are unchanged; it is not a new current-head speed sample or PASS.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-0530 has active HIGH vetoes including verified and operational direct-credit bypasses; dedicated W03 review is absent; W04 NAV-GEARBOX-V2.1-20260818-0531 is veto-active. Formal adoption remains blocked independently of speed sampling.",
+  "interpretation": "No statistically defensible paired speed claim exists yet. Decision-call counts and caller-supplied operational progress must not contaminate durable_progress_per_wake.",
+  "recorded_at": "2026-08-18T06:22:28+08:00"
 }
