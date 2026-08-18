@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.8",
+  "schema_version": "1.9",
   "window_id": "W01-WINDCHIME-FL-A1",
   "window_alias": "開發先驅2型",
   "operational_alias": "lidiya 風鈴（開發先驅2型）",
@@ -7,7 +7,7 @@
   "formal_slot": "LCR-A",
   "generation": 1,
   "status": "LATEST_CHECKPOINT",
-  "updated_at": "2026-08-18T09:23:42+08:00",
+  "updated_at": "2026-08-18T09:30:19+08:00",
   "mission_pointer": "state/MISSION_STATE.json",
   "formal_state": {
     "mission_id": "LCR-EVOLUTION-0005",
@@ -22,8 +22,8 @@
     "real_5min_runtime_live": false,
     "P_base": "READ_ONLY_UNCHANGED"
   },
-  "what_completed": "Fresh Gearbox v2.1 exact-current gate review: six source/test blob SHAs remain identical to historical 49/49 support, but fresh branch head e99712def9c354f6878c34cfff4c2751fa09a274 has zero associated workflow runs, so current validation remains DEFER_EXECUTOR_UNAVAILABLE. W02 review advanced to 0833 and added denominator-gaming risk for durable_progress_per_wake. Speed baseline tightened to precommit eligible-wake definition/cadence and reject ratio-only gains.",
-  "what_remains": "Fresh exact-current runner PASS; resolve all W02 HIGH vetoes; obtain dedicated W03 Gearbox v2.1 adversarial review; refresh W04 against current W02/W03 with zero unreleased vetoes; collect valid paired speed samples.",
+  "what_completed": "Fresh exact-current Gearbox validation against branch head 8d08a13c8abfda7f0a086921f01fb477506ed8e7: zero workflow runs are associated with this head, so status remains DEFER_EXECUTOR_UNAVAILABLE. All six Gearbox source/test blobs remain unchanged from historical 49/49 exact-blob support. W02 remains BOUNDED_VETO_ACTIVE at review 0833; dedicated W03 review remains absent; W04 0632 remains veto-active and stale to W02 0833. Paired speed remains INSUFFICIENT_SAMPLE.",
+  "what_remains": "Fresh exact-current runner PASS; resolve all W02 HIGH vetoes in code/contract/tests; obtain dedicated W03 Gearbox v2.1 adversarial review; refresh W04 against current W02/W03 with zero unreleased vetoes; collect valid paired speed samples using precommitted eligible-wake semantics.",
   "next_authorized_action": "Do not route A->B->C. Continue candidate-only validation and bounded review repair. Always-on Runtime continues independently and cannot cross-prove Gearbox v2.1.",
   "latest_evidence_refs": [
     "state/MISSION_STATE.json",
@@ -34,7 +34,7 @@
     "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
     "state/window_wake_receipts/W01_WINDCHIME_LATEST.json"
   ],
-  "active_defect_or_veto": "W02 BOUNDED_VETO_ACTIVE; dedicated W03 review absent; W04 0632 stale relative to W02 0833; fresh exact-current executor unavailable; paired speed sample insufficient.",
+  "active_defect_or_veto": "Fresh executor unavailable; W02 BOUNDED_VETO_ACTIVE; dedicated W03 review absent; W04 0632 stale relative to W02 0833; paired speed sample insufficient.",
   "resume_condition": "Fresh-read MISSION_STATE and EVOLUTION_PROGRESS first. Route formal candidate only after fresh v1+v2+v2.1 exact-current PASS, W02/W03 reviews complete, W04 zero unreleased vetoes, and valid paired speed evidence. P_base remains read-only; heartbeat/poll/retry/window age remain zero Experience.",
   "raw_reasoning_retention": "COMPACT_ONLY"
 }
