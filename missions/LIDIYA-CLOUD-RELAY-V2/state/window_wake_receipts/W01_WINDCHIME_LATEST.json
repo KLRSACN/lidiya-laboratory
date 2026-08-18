@@ -11,7 +11,7 @@
     "Dedicated W03 Gearbox v2.1 review remains absent.",
     "W04 remains NAV-GEARBOX-V2.1-20260818-1332 and is stale relative to W02 1430; it remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
     "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED under frozen denominator/window/censoring/order/carryover/intention-to-treat requirements.",
-    "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
+    "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed and read back; no formal A->B->C routing occurred."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
   "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_BOUNDED_VETO_PLUS_MISSING_W03_PLUS_STALE_W04_VETO_PLUS_INSUFFICIENT_SPEED_SAMPLE",
@@ -22,6 +22,6 @@
   "w04_ref": "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
-  "readback_status": "PENDING",
+  "readback_status": "PASS",
   "saved_at": "2026-08-18T15:23:27+08:00"
 }
