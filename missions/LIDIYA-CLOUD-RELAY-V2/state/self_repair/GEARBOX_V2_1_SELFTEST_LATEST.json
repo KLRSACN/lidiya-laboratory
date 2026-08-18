@@ -1,14 +1,13 @@
 {
-  "schema_version": "2.1",
+  "schema_version": "2.2",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
-  "pre_bookkeeping_head_sha": "6a56f1f1fe8ea4e615cfb27721e810344e22cb55",
+  "pre_bookkeeping_head_sha": "7f6fbb56e66ba8aafb808aab8a0223330c618a83",
   "executor_check": {
-    "fresh_same_runner_execution_performed_for_current_head": false,
-    "commit_workflow_runs_found": 0,
-    "reason": "Fresh pre-bookkeeping head has no associated exact-current workflow run available to W01; historical execution is not reused as a new PASS.",
-    "historical_exact_blob_support": {"workflow_run_id": 32066329935, "job_id": 95499218490, "result": "49_OF_49_PASS_CANDIDATE_ONLY_HISTORICAL_EXACT_BLOB_SUPPORT"}
+    "fresh_same_runner_execution_performed_for_current_bytes": false,
+    "reason": "W01 has no exact executor surface in this wake that can compile and execute all current v1/v2/v2.1 bytes in one runner; historical execution is not reused as a new PASS.",
+    "historical_49_of_49_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
     "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
@@ -19,13 +18,18 @@
     "evolution/test_gearbox_controller.py": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "evolution/gearbox_controller_v2.py": "45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
     "evolution/test_gearbox_controller_v2.py": "38799e41561e6cdbc7378e9bd94596a18d4ab672",
-    "evolution/gearbox_controller_v2_1.py": "d65094039504a2f46985be71006a25201d592136",
-    "evolution/test_gearbox_controller_v2_1.py": "0a6904f1eeb2d43d6d819490cef1bad5319c7083"
+    "evolution/gearbox_controller_v2_1.py": "50660075a97d9bab71f0a7d7c402527cc01f6afa",
+    "evolution/test_gearbox_controller_v2_1.py": "3e815a2beaa653ca218514d8a915426c6f12b677"
   },
-  "historical_suite_support": {"v1":{"tests":21,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},"v2":{"tests":16,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},"v2_1":{"tests":12,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},"total":49},
+  "historical_suite_support": {
+    "v1": {"tests": 21, "status": "PASS_HISTORICAL_ONLY"},
+    "v2": {"tests": 16, "status": "PASS_HISTORICAL_ONLY"},
+    "v2_1": {"tests": 12, "status": "STALE_FOR_CURRENT_V2_1_BYTES_DO_NOT_REUSE"},
+    "total_historical": 49
+  },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1430 remains BOUNDED_VETO_ACTIVE and adds event-id namespace poisoning as a MEDIUM_HIGH defect. Dedicated W03 Gearbox v2.1 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale relative to W02 1430 and remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_VETO_AND_INSUFFICIENT_SPEED_SAMPLE",
-  "recorded_at": "2026-08-18T15:23:27+08:00"
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1531 is BOUNDED_VETO_ACTIVE and adds HIGH N/R inherited-state parsing regression: standby N and rollback R can reach int(selected[1:]) and raise ValueError. Dedicated W03 Gearbox v2.1 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale relative to W02 1531 and stale relative to current v2.1 source/test blobs.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE",
+  "recorded_at": "2026-08-18T15:23:00+08:00"
 }
