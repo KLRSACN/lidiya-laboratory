@@ -5,11 +5,12 @@
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Fresh pre-bookkeeping branch head 65d56ef913f602ef80f2d216e0b21bf8fb086b4d was inspected. W01 attempted to obtain exact repository bytes for a same-runner execution, but the local runner could not resolve raw.githubusercontent.com and the GitHub connector does not expose a mountable exact-byte stream into that runner. Therefore exact-current py_compile plus all three suites were not executed and no fresh PASS is claimed.",
-    "branch_head_observed": "65d56ef913f602ef80f2d216e0b21bf8fb086b4d",
+    "reason": "Fresh pre-bookkeeping branch head 5f589a24982021610a0728cd19fb43cc48277e04 was inspected. Exact commit workflow lookup returned zero runs, and the available GitHub connector does not expose the six fetched exact repository blobs as a mountable same-runner filesystem byte stream. Therefore exact-current py_compile plus all three suites were not executed and no fresh PASS is claimed.",
+    "branch_head_observed": "5f589a24982021610a0728cd19fb43cc48277e04",
     "head_commit_message": "quantum: refresh gearbox v2.1 adversarial review",
-    "runner_provenance": "W01 local container probe; outbound raw GitHub DNS unavailable; connector content read-only to runner",
-    "runner_probe_exit_code": 6,
+    "runner_provenance": "W01 GitHub exact-file/blob inspection plus exact-head workflow lookup; no exact-current same-runner executor surface available",
+    "runner_probe_exit_code": null,
+    "workflow_runs_for_exact_head": 0,
     "historical_49_of_49_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
@@ -45,6 +46,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-2329 remains BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH QV-GB21-INHERITED-EVENT-KIND-TYPE-036: v2.1 passes event_kind into inherited v2 before a shared strict EventKind boundary; malformed non-string values can trigger inherited AttributeError/TypeError instead of bounded rejection. Existing HIGH stale-secretary pressure provenance/freshness, authority/evidence/replay/direct-credit/receipt/current-gear/verification-stage/N-R/legacy/anti-thrash vetoes remain. Dedicated W03 review remains absent. W04 1332 is stale relative to W02 2329.",
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260819-0029 remains BOUNDED_VETO_ACTIVE. New HIGH inherited-v2 safety-metadata preservation veto: the v2.1 wrapper can drop inherited v2 checkpoint/ACK/verification safety metadata, so inherited safety semantics are not proven preserved. Preserve/propagate that metadata exactly or replace it with a typed authoritative equivalent and cover it in contract/tests. Existing HIGH authority/freshness/evidence/replay/receipt/current-gear/verification-stage/N-R/legacy/secretary-pressure/anti-thrash vetoes remain. Dedicated W03 review remains absent. W04 1332 is stale relative to W02 0029.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
