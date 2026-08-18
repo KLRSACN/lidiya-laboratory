@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.5",
+  "schema_version": "2.6",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
@@ -17,16 +17,16 @@
   "pairing_rule": "Use matched baseline/candidate assigned workloads with equal verification/risk and precommitted eligible-wake, exposure/censoring and admission/defer/timeout policies. Randomize AB/BA or crossover from the same sealed starting snapshot, reset candidate-sensitive runtime state between arms, preserve external monotonic audit state, report order interaction and intention-to-treat coverage.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-1729",
-    "rule": "Speed cannot be established if candidate alters wake eligibility, exposure/censoring, treatment order, workload admission, defer/reject/timeout behavior, malformed-record batch handling, or completed-only inclusion.",
+    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-1829",
+    "rule": "Speed cannot be established if candidate alters wake eligibility, exposure/censoring, treatment order, workload admission, defer/reject/timeout behavior, malformed-record handling, identity-conflict handling, or completed-only inclusion.",
     "reject": "Awake time, window age, commit count, heartbeat/poll/retry counts and task_last_run are never speed evidence."
   },
   "selection_bias_control": {
     "status": "TEST_REQUIRED",
-    "rule": "Use intention-to-treat assigned-workload analysis and report completion, verified closure, defer, reject, timeout, malformed-record rejection, coverage and assignment-to-closure latency under common censoring/failure semantics."
+    "rule": "Use intention-to-treat assigned-workload analysis and report completion, verified closure, defer, reject, timeout, malformed-record rejection, identity-conflict/quarantine, coverage and assignment-to-closure latency under common censoring/failure semantics."
   },
-  "current_candidate_executor_note": "Current exact blobs are unchanged at v1 c29e3b2c/11527a9e, v2 45fe6e72/38799e41, v2.1 50660075/3e815a2b. Fresh exact-current same-runner executor is unavailable to W01 in this wake; historical 49/49 is not a fresh PASS.",
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-1729 remains BOUNDED_VETO_ACTIVE, adding HIGH legacy-v2 entrypoint bypass and MEDIUM_HIGH malformed-ledger-record batch-abort risks. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale against W02 1729/current v2.1 blobs.",
+  "current_candidate_executor_note": "Current exact blobs remain v1 c29e3b2c/11527a9e, v2 45fe6e72/38799e41, v2.1 50660075/3e815a2b. Branch head observed 2fe0e143d6d0a97b074355f27dd083cce93d8704. No reliable exact-byte same-runner executor is available to W01 this wake; historical 49/49 is not a fresh PASS.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-1829 remains BOUNDED_VETO_ACTIVE and adds HIGH canonical EventIdentity requirements because str(event_id) coercion permits typed alias/collision and non-canonical identity. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale against W02 1829/current v2.1 blobs.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier.",
-  "recorded_at": "2026-08-18T17:34:00+08:00"
+  "recorded_at": "2026-08-18T18:34:00+08:00"
 }
