@@ -1,24 +1,20 @@
 {
-  "schema_version": "1.5",
+  "schema_version": "1.6",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
-  "current_head_sha": "740e63c6a156ab09401e646dd035a21bd5a54541",
-  "current_tree_sha": "704e46c454cd00c2e18eabb126520fdb1c9d3b3e",
+  "current_head_sha": "13b0142b148e4ad70688f682491fc5b175818f8c",
+  "current_tree_sha": "e2b0a44af3c43b02793bb2b499936f248826ad77",
   "executor_check": {
     "provider": "GitHub Actions",
-    "current_head_workflow_runs_found": 0,
     "fresh_same_runner_execution_performed_for_current_head": false,
-    "reason": "No workflow run is associated with the fresh current branch head; exact-current execution is unavailable this wake.",
+    "reason": "No fresh exact-current executor result was available to W01 for the current branch head in this wake; historical execution is not reused as a new PASS.",
     "historical_exact_blob_support": {
       "workflow_run_id": 32066329935,
       "job_id": 95499218490,
-      "execution_head_sha": "1b1a4e81a57c35dc6c4ee931b8615cf0f30e6146",
       "artifact_id": 9300023998,
-      "artifact_digest": "sha256:8a2d6bd8c4d34cbf0554f272c963e31cb09f5bfed610b662211a8c26fb690d28",
       "result": "49_OF_49_PASS_CANDIDATE_ONLY_HISTORICAL_EXACT_BLOB_SUPPORT"
-    },
-    "claim_boundary": "Historical runner evidence remains exact-blob support only; it is not a fresh execution on current head and cannot be reported as a new exact-current PASS."
+    }
   },
   "commands_required_when_executor_available": {
     "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
@@ -33,26 +29,15 @@
     "evolution/test_gearbox_controller_v2_1.py": "0a6904f1eeb2d43d6d819490cef1bad5319c7083"
   },
   "historical_suite_support": {
-    "v1": {"tests": 21, "status": "PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},
-    "v2": {"tests": 16, "status": "PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},
-    "v2_1": {"tests": 12, "status": "PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},
-    "total": 49
+    "v1": {"tests":21,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},
+    "v2": {"tests":16,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},
+    "v2_1": {"tests":12,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},
+    "total":49
   },
-  "baseline": {
-    "v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE",
-    "v2": "CANDIDATE",
-    "v2_1": "CANDIDATE"
-  },
-  "boundaries": {
-    "P_base": "READ_ONLY_UNCHANGED",
-    "Identity": "NO_MUTATION_AUTHORITY",
-    "Personality": "NO_MUTATION_AUTHORITY",
-    "Governance": "NO_MUTATION_AUTHORITY",
-    "runtime_maintenance_counts_as_experience": false,
-    "real_5min_runtime_live": false
-  },
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_HIGH_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_VETO",
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-0633 remains BOUNDED_VETO_ACTIVE and adds HIGH canonical current_gear binding and trusted verification_stage binding defects. Dedicated W03 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and is stale because it references older W02 review QUANTUM-GEARBOX-V2.1-20260818-0530.",
+  "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
+  "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_HIGH_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_VETO_AND_INSUFFICIENT_SPEED_SAMPLE",
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-0729 remains BOUNDED_VETO_ACTIVE and adds HIGH authority-conflict defect: authority_conflict only suppresses secretary influence and does not bind/project a trusted fresh authority snapshot. Dedicated W03 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0729.",
   "claim_boundary": "No fresh current-head executor PASS exists this wake. v1 immutable VERIFIED_PASS remains valid; v2/v2.1 remain candidates; no formal adoption is authorized.",
-  "recorded_at": "2026-08-18T07:21:57+08:00"
+  "recorded_at": "2026-08-18T08:21:22+08:00"
 }
