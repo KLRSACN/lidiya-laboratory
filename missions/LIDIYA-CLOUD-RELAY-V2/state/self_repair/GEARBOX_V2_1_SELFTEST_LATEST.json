@@ -1,13 +1,13 @@
 {
-  "schema_version": "2.6",
+  "schema_version": "2.7",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Fresh branch head 8d8bec44e4e32e847bc977f1e0906d8c376d4ec1 has no associated workflow run. Historical execution is not reused as fresh exact-current PASS.",
-    "branch_head_observed": "8d8bec44e4e32e847bc977f1e0906d8c376d4ec1",
-    "workflow_runs_for_head": 0,
+    "reason": "No exact-current same-runner execution surface was available to W01 for fresh branch head 242c25a792cb0e203bb1cd601c0b3ade45fc9b3c. Historical execution is not reused as fresh exact-current PASS.",
+    "branch_head_observed": "242c25a792cb0e203bb1cd601c0b3ade45fc9b3c",
+    "workflow_runs_for_head": "NOT_VERIFIED_BY_AVAILABLE_EXECUTOR_SURFACE",
     "historical_49_of_49_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
@@ -22,6 +22,10 @@
     "evolution/gearbox_controller_v2_1.py": "50660075a97d9bab71f0a7d7c402527cc01f6afa",
     "evolution/test_gearbox_controller_v2_1.py": "3e815a2beaa653ca218514d8a915426c6f12b677"
   },
+  "contract_blob_sha": {
+    "evolution/GEARBOX_V2_CONTRACT.json": "7c272b09264be765354fe2052eeb9e2f230f1705",
+    "evolution/GEARBOX_V2_1_CONTRACT.json": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
+  },
   "historical_suite_support": {
     "v1": {"tests": 21, "status": "PASS_HISTORICAL_ONLY_VERIFIED_BASELINE_PRESERVED"},
     "v2": {"tests": 16, "status": "PASS_HISTORICAL_ONLY"},
@@ -30,7 +34,7 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1933 is BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH defect: inherited event_kind is forwarded into v2 before v2.1 canonicalization, and non-string values can trigger event_kind.upper() runtime exceptions. Require one strict shared EventKind boundary across v2/v2.1 or bounded zero-credit rejection. Existing HIGH freshness/authority/evidence/replay/EventIdentity/direct-credit/legacy-v2/inherited-bool/N-R/current-gear/verification-stage/anti-thrash vetoes remain. Dedicated W03 review remains absent. W04 1332 is stale relative to W02 1933/current candidate review state.",
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-2028 is BOUNDED_VETO_ACTIVE. New HIGH defect: legacy/public v2 experience_candidate_delta semantically mixes DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND operational progress into an Experience-labelled field, so legacy consumers can misclassify operational progress as Experience. Require one authoritative semantic split at shared intake and make legacy mixed credit non-authoritative/research-only. Existing HIGH freshness/authority/evidence/replay/EventIdentity/direct-credit/legacy-v2/inherited-bool/N-R/current-gear/verification-stage/anti-thrash vetoes remain. Dedicated W03 review remains absent. W04 1332 is stale relative to W02 2028/current candidate state.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE",
-  "recorded_at": "2026-08-18T19:36:00+08:00"
+  "recorded_at": "2026-08-18T21:24:25+08:00"
 }
