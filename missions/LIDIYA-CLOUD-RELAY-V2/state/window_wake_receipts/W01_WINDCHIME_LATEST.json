@@ -1,33 +1,44 @@
 {
-  "schema_version": "3.2",
+  "schema_version": "3.3",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
-  "outcome": "PROGRESS",
+  "outcome": "NO_MATERIAL_DELTA",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
-  "material_delta": [
-    "Fresh MISSION_STATE remains Step009 Attempt4 STEP_DONE / LCR-A / pending=null; v1 VERIFIED_PASS and Step001-009 preserved.",
-    "Fresh pre-bookkeeping source head observed as 1bd5a4bbd6712d461ed09f994e661b342fa46312.",
-    "Six Gearbox exact source/test blobs remain c29e3b2c/11527a9e/45fe6e72/38799e41/50660075/3e815a2b; v2/v2.1 contracts remain 7c272b09/dce30f31.",
-    "Exact-head workflow lookup returned zero runs and the available connector does not provide a mountable same-runner exact-byte filesystem surface; exact validation therefore remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as fresh PASS.",
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0229 / BOUNDED_VETO_ACTIVE.",
-    "New MEDIUM_HIGH pressure-rounding defect: routing compares a four-decimal rounded pressure score against 0.45/0.70, so presentation quantization can change routing; use unrounded canonical pressure for decisions and presentation-only rounding with versioned threshold/monotonic tests.",
-    "New MEDIUM_HIGH correlated-pressure defect: multiple telemetry fields may double-count one latent incident; bind source/incident lineage and apply a versioned correlation or cluster-cap policy.",
-    "Existing HIGH authority/freshness/evidence/replay/receipt/current-gear/verification-stage/N-R/legacy/secretary-pressure/anti-thrash vetoes remain.",
-    "Dedicated W03 Gearbox v2.1 adversarial review remains absent.",
-    "W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale relative to W02 0229 and veto-active/not ready.",
-    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; no awake-time/window-age/commit/heartbeat/poll/retry/task-last-run proxy was used, and pressure presentation rounding or unequal correlated-signal semantics cannot count as speed.",
-    "Latest selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were updated and read back. No formal A->B->C routing occurred."
-  ],
+  "material_delta": [],
+  "continuity_check": {
+    "archive_no_read_fence": "ENFORCED",
+    "active8_progress_sha": "545ede04b9806beae83f4fe2b0c34136e5599283",
+    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
+    "source_head_for_candidate_state": "1bd5a4bbd6712d461ed09f994e661b342fa46312",
+    "bookkeeping_head_before_this_receipt": "54e0e68955a86c7b196928f86f3a630f3e590c6d",
+    "bookkeeping_head_is_prior_w01_receipt_only": true
+  },
+  "exact_current_validation": {
+    "status": "DEFER_EXECUTOR_UNAVAILABLE",
+    "workflow_runs_for_source_head": 0,
+    "same_runner_exact_bytes_available": false,
+    "historical_49_of_49_reused_as_fresh_pass": false,
+    "exact_blob_sha": {
+      "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
+      "v1_test": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
+      "v2_source": "45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
+      "v2_test": "38799e41561e6cdbc7378e9bd94596a18d4ab672",
+      "v2_1_source": "50660075a97d9bab71f0a7d7c402527cc01f6afa",
+      "v2_1_test": "3e815a2beaa653ca218514d8a915426c6f12b677"
+    }
+  },
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
+  "review_gate": {
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-0229_BOUNDED_VETO_ACTIVE_UNCHANGED",
+    "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
+    "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE_UNCHANGED"
+  },
+  "speed_gate": "INSUFFICIENT_SAMPLE_MULTIPLIER_NOT_ESTABLISHED_UNCHANGED",
   "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_BOUNDED_VETO_PLUS_MISSING_W03_PLUS_STALE_W04_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
   "speed_ref": "state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
-  "w02_ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json",
-  "w03_status": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
-  "w04_ref": "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
-  "readback_status": "PASS",
-  "readback_sha": {"selftest":"707e45683c27945034dc65f6627c18f488496083","speed":"03396fe4785436c38a9eae2625b41c3fdbfd7e1f","checkpoint":"b721d5846dfd08f3b4d53c7e5ee100e55287600f","progress":"545ede04b9806beae83f4fe2b0c34136e5599283"},
-  "source_head_observed": "1bd5a4bbd6712d461ed09f994e661b342fa46312"
+  "canonical_files_overwritten": false,
+  "readback_status": "PENDING"
 }
