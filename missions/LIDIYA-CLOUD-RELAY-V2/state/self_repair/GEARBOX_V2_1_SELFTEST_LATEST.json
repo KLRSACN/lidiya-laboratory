@@ -3,7 +3,7 @@
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
-  "pre_bookkeeping_head_sha": "6f8273b5b8b83f09cccdfa6abea0ed3a0c7bbcbe",
+  "pre_bookkeeping_head_sha": "6a56f1f1fe8ea4e615cfb27721e810344e22cb55",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_head": false,
     "commit_workflow_runs_found": 0,
@@ -25,7 +25,7 @@
   "historical_suite_support": {"v1":{"tests":21,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},"v2":{"tests":16,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},"v2_1":{"tests":12,"status":"PASS_HISTORICAL_EXACT_BLOB_SUPPORT"},"total":49},
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1328 remains BOUNDED_VETO_ACTIVE. Dedicated W03 Gearbox v2.1 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is refreshed against W02 1328 but remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_W04_VETO_AND_INSUFFICIENT_SPEED_SAMPLE",
-  "recorded_at": "2026-08-18T14:26:06+08:00"
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1430 remains BOUNDED_VETO_ACTIVE and adds event-id namespace poisoning as a MEDIUM_HIGH defect. Dedicated W03 Gearbox v2.1 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale relative to W02 1430 and remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_VETO_AND_INSUFFICIENT_SPEED_SAMPLE",
+  "recorded_at": "2026-08-18T15:23:27+08:00"
 }
