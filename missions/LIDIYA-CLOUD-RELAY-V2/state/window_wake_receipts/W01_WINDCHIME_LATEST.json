@@ -1,19 +1,19 @@
 {
-  "schema_version": "2.2",
+  "schema_version": "2.3",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Fresh pre-bookkeeping branch head 7daf483c63d3422c9b562a0a993e73957b832bc6 inspected; no exact-current executor result is available to W01 this wake, so validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as a new PASS.",
+    "Fresh pre-bookkeeping branch head 6f8273b5b8b83f09cccdfa6abea0ed3a0c7bbcbe inspected; no associated exact-current workflow run is available, so validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as a new PASS.",
     "All six Gearbox source/test exact blobs remain unchanged: c29e3b2c/11527a9e/45fe6e72/38799e41/d6509403/0a6904f1.",
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-1228 / BOUNDED_VETO_ACTIVE and adds selection/defer survivorship bias; dedicated W03 review remains absent.",
-    "W04 remains NAV-GEARBOX-V2.1-20260818-1133 and is stale relative to W02 1228; it remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
-    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; intention-to-treat assigned-workload coverage plus admission/defer/reject/timeout controls are now explicit requirements.",
+    "W02 is QUANTUM-GEARBOX-V2.1-20260818-1328 / BOUNDED_VETO_ACTIVE; dedicated W03 review remains absent.",
+    "W04 refreshed to NAV-GEARBOX-V2.1-20260818-1332 against W02 1328 but remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
+    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED under frozen denominator/window/censoring/order/carryover/intention-to-treat requirements.",
     "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
-  "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_BOUNDED_VETO_PLUS_MISSING_W03_PLUS_STALE_W04_VETO_PLUS_INSUFFICIENT_SPEED_SAMPLE",
+  "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_BOUNDED_VETO_PLUS_MISSING_W03_PLUS_W04_VETO_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
   "speed_ref": "state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
   "w02_ref": "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json",
@@ -22,5 +22,5 @@
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS_REQUIRED_THIS_WAKE",
-  "saved_at": "2026-08-18T13:21:27+08:00"
+  "saved_at": "2026-08-18T14:26:06+08:00"
 }
