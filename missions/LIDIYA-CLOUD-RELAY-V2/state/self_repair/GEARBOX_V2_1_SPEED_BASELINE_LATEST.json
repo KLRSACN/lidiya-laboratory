@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.6",
+  "schema_version": "1.7",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
@@ -21,8 +21,8 @@
     "rule": "durable_progress_per_wake cannot establish speedup by itself. Numerator and denominator must bind to durable runtime records and be corroborated by verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency.",
     "reject": "Same accepted durable progress with fewer counted wakes is not speedup unless independent wall-clock closure/latency metrics improve or satisfy preregistered non-inferiority bounds."
   },
-  "current_candidate_executor_note": "Fresh branch head e99712def9c354f6878c34cfff4c2751fa09a274 has zero associated workflow runs. Six Gearbox source/test blobs remain unchanged from historical 49/49 exact-blob support, which is not a new speed sample or PASS.",
+  "current_candidate_executor_note": "Fresh branch head 8d08a13c8abfda7f0a086921f01fb477506ed8e7 has zero associated workflow runs. Six Gearbox source/test blobs remain unchanged from historical 49/49 exact-blob support, which is not a new speed sample or PASS.",
   "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-0833 remains BOUNDED_VETO_ACTIVE. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0833.",
   "interpretation": "No statistically defensible paired speed claim exists. Caller-supplied operational progress, current gear, verification stage, eligible-wake count, commits, heartbeat/poll/retry and window age are forbidden as speed evidence unless independently derived under the paired protocol.",
-  "recorded_at": "2026-08-18T09:23:42+08:00"
+  "recorded_at": "2026-08-18T09:30:19+08:00"
 }
