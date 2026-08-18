@@ -1,5 +1,6 @@
 import unittest
 
+from gearbox_controller import GearboxGuardError
 from gearbox_controller_v2_1 import aggregate_experience_events, select_gear_v2_1
 
 BASE = dict(
@@ -30,6 +31,18 @@ class GearboxV21Tests(unittest.TestCase):
         self.assertTrue(d.stale_secretary_ignored)
         self.assertFalse(d.secretary_signal_used)
 
+    def test_secretary_freshness_rejects_non_bool(self):
+        for bad in ("false", "0", 0, 1, [], {}):
+            with self.subTest(value=bad):
+                with self.assertRaises(GearboxGuardError):
+                    select_gear_v2_1(**BASE, secretary_signal_fresh=bad)
+
+    def test_authority_conflict_rejects_non_bool(self):
+        for bad in ("false", "0", 0, 1, [], {}):
+            with self.subTest(value=bad):
+                with self.assertRaises(GearboxGuardError):
+                    select_gear_v2_1(**BASE, secretary_signal_fresh=True, authority_conflict=bad)
+
     def test_high_shift_rate_suppresses_nonessential_upshift(self):
         d = select_gear_v2_1(**BASE, secretary_signal_fresh=True, recent_shift_rate_ratio=0.8)
         self.assertLessEqual(int(d.selected_gear[1:]), int(BASE["current_gear"][1:]))
@@ -48,6 +61,15 @@ class GearboxV21Tests(unittest.TestCase):
         d = select_gear_v2_1(**{**BASE, "event_kind":"VERIFIED_RECOVERY", "event_independently_verified":True}, secretary_signal_fresh=True)
         self.assertEqual(d.verified_experience_delta, 4)
         self.assertEqual(d.operational_progress_delta, 0)
+
+    def test_direct_verification_rejects_non_bool(self):
+        for bad in ("false", "0", 0, 1, [], {}):
+            with self.subTest(value=bad):
+                with self.assertRaises(GearboxGuardError):
+                    select_gear_v2_1(
+                        **{**BASE, "event_kind":"VERIFIED_RECOVERY", "event_independently_verified":bad},
+                        secretary_signal_fresh=True,
+                    )
 
     def test_durable_progress_is_operational_not_verified_experience(self):
         d = select_gear_v2_1(**{**BASE, "event_kind":"DURABLE_PROGRESS"}, secretary_signal_fresh=True)
@@ -68,6 +90,14 @@ class GearboxV21Tests(unittest.TestCase):
             {"event_id":"e1","event_kind":"VERIFIED_CAPABILITY","independently_verified":False}
         ])
         self.assertEqual(r.verified_experience, 0)
+
+    def test_ledger_verification_rejects_non_bool(self):
+        for bad in ("false", "0", 0, 1, [], {}):
+            with self.subTest(value=bad):
+                with self.assertRaises(GearboxGuardError):
+                    aggregate_experience_events([
+                        {"event_id":"e1","event_kind":"VERIFIED_CAPABILITY","independently_verified":bad}
+                    ])
 
     def test_missing_event_id_is_ignored(self):
         r = aggregate_experience_events([
