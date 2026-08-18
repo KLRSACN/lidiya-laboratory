@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "2.1",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
@@ -14,15 +14,20 @@
     "stale_pointer_rate": "INSUFFICIENT_SAMPLE",
     "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
   },
-  "pairing_rule": "Use matched baseline/candidate workloads with equal verification/risk and precommitted eligible-wake, observation/exposure-window and censoring definitions. Randomize AB/BA or crossover order from the same sealed starting snapshot, reset candidate-sensitive runtime state between arms, preserve external monotonic audit state, report order interaction, and reject speedup if it depends materially on run order.",
+  "pairing_rule": "Use matched baseline/candidate assigned workloads with equal verification/risk and precommitted eligible-wake, exposure/censoring and admission/defer/timeout policies. Randomize AB/BA or crossover from the same sealed starting snapshot, reset candidate-sensitive runtime state between arms, preserve external monotonic audit state, report order interaction and intention-to-treat coverage.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-1129",
-    "rule": "durable_progress_per_wake and verified_closure_per_hour cannot establish speedup if the candidate changes wake eligibility, exposure horizon, censoring, treatment order, warm-state or carryover conditions.",
-    "reject": "Candidate-dependent wake coalescing, shorter observation windows, excluding recovery/verifier-wait/failure periods, or fixed baseline-before-candidate order cannot support a speedup claim."
+    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-1228",
+    "rule": "Speed cannot be established if the candidate changes wake eligibility, exposure horizon, censoring, treatment order, warm-state, workload admission, defer/reject/timeout behavior, or the set of tasks included in completed-only metrics.",
+    "reject": "Candidate-dependent wake coalescing, shorter observation windows, excluded recovery/verifier-wait/failure time, fixed treatment order, selective deferral/rejection/timeout of hard assigned work, or lower workload coverage cannot support a speedup claim."
   },
-  "current_candidate_executor_note": "Fresh current head 35d15600ea6f4ae74feb062e902bfaa4fb8b073c was not executable by W01 in this wake. Six Gearbox source/test blobs remain unchanged from historical 49/49 exact-blob support, which is not a new speed sample or PASS.",
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-1129 remains BOUNDED_VETO_ACTIVE. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1133 is refreshed against W02 1129 but remains veto-active/not ready.",
-  "interpretation": "No statistically defensible paired speed claim exists. Caller-supplied operational progress, authority/routing state, eligible-wake count, observation horizon/censoring, treatment order, commits, heartbeat/poll/retry and window age are forbidden as speed evidence unless independently derived under the paired protocol.",
-  "recorded_at": "2026-08-18T12:24:23+08:00"
+  "selection_bias_control": {
+    "status": "TEST_REQUIRED",
+    "rule": "Use intention-to-treat assigned-workload analysis. Count every assigned unit and report completion, verified closure, defer, reject, timeout and coverage rates plus assignment-to-closure latency with common right-censoring/bounded failure semantics.",
+    "required_adversarial": "Force the candidate to defer the hardest workload stratum; any completed-only apparent speedup must be rejected if ITT/coverage-aware analysis does not confirm it."
+  },
+  "current_candidate_executor_note": "Fresh current head 7daf483c63d3422c9b562a0a993e73957b832bc6 has no exact-current executor evidence available to W01 in this wake. Six Gearbox source/test blobs remain unchanged from historical 49/49 exact-blob support, which is not a new speed sample or PASS.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-1228 remains BOUNDED_VETO_ACTIVE. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1133 is stale relative to W02 1228 and remains veto-active/not ready.",
+  "interpretation": "No statistically defensible paired speed claim exists. Caller-supplied operational progress, authority/routing state, eligible-wake count, exposure/censoring, treatment order, selective completion coverage, commits, heartbeat/poll/retry and window age are forbidden as speed evidence unless independently derived under the paired protocol.",
+  "recorded_at": "2026-08-18T13:21:27+08:00"
 }
