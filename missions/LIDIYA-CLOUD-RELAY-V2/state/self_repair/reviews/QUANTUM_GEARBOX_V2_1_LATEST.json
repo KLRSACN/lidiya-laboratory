@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0130",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0229",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -41,67 +41,61 @@
     "gearbox_v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
   },
   "agreements": [
-    "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state and claims no C PASS.",
+    "v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime are zero Experience.",
     "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
-    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening but do not establish source provenance, freshness or verifier authority.",
+    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening, but do not establish provenance, freshness or verifier authority.",
     "verified_progress_density is currently reason-only; keeping it observational is acceptable until independently derived and adversarially validated.",
-    "GEARBOX_V2_1_CONTRACT correctly labels pressure as an engineering heuristic and speedup as NOT_YET_STATISTICALLY_ESTABLISHED.",
-    "v2.1 formal_mutation_allowed remains false and P_base remains read-only."
+    "GEARBOX_V2_1_CONTRACT correctly labels speedup as NOT_YET_STATISTICALLY_ESTABLISHED and pressure as an engineering heuristic.",
+    "formal_mutation_allowed remains false and P_base remains read-only."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-PRESSURE-ROUNDING-THRESHOLD-039",
+      "severity": "MEDIUM_HIGH",
+      "finding": "New this run: select_gear_v2 rounds the aggregate pressure score to 4 decimal places before comparing it with the YELLOW threshold 0.45 and ORANGE threshold 0.70. Therefore a raw pressure just below a gate can be rounded upward onto the gate and trigger a checkpoint/downshift solely because of presentation quantization. Conversely nearby values can collapse to the same rounded score. Routing should not depend on display rounding, especially while thresholds remain TEST_REQUIRED.",
+      "required_change": "Keep an unrounded canonical pressure value for routing and round only a separately labelled presentation field. Version the numeric policy. Add boundary tests around both thresholds and require monotonic behavior based on the raw canonical value."
+    },
+    {
       "id": "QV-GB21-PRESSURE-CORRELATED-SIGNAL-038",
       "severity": "MEDIUM_HIGH",
-      "finding": "New this run: the v2 pressure score adds context_load_ratio, tool_failure_ratio, stale_pointer_ratio, storage_pressure_ratio, durable_progress_age_ratio and continuity-anchor degradation as separate weighted contributions. Several can be downstream measurements of one underlying incident (for example context overload causing tool failures, stale pointers and progress age simultaneously). The additive heuristic therefore risks correlated-signal double counting: one causal incident can cross YELLOW/ORANGE thresholds multiple times through redundant telemetry rather than independent evidence. Current v2/v2.1 tests only check boundedness and discrete secretary/route behavior; they do not test correlated-cause invariance or source-cluster normalization.",
-      "required_change": "Keep pressure explicitly heuristic and add source/incident lineage to pressure telemetry. Pre-register a correlation policy: either collapse same-incident measurements into a bounded cluster contribution or evaluate thresholds against replay-calibrated joint distributions. Never interpret weighted components as independent evidence. Add matched tests where a single latent incident emits 1, 3 and 5 correlated telemetry fields; routing should not become progressively harsher solely because the same cause is represented redundantly."
-    },
-    {
-      "id": "QV-GB21-INHERITED-SAFETY-METADATA-DROP-037",
-      "severity": "HIGH",
-      "finding": "select_gear_v2_1 inherits v2.selected_gear but GearboxV21Decision drops v2 checkpoint_required, receiver_ack_required, verification_gate, real_experience_claim_allowed and pressure/base safety context.",
-      "required_change": "Preserve or explicitly re-project authoritative v2 safety metadata bound to the exact inherited-decision fingerprint; v2.1 may add constraints but must never weaken checkpoint, ACK or verification gates."
-    },
-    {
-      "id": "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
-      "severity": "HIGH",
-      "finding": "secretary freshness neutralizes only secretary_level. Pressure inputs can still carry stale secretary-derived measurements and force checkpoint/downshift.",
-      "required_change": "Bind provenance/freshness per pressure input or consume a typed trusted telemetry envelope; stale/authority-conflicting secretary-derived components must be ineligible."
+      "finding": "The additive pressure heuristic can double count multiple telemetry fields that are downstream symptoms of the same latent incident.",
+      "required_change": "Bind source/incident lineage and use a versioned correlation or cluster-cap policy; do not treat weighted components as independent evidence."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh and authority_conflict are strict bools but remain caller declarations without replay-resistant source, timestamp/TTL, policy and installation/runtime binding.",
-      "required_change": "Use typed SecretarySignalEnvelope and AuthorityDecisionEnvelope bound to exact source, scope, freshness, policy and installation/runtime identity."
+      "finding": "secretary_signal_fresh and authority_conflict are caller declarations even though their types are now strict bools; no replay-resistant source, timestamp/TTL, policy or installation/runtime binding exists.",
+      "required_change": "Use typed SecretarySignalEnvelope and AuthorityDecisionEnvelope bound to exact source, scope, freshness, policy and runtime/install identity."
     },
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
       "severity": "HIGH",
-      "finding": "authority_conflict only disables secretary_level; it does not load/project/enforce the actual fresh authority decision.",
-      "required_change": "Consume exact trusted authority state/gear constraints; missing, stale, revoked, cross-mission or cross-install authority evidence must fail closed."
+      "finding": "authority_conflict only disables secretary_level; it does not load or enforce the actual fresh authority decision.",
+      "required_change": "Consume an exact trusted authority decision/snapshot; missing, stale, revoked, cross-mission or cross-install authority evidence must fail closed."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
       "severity": "HIGH",
-      "finding": "recent_shift_rate_ratio is caller supplied and thresholded at >=0.50 without canonical numerator/denominator, minimum support, observation window, uncertainty or independent enter/exit hysteresis.",
-      "required_change": "Derive shift rate from canonical append-only shift history with preregistered support/window/uncertainty and stateful hysteretic release behavior."
+      "finding": "recent_shift_rate_ratio is caller supplied and thresholded at >=0.50 without canonical numerator/denominator, minimum support, observation window, uncertainty or stateful enter/exit hysteresis.",
+      "required_change": "Derive shift rate from canonical append-only shift history with preregistered support/window/uncertainty and bounded hysteretic release."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-PERFORMANCE-004",
       "severity": "MEDIUM_HIGH",
-      "finding": "Anti-thrash can reduce gear_shift_rate while delaying necessary safe upshift and worsening cycle_completion_latency, verified_closure throughput or recovery_latency.",
-      "required_change": "Require matched performance non-regression and bounded release/cooldown; fewer shifts alone is not improvement."
+      "finding": "Anti-thrash can reduce apparent gear_shift_rate while delaying necessary safe upshift and worsening cycle_completion_latency, verified_closure throughput or recovery_latency.",
+      "required_change": "Require paired performance non-regression and bounded release/cooldown; fewer shifts alone is not improvement."
     },
     {
       "id": "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
       "severity": "HIGH",
-      "finding": "Verified Experience still requires only event kind plus a boolean; no exact evidence hash, verifier identity or trusted C/independent-verifier receipt is required.",
-      "required_change": "Require immutable evidence identity and trusted verifier receipt bound to mission/step/scope, freshness/revocation and installation/workspace identity."
+      "finding": "Verified Experience still requires only an event kind plus a boolean; exact evidence hash, verifier identity and trusted C/independent-verifier receipt are not required.",
+      "required_change": "Require immutable evidence identity plus a trusted verifier receipt bound to mission/step/scope, freshness/revocation and installation/workspace identity."
     },
     {
       "id": "QV-GB21-EVENT-REPLAY-FAMILY",
       "severity": "HIGH",
-      "finding": "event_id dedupe exists only inside one aggregate invocation; the same evidence under new IDs, cross-run replay, rollback/poll replay and same-ID rebinding can still be re-credited.",
+      "finding": "event_id dedupe exists only within one aggregate invocation; same evidence under new IDs, cross-run/restart/rollback/poll replay and same-ID rebinding can be re-credited.",
       "required_change": "Use a durable rollback-resistant event/evidence-lineage acceptance registry with exact replay=no-op, same-evidence/new-ID=lineage duplicate and same-ID/different-binding=IDENTITY_CONFLICT."
     },
     {
@@ -109,30 +103,6 @@
       "severity": "HIGH",
       "finding": "select_gear_v2_1 recomputes verified and operational deltas directly from caller event fields, bypassing aggregate_experience_events and any future durable-ledger repair.",
       "required_change": "Both credit classes must come from one immutable AcceptedExperienceReceipt; receipt-less decision calls emit zero credit."
-    },
-    {
-      "id": "QV-GB21-LEGACY-OPERATIONAL-AS-EXPERIENCE-033",
-      "severity": "HIGH",
-      "finding": "Gearbox v2 mixes DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND into experience_candidate_delta, allowing legacy consumers to misclassify operational progress as Experience-labelled credit.",
-      "required_change": "Make verified Experience and operational progress distinct authoritative fields at the shared intake; legacy mixed credit must be research-only/non-authoritative."
-    },
-    {
-      "id": "QV-GB21-NR-STATE-PARSE-027",
-      "severity": "HIGH",
-      "finding": "select_gear_v2_1 executes int(selected[1:]) although inherited v1/v2 can legally return N or R, so standby/rollback paths can raise ValueError.",
-      "required_change": "Handle N/R before G-gear parsing; N returns standby and R returns rollback immediately with zero credit and no anti-thrash interference."
-    },
-    {
-      "id": "QV-GB21-CURRENT-GEAR-STATE-BINDING-021",
-      "severity": "HIGH",
-      "finding": "current_gear is caller supplied while controlling v2 hysteresis and v2.1 anti-thrash.",
-      "required_change": "Derive current_gear from canonical monotonic runtime/shift state bound to runtime/install identity and policy hash."
-    },
-    {
-      "id": "QV-GB21-VERIFICATION-STAGE-AUTHORITY-BINDING-022",
-      "severity": "HIGH",
-      "finding": "verification_stage is caller supplied; self-reporting C_VERIFIED can remove the unverified G4 cap without exact C evidence.",
-      "required_change": "Derive verification_stage only from trusted verifier/acceptance receipts bound to exact mission, step, scope, evidence, freshness and revocation state."
     },
     {
       "id": "QV-GB21-CREDIT-WEIGHTS-007",
@@ -144,40 +114,36 @@
       "id": "QV-GB21-SPEEDUP-CLAIM-008",
       "severity": "MEDIUM_HIGH",
       "finding": "No executable matched paired-baseline protocol establishes speedup; commit count, wake count or awake time are invalid substitutes.",
-      "required_change": "Use sealed matched workloads and paired/crossover baselines over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with uncertainty, full assigned-workload coverage and verification/risk non-regression."
+      "required_change": "Use sealed matched workloads and paired/crossover baselines over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure/censoring/order, full assigned-workload coverage, uncertainty and verification/risk non-regression."
     }
   ],
   "statistical_risks": [
-    "Correlated pressure telemetry can double count a single latent incident and create threshold crossings that look like multiple independent warnings.",
-    "Caller-forged freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
-    "Small-n shift-rate estimates have extreme variance; a single >=0.50 threshold can false-trigger or chatter without independent release hysteresis.",
-    "Anti-thrash can reduce apparent gear_shift_rate while worsening cycle latency, verified closure throughput or recovery latency.",
+    "Routing thresholds can be crossed by pressure rounding rather than a true raw-score crossing.",
+    "Correlated pressure telemetry can double count one latent incident.",
+    "Caller-declared freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
+    "Small-n shift-rate estimates have extreme variance and can false-trigger or chatter around a single threshold.",
+    "Anti-thrash can improve gear_shift_rate while worsening cycle/closure/recovery latency.",
     "verified_progress_density becomes self-reinforcing if later wired from policy-created progress back into upshift decisions.",
     "Transient event identity plus direct decision-path credit can inflate longitudinal verified/operational totals.",
-    "Legacy mixed experience_candidate_delta can contaminate downstream Experience-labelled metrics with operational progress.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
-    "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis add carryover and survivorship bias."
+    "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis create carryover and survivorship bias."
   ],
   "proposed_tests": [
-    "GB21-PRESSURE-CORRELATED-CAUSE-065: replay one latent incident encoded as only context_load, then the same incident encoded redundantly as context_load+tool_failure+stale_pointer+progress_age+anchor degradation. Under a preregistered cluster/correlation policy, redundant representation alone must not create a stronger routing verdict.",
-    "GB21-PRESSURE-INDEPENDENT-CAUSE-066: compare the redundant-single-cause case against genuinely independent incidents from separately bound sources; independent corroborating telemetry may increase pressure only under the explicit versioned policy.",
-    "GB21-INHERITED-SAFETY-METADATA-063 + INHERITED-DECISION-FINGERPRINT-064: preserve all v2 safety obligations or fail closed.",
-    "GB21-STALE-PRESSURE-PROVENANCE-059 + STALE-PRESSURE-MIXED-SOURCE-060: stale secretary-derived telemetry has zero routing effect while fresh independent runtime telemetry remains eligible.",
+    "GB21-PRESSURE-ROUNDING-BOUNDARY-067: construct raw pressure values immediately below/above 0.45 and 0.70. Routing must follow the unrounded canonical value; presentation rounding must never change the verdict.",
+    "GB21-PRESSURE-MONOTONIC-068: sweep a dense deterministic grid around each gate and prove no verdict inversion or plateau is caused solely by display quantization.",
+    "GB21-PRESSURE-CORRELATED-CAUSE-065 + PRESSURE-INDEPENDENT-CAUSE-066: redundant representation of one incident must not count as multiple independent warnings; truly independent bound sources may contribute under a versioned policy.",
     "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
-    "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift ledger, adequate support, uncertainty and bounded enter/exit behavior are required.",
+    "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift ledger, adequate support, uncertainty and bounded release are required.",
     "GB21-PROGRESS-DENSITY-FORGE-007: verified_progress_density=1 alone has zero routing/Experience/promotion/authority effect.",
     "GB21-CROSS-RUN-SAME-ID-018 + ROLLBACK-LEDGER-019 + POLL-REPLAY-020 + EVENT-REBIND-021: durable exactly-once and identity-conflict semantics survive restart, rollback and polling.",
     "GB21-VERIFIER-EVIDENCE-011: verified kind without exact evidence hash plus trusted verifier/C receipt gets zero credit.",
     "GB21-DIRECT-CREDIT-BYPASS-022 + OPERATIONAL-CREDIT-BYPASS-024: every nonzero credit is tied to one immutable accepted receipt.",
-    "GB21-NR-STATE-043 + ROLLBACK-STATE-044: N/R safety states never enter numeric gear parsing and are never blocked by anti-thrash.",
-    "GB21-LEGACY-OPERATIONAL-SEMANTICS-054 + LEGACY-CONSUMER-MISCLASSIFICATION-055: operational events cannot enter authoritative Experience-labelled counters through legacy v2 APIs.",
     "GB21-CREDIT-SCORE-014: equal aggregate scores from different event mixes cannot imply equivalent capability or trigger promotion.",
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen denominator/exposure policy, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
+    "QV-GB21-PRESSURE-ROUNDING-THRESHOLD-039",
     "QV-GB21-PRESSURE-CORRELATED-SIGNAL-038",
-    "QV-GB21-INHERITED-SAFETY-METADATA-DROP-037",
-    "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
     "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
     "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
@@ -185,32 +151,21 @@
     "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
     "QV-GB21-EVENT-REPLAY-FAMILY",
     "QV-GB21-DUAL-CREDIT-BYPASS",
-    "QV-GB21-LEGACY-OPERATIONAL-AS-EXPERIENCE-033",
-    "QV-GB21-NR-STATE-PARSE-027",
-    "QV-GB21-CURRENT-GEAR-STATE-BINDING-021",
-    "QV-GB21-VERIFICATION-STAGE-AUTHORITY-BINDING-022",
     "QV-GB21-CREDIT-WEIGHTS-007",
     "QV-GB21-SPEEDUP-CLAIM-008"
   ],
-  "release_condition": {
-    "scope": "GEARBOX_V2_1_AFFECTED_DELTA_ONLY",
-    "must_hold": [
-      "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain unchanged.",
-      "No formal mutation and no C PASS claim from this review.",
-      "P_base, Identity, Personality and Governance remain immutable/read-only from Gearbox v2.1.",
-      "Heartbeat/poll/retry/reconnect/wait/scheduler wake/window age/uptime remain zero Experience.",
-      "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only and cannot enter verified Experience-labelled authoritative counters.",
-      "Secretary and every secretary-derived pressure component require source/freshness binding; fresh authority exact decisions override prediction rather than merely suppressing secretary_level.",
-      "Correlated pressure signals from one causal incident cannot be treated as independent evidence without a versioned replay-calibrated correlation policy.",
-      "Anti-thrash uses canonical shift history, adequate support, uncertainty and stateful enter/exit behavior, with cycle/closure/recovery non-regression.",
-      "Verified Experience requires exact evidence identity plus trusted C/independent-verifier receipt; exact replay is no-op across restart/rollback/polling and same-evidence/new-ID cannot launder credit.",
-      "All nonzero verified/operational credit reaches Gearbox through one immutable accepted receipt path; direct caller-field credit is disabled for authoritative use.",
-      "5/4/3/1 credit weights remain heuristic analytics and never become capability truth or promotion thresholds.",
-      "Speedup claim remains blocked until sealed matched paired/crossover evidence shows improvement in durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure rules, uncertainty, assigned-workload coverage and verification/risk non-regression."
-    ],
-    "formal_adoption": "EXISTING_A_TO_B_TO_C_ONLY",
-    "current_release_verdict": "NOT_READY_FOR_FORMAL_ADOPTION"
-  },
-  "created_at": "2026-08-19T01:30:00+08:00",
+  "release_condition": [
+    "No formal adoption or speedup claim from this research review alone.",
+    "Pressure routing must use unrounded canonical values; any rounded value is presentation-only, with a versioned numeric policy and boundary tests.",
+    "Secretary and pressure telemetry freshness/provenance must be evidence-bound; fresh authority must be projected from an exact trusted decision, not a caller boolean.",
+    "Anti-thrash inputs must be canonically derived with adequate sample support, uncertainty and hysteretic release; cycle/closure/recovery performance must be non-inferior.",
+    "verified_progress_density remains observational until independently derived and tested against feedback/self-reinforcement.",
+    "All verified Experience requires exact evidence identity plus trusted C/independent-verifier receipt; DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only.",
+    "Experience/operational credit must be exactly-once and lineage-bound across restart/rollback/poll/replay; decision paths consume immutable acceptance receipts only.",
+    "5/4/3/1 weights remain heuristic and cannot be capability/Trust/Identity/Personality/promotion truth.",
+    "Any speedup claim requires a sealed matched-workload paired/crossover baseline over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure/censoring/order, ITT workload coverage, uncertainty and verification/risk non-regression.",
+    "Existing verified Gearbox v1 and Step009 baselines remain preserved; P_base read-only; heartbeat/poll/retry/window age are not Experience; real_5min_runtime_live remains false until real authorized evidence exists."
+  ],
+  "completed_at": "2026-08-19T02:29:00+08:00",
   "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
