@@ -1,16 +1,17 @@
 {
-  "schema_version": "3.1",
+  "schema_version": "3.2",
   "mission_id": "LCR-EVOLUTION-0005",
+  "recorded_at": "2026-08-19T04:35:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Fresh branch head 949729eeb512d23e9768ac7727d298ecfde6d38f was inspected. Exact commit workflow lookup returned zero runs, and the available GitHub connector does not expose the six fetched exact repository blobs as mountable same-runner filesystem bytes. Therefore exact-current py_compile plus all three suites were not executed and no fresh PASS is claimed.",
-    "branch_head_observed": "949729eeb512d23e9768ac7727d298ecfde6d38f",
-    "head_commit_message": "quantum: refresh Gearbox v2.1 adversarial latest review",
-    "runner_provenance": "W01 GitHub exact-file/blob inspection plus exact-head workflow lookup; no exact-current same-runner executor surface available",
+    "reason": "Fresh branch head 1bf8f4b835d561db73edf77814686f4d07b6d235 was inspected. The available GitHub connector exposes exact repository content for inspection but not as a mountable same-runner filesystem byte stream, while direct raw-content acquisition into the isolated runner is blocked by the runtime/network policy. Therefore exact-current py_compile plus all three suites were not executed and no fresh PASS is claimed.",
+    "branch_head_observed": "1bf8f4b835d561db73edf77814686f4d07b6d235",
+    "head_commit_message": "W02: refresh Gearbox v2.1 adversarial latest review",
+    "runner_provenance": "W01 GitHub exact-file/blob inspection plus isolated-runner exact-byte acquisition probe; connector bytes are not mountable into the same runner and direct raw acquisition is unavailable",
     "runner_probe_exit_code": null,
-    "workflow_runs_for_exact_head": 0,
+    "fresh_test_exit_code": null,
     "historical_49_of_49_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
@@ -34,6 +35,7 @@
     "evolution/GEARBOX_V2_1_CONTRACT.json": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
   },
   "suite_result": {
+    "compile": {"fresh_files": 3, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
     "v1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
     "v2": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
     "v2_1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"}
@@ -46,6 +48,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0332 and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-NR-SAFETY-STATE-PARSE-040: inherited v1/v2 selected_gear N standby or R rollback reaches v2.1 int(selected[1:]) and can raise ValueError. N/R must be explicit terminal control states before G-gear numeric parsing; rollback must never be delayed by anti-thrash. Add exact standby/rollback and zero-credit invariance tests. Existing W02 authority/freshness/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 Gearbox v2.1 review remains absent. W04 1332 is stale relative to W02 0332.",
+  "latest_review_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0430 and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-BATCH-MALFORMED-FAILCLOSED-041: one malformed low-value ledger record can abort aggregate_experience_events before later valid evidence is processed. Batch semantics must be explicit; non-atomic processing must fail closed per record with zero-credit/quarantine while preserving later valid records, or authenticated bounded atomicity must be specified and tested. Existing W02 authority/freshness/evidence/replay/receipt/pressure/N-R/anti-thrash vetoes remain. Dedicated W03 Gearbox v2.1 review remains absent. W04 1332 is stale relative to W02 0430.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
