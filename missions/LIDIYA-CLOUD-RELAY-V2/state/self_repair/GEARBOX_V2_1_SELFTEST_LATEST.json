@@ -1,10 +1,10 @@
 {
-  "schema_version": "1.9",
+  "schema_version": "2.0",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
-  "current_head_sha": "f0ee1f5b296ef39598a19cc28eddbaa413b5f1de",
-  "current_tree_sha": "7dbbf2ae9fbc8296026d8ea6082316a3ccc80a51",
+  "current_head_sha": "d920e2aae8007b9d6f16165d6c8e4ffb79b614f9",
+  "current_tree_sha": "4ff689b11ee99d20038194e3df0ad0dbdfeefb4f",
   "executor_check": {
     "provider": "GitHub Actions",
     "fresh_same_runner_execution_performed_for_current_head": false,
@@ -36,8 +36,8 @@
   },
   "baseline": {"v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE", "v2": "CANDIDATE", "v2_1": "CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_VETO_AND_INSUFFICIENT_SPEED_SAMPLE",
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-0929 remains BOUNDED_VETO_ACTIVE and adds MEDIUM_HIGH time-window/censoring gaming risk to unresolved HIGH authority/freshness/evidence/replay/direct-credit/anti-thrash defects. Dedicated W03 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0929.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_W04_VETO_AND_INSUFFICIENT_SPEED_SAMPLE",
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1033 remains BOUNDED_VETO_ACTIVE with unresolved HIGH authority/current_gear/verification_stage/evidence/replay/direct-credit/anti-thrash defects and MEDIUM_HIGH speed denominator/window risks. Dedicated W03 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-1036 is refreshed against W02 1033 and remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
   "claim_boundary": "No fresh current-head executor PASS exists this wake. Six exact source/test blobs remain unchanged from historical 49/49 support, but that support is not a new PASS. v1 immutable VERIFIED_PASS remains valid; v2/v2.1 remain candidates; no formal adoption is authorized.",
-  "recorded_at": "2026-08-18T10:26:43+08:00"
+  "recorded_at": "2026-08-18T11:22:59+08:00"
 }
