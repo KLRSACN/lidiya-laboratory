@@ -17,7 +17,7 @@
   "pairing_rule": "Use matched baseline/candidate assigned workloads with equal verification/risk and precommitted eligible-wake, exposure/censoring and admission/defer/timeout policies. Randomize AB/BA or crossover from the same sealed starting snapshot, reset candidate-sensitive runtime state between arms, preserve external monotonic audit state, report order interaction and intention-to-treat coverage.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-1328",
+    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-1430",
     "rule": "Speed cannot be established if the candidate changes wake eligibility, exposure horizon, censoring, treatment order, warm-state, workload admission, defer/reject/timeout behavior, or the set of tasks included in completed-only metrics.",
     "reject": "Candidate-dependent wake coalescing, shorter observation windows, excluded recovery/verifier-wait/failure time, fixed treatment order, selective deferral/rejection/timeout of hard assigned work, or lower workload coverage cannot support a speedup claim."
   },
@@ -26,8 +26,8 @@
     "rule": "Use intention-to-treat assigned-workload analysis. Count every assigned unit and report completion, verified closure, defer, reject, timeout and coverage rates plus assignment-to-closure latency with common right-censoring/bounded failure semantics.",
     "required_adversarial": "Force the candidate to defer the hardest workload stratum; any completed-only apparent speedup must be rejected if ITT/coverage-aware analysis does not confirm it."
   },
-  "current_candidate_executor_note": "Fresh pre-bookkeeping head 6f8273b5b8b83f09cccdfa6abea0ed3a0c7bbcbe has no associated exact-current workflow run available to W01. Historical 49/49 exact-blob support is not a new speed sample or PASS.",
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-1328 remains BOUNDED_VETO_ACTIVE. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is refreshed against W02 1328 but remains veto-active/not ready.",
+  "current_candidate_executor_note": "Fresh pre-bookkeeping head 6a56f1f1fe8ea4e615cfb27721e810344e22cb55 has no associated exact-current workflow run available to W01. Historical 49/49 exact-blob support is not a new speed sample or PASS.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-1430 remains BOUNDED_VETO_ACTIVE. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale relative to W02 1430 and remains veto-active/not ready.",
   "interpretation": "No statistically defensible paired speed claim exists. Caller-supplied operational progress, authority/routing state, eligible-wake count, exposure/censoring, treatment order, selective completion coverage, commits, heartbeat/poll/retry and window age are forbidden as speed evidence unless independently derived under the paired protocol.",
-  "recorded_at": "2026-08-18T14:26:06+08:00"
+  "recorded_at": "2026-08-18T15:23:27+08:00"
 }
