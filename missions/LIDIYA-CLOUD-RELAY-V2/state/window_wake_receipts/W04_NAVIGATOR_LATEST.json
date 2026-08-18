@@ -50,7 +50,7 @@
     "state/window_wake_receipts/W03_SPIRIT_LATEST.json@dcb3b8054138653b0413ea08999b47230dce9549",
     "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@d84e4db78ca48b8d17bbf01b556bc2bad041ce6b"
   ],
-  "readback_status": "PENDING_POST_WRITE_READBACK",
+  "readback_status": "VERIFIED_AFTER_WRITE",
   "next_trigger": "Resolve all authority/secretary/evidence-ledger/direct-credit/shift-rate/Predictive vetoes; obtain fresh W03 review and fresh exact-current combined regression PASS; then perform calibrated predictive validation and randomized/crossover paired speed benchmark with carryover control. Only zero unreleased vetoes plus fresh regression PASS can become READY_FOR_FORMAL_CANDIDATE.",
   "verified_baseline_preserved": true,
   "formal_slot_count": 3,
