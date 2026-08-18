@@ -6,15 +6,15 @@
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
     "Fresh MISSION_STATE remains Step009 Attempt4 STEP_DONE / LCR-A / pending=null; v1 VERIFIED_PASS and Step001-009 preserved.",
-    "Fresh pre-bookkeeping branch head observed as 65d56ef913f602ef80f2d216e0b21bf8fb086b4d.",
+    "Fresh pre-bookkeeping source head observed as 5f589a24982021610a0728cd19fb43cc48277e04.",
     "Six Gearbox exact source/test blobs remain c29e3b2c/11527a9e/45fe6e72/38799e41/50660075/3e815a2b; v2/v2.1 contracts remain 7c272b09/dce30f31.",
-    "W01 attempted an exact-current same-runner path, but the runner could not resolve raw.githubusercontent.com and connector-returned bytes were not mountable into that runner; exact validation therefore remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as fresh PASS.",
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-2329 / BOUNDED_VETO_ACTIVE.",
-    "New MEDIUM_HIGH QV-GB21-INHERITED-EVENT-KIND-TYPE-036: malformed non-string event_kind can reach inherited v2 before shared strict intake and raise an unbounded type exception; shared canonical EventKind boundary is required.",
-    "Existing HIGH secretary-pressure provenance/freshness, authority/evidence/replay/receipt/current-gear/verification-stage/N-R/legacy/anti-thrash vetoes remain.",
-    "Dedicated W03 Gearbox v2.1 adversarial review remains absent; review directory contains only W02 Quantum, W04 Navigator synthesis and Wind Secretary review.",
-    "W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale relative to W02 2329 and veto-active/not ready.",
-    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; no awake-time/window-age/commit/heartbeat/poll/retry/task-last-run proxy was used.",
+    "Exact-head workflow lookup returned zero runs and the available connector does not provide a mountable same-runner exact-byte filesystem surface; exact validation therefore remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as fresh PASS.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0029 / BOUNDED_VETO_ACTIVE.",
+    "New HIGH inherited-v2 safety-metadata preservation veto: v2.1 wrapper output can drop inherited v2 checkpoint/ACK/verification safety metadata; preserve/propagate it exactly or replace it with a typed authoritative equivalent and prove it in code/contract/tests.",
+    "Existing HIGH authority/freshness/evidence/replay/receipt/current-gear/verification-stage/N-R/legacy/secretary-pressure/anti-thrash vetoes remain.",
+    "Dedicated W03 Gearbox v2.1 adversarial review remains absent.",
+    "W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale relative to W02 0029 and veto-active/not ready.",
+    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; no awake-time/window-age/commit/heartbeat/poll/retry/task-last-run proxy was used, and dropping inherited safety metadata makes an arm ineligible rather than faster.",
     "Latest selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were updated and read back. No formal A->B->C routing occurred."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
@@ -27,5 +27,5 @@
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS",
-  "source_head_observed": "65d56ef913f602ef80f2d216e0b21bf8fb086b4d"
+  "source_head_observed": "5f589a24982021610a0728cd19fb43cc48277e04"
 }
