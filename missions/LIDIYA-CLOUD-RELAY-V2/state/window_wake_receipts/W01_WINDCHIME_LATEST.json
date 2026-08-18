@@ -1,33 +1,37 @@
 {
-  "schema_version": "3.6",
+  "schema_version": "3.7",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-19T06:27:08+08:00",
-  "outcome": "VALID_NO_OP",
+  "recorded_at": "2026-08-19T07:29:00+08:00",
+  "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
     "Archive No-Read Fence startup: latest continuity/gearbox pointers -> Active-8 -> fresh MISSION_STATE -> Gearbox v1/v2/v2.1 contract/code/tests -> latest W02/W03/W04 review gate -> W01 checkpoint/receipt.",
     "Re-evaluated exact-current same-runner validation availability for the six current Gearbox source/test blobs without reusing historical test execution as a fresh PASS.",
-    "Rechecked paired speed baseline eligibility using evidence-bound paired metrics only."
+    "Rechecked paired speed baseline eligibility and reconciled the new W02 authoritative v2/v2.1 Experience-semantics veto."
   ],
-  "material_delta": [],
-  "material_delta_or_reason_for_no_delta": "No material authorized delta since the prior W01 05:30 reconcile. Formal authority is unchanged; the six exact Gearbox source/test blobs are unchanged; exact-current execution remains DEFER_EXECUTOR_UNAVAILABLE; W02 remains QUANTUM-GEARBOX-V2.1-20260819-0530 BOUNDED_VETO_ACTIVE; no dedicated W03 Gearbox v2.1 adversarial review is present; W04 remains NAV-GEARBOX-V2.1-20260818-1332 stale/veto-active; paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED. Receipt-only bookkeeping is not counted as durable progress.",
+  "material_delta": [
+    "W02 advanced from QUANTUM-GEARBOX-V2.1-20260819-0530 to QUANTUM-GEARBOX-V2.1-20260819-0628 and remains BOUNDED_VETO_ACTIVE.",
+    "New HIGH QV-GB21-V2-SEMANTIC-INHERITANCE-CONFLICT-043: public v2 can classify DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND as positive Experience Candidate while v2.1 requires those events to be operational progress only. Authoritative v2/v2.1 must share one classifier separating verified Experience from operational progress; legacy Experience-labelled compatibility output must be non-authoritative/research-only.",
+    "Paired speed denominator/fairness gate now requires identical authoritative v2/v2.1 event semantics in both arms; semantic leakage cannot count as speed improvement."
+  ],
+  "material_delta_or_reason_for_no_delta": "Material review delta absorbed. Formal authority and all six exact Gearbox source/test blobs remain unchanged. Exact-current execution remains DEFER_EXECUTOR_UNAVAILABLE; W03 dedicated Gearbox v2.1 review remains absent; W04 remains NAV-GEARBOX-V2.1-20260818-1332 stale/veto-active; paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED.",
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
-    "active8_progress_sha_unchanged": "a57a3a6b2a7eb983ab516df5f4a21dbc949e7c5f",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "1bf8f4b835d561db73edf77814686f4d07b6d235",
-    "canonical_progress_overwritten": false,
-    "receipt_bookkeeping_only": true
+    "latest_repository_head_before_receipt": "f7abc3236316e4e18560ddc98289e82b86998704",
+    "canonical_progress_overwritten": true,
+    "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "079c7d0c552fe75d7960e05926ef0e5b70377561",
+    "selftest_sha": "fd3d16c986011f0e77af62fdd47a5460fec345d8",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "a21da5c8d1c5eea23c899de11d5aa1a97256772a",
+    "speed_baseline_sha": "70003fdc5a31f142ee93e09eadff166cf516e4b9",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "9f10533db864ceac086e2f471a114c5433904bec",
-    "progress_sha": "a57a3a6b2a7eb983ab516df5f4a21dbc949e7c5f"
+    "checkpoint_sha": "fcb322bb20cef919e17e202980cc81e60663f9eb",
+    "progress_sha": "ee15e84cadff28c44487956fbe3f83d96a8f70b3"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -49,7 +53,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-0530_BOUNDED_VETO_ACTIVE",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-0628_BOUNDED_VETO_ACTIVE",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -68,8 +72,8 @@
   "speed_ref": "state/self_repair/GEARBOX_V2_1_SPEED_BASELINE_LATEST.json",
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
-  "canonical_files_overwritten": false,
+  "canonical_files_overwritten": true,
   "next_trigger": "Retry on a fresh wake or material change: exact-current executor availability, Gearbox byte change, W02/W03/W04 review change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_READBACK"
 }
