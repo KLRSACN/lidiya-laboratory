@@ -1,12 +1,13 @@
 {
-  "schema_version": "2.5",
+  "schema_version": "2.6",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "W01 can read the six exact GitHub bytes and has a local Python surface, but this wake has no reliable exact-byte transfer/executor path that can prove the fetched GitHub bytes themselves were executed together without reconstruction. Historical execution is not reused and reconstructed local execution is not accepted as exact-current PASS.",
-    "branch_head_observed": "2fe0e143d6d0a97b074355f27dd083cce93d8704",
+    "reason": "Fresh branch head 8d8bec44e4e32e847bc977f1e0906d8c376d4ec1 has no associated workflow run. Historical execution is not reused as fresh exact-current PASS.",
+    "branch_head_observed": "8d8bec44e4e32e847bc977f1e0906d8c376d4ec1",
+    "workflow_runs_for_head": 0,
     "historical_49_of_49_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
@@ -24,12 +25,12 @@
   "historical_suite_support": {
     "v1": {"tests": 21, "status": "PASS_HISTORICAL_ONLY_VERIFIED_BASELINE_PRESERVED"},
     "v2": {"tests": 16, "status": "PASS_HISTORICAL_ONLY"},
-    "v2_1": {"tests": 12, "status": "STALE_FOR_CURRENT_V2_1_BYTES_DO_NOT_REUSE"},
+    "v2_1": {"tests": 12, "status": "STALE_FOR_CURRENT_RELEASE_GATE_DO_NOT_REUSE_AS_FRESH_PASS"},
     "total_historical": 49
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1829 is BOUNDED_VETO_ACTIVE. New HIGH defect: aggregate_experience_events coerces event_id through str(...).strip(), allowing typed alias/collision and non-canonical structured identity semantics. Require versioned canonical EventIdentity with immutable evidence/verifier/source binding and durable replay-resistant acceptance. Existing freshness/authority, evidence/replay, direct-credit, legacy-v2 strict-boundary, inherited bool, N/R, current-gear, verification-stage and anti-thrash vetoes remain. Dedicated W03 review remains absent. W04 1332 is stale relative to W02 1829/current v2.1 blobs.",
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-1933 is BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH defect: inherited event_kind is forwarded into v2 before v2.1 canonicalization, and non-string values can trigger event_kind.upper() runtime exceptions. Require one strict shared EventKind boundary across v2/v2.1 or bounded zero-credit rejection. Existing HIGH freshness/authority/evidence/replay/EventIdentity/direct-credit/legacy-v2/inherited-bool/N-R/current-gear/verification-stage/anti-thrash vetoes remain. Dedicated W03 review remains absent. W04 1332 is stale relative to W02 1933/current candidate review state.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE",
-  "recorded_at": "2026-08-18T18:34:00+08:00"
+  "recorded_at": "2026-08-18T19:36:00+08:00"
 }
