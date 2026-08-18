@@ -24,6 +24,6 @@
   "w04_ref": "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
-  "readback_status": "PENDING_READBACK",
+  "readback_status": "PASS",
   "source_head_observed": "7dab23280b2f520c36b5712e6a6023d3b581cc63"
 }
