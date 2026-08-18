@@ -1,23 +1,31 @@
 {
-  "schema_version": "3.4",
+  "schema_version": "3.5",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
+  "recorded_at": "2026-08-19T04:39:00+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0332 BOUNDED_VETO_ACTIVE.",
-    "New HIGH QV-GB21-NR-SAFETY-STATE-PARSE-040: inherited N standby/R rollback can reach v2.1 int(selected[1:]) and raise ValueError; N/R must terminate before G-gear parsing, rollback must bypass anti-thrash, and dedicated tests are required."
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0430 BOUNDED_VETO_ACTIVE.",
+    "New HIGH QV-GB21-BATCH-MALFORMED-FAILCLOSED-041: one malformed low-value ledger record can abort aggregate_experience_events before later valid evidence; non-atomic processing must fail closed per record and preserve later valid evidence, or atomicity must be explicit/authenticated/bounded/tested."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
-    "active8_progress_sha_after_update": "bae258f12f5b191756c7174317a6809d95fbe9d2",
+    "active8_progress_sha_after_update": "52ddf644571b94498daa1aec800fd9b3cbe46c9b",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "source_head_for_candidate_state": "949729eeb512d23e9768ac7727d298ecfde6d38f",
+    "source_head_for_candidate_state": "1bf8f4b835d561db73edf77814686f4d07b6d235",
     "bookkeeping_commits_created": true
+  },
+  "readback": {
+    "selftest_sha": "33d9d803507ab00bf71001b67331bc27779ab671",
+    "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
+    "speed_baseline_sha": "ab62f0c3b924fb97d3c3469ad7d94d25336f19c5",
+    "speed_status": "INSUFFICIENT_SAMPLE",
+    "checkpoint_sha": "82e22498773f3824c889a52cd3360cda1fb5ece2",
+    "progress_sha": "52ddf644571b94498daa1aec800fd9b3cbe46c9b"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "workflow_runs_for_source_head": 0,
     "same_runner_exact_bytes_available": false,
     "historical_49_of_49_reused_as_fresh_pass": false,
     "exact_blob_sha": {
@@ -31,7 +39,7 @@
   },
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-0332_BOUNDED_VETO_ACTIVE",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-0430_BOUNDED_VETO_ACTIVE",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
