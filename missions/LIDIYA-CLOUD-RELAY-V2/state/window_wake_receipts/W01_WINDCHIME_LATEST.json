@@ -1,17 +1,17 @@
 {
-  "schema_version": "3.0",
+  "schema_version": "3.1",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
     "Fresh MISSION_STATE remains Step009 Attempt4 STEP_DONE / LCR-A / pending=null; v1 VERIFIED_PASS and Step001-009 preserved.",
-    "Fresh pre-bookkeeping source head observed as 02d36f1e753e0f58663b27af5a4ad340957e0618. No exact-current same-runner executor surface was available to W01, so validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as fresh PASS.",
-    "Six Gearbox exact source/test blobs remain c29e3b2c/11527a9e/45fe6e72/38799e41/50660075/3e815a2b; v2/v2.1 contracts remain 7c272b09/dce30f31.",
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-2130 / BOUNDED_VETO_ACTIVE.",
-    "New HIGH defect QV-GB21-LEDGER-RESULT-NO-ACCEPTANCE-PROOF-034: aggregate ExperienceLedgerResult counters are not proof-carrying. Require immutable AcceptedExperienceBatchReceipt/manifest root binding accepted event/evidence identities, verifier receipts, runtime/install/workspace identity, policy version and monotonic acceptance cursor; naked counters are analytics-only and non-authoritative.",
+    "Fresh branch head observed as 7dab23280b2f520c36b5712e6a6023d3b581cc63. Associated workflow runs=0, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as fresh PASS.",
+    "Six Gearbox exact source/test blobs remain c29e3b2c/11527a9e/45fe6e72/38799e41/50660075/3e815a2b.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-2231 / BOUNDED_VETO_ACTIVE.",
+    "New HIGH defect QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035: stale secretary-derived pressure components can still affect pressure_score/routing unless each pressure signal is bound to trusted provenance/freshness; stale/conflicting secretary-derived telemetry must have zero effect while independently sourced trusted runtime telemetry may remain active.",
     "Dedicated W03 Gearbox v2.1 adversarial review remains absent.",
-    "W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale relative to W02 2130 and veto-active/not ready.",
+    "W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale relative to W02 2231 and veto-active/not ready.",
     "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; no awake-time/commit/heartbeat/poll/retry/task-last-run proxy was used.",
     "Latest selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were updated. No formal A->B->C routing occurred."
   ],
@@ -24,6 +24,6 @@
   "w04_ref": "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
-  "readback_status": "PASS",
-  "source_head_observed_at": "2026-08-18T21:32:58+08:00"
+  "readback_status": "PENDING_READBACK",
+  "source_head_observed": "7dab23280b2f520c36b5712e6a6023d3b581cc63"
 }
