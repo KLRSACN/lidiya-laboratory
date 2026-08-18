@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-2130",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-2231",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -43,17 +43,17 @@
     "Gearbox v1 verified baseline remains preserved; this review does not mutate formal A/B/C state or claim C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime are zero Experience.",
     "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only under the v2.1 contract and must never promote P_base, Trust, Identity, Personality or Governance.",
-    "v2.1 strict-bool guards for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening but do not establish provenance authority.",
-    "verified_progress_density is currently reason-only and must remain observational/non-authoritative.",
+    "v2.1 strict-bool guards for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening, but provenance/authority binding remains separate.",
+    "verified_progress_density is currently reason-only and should remain observational/non-authoritative.",
     "GEARBOX_V2_1_CONTRACT correctly keeps speedup NOT_YET_STATISTICALLY_ESTABLISHED.",
     "P_base, Identity, Personality and Governance remain non-writable from v2.1."
   ],
   "disagreements": [
     {
-      "id": "QV-GB21-LEDGER-RESULT-NO-ACCEPTANCE-PROOF-034",
+      "id": "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
       "severity": "HIGH",
-      "finding": "ExperienceLedgerResult returns only verified_experience, operational_progress, duplicate_events and ignored_events. It carries no accepted event identities, canonical evidence hashes, verifier receipt hashes, acceptance-record hash or manifest/root hash. Therefore even after direct event-field credit is removed, the decision layer cannot prove which exact accepted evidence produced a credit total, cannot bind credit to a durable acceptance record, and cannot distinguish a legitimate aggregate from a caller-reconstructed aggregate with the same numbers.",
-      "required_change": "Replace aggregate-only authority handoff with an immutable AcceptedExperienceBatchReceipt or equivalent manifest containing acceptance_record_hash/root, canonical accepted event/evidence identities, verifier/C receipt bindings, runtime/install/workspace identity, policy version and monotonic acceptance cursor. Gearbox decision projection may consume totals only when they are derived from and bound to that exact receipt; naked counters are analytics only and must be non-authoritative."
+      "finding": "The v2.1 stale-secretary gate neutralizes only secretary_level. It does not bind provenance or freshness for context_load_ratio, tool_failure_ratio, stale_pointer_ratio, continuity_anchor_health or other pressure inputs passed through v2_kwargs. If any of those values originate from the same stale W07/secretary observation, they can still change pressure_score and force checkpoint/downshift even when secretary_signal_fresh=false. Therefore the executable does not yet prove the contract claim that a stale secretary signal cannot force a gear change.",
+      "required_change": "Introduce a typed pressure-signal provenance envelope or per-field source/freshness binding. Secretary-derived pressure components must be ignored/invalidated when their source envelope is stale or conflicts with fresh authority; independently derived trusted runtime metrics may remain active. The controller must distinguish trusted runtime telemetry from stale secretary-derived telemetry instead of gating only secretary_level."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -98,6 +98,12 @@
       "required_change": "Both credit classes must come from one immutable AcceptedExperienceReceipt; receipt-less decision calls emit zero credit."
     },
     {
+      "id": "QV-GB21-LEDGER-RESULT-NO-ACCEPTANCE-PROOF-034",
+      "severity": "HIGH",
+      "finding": "ExperienceLedgerResult carries aggregate counters but no acceptance manifest/root tying totals to exact accepted evidence and verifier receipts.",
+      "required_change": "Use an immutable AcceptedExperienceBatchReceipt; naked counters are analytics-only and non-authoritative."
+    },
+    {
       "id": "QV-GB21-LEGACY-OPERATIONAL-AS-EXPERIENCE-033",
       "severity": "HIGH",
       "finding": "Gearbox v2 publicly mixes DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND into experience_candidate_delta, allowing legacy consumers to misclassify operational progress as Experience-labelled credit.",
@@ -135,33 +141,33 @@
     }
   ],
   "statistical_risks": [
+    "A stale secretary signal can remain causally active through pressure inputs even when secretary_level itself is neutralized, unless signal provenance/freshness is bound per field/source.",
     "Caller-forged secretary freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
     "Small-n shift-rate estimates have extreme variance; a single >=0.50 threshold can false-trigger or chatter without independent release hysteresis.",
     "Anti-thrash can reduce apparent gear_shift_rate while worsening cycle latency, verified closure throughput or recovery latency.",
     "verified_progress_density becomes self-reinforcing if later wired from policy-created progress back into upshift decisions.",
     "Transient event identity plus direct decision-path credit can inflate longitudinal verified/operational totals.",
-    "Aggregate-only ledger outputs are not proof-carrying: equal totals can arise from different event/evidence sets, making audit, replay resistance and causal attribution impossible without an acceptance manifest/root.",
-    "A legacy mixed experience_candidate_delta field can create classification leakage: operational progress may be counted as Experience in downstream longitudinal metrics even when v2.1 itself separates the fields.",
+    "Aggregate-only ledger outputs are not proof-carrying; equal totals can arise from different event/evidence sets.",
+    "A legacy mixed experience_candidate_delta field can leak operational progress into Experience-labelled longitudinal metrics.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
     "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis add carryover and survivorship bias."
   ],
   "proposed_tests": [
-    "GB21-LEDGER-RECEIPT-BINDING-056: two different accepted event/evidence sets engineered to yield identical verified/operational totals must produce different acceptance roots/receipt hashes; naked equal counters must not authorize decision credit.",
-    "GB21-LEDGER-RECEIPT-REPLAY-057: exact accepted batch receipt replay is a no-op; stale/revoked/cross-installation/cross-policy batch receipts are rejected and cannot reproduce credit.",
-    "GB21-LEDGER-DECISION-PROJECTION-058: select_gear_v2_1 may emit nonzero verified/operational delta only when bound to the exact accepted batch/record receipt; missing or mismatched receipt yields zero credit.",
-    "GB21-FRESHNESS-FORGE-001 + AUTHORITY-DECISION-PROJECTION-028: stale secretary cannot affect gear and trusted authority decision is projected exactly.",
+    "GB21-STALE-PRESSURE-PROVENANCE-059: create a secretary envelope whose RED level and context/tool/stale pressure components are all stale; secretary_signal_fresh=false must prevent every secretary-derived component from affecting selected gear or checkpoint. Independently sourced trusted runtime pressure with fresh provenance must still work.",
+    "GB21-STALE-PRESSURE-MIXED-SOURCE-060: mix stale secretary-derived context_load_ratio=1 with fresh trusted runtime tool_failure_ratio; only the trusted component may contribute to pressure_score/routing. Source omission or ambiguity fails closed for secretary-derived telemetry.",
+    "GB21-AUTHORITY-DECISION-PROJECTION-028: authority conflict with trusted authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
     "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift ledger, adequate support, uncertainty and bounded enter/exit behavior are required.",
     "GB21-PROGRESS-DENSITY-FORGE-007: verified_progress_density=1 alone has zero routing/Experience/promotion/authority effect.",
     "GB21-EVENT-ID-TYPE-049 + EVENT-ID-STRUCTURAL-REPLAY-051 + CROSS-RUN-SAME-ID-018 + ROLLBACK-LEDGER-019 + POLL-REPLAY-020 + EVENT-REBIND-021: durable exactly-once and identity-conflict semantics survive type variation, restart, rollback and polling.",
     "GB21-VERIFIER-EVIDENCE-011: verified kind without exact evidence hash plus trusted verifier/C receipt gets zero credit.",
-    "GB21-DIRECT-CREDIT-BYPASS-022 + OPERATIONAL-CREDIT-BYPASS-024: receipt-less repeated decision calls create zero additional credit.",
+    "GB21-DIRECT-CREDIT-BYPASS-022 + OPERATIONAL-CREDIT-BYPASS-024 + LEDGER-RECEIPT-BINDING-056 + LEDGER-DECISION-PROJECTION-058: every nonzero credit is tied to one immutable accepted receipt.",
     "GB21-NR-STATE-043 + ROLLBACK-STATE-044: N/R safety states never enter numeric gear parsing and are never blocked by anti-thrash.",
     "GB21-LEGACY-OPERATIONAL-SEMANTICS-054 + LEGACY-CONSUMER-MISCLASSIFICATION-055: operational events cannot enter authoritative Experience-labelled counters through legacy v2 APIs.",
     "GB21-CREDIT-SCORE-014: equal aggregate scores from different event mixes cannot imply equivalent capability or trigger promotion.",
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen denominator/exposure policy, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
-    "QV-GB21-LEDGER-RESULT-NO-ACCEPTANCE-PROOF-034",
+    "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
     "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
     "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
@@ -169,6 +175,7 @@
     "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
     "QV-GB21-EVENT-REPLAY-FAMILY",
     "QV-GB21-DUAL-CREDIT-BYPASS",
+    "QV-GB21-LEDGER-RESULT-NO-ACCEPTANCE-PROOF-034",
     "QV-GB21-LEGACY-OPERATIONAL-AS-EXPERIENCE-033",
     "QV-GB21-NR-STATE-PARSE-027",
     "QV-GB21-CURRENT-GEAR-STATE-BINDING-021",
@@ -177,15 +184,21 @@
     "QV-GB21-SPEEDUP-CLAIM-008"
   ],
   "release_condition": {
+    "secretary_signal_boundary": "Every secretary-derived routing input, not only secretary_level, must carry trusted provenance/freshness binding. Stale or authority-conflicting secretary-derived pressure data must be ignored while independently derived trusted runtime telemetry remains usable.",
     "authority_and_freshness": "Secretary freshness and authority conflict must be derived from exact trusted, replay-resistant envelopes; fresh authority decision must be projected, not merely secretary-neutralized.",
     "anti_thrash": "recent_shift_rate_ratio must be canonical-ledger-derived with preregistered denominator/window/minimum support/uncertainty and independent enter/exit hysteresis; safety downshift immediate; safe upshift performance non-regression demonstrated.",
-    "experience_authority": "One durable rollback-resistant acceptance registry is the sole source of verified Experience and operational progress. Every nonzero decision credit is bound to immutable accepted event/evidence/verifier receipt and a batch/record acceptance root; aggregate counters without proof are analytics only.",
-    "operational_only": "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only and cannot affect verified Experience, P_base, Trust, Identity, Personality, Governance or formal authority.",
-    "credit_weights": "5/4/3/1 remain heuristic/TEST_REQUIRED and cannot be interpreted as capability units or promotion thresholds.",
-    "speedup": "No speedup claim until sealed matched-workload paired/crossover baseline establishes improvement on durable_progress_per_wake, verified_closure_per_hour and cycle_completion_latency with stable/lower rework_ratio and recovery_latency, frozen denominator/exposure/censoring/order/coverage policies, uncertainty reporting and verification/risk non-regression.",
-    "formal": "Existing A->B->C required for adoption; this W02 review cannot declare PASS or mutate formal state/code."
+    "experience_authority": "One durable rollback-resistant acceptance registry is the sole source of verified Experience and operational progress. Every nonzero decision credit is bound to an immutable accepted event/evidence receipt and batch/root; naked counters and caller event fields are non-authoritative.",
+    "experience_semantics": "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only across v2/v2.1 and all consumers. Heartbeat/poll/retry/reconnect/wait/scheduler wake/window age/uptime remain zero Experience.",
+    "verified_evidence": "Verified Experience requires exact evidence hash plus trusted C/independent verifier identity/receipt bound to mission/step/scope, freshness/revocation and installation/workspace identity.",
+    "credit_weights": "5/4/3/1 remain heuristic; no aggregate threshold may be used as capability truth, Trust, Identity, Personality or promotion evidence without independent calibration/adoption.",
+    "speedup": "Only claim speedup after sealed matched-workload paired/crossover baseline using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure/censoring, assigned-workload coverage, uncertainty and verification/risk non-regression. Commit count, wake count and awake time are invalid evidence.",
+    "formal": "Any adoption remains normal LCR-A -> LCR-B -> independent LCR-C. This review itself has no formal mutation authority and claims no PASS."
   },
-  "always_on_return": "AFTER_REVIEW_READ_SMALL_WORLD_EXACT_ENDPOINT; WRITE_ONLY_IF_NEXT_EXPECTED_SOURCE_IS_QUANTUM",
-  "created_at": "2026-08-18T21:30:00+08:00",
-  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
+  "always_on_return": {
+    "after_review": "RETURN_TO_ALWAYS_ON_RUNTIME_SMALL_WORLD",
+    "p_base": "READ_ONLY",
+    "runtime_maintenance_is_experience": false,
+    "v1_verified_baseline": "PRESERVED"
+  },
+  "created_at": "2026-08-18T22:31:00+08:00"
 }
