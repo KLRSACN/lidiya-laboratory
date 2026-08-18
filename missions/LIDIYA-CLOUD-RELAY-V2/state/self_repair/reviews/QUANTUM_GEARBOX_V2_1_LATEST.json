@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0332",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0430",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -51,27 +51,21 @@
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-MALFORMED-RECORD-BATCH-DOS-041",
+      "severity": "HIGH",
+      "finding": "New this run: aggregate_experience_events calls _strict_bool(independently_verified) before validating event_id or establishing that the record is even eligible for accounting. A malformed or irrelevant record with missing event_id plus independently_verified='false' raises GearboxGuardError and aborts the entire batch, preventing later independent valid evidence from being processed. This creates a denial-of-evidence surface and violates bounded rejection/isolation expectations.",
+      "required_change": "Validate record shape and canonical event identity before verifier-boundary parsing; in non-atomic batch mode reject/quarantine malformed records independently with zero credit and continue to later records. Rejected records must not reserve or poison canonical event identity. If atomic batch semantics are desired, they must be explicit and separately authenticated/precommitted rather than emerging from the first malformed row."
+    },
+    {
       "id": "QV-GB21-NR-SAFETY-STATE-PARSE-040",
       "severity": "HIGH",
-      "finding": "New this run: v1 explicitly supports N standby and R rollback. v2 inherits those selected_gear values, but v2.1 unconditionally executes int(selected[1:]). When inherited.selected_gear is N or R, selected[1:] is empty and v2.1 can raise ValueError on canonical standby/rollback safety paths. Existing v2.1 tests do not cover standby=True or rollback_required=True.",
-      "required_change": "Handle N/R as explicit terminal control states before any G-gear numeric parsing. N and R must bypass anti-thrash numeric comparison, preserve zero Experience/operational credit unless an independently accepted event receipt exists, and preserve inherited safety semantics. Add exact standby/rollback tests including high shift-rate input."
-    },
-    {
-      "id": "QV-GB21-PRESSURE-ROUNDING-THRESHOLD-039",
-      "severity": "MEDIUM_HIGH",
-      "finding": "select_gear_v2 rounds pressure to 4 decimal places before comparing against 0.45 and 0.70; routing can therefore change because of presentation quantization rather than a raw-score gate crossing.",
-      "required_change": "Use unrounded canonical pressure for routing and round only a separate presentation field; thresholds remain TEST_REQUIRED."
-    },
-    {
-      "id": "QV-GB21-PRESSURE-CORRELATED-SIGNAL-038",
-      "severity": "MEDIUM_HIGH",
-      "finding": "The additive pressure heuristic can double count multiple telemetry fields that are downstream symptoms of the same latent incident.",
-      "required_change": "Bind source/incident lineage and use a versioned correlation or cluster-cap policy; do not treat weighted components as independent evidence."
+      "finding": "v1 supports N standby and R rollback; v2 inherits those selected_gear values, but v2.1 unconditionally executes int(selected[1:]). N/R therefore can raise ValueError on canonical safety paths.",
+      "required_change": "Handle N/R as explicit terminal control states before G-gear numeric parsing; anti-thrash must never delay rollback or standby semantics."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh and authority_conflict are caller declarations even though their types are strict bools; no replay-resistant source, timestamp/TTL, policy or installation/runtime binding exists.",
+      "finding": "secretary_signal_fresh and authority_conflict are still caller declarations. Strict bool prevents truthiness coercion but does not prove source, timestamp/TTL, policy, revocation status or installation/runtime binding.",
       "required_change": "Use typed SecretarySignalEnvelope and AuthorityDecisionEnvelope bound to exact source, scope, freshness, policy and runtime/install identity."
     },
     {
@@ -124,9 +118,7 @@
     }
   ],
   "statistical_risks": [
-    "Canonical N/R safety paths are currently untested in v2.1 and can fail before any performance statistic is meaningful.",
-    "Routing thresholds can be crossed by pressure rounding rather than a true raw-score crossing.",
-    "Correlated pressure telemetry can double count one latent incident.",
+    "A single malformed record can currently abort the whole evidence batch, making observed progress/closure rates sensitive to input ordering and malformed-row incidence.",
     "Caller-declared freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
     "Small-n shift-rate estimates have extreme variance and can false-trigger or chatter around a single threshold.",
     "Anti-thrash can improve gear_shift_rate while worsening cycle/closure/recovery latency.",
@@ -136,11 +128,9 @@
     "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis create carryover and survivorship bias."
   ],
   "proposed_tests": [
-    "GB21-NR-STATE-069: standby=True with otherwise permissive inputs must deterministically return N without ValueError, anti-thrash parsing or formal mutation.",
-    "GB21-ROLLBACK-STATE-070: rollback_required=True with recent_shift_rate_ratio=1.0 must deterministically return R; anti-thrash must never delay rollback.",
-    "GB21-NR-CREDIT-INVARIANCE-071: N/R control-state selection alone creates zero verified Experience and zero operational progress unless a separate immutable accepted event receipt is present.",
-    "GB21-PRESSURE-ROUNDING-BOUNDARY-067 + PRESSURE-MONOTONIC-068: routing follows unrounded canonical pressure, never display rounding.",
-    "GB21-PRESSURE-CORRELATED-CAUSE-065 + PRESSURE-INDEPENDENT-CAUSE-066: redundant representation of one incident must not count as multiple independent warnings; truly independent bound sources may contribute under a versioned policy.",
+    "GB21-MALFORMED-BATCH-ISOLATION-072: first row has missing event_id plus independently_verified='false'; a later valid independently verified event must still be processed in bounded non-atomic mode, while the malformed row receives zero credit and a bounded rejection reason.",
+    "GB21-MALFORMED-ID-NO-POISON-073: malformed/invalid record must not reserve canonical event_id or block a later valid record with the same intended identity; binding conflict must be explicit, never first-invalid-writer-wins.",
+    "GB21-NR-STATE-069 + GB21-ROLLBACK-STATE-070: standby/rollback must return N/R without numeric parsing or anti-thrash delay.",
     "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
     "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift ledger, adequate support, uncertainty and bounded release are required.",
     "GB21-PROGRESS-DENSITY-FORGE-007: verified_progress_density=1 alone has zero routing/Experience/promotion/authority effect.",
@@ -151,9 +141,8 @@
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen denominator/exposure policy, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
+    "QV-GB21-MALFORMED-RECORD-BATCH-DOS-041",
     "QV-GB21-NR-SAFETY-STATE-PARSE-040",
-    "QV-GB21-PRESSURE-ROUNDING-THRESHOLD-039",
-    "QV-GB21-PRESSURE-CORRELATED-SIGNAL-038",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
     "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
     "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
@@ -166,9 +155,9 @@
   ],
   "release_condition": [
     "No formal adoption or speedup claim from this research review alone.",
+    "Evidence ingestion must isolate malformed records in bounded non-atomic mode; one malformed row must not abort later independent valid evidence or poison event identity.",
     "N and R control states must be explicitly supported by v2.1 before any G-gear numeric parsing; standby and rollback must never crash or be delayed by anti-thrash.",
-    "Pressure routing must use unrounded canonical values; any rounded value is presentation-only, with a versioned numeric policy and boundary tests.",
-    "Secretary and pressure telemetry freshness/provenance must be evidence-bound; fresh authority must be projected from an exact trusted decision, not a caller boolean.",
+    "Secretary freshness/provenance must be evidence-bound; fresh authority must be projected from an exact trusted decision, not a caller boolean.",
     "Anti-thrash inputs must be canonically derived with adequate sample support, uncertainty and hysteretic release; cycle/closure/recovery performance must be non-inferior.",
     "verified_progress_density remains observational until independently derived and tested against feedback/self-reinforcement.",
     "All verified Experience requires exact evidence identity plus trusted C/independent-verifier receipt; DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only.",
@@ -177,6 +166,6 @@
     "Any speedup claim requires a sealed matched-workload paired/crossover baseline over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure/censoring/order, ITT workload coverage, uncertainty and verification/risk non-regression.",
     "Existing verified Gearbox v1 and Step009 baselines remain preserved; P_base read-only; heartbeat/poll/retry/window age are not Experience; real_5min_runtime_live remains false until real authorized evidence exists."
   ],
-  "completed_at": "2026-08-19T03:32:00+08:00",
+  "completed_at": "2026-08-19T04:30:00+08:00",
   "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
