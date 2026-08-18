@@ -1,15 +1,15 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "2.1",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Fresh branch head d920e2aae8007b9d6f16165d6c8e4ffb79b614f9 has zero associated workflow runs; exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as a new PASS.",
-    "All six Gearbox source/test blobs remain identical to historical exact-blob support: c29e3b2c/11527a9e/45fe6e72/38799e41/d6509403/0a6904f1.",
-    "W02 is QUANTUM-GEARBOX-V2.1-20260818-1033 / BOUNDED_VETO_ACTIVE with unresolved HIGH authority/current_gear/verification_stage/evidence/replay/direct-credit/anti-thrash defects.",
-    "Dedicated W03 Gearbox v2.1 review remains absent. W04 advanced to NAV-GEARBOX-V2.1-20260818-1036, refreshed against W02 1033, but remains veto-active/not ready.",
-    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; eligible-wake, observation horizon, exposure clock and censoring rules remain precommit-required.",
+    "Fresh branch head 35d15600ea6f4ae74feb062e902bfaa4fb8b073c inspected; W01 has no exact-current executor this wake, so validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as a new PASS.",
+    "All six Gearbox source/test exact blobs remain unchanged: c29e3b2c/11527a9e/45fe6e72/38799e41/d6509403/0a6904f1.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-1129 / BOUNDED_VETO_ACTIVE and adds paired-baseline order/carryover risk; dedicated W03 review remains absent.",
+    "W04 advanced to NAV-GEARBOX-V2.1-20260818-1133, refreshed against W02 1129, but remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
+    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; randomized AB/BA or crossover order and carryover controls are now explicit precommit requirements.",
     "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
@@ -22,5 +22,5 @@
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS_REQUIRED_THIS_WAKE",
-  "saved_at": "2026-08-18T11:22:59+08:00"
+  "saved_at": "2026-08-18T12:24:23+08:00"
 }
