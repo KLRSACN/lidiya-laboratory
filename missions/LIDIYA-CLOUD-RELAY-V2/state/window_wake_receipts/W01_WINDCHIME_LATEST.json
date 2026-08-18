@@ -42,5 +42,5 @@
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "canonical_files_overwritten": true,
-  "readback_status": "PENDING_READBACK"
+  "readback_status": "PASS"
 }
