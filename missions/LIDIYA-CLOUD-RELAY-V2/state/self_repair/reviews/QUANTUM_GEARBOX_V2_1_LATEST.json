@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-2329",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0029",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -44,17 +44,17 @@
     "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime are zero Experience.",
     "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
-    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening, but they do not establish provenance or authority.",
+    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening but do not prove provenance or authority.",
     "verified_progress_density is currently reason-only and must remain observational/non-authoritative unless independently derived and adversarially validated.",
     "GEARBOX_V2_1_CONTRACT correctly marks speed improvement NOT_YET_STATISTICALLY_ESTABLISHED.",
     "v2.1 formal_mutation_allowed remains false and P_base remains read-only."
   ],
   "disagreements": [
     {
-      "id": "QV-GB21-INHERITED-EVENT-KIND-TYPE-036",
-      "severity": "MEDIUM_HIGH",
-      "finding": "New this run: v2.1 passes v2_kwargs into select_gear_v2 before its own normalized kind handling. Inside v2, experience_candidate_delta stringifies event_kind, but verified_event later calls event_kind.upper() on the original caller value. A non-string event_kind such as 123/list/object can therefore raise AttributeError in the inherited v2 path before v2.1 can complete routing. The current v2.1 tests do not cover this typed-intake failure.",
-      "required_change": "Define one canonical EventKind intake shared by v2 and v2.1. Live/adoptable paths must accept only bounded canonical strings/enums, or deterministically fail closed with GearboxGuardError/zero-credit rejection; legacy v2 must not remain an untyped authoritative bypass."
+      "id": "QV-GB21-INHERITED-SAFETY-METADATA-DROP-037",
+      "severity": "HIGH",
+      "finding": "New this run: select_gear_v2_1 inherits v2.selected_gear but GearboxV21Decision drops v2 checkpoint_required, receiver_ack_required, verification_gate, real_experience_claim_allowed and pressure_score/base safety context. A downstream consumer using only v2.1 output can therefore lose mandatory checkpoint/ACK/verification semantics even when the inherited v2 decision required them.",
+      "required_change": "v2.1 must preserve or explicitly re-project all authoritative safety metadata from the exact inherited v2 decision, bound to an inherited decision fingerprint. A v2.1 wrapper must never weaken checkpoint, ACK or verification-gate requirements; any mismatch fails closed."
     },
     {
       "id": "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
@@ -142,6 +142,7 @@
     }
   ],
   "statistical_risks": [
+    "Dropping inherited v2 safety metadata creates survivorship in downstream telemetry: successful gear values may be observed while required checkpoint/ACK/verification obligations silently disappear.",
     "Stale secretary-derived pressure telemetry can remain causally active unless freshness/provenance is bound per field/source.",
     "Caller-forged freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
     "Small-n shift-rate estimates have extreme variance; a single >=0.50 threshold can false-trigger or chatter without independent release hysteresis.",
@@ -150,12 +151,11 @@
     "Transient event identity plus direct decision-path credit can inflate longitudinal verified/operational totals.",
     "Legacy mixed experience_candidate_delta can contaminate downstream Experience-labelled longitudinal metrics with operational progress.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
-    "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis add carryover and survivorship bias.",
-    "Untyped inherited event_kind inputs can convert malformed records from bounded rejection into controller-level exceptions, biasing reliability and throughput measurements."
+    "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis add carryover and survivorship bias."
   ],
   "proposed_tests": [
-    "GB21-EVENT-KIND-TYPE-061: pass event_kind=123,true,[],{},arbitrary object through v2.1; each must deterministically fail closed as GearboxGuardError or bounded zero-credit rejection, never uncaught AttributeError/TypeError.",
-    "GB21-EVENT-KIND-LEGACY-062: v2, experience_candidate_delta and v2.1 must share one canonical EventKind boundary; otherwise legacy v2 is explicitly non-authoritative/research-only.",
+    "GB21-INHERITED-SAFETY-METADATA-063: create v2 decisions requiring checkpoint/receiver ACK and non-promotion verification gate; v2.1 output must preserve those obligations exactly or fail closed.",
+    "GB21-INHERITED-DECISION-FINGERPRINT-064: mutate inherited checkpoint_required/verification_gate/receiver_ack metadata after v2 decision construction; v2.1 must detect fingerprint mismatch and refuse projection.",
     "GB21-STALE-PRESSURE-PROVENANCE-059 + STALE-PRESSURE-MIXED-SOURCE-060: stale secretary-derived telemetry has zero routing effect while fresh independently sourced runtime telemetry remains eligible.",
     "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
     "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift ledger, adequate support, uncertainty and bounded enter/exit behavior are required.",
@@ -169,7 +169,7 @@
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen denominator/exposure policy, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
-    "QV-GB21-INHERITED-EVENT-KIND-TYPE-036",
+    "QV-GB21-INHERITED-SAFETY-METADATA-DROP-037",
     "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
     "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
@@ -186,15 +186,16 @@
     "QV-GB21-SPEEDUP-CLAIM-008"
   ],
   "release_condition": {
-    "formal": "No v2/v2.1 adoption without fresh exact-current regression evidence, Quantum/Spirit adversarial review, Navigator synthesis, then existing A->B->C. This W02 review is non-formal and cannot declare PASS.",
-    "authority": "Fresh authority must be proof-carrying and must override/limit secretary-derived signals and caller routing inputs; no caller declaration may substitute for authority receipt.",
-    "anti_thrash": "Shift-rate control must be canonically derived with adequate support/window/uncertainty and hysteretic release; safety/recovery downshifts remain immediate; safe upshift latency must not materially regress.",
-    "experience": "Heartbeat/poll/retry/reconnect/wait/scheduler wake/window age/uptime remain zero Experience. DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only. Verified Experience requires exact evidence plus trusted independent/C verifier receipt and durable replay-resistant acceptance. Nonzero decision credit must come only from accepted receipt state.",
-    "event_intake": "One canonical typed EventKind/EventIdentity boundary must be shared by v2/v2.1 live paths; malformed values fail closed without controller-level exceptions or batch poisoning.",
-    "credit_weights": "5/4/3/1 remain heuristic engineering weights; aggregate totals are never capability truth or personality/trust/promotion evidence.",
-    "speed": "Speedup remains unestablished until sealed matched paired/crossover evaluation over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency fixes wake denominator, exposure/censoring, treatment order and assigned-workload coverage, reports uncertainty, and shows verification/risk non-regression.",
-    "baseline": "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; P_base read-only; real_5min_runtime_live remains false until real authorized always-on evidence exists."
+    "formal": "Existing A->B->C only; this review cannot promote v2.1 or alter formal authority.",
+    "safety_projection": "v2.1 must preserve the complete inherited v2 safety decision, including checkpoint, receiver ACK and verification-gate semantics, with an exact inherited-decision binding.",
+    "secretary": "Secretary/pressure inputs must be provenance- and freshness-bound; stale secretary data cannot affect routing.",
+    "authority": "Fresh authority must be consumed as an exact trusted decision/snapshot, not represented only by caller booleans.",
+    "anti_thrash": "Shift rate must be canonically derived with preregistered support/window/uncertainty and hysteretic release; safety downshift immediate and safe-upshift performance non-inferior.",
+    "experience": "Only durable replay-resistant accepted receipts bound to exact evidence and trusted verifier identity may create verified Experience; DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only; runtime maintenance remains zero Experience.",
+    "credit_semantics": "5/4/3/1 are heuristic engineering weights only and cannot be interpreted as calibrated capability or personality truth.",
+    "speed": "No speedup claim until sealed matched-workload paired/crossover baseline reports durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure/censoring/order/coverage policy, uncertainty and verification/risk non-regression.",
+    "baseline": "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; P_base read-only; real_5min_runtime_live remains false absent real always-on evidence."
   },
-  "review_outcome": "PROGRESS_NEW_BOUNDED_VETO",
-  "updated_at": "2026-08-18T23:29:38+08:00"
+  "created_at": "2026-08-19T00:29:00+08:00",
+  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
