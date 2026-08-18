@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.8",
+  "schema_version": "1.9",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
@@ -17,12 +17,12 @@
   "pairing_rule": "Use matched baseline/candidate workloads with equal verification/risk and precommitted eligible-wake plus observation/exposure-window definitions. Freeze scheduler cadence/policy, workload arrival process, start/stop rules and downtime/failure/verifier-wait censoring between baseline and candidate.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-0929",
+    "source_review": "QUANTUM-GEARBOX-V2.1-20260818-1033",
     "rule": "durable_progress_per_wake and verified_closure_per_hour cannot establish speedup if the candidate changes wake eligibility, exposure horizon or censoring. Numerator/denominator must bind to durable runtime records and be corroborated by cycle/rework/recovery metrics.",
     "reject": "Candidate-dependent wake coalescing, shorter observation horizons, or excluding recovery/verifier-wait/failure periods cannot support a speedup claim."
   },
-  "current_candidate_executor_note": "Fresh pre-bookkeeping head f0ee1f5b296ef39598a19cc28eddbaa413b5f1de had zero associated workflow runs. Six Gearbox source/test blobs remain unchanged from historical 49/49 exact-blob support, which is not a new speed sample or PASS.",
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-0929 remains BOUNDED_VETO_ACTIVE. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0929.",
+  "current_candidate_executor_note": "Fresh current head d920e2aae8007b9d6f16165d6c8e4ffb79b614f9 had zero associated workflow runs. Six Gearbox source/test blobs remain unchanged from historical 49/49 exact-blob support, which is not a new speed sample or PASS.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-1033 remains BOUNDED_VETO_ACTIVE. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1036 is refreshed against W02 1033 but remains veto-active/not ready.",
   "interpretation": "No statistically defensible paired speed claim exists. Caller-supplied operational progress, authority/routing state, eligible-wake count, observation horizon/censoring, commits, heartbeat/poll/retry and window age are forbidden as speed evidence unless independently derived under the paired protocol.",
-  "recorded_at": "2026-08-18T10:26:43+08:00"
+  "recorded_at": "2026-08-18T11:22:59+08:00"
 }
