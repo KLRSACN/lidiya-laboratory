@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.6",
+  "schema_version": "2.7",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
@@ -7,11 +7,11 @@
   "material_delta": [
     "Fresh MISSION_STATE remains Step009 Attempt4 STEP_DONE / LCR-A / pending=null; v1 VERIFIED_PASS and Step001-009 preserved.",
     "Gearbox v2.1 exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE; historical 49/49 is not reused as a fresh PASS.",
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-1729 / BOUNDED_VETO_ACTIVE.",
-    "New HIGH defect: public legacy v2/experience_candidate_delta can bypass v2.1 strict verification typing and create verified credit from truthy non-bool input.",
-    "New MEDIUM_HIGH defect: one malformed non-credit ledger record can abort the aggregate batch and suppress later valid evidence unless per-record fail-closed semantics are defined.",
-    "Dedicated W03 Gearbox v2.1 adversarial review remains absent.",
-    "W04 NAV-GEARBOX-V2.1-20260818-1332 is stale relative to W02 1729/current v2.1 blobs and remains veto-active/not ready.",
+    "Current branch head observed 2fe0e143d6d0a97b074355f27dd083cce93d8704; six source/test exact blobs remain c29e3b2c/11527a9e/45fe6e72/38799e41/50660075/3e815a2b.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-1829 / BOUNDED_VETO_ACTIVE.",
+    "New HIGH defect: aggregate_experience_events uses str(event_id).strip(), permitting typed alias/collision and non-canonical structured identity; versioned canonical EventIdentity plus durable evidence/verifier/source binding is required.",
+    "Dedicated W03 Gearbox v2.1 adversarial review remains absent; review directory contains no Spirit Gearbox v2.1 latest review.",
+    "W04 NAV-GEARBOX-V2.1-20260818-1332 is stale relative to W02 1829/current v2.1 blobs and remains veto-active/not ready.",
     "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; no awake-time/commit/heartbeat/poll/retry proxy was used.",
     "Latest selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
   ],
@@ -24,6 +24,6 @@
   "w04_ref": "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
-  "readback_status": "PASS",
-  "saved_at": "2026-08-18T17:34:00+08:00"
+  "readback_status": "PENDING_READBACK",
+  "saved_at": "2026-08-18T18:34:00+08:00"
 }
