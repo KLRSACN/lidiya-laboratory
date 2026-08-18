@@ -1,15 +1,15 @@
 {
-  "schema_version": "1.8",
+  "schema_version": "1.9",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "Fresh pre-bookkeeping branch head 8d08a13c8abfda7f0a086921f01fb477506ed8e7 has zero associated workflow runs; exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as a new PASS.",
-    "All six Gearbox source/test blobs were fresh-read and remain identical to historical exact-blob support: c29e3b2c/11527a9e/45fe6e72/38799e41/d6509403/0a6904f1.",
-    "W02 remains QUANTUM-GEARBOX-V2.1-20260818-0833 / BOUNDED_VETO_ACTIVE with unresolved HIGH authority/freshness/evidence/replay/direct-credit/current-gear/verification-stage/anti-thrash defects plus MEDIUM_HIGH denominator-gaming risk.",
-    "Dedicated W03 Gearbox v2.1 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0833.",
-    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; eligible-wake definition and scheduler cadence remain precommit-required.",
+    "Fresh pre-bookkeeping branch head f0ee1f5b296ef39598a19cc28eddbaa413b5f1de has zero associated workflow runs; exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and historical 49/49 is not reused as a new PASS.",
+    "All six Gearbox source/test blobs remain identical to historical exact-blob support: c29e3b2c/11527a9e/45fe6e72/38799e41/d6509403/0a6904f1.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260818-0929 / BOUNDED_VETO_ACTIVE and adds MEDIUM_HIGH verified_closure_per_hour observation-window/censoring gaming risk; existing HIGH authority/freshness/evidence/replay/direct-credit/anti-thrash vetoes remain.",
+    "Dedicated W03 Gearbox v2.1 review remains absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0929.",
+    "Paired speed baseline remains INSUFFICIENT_SAMPLE / multiplier NOT_ESTABLISHED; eligible-wake, observation horizon, exposure clock and censoring rules remain precommit-required.",
     "Latest selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS were refreshed; no formal A->B->C routing occurred."
   ],
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
@@ -22,5 +22,5 @@
   "checkpoint_ref": "state/window_self_backups/WINDCHIME_LATEST.json",
   "progress_ref": "state/EVOLUTION_PROGRESS.json",
   "readback_status": "PASS_REQUIRED_THIS_WAKE",
-  "saved_at": "2026-08-18T09:30:19+08:00"
+  "saved_at": "2026-08-18T10:26:43+08:00"
 }
