@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.1",
+  "schema_version": "3.2",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
@@ -17,15 +17,15 @@
   "pairing_rule": "Use matched baseline/candidate assigned workloads with equal verification/risk and precommitted eligible-wake, exposure/censoring and admission/defer/timeout policies. Randomize AB/BA or crossover from the same sealed starting snapshot, reset candidate-sensitive runtime state between arms, preserve external monotonic audit state, report order interaction and intention-to-treat coverage.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "source_review": "QUANTUM-GEARBOX-V2.1-20260819-0229",
-    "rule": "Candidate and baseline must use identical wake eligibility, exposure/censoring, malformed-record handling, strict EventKind intake, EventIdentity semantics, acceptance-receipt proof rules, secretary-pressure provenance/freshness handling, defer/reject/timeout semantics, completed-work inclusion, and the same unrounded canonical pressure-routing policy. Presentation rounding may not affect routing. Correlated telemetry must use the same versioned lineage/correlation or cluster-cap semantics in both arms.",
-    "reject": "Awake time, window age, commit count, heartbeat/poll/retry counts and task_last_run are never speed evidence. Any arm whose routing differs only because of pressure presentation rounding or unequal correlated-signal treatment is ineligible for a causal speed comparison rather than faster."
+    "source_review": "QUANTUM-GEARBOX-V2.1-20260819-0332",
+    "rule": "Candidate and baseline must use identical wake eligibility, exposure/censoring, malformed-record handling, EventKind/EventIdentity semantics, acceptance-receipt proof rules, secretary-pressure provenance/freshness handling, defer/reject/timeout semantics, completed-work inclusion, unrounded canonical pressure-routing policy, correlated-signal handling, and identical N/R terminal safety-state semantics. N/R failures, crashes or delayed rollback cannot be censored out of the candidate arm.",
+    "reject": "Awake time, window age, commit count, heartbeat/poll/retry counts and task_last_run are never speed evidence. An arm with N/R parsing failure, delayed rollback, pressure-rounding-only routing differences, or unequal correlated-signal treatment is ineligible for a positive causal speed claim rather than faster."
   },
   "selection_bias_control": {
     "status": "TEST_REQUIRED",
-    "rule": "Use intention-to-treat assigned-workload analysis and report completion, verified closure, defer, reject, timeout, malformed-record rejection, EventKind rejection, EventIdentity conflict/quarantine, acceptance-receipt rejection, stale-secretary pressure rejection, pressure-boundary routing, correlated-signal handling, coverage and assignment-to-closure latency under common censoring/failure semantics."
+    "rule": "Use intention-to-treat assigned-workload analysis and report completion, verified closure, defer, reject, timeout, malformed-record rejection, identity conflict/quarantine, N/R safety-state outcomes, pressure-boundary routing, correlated-signal handling, coverage and assignment-to-closure latency under common censoring/failure semantics."
   },
-  "current_candidate_executor_note": "Fresh pre-bookkeeping head 1bd5a4bbd6712d461ed09f994e661b342fa46312 observed. Six exact Gearbox source/test blobs remain c29e3b2c/11527a9e/45fe6e72/38799e41/50660075/3e815a2b. Exact-head workflow lookup returned zero runs and no connector-to-same-runner exact byte mount exists, so fresh validation remains DEFER_EXECUTOR_UNAVAILABLE. Historical 49/49 remains support only.",
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260819-0229 remains BOUNDED_VETO_ACTIVE and adds pressure-rounding threshold and correlated-signal defects. Dedicated W03 Gearbox v2.1 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale against W02 0229.",
+  "current_candidate_executor_note": "Fresh inspected head 949729eeb512d23e9768ac7727d298ecfde6d38f. Six exact Gearbox source/test blobs remain c29e3b2c/11527a9e/45fe6e72/38799e41/50660075/3e815a2b. Exact-head workflow lookup returned zero runs and no connector-to-same-runner exact byte mount exists, so fresh validation remains DEFER_EXECUTOR_UNAVAILABLE. Historical 49/49 remains support only.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260819-0332 remains BOUNDED_VETO_ACTIVE and adds HIGH N/R safety-state parsing defect: inherited N standby/R rollback can reach int(selected[1:]) and raise ValueError. Dedicated W03 Gearbox v2.1 review is absent. W04 NAV-GEARBOX-V2.1-20260818-1332 is stale against W02 0332.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
