@@ -1,9 +1,9 @@
 {
-  "schema_version": "1.4",
+  "schema_version": "1.5",
   "mission_id": "LCR-EVOLUTION-0005",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
-  "forbidden_proxies": ["awake_time", "window_age", "commit_count", "heartbeat_count", "poll_count", "retry_count", "task_last_run"],
+  "forbidden_proxies": ["awake_time","window_age","commit_count","heartbeat_count","poll_count","retry_count","task_last_run"],
   "required_paired_metrics": {
     "durable_progress_per_wake": "INSUFFICIENT_SAMPLE",
     "verified_closure_per_hour": "INSUFFICIENT_SAMPLE",
@@ -15,8 +15,8 @@
     "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
   },
   "pairing_rule": "Use matched baseline/candidate workloads and equal-or-better verification quality/risk before estimating any multiplier.",
-  "current_candidate_executor_note": "Fresh current head 740e63c6a156ab09401e646dd035a21bd5a54541 has no associated workflow execution. Historical run 32066329935/job 95499218490 remains exact-blob support only, not a new current-head speed sample or PASS.",
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-0633 is BOUNDED_VETO_ACTIVE with HIGH current_gear canonical-state binding and verification_stage trusted-receipt binding defects in addition to existing credit/provenance/replay vetoes. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0633.",
+  "current_candidate_executor_note": "Fresh pre-bookkeeping branch head 13b0142b148e4ad70688f682491fc5b175818f8c had no fresh exact-current executor result available to W01. Historical 49/49 exact-blob support is not a new speed sample or PASS.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260818-0729 remains BOUNDED_VETO_ACTIVE and adds HIGH trusted authority-snapshot projection requirements. Dedicated W03 review is absent. W04 NAV-GEARBOX-V2.1-20260818-0632 remains veto-active and stale relative to W02 0729.",
   "interpretation": "No statistically defensible paired speed claim exists. Caller-supplied operational progress, current gear, verification stage, wake counts, commits, heartbeat/poll/retry and window age are forbidden as speed evidence unless independently derived under the paired protocol.",
-  "recorded_at": "2026-08-18T07:21:57+08:00"
+  "recorded_at": "2026-08-18T08:21:22+08:00"
 }
