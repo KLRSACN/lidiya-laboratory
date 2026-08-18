@@ -1,28 +1,29 @@
 {
-  "schema_version": "3.5",
+  "schema_version": "3.6",
   "window": "W01-WINDCHIME",
   "role": "LCR-A",
-  "recorded_at": "2026-08-19T04:39:00+08:00",
+  "recorded_at": "2026-08-19T05:39:00+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0430 BOUNDED_VETO_ACTIVE.",
-    "New HIGH QV-GB21-BATCH-MALFORMED-FAILCLOSED-041: one malformed low-value ledger record can abort aggregate_experience_events before later valid evidence; non-atomic processing must fail closed per record and preserve later valid evidence, or atomicity must be explicit/authenticated/bounded/tested."
+    "W02 advanced during this wake to QUANTUM-GEARBOX-V2.1-20260819-0530 BOUNDED_VETO_ACTIVE.",
+    "New HIGH QV-GB21-OPERATIONAL-EVIDENCE-BINDING-042: caller-only unique event_ids carrying DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND can inflate operational_progress without durable artifact/evidence/acceptance proof; operational progress and speed numerator must be evidence-bound to immutable accepted receipts with exactly-once lineage semantics.",
+    "HIGH malformed-record batch DoS 041 and N/R safety-state parse 040 remain open."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
-    "active8_progress_sha_after_update": "52ddf644571b94498daa1aec800fd9b3cbe46c9b",
+    "active8_progress_sha_after_update": "a57a3a6b2a7eb983ab516df5f4a21dbc949e7c5f",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "source_head_for_candidate_state": "1bf8f4b835d561db73edf77814686f4d07b6d235",
+    "candidate_bytes_anchor_head": "1bf8f4b835d561db73edf77814686f4d07b6d235",
     "bookkeeping_commits_created": true
   },
-  "readback": {
-    "selftest_sha": "33d9d803507ab00bf71001b67331bc27779ab671",
+  "readback_expected": {
+    "selftest_sha": "079c7d0c552fe75d7960e05926ef0e5b70377561",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "ab62f0c3b924fb97d3c3469ad7d94d25336f19c5",
+    "speed_baseline_sha": "a21da5c8d1c5eea23c899de11d5aa1a97256772a",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "82e22498773f3824c889a52cd3360cda1fb5ece2",
-    "progress_sha": "52ddf644571b94498daa1aec800fd9b3cbe46c9b"
+    "checkpoint_sha": "9f10533db864ceac086e2f471a114c5433904bec",
+    "progress_sha": "a57a3a6b2a7eb983ab516df5f4a21dbc949e7c5f"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -38,11 +39,7 @@
     }
   },
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","real_5min_runtime_live":false},
-  "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-0430_BOUNDED_VETO_ACTIVE",
-    "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
-    "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
-  },
+  "review_gate": {"w02":"QUANTUM-GEARBOX-V2.1-20260819-0530_BOUNDED_VETO_ACTIVE","w03":"NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW","w04":"NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"},
   "speed_gate": "INSUFFICIENT_SAMPLE_MULTIPLIER_NOT_ESTABLISHED",
   "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_W02_BOUNDED_VETO_PLUS_MISSING_W03_PLUS_STALE_W04_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
