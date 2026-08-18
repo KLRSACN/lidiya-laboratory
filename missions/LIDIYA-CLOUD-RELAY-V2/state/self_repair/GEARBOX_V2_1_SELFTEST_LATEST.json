@@ -1,26 +1,22 @@
 {
-  "schema_version": "3.2",
+  "schema_version": "3.3",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T04:35:00+08:00",
+  "recorded_at": "2026-08-19T05:35:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Fresh branch head 1bf8f4b835d561db73edf77814686f4d07b6d235 was inspected. The available GitHub connector exposes exact repository content for inspection but not as a mountable same-runner filesystem byte stream, while direct raw-content acquisition into the isolated runner is blocked by the runtime/network policy. Therefore exact-current py_compile plus all three suites were not executed and no fresh PASS is claimed.",
-    "branch_head_observed": "1bf8f4b835d561db73edf77814686f4d07b6d235",
-    "head_commit_message": "W02: refresh Gearbox v2.1 adversarial latest review",
-    "runner_provenance": "W01 GitHub exact-file/blob inspection plus isolated-runner exact-byte acquisition probe; connector bytes are not mountable into the same runner and direct raw acquisition is unavailable",
+    "reason": "The six current Gearbox source/test blobs were inspected exactly through GitHub. The connector does not expose them as a mountable same-runner filesystem byte stream, and direct raw-content acquisition into the isolated runner is unavailable. Therefore exact-current py_compile plus all three full suites were not executed and no fresh PASS is claimed.",
+    "candidate_bytes_anchor_head": "1bf8f4b835d561db73edf77814686f4d07b6d235",
+    "candidate_bytes_unchanged_after_later_review_bookkeeping": true,
+    "runner_provenance": "W01 GitHub exact-file/blob inspection plus isolated-runner exact-byte acquisition probe; no exact-current same-runner executor surface available",
     "runner_probe_exit_code": null,
     "fresh_test_exit_code": null,
     "historical_49_of_49_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
     "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
-    "tests": [
-      "python -m unittest -v evolution/test_gearbox_controller.py",
-      "python -m unittest -v evolution/test_gearbox_controller_v2.py",
-      "python -m unittest -v evolution/test_gearbox_controller_v2_1.py"
-    ]
+    "tests": ["python -m unittest -v evolution/test_gearbox_controller.py","python -m unittest -v evolution/test_gearbox_controller_v2.py","python -m unittest -v evolution/test_gearbox_controller_v2_1.py"]
   },
   "exact_blob_sha": {
     "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
@@ -30,24 +26,11 @@
     "evolution/gearbox_controller_v2_1.py": "50660075a97d9bab71f0a7d7c402527cc01f6afa",
     "evolution/test_gearbox_controller_v2_1.py": "3e815a2beaa653ca218514d8a915426c6f12b677"
   },
-  "contract_blob_sha": {
-    "evolution/GEARBOX_V2_CONTRACT.json": "7c272b09264be765354fe2052eeb9e2f230f1705",
-    "evolution/GEARBOX_V2_1_CONTRACT.json": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
-  },
-  "suite_result": {
-    "compile": {"fresh_files": 3, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
-    "v1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
-    "v2": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
-    "v2_1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"}
-  },
-  "historical_suite_support": {
-    "v1": {"tests": 21, "status": "PASS_HISTORICAL_ONLY_VERIFIED_BASELINE_PRESERVED"},
-    "v2": {"tests": 16, "status": "PASS_HISTORICAL_ONLY"},
-    "v2_1": {"tests": 12, "status": "STALE_FOR_CURRENT_RELEASE_GATE_DO_NOT_REUSE_AS_FRESH_PASS"},
-    "total_historical": 49
-  },
+  "contract_blob_sha": {"evolution/GEARBOX_V2_CONTRACT.json":"7c272b09264be765354fe2052eeb9e2f230f1705","evolution/GEARBOX_V2_1_CONTRACT.json":"dce30f31b15b58ce9bbdc9103fce4be0b7784c33"},
+  "suite_result": {"compile":{"fresh_files":3,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},"v1":{"fresh_tests":null,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},"v2":{"fresh_tests":null,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},"v2_1":{"fresh_tests":null,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"}},
+  "historical_suite_support": {"v1":{"tests":21,"status":"PASS_HISTORICAL_ONLY_VERIFIED_BASELINE_PRESERVED"},"v2":{"tests":16,"status":"PASS_HISTORICAL_ONLY"},"v2_1":{"tests":12,"status":"STALE_FOR_CURRENT_RELEASE_GATE_DO_NOT_REUSE_AS_FRESH_PASS"},"total_historical":49},
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
-  "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0430 and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-BATCH-MALFORMED-FAILCLOSED-041: one malformed low-value ledger record can abort aggregate_experience_events before later valid evidence is processed. Batch semantics must be explicit; non-atomic processing must fail closed per record with zero-credit/quarantine while preserving later valid records, or authenticated bounded atomicity must be specified and tested. Existing W02 authority/freshness/evidence/replay/receipt/pressure/N-R/anti-thrash vetoes remain. Dedicated W03 Gearbox v2.1 review remains absent. W04 1332 is stale relative to W02 0430.",
+  "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
+  "latest_review_delta": "W02 advanced again to QUANTUM-GEARBOX-V2.1-20260819-0530 and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-OPERATIONAL-EVIDENCE-BINDING-042: caller-supplied unique event_id plus DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND can mint arbitrary operational_progress without durable artifact/evidence/acceptance proof, contaminating durable_progress_per_wake and speed analysis. Operational progress must require canonical evidence identity plus immutable acceptance receipt with exactly-once lineage semantics. HIGH malformed-record batch DoS 041 and N/R safety-state 040 remain open, along with authority/freshness/evidence/replay/receipt/pressure/anti-thrash vetoes. Dedicated W03 Gearbox v2.1 review remains absent; W04 1332 is stale relative to W02 0530.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
