@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0430",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0530",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -51,28 +51,34 @@
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-OPERATIONAL-EVIDENCE-BINDING-042",
+      "severity": "HIGH",
+      "finding": "New this run: aggregate_experience_events accepts DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND as operational_progress from only caller-supplied event_id + event_kind. No durable artifact hash, defect/evidence hash, acceptance receipt, source identity, mission/scope binding or independent durability proof is required. A caller can therefore mint arbitrarily many unique event_ids carrying DURABLE_PROGRESS and inflate operational_progress even while verified_experience remains zero. This directly contaminates durable_progress_per_wake and any speedup analysis that uses operational progress as numerator.",
+      "required_change": "Operational progress also needs an evidence-bound acceptance path. Require a canonical durable-progress/defect evidence identity and immutable acceptance receipt before nonzero operational_progress is emitted. Exact replay must be no-op; same evidence under new IDs must be lineage duplicate; unsupported caller-only operational claims receive zero credit. Operational evidence need not become verified Experience, but it must still prove that durable work/defect evidence exists."
+    },
+    {
       "id": "QV-GB21-MALFORMED-RECORD-BATCH-DOS-041",
       "severity": "HIGH",
-      "finding": "New this run: aggregate_experience_events calls _strict_bool(independently_verified) before validating event_id or establishing that the record is even eligible for accounting. A malformed or irrelevant record with missing event_id plus independently_verified='false' raises GearboxGuardError and aborts the entire batch, preventing later independent valid evidence from being processed. This creates a denial-of-evidence surface and violates bounded rejection/isolation expectations.",
-      "required_change": "Validate record shape and canonical event identity before verifier-boundary parsing; in non-atomic batch mode reject/quarantine malformed records independently with zero credit and continue to later records. Rejected records must not reserve or poison canonical event identity. If atomic batch semantics are desired, they must be explicit and separately authenticated/precommitted rather than emerging from the first malformed row."
+      "finding": "aggregate_experience_events calls _strict_bool(independently_verified) before validating event_id or record eligibility. A malformed record can abort the batch and suppress later valid evidence.",
+      "required_change": "Validate canonical record shape/identity first; bounded non-atomic ingestion must reject/quarantine malformed rows independently without poisoning identity or blocking later valid records."
     },
     {
       "id": "QV-GB21-NR-SAFETY-STATE-PARSE-040",
       "severity": "HIGH",
-      "finding": "v1 supports N standby and R rollback; v2 inherits those selected_gear values, but v2.1 unconditionally executes int(selected[1:]). N/R therefore can raise ValueError on canonical safety paths.",
-      "required_change": "Handle N/R as explicit terminal control states before G-gear numeric parsing; anti-thrash must never delay rollback or standby semantics."
+      "finding": "v1 supports N standby and R rollback; v2 can inherit those values, but v2.1 unconditionally executes int(selected[1:]), so canonical N/R safety paths can raise ValueError.",
+      "required_change": "Handle N/R as terminal control states before G-gear numeric parsing; anti-thrash must never delay rollback or standby semantics."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh and authority_conflict are still caller declarations. Strict bool prevents truthiness coercion but does not prove source, timestamp/TTL, policy, revocation status or installation/runtime binding.",
+      "finding": "secretary_signal_fresh and authority_conflict remain caller declarations. Strict bool does not prove provenance, timestamp/TTL, policy, revocation or runtime/install binding.",
       "required_change": "Use typed SecretarySignalEnvelope and AuthorityDecisionEnvelope bound to exact source, scope, freshness, policy and runtime/install identity."
     },
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
       "severity": "HIGH",
-      "finding": "authority_conflict only disables secretary_level; it does not load or enforce the actual fresh authority decision.",
-      "required_change": "Consume an exact trusted authority decision/snapshot; missing, stale, revoked, cross-mission or cross-install authority evidence must fail closed."
+      "finding": "authority_conflict only neutralizes secretary_level; it does not load or enforce the actual fresh authority decision.",
+      "required_change": "Consume exact trusted authority decision/snapshot; missing, stale, revoked, cross-mission or cross-install authority evidence fails closed."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
@@ -90,7 +96,7 @@
       "id": "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
       "severity": "HIGH",
       "finding": "Verified Experience still requires only an event kind plus a boolean; exact evidence hash, verifier identity and trusted C/independent-verifier receipt are not required.",
-      "required_change": "Require immutable evidence identity plus a trusted verifier receipt bound to mission/step/scope, freshness/revocation and installation/workspace identity."
+      "required_change": "Require immutable evidence identity plus trusted verifier receipt bound to mission/step/scope, freshness/revocation and installation/workspace identity."
     },
     {
       "id": "QV-GB21-EVENT-REPLAY-FAMILY",
@@ -118,20 +124,23 @@
     }
   ],
   "statistical_risks": [
-    "A single malformed record can currently abort the whole evidence batch, making observed progress/closure rates sensitive to input ordering and malformed-row incidence.",
+    "Unbound operational events allow numerator inflation in durable_progress_per_wake without any corresponding durable artifact or verified closure; speedup can therefore be manufactured even when verified_experience stays zero.",
+    "A malformed record can abort a whole evidence batch, making progress/closure statistics sensitive to input ordering and malformed-row incidence.",
     "Caller-declared freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
     "Small-n shift-rate estimates have extreme variance and can false-trigger or chatter around a single threshold.",
     "Anti-thrash can improve gear_shift_rate while worsening cycle/closure/recovery latency.",
     "verified_progress_density becomes self-reinforcing if later wired from policy-created progress back into upshift decisions.",
     "Transient event identity plus direct decision-path credit can inflate longitudinal verified/operational totals.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
-    "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis create carryover and survivorship bias."
+    "durable_progress_per_wake is denominator- and numerator-provenance-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis create carryover and survivorship bias."
   ],
   "proposed_tests": [
-    "GB21-MALFORMED-BATCH-ISOLATION-072: first row has missing event_id plus independently_verified='false'; a later valid independently verified event must still be processed in bounded non-atomic mode, while the malformed row receives zero credit and a bounded rejection reason.",
-    "GB21-MALFORMED-ID-NO-POISON-073: malformed/invalid record must not reserve canonical event_id or block a later valid record with the same intended identity; binding conflict must be explicit, never first-invalid-writer-wins.",
-    "GB21-NR-STATE-069 + GB21-ROLLBACK-STATE-070: standby/rollback must return N/R without numeric parsing or anti-thrash delay.",
-    "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
+    "GB21-OPERATIONAL-EVIDENCE-074: submit 10000 unique event_ids with event_kind=DURABLE_PROGRESS but no durable artifact/evidence receipt; operational_progress must remain zero.",
+    "GB21-OPERATIONAL-LINEAGE-075: one accepted durable artifact replayed under 10000 different event_ids counts exactly once as operational progress; exact replay is no-op and same-evidence/new-ID is lineage duplicate.",
+    "GB21-SPEED-NUMERATOR-BINDING-076: durable_progress_per_wake numerator must equal accepted durable-progress receipt count/root, not raw caller event count; forged operational events cannot improve speedup metrics.",
+    "GB21-MALFORMED-BATCH-ISOLATION-072 + GB21-MALFORMED-ID-NO-POISON-073: malformed rows do not block later valid evidence or reserve identity.",
+    "GB21-NR-STATE-069 + GB21-ROLLBACK-STATE-070: standby/rollback return N/R without numeric parsing or anti-thrash delay.",
+    "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery projects G1 even when fallback caller kwargs are permissive.",
     "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift ledger, adequate support, uncertainty and bounded release are required.",
     "GB21-PROGRESS-DENSITY-FORGE-007: verified_progress_density=1 alone has zero routing/Experience/promotion/authority effect.",
     "GB21-CROSS-RUN-SAME-ID-018 + ROLLBACK-LEDGER-019 + POLL-REPLAY-020 + EVENT-REBIND-021: durable exactly-once and identity-conflict semantics survive restart, rollback and polling.",
@@ -141,6 +150,7 @@
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen denominator/exposure policy, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
+    "QV-GB21-OPERATIONAL-EVIDENCE-BINDING-042",
     "QV-GB21-MALFORMED-RECORD-BATCH-DOS-041",
     "QV-GB21-NR-SAFETY-STATE-PARSE-040",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -155,17 +165,18 @@
   ],
   "release_condition": [
     "No formal adoption or speedup claim from this research review alone.",
+    "Operational progress must be evidence-bound even though it is not verified Experience: unsupported caller-only DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND claims get zero credit, accepted durable evidence is exactly-once/lineage-bound, and speed numerators derive only from immutable operational acceptance receipts.",
     "Evidence ingestion must isolate malformed records in bounded non-atomic mode; one malformed row must not abort later independent valid evidence or poison event identity.",
     "N and R control states must be explicitly supported by v2.1 before any G-gear numeric parsing; standby and rollback must never crash or be delayed by anti-thrash.",
     "Secretary freshness/provenance must be evidence-bound; fresh authority must be projected from an exact trusted decision, not a caller boolean.",
     "Anti-thrash inputs must be canonically derived with adequate sample support, uncertainty and hysteretic release; cycle/closure/recovery performance must be non-inferior.",
     "verified_progress_density remains observational until independently derived and tested against feedback/self-reinforcement.",
-    "All verified Experience requires exact evidence identity plus trusted C/independent-verifier receipt; DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only.",
+    "All verified Experience requires exact evidence identity plus trusted C/independent-verifier receipt; DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only and can never become P_base/Trust/Identity/Personality/Governance evidence.",
     "Experience/operational credit must be exactly-once and lineage-bound across restart/rollback/poll/replay; decision paths consume immutable acceptance receipts only.",
     "5/4/3/1 weights remain heuristic and cannot be capability/Trust/Identity/Personality/promotion truth.",
-    "Any speedup claim requires a sealed matched-workload paired/crossover baseline over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure/censoring/order, ITT workload coverage, uncertainty and verification/risk non-regression.",
+    "Any speedup claim requires a sealed matched-workload paired/crossover baseline over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen numerator provenance, denominator/exposure/censoring/order, ITT workload coverage, uncertainty and verification/risk non-regression.",
     "Existing verified Gearbox v1 and Step009 baselines remain preserved; P_base read-only; heartbeat/poll/retry/window age are not Experience; real_5min_runtime_live remains false until real authorized evidence exists."
   ],
-  "completed_at": "2026-08-19T04:30:00+08:00",
+  "completed_at": "2026-08-19T05:30:00+08:00",
   "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
