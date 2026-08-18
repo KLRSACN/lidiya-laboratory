@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-0929",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-1033",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -23,33 +23,47 @@
     "gearbox_v2_contract_sha": "7c272b09264be765354fe2052eeb9e2f230f1705",
     "gearbox_controller_v2_1_sha": "d65094039504a2f46985be71006a25201d592136",
     "test_gearbox_controller_v2_1_sha": "0a6904f1eeb2d43d6d819490cef1bad5319c7083",
-    "gearbox_v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
+    "gearbox_v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
+    "quantum_self_latest_sha": "66b6155c4dd76b305ef1d943861a0a75be925039"
   },
   "read_gap": {
     "active_8_exact_path": "NOT_DISCOVERED_WITH_TARGETED_SEARCH_WITHOUT_BROAD_ARCHIVE_READ",
     "home_latest_continuity_gearbox_exact_path": "NOT_DISCOVERED_WITH_TARGETED_SEARCH_WITHOUT_BROAD_ARCHIVE_READ",
-    "handling": "Archive No-Read Fence preserved; no guessed path or broad archive read. Fresh MISSION_STATE plus exact-current v1/v2/v2.1 executable/tests/contracts control this review."
+    "handling": "Archive No-Read Fence preserved; no guessed path or broad archive read. Fresh MISSION_STATE plus exact-current v1/v2/v2.1 executable/tests/contracts and QUANTUM_LATEST control this review."
   },
   "agreements": [
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational progress only, never verified Experience.",
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only and must never become verified Experience by category alone.",
     "HEARTBEAT, POLL, RETRY, WAIT, reconnect, scheduler wake, window age and uptime are zero Experience.",
     "Safety/recovery downshift is not blocked by the current anti-thrash branch because the hold applies only to selected_n > current_n.",
-    "verified_progress_density is currently reason-only and does not increase the inherited safe gear; keep it observational.",
+    "verified_progress_density is currently reason-only and does not exceed the inherited v2 gear; keep it observational.",
     "formal_mutation_allowed=false; P_base, Identity, Personality and Governance remain outside v2.1 write authority.",
-    "GEARBOX_V2_1_CONTRACT correctly keeps speed improvement NOT_YET_STATISTICALLY_ESTABLISHED."
+    "GEARBOX_V2_1_CONTRACT correctly keeps speed improvement NOT_YET_STATISTICALLY_ESTABLISHED.",
+    "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved if v2/v2.1 is rejected."
   ],
   "disagreements": [
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh and authority_conflict are caller-supplied and non-strict booleans; stale signals can be presented as fresh and truthy strings can alter control flow.",
+      "finding": "secretary_signal_fresh and authority_conflict are caller-supplied and not strict runtime booleans; stale signals can be presented as fresh and truthy strings can alter control flow.",
       "required_change": "Replace free booleans with replay-resistant SecretarySignalEnvelope plus trusted authority comparison; reject non-bool/unbound controls fail-closed."
     },
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
       "severity": "HIGH",
-      "finding": "authority_conflict only changes secretary_level to UNKNOWN. It does not load or enforce the actual fresh authority decision, so permissive caller v2 inputs can still route above an authority-required recovery gear.",
+      "finding": "authority_conflict only converts secretary_level to UNKNOWN; it does not load or enforce the actual fresh authority decision, so permissive caller v2 inputs can still route above an authority-required recovery gear.",
       "required_change": "Consume a trusted AuthorityDecisionEnvelope/exact authority snapshot and project its safe decision or fail closed."
+    },
+    {
+      "id": "QV-GB21-CURRENT-GEAR-STATE-BINDING-021",
+      "severity": "HIGH",
+      "finding": "current_gear is caller-supplied and directly controls v2 one-step hysteresis plus v2.1 anti-thrash. A forged high current_gear can relax the effective upshift path; a forged low value can create artificial holds/performance degradation.",
+      "required_change": "Derive current_gear from canonical monotonic runtime/shift state bound to installation/runtime identity and policy hash; caller value may be advisory only and mismatch must fail closed."
+    },
+    {
+      "id": "QV-GB21-VERIFICATION-STAGE-AUTHORITY-BINDING-022",
+      "severity": "HIGH",
+      "finding": "verification_stage is caller-supplied. Self-reporting C_VERIFIED removes the v2 UNVERIFIED/CANDIDATE G4 cap without any exact C evidence, verifier identity, mission/step/scope, freshness or revocation binding.",
+      "required_change": "Derive verification_stage from a trusted verifier/acceptance receipt bound to exact mission, step, scope, evidence and current acceptance state; missing/stale/revoked/cross-scope receipts retain the unverified cap."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
@@ -60,13 +74,13 @@
     {
       "id": "QV-GB21-ANTI-THRASH-PERFORMANCE-005",
       "severity": "MEDIUM_HIGH",
-      "finding": "Anti-thrash can suppress safe upshift indefinitely, reduce apparent shift rate, and still worsen cycle completion, verified closure throughput or recovery latency.",
-      "required_change": "Bound hold/cooldown/release and require paired performance non-regression before claiming benefit."
+      "finding": "Anti-thrash can suppress safe upshift indefinitely, lower apparent shift rate, and still worsen cycle completion, verified closure throughput or recovery latency.",
+      "required_change": "Bound hold/cooldown/release behavior and require paired performance non-regression before claiming benefit."
     },
     {
       "id": "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
       "severity": "HIGH",
-      "finding": "Verified Experience still depends on event kind plus bool(independently_verified), not exact evidence hash plus trusted C/independent-verifier receipt. bool('false') is True.",
+      "finding": "Verified Experience depends on event kind plus bool(independently_verified), not exact evidence hash plus trusted C/independent-verifier receipt; bool('false') is True.",
       "required_change": "Strict bool fail-closed is necessary but insufficient; require canonical event/evidence identity, trusted verifier receipt, scope/freshness/revocation and durable acceptance record."
     },
     {
@@ -102,24 +116,26 @@
     {
       "id": "QV-GB21-SPEED-TIME-WINDOW-CENSORING-020",
       "severity": "MEDIUM_HIGH",
-      "finding": "verified_closure_per_hour can also be gamed if baseline and candidate choose different observation horizons or censor idle, blocked, recovery, verifier-wait, or failure periods differently. The current contract names closure/hour but does not define a precommitted exposure clock, start/stop rule, censoring rule, or treatment of interrupted runs.",
-      "required_change": "Precommit the paired observation horizon, exposure-clock definition, start/stop rule, downtime/censoring policy, interrupted-run handling and workload arrival process. Report both wall-clock and eligible-exposure variants if needed; candidate-dependent censoring cannot support a speedup claim."
+      "finding": "verified_closure_per_hour can be gamed if baseline and candidate use different observation horizons or censor idle, blocked, recovery, verifier-wait or failure periods differently.",
+      "required_change": "Precommit paired observation horizon, exposure-clock definition, start/stop rule, downtime/censoring policy, interrupted-run handling and workload arrival process."
     }
   ],
   "statistical_risks": [
-    "Caller-forged secretary freshness/authority/current gear/verification stage can change routing exposure and invalidate causal speed comparisons.",
+    "Caller-forged secretary freshness, authority conflict, current gear or verification stage changes routing exposure and invalidates causal speed comparisons.",
     "Small-n shift-rate estimates have extreme variance and can create false anti-thrash holds.",
     "Anti-thrash can improve gear_shift_rate while degrading cycle latency, verified closure throughput or recovery latency.",
     "verified_progress_density has no bound denominator/window/independence and becomes self-reinforcing if later wired to routing.",
     "Transient event identity and dual credit paths permit longitudinal verified/operational credit inflation.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
     "durable_progress_per_wake is denominator-sensitive to candidate-dependent wake cadence.",
-    "verified_closure_per_hour is sensitive to candidate-dependent observation-window selection and censoring of downtime/failures.",
+    "verified_closure_per_hour is sensitive to candidate-dependent observation-window selection and downtime/failure censoring.",
     "Unmatched baseline/candidate runs are confounded by workload mix, incident rate, verifier availability, runtime conditions and routing state."
   ],
   "proposed_tests": [
     "GB21-FRESHNESS-FORGE-001: stale RED/ORANGE cannot affect gear using caller-forged freshness; non-bool freshness/conflict values reject fail-closed.",
     "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery plus permissive caller fallback still produces G1; stale/revoked/cross-scope authority receipts reject.",
+    "GB21-CURRENT-GEAR-FORGE-034: canonical runtime=G1 while caller says G5; hysteresis/anti-thrash must use canonical G1 and record mismatch.",
+    "GB21-VERIFICATION-STAGE-FORGE-035: caller says C_VERIFIED without exact trusted C receipt; retain unverified cap; stale/revoked/cross-step/cross-install receipts reject.",
     "GB21-SHIFT-RATE-PROVENANCE-017: canonical shift-ledger derivation wins over caller recent_shift_rate_ratio.",
     "GB21-SHIFT-SMALL-N-004: 1/1 and 2/3 cannot trigger production anti-thrash without preregistered support/uncertainty semantics.",
     "GB21-ANTI-THRASH-RECOVERY-005: after a burst, safe upshift recovers under bounded policy with non-regressed closure/cycle/recovery metrics.",
@@ -132,14 +148,14 @@
     "GB21-OPERATIONAL-ONLY-013: DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND never change verified Experience, P_base, Identity, Personality, Governance or formal authority.",
     "GB21-CREDIT-SCORE-014: equal aggregate 5/4/3 scores from different event mixes cannot imply equivalent capability or trigger promotion.",
     "GB21-PAIRED-SPEED-015: matched baseline reports all required speed and quality metrics with verification/risk non-regression; commits/awake time excluded.",
-    "GB21-WAKE-DENOMINATOR-FREEZE-030: baseline/candidate use identical precommitted eligible-wake definition and schedule.",
-    "GB21-RATIO-GAMING-031: progress/wake gain caused only by fewer counted wakes is not speedup without corroborating closure/hour and latency evidence.",
-    "GB21-TIME-WINDOW-FREEZE-032: baseline/candidate use the same precommitted wall-clock/exposure horizon, start-stop rules and downtime censoring policy.",
-    "GB21-CENSORING-GAMING-033: candidate that excludes recovery/verifier-wait/failure periods cannot improve verified_closure_per_hour relative to a baseline that includes them; recompute under identical exposure clock and expect no artificial gain."
+    "GB21-WAKE-DENOMINATOR-FREEZE-030 and RATIO-GAMING-031: freeze eligible-wake policy and reject ratio-only gains from fewer counted wakes.",
+    "GB21-TIME-WINDOW-FREEZE-032 and CENSORING-GAMING-033: identical exposure clock/censoring rules remove artificial closure-per-hour gains."
   ],
   "bounded_veto": [
     "QV-GB21-FRESHNESS-AUTHORITY-001",
     "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
+    "QV-GB21-CURRENT-GEAR-STATE-BINDING-021",
+    "QV-GB21-VERIFICATION-STAGE-AUTHORITY-BINDING-022",
     "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
     "QV-GB21-ANTI-THRASH-PERFORMANCE-005",
     "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
@@ -153,6 +169,7 @@
   "release_condition": [
     "Do not modify formal authority and do not claim C PASS from this review.",
     "Fresh secretary and authority decisions must be evidence-bound and replay-resistant, with strict input typing.",
+    "current_gear and verification_stage must come from trusted canonical runtime/verifier state, not caller declarations.",
     "Anti-thrash metrics must come from canonical shift history with preregistered support/window/uncertainty and bounded release behavior.",
     "Verified Experience requires exact evidence identity plus trusted C/independent-verifier acceptance; operational progress remains separate.",
     "All verified/operational credit must flow through one durable replay-resistant acceptance registry/receipt path.",
