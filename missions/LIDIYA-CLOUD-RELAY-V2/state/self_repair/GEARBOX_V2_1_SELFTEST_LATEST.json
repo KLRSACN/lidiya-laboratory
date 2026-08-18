@@ -5,9 +5,9 @@
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Fresh pre-bookkeeping branch head 5f589a24982021610a0728cd19fb43cc48277e04 was inspected. Exact commit workflow lookup returned zero runs, and the available GitHub connector does not expose the six fetched exact repository blobs as a mountable same-runner filesystem byte stream. Therefore exact-current py_compile plus all three suites were not executed and no fresh PASS is claimed.",
-    "branch_head_observed": "5f589a24982021610a0728cd19fb43cc48277e04",
-    "head_commit_message": "quantum: refresh gearbox v2.1 adversarial review",
+    "reason": "Fresh pre-bookkeeping branch head 1bd5a4bbd6712d461ed09f994e661b342fa46312 was inspected. Exact commit workflow lookup returned zero runs, and the available GitHub connector does not expose the six fetched exact repository blobs as a mountable same-runner filesystem byte stream. Therefore exact-current py_compile plus all three suites were not executed and no fresh PASS is claimed.",
+    "branch_head_observed": "1bd5a4bbd6712d461ed09f994e661b342fa46312",
+    "head_commit_message": "quantum: refresh Gearbox v2.1 adversarial review",
     "runner_provenance": "W01 GitHub exact-file/blob inspection plus exact-head workflow lookup; no exact-current same-runner executor surface available",
     "runner_probe_exit_code": null,
     "workflow_runs_for_exact_head": 0,
@@ -46,6 +46,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","runtime_maintenance_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260819-0029 remains BOUNDED_VETO_ACTIVE. New HIGH inherited-v2 safety-metadata preservation veto: the v2.1 wrapper can drop inherited v2 checkpoint/ACK/verification safety metadata, so inherited safety semantics are not proven preserved. Preserve/propagate that metadata exactly or replace it with a typed authoritative equivalent and cover it in contract/tests. Existing HIGH authority/freshness/evidence/replay/receipt/current-gear/verification-stage/N-R/legacy/secretary-pressure/anti-thrash vetoes remain. Dedicated W03 review remains absent. W04 1332 is stale relative to W02 0029.",
+  "latest_review_delta": "W02 QUANTUM-GEARBOX-V2.1-20260819-0229 remains BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH pressure-routing defects: routing currently compares display-rounded pressure against 0.45/0.70 thresholds, so quantization can cross a gate; correlated telemetry can also double-count one latent incident. Route on an unrounded canonical pressure value, round presentation only, version the numeric policy, add dense boundary/monotonic tests, and bind source/incident lineage with a correlation or cluster-cap policy. Existing HIGH authority/freshness/evidence/replay/receipt/current-gear/verification-stage/N-R/legacy/secretary-pressure/anti-thrash vetoes remain. Dedicated W03 Gearbox v2.1 review remains absent. W04 1332 is stale relative to W02 0229.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
