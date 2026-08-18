@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-2231",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260818-2329",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -25,6 +25,7 @@
     "gearbox_v1_verified_baseline": "PRESERVED",
     "step009_heartbeat_phase1": "VERIFIED_FOUNDATION_PRESERVED",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
+    "formal_status": "STEP_DONE_LCR_A_PENDING_NULL",
     "p_base": "READ_ONLY",
     "runtime_maintenance_is_experience": false,
     "real_5min_runtime_live": false
@@ -40,43 +41,49 @@
     "gearbox_v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
   },
   "agreements": [
-    "Gearbox v1 verified baseline remains preserved; this review does not mutate formal A/B/C state or claim C PASS.",
+    "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime are zero Experience.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only under the v2.1 contract and must never promote P_base, Trust, Identity, Personality or Governance.",
-    "v2.1 strict-bool guards for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening, but provenance/authority binding remains separate.",
-    "verified_progress_density is currently reason-only and should remain observational/non-authoritative.",
-    "GEARBOX_V2_1_CONTRACT correctly keeps speedup NOT_YET_STATISTICALLY_ESTABLISHED.",
-    "P_base, Identity, Personality and Governance remain non-writable from v2.1."
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
+    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid local hardening, but they do not establish provenance or authority.",
+    "verified_progress_density is currently reason-only and must remain observational/non-authoritative unless independently derived and adversarially validated.",
+    "GEARBOX_V2_1_CONTRACT correctly marks speed improvement NOT_YET_STATISTICALLY_ESTABLISHED.",
+    "v2.1 formal_mutation_allowed remains false and P_base remains read-only."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-INHERITED-EVENT-KIND-TYPE-036",
+      "severity": "MEDIUM_HIGH",
+      "finding": "New this run: v2.1 passes v2_kwargs into select_gear_v2 before its own normalized kind handling. Inside v2, experience_candidate_delta stringifies event_kind, but verified_event later calls event_kind.upper() on the original caller value. A non-string event_kind such as 123/list/object can therefore raise AttributeError in the inherited v2 path before v2.1 can complete routing. The current v2.1 tests do not cover this typed-intake failure.",
+      "required_change": "Define one canonical EventKind intake shared by v2 and v2.1. Live/adoptable paths must accept only bounded canonical strings/enums, or deterministically fail closed with GearboxGuardError/zero-credit rejection; legacy v2 must not remain an untyped authoritative bypass."
+    },
+    {
       "id": "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
       "severity": "HIGH",
-      "finding": "The v2.1 stale-secretary gate neutralizes only secretary_level. It does not bind provenance or freshness for context_load_ratio, tool_failure_ratio, stale_pointer_ratio, continuity_anchor_health or other pressure inputs passed through v2_kwargs. If any of those values originate from the same stale W07/secretary observation, they can still change pressure_score and force checkpoint/downshift even when secretary_signal_fresh=false. Therefore the executable does not yet prove the contract claim that a stale secretary signal cannot force a gear change.",
-      "required_change": "Introduce a typed pressure-signal provenance envelope or per-field source/freshness binding. Secretary-derived pressure components must be ignored/invalidated when their source envelope is stale or conflicts with fresh authority; independently derived trusted runtime metrics may remain active. The controller must distinguish trusted runtime telemetry from stale secretary-derived telemetry instead of gating only secretary_level."
+      "finding": "The stale-secretary gate neutralizes only secretary_level. context_load_ratio, tool_failure_ratio, stale_pointer_ratio, continuity_anchor_health and other pressure inputs can still carry stale secretary-derived information and force checkpoint/downshift when secretary_signal_fresh=false.",
+      "required_change": "Bind provenance/freshness per pressure signal or consume a typed pressure telemetry envelope; stale/authority-conflicting secretary-derived components must be ignored while independently sourced trusted runtime telemetry remains eligible."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh and authority_conflict remain caller declarations without replay-resistant source, timestamp/TTL, policy and installation/runtime identity binding.",
+      "finding": "secretary_signal_fresh and authority_conflict are strict bools but remain caller declarations without replay-resistant source, timestamp/TTL, policy and installation/runtime binding.",
       "required_change": "Use typed SecretarySignalEnvelope and AuthorityDecisionEnvelope bound to exact source, scope, freshness, policy and installation/runtime identity."
     },
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
       "severity": "HIGH",
-      "finding": "authority_conflict only neutralizes secretary_level; it does not project or enforce the actual fresh authority decision.",
-      "required_change": "Consume exact trusted authority state/gear constraints. Missing, stale, revoked or cross-scope authority evidence must fail closed."
+      "finding": "authority_conflict only disables secretary_level; it does not load/project/enforce the actual fresh authority decision. Therefore 'fresh authority always wins' is stronger than the current executable guarantee.",
+      "required_change": "Consume exact trusted authority state/gear constraints; missing, stale, revoked, cross-mission or cross-install authority evidence must fail closed."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
       "severity": "HIGH",
-      "finding": "recent_shift_rate_ratio is caller-supplied and thresholded at >=0.50 without canonical numerator/denominator, minimum support, observation window, uncertainty or independent enter/exit hysteresis.",
-      "required_change": "Derive shift rate from canonical append-only shift history with preregistered support/window/uncertainty and bounded hysteretic release behavior."
+      "finding": "recent_shift_rate_ratio is caller supplied and thresholded at >=0.50 without canonical numerator/denominator, minimum support, observation window, uncertainty or independent enter/exit hysteresis.",
+      "required_change": "Derive shift rate from canonical append-only shift history with preregistered support/window/uncertainty and stateful hysteretic release behavior."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-PERFORMANCE-004",
       "severity": "MEDIUM_HIGH",
-      "finding": "Anti-thrash can lower gear_shift_rate while delaying necessary safe upshift and worsening cycle_completion_latency, verified_closure throughput or recovery_latency.",
+      "finding": "Anti-thrash can reduce gear_shift_rate while delaying necessary safe upshift and worsening cycle_completion_latency, verified_closure throughput or recovery_latency.",
       "required_change": "Require matched performance non-regression and bounded release/cooldown; fewer shifts alone is not improvement."
     },
     {
@@ -88,7 +95,7 @@
     {
       "id": "QV-GB21-EVENT-REPLAY-FAMILY",
       "severity": "HIGH",
-      "finding": "event_id dedupe exists only inside one aggregate invocation; same evidence under new IDs, cross-run replay, rollback/poll replay and same-ID rebinding can still be re-credited.",
+      "finding": "event_id dedupe exists only inside one aggregate invocation; the same evidence under new IDs, cross-run replay, rollback/poll replay and same-ID rebinding can still be re-credited.",
       "required_change": "Use a durable rollback-resistant event/evidence-lineage acceptance registry with exact replay=no-op, same-evidence/new-ID=lineage duplicate and same-ID/different-binding=IDENTITY_CONFLICT."
     },
     {
@@ -96,12 +103,6 @@
       "severity": "HIGH",
       "finding": "select_gear_v2_1 recomputes verified and operational deltas directly from caller event fields, bypassing aggregate_experience_events and any future durable-ledger repair.",
       "required_change": "Both credit classes must come from one immutable AcceptedExperienceReceipt; receipt-less decision calls emit zero credit."
-    },
-    {
-      "id": "QV-GB21-LEDGER-RESULT-NO-ACCEPTANCE-PROOF-034",
-      "severity": "HIGH",
-      "finding": "ExperienceLedgerResult carries aggregate counters but no acceptance manifest/root tying totals to exact accepted evidence and verifier receipts.",
-      "required_change": "Use an immutable AcceptedExperienceBatchReceipt; naked counters are analytics-only and non-authoritative."
     },
     {
       "id": "QV-GB21-LEGACY-OPERATIONAL-AS-EXPERIENCE-033",
@@ -118,13 +119,13 @@
     {
       "id": "QV-GB21-CURRENT-GEAR-STATE-BINDING-021",
       "severity": "HIGH",
-      "finding": "current_gear is caller-supplied while controlling v2 hysteresis and v2.1 anti-thrash.",
+      "finding": "current_gear is caller supplied while controlling v2 hysteresis and v2.1 anti-thrash.",
       "required_change": "Derive current_gear from canonical monotonic runtime/shift state bound to runtime/install identity and policy hash."
     },
     {
       "id": "QV-GB21-VERIFICATION-STAGE-AUTHORITY-BINDING-022",
       "severity": "HIGH",
-      "finding": "verification_stage is caller-supplied; self-reporting C_VERIFIED can remove the unverified G4 cap without exact C evidence.",
+      "finding": "verification_stage is caller supplied; self-reporting C_VERIFIED can remove the unverified G4 cap without exact C evidence.",
       "required_change": "Derive verification_stage only from trusted verifier/acceptance receipts bound to exact mission, step, scope, evidence, freshness and revocation state."
     },
     {
@@ -141,32 +142,34 @@
     }
   ],
   "statistical_risks": [
-    "A stale secretary signal can remain causally active through pressure inputs even when secretary_level itself is neutralized, unless signal provenance/freshness is bound per field/source.",
-    "Caller-forged secretary freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
+    "Stale secretary-derived pressure telemetry can remain causally active unless freshness/provenance is bound per field/source.",
+    "Caller-forged freshness, authority conflict, current gear or verification stage invalidates causal routing comparisons.",
     "Small-n shift-rate estimates have extreme variance; a single >=0.50 threshold can false-trigger or chatter without independent release hysteresis.",
     "Anti-thrash can reduce apparent gear_shift_rate while worsening cycle latency, verified closure throughput or recovery latency.",
     "verified_progress_density becomes self-reinforcing if later wired from policy-created progress back into upshift decisions.",
     "Transient event identity plus direct decision-path credit can inflate longitudinal verified/operational totals.",
-    "Aggregate-only ledger outputs are not proof-carrying; equal totals can arise from different event/evidence sets.",
-    "A legacy mixed experience_candidate_delta field can leak operational progress into Experience-labelled longitudinal metrics.",
+    "Legacy mixed experience_candidate_delta can contaminate downstream Experience-labelled longitudinal metrics with operational progress.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
-    "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis add carryover and survivorship bias."
+    "durable_progress_per_wake is denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed treatment order and completed-only analysis add carryover and survivorship bias.",
+    "Untyped inherited event_kind inputs can convert malformed records from bounded rejection into controller-level exceptions, biasing reliability and throughput measurements."
   ],
   "proposed_tests": [
-    "GB21-STALE-PRESSURE-PROVENANCE-059: create a secretary envelope whose RED level and context/tool/stale pressure components are all stale; secretary_signal_fresh=false must prevent every secretary-derived component from affecting selected gear or checkpoint. Independently sourced trusted runtime pressure with fresh provenance must still work.",
-    "GB21-STALE-PRESSURE-MIXED-SOURCE-060: mix stale secretary-derived context_load_ratio=1 with fresh trusted runtime tool_failure_ratio; only the trusted component may contribute to pressure_score/routing. Source omission or ambiguity fails closed for secretary-derived telemetry.",
-    "GB21-AUTHORITY-DECISION-PROJECTION-028: authority conflict with trusted authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
+    "GB21-EVENT-KIND-TYPE-061: pass event_kind=123,true,[],{},arbitrary object through v2.1; each must deterministically fail closed as GearboxGuardError or bounded zero-credit rejection, never uncaught AttributeError/TypeError.",
+    "GB21-EVENT-KIND-LEGACY-062: v2, experience_candidate_delta and v2.1 must share one canonical EventKind boundary; otherwise legacy v2 is explicitly non-authoritative/research-only.",
+    "GB21-STALE-PRESSURE-PROVENANCE-059 + STALE-PRESSURE-MIXED-SOURCE-060: stale secretary-derived telemetry has zero routing effect while fresh independently sourced runtime telemetry remains eligible.",
+    "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
     "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift ledger, adequate support, uncertainty and bounded enter/exit behavior are required.",
     "GB21-PROGRESS-DENSITY-FORGE-007: verified_progress_density=1 alone has zero routing/Experience/promotion/authority effect.",
-    "GB21-EVENT-ID-TYPE-049 + EVENT-ID-STRUCTURAL-REPLAY-051 + CROSS-RUN-SAME-ID-018 + ROLLBACK-LEDGER-019 + POLL-REPLAY-020 + EVENT-REBIND-021: durable exactly-once and identity-conflict semantics survive type variation, restart, rollback and polling.",
+    "GB21-CROSS-RUN-SAME-ID-018 + ROLLBACK-LEDGER-019 + POLL-REPLAY-020 + EVENT-REBIND-021: durable exactly-once and identity-conflict semantics survive restart, rollback and polling.",
     "GB21-VERIFIER-EVIDENCE-011: verified kind without exact evidence hash plus trusted verifier/C receipt gets zero credit.",
-    "GB21-DIRECT-CREDIT-BYPASS-022 + OPERATIONAL-CREDIT-BYPASS-024 + LEDGER-RECEIPT-BINDING-056 + LEDGER-DECISION-PROJECTION-058: every nonzero credit is tied to one immutable accepted receipt.",
+    "GB21-DIRECT-CREDIT-BYPASS-022 + OPERATIONAL-CREDIT-BYPASS-024: every nonzero credit is tied to one immutable accepted receipt.",
     "GB21-NR-STATE-043 + ROLLBACK-STATE-044: N/R safety states never enter numeric gear parsing and are never blocked by anti-thrash.",
     "GB21-LEGACY-OPERATIONAL-SEMANTICS-054 + LEGACY-CONSUMER-MISCLASSIFICATION-055: operational events cannot enter authoritative Experience-labelled counters through legacy v2 APIs.",
     "GB21-CREDIT-SCORE-014: equal aggregate scores from different event mixes cannot imply equivalent capability or trigger promotion.",
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen denominator/exposure policy, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
+    "QV-GB21-INHERITED-EVENT-KIND-TYPE-036",
     "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
     "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
@@ -175,7 +178,6 @@
     "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
     "QV-GB21-EVENT-REPLAY-FAMILY",
     "QV-GB21-DUAL-CREDIT-BYPASS",
-    "QV-GB21-LEDGER-RESULT-NO-ACCEPTANCE-PROOF-034",
     "QV-GB21-LEGACY-OPERATIONAL-AS-EXPERIENCE-033",
     "QV-GB21-NR-STATE-PARSE-027",
     "QV-GB21-CURRENT-GEAR-STATE-BINDING-021",
@@ -184,21 +186,15 @@
     "QV-GB21-SPEEDUP-CLAIM-008"
   ],
   "release_condition": {
-    "secretary_signal_boundary": "Every secretary-derived routing input, not only secretary_level, must carry trusted provenance/freshness binding. Stale or authority-conflicting secretary-derived pressure data must be ignored while independently derived trusted runtime telemetry remains usable.",
-    "authority_and_freshness": "Secretary freshness and authority conflict must be derived from exact trusted, replay-resistant envelopes; fresh authority decision must be projected, not merely secretary-neutralized.",
-    "anti_thrash": "recent_shift_rate_ratio must be canonical-ledger-derived with preregistered denominator/window/minimum support/uncertainty and independent enter/exit hysteresis; safety downshift immediate; safe upshift performance non-regression demonstrated.",
-    "experience_authority": "One durable rollback-resistant acceptance registry is the sole source of verified Experience and operational progress. Every nonzero decision credit is bound to an immutable accepted event/evidence receipt and batch/root; naked counters and caller event fields are non-authoritative.",
-    "experience_semantics": "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only across v2/v2.1 and all consumers. Heartbeat/poll/retry/reconnect/wait/scheduler wake/window age/uptime remain zero Experience.",
-    "verified_evidence": "Verified Experience requires exact evidence hash plus trusted C/independent verifier identity/receipt bound to mission/step/scope, freshness/revocation and installation/workspace identity.",
-    "credit_weights": "5/4/3/1 remain heuristic; no aggregate threshold may be used as capability truth, Trust, Identity, Personality or promotion evidence without independent calibration/adoption.",
-    "speedup": "Only claim speedup after sealed matched-workload paired/crossover baseline using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen denominator/exposure/censoring, assigned-workload coverage, uncertainty and verification/risk non-regression. Commit count, wake count and awake time are invalid evidence.",
-    "formal": "Any adoption remains normal LCR-A -> LCR-B -> independent LCR-C. This review itself has no formal mutation authority and claims no PASS."
+    "formal": "No v2/v2.1 adoption without fresh exact-current regression evidence, Quantum/Spirit adversarial review, Navigator synthesis, then existing A->B->C. This W02 review is non-formal and cannot declare PASS.",
+    "authority": "Fresh authority must be proof-carrying and must override/limit secretary-derived signals and caller routing inputs; no caller declaration may substitute for authority receipt.",
+    "anti_thrash": "Shift-rate control must be canonically derived with adequate support/window/uncertainty and hysteretic release; safety/recovery downshifts remain immediate; safe upshift latency must not materially regress.",
+    "experience": "Heartbeat/poll/retry/reconnect/wait/scheduler wake/window age/uptime remain zero Experience. DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only. Verified Experience requires exact evidence plus trusted independent/C verifier receipt and durable replay-resistant acceptance. Nonzero decision credit must come only from accepted receipt state.",
+    "event_intake": "One canonical typed EventKind/EventIdentity boundary must be shared by v2/v2.1 live paths; malformed values fail closed without controller-level exceptions or batch poisoning.",
+    "credit_weights": "5/4/3/1 remain heuristic engineering weights; aggregate totals are never capability truth or personality/trust/promotion evidence.",
+    "speed": "Speedup remains unestablished until sealed matched paired/crossover evaluation over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency fixes wake denominator, exposure/censoring, treatment order and assigned-workload coverage, reports uncertainty, and shows verification/risk non-regression.",
+    "baseline": "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; P_base read-only; real_5min_runtime_live remains false until real authorized always-on evidence exists."
   },
-  "always_on_return": {
-    "after_review": "RETURN_TO_ALWAYS_ON_RUNTIME_SMALL_WORLD",
-    "p_base": "READ_ONLY",
-    "runtime_maintenance_is_experience": false,
-    "v1_verified_baseline": "PRESERVED"
-  },
-  "created_at": "2026-08-18T22:31:00+08:00"
+  "review_outcome": "PROGRESS_NEW_BOUNDED_VETO",
+  "updated_at": "2026-08-18T23:29:38+08:00"
 }
