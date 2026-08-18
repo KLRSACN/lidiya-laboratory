@@ -44,6 +44,13 @@ def _ratio(value: Any, name: str) -> float:
     return value
 
 
+def _strict_bool(value: Any, name: str) -> bool:
+    """Reject truthy/falsy coercion at authority and verification boundaries."""
+    if type(value) is not bool:
+        raise GearboxGuardError(f"{name} must be bool")
+    return value
+
+
 def aggregate_experience_events(events: Iterable[Mapping[str, Any]]) -> ExperienceLedgerResult:
     """Deduplicate durable events and separate verified Experience from operational progress.
 
@@ -64,7 +71,9 @@ def aggregate_experience_events(events: Iterable[Mapping[str, Any]]) -> Experien
     for event in events:
         event_id = str(event.get("event_id", "")).strip()
         kind = str(event.get("event_kind", "WAIT")).strip().upper()
-        independently_verified = bool(event.get("independently_verified", False))
+        independently_verified = _strict_bool(
+            event.get("independently_verified", False), "independently_verified"
+        )
         if not event_id:
             ignored += 1
             continue
@@ -99,6 +108,8 @@ def select_gear_v2_1(*, secretary_signal_fresh: bool = False,
     It only rejects stale secretary signals, prevents upshift thrashing, and
     distinguishes verified Experience from operational progress.
     """
+    secretary_signal_fresh = _strict_bool(secretary_signal_fresh, "secretary_signal_fresh")
+    authority_conflict = _strict_bool(authority_conflict, "authority_conflict")
     shift_rate = _ratio(recent_shift_rate_ratio, "recent_shift_rate_ratio")
     progress_density = _ratio(verified_progress_density, "verified_progress_density")
 
@@ -136,7 +147,9 @@ def select_gear_v2_1(*, secretary_signal_fresh: bool = False,
         reasons.append("verified progress density supports maintaining safe inherited gear")
 
     kind = str(v2_kwargs.get("event_kind", "WAIT")).upper()
-    independently_verified = bool(v2_kwargs.get("event_independently_verified", False))
+    independently_verified = _strict_bool(
+        v2_kwargs.get("event_independently_verified", False), "event_independently_verified"
+    )
     delta = experience_candidate_delta(kind, independently_verified=independently_verified)
     verified_kinds = {
         "VERIFIED_CAPABILITY", "VERIFIED_RECOVERY", "ROOT_CAUSE_RETEST_PASS", "C_VERIFIED_LESSON"
