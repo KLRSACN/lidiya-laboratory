@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.4-GEARBOX-V2.1-SYNTHESIS",
+  "schema_version": "1.5-GEARBOX-V2.1-SYNTHESIS",
   "window_id": "W04_NAVIGATOR",
-  "wake_id_or_timestamp": "2026-08-18T06:32:52+08:00",
-  "authority_or_research_pointer": "state/MISSION_STATE.json#Step009-Attempt4-STEP_DONE-LCR-A; state/EVOLUTION_PROGRESS.json@2026-08-18T06:22:28+08:00; state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json",
+  "wake_id_or_timestamp": "2026-08-18T11:33:57+08:00",
+  "authority_or_research_pointer": "state/MISSION_STATE.json#Step009-Attempt4-STEP_DONE-LCR-A; state/EVOLUTION_PROGRESS.json@2026-08-18T11:22:59+08:00; state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@d84e4db78ca48b8d17bbf01b556bc2bad041ce6b",
   "outcome": "PROGRESS",
-  "verdict": "GEARBOX_V2_1_BOUNDED_VETO_ACTIVE_FRESH_W02_OPERATIONAL_BYPASS_AND_FRESH_RUNNER_REQUIRED",
-  "what_was_attempted": "Archive-fenced W04 synthesis over Home continuity/Gearbox nodes, fresh Active-8, fresh MISSION_STATE, W07 latest/receipt, exact Gearbox v1/v2/v2.1 contracts/code/tests, W02 latest review, available W03 state, Predictive Navigator v2 code/state, and prior W04 receipt. Navigator updated only nonformal synthesis/receipt; formal Mission and C verdict were not modified.",
-  "material_delta_or_reason_for_no_delta": "W02 QUANTUM-GEARBOX-V2.1-20260818-0530 adds HIGH operational-progress direct-credit bypass: select_gear_v2_1 derives DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND credit directly from caller event_kind, so repeated decision calls can fabricate throughput metrics without a new durable acceptance. Latest Active-8 also corrects the execution gate: current branch head has no fresh associated exact-current runner; six Gearbox blobs are unchanged from historical 49/49 candidate support, but fresh validation remains DEFER_EXECUTOR_UNAVAILABLE. W07 remains stale for gear influence because its latest is newer than an initialization-only receipt still marked PENDING_FIRST_WAKE_RECHECK. No fresh dedicated W03 Gearbox v2.1 review exists. Predictive Navigator still uses bool(value), conflating string 'false' and missing/UNKNOWN inputs. Therefore status remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
+  "verdict": "GEARBOX_V2_1_BOUNDED_VETO_ACTIVE_NEW_PAIRED_ORDER_CARRYOVER_VETO",
+  "what_was_attempted": "Archive-fenced W04 synthesis over Home continuity/Gearbox nodes, fresh Active-8, fresh MISSION_STATE, W07 receipt, exact Gearbox v1/v2/v2.1 source/test fingerprints, latest W02 review, available W03 state, prior synthesis and this receipt. Navigator updated only nonformal synthesis/receipt; formal Mission and C verdict were not modified.",
+  "material_delta_or_reason_for_no_delta": "W02 advanced from review 20260818-1033 to QUANTUM-GEARBOX-V2.1-20260818-1129 and added QV-GB21-PAIRED-BASELINE-ORDER-CARRYOVER-023: fixed baseline-then-candidate paired order can make the later arm look faster through cache warming, prior durable progress, recovered faults, verifier availability, routing history or runtime/operator learning. Paired speed evidence now requires randomized AB/BA or crossover order from the same sealed starting snapshot, reset of candidate-sensitive runtime state between arms, preservation of external monotonic audit state, explicit order-interaction reporting, and rejection of speedup that materially depends on run order. Active-8 saved at 11:22 still points to W02 1033 and W04 1036, so that review pointer is a stale derived pointer; fresh review/synthesis wins. W03 dedicated Gearbox v2.1 review remains absent, W07 receipt remains initialization-only PENDING_FIRST_WAKE_RECHECK, and fresh current-head combined runner remains DEFER_EXECUTOR_UNAVAILABLE. Status therefore remains BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE.",
   "classification": {
     "DECIDED": [
       "v1 verified baseline survives all v2/v2.1 candidate failure/defer/veto",
@@ -16,29 +16,28 @@
       "historical unchanged-blob 49/49 execution remains candidate support only and is not a fresh current-head release gate"
     ],
     "TEST_REQUIRED": [
-      "fresh same-runner exact-current/current-head v1+v2+v2.1 regression PASS on candidate bytes",
+      "fresh same-runner exact-current/current-head v1+v2+v2.1 regression PASS on adoption bytes",
       "fresh dedicated W03/Spirit Gearbox v2.1 adversarial review",
       "anti-thrash sample/window/cooldown and bounded safe-upshift recovery",
       "predictive strict TRUE/FALSE/UNKNOWN typing with provenance/freshness",
       "clean baseline plus incident replay predictive calibration with false-positive/missed-warning statistics",
-      "paired matched-workload speed validation using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency"
+      "paired matched-workload speed validation with frozen wake/exposure/censoring policy plus randomized AB/BA or crossover order and carryover reset/order-interaction analysis"
     ],
     "BOUNDED_VETO": [
       "trusted secretary freshness/authority envelope missing and boolean coercion unsafe",
+      "fresh authority decision is not projected/enforced when authority conflict exists",
+      "current_gear and verification_stage remain caller-controlled instead of authority/receipt-derived",
       "verified Experience evidence/verifier receipt binding missing and verification bool coercion unsafe",
       "Experience dedupe is event_id/invocation-local rather than durable evidence/provenance lineage",
-      "event identity can be rebound across runs",
-      "select_gear_v2_1 direct caller-fact verified Experience bypasses accepted-ledger authority",
-      "select_gear_v2_1 direct caller-fact operational progress can fabricate throughput metrics",
-      "one durable replay-resistant acceptance authority is required for both verified and operational credit",
+      "select_gear_v2_1 direct caller-fact verified and operational credit bypasses accepted-ledger authority",
       "recent_shift_rate_ratio is caller-controlled instead of canonical-ledger-derived",
-      "Predictive Navigator boolean/missing-input typing is unsafe"
+      "Predictive Navigator boolean/missing-input typing remains unsafe",
+      "paired speed evidence is invalid until treatment-order/carryover bias is controlled"
     ]
   },
   "exact_artifact_refs": [
-    "state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473",
-    "state/EVOLUTION_PROGRESS.json@6975a4e9231ae60dc4df886b0f3db73fc7021845",
-    "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json@495c3bb9e0e47132c7a00a4408cf337cc223e28e",
+    "state/MISSION_STATE.json#Step009-Attempt4-STEP_DONE-LCR-A",
+    "state/EVOLUTION_PROGRESS.json@2026-08-18T11:22:59+08:00",
     "state/window_wake_receipts/W07_WIND_SECRETARY_LATEST.json@477a47d7a544cb41125d0fecaa27f0f93bd9139d",
     "evolution/gearbox_controller.py@c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "evolution/test_gearbox_controller.py@11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -47,14 +46,12 @@
     "evolution/gearbox_controller_v2_1.py@d65094039504a2f46985be71006a25201d592136",
     "evolution/test_gearbox_controller_v2_1.py@0a6904f1eeb2d43d6d819490cef1bad5319c7083",
     "evolution/GEARBOX_V2_1_CONTRACT.json@dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json@46bf6d816fdbd742f400349cc0a91553c05e14bb",
-    "state/window_self_backups/SPIRIT_LATEST.json@759f34ddb87306df66b65c7f6e7442f27a44ccba",
-    "evolution/navigation/predictive_navigator_v2.py@b782428f8ffc757b6c42958613e934f544288c67",
-    "state/PREDICTIVE_NAVIGATOR_V2_STATE.json@55ef3542d74b43570e735a336325ab371675c730",
-    "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@57aa1867be068f880f6f20aca6e921ef3e88dcf4"
+    "state/self_repair/reviews/QUANTUM_GEARBOX_V2_1_LATEST.json@788c40da809a0704c5e41cd90d68bfdd49880949",
+    "state/window_wake_receipts/W03_SPIRIT_LATEST.json@dcb3b8054138653b0413ea08999b47230dce9549",
+    "state/self_repair/reviews/NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@d84e4db78ca48b8d17bbf01b556bc2bad041ce6b"
   ],
-  "readback_status": "VERIFIED_AFTER_WRITE",
-  "next_trigger": "Resolve secretary/evidence-ledger/verified-credit/operational-credit/shift-rate vetoes and Predictive strict tri-state typing; obtain fresh W03 review; then produce fresh same-runner exact-current/current-head Gearbox regression PASS and run clean/incident predictive calibration plus paired speed benchmark. Only zero unreleased vetoes plus fresh regression PASS can become READY_FOR_FORMAL_CANDIDATE.",
+  "readback_status": "PENDING_POST_WRITE_READBACK",
+  "next_trigger": "Resolve all authority/secretary/evidence-ledger/direct-credit/shift-rate/Predictive vetoes; obtain fresh W03 review and fresh exact-current combined regression PASS; then perform calibrated predictive validation and randomized/crossover paired speed benchmark with carryover control. Only zero unreleased vetoes plus fresh regression PASS can become READY_FOR_FORMAL_CANDIDATE.",
   "verified_baseline_preserved": true,
   "formal_slot_count": 3,
   "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
