@@ -52,6 +52,16 @@ class GearboxV21Tests(unittest.TestCase):
         d = select_gear_v2_1(**{**BASE, "risk":"CRITICAL", "current_gear":"G6"}, secretary_signal_fresh=True, recent_shift_rate_ratio=1.0)
         self.assertEqual(d.selected_gear, "G1")
 
+    def test_terminal_standby_bypasses_gear_parse(self):
+        d = select_gear_v2_1(**{**BASE, "standby":True}, secretary_signal_fresh=True, recent_shift_rate_ratio=1.0)
+        self.assertEqual(d.selected_gear, "N")
+        self.assertFalse(d.thrash_guard_applied)
+
+    def test_terminal_rollback_bypasses_gear_parse(self):
+        d = select_gear_v2_1(**{**BASE, "rollback_required":True}, secretary_signal_fresh=True, recent_shift_rate_ratio=1.0)
+        self.assertEqual(d.selected_gear, "R")
+        self.assertFalse(d.thrash_guard_applied)
+
     def test_heartbeat_does_not_create_verified_experience(self):
         d = select_gear_v2_1(**{**BASE, "event_kind":"HEARTBEAT", "event_independently_verified":True}, secretary_signal_fresh=True)
         self.assertEqual(d.verified_experience_delta, 0)
@@ -98,6 +108,21 @@ class GearboxV21Tests(unittest.TestCase):
                     aggregate_experience_events([
                         {"event_id":"e1","event_kind":"VERIFIED_CAPABILITY","independently_verified":bad}
                     ])
+
+    def test_malformed_ledger_elements_are_bounded_and_later_valid_survives(self):
+        valid = {"event_id":"e1","event_kind":"VERIFIED_RECOVERY","independently_verified":True}
+        r = aggregate_experience_events([None, "junk", 7, [], object(), valid])
+        self.assertEqual(r.verified_experience, 4)
+        self.assertEqual(r.operational_progress, 0)
+        self.assertEqual(r.ignored_events, 5)
+        self.assertEqual(r.duplicate_events, 0)
+
+    def test_malformed_ledger_element_does_not_poison_later_duplicate_semantics(self):
+        valid = {"event_id":"e1","event_kind":"VERIFIED_RECOVERY","independently_verified":True}
+        r = aggregate_experience_events([None, valid, valid])
+        self.assertEqual(r.verified_experience, 4)
+        self.assertEqual(r.ignored_events, 1)
+        self.assertEqual(r.duplicate_events, 1)
 
     def test_missing_event_id_is_ignored(self):
         r = aggregate_experience_events([
