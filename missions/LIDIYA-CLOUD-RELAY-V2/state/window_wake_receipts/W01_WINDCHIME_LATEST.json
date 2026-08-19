@@ -1,9 +1,9 @@
 {
-  "schema_version": "4.0",
+  "schema_version": "4.1",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-19T10:27:00+08:00",
+  "recorded_at": "2026-08-19T10:36:00+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
@@ -12,9 +12,9 @@
     "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0932 and is now fresh against current v2.1 blobs 6b6b0f2b/e7265dad.",
-    "W02 explicitly resolves prior QV-GB21-LEDGER-ELEMENT-TYPE-DOS-045 and QV-GB21-NR-SAFETY-STATE-PARSE-040 on current executable/tests.",
-    "W02 remains BOUNDED_VETO_ACTIVE and adds HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046: missing-ID mappings can raise during verifier strict-bool parsing before bounded identity rejection and abort later valid evidence.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1032 against unchanged current v2.1 blobs 6b6b0f2b/e7265dad.",
+    "W02 remains BOUNDED_VETO_ACTIVE and adds HIGH QV-GB21-INHERITED-BOOL-BOUNDARY-047: inherited v1/v2 control booleans still rely on Python truthiness, so non-bool truthy values can falsely trigger standby, rollback, recovery/safety brake, route drift or pressure checkpoint/downshift.",
+    "Current v1/v2 code confirms the truthiness boundary and current v2 tests cover literal booleans only; HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046 also remains open.",
     "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE; historical results were not reused as fresh PASS.",
     "Dedicated W03 remains absent, W04 1332 remains stale/veto-active, and paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
@@ -22,17 +22,17 @@
     "archive_no_read_fence": "ENFORCED",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
-    "latest_repository_head_observed_before_w01_bookkeeping": "2512bba18503f7780d50c674faca3be392f0aeab",
+    "latest_repository_head_observed_before_w01_bookkeeping": "1ef76da43ddeebc871efc37aca1ba4654c84e4c9",
     "canonical_progress_overwritten": true,
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "3d31afe4610322190dc9a5ce9c006e6f01e59670",
+    "selftest_sha": "ae56902012820c47d1ae3200c069ea869e67569c",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "0760528a2c0945a03007be89c2c8b37ed43b30ef",
+    "speed_baseline_sha": "1c96444540b21807da357ceb9e01785112a29e2e",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "9d7802092aefcc0b410076913872d5058f9ec84b",
-    "progress_sha": "221102c4ac7e6ce2f6afd9dc9112a841cfe82042"
+    "checkpoint_sha": "f313873c27bc3588c0706c78f3edf0bfdcdbdf67",
+    "progress_sha": "1289b7e5d7c295ece87681e26a5bedb285f315f7"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -58,7 +58,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-0932_CURRENT_BOUNDED_VETO_ACTIVE_RESOLVED_045_040_NEW_HIGH_046",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-1032_CURRENT_BOUNDED_VETO_ACTIVE_NEW_HIGH_INHERITED_BOOL_047_OPEN_HIGH_MISSING_ID_046",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -71,5 +71,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_READBACK"
 }
