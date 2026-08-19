@@ -1,44 +1,46 @@
 {
-  "schema_version": "5.3",
+  "schema_version": "5.4",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-20T00:25:04+08:00",
+  "recorded_at": "2026-08-20T01:27:24+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
-    "Archive No-Read Fence targeted startup through Active-8 Home continuity anchor, fresh MISSION_STATE, Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
-    "Rechecked exact-current executor availability on current six Gearbox blobs and fresh pre-bookkeeping commit workflow runs without promoting historical results.",
+    "Archive No-Read Fence targeted startup through Active-8 Home continuity anchor, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
+    "Fresh exact-current same-runner acquisition probe by git clone of branch lidiya-cloud-relay-v2; acquisition failed before compile/tests with exit 128 because github.com DNS could not resolve.",
     "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies.",
-    "Updated canonical state because W02 advanced materially from 2230 to 2329."
+    "Updated canonical state because W02 advanced materially from 2329 to 0028."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-2329 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
-    "New HIGH QV-GB21-TERMINAL-CURRENT-STATE-ROUNDTRIP-062: v2/v2.1 can emit N/R while select_gear_v2 accepts current_gear only as G1..G6. Truthful next-cycle terminal state therefore cannot round-trip without validation failure or falsifying the state as a G-gear. Release requires canonical N/R/G1..G6 current-control-state intake, explicit trusted terminal-exit authority, and no numeric anti-thrash/hysteresis parsing of N/R.",
-    "Structural terminal integrity 061, inherited safety metadata 059, verified-delta stage bypass 058 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain.",
-    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: current exact blobs are inspectable but not mountable into one trusted runner; pre-bookkeeping head c7087e73 has zero qualifying workflow runs. Historical results were not reused as fresh PASS.",
-    "Dedicated W03 Gearbox v2.1 review remains absent; latest W03 is a stale general VALID_NO_OP. W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0028 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
+    "New HIGH QV-GB21-IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-063: aggregate_experience_events parses independently_verified before EventKind classification, so verifier-irrelevant or operational records with malformed verifier metadata can abort later independent valid evidence. Release requires EventKind-first classification, verifier parsing only for verified classes, bounded per-record reject/ignore, no identity reservation, and no later-evidence censoring.",
+    "Terminal roundtrip 062, structural terminal integrity 061, inherited safety metadata 059, verified-delta stage bypass 058 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain.",
+    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE; the fresh acquisition probe exited 128 before execution. Historical results were not reused as fresh PASS.",
+    "Dedicated W03 Gearbox v2.1 review remains absent; W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
     "home_latest_continuity_gearbox": "ACTIVE8_HOME73_POINTER_USED_DIRECT_HOME_LOOKUP_UNSUPPORTED_OR_AMBIGUOUS_NO_BROAD_ARCHIVE_READ",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed_before_w01_bookkeeping": "c7087e739a83b750960d21863c99f953d5b2a025",
+    "latest_repository_head_observed_before_w01_bookkeeping": "1e90fac62228ce168b3bab29a63cbabf91df3fe6",
     "canonical_progress_overwritten": true,
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "82afc401989743631ac69255d7104989967fc9b1",
+    "selftest_sha": "d5450f9fe760524b1fdf00e7c76ae933e3ca4b24",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "5c0f5ee4e93aeb994ae9642181bbe87905a1e5f4",
+    "speed_baseline_sha": "903a4d14b736760acc46b7c57efbaab3df0a0590",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "e69621cee1f420e4b32860b31cfcac9d3534e960",
-    "progress_sha": "929b9089d6bea3c908a5334d8bffe381579f5a27"
+    "checkpoint_sha": "f1f16ecc9afecc46d29bffe5a1df2a650a858216",
+    "progress_sha": "87b1dfcbd34fb8b25d65d87b8f04173efb2026f4"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
     "same_runner_exact_bytes_available": false,
+    "fresh_acquisition_exit_code": 128,
+    "fresh_acquisition_error": "Could not resolve host: github.com",
     "historical_results_reused_as_fresh_pass": false,
     "exact_blob_sha": {
       "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
@@ -59,7 +61,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-2329_CURRENT_BOUNDED_VETO_ACTIVE_TERMINAL_CURRENT_STATE_ROUNDTRIP_062_HIGH",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260820-0028_CURRENT_BOUNDED_VETO_ACTIVE_IRRELEVANT_VERIFIER_FIELD_BATCH_DOS_063_HIGH",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -72,5 +74,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_FINAL_READBACK"
 }
