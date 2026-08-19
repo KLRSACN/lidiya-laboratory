@@ -1,17 +1,17 @@
 {
-  "schema_version": "4.14",
+  "schema_version": "4.15",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T04:22:32+08:00",
+  "recorded_at": "2026-08-20T05:26:22+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact Gearbox six blobs remain unchanged. Connector exact blobs are inspectable but not directly mountable into one trusted executor, and latest branch head 35468d7d3d2ae72b6101a6cfa3a6ae6279fcaeea has no qualifying workflow run. No fresh PASS is claimed.",
+    "reason": "Current exact six Gearbox blobs are unchanged and inspectable through the GitHub connector. Latest branch head 74b8857b4bb6038c6f90452f7071818a40ff0234 is review-only and has zero qualifying workflow runs; connector blobs are not mountable into one trusted same-runner filesystem. No fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "35468d7d3d2ae72b6101a6cfa3a6ae6279fcaeea",
+    "latest_repository_head_observed": "74b8857b4bb6038c6f90452f7071818a40ff0234",
     "runner_provenance": "GitHub connector exact-blob inspection plus exact-head workflow lookup",
     "fresh_acquisition_exit_code": 128,
-    "fresh_acquisition_error": "Could not resolve host: github.com",
+    "fresh_acquisition_error": "Prior direct git acquisition probe: Could not resolve host: github.com; current exact-head workflow lookup returned zero runs.",
     "fresh_test_exit_code": null,
     "historical_results_reusable_as_fresh_pass": false
   },
@@ -43,6 +43,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0333 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-OPERATIONAL-PROGRESS-EVIDENCE-BINDING-066: raw caller-supplied DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND event_id+event_kind can manufacture authoritative operational_progress without durable artifact/defect evidence or immutable acceptance receipt, contaminating durable_progress_per_wake and paired speed numerators. Require evidence-bound OperationalProgressAcceptanceReceipt with source/mission/scope/install/policy/cursor binding and lineage dedupe. HIGH terminal precedence 065, MEDIUM_HIGH audit-sink 064, HIGH irrelevant-verifier-field batch DoS 063 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0429 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-CURRENT-GEAR-RAW-REPARSE-067: v2 canonicalizes current_gear with strip().upper(), while v2.1 reparses raw current_gear with upper() only before int(current_gear[1:]); formatting such as ' G3 ' can pass v2 then fail in v2.1. Require one canonical typed/runtime-bound current-control-state parse consumed by both layers. Existing HIGH operational-progress evidence binding 066, terminal precedence 065 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
