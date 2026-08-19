@@ -1,14 +1,14 @@
 {
-  "schema_version": "3.9",
+  "schema_version": "4.0",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T12:36:47+08:00",
+  "recorded_at": "2026-08-19T14:22:35+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact Gearbox bytes remain anchored at 2f84d3705bea4901e18c749c19f593025df0c9b2. GitHub connector can inspect exact blobs but cannot mount them into one executable filesystem runner; exact-byte anchor and latest branch head a02b5c2a02bbc865e9e13383daa09fb141858b66 both have zero associated workflow runs. Therefore no same-runner compile/test execution occurred and no fresh PASS is claimed.",
+    "reason": "Current exact Gearbox bytes remain anchored at 2f84d3705bea4901e18c749c19f593025df0c9b2. GitHub connector can inspect exact blobs but cannot mount them into one executable filesystem runner. The exact-byte anchor and latest pre-bookkeeping branch head 23c098bc63f51832e9c0d23bf58d286c69c6755f both have zero associated workflow runs. Therefore no same-runner compile/test execution occurred and no fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "a02b5c2a02bbc865e9e13383daa09fb141858b66",
+    "latest_repository_head_observed": "23c098bc63f51832e9c0d23bf58d286c69c6755f",
     "runner_provenance": "W01 GitHub connector exact-blob inspection + exact-byte-anchor/current-head GitHub Actions lookup",
     "exact_byte_anchor_workflow_run_count": 0,
     "latest_head_workflow_run_count": 0,
@@ -54,6 +54,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "W02 refreshed against current exact v2/v2.1 bytes at QUANTUM-GEARBOX-V2.1-20260819-1234. Prior stale-review gate is cleared as a freshness issue only; W02 remains BOUNDED_VETO_ACTIVE. It resolves inherited-bool 047 and missing-ID verifier-parse 046 in current candidate, but adds HIGH EVENT-KIND-TYPE-BOUNDARY-049 and retains other release vetoes. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1329 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-050 shows malformed independently_verified on non-verified valid-ID records can abort a non-atomic batch and censor later valid evidence. New MEDIUM_HIGH QV-GB21-CURRENT-GEAR-NORMALIZATION-MISMATCH-051 shows v2.1 reparses raw current_gear without strip after inherited v2 accepts normalized input. HIGH EVENT-KIND-TYPE-BOUNDARY-049 and other release vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
