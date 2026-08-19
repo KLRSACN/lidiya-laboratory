@@ -1,16 +1,15 @@
 {
-  "schema_version": "4.5",
+  "schema_version": "4.6",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T19:24:35+08:00",
+  "recorded_at": "2026-08-19T20:25:15+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact Gearbox six blobs remain unchanged. GitHub connector can inspect exact repository blobs but cannot mount all six exact bytes into one trusted executable filesystem runner. Candidate-byte anchor 2f84d3705bea4901e18c749c19f593025df0c9b2 and fresh pre-bookkeeping branch head 52097dbd2f481e7fead5e6142632e12ee23decb4 both have zero qualifying workflow runs. No compile/test execution occurred and no fresh PASS is claimed.",
+    "reason": "Current exact Gearbox six blobs remain unchanged. GitHub connector can inspect exact repository blobs but cannot mount all six exact bytes into one trusted executable filesystem runner. Fresh pre-bookkeeping branch head c1a11d034f1778d29691a440b6e1396d6931088c has zero qualifying workflow runs. No compile/test execution occurred and no fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "52097dbd2f481e7fead5e6142632e12ee23decb4",
-    "runner_provenance": "W01 GitHub connector exact-blob inspection plus exact-head workflow lookup; no mountable exact-byte same-runner executor",
-    "exact_byte_anchor_workflow_run_count": 0,
+    "latest_repository_head_observed": "c1a11d034f1778d29691a440b6e1396d6931088c",
+    "runner_provenance": "W01 GitHub connector exact-blob inspection plus commit workflow lookup; no mountable exact-byte same-runner executor",
     "latest_head_workflow_run_count": 0,
     "latest_head_workflow_lookup_status": "LOOKUP_OK_ZERO_RUNS",
     "fresh_test_exit_code": null,
@@ -55,6 +54,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1830 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-TERMINAL-STATE-TELEMETRY-PARSE-BLOCK-057: select_gear_v2_1 parses recent_shift_rate_ratio and verified_progress_density before inherited v2 resolves rollback/standby, so malformed or out-of-range nonessential telemetry can block canonical R/N terminal safety decisions. Existing EventKind 056, EventIdentity 055, authority/freshness, pressure provenance, anti-thrash, verifier evidence, replay/receipt and v2/v2.1 semantic consistency vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1928 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-V21-VERIFIED-DELTA-STAGE-BYPASS-058: v2.1 recomputes verified_experience_delta directly from event kind plus independent-verification boolean and can emit authoritative-looking verified credit even when inherited v2 real_experience_claim_allowed is false because verification_stage is not C_VERIFIED. Release requires one immutable AcceptedExperienceReceipt binding trusted verifier/C receipt, canonical C_VERIFIED stage and evidence identity; non-C_VERIFIED or receipt-less calls must emit zero authoritative verified credit. Existing terminal telemetry 057, EventKind 056, EventIdentity 055, authority/freshness, pressure provenance, anti-thrash, verifier evidence, replay/receipt and v2/v2.1 semantic consistency vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
