@@ -1,7 +1,7 @@
 {
-  "schema_version": "5.2",
+  "schema_version": "5.3",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T00:25:04+08:00",
+  "recorded_at": "2026-08-20T01:27:24+08:00",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
   "forbidden_proxies": ["awake_time", "window_age", "commit_count", "heartbeat_count", "poll_count", "retry_count", "task_last_run"],
@@ -18,16 +18,16 @@
   "pairing_rule": "Use matched baseline/candidate assigned workloads with equal verification/risk and precommitted eligible-wake, exposure/censoring and admission/defer/timeout policies. Randomize AB/BA or crossover from the same sealed starting snapshot, reset candidate-sensitive runtime state between arms, preserve external monotonic audit state, and report intention-to-treat coverage plus order/carryover interaction.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "rule": "Both arms must use identical authoritative Experience/operational classification, immutable AcceptedExperienceReceipt semantics, trusted canonical C_VERIFIED stage binding, strict canonical EventIdentity and EventKind intake, a canonical current-control-state domain covering N/R/G1..G6 with explicit trusted terminal-exit authority, strict control typing, authority/freshness provenance, replay-resistant evidence lineage, unrounded canonical pressure control semantics, identical structural terminal R/N precedence before all nonterminal overlays, and exact preservation of inherited v2 safety/verification metadata in the v2.1 decision surface.",
-    "reject": "No positive speed claim from awake/window/commit/heartbeat/poll/retry proxies, receipt-less or non-C_VERIFIED verified credit, EventKind normalization mismatch, noncanonical event identity, replay inflation, malformed/rejected-record censoring, pressure-rounding differences, terminal N/R overwrite, terminal-state falsification to a G-state, anti-thrash/hysteresis numeric parsing of N/R, incidental helper-dependent terminal preservation, dropped checkpoint/ACK/verification metadata, or excluding rollback/standby failures from intention-to-treat coverage."
+    "rule": "Both arms must use identical authoritative Experience/operational classification, immutable AcceptedExperienceReceipt semantics, trusted canonical C_VERIFIED stage binding, strict canonical EventIdentity and EventKind intake, EventKind-before-verifier parsing for verifier-irrelevant classes, bounded per-record malformed-field handling without later-evidence censoring, canonical N/R/G1..G6 current-control-state semantics, authority/freshness provenance, replay-resistant evidence lineage, unrounded canonical pressure control semantics, structural terminal R/N precedence, and inherited v2 safety/verification metadata preservation.",
+    "reject": "No positive speed claim from awake/window/commit/heartbeat/poll/retry proxies, receipt-less or non-C_VERIFIED verified credit, malformed irrelevant verifier fields censoring later evidence, noncanonical identity/replay inflation, terminal N/R falsification/overwrite, pressure-rounding differences, dropped safety metadata, or exclusion of reject/malformed/rollback/standby outcomes from intention-to-treat coverage."
   },
   "selection_bias_control": {
     "status": "TEST_REQUIRED",
-    "rule": "Report all assigned workloads including accepted verified receipts, accepted operational evidence, duplicate/reject/malformed/identity-conflict outcomes, terminal R/N outcomes, truthful next-cycle terminal roundtrip and terminal-exit authorization outcomes, precedence/integrity conflicts, checkpoint/ACK/verification-gate outcomes, defer/timeout, verified closures, coverage and assignment-to-closure latency under identical failure/censoring semantics."
+    "rule": "Report all assigned workloads including accepted verified receipts, accepted operational evidence, duplicate/reject/malformed/identity-conflict outcomes, verifier-irrelevant malformed-field outcomes, terminal R/N outcomes, defer/timeout, verified closures, coverage and assignment-to-closure latency under identical failure/censoring semantics."
   },
   "current_candidate_binding": {
     "source_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "c7087e739a83b750960d21863c99f953d5b2a025",
+    "latest_repository_head_observed": "1e90fac62228ce168b3bab29a63cbabf91df3fe6",
     "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "v1_test": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "v2_source": "13aafeed851a2b5453dd36eaf64b85552bc79838",
@@ -36,6 +36,6 @@
     "v2_1_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "exact_validation": "DEFER_EXECUTOR_UNAVAILABLE"
   },
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260819-2329 is fresh to current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH TERMINAL-CURRENT-STATE-ROUNDTRIP-062 requires v2/v2.1 to truthfully round-trip emitted N/R into the next decision cycle through a canonical N/R/G1..G6 control-state domain, without falsifying terminal state as a G-state or feeding N/R into numeric anti-thrash/hysteresis parsing; leaving N/R requires explicit trusted transition authority. Existing structural terminal integrity 061, inherited safety metadata 059, verified-delta stage bypass 058 and other authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent. W04 1332 remains stale/veto-active.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260820-0028 is fresh to current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-063 requires EventKind classification before verifier parsing; malformed verifier metadata on WAIT/HEARTBEAT/POLL/RETRY/SCHEDULER_WAKE/DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND must not abort later valid evidence or reserve identity. Existing terminal roundtrip 062, structural terminal integrity 061, inherited safety metadata 059, verified-delta stage bypass 058 and other authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent. W04 1332 remains stale/veto-active.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
