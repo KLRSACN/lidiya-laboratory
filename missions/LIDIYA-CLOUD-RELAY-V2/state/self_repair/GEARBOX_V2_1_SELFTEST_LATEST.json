@@ -1,19 +1,17 @@
 {
-  "schema_version": "3.8",
+  "schema_version": "3.9",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T12:28:36+08:00",
+  "recorded_at": "2026-08-19T12:36:47+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current branch head 2f84d3705bea4901e18c749c19f593025df0c9b2 changes Gearbox v2/v2.1 code/tests relative to the prior selftest binding. GitHub connector can inspect exact blobs but does not mount them into the local runner; local git acquisition failed before checkout because github.com DNS resolution failed. Exact-head GitHub Actions workflow lookup returned zero runs. Therefore no same-runner compile/test execution occurred and no fresh PASS is claimed.",
+    "reason": "Current exact Gearbox bytes remain anchored at 2f84d3705bea4901e18c749c19f593025df0c9b2. GitHub connector can inspect exact blobs but cannot mount them into one executable filesystem runner; exact-byte anchor and latest branch head a02b5c2a02bbc865e9e13383daa09fb141858b66 both have zero associated workflow runs. Therefore no same-runner compile/test execution occurred and no fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "runner_provenance": "W01 GitHub connector exact-blob inspection + local git acquisition probe + exact-head GitHub Actions lookup",
-    "local_git_probe_command": "git ls-remote https://github.com/KLRSACN/lidiya-laboratory.git refs/heads/lidiya-cloud-relay-v2",
-    "local_git_probe_exit_code": 128,
-    "local_git_probe_error": "Could not resolve host: github.com",
-    "exact_head_workflow_run_count": 0,
+    "latest_repository_head_observed": "a02b5c2a02bbc865e9e13383daa09fb141858b66",
+    "runner_provenance": "W01 GitHub connector exact-blob inspection + exact-byte-anchor/current-head GitHub Actions lookup",
+    "exact_byte_anchor_workflow_run_count": 0,
+    "latest_head_workflow_run_count": 0,
     "fresh_test_exit_code": null,
     "historical_results_reusable_as_fresh_pass": false
   },
@@ -56,6 +54,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "Current v2/v2.1 source/test bytes changed to 13aafeed/d01cab7b/81818f9d/d9252bb5, invalidating the prior exact-byte selftest binding. W02 QUANTUM-GEARBOX-V2.1-20260819-1132 remains BOUNDED_VETO_ACTIVE but is stale to these current bytes because it reviewed v2 45fe6e72/38799e41 and v2.1 6b6b0f2b/e7265dad. Dedicated W03 remains absent; W04 1332 is stale/veto-active.",
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_STALE_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
+  "material_delta": "W02 refreshed against current exact v2/v2.1 bytes at QUANTUM-GEARBOX-V2.1-20260819-1234. Prior stale-review gate is cleared as a freshness issue only; W02 remains BOUNDED_VETO_ACTIVE. It resolves inherited-bool 047 and missing-ID verifier-parse 046 in current candidate, but adds HIGH EVENT-KIND-TYPE-BOUNDARY-049 and retains other release vetoes. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
