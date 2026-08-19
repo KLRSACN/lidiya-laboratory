@@ -1,16 +1,16 @@
 {
-  "schema_version": "3.3",
+  "schema_version": "3.4",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T07:27:35+08:00",
+  "recorded_at": "2026-08-19T08:27:04+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "The six current Gearbox source/test blobs were inspected exactly through GitHub. The connector does not expose them as a mountable same-runner filesystem byte stream, and direct raw-content acquisition into the isolated runner is unavailable. Therefore exact-current py_compile plus all three full suites were not executed and no fresh PASS is claimed.",
+    "reason": "The six current Gearbox source/test blobs were inspected exactly through GitHub and remain unchanged. The connector does not expose them as a mountable same-runner filesystem byte stream; exact-head workflow lookup for 03c189b138c5973f9c002a2f68b8ded45fbdbe06 returned zero runs. Therefore exact-current py_compile plus all three full suites were not executed and no fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "1bf8f4b835d561db73edf77814686f4d07b6d235",
-    "latest_repository_head_observed": "e86040b5b53d25f6a47801ae910dd3e1e030c134",
+    "latest_repository_head_observed": "03c189b138c5973f9c002a2f68b8ded45fbdbe06",
     "candidate_bytes_unchanged_after_later_review_bookkeeping": true,
-    "runner_provenance": "W01 GitHub exact-file/blob inspection; no exact-current same-runner mountable executor surface available",
+    "runner_provenance": "W01 GitHub exact-file/blob inspection plus exact-head workflow lookup; no exact-current same-runner mountable executor surface available",
     "runner_probe_exit_code": null,
     "fresh_test_exit_code": null,
     "historical_49_of_49_reusable_as_fresh_pass": false
@@ -32,6 +32,6 @@
   "historical_suite_support": {"v1":{"tests":21,"status":"PASS_HISTORICAL_ONLY_VERIFIED_BASELINE_PRESERVED"},"v2":{"tests":16,"status":"PASS_HISTORICAL_ONLY"},"v2_1":{"tests":12,"status":"STALE_FOR_CURRENT_RELEASE_GATE_DO_NOT_REUSE_AS_FRESH_PASS"},"total_historical":49},
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0628 and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-V2-SEMANTIC-INHERITANCE-CONFLICT-043: public Gearbox v2 still exposes DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND as positive Experience Candidate while v2.1 contract classifies those events as operational progress only. Authoritative v2/v2.1 interfaces must share one classifier with separate verified_experience_delta and operational_progress_delta; legacy experience_candidate_delta must be non-authoritative/research-only and prohibited from live Experience accounting or promotion evidence. HIGH operational-evidence binding 042, malformed-record batch DoS 041 and N/R safety-state 040 remain open along with authority/freshness/evidence/replay/receipt/pressure/anti-thrash vetoes. Dedicated W03 Gearbox v2.1 review remains absent; W04 1332 is stale relative to W02 0628.",
+  "latest_review_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0733 and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044: real_experience_claim_allowed can become true from a positive verified event while verification_stage is not C_VERIFIED. Authoritative real/verified Experience eligibility must require an exact trusted verifier/C acceptance receipt bound to mission/step/scope/evidence plus compatible canonical verification stage; caller independently_verified booleans or labels alone are insufficient. Without valid receipt and stage binding, real_experience_claim_allowed must be false and authoritative verified credit zero or analytics-only. HIGH semantic-inheritance conflict 043, operational-evidence binding 042, N/R safety-state 040 and existing authority/freshness/evidence/replay/receipt/pressure/anti-thrash vetoes remain open. Dedicated W03 Gearbox v2.1 review remains absent; W04 1332 is stale relative to W02 0733.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
