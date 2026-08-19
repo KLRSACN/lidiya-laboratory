@@ -1,22 +1,22 @@
 {
-  "schema_version": "5.1",
+  "schema_version": "5.2",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-19T22:27:11+08:00",
+  "recorded_at": "2026-08-19T23:23:15+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
     "Archive No-Read Fence targeted startup through Active-8 Home continuity anchor, fresh MISSION_STATE, Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
     "Rechecked exact-current executor availability on current six Gearbox blobs and exact-head workflow runs without promoting historical results.",
     "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies.",
-    "Updated canonical state because W02 advanced materially from 2029 to 2132."
+    "Updated canonical state because W02 advanced materially from 2132 to 2230."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-2132 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
-    "New HIGH QV-GB21-TERMINAL-PRECEDENCE-060: v2 can overwrite v1 terminal N/R with G1 under recovery_active, low continuity anchor or RED secretary overlays before v2.1 terminal bypass sees the state. Trusted rollback R must be non-overridable by those overlays; standby N requires an explicitly higher-priority trusted rule before supersession.",
-    "Inherited safety metadata 059, verified-delta stage bypass 058, terminal-state telemetry parse 057, EventKind 056, EventIdentity 055 and remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain.",
-    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: current exact blobs are inspectable but not mountable into one trusted runner; pre-bookkeeping head 57904e27 has zero qualifying workflow runs. Historical results were not reused as fresh PASS.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-2230 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
+    "New HIGH QV-GB21-TERMINAL-INTEGRITY-STRUCTURAL-061: terminal N/R preservation is not structurally enforced in v2. Trusted rollback R must enter or return from an explicit non-overridable terminal path before nonterminal telemetry/secretary/pressure/anti-thrash overlays; standby N requires an explicitly trusted higher-priority safety/authority rule before supersession. Incidental helper behavior is not sufficient terminal evidence.",
+    "Terminal precedence 060, inherited safety metadata 059, verified-delta stage bypass 058, terminal telemetry 057, EventKind 056, EventIdentity 055 and remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain.",
+    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: current exact blobs are inspectable but not mountable into one trusted runner; pre-bookkeeping head 71e3214c has zero qualifying workflow runs. Historical results were not reused as fresh PASS.",
     "Dedicated W03 Gearbox v2.1 review remains absent; latest W03 is a stale general VALID_NO_OP. W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
@@ -24,17 +24,17 @@
     "home_latest_continuity_gearbox": "ACTIVE8_HOME73_POINTER_USED_TARGETED_LOOKUP_AMBIGUOUS_NO_BROAD_ARCHIVE_READ",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed_before_w01_bookkeeping": "57904e27a70b4834bb74d18d643c95cd2ac9747a",
+    "latest_repository_head_observed_before_w01_bookkeeping": "71e3214c767ada45596577022fc6c9857e9c4231",
     "canonical_progress_overwritten": true,
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "751c29ea0fd398cf7173fb6f13c26d1baa9f5d29",
+    "selftest_sha": "cfd70670a3bec5c37047e5aa950d9f7204b9e8ab",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "76ee1b2a8921dc9bf38ef74dfb73726ed1b5e8d6",
+    "speed_baseline_sha": "c464e4eb5ff1a247d755c471608813b93981c56a",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "cb75665e754b22360fd1bd5ce9def51e38317ef4",
-    "progress_sha": "149fc2e5159f977af5c45a9b681d24a6d6bc6e48"
+    "checkpoint_sha": "ba79bdb6ab27235e46efc4a713ce7ac96b44bc6e",
+    "progress_sha": "89909d6d3ca3bfd3836a548390da5d36a993e921"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -59,7 +59,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-2132_CURRENT_BOUNDED_VETO_ACTIVE_TERMINAL_PRECEDENCE_060_HIGH",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-2230_CURRENT_BOUNDED_VETO_ACTIVE_TERMINAL_INTEGRITY_STRUCTURAL_061_HIGH",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
