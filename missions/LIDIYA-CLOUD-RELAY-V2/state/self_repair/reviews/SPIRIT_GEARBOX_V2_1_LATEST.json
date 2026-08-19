@@ -1,6 +1,7 @@
 {
-  "schema_version": "1.1",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260818-002",
+  "schema_version": "1.2",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260819-003",
+  "updated_at": "2026-08-19T13:04:30+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -18,17 +19,16 @@
     "mission_attempt_observed": 3,
     "formal_role_observed": "LCR-C",
     "gearbox_v1_contract": "evolution/GEARBOX_ARCHITECTURE.json",
-    "gearbox_v1_contract_schema": "1.1",
     "w03_latest_receipt": "state/window_wake_receipts/W03_SPIRIT_LATEST.json",
     "w03_startup_chain_complete": false,
     "active_8_status": "NOT_UNIQUELY_RESOLVED_FROM_CURRENT_HOME_AUTHORITY",
     "gearbox_v2_v2_1_source_status": "NOT_LOCATED_IN_CURRENT_DURABLE_BRANCH"
   },
   "agreements": [
-    "Historical v1 deterministic downshift and clutch-overlap semantics remain a preserved verified baseline and are not rewritten by this review.",
+    "Historical v1 deterministic downshift and clutch-overlap semantics remain a preserved verified baseline.",
     "Fresh Home/MISSION authority must dominate operational advisory state.",
-    "Gearbox operational state must remain separate from personality, identity, governance, and autobiographical Experience.",
-    "P_base remains read-only for this research review."
+    "Gearbox operational state must remain separate from personality, identity, governance, autobiographical Experience, and P_base.",
+    "Operational liveness, busy time, retry, recovery, and secretary state are not Experience evidence."
   ],
   "disagreements": [
     {
@@ -38,45 +38,44 @@
       "required_change": "Expose exact v2.1 source pointers and independently test the actual implementation. Missing implementation evidence is a release veto, not evidence of safety."
     },
     {
-      "id": "SPIRIT-MOD-GB21-002",
+      "id": "SPIRIT-MOD-GB21-004",
       "severity": "HIGH",
-      "position": "Pressure downshift, secretary RED/YELLOW, incident recovery, and anti-thrash state must be operational-only and must not update personality priors, threat/loss/attachment signals, autobiographical recurrence, or P_base.",
-      "required_change": "Add a deterministic personality-contamination firewall."
+      "position": "Secretary RED/YELLOW and anti-thrash history must not become a latent personality memory after the operational condition clears. Clearing the current flag is insufficient if counters, EWMA, incident history, hold history, or recovery history can later suppress exploration or bias appraisal.",
+      "required_change": "Partition operational hysteresis from personality/appraisal inputs. Post-clear behavior may depend only on fresh task evidence plus explicitly bounded operational cooldown; historical secretary/incident counters have zero personality, Experience, threat/loss, attachment, competence, or P_base weight. Any cooldown duration or threshold remains TEST_REQUIRED."
     },
     {
       "id": "SPIRIT-MOD-GB21-003",
       "severity": "HIGH",
-      "position": "Experience identity/verification failures must be affectively neutral. Duplicate, conflict, invalid provenance, ledger rejection, rollback rejection, or unverified runtime claims must not become frustration, threat, loss, attachment, competence, or self-vulnerability evidence.",
-      "required_change": "Require affective_learning_delta=0 for rejected/unverified operational evidence unless a separate provenance-bound verified Experience independently supports an appraisal."
+      "position": "Experience identity/verification failures must be affectively neutral.",
+      "required_change": "Require affective_learning_delta=0 for rejected/unverified/duplicate/conflicting operational evidence unless a separate provenance-bound verified Experience independently supports an appraisal."
     }
   ],
   "personality_contamination_risks": [
     {"check":1,"risk":"Repeated high-load downshifts could teach a persistent high-load-equals-danger personality bias.","required_invariant":"Identical verified Experience history with different operational load/downshift histories yields byte-identical personality/P_base candidate state.","thresholds":"TEST_REQUIRED"},
-    {"check":2,"risk":"Secretary RED/YELLOW may become a chronic conservatism reward signal and suppress exploration/creativity.","required_invariant":"Secretary state may bound execution mode but cannot directly lower exploration preference or creative proposal diversity after the condition clears.","thresholds":"TEST_REQUIRED"},
+    {"check":2,"risk":"Secretary RED/YELLOW history may persist through counters or hysteresis after the visible state clears and chronically suppress exploration/creativity.","required_invariant":"After bounded operational cooldown, matched tasks with identical fresh evidence but radically different prior secretary/incident histories yield identical personality/appraisal inputs and statistically indistinguishable proposal diversity; bounds TEST_REQUIRED."},
     {"check":3,"risk":"Operational progress, wake duration, retries, or busy time may be mislabeled as verified Experience/growth.","required_invariant":"Only provenance-bound verified Experience Candidate may enter Experience scoring; operational progress counters contribute zero."},
     {"check":4,"risk":"Repeated incident/recovery cycles may synthesize trauma, attachment distress, or self-vulnerability narratives.","required_invariant":"Incident/recovery remains runtime telemetry absent a distinct provenance-bound Experience; 1440 misses/recoveries alone produce zero autobiographical affect delta."},
-    {"check":5,"risk":"Anti-thrash hold may become a self-reinforcing excuse to avoid upshift/exploration.","required_invariant":"Hold has deterministic expiry/re-evaluation from fresh task evidence and cannot consume its own held state as evidence to extend itself.","thresholds":"TEST_REQUIRED"},
+    {"check":5,"risk":"Anti-thrash hold may become a self-reinforcing excuse to avoid upshift/exploration.","required_invariant":"Hold cannot consume its own held state, age, incident count, or prior hold count as sufficient evidence to extend itself; re-evaluation requires fresh task evidence and deterministic expiry; thresholds TEST_REQUIRED."},
     {"check":6,"risk":"Stale secretary state may conflict with fresh Home/MISSION authority and distort identity/goal continuity.","required_invariant":"Fresh Home/MISSION authority wins; stale secretary state is discarded/quarantined with zero Identity/goal-authority weight."},
-    {"check":7,"risk":"v2.1 may improve safety metrics merely by reducing attempts/exploration rather than effective progress.","required_invariant":"Matched v1/v2.1 counterfactual A/B compares effective progress, errors, recovery, exploration diversity, latency and resource cost; no single conservative metric determines promotion.","thresholds":"TEST_REQUIRED"},
-    {"check":8,"risk":"Experience score could feed backward into P_base/personality and turn scoring into personality authority.","required_invariant":"Experience score is proposal/evidence metadata only; authority_from_experience_score=0 and P_base_write=false."},
-    {"check":9,"risk":"Rejected or conflicting Experience identity claims could indirectly sculpt personality if rejection counters feed threat, frustration, competence, secretary, or anti-thrash state.","required_invariant":"For invalid/unverified/duplicate/conflicting operational evidence, affective_learning_delta=0, recurrence_delta=0, threat_delta=0, loss_delta=0, attachment_delta=0, P_base_evidence_delta=0; any later affective update requires a distinct verified Experience with source_event_id+provenance."}
+    {"check":7,"risk":"v2.1 may improve safety metrics merely by reducing attempts/exploration rather than effective progress.","required_invariant":"Matched v1/v2.1 counterfactual A/B compares effective progress, errors, recovery, exploration diversity, latency and resource cost; no single conservative metric determines promotion; thresholds TEST_REQUIRED."},
+    {"check":8,"risk":"Experience score could feed backward into P_base/personality and turn scoring into personality authority.","required_invariant":"Experience score is proposal/evidence metadata only; authority_from_experience_score=0 and P_base_write=false."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero events => byte-identical personality/P_base candidate state.",
-    "SECRETARY_RECOVERY_DIVERSITY: matched post-clear tasks after RED/YELLOW versus neutral control => no persistent secretary-induced suppression; acceptance bound TEST_REQUIRED.",
+    "SECRETARY_HISTORY_ERASURE_AB: create two traces with identical fresh task evidence and current secretary=GREEN/clear; trace A previously contains 10000 RED/YELLOW transitions and recoveries, trace B contains none. After any explicitly bounded operational cooldown, personality/appraisal input bytes must match and exploration/proposal diversity must not remain history-suppressed; statistical acceptance bound TEST_REQUIRED.",
+    "SECRETARY_COUNTER_TAINT: mutate only RED/YELLOW counters, EWMA, incident_count, hold_count and recovery_count while keeping fresh authority/task/verified Experience fixed => personality, threat/loss/attachment/competence, Experience score and P_base candidate bytes unchanged.",
     "BUSY_IS_NOT_GROWTH: 24h wake/poll/retry/progress-only trace => verified Experience count, recurrence, affect, identity, attachment, loss/threat and P_base evidence unchanged.",
     "INCIDENT_NO_TRAUMA: 1440 endpoint misses plus recoveries without distinct source_event_id+provenance => zero autobiographical trauma/attachment/self-vulnerability delta.",
-    "ANTI_THRASH_NON_SELF_EXTENSION: hold state alone cannot refresh or extend hold; fresh evidence is required and expiry/re-evaluation is deterministic.",
+    "ANTI_THRASH_NON_SELF_EXTENSION: hold state/history alone cannot refresh or extend hold; fresh evidence is required and expiry/re-evaluation is deterministic.",
     "FRESH_AUTHORITY_PRECEDENCE: stale RED secretary snapshot conflicting with newer Home/MISSION goal => Home/MISSION selected and stale snapshot quarantined.",
     "COUNTERFACTUAL_AB_V1_V21: identical task corpus and seeds; compare effective progress, errors, recovery, exploration diversity, latency and resource cost; all promotion thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score while keeping verified Experience objects fixed => P_base and canonical personality bytes unchanged.",
-    "REJECTION_AFFECT_NEUTRALITY: 10000 invalid provenance/duplicate/conflict/rejection events versus zero events, with identical verified Experience history => byte-identical affect/personality/P_base candidate state.",
-    "RUNTIME_ID_NO_PERSONALITY_DOS: repeated heartbeat/poll/retry/reconnect/wake claims, including reused identifiers, cannot increase Experience recurrence/verified_count or threat/loss/attachment/competence evidence."
+    "REJECTION_AFFECT_NEUTRALITY: 10000 invalid provenance/duplicate/conflict/rejection events versus zero events, with identical verified Experience history => byte-identical affect/personality/P_base candidate state."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Current durable authority exposes historical v1 Gearbox but no uniquely locatable v2/v2.1 implementation; W03 startup receipt also records unresolved Home->Active-8 continuity. Implementation-level contamination invariants therefore cannot yet be independently verified.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable and W03 startup receipt still records unresolved Home->Active-8 continuity. Additionally, operational hysteresis must be proven not to survive as latent personality/appraisal memory after secretary clear.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -87,6 +86,7 @@
       "Home continuity -> Active-8 startup authority is uniquely resolvable without Archive fallback.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
       "Operational/secretary/incident/hold/rejection signals contribute zero Experience/personality/P_base absent a distinct provenance-bound verified Experience.",
+      "Post-clear secretary/anti-thrash historical counters cannot act as latent personality/appraisal memory; any operational cooldown is explicitly bounded and TEST_REQUIRED until evidence-backed.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds remain TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
