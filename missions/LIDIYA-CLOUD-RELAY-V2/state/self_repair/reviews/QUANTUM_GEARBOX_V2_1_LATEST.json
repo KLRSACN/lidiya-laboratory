@@ -1,6 +1,6 @@
 {
-  "schema_version": "3.6",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-0228",
+  "schema_version": "3.7",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-0333",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -8,8 +8,8 @@
   "c_pass_claimed": false,
   "archive_no_read_fence": true,
   "startup_read_status": {
-    "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_state/EVOLUTION_PROGRESS.json_SCHEMA_6.51-ACTIVE8-GEARBOX-V2.1",
+    "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; Home#73 retained only via fresh Active-8 pointer; NO_BROAD_ARCHIVE_READ",
+    "active_8": "READ_OK_state/EVOLUTION_PROGRESS.json_SCHEMA_6.52-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -31,7 +31,7 @@
     "real_5min_runtime_live": false
   },
   "source_fingerprints": {
-    "active8_sha": "963f8840a93427809faec34e3096eb73b0e01a0b",
+    "active8_sha": "a1ead965ca576d41514613945823cf4c3dcd6c86",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -41,40 +41,46 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_quantum_review_sha": "c810c362bd64729e92c06083dede5f7e1a3e9df8"
+    "previous_quantum_review_sha": "4865c97fc14c18ae0879cedbb9fe6bd00b179af8"
   },
   "agreements": [
     "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes no formal state/code and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "v2.1 correctly classifies DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND as operational progress rather than verified Experience; that boundary must remain authoritative.",
-    "Strict bool validation is useful type hardening but does not prove freshness, authority, evidence provenance or verifier authority.",
-    "verified_progress_density is currently reason-only; keeping it observational is acceptable until independently derived and tested against self-reinforcement.",
-    "The v2.1 contract correctly leaves speedup NOT_YET_STATISTICALLY_ESTABLISHED."
+    "Gearbox v2.1 correctly separates DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND into operational_progress_delta rather than verified_experience_delta; that semantic boundary must remain authoritative.",
+    "Strict bool validation on current v2/v2.1 authority-sensitive flags is useful type hardening but does not establish freshness, authority provenance or verifier authority.",
+    "verified_progress_density is currently reason-only and should remain observational until independently derived and tested against self-reinforcement.",
+    "The v2.1 contract correctly keeps speed improvement NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-OPERATIONAL-PROGRESS-EVIDENCE-BINDING-066",
+      "severity": "HIGH",
+      "finding": "New material objection on current exact bytes: aggregate_experience_events grants operational_progress=1 to DURABLE_PROGRESS or ADVERSARIAL_DEFECT_FOUND from only caller-supplied event_id and event_kind. No durable artifact hash, defect/evidence hash, acceptance receipt, source identity, mission/scope binding or durability proof is required. Unique caller IDs can therefore manufacture operational progress without creating verified Experience, and the fabricated operational numerator can contaminate durable_progress_per_wake and any speedup analysis.",
+      "required_change": "Operational progress must remain non-Experience but still require evidence authority: canonical durable artifact/defect identity plus an immutable OperationalProgressAcceptanceReceipt bound to source, mission/scope, installation/workspace, policy version and durable acceptance cursor. Same evidence under new IDs must be lineage-deduped; receipt-less raw caller claims yield zero authoritative operational credit."
+    },
+    {
       "id": "QV-GB21-TERMINAL-PRECEDENCE-065",
       "severity": "HIGH",
-      "finding": "New material objection on current exact bytes: v1 can already return terminal control states R for rollback and N for standby, but v2 continues into recovery/anchor/secretary overlays and the branch 'recovery_active or anchor < 0.50 or secretary_level == RED' unconditionally rewrites selected to G1. Therefore a trusted rollback/standby decision can be overridden by a nonterminal heuristic/sensor overlay before v2.1 sees the inherited result. v2.1's later N/R anti-thrash bypass cannot protect a terminal state that v2 has already erased.",
-      "required_change": "Give trusted terminal states explicit structural precedence across v1->v2->v2.1. R must not be overwritten by secretary, pressure, recovery or anti-thrash overlays. If N may be superseded, only an explicitly trusted higher-priority authority/safety envelope may do so; caller/sensor telemetry is insufficient."
+      "finding": "v1 can return R rollback or N standby, but v2 recovery/anchor/RED-secretary overlay can overwrite selected with G1 before v2.1 sees the inherited state.",
+      "required_change": "Give trusted terminal states structural precedence across v1->v2->v2.1. R cannot be overwritten by secretary/pressure/recovery heuristics; N exits only through explicit trusted precedence."
     },
     {
       "id": "QV-GB21-UNVERIFIED-CLAIM-AUDIT-SINK-064",
       "severity": "MEDIUM_HIGH",
-      "finding": "A verified-class event with independently_verified=false yields zero credit but is not explicitly counted as rejected/quarantined, so failed verification claims can disappear from outcome denominators.",
-      "required_change": "Use exhaustive auditable ledger outcomes such as accepted_verified, accepted_operational, rejected_unverified, duplicate, identity_conflict, ignored and malformed/quarantined."
+      "finding": "A verified-class event with independently_verified=false yields zero credit but is not explicitly counted as rejected/quarantined, so failed verification claims disappear from outcome denominators.",
+      "required_change": "Use exhaustive auditable ledger outcomes: accepted_verified, accepted_operational, rejected_unverified, duplicate, identity_conflict, ignored and malformed/quarantined."
     },
     {
       "id": "QV-GB21-IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-063",
       "severity": "HIGH",
-      "finding": "aggregate_experience_events parses independently_verified before EventKind classification, so verifier-irrelevant WAIT/HEARTBEAT/POLL/RETRY/SCHEDULER_WAKE/DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND records with malformed verifier metadata can abort later valid evidence.",
-      "required_change": "Classify canonical EventKind first and parse trusted verifier evidence only for verified classes; malformed irrelevant metadata must not abort later independent records."
+      "finding": "aggregate_experience_events parses independently_verified before EventKind-specific verifier necessity, so verifier-irrelevant WAIT/HEARTBEAT/POLL/RETRY/SCHEDULER_WAKE/DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND records with malformed verifier metadata can abort later valid evidence.",
+      "required_change": "Classify canonical EventKind first and parse verifier evidence only for verified classes; malformed irrelevant metadata must not censor later independent records."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
       "finding": "secretary_signal_fresh remains caller-declared; literal true can label stale telemetry fresh because source, timestamp/TTL, revocation, scope, policy and runtime/install identity are unbound.",
-      "required_change": "Consume a replay-resistant SecretarySignalEnvelope with trusted source and freshness metadata."
+      "required_change": "Consume a replay-resistant SecretarySignalEnvelope with trusted source, freshness and scope metadata."
     },
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
@@ -115,8 +121,8 @@
     {
       "id": "QV-GB21-DUAL-CREDIT-BYPASS",
       "severity": "HIGH",
-      "finding": "select_gear_v2_1 recomputes verified and operational deltas directly from caller event fields instead of consuming an accepted ledger receipt.",
-      "required_change": "Every nonzero verified or operational credit must come from one immutable AcceptedExperienceReceipt; receipt-less decision calls emit zero credit."
+      "finding": "select_gear_v2_1 recomputes verified and operational deltas directly from caller event fields instead of consuming accepted ledger receipts.",
+      "required_change": "Every nonzero verified or operational credit must come from one immutable accepted receipt; receipt-less decision calls emit zero credit."
     },
     {
       "id": "QV-GB21-CREDIT-WEIGHTS-007",
@@ -132,7 +138,8 @@
     }
   ],
   "statistical_risks": [
-    "Terminal-state overwrite can change which cycles enter recovery/rollback populations, contaminating latency and safety-rate comparisons.",
+    "Caller-created operational events can inflate the durable-progress numerator without proof that any durable artifact or defect resolution exists, biasing speedup upward even while verified Experience remains zero.",
+    "Terminal-state overwrite can change which cycles enter rollback/recovery populations and contaminate latency and safety comparisons.",
     "Failed verification claims can disappear from outcome denominators and bias acceptance/quality estimates.",
     "Malformed irrelevant verifier fields can create batch-order censoring of later valid evidence.",
     "Caller-declared secretary freshness/authority invalidates causal routing comparisons.",
@@ -144,9 +151,10 @@
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-ROLLBACK-TERMINAL-PRECEDENCE-125: with rollback_required=true, independently toggle recovery_active=true, continuity_anchor_health<0.50, secretary_level=RED, high pressure and combinations; final v1->v2->v2.1 control state must remain R unless an explicit trusted terminal-exit authority is present.",
-    "GB21-STANDBY-TERMINAL-PRECEDENCE-126: standby N may not be superseded by secretary/pressure telemetry; any allowed exit from N must be caused by an explicit trusted higher-priority authority/safety envelope and be auditable.",
-    "GB21-TERMINAL-CROSS-LAYER-127: exact terminal state and terminal-exit authorization must remain semantically identical across v1, v2 and v2.1 projections.",
+    "GB21-OPERATIONAL-EVIDENCE-128: submit 10000 unique event_ids labeled DURABLE_PROGRESS with no durable artifact/evidence receipt; authoritative operational_progress must remain zero.",
+    "GB21-OPERATIONAL-LINEAGE-129: submit one accepted durable artifact/defect under 10000 event_ids; it must produce exactly one operational credit via lineage dedupe.",
+    "GB21-SPEED-NUMERATOR-RECEIPT-130: durable_progress_per_wake numerator must be computed only from accepted OperationalProgressAcceptanceReceipt records; raw caller event counts must not change the numerator.",
+    "GB21-ROLLBACK-TERMINAL-PRECEDENCE-125 + STANDBY-TERMINAL-PRECEDENCE-126 + TERMINAL-CROSS-LAYER-127 remain required.",
     "GB21-UNVERIFIED-CLAIM-AUDIT-122 + LEDGER-OUTCOME-CONSERVATION-123 + QUALITY-DENOMINATOR-124 remain required.",
     "GB21-IRRELEVANT-VERIFIER-BATCH-119 + OPERATIONAL-VERIFIER-BATCH-120 + VERIFIER-PARSE-BY-KIND-121 remain required.",
     "Secretary freshness forge and exact authority-decision projection tests remain required.",
@@ -165,13 +173,15 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
-      "authoritative Experience accounting from current v2/v2.1 paths",
+      "authoritative verified Experience accounting from current v2/v2.1 paths",
+      "authoritative operational-progress/speed numerator accounting from raw caller event fields",
       "automatic authority escalation based on secretary/anti-thrash/progress heuristics",
       "speedup or capability claims from raw credit totals, commits, wakes or uptime"
     ]
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence is available on the same candidate bytes; historical results are not promoted as fresh PASS.",
+    "Operational progress remains non-Experience but every authoritative operational credit is evidence-bound to a durable artifact/defect acceptance receipt with lineage dedupe; raw caller labels cannot increase the speed numerator.",
     "Terminal-state precedence is structurally defined and tested: trusted R cannot be overwritten by secretary/pressure/recovery heuristics; N exits only through explicit trusted precedence rules.",
     "Secretary freshness and authority conflict are evidence-bound to trusted replay-resistant envelopes, with fresh authority decision actually projected.",
     "recent_shift_rate_ratio is derived from canonical history with precommitted support/window/uncertainty and hysteretic release; anti-thrash passes performance non-regression.",
@@ -184,6 +194,6 @@
     "Quantum/Spirit/Navigator review chain is fresh with zero unresolved material vetoes before any formal A->B->C consideration."
   ],
   "next_runtime": "RETURN_ALWAYS_ON_RUNTIME_THEN_CHECK_SMALL_WORLD_EXACT_ENDPOINT",
-  "created_at": "2026-08-20T02:28:44+08:00",
+  "created_at": "2026-08-20T03:33:52+08:00",
   "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
