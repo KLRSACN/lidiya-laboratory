@@ -1,7 +1,7 @@
 {
-  "schema_version": "3.8",
+  "schema_version": "3.9",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T10:27:00+08:00",
+  "recorded_at": "2026-08-19T10:36:00+08:00",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
   "forbidden_proxies": ["awake_time","window_age","commit_count","heartbeat_count","poll_count","retry_count","task_last_run"],
@@ -18,15 +18,15 @@
   "pairing_rule": "Use matched baseline/candidate assigned workloads with equal verification/risk and precommitted eligible-wake, exposure/censoring and admission/defer/timeout policies. Randomize AB/BA or crossover from the same sealed starting snapshot, reset candidate-sensitive runtime state between arms, preserve external monotonic audit state, and report intention-to-treat coverage plus order/carryover interaction.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "rule": "Both arms must use the same authoritative Experience/operational classification, accepted-receipt semantics, malformed-record handling, missing-identity handling, N/R terminal-state semantics, authority/freshness provenance, verification-stage binding and replay-resistant evidence lineage. Candidate-only self-test timing is observational and cannot establish a speed multiplier.",
-    "reject": "No positive speed claim from awake/window/commit/heartbeat/poll/retry proxies, caller-minted operational progress, receipt-less verified credit, malformed/missing-ID row censoring, replay inflation, unequal routing semantics, or excluding candidate failures/rejects from intention-to-treat coverage."
+    "rule": "Both arms must use the same authoritative Experience/operational classification, accepted-receipt semantics, malformed-record handling, missing-identity handling, strict literal-bool handling for every inherited/current control boolean, N/R terminal-state semantics, authority/freshness provenance, verification-stage binding and replay-resistant evidence lineage. Candidate-only self-test timing is observational and cannot establish a speed multiplier.",
+    "reject": "No positive speed claim from awake/window/commit/heartbeat/poll/retry proxies, caller-minted operational progress, receipt-less verified credit, malformed/missing-ID row censoring, truthiness-coerced control flags, replay inflation, unequal routing semantics, or excluding candidate failures/rejects from intention-to-treat coverage."
   },
   "selection_bias_control": {
     "status": "TEST_REQUIRED",
-    "rule": "Use intention-to-treat assigned-workload analysis and report accepted verified receipts, accepted operational evidence, duplicate/reject/malformed/missing-ID outcomes, N/R safety outcomes, defer/timeout, verified closures, coverage and assignment-to-closure latency under identical failure/censoring semantics."
+    "rule": "Use intention-to-treat assigned-workload analysis and report accepted verified receipts, accepted operational evidence, duplicate/reject/malformed/missing-ID outcomes, strict-bool rejects, N/R safety outcomes, defer/timeout, verified closures, coverage and assignment-to-closure latency under identical failure/censoring semantics."
   },
-  "current_candidate_executor_note": "Current Gearbox bytes remain anchored at b3cb60d8f4ca479817df1ca406502693a23b0a45 with v1/v2/v2.1 blobs c29e3b2c/11527a9e/45fe6e72/38799e41/6b6b0f2b/e7265dad. Exact-current same-runner regression remains DEFER_EXECUTOR_UNAVAILABLE; latest repository head 2512bba18503f7780d50c674faca3be392f0aeab is review-only.",
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260819-0932 is fresh to current v2.1 bytes and resolves the prior non-Mapping batch-element DoS and N/R parse-crash vetoes, but remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046 requires bounded missing-ID rejection before verifier bool parsing so one malformed record cannot censor later valid evidence. Dedicated W03 remains absent; W04 1332 is stale/veto-active.",
+  "current_candidate_executor_note": "Current Gearbox bytes remain anchored at b3cb60d8f4ca479817df1ca406502693a23b0a45 with v1/v2/v2.1 blobs c29e3b2c/11527a9e/45fe6e72/38799e41/6b6b0f2b/e7265dad. Exact-current same-runner regression remains DEFER_EXECUTOR_UNAVAILABLE; latest repository head observed before W01 bookkeeping is 1ef76da43ddeebc871efc37aca1ba4654c84e4c9 and is review-only.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260819-1032 is current to the unchanged v2.1 bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-INHERITED-BOOL-BOUNDARY-047 requires one canonical strict literal-bool intake shared by v1/v2/v2.1 before routing; HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046 remains open. Dedicated W03 remains absent; W04 1332 is stale/veto-active.",
   "timed_runner_note": "evolution/run_p0_self_test.py monotonic duration remains observational-only/no-speedup-claim and is not a paired baseline.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
