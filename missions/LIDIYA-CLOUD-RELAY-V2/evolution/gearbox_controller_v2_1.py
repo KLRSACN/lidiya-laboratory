@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping as MappingABC
 from dataclasses import asdict, dataclass
 from typing import Any, Iterable, Mapping
 
@@ -55,7 +56,8 @@ def aggregate_experience_events(events: Iterable[Mapping[str, Any]]) -> Experien
     """Deduplicate durable events and separate verified Experience from operational progress.
 
     Uptime, heartbeat, polling, retry and scheduler wakes never create Experience.
-    Re-reading the same durable event cannot inflate either counter.
+    Re-reading the same durable event cannot inflate either counter. Malformed
+    non-mapping elements are bounded rejects and cannot abort later valid records.
     """
     seen: set[str] = set()
     verified_total = 0
@@ -69,6 +71,9 @@ def aggregate_experience_events(events: Iterable[Mapping[str, Any]]) -> Experien
     operational_kinds = {"DURABLE_PROGRESS", "ADVERSARIAL_DEFECT_FOUND"}
 
     for event in events:
+        if not isinstance(event, MappingABC):
+            ignored += 1
+            continue
         event_id = str(event.get("event_id", "")).strip()
         kind = str(event.get("event_kind", "WAIT")).strip().upper()
         independently_verified = _strict_bool(
@@ -132,15 +137,20 @@ def select_gear_v2_1(*, secretary_signal_fresh: bool = False,
     thrash = False
 
     current_gear = str(v2_kwargs.get("current_gear", "G1")).upper()
-    current_n = int(current_gear[1:])
-    selected_n = int(selected[1:])
+    if selected in {"N", "R"}:
+        reasons.append("terminal control state bypasses anti-thrash gear parsing")
+    else:
+        if not selected.startswith("G"):
+            raise GearboxGuardError("inherited selected_gear must be N, R, or G1..G6")
+        current_n = int(current_gear[1:])
+        selected_n = int(selected[1:])
 
-    # Never delay a safety/recovery downshift. Only suppress nonessential upshifts.
-    if selected_n > current_n and shift_rate >= 0.50:
-        selected = current_gear
-        mode = "ANTI_THRASH_HOLD"
-        thrash = True
-        reasons.append("recent shift rate high; suppress nonessential upshift")
+        # Never delay a safety/recovery downshift. Only suppress nonessential upshifts.
+        if selected_n > current_n and shift_rate >= 0.50:
+            selected = current_gear
+            mode = "ANTI_THRASH_HOLD"
+            thrash = True
+            reasons.append("recent shift rate high; suppress nonessential upshift")
 
     # High verified progress density may preserve the inherited safe gear but never exceed it.
     if progress_density >= 0.75 and selected == inherited.selected_gear:
