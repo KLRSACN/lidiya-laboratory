@@ -86,6 +86,8 @@ def run_endurance(
                     "test_count": 0,
                     "self_test_duration_seconds": None,
                     "runner_total_duration_seconds": None,
+                    "comparison_group": None,
+                    "suite_signature_sha256": None,
                     "claim_boundary": "Round timing artifact missing; no timing or success claim allowed.",
                 }
 
@@ -99,6 +101,8 @@ def run_endurance(
                     "self_test_duration_seconds": timing.get("self_test_duration_seconds"),
                     "runner_total_duration_seconds": timing.get("runner_total_duration_seconds"),
                     "test_count": timing.get("test_count"),
+                    "comparison_group": timing.get("comparison_group"),
+                    "suite_signature_sha256": timing.get("suite_signature_sha256"),
                     "failure_count": timing.get("failure_count"),
                     "error_count": timing.get("error_count"),
                     "skipped_count": timing.get("skipped_count"),
@@ -131,6 +135,9 @@ def run_endurance(
     ]
     wall_durations = [float(row["wall_duration_seconds"]) for row in rounds]
     test_counts = [int(row["test_count"]) for row in rounds if row.get("test_count") is not None]
+    comparison_groups = [str(row["comparison_group"]) for row in rounds if row.get("comparison_group")]
+    comparison_group_consistent = bool(comparison_groups) and len(set(comparison_groups)) == 1
+    comparison_group = comparison_groups[0] if comparison_group_consistent else None
 
     midpoint = len(self_test_durations) // 2
     first_half = self_test_durations[:midpoint] if midpoint else self_test_durations
@@ -143,7 +150,7 @@ def run_endurance(
 
     runner_sum = sum(runner_durations)
     evidence = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "evidence_type": "p0_candidate_self_test_endurance_duration",
         "mission_id": "LCR-EVOLUTION-0005",
         "commit_sha": os.environ.get("GITHUB_SHA"),
@@ -151,6 +158,8 @@ def run_endurance(
         "timing_clock": "time.perf_counter_monotonic",
         "timing_scope": "bounded_candidate_ci_self_test_endurance_only",
         "timing_policy": "OBSERVATIONAL_ONLY_NO_SPEEDUP_OR_PROMOTION_CLAIM",
+        "comparison_group": comparison_group,
+        "comparison_group_consistent": comparison_group_consistent,
         "target_duration_seconds": round(target_duration_seconds, 6),
         "minimum_rounds": min_rounds,
         "maximum_rounds": max_rounds,
@@ -158,7 +167,7 @@ def run_endurance(
         "target_duration_reached": session_seconds >= target_duration_seconds,
         "stop_reason": stop_reason,
         "rounds_completed": len(rounds),
-        "successful": success and bool(rounds),
+        "successful": success and bool(rounds) and comparison_group_consistent,
         "successful_rounds": sum(1 for row in rounds if row["successful"]),
         "test_count_consistent": len(set(test_counts)) <= 1 if test_counts else False,
         "tests_per_round": test_counts[0] if test_counts and len(set(test_counts)) == 1 else None,
@@ -195,8 +204,9 @@ def run_endurance(
         "formal_state_mutation": False,
         "formal_c_verification": "NOT_CLAIMED",
         "claim_boundary": (
-            "This is bounded candidate self-test endurance timing only. It measures repeated regression stability "
-            "and timing drift; it is not real always-on runtime evidence, capability proof, Experience, or LCR-C verification."
+            "This is bounded candidate self-test endurance timing only. All rounds must share one comparison_group. "
+            "It measures repeated regression stability and timing drift; it is not real always-on runtime evidence, "
+            "capability proof, Experience, or LCR-C verification."
         ),
     }
 
@@ -205,6 +215,7 @@ def run_endurance(
     print(f"SELF_TEST_ENDURANCE_SECONDS={evidence['session_duration_seconds']}")
     print(f"SELF_TEST_ENDURANCE_ROUNDS={evidence['rounds_completed']}")
     print(f"SELF_TEST_ENDURANCE_STOP_REASON={evidence['stop_reason']}")
+    print(f"SELF_TEST_ENDURANCE_COMPARISON_GROUP={evidence['comparison_group']}")
     print(output.read_text(encoding="utf-8"))
     return 0 if evidence["successful"] else 1
 
