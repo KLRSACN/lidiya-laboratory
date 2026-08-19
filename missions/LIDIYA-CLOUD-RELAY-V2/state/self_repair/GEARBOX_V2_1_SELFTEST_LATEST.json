@@ -1,16 +1,15 @@
 {
-  "schema_version": "4.13",
+  "schema_version": "4.14",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T03:28:25+08:00",
+  "recorded_at": "2026-08-20T04:22:32+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact Gearbox six blobs remain unchanged. W01 attempted a fresh git clone of branch lidiya-cloud-relay-v2 into one runner; acquisition failed before any compile/test execution because github.com could not be resolved (git exit 128). Connector exact blobs remain inspectable but are not directly mountable into one trusted executor. No fresh PASS is claimed.",
+    "reason": "Current exact Gearbox six blobs remain unchanged. Connector exact blobs are inspectable but not directly mountable into one trusted executor, and latest branch head 35468d7d3d2ae72b6101a6cfa3a6ae6279fcaeea has no qualifying workflow run. No fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "ca8b00fd6cf77b4be873a4daceafcb88da761d3f",
-    "runner_provenance": "W01 container git clone probe plus GitHub connector exact-blob inspection",
-    "fresh_acquisition_command": "git clone --depth 1 --branch lidiya-cloud-relay-v2 --single-branch https://github.com/KLRSACN/lidiya-laboratory.git /tmp/lidiya-w01",
+    "latest_repository_head_observed": "35468d7d3d2ae72b6101a6cfa3a6ae6279fcaeea",
+    "runner_provenance": "GitHub connector exact-blob inspection plus exact-head workflow lookup",
     "fresh_acquisition_exit_code": 128,
     "fresh_acquisition_error": "Could not resolve host: github.com",
     "fresh_test_exit_code": null,
@@ -42,19 +41,8 @@
     "v2": {"fresh_tests": null, "inventory_tests": 19, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
     "v2_1": {"fresh_tests": null, "inventory_tests": 21, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"}
   },
-  "baseline": {
-    "v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE",
-    "v2": "CANDIDATE",
-    "v2_1": "CANDIDATE"
-  },
-  "boundaries": {
-    "P_base": "READ_ONLY_UNCHANGED",
-    "Identity": "NO_MUTATION_AUTHORITY",
-    "Personality": "NO_MUTATION_AUTHORITY",
-    "Governance": "NO_MUTATION_AUTHORITY",
-    "heartbeat_poll_retry_window_age_counts_as_experience": false,
-    "real_5min_runtime_live": false
-  },
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0228 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-TERMINAL-PRECEDENCE-065: v1 terminal rollback R or standby N can be overwritten inside v2 by recovery_active, continuity_anchor_health<0.50 or RED secretary before v2.1 receives the inherited result. Release requires structural terminal precedence across v1->v2->v2.1, with R non-overridable by secretary/pressure/recovery heuristics and N supersedable only by explicit trusted higher-priority authority/safety. MEDIUM_HIGH audit-sink 064, HIGH irrelevant-verifier-field batch DoS 063 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
+  "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0333 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-OPERATIONAL-PROGRESS-EVIDENCE-BINDING-066: raw caller-supplied DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND event_id+event_kind can manufacture authoritative operational_progress without durable artifact/defect evidence or immutable acceptance receipt, contaminating durable_progress_per_wake and paired speed numerators. Require evidence-bound OperationalProgressAcceptanceReceipt with source/mission/scope/install/policy/cursor binding and lineage dedupe. HIGH terminal precedence 065, MEDIUM_HIGH audit-sink 064, HIGH irrelevant-verifier-field batch DoS 063 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
