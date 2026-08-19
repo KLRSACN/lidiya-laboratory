@@ -167,18 +167,17 @@ jobs:
           evolution/gearbox_controller.py
           evolution/gearbox_controller_v2.py
           evolution/gearbox_controller_v2_1.py
+          evolution/run_p0_self_test.py
           evolution/local_command_tower/always_on_runtime.py
 
-      - name: Run exact-current P0 candidate regressions
+      - name: Run exact-current timed P0 candidate regressions
         id: p0_tests
         env:
           PYTHONPATH: .:evolution:evolution/local_command_tower
         run: >-
-          python -m unittest -v
-          evolution/test_gearbox_controller.py
-          evolution/test_gearbox_controller_v2.py
-          evolution/test_gearbox_controller_v2_1.py
-          evolution/local_command_tower/test_always_on_runtime.py
+          python evolution/run_p0_self_test.py
+          --output evidence/p0-self-test-duration.json
+          --slowest-count 10
 
       - name: Emit P0 candidate evidence
         if: always()
@@ -206,12 +205,19 @@ jobs:
               'evolution/gearbox_controller_v2_1.py',
               'evolution/test_gearbox_controller_v2_1.py',
               'evolution/GEARBOX_V2_1_CONTRACT.json',
+              'evolution/run_p0_self_test.py',
+              'evolution/SELF_TEST_OPTIMIZATION_RESEARCH.json',
               'evolution/local_command_tower/always_on_runtime.py',
               'evolution/local_command_tower/test_always_on_runtime.py',
               'evolution/local_command_tower/ALWAYS_ON_RUNTIME_CONTRACT.json',
           ]
+          timing_path = Path('evidence/p0-self-test-duration.json')
+          timing = json.loads(timing_path.read_text(encoding='utf-8')) if timing_path.exists() else {
+              'status': 'UNAVAILABLE',
+              'claim_boundary': 'Timing artifact was not produced; no duration claim is allowed.'
+          }
           evidence = {
-              'schema_version': '1.0',
+              'schema_version': '1.1',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'w01_p0_exact_current_candidate_regression',
               'commit_sha': os.environ['COMMIT_SHA'],
@@ -227,7 +233,8 @@ jobs:
               'p_base': 'READ_ONLY_UNCHANGED',
               'runtime_maintenance_counts_as_experience': False,
               'formal_state_mutation': False,
-              'claim_boundary': 'Exact-current CI executable candidate evidence only. It does not promote Gearbox v2/v2.1, does not establish real always-on runtime, and does not replace independent LCR-C verification.',
+              'self_test_timing': timing,
+              'claim_boundary': 'Exact-current CI executable candidate evidence only. Self-test timing is observational and does not promote Gearbox v2/v2.1, establish real always-on runtime, or replace independent LCR-C verification.',
               'bound_files': {},
           }
           for rel in bound:
@@ -244,11 +251,13 @@ jobs:
           print(path.read_text(encoding='utf-8'))
           PY
 
-      - name: Upload P0 candidate evidence
+      - name: Upload P0 candidate evidence and timing
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lcr-p0-exact-current-candidate-evidence
-          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-exact-current-candidate-regression.json
+          path: |
+            missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-exact-current-candidate-regression.json
+            missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-self-test-duration.json
           if-no-files-found: error
           retention-days: 7
