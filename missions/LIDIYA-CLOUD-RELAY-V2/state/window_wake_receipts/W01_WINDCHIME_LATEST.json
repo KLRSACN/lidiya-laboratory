@@ -1,41 +1,41 @@
 {
-  "schema_version": "5.9",
+  "schema_version": "6.0",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-20T05:36:00+08:00",
+  "recorded_at": "2026-08-20T07:27:00+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
     "Archive No-Read Fence targeted startup through Active-8 Home continuity anchor, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
-    "Checked current exact six Gearbox blobs and executor availability; no trusted same-runner exact-byte executor is available, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical result is promoted.",
+    "Checked current exact six Gearbox blobs and exact-head workflow availability; no trusted same-runner exact-byte executor is available, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical result is promoted.",
     "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies.",
-    "Updated canonical latest-only state because W02 advanced materially from 0429 to 0533.",
-    "Fresh-read MISSION_STATE and the same canonical EVOLUTION_PROGRESS after this receipt write before owner report."
+    "Updated canonical latest-only state because W02 advanced materially from 0533 to 0632.",
+    "Fresh-read MISSION_STATE and the same canonical EVOLUTION_PROGRESS after receipt write before owner report."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0533 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
-    "New HIGH QV-GB21-INHERITED-EXPERIENCE-GATE-DROP-068: v2 denies real Experience when verified-kind events are outside canonical C_VERIFIED, while v2.1 independently recomputes verified_experience_delta from raw caller event_kind plus event_independently_verified and can mint positive verified credit.",
-    "Release requires immutable AcceptedExperienceReceipt or exact inherited verification eligibility, plus preservation of verification_gate/real_experience_claim_allowed or exact inherited-decision binding across v2->v2.1.",
-    "HIGH current_gear raw reparse 067, operational-progress evidence binding 066, terminal precedence 065 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0632 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
+    "New HIGH QV-GB21-DUPLICATE-REPLAY-VERIFIER-PARSE-069: aggregate_experience_events strict-parses independently_verified before checking duplicate/replay identity, so malformed replay metadata can raise before deterministic duplicate handling and censor later valid evidence.",
+    "Release requires canonical/authenticated event identity and binding before mutable verifier parsing: exact accepted replay=NO_OP, same-ID/different-binding=IDENTITY_CONFLICT, and malformed duplicate replay cannot abort later independent records.",
+    "HIGH inherited Experience gate drop 068, operational-progress evidence binding 066, terminal precedence 065 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain.",
     "Dedicated W03 Gearbox v2.1 review remains absent; W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
-    "home_latest_continuity_gearbox": "ACTIVE8_HOME73_POINTER_USED_DIRECT_HOME_LOOKUP_UNSUPPORTED_OR_AMBIGUOUS_NO_BROAD_ARCHIVE_READ",
+    "home_latest_continuity_gearbox": "ACTIVE8_HOME73_POINTER_USED_NO_BROAD_ARCHIVE_READ",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed_before_w01_bookkeeping": "8a6a0fa801939aa6b7ffd931dd25d26193e54d6e",
+    "latest_repository_head_observed_before_w01_bookkeeping": "f980c8dcdd71eb49e4d132f45da0ddf07cecd7f4",
     "canonical_progress_overwritten": true,
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "a0beaf2c7b7471405299ca89694a79ca60642677",
+    "selftest_sha": "e0cb3a3b99604fa2ff21a628d3e8b7915112ca50",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "85aa82b3a1a1049c041d1ca37a8d3b49984c18a2",
+    "speed_baseline_sha": "652190f36f0e162f72f57f4dfea86e0aa171e32d",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "aa2c674f563bd85bbce5557ca1f3ea25ce2fc4c5",
-    "progress_sha": "076ea9f8747662df0402c8715e1db0bb9487c2b0"
+    "checkpoint_sha": "4e410912fa2313f867c7bf540c85cbde9bd1cd30",
+    "progress_sha": "44b5bec85dcdf98d13aff1bcc7e71833aca786d3"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -52,7 +52,7 @@
   },
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","Identity":"NO_V2_1_MUTATION_AUTHORITY","Personality":"NO_V2_1_MUTATION_AUTHORITY","Governance":"NO_V2_1_MUTATION_AUTHORITY","real_5min_runtime_live":false},
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260820-0533_CURRENT_BOUNDED_VETO_ACTIVE_INHERITED_EXPERIENCE_GATE_DROP_068_HIGH_PLUS_067_HIGH_PLUS_066_HIGH_PLUS_065_HIGH",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260820-0632_CURRENT_BOUNDED_VETO_ACTIVE_DUPLICATE_REPLAY_VERIFIER_PARSE_069_HIGH_PLUS_068_HIGH_PLUS_066_HIGH_PLUS_065_HIGH",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -65,5 +65,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_FINAL_READBACK"
 }
