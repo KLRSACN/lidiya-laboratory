@@ -1,18 +1,21 @@
 {
-  "schema_version": "3.7",
+  "schema_version": "3.8",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T10:36:00+08:00",
+  "recorded_at": "2026-08-19T12:28:36+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current Gearbox code/test bytes remain anchored at source head b3cb60d8f4ca479817df1ca406502693a23b0a45. Latest repository head 1ef76da43ddeebc871efc37aca1ba4654c84e4c9 is review-only and does not change the six Gearbox blobs. W01 still has no trusted executor surface that can mount connector-returned exact repository bytes into one runner for the required compile plus all three suites. The last commit-pinned raw-acquisition probe failed before byte acquisition with DNS exit 6. No fresh PASS is claimed.",
-    "candidate_bytes_anchor_head": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
-    "latest_repository_head_observed": "1ef76da43ddeebc871efc37aca1ba4654c84e4c9",
-    "runner_provenance": "W01 exact GitHub blob inspection; prior commit-pinned same-runner raw-acquisition probe retained as last executor probe evidence",
-    "runner_probe_exit_code": 6,
+    "reason": "Current branch head 2f84d3705bea4901e18c749c19f593025df0c9b2 changes Gearbox v2/v2.1 code/tests relative to the prior selftest binding. GitHub connector can inspect exact blobs but does not mount them into the local runner; local git acquisition failed before checkout because github.com DNS resolution failed. Exact-head GitHub Actions workflow lookup returned zero runs. Therefore no same-runner compile/test execution occurred and no fresh PASS is claimed.",
+    "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
+    "latest_repository_head_observed": "2f84d3705bea4901e18c749c19f593025df0c9b2",
+    "runner_provenance": "W01 GitHub connector exact-blob inspection + local git acquisition probe + exact-head GitHub Actions lookup",
+    "local_git_probe_command": "git ls-remote https://github.com/KLRSACN/lidiya-laboratory.git refs/heads/lidiya-cloud-relay-v2",
+    "local_git_probe_exit_code": 128,
+    "local_git_probe_error": "Could not resolve host: github.com",
+    "exact_head_workflow_run_count": 0,
     "fresh_test_exit_code": null,
-    "historical_49_of_49_reusable_as_fresh_pass": false
+    "historical_results_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
     "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
@@ -25,10 +28,10 @@
   "exact_blob_sha": {
     "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "evolution/test_gearbox_controller.py": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "evolution/gearbox_controller_v2.py": "45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
-    "evolution/test_gearbox_controller_v2.py": "38799e41561e6cdbc7378e9bd94596a18d4ab672",
-    "evolution/gearbox_controller_v2_1.py": "6b6b0f2b773916322a8030275a8206aaf547053c",
-    "evolution/test_gearbox_controller_v2_1.py": "e7265dad769c45babb28ca676a46c59f594c6043"
+    "evolution/gearbox_controller_v2.py": "13aafeed851a2b5453dd36eaf64b85552bc79838",
+    "evolution/test_gearbox_controller_v2.py": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
+    "evolution/gearbox_controller_v2_1.py": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
+    "evolution/test_gearbox_controller_v2_1.py": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3"
   },
   "contract_blob_sha": {
     "evolution/GEARBOX_V2_CONTRACT.json": "7c272b09264be765354fe2052eeb9e2f230f1705",
@@ -36,11 +39,10 @@
   },
   "suite_result": {
     "compile": {"fresh_files": 3, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
-    "v1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
-    "v2": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
-    "v2_1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"}
+    "v1": {"fresh_tests": null, "inventory_tests": 21, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
+    "v2": {"fresh_tests": null, "inventory_tests": 19, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
+    "v2_1": {"fresh_tests": null, "inventory_tests": 21, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"}
   },
-  "current_test_inventory": {"v1": 21, "v2": 16, "v2_1": 20},
   "baseline": {
     "v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE",
     "v2": "CANDIDATE",
@@ -54,6 +56,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1032 against unchanged current v2.1 blobs 6b6b0f2b/e7265dad and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-INHERITED-BOOL-BOUNDARY-047 confirms inherited v1/v2 control booleans still rely on Python truthiness, so values such as non-empty string 'false' can falsely trigger standby, rollback, recovery/safety brake, route drift, or checkpoint/downshift. Existing v2 tests cover literal booleans only. HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046 also remains open.",
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
+  "material_delta": "Current v2/v2.1 source/test bytes changed to 13aafeed/d01cab7b/81818f9d/d9252bb5, invalidating the prior exact-byte selftest binding. W02 QUANTUM-GEARBOX-V2.1-20260819-1132 remains BOUNDED_VETO_ACTIVE but is stale to these current bytes because it reviewed v2 45fe6e72/38799e41 and v2.1 6b6b0f2b/e7265dad. Dedicated W03 remains absent; W04 1332 is stale/veto-active.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_STALE_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
