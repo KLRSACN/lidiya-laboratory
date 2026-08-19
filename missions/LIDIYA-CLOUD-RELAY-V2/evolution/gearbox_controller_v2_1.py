@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Iterable, Mapping
 
 from gearbox_controller import GearboxGuardError
-from gearbox_controller_v2 import GearboxV2Decision, experience_candidate_delta, select_gear_v2
+from gearbox_controller_v2 import GearboxV2Decision, experience_candidate_delta, select_gear_v2, strict_bool
 
 
 @dataclass(frozen=True)
@@ -45,19 +45,13 @@ def _ratio(value: Any, name: str) -> float:
     return value
 
 
-def _strict_bool(value: Any, name: str) -> bool:
-    """Reject truthy/falsy coercion at authority and verification boundaries."""
-    if type(value) is not bool:
-        raise GearboxGuardError(f"{name} must be bool")
-    return value
-
-
 def aggregate_experience_events(events: Iterable[Mapping[str, Any]]) -> ExperienceLedgerResult:
     """Deduplicate durable events and separate verified Experience from operational progress.
 
     Uptime, heartbeat, polling, retry and scheduler wakes never create Experience.
     Re-reading the same durable event cannot inflate either counter. Malformed
-    non-mapping elements are bounded rejects and cannot abort later valid records.
+    non-mapping or identity-less elements are bounded rejects and cannot abort
+    later valid records.
     """
     seen: set[str] = set()
     verified_total = 0
@@ -75,13 +69,13 @@ def aggregate_experience_events(events: Iterable[Mapping[str, Any]]) -> Experien
             ignored += 1
             continue
         event_id = str(event.get("event_id", "")).strip()
-        kind = str(event.get("event_kind", "WAIT")).strip().upper()
-        independently_verified = _strict_bool(
-            event.get("independently_verified", False), "independently_verified"
-        )
         if not event_id:
             ignored += 1
             continue
+        kind = str(event.get("event_kind", "WAIT")).strip().upper()
+        independently_verified = strict_bool(
+            event.get("independently_verified", False), "independently_verified"
+        )
         if event_id in seen:
             duplicates += 1
             continue
@@ -113,8 +107,8 @@ def select_gear_v2_1(*, secretary_signal_fresh: bool = False,
     It only rejects stale secretary signals, prevents upshift thrashing, and
     distinguishes verified Experience from operational progress.
     """
-    secretary_signal_fresh = _strict_bool(secretary_signal_fresh, "secretary_signal_fresh")
-    authority_conflict = _strict_bool(authority_conflict, "authority_conflict")
+    secretary_signal_fresh = strict_bool(secretary_signal_fresh, "secretary_signal_fresh")
+    authority_conflict = strict_bool(authority_conflict, "authority_conflict")
     shift_rate = _ratio(recent_shift_rate_ratio, "recent_shift_rate_ratio")
     progress_density = _ratio(verified_progress_density, "verified_progress_density")
 
@@ -144,20 +138,17 @@ def select_gear_v2_1(*, secretary_signal_fresh: bool = False,
             raise GearboxGuardError("inherited selected_gear must be N, R, or G1..G6")
         current_n = int(current_gear[1:])
         selected_n = int(selected[1:])
-
-        # Never delay a safety/recovery downshift. Only suppress nonessential upshifts.
         if selected_n > current_n and shift_rate >= 0.50:
             selected = current_gear
             mode = "ANTI_THRASH_HOLD"
             thrash = True
             reasons.append("recent shift rate high; suppress nonessential upshift")
 
-    # High verified progress density may preserve the inherited safe gear but never exceed it.
     if progress_density >= 0.75 and selected == inherited.selected_gear:
         reasons.append("verified progress density supports maintaining safe inherited gear")
 
     kind = str(v2_kwargs.get("event_kind", "WAIT")).upper()
-    independently_verified = _strict_bool(
+    independently_verified = strict_bool(
         v2_kwargs.get("event_independently_verified", False), "event_independently_verified"
     )
     delta = experience_candidate_delta(kind, independently_verified=independently_verified)

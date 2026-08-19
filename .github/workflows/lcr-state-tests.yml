@@ -168,16 +168,20 @@ jobs:
           evolution/gearbox_controller_v2.py
           evolution/gearbox_controller_v2_1.py
           evolution/run_p0_self_test.py
+          evolution/self_test_trend.py
           evolution/local_command_tower/always_on_runtime.py
 
-      - name: Run exact-current timed P0 candidate regressions
+      - name: Run exact-current timed P0 candidate regressions and trend diagnostic
         id: p0_tests
         env:
           PYTHONPATH: .:evolution:evolution/local_command_tower
-        run: >-
-          python evolution/run_p0_self_test.py
-          --output evidence/p0-self-test-duration.json
-          --slowest-count 10
+        run: |
+          python evolution/run_p0_self_test.py \
+            --output evidence/p0-self-test-duration.json \
+            --slowest-count 10
+          python evolution/self_test_trend.py \
+            --sample evidence/p0-self-test-duration.json \
+            --output evidence/p0-self-test-trend.json
 
       - name: Emit P0 candidate evidence
         if: always()
@@ -206,6 +210,9 @@ jobs:
               'evolution/test_gearbox_controller_v2_1.py',
               'evolution/GEARBOX_V2_1_CONTRACT.json',
               'evolution/run_p0_self_test.py',
+              'evolution/run_p0_self_test_endurance.py',
+              'evolution/self_test_trend.py',
+              'evolution/test_self_test_trend.py',
               'evolution/SELF_TEST_OPTIMIZATION_RESEARCH.json',
               'evolution/local_command_tower/always_on_runtime.py',
               'evolution/local_command_tower/test_always_on_runtime.py',
@@ -216,8 +223,13 @@ jobs:
               'status': 'UNAVAILABLE',
               'claim_boundary': 'Timing artifact was not produced; no duration claim is allowed.'
           }
+          trend_path = Path('evidence/p0-self-test-trend.json')
+          trend = json.loads(trend_path.read_text(encoding='utf-8')) if trend_path.exists() else {
+              'status': 'UNAVAILABLE',
+              'claim_boundary': 'Trend artifact was not produced; no trend claim is allowed.'
+          }
           evidence = {
-              'schema_version': '1.1',
+              'schema_version': '1.2',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'w01_p0_exact_current_candidate_regression',
               'commit_sha': os.environ['COMMIT_SHA'],
@@ -234,7 +246,8 @@ jobs:
               'runtime_maintenance_counts_as_experience': False,
               'formal_state_mutation': False,
               'self_test_timing': timing,
-              'claim_boundary': 'Exact-current CI executable candidate evidence only. Self-test timing is observational and does not promote Gearbox v2/v2.1, establish real always-on runtime, or replace independent LCR-C verification.',
+              'self_test_trend': trend,
+              'claim_boundary': 'Exact-current CI executable candidate evidence only. Timing/trend data are observational optimization diagnostics and do not promote Gearbox v2/v2.1, establish real always-on runtime, prove speedup, or replace independent LCR-C verification.',
               'bound_files': {},
           }
           for rel in bound:
@@ -251,7 +264,7 @@ jobs:
           print(path.read_text(encoding='utf-8'))
           PY
 
-      - name: Upload P0 candidate evidence and timing
+      - name: Upload P0 candidate evidence, timing and trend
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -259,5 +272,6 @@ jobs:
           path: |
             missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-exact-current-candidate-regression.json
             missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-self-test-duration.json
+            missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-self-test-trend.json
           if-no-files-found: error
           retention-days: 7
