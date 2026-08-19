@@ -1,51 +1,53 @@
 {
-  "schema_version": "4.1",
+  "schema_version": "4.2",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-19T10:36:00+08:00",
+  "recorded_at": "2026-08-19T12:36:47+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
     "Archive No-Read Fence targeted startup through current Active-8, fresh MISSION_STATE, Gearbox v1/v2/v2.1 contract/code/tests, latest W02/W03/W04, W01 checkpoint and receipt.",
-    "Rechecked exact-current executor availability for current six Gearbox blobs without promoting historical results.",
-    "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies."
+    "Rechecked exact-current executor availability on the current six Gearbox blobs without promoting historical results.",
+    "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies.",
+    "Updated canonical state only because W02 freshness/review outcome materially changed."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1032 against unchanged current v2.1 blobs 6b6b0f2b/e7265dad.",
-    "W02 remains BOUNDED_VETO_ACTIVE and adds HIGH QV-GB21-INHERITED-BOOL-BOUNDARY-047: inherited v1/v2 control booleans still rely on Python truthiness, so non-bool truthy values can falsely trigger standby, rollback, recovery/safety brake, route drift or pressure checkpoint/downshift.",
-    "Current v1/v2 code confirms the truthiness boundary and current v2 tests cover literal booleans only; HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046 also remains open.",
-    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE; historical results were not reused as fresh PASS.",
-    "Dedicated W03 remains absent, W04 1332 remains stale/veto-active, and paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1234 and is now fresh to current v2/v2.1 exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5; the prior W02 stale-to-current gate is cleared as a freshness issue only.",
+    "W02 remains BOUNDED_VETO_ACTIVE. It marks inherited-bool 047 and missing-ID verifier-parse 046 resolved in the current candidate, partially hardens real-Experience stage gating, and adds HIGH QV-GB21-EVENT-KIND-TYPE-BOUNDARY-049.",
+    "Other release vetoes remain, including current_gear/verification_stage provenance, freshness/authority envelopes, authority projection, secretary pressure provenance, anti-thrash provenance/performance, exact verifier evidence, durable replay-resistant lineage/receipt-only credit, v2/v2.1 semantic consistency and speed evidence.",
+    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: exact-byte anchor and latest pre-bookkeeping branch head both have zero workflow runs and connector exact blobs are not mountable into one executor.",
+    "Dedicated W03 Gearbox v2.1 review remains absent; latest W03 is a stale general VALID_NO_OP. W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "candidate_bytes_anchor_head": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
-    "latest_repository_head_observed_before_w01_bookkeeping": "1ef76da43ddeebc871efc37aca1ba4654c84e4c9",
+    "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
+    "latest_repository_head_observed_before_w01_bookkeeping": "a02b5c2a02bbc865e9e13383daa09fb141858b66",
     "canonical_progress_overwritten": true,
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "ae56902012820c47d1ae3200c069ea869e67569c",
+    "selftest_sha": "5785ad21165feaa816bf237d225237ba191ed754",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "1c96444540b21807da357ceb9e01785112a29e2e",
+    "speed_baseline_sha": "32f65d51629b81daf7e3e6577a46b02698c1957b",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "f313873c27bc3588c0706c78f3edf0bfdcdbdf67",
-    "progress_sha": "1289b7e5d7c295ece87681e26a5bedb285f315f7"
+    "checkpoint_sha": "cf8e7d8ded2eae759edf2c97a25a28dcb6864a07",
+    "progress_sha": "9d0081b363c5577eb9dee4390dd63a58f1006775"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
     "same_runner_exact_bytes_available": false,
-    "runner_probe_exit_code": 6,
-    "historical_49_of_49_reused_as_fresh_pass": false,
+    "exact_byte_anchor_workflow_run_count": 0,
+    "latest_pre_bookkeeping_head_workflow_run_count": 0,
+    "historical_results_reused_as_fresh_pass": false,
     "exact_blob_sha": {
       "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
       "v1_test": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-      "v2_source": "45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
-      "v2_test": "38799e41561e6cdbc7378e9bd94596a18d4ab672",
-      "v2_1_source": "6b6b0f2b773916322a8030275a8206aaf547053c",
-      "v2_1_test": "e7265dad769c45babb28ca676a46c59f594c6043"
+      "v2_source": "13aafeed851a2b5453dd36eaf64b85552bc79838",
+      "v2_test": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
+      "v2_1_source": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
+      "v2_1_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3"
     }
   },
   "immutable_baseline": {
@@ -58,7 +60,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-1032_CURRENT_BOUNDED_VETO_ACTIVE_NEW_HIGH_INHERITED_BOOL_047_OPEN_HIGH_MISSING_ID_046",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-1234_CURRENT_BOUNDED_VETO_ACTIVE_EVENT_KIND_049_HIGH",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -71,5 +73,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_POST_WRITE_READBACK"
 }
