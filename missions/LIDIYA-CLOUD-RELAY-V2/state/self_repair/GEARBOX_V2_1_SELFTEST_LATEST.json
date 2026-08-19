@@ -1,14 +1,14 @@
 {
-  "schema_version": "4.7",
+  "schema_version": "4.8",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T20:32:32+08:00",
+  "recorded_at": "2026-08-19T22:27:11+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact Gearbox six blobs remain unchanged. GitHub connector can inspect exact repository blobs but cannot mount all six exact bytes into one trusted executable filesystem runner. Fresh pre-bookkeeping branch head 48cea71ea8665b6649978643f5f9633588fea936 has zero qualifying workflow runs. No compile/test execution occurred and no fresh PASS is claimed.",
+    "reason": "Current exact Gearbox six blobs remain unchanged. GitHub connector can inspect exact repository blobs but cannot mount all six exact bytes into one trusted executable filesystem runner. Fresh pre-bookkeeping branch head 57904e27a70b4834bb74d18d643c95cd2ac9747a has zero qualifying workflow runs. No compile/test execution occurred and no fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "48cea71ea8665b6649978643f5f9633588fea936",
+    "latest_repository_head_observed": "57904e27a70b4834bb74d18d643c95cd2ac9747a",
     "runner_provenance": "W01 GitHub connector exact-blob inspection plus commit workflow lookup; no mountable exact-byte same-runner executor",
     "latest_head_workflow_run_count": 0,
     "latest_head_workflow_lookup_status": "LOOKUP_OK_ZERO_RUNS",
@@ -54,6 +54,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-2029 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-INHERITED-SAFETY-METADATA-DROP-059: GearboxV21Decision drops inherited v2 checkpoint_required, receiver_ack_required, verification_gate and real_experience_claim_allowed semantics, so a downstream v2.1-only consumer can lose safety/verification metadata even when selected gear is inherited. Release requires exact re-projection of safety-critical inherited fields or a bound inherited_v2_decision fingerprint/reference. Existing verified-delta stage bypass 058, terminal telemetry 057, EventKind 056, EventIdentity 055, authority/freshness, pressure provenance, anti-thrash, verifier evidence, replay/receipt and v2/v2.1 semantic consistency vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-2132 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-TERMINAL-PRECEDENCE-060: inherited v2 can overwrite verified v1 terminal N/R with G1 when recovery_active, continuity_anchor_health<0.50, or fresh RED secretary is present, before v2.1 terminal bypass logic can preserve the terminal state. Release requires explicit terminal precedence: trusted rollback R is non-overridable by secretary/pressure/recovery overlays; standby N may only be superseded by a separately specified higher-priority trusted safety/authority rule, never an unbound secretary signal. Existing inherited safety metadata 059, verified-delta stage bypass 058, terminal telemetry 057, EventKind 056, EventIdentity 055, authority/freshness, pressure provenance, anti-thrash, verifier evidence, replay/receipt and v2/v2.1 semantic consistency vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
