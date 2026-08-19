@@ -1,40 +1,41 @@
 {
-  "schema_version": "4.4",
+  "schema_version": "4.5",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-19T15:27:38+08:00",
+  "recorded_at": "2026-08-19T16:26:43+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
-    "Archive No-Read Fence targeted startup through current Active-8, fresh MISSION_STATE, Gearbox v1/v2/v2.1 contract/code/tests, latest W02/W03/W04, W01 checkpoint and receipt.",
+    "Archive No-Read Fence targeted startup through Home continuity/gearbox lookup, current Active-8, fresh MISSION_STATE, Gearbox v1/v2/v2.1 contract/code/tests, latest W02/W03/W04, W01 checkpoint and receipt.",
     "Rechecked exact-current executor availability on the current six Gearbox blobs without promoting historical results.",
     "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies.",
-    "Updated canonical state only because W02 advanced materially from 1329 to 1429."
+    "Updated canonical state only because W02 advanced materially from 1429 to 1529."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1429 and remains fresh to current v2/v2.1 exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
-    "New HIGH QV-GB21-EVENT-ID-POISONING-052: aggregate_experience_events reserves event_id before proving event acceptance, allowing invalid/zero-credit records to suppress later legitimate same-ID evidence.",
-    "New HIGH QV-GB21-DUPLICATE-REPLAY-PARSE-DOS-053: malformed verifier metadata on an already-seen event_id can raise before duplicate handling, converting an expected replay no-op into batch denial-of-evidence and censoring later valid records.",
-    "HIGH IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-050, EVENT-KIND-TYPE-BOUNDARY-049 and other authority/provenance/evidence/replay/receipt/anti-thrash/speed release vetoes remain.",
-    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: exact-byte anchor 2f84d370 and latest pre-bookkeeping branch head daae359c both have zero workflow runs and connector exact blobs are not mountable into one executor.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1529 and remains fresh to current v2/v2.1 exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
+    "New MEDIUM_HIGH QV-GB21-PRESSURE-ROUNDING-CONTROL-054: v2 rounds pressure to four decimals before applying 0.45/0.70 routing thresholds, so presentation quantization can alter control decisions near the gates.",
+    "Current code directly confirms pressure=round(...,4) occurs before pressure >= 0.70 / >= 0.45 checks; current v2 tests do not contain raw-vs-rounded threshold boundary regressions.",
+    "HIGH EVENT-ID-POISONING-052, DUPLICATE-REPLAY-PARSE-DOS-053, IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-050, EVENT-KIND-TYPE-BOUNDARY-049 and other authority/provenance/evidence/replay/receipt/anti-thrash/speed release vetoes remain.",
+    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: exact-byte anchor 2f84d370 and latest pre-bookkeeping branch head 596fa0bc both have zero workflow runs and connector exact blobs are not mountable into one executor.",
     "Dedicated W03 Gearbox v2.1 review remains absent; latest W03 is a stale general VALID_NO_OP. W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
+    "home_latest_continuity_gearbox": "TARGETED_HOME_DOC_LOOKUP_OK_NO_BROAD_ARCHIVE_READ",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed_before_w01_bookkeeping": "daae359c8304426b0bb59eb13bcf80dad391a3f3",
+    "latest_repository_head_observed_before_w01_bookkeeping": "596fa0bced35eef561ef2574cfa9c67cc09cf37d",
     "canonical_progress_overwritten": true,
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "baea5736c731f43c6708a18fb32fe0c72e43d0c2",
+    "selftest_sha": "aab975bcc66678c4aef8ad980fd416af93d07012",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "3af1da27343dbdec614e1dad969cde2309cdf765",
+    "speed_baseline_sha": "1fc4e77fefac7337870cd84d5ab2eee692c6c75b",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "5db69d820ca3e3fa057720c5bd09d55ee989cc0a",
-    "progress_sha": "91881231beca5b101855d98bd1532e66f6908c89"
+    "checkpoint_sha": "32465ef782c0f2fb8199b21cb6c7c748fbc679b4",
+    "progress_sha": "848a28193b5844936f62e87aef7102f5f481d302"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -61,7 +62,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-1429_CURRENT_BOUNDED_VETO_ACTIVE_EVENT_ID_POISONING_052_HIGH_DUPLICATE_REPLAY_PARSE_DOS_053_HIGH",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-1529_CURRENT_BOUNDED_VETO_ACTIVE_PRESSURE_ROUNDING_CONTROL_054_MEDIUM_HIGH",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -74,12 +75,6 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS",
-  "readback_evidence": {
-    "first_receipt_blob_sha": "23e42d2615da58b0881a74b12a9a27fe92885ab0",
-    "selftest_readback_sha": "baea5736c731f43c6708a18fb32fe0c72e43d0c2",
-    "speed_readback_sha": "3af1da27343dbdec614e1dad969cde2309cdf765",
-    "checkpoint_readback_sha": "5db69d820ca3e3fa057720c5bd09d55ee989cc0a",
-    "progress_readback_sha": "91881231beca5b101855d98bd1532e66f6908c89"
-  }
+  "readback_status": "PENDING",
+  "readback_evidence": {}
 }
