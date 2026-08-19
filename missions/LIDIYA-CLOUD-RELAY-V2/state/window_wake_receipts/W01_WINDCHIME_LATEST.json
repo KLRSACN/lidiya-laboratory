@@ -73,5 +73,12 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PENDING_POST_WRITE_READBACK"
+  "readback_status": "PASS",
+  "readback_evidence": {
+    "first_receipt_blob_sha": "6c7aa99f9996a004b2a2986f89834895c7dfe281",
+    "selftest_readback_sha": "5785ad21165feaa816bf237d225237ba191ed754",
+    "speed_readback_sha": "32f65d51629b81daf7e3e6577a46b02698c1957b",
+    "checkpoint_readback_sha": "cf8e7d8ded2eae759edf2c97a25a28dcb6864a07",
+    "progress_readback_sha": "9d0081b363c5577eb9dee4390dd63a58f1006775"
+  }
 }
