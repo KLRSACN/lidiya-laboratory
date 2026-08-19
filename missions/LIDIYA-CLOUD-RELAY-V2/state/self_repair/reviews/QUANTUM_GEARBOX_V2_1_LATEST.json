@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-1032",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-1132",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -12,10 +12,10 @@
     "active_8": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; NO_BROAD_ARCHIVE_READ",
     "fresh_mission_state": "READ_OK",
     "gearbox_v1": "READ_OK",
-    "test_gearbox_v1": "PRIOR_FINGERPRINT_PRESERVED",
+    "test_gearbox_v1": "READ_OK",
     "gearbox_v2": "READ_OK",
     "test_gearbox_v2": "READ_OK",
-    "gearbox_v2_contract": "PRIOR_FINGERPRINT_PRESERVED",
+    "gearbox_v2_contract": "READ_OK",
     "gearbox_v2_1": "READ_OK",
     "test_gearbox_v2_1": "READ_OK",
     "gearbox_v2_1_contract": "READ_OK",
@@ -43,25 +43,31 @@
   "agreements": [
     "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
-    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid type hardening, but do not establish provenance, freshness or verifier authority.",
-    "Fresh v2.1 correctly handles terminal N/R before G-gear parsing and bounds non-Mapping ledger elements.",
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
+    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid type hardening, but they do not prove provenance or authority.",
+    "Fresh v2.1 handles terminal N/R before anti-thrash numeric parsing and bounds non-Mapping ledger elements.",
     "verified_progress_density is currently reason-only; keeping it observational is acceptable until independently derived and adversarially validated.",
-    "GEARBOX_V2_1_CONTRACT correctly states speedup is NOT_YET_STATISTICALLY_ESTABLISHED.",
+    "GEARBOX_V2_1_CONTRACT correctly marks speedup NOT_YET_STATISTICALLY_ESTABLISHED.",
     "formal_mutation_allowed remains false and P_base remains read-only."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-CURRENT-GEAR-STAGE-PROVENANCE-048",
+      "severity": "HIGH",
+      "finding": "Material delta: current_gear and verification_stage remain caller-supplied authority-sensitive inputs. current_gear directly controls v2 one-step hysteresis and v2.1 anti-thrash comparison; verification_stage directly controls the unverified G4 cap and verification_gate label. A caller can therefore forge routing history or claim C_VERIFIED without a canonical runtime state or verifier receipt.",
+      "required_change": "Derive current_gear from a canonical monotonic runtime/shift-state receipt and derive verification_stage from exact trusted C/independent-verifier acceptance evidence. Bind both to mission/step/scope, installation/runtime identity, policy version, freshness/revocation and state fingerprint. Caller declarations may be display hints only, never routing authority."
+    },
+    {
       "id": "QV-GB21-INHERITED-BOOL-BOUNDARY-047",
       "severity": "HIGH",
-      "finding": "New material finding: v2.1 hardens only its own three boolean inputs. Inherited v1/v2 flags such as standby, rollback_required, hard_safety_conflict, contradiction, recovery_active and route_drift still rely on Python truthiness. A caller value like the non-empty string \"false\" is therefore truthy and can falsely trigger N standby, R rollback, G1 recovery/safety brake or pressure downshift/checkpoint. Existing v2 tests cover literal booleans only.",
-      "required_change": "Create one canonical strict-bool intake shared by v1/v2/v2.1 for every control boolean before any routing logic. Reject strings, integers, lists, mappings and arbitrary objects; live/adoptable paths must not rely on Python truthiness for control state."
+      "finding": "v2.1 hardens only its own three boolean inputs; inherited v1/v2 flags such as standby, rollback_required, hard_safety_conflict, contradiction, recovery_active and route_drift still rely on Python truthiness.",
+      "required_change": "Use one canonical strict-bool intake across v1/v2/v2.1 before routing logic."
     },
     {
       "id": "QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046",
       "severity": "HIGH",
-      "finding": "aggregate_experience_events parses independently_verified before rejecting missing event_id; malformed verification data on an identity-less record can abort later valid evidence in the batch.",
-      "required_change": "Validate canonical record shape and non-empty event identity before verifier parsing; non-atomic malformed records must be bounded rejects with zero credit and no identity reservation."
+      "finding": "aggregate_experience_events parses independently_verified before rejecting missing event_id; malformed verification data on an identity-less record can abort later valid evidence.",
+      "required_change": "Validate canonical record shape and non-empty event identity before verifier parsing; malformed non-atomic records must be bounded rejects with zero credit and no identity reservation."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -120,7 +126,7 @@
     {
       "id": "QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044",
       "severity": "HIGH",
-      "finding": "Gearbox v2 can set real_experience_claim_allowed from verified-kind credit without requiring verification_stage=C_VERIFIED or an exact trusted acceptance receipt.",
+      "finding": "Gearbox v2 can set real_experience_claim_allowed from verified-kind credit without requiring canonical C_VERIFIED evidence or an exact trusted acceptance receipt.",
       "required_change": "Authoritative real/verified Experience eligibility must require exact evidence identity plus trusted C/independent-verifier acceptance receipt and compatible canonical verification stage."
     },
     {
@@ -137,7 +143,8 @@
     }
   ],
   "statistical_risks": [
-    "Inherited bool truthiness can create false standby/rollback/recovery/route-drift labels and contaminate safety and performance measurements even when v2.1-local booleans are strict.",
+    "Caller-forged current_gear changes hysteresis and anti-thrash reference state; caller-forged verification_stage changes routing caps and labels, invalidating causal performance comparisons.",
+    "Inherited bool truthiness can create false standby/rollback/recovery/route-drift labels and contaminate safety and performance measurements.",
     "Malformed missing-ID mappings can censor later records because verifier parsing occurs before identity rejection, creating order-dependent missingness.",
     "Caller-declared secretary freshness or authority conflict invalidates causal routing comparisons.",
     "Stale secretary-derived numeric pressure fields can leak through even when secretary_level is suppressed.",
@@ -146,13 +153,13 @@
     "verified_progress_density becomes self-reinforcing if policy-created progress is later fed back into upshift decisions.",
     "Transient event identity and direct decision-path credit can inflate longitudinal verified/operational totals.",
     "Operational-vs-Experience semantics differ between public v2 and v2.1 interfaces, making mixed-consumer metrics incomparable.",
-    "real_experience_claim_allowed can disagree with canonical verification stage and contaminate longitudinal labels.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
     "durable_progress_per_wake is numerator/denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed order and completed-only analysis create carryover/survivorship bias."
   ],
   "proposed_tests": [
-    "GB21-INHERITED-BOOL-BOUNDARY-085: for standby, rollback_required, hard_safety_conflict, contradiction, recovery_active and route_drift, values \"false\", \"true\", \"0\", \"1\", 0, 1, [], {} and arbitrary objects must fail closed; only literal bool is accepted.",
-    "GB21-INHERITED-BOOL-SEMANTICS-086: literal False preserves baseline routing and literal True triggers the intended control path; false-like strings must never trigger N/R/G1/checkpoint.",
+    "GB21-CURRENT-GEAR-PROVENANCE-087: canonical runtime state says G1 while caller claims G5, and vice versa; hysteresis/anti-thrash must use only the canonical bound state.",
+    "GB21-VERIFICATION-STAGE-PROVENANCE-088: caller claims C_VERIFIED without exact trusted acceptance receipt, or supplies stale/revoked/cross-scope receipt; controller must retain unverified cap and zero authoritative real-Experience eligibility.",
+    "GB21-INHERITED-BOOL-BOUNDARY-085 + INHERITED-BOOL-SEMANTICS-086: all inherited routing booleans accept only literal bool and preserve intended semantics.",
     "GB21-MISSING-ID-VERIFY-PARSE-083 + MISSING-ID-NO-POISON-084: identity-less malformed records are bounded rejects and cannot abort or poison later valid evidence.",
     "GB21-STALE-PRESSURE-PROVENANCE-059 + MIXED-SOURCE-060: stale secretary-derived pressure fields are ignored while independently trusted fresh telemetry remains effective.",
     "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery projects G1 even when fallback caller kwargs are permissive.",
@@ -166,6 +173,7 @@
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen metric provenance, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
+    "QV-GB21-CURRENT-GEAR-STAGE-PROVENANCE-048",
     "QV-GB21-INHERITED-BOOL-BOUNDARY-047",
     "QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -183,22 +191,20 @@
   ],
   "release_condition": [
     "No formal adoption or speedup claim from this research review alone.",
-    "All inherited control booleans across v1/v2/v2.1 use one strict typed boundary; Python truthiness is forbidden for routing/safety state.",
-    "Missing-ID or malformed records cannot abort later independent valid evidence and cannot reserve event identity.",
-    "Secretary freshness/provenance must be evidence-bound per signal/component; fresh authority must be projected from an exact trusted decision, not a caller boolean.",
-    "Anti-thrash inputs must be canonically derived with adequate sample support, uncertainty and hysteretic release; cycle/closure/recovery performance must be non-inferior.",
-    "verified_progress_density remains observational until independently derived and tested against feedback/self-reinforcement.",
-    "Verified Experience and operational progress must come from durable accepted evidence/receipts with rollback-resistant identity/lineage dedupe; decision calls without accepted receipts produce zero credit.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only across every authoritative public interface; runtime maintenance remains zero Experience.",
-    "Real Experience eligibility requires exact evidence identity plus trusted C/independent-verifier acceptance receipt and compatible canonical verification stage.",
-    "Credit weights remain heuristic-only and cannot drive capability truth, Trust, Identity/Personality or promotion.",
-    "Speedup requires sealed matched paired/crossover baseline using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with fixed metric provenance/exposure/order/coverage, uncertainty and verification/risk non-regression.",
-    "Gearbox v1 verified baseline and Step009 verified foundation remain preserved; P_base stays read-only; real_5min_runtime_live remains false until separate real authorized evidence exists."
+    "Preserve Gearbox v1 verified baseline, Step009 Heartbeat verified foundation, P_base read-only and runtime-maintenance-not-Experience invariants.",
+    "Freshness, authority decision, current gear and verification stage must be evidence-bound and replay-resistant rather than caller-declared.",
+    "Anti-thrash input must be derived from canonical shift history with adequate sample support, uncertainty and hysteretic release; safety/recovery downshift remains immediate and performance non-regression is demonstrated.",
+    "Verified Experience requires exact evidence identity plus trusted C/independent-verifier receipt; operational progress remains separate and evidence-bound.",
+    "Event/evidence acceptance must be durable, rollback-resistant, lineage-aware and exactly-once across restart/poll/rollback; decision paths consume immutable acceptance receipts only.",
+    "5/4/3/1 credit weights remain heuristic and cannot be used as capability truth or promotion threshold.",
+    "Speedup requires a sealed matched-workload paired/crossover baseline over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency, with frozen numerator/denominator provenance, exposure/censoring/order, full assigned-workload coverage, uncertainty and verification/risk non-regression.",
+    "Any eventual adoption must follow the existing A->B->C path with exact-current regression evidence; W02 does not replace formal verification."
   ],
-  "return_to_runtime": {
-    "always_on_runtime": "RETURN_AFTER_REVIEW",
-    "small_world": "CHECK_EXACT_ENDPOINT; WRITE_ONLY_IF_NEXT_EXPECTED_SOURCE_IS_QUANTUM",
-    "formal_mutation": "FORBIDDEN"
+  "always_on_return": {
+    "after_review": "RETURN_TO_ALWAYS_ON_RUNTIME_SMALL_WORLD",
+    "small_world_write_rule": "WRITE_ONLY_IF_EXACT_ENDPOINT_EXPECTS_QUANTUM",
+    "heartbeat_poll_retry_window_age_are_experience": false,
+    "p_base": "READ_ONLY"
   },
-  "created_at": "2026-08-19T10:32:42+08:00"
+  "created_at": "2026-08-19T11:32:00+08:00"
 }
