@@ -1,37 +1,59 @@
 {
-  "schema_version": "3.4",
+  "schema_version": "3.5",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T08:27:04+08:00",
+  "recorded_at": "2026-08-19T09:28:04+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "The six current Gearbox source/test blobs were inspected exactly through GitHub and remain unchanged. The connector does not expose them as a mountable same-runner filesystem byte stream; exact-head workflow lookup for 03c189b138c5973f9c002a2f68b8ded45fbdbe06 returned zero runs. Therefore exact-current py_compile plus all three full suites were not executed and no fresh PASS is claimed.",
-    "candidate_bytes_anchor_head": "1bf8f4b835d561db73edf77814686f4d07b6d235",
-    "latest_repository_head_observed": "03c189b138c5973f9c002a2f68b8ded45fbdbe06",
-    "candidate_bytes_unchanged_after_later_review_bookkeeping": true,
-    "runner_provenance": "W01 GitHub exact-file/blob inspection plus exact-head workflow lookup; no exact-current same-runner mountable executor surface available",
-    "runner_probe_exit_code": null,
+    "reason": "Observed branch head b3cb60d8f4ca479817df1ca406502693a23b0a45 changed v2.1 source/test bytes. W01 attempted commit-pinned raw acquisition for all six source/test files into one runner, but raw.githubusercontent.com DNS resolution failed before byte acquisition; probe exited 6. GitHub commit-workflow lookup exposed no qualifying run. No fresh PASS is claimed.",
+    "candidate_bytes_anchor_head": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
+    "latest_repository_head_observed": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
+    "runner_provenance": "W01 exact GitHub blob inspection + commit-pinned same-runner raw-acquisition probe",
+    "runner_probe_exit_code": 6,
     "fresh_test_exit_code": null,
     "historical_49_of_49_reusable_as_fresh_pass": false
   },
   "commands_required_when_executor_available": {
     "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
-    "tests": ["python -m unittest -v evolution/test_gearbox_controller.py","python -m unittest -v evolution/test_gearbox_controller_v2.py","python -m unittest -v evolution/test_gearbox_controller_v2_1.py"]
+    "tests": [
+      "python -m unittest -v evolution/test_gearbox_controller.py",
+      "python -m unittest -v evolution/test_gearbox_controller_v2.py",
+      "python -m unittest -v evolution/test_gearbox_controller_v2_1.py"
+    ]
   },
   "exact_blob_sha": {
     "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "evolution/test_gearbox_controller.py": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "evolution/gearbox_controller_v2.py": "45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
     "evolution/test_gearbox_controller_v2.py": "38799e41561e6cdbc7378e9bd94596a18d4ab672",
-    "evolution/gearbox_controller_v2_1.py": "50660075a97d9bab71f0a7d7c402527cc01f6afa",
-    "evolution/test_gearbox_controller_v2_1.py": "3e815a2beaa653ca218514d8a915426c6f12b677"
+    "evolution/gearbox_controller_v2_1.py": "6b6b0f2b773916322a8030275a8206aaf547053c",
+    "evolution/test_gearbox_controller_v2_1.py": "e7265dad769c45babb28ca676a46c59f594c6043"
   },
-  "contract_blob_sha": {"evolution/GEARBOX_V2_CONTRACT.json":"7c272b09264be765354fe2052eeb9e2f230f1705","evolution/GEARBOX_V2_1_CONTRACT.json":"dce30f31b15b58ce9bbdc9103fce4be0b7784c33"},
-  "suite_result": {"compile":{"fresh_files":3,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},"v1":{"fresh_tests":null,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},"v2":{"fresh_tests":null,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},"v2_1":{"fresh_tests":null,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"}},
-  "historical_suite_support": {"v1":{"tests":21,"status":"PASS_HISTORICAL_ONLY_VERIFIED_BASELINE_PRESERVED"},"v2":{"tests":16,"status":"PASS_HISTORICAL_ONLY"},"v2_1":{"tests":12,"status":"STALE_FOR_CURRENT_RELEASE_GATE_DO_NOT_REUSE_AS_FRESH_PASS"},"total_historical":49},
-  "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
-  "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "latest_review_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-0733 and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044: real_experience_claim_allowed can become true from a positive verified event while verification_stage is not C_VERIFIED. Authoritative real/verified Experience eligibility must require an exact trusted verifier/C acceptance receipt bound to mission/step/scope/evidence plus compatible canonical verification stage; caller independently_verified booleans or labels alone are insufficient. Without valid receipt and stage binding, real_experience_claim_allowed must be false and authoritative verified credit zero or analytics-only. HIGH semantic-inheritance conflict 043, operational-evidence binding 042, N/R safety-state 040 and existing authority/freshness/evidence/replay/receipt/pressure/anti-thrash vetoes remain open. Dedicated W03 Gearbox v2.1 review remains absent; W04 1332 is stale relative to W02 0733.",
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_W02_BOUNDED_VETOES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
+  "contract_blob_sha": {
+    "evolution/GEARBOX_V2_CONTRACT.json": "7c272b09264be765354fe2052eeb9e2f230f1705",
+    "evolution/GEARBOX_V2_1_CONTRACT.json": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
+  },
+  "suite_result": {
+    "compile": {"fresh_files": 3, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
+    "v1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
+    "v2": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
+    "v2_1": {"fresh_tests": null, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"}
+  },
+  "current_test_inventory": {"v1": 21, "v2": 16, "v2_1": 20},
+  "baseline": {
+    "v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE",
+    "v2": "CANDIDATE",
+    "v2_1": "CANDIDATE"
+  },
+  "boundaries": {
+    "P_base": "READ_ONLY_UNCHANGED",
+    "Identity": "NO_MUTATION_AUTHORITY",
+    "Personality": "NO_MUTATION_AUTHORITY",
+    "Governance": "NO_MUTATION_AUTHORITY",
+    "heartbeat_poll_retry_window_age_counts_as_experience": false,
+    "real_5min_runtime_live": false
+  },
+  "material_delta": "Current v2.1 bytes add bounded non-Mapping ledger handling and terminal N/R anti-thrash bypass regressions. W02 review 0830 is itself stale because its recorded v2.1 source/test fingerprints are the prior 50660075/3e815a2b bytes; a fresh W02 review is still required before treating those vetoes as resolved.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_STALE_W02_ON_CURRENT_BYTES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
