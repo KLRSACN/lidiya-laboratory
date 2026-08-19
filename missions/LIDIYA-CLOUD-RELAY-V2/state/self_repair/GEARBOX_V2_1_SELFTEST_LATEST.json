@@ -1,14 +1,14 @@
 {
-  "schema_version": "4.11",
+  "schema_version": "4.12",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T01:27:24+08:00",
+  "recorded_at": "2026-08-20T02:22:39+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
     "reason": "Current exact Gearbox six blobs remain unchanged. W01 attempted a fresh git clone of branch lidiya-cloud-relay-v2 into one runner; acquisition failed before any compile/test execution because github.com could not be resolved (git exit 128). Connector exact blobs remain inspectable but are not directly mountable into one trusted executor. No fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "1e90fac62228ce168b3bab29a63cbabf91df3fe6",
+    "latest_repository_head_observed": "03c85e9c2f24b35842348b5fbe1d7eb56846d97f",
     "runner_provenance": "W01 container git clone probe plus GitHub connector exact-blob inspection",
     "fresh_acquisition_command": "git clone --depth 1 --branch lidiya-cloud-relay-v2 --single-branch https://github.com/KLRSACN/lidiya-laboratory.git /tmp/lidiya-w01",
     "fresh_acquisition_exit_code": 128,
@@ -55,6 +55,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0028 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-063: aggregate_experience_events parses independently_verified before classifying EventKind, so a valid-identity WAIT/HEARTBEAT/POLL/RETRY/SCHEDULER_WAKE/DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND record with malformed irrelevant verifier metadata can abort later independent valid evidence. Release requires classify EventKind first, parse verifier evidence only for verified event classes, bounded-reject malformed irrelevant fields without reserving identity, and preserve later valid records. Existing terminal roundtrip 062, structural terminal integrity 061, inherited safety metadata 059, verified-delta stage bypass 058 and authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0133 against current exact bytes and remains BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH QV-GB21-UNVERIFIED-CLAIM-AUDIT-SINK-064: verified-class records with independently_verified=false currently receive zero credit but are not explicitly rejected, ignored, quarantined or otherwise conserved in exhaustive ledger outcome statistics. Release requires auditable exhaustive outcome classes so failed verification claims remain visible in acceptance/quality/speed denominators. HIGH IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-063 and remaining authority/evidence/replay/receipt/terminal/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
