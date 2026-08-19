@@ -43,6 +43,13 @@ class GearboxV2Decision:
         return asdict(self)
 
 
+def strict_bool(value: Any, name: str) -> bool:
+    """Canonical fail-closed boolean intake for the candidate v2/v2.1 path."""
+    if type(value) is not bool:
+        raise GearboxGuardError(f"{name} must be bool")
+    return value
+
+
 def _ratio(value: Any, name: str) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise GearboxGuardError(f"{name} must be numeric")
@@ -59,6 +66,7 @@ def _nonnegative_int(value: Any, name: str) -> int:
 
 
 def experience_candidate_delta(event_kind: str, *, independently_verified: bool = False) -> int:
+    independently_verified = strict_bool(independently_verified, "independently_verified")
     kind = str(event_kind).strip().upper()
     if kind not in EXPERIENCE_WEIGHTS:
         return 0
@@ -119,6 +127,15 @@ def select_gear_v2(
     if current_gear not in {"G1", "G2", "G3", "G4", "G5", "G6"}:
         raise GearboxGuardError("current_gear must be G1..G6")
 
+    reversibility = strict_bool(reversibility, "reversibility")
+    route_drift = strict_bool(route_drift, "route_drift")
+    recovery_active = strict_bool(recovery_active, "recovery_active")
+    event_independently_verified = strict_bool(event_independently_verified, "event_independently_verified")
+    contradiction = strict_bool(contradiction, "contradiction")
+    hard_safety_conflict = strict_bool(hard_safety_conflict, "hard_safety_conflict")
+    rollback_required = strict_bool(rollback_required, "rollback_required")
+    standby = strict_bool(standby, "standby")
+
     context = _ratio(context_load_ratio, "context_load_ratio")
     tool_fail = _ratio(tool_failure_ratio, "tool_failure_ratio")
     stale = _ratio(stale_pointer_ratio, "stale_pointer_ratio")
@@ -146,7 +163,6 @@ def select_gear_v2(
         proposed_autonomy=proposed_autonomy,
     )
 
-    # Pressure is an engineering heuristic, not a calibrated probability.
     pressure = round(min(1.0,
         0.30 * context +
         0.20 * tool_fail +
@@ -161,7 +177,6 @@ def select_gear_v2(
     checkpoint = False
     mode = "NORMAL"
 
-    # Fresh authority always wins over prediction. Secretary is only a sensor.
     if recovery_active or anchor < 0.50 or secretary_level == "RED":
         selected = "G1"
         mode = "RECOVERY_BRAKE"
@@ -178,18 +193,15 @@ def select_gear_v2(
         checkpoint = True
         reasons.append("moderate pressure checkpoint density")
 
-    # Stale durable progress cannot justify heavy planning/integration.
     if progress_age >= 0.75:
         selected = _cap_gear(selected, 3)
         checkpoint = True
         reasons.append("durable progress stale")
 
-    # Unverified work may explore, but high gears cannot be treated as promotion evidence.
     if verification_stage in {"UNVERIFIED", "CANDIDATE"} and _gear_number(selected) > 4:
         selected = "G4"
         reasons.append("unverified work capped at G4")
 
-    # Hysteresis: upshift by at most one gear per durable decision to avoid gear thrashing.
     current_n = _gear_number(current_gear)
     selected_n = _gear_number(selected)
     if selected_n > current_n + 1:
@@ -212,5 +224,5 @@ def select_gear_v2(
         checkpoint_required=checkpoint,
         receiver_ack_required=True,
         verification_gate=gate,
-        real_experience_claim_allowed=verified_event,
+        real_experience_claim_allowed=verified_event and verification_stage == "C_VERIFIED",
     )
