@@ -1,15 +1,15 @@
 {
-  "schema_version": "3.5",
+  "schema_version": "3.6",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T09:28:04+08:00",
+  "recorded_at": "2026-08-19T10:27:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Observed branch head b3cb60d8f4ca479817df1ca406502693a23b0a45 changed v2.1 source/test bytes. W01 attempted commit-pinned raw acquisition for all six source/test files into one runner, but raw.githubusercontent.com DNS resolution failed before byte acquisition; probe exited 6. GitHub commit-workflow lookup exposed no qualifying run. No fresh PASS is claimed.",
+    "reason": "Current Gearbox code/test bytes remain anchored at source head b3cb60d8f4ca479817df1ca406502693a23b0a45. Latest repository head 2512bba18503f7780d50c674faca3be392f0aeab is review-only and does not change the six Gearbox blobs. W01 still has no trusted executor surface that can mount the connector-returned exact repository bytes into one runner for the required compile plus all three suites. The last commit-pinned raw-acquisition probe failed before byte acquisition with DNS exit 6. No fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
-    "latest_repository_head_observed": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
-    "runner_provenance": "W01 exact GitHub blob inspection + commit-pinned same-runner raw-acquisition probe",
+    "latest_repository_head_observed": "2512bba18503f7780d50c674faca3be392f0aeab",
+    "runner_provenance": "W01 exact GitHub blob inspection; prior commit-pinned same-runner raw-acquisition probe retained as last executor probe evidence",
     "runner_probe_exit_code": 6,
     "fresh_test_exit_code": null,
     "historical_49_of_49_reusable_as_fresh_pass": false
@@ -54,6 +54,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "Current v2.1 bytes add bounded non-Mapping ledger handling and terminal N/R anti-thrash bypass regressions. W02 review 0830 is itself stale because its recorded v2.1 source/test fingerprints are the prior 50660075/3e815a2b bytes; a fresh W02 review is still required before treating those vetoes as resolved.",
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_STALE_W02_ON_CURRENT_BYTES_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
+  "material_delta": "W02 review QUANTUM-GEARBOX-V2.1-20260819-0932 is now fresh against current v2.1 blobs 6b6b0f2b/e7265dad and explicitly resolves the prior non-Mapping batch-element DoS and N/R parse-crash vetoes. It remains BOUNDED_VETO_ACTIVE and adds HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046: missing-ID mappings can still raise during verifier strict-bool parsing before bounded identity rejection and abort later valid records.",
+  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
