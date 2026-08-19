@@ -131,6 +131,16 @@ class GearboxV21Tests(unittest.TestCase):
         self.assertEqual(r.ignored_events, 1)
         self.assertEqual(r.verified_experience, 0)
 
+    def test_missing_id_malformed_verification_is_bounded_and_later_valid_survives(self):
+        valid = {"event_id":"e1","event_kind":"VERIFIED_RECOVERY","independently_verified":True}
+        r = aggregate_experience_events([
+            {"event_kind":"VERIFIED_CAPABILITY","independently_verified":"false"},
+            valid,
+        ])
+        self.assertEqual(r.verified_experience, 4)
+        self.assertEqual(r.ignored_events, 1)
+        self.assertEqual(r.duplicate_events, 0)
+
     def test_overlay_has_no_formal_mutation_authority(self):
         d = select_gear_v2_1(**BASE, secretary_signal_fresh=True)
         self.assertFalse(d.formal_mutation_allowed)
