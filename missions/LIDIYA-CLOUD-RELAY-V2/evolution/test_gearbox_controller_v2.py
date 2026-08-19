@@ -26,12 +26,29 @@ class GearboxV2Tests(unittest.TestCase):
         self.assertEqual(experience_candidate_delta("VERIFIED_CAPABILITY", independently_verified=False), 0)
         self.assertEqual(experience_candidate_delta("VERIFIED_CAPABILITY", independently_verified=True), 5)
 
+    def test_experience_verification_rejects_non_bool(self):
+        for bad in ("false", "0", 0, 1, [], {}):
+            with self.subTest(value=bad):
+                with self.assertRaises(GearboxGuardError):
+                    experience_candidate_delta("VERIFIED_CAPABILITY", independently_verified=bad)
+
     def test_self_reported_success_is_zero_experience(self):
         self.assertEqual(experience_candidate_delta("SELF_REPORTED_SUCCESS", independently_verified=True), 0)
 
     def test_red_secretary_or_recovery_forces_g1(self):
         self.assertEqual(select_gear_v2(**{**BASE, "secretary_level":"RED"}).selected_gear, "G1")
         self.assertEqual(select_gear_v2(**{**BASE, "recovery_active":True}).selected_gear, "G1")
+
+    def test_inherited_authority_sensitive_booleans_reject_non_bool(self):
+        fields = (
+            "reversibility", "route_drift", "recovery_active", "event_independently_verified",
+            "contradiction", "hard_safety_conflict", "rollback_required", "standby",
+        )
+        for field in fields:
+            for bad in ("false", "0", 0, 1, [], {}):
+                with self.subTest(field=field, value=bad):
+                    with self.assertRaises(GearboxGuardError):
+                        select_gear_v2(**{**BASE, field: bad})
 
     def test_orange_pressure_caps_at_g2(self):
         d = select_gear_v2(**{**BASE, "secretary_level":"ORANGE", "current_gear":"G5", "verification_stage":"C_VERIFIED"})
@@ -73,6 +90,12 @@ class GearboxV2Tests(unittest.TestCase):
         d = select_gear_v2(**{**BASE, "event_kind":"VERIFIED_RECOVERY", "event_independently_verified":True, "verification_stage":"C_VERIFIED"})
         self.assertEqual(d.experience_candidate_delta, 4)
         self.assertTrue(d.real_experience_claim_allowed)
+
+    def test_verified_event_without_c_verified_stage_cannot_claim_real_experience(self):
+        d = select_gear_v2(**{**BASE, "event_kind":"VERIFIED_RECOVERY", "event_independently_verified":True, "verification_stage":"CANDIDATE"})
+        self.assertEqual(d.experience_candidate_delta, 4)
+        self.assertFalse(d.real_experience_claim_allowed)
+        self.assertEqual(d.verification_gate, "NOT_PROMOTION_EVIDENCE")
 
     def test_unverified_simulation_never_counts_as_real_experience(self):
         d = select_gear_v2(**{**BASE, "event_kind":"UNVERIFIED_SIMULATION", "event_independently_verified":True})
