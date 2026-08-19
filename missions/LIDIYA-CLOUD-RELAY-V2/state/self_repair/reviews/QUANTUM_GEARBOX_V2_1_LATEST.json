@@ -1,6 +1,6 @@
 {
-  "schema_version": "2.2",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-1234",
+  "schema_version": "2.3",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-1329",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,65 +9,85 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; NO_BROAD_ARCHIVE_READ",
-    "active_8": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; NO_BROAD_ARCHIVE_READ",
+    "active_8": "READ_OK_FROM_state/EVOLUTION_PROGRESS.json_SCHEMA_6.38-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK",
-    "gearbox_v1_verified_baseline": "PRESERVED_BY_EXACT_MISSION_STATE_AND_PR10_SCOPE",
+    "gearbox_v1": "READ_OK",
+    "test_gearbox_v1": "READ_OK",
     "gearbox_v2": "READ_OK",
     "test_gearbox_v2": "READ_OK",
+    "gearbox_v2_contract": "READ_OK",
     "gearbox_v2_1": "READ_OK",
     "test_gearbox_v2_1": "READ_OK",
     "gearbox_v2_1_contract": "READ_OK",
     "own_latest_receipt": "READ_OK"
   },
   "baseline_preservation": {
+    "gearbox_v1_verified_baseline": "PRESERVED",
     "step009_heartbeat_phase1": "VERIFIED_FOUNDATION_PRESERVED",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
+    "active8_sha": "9d0081b363c5577eb9dee4390dd63a58f1006775",
     "formal_status": "STEP_DONE_LCR_A_PENDING_NULL",
     "p_base": "READ_ONLY",
     "runtime_maintenance_is_experience": false,
     "real_5min_runtime_live": false
   },
   "source_fingerprints": {
+    "gearbox_controller_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
+    "test_gearbox_controller_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "gearbox_controller_v2_sha": "13aafeed851a2b5453dd36eaf64b85552bc79838",
     "test_gearbox_controller_v2_sha": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
+    "gearbox_v2_contract_sha": "7c272b09264be765354fe2052eeb9e2f230f1705",
     "gearbox_controller_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_gearbox_controller_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "gearbox_v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "integration_pr10_head_sha": "89c97a56d8cb5f441b9a132b0cf455bdec2b9fc6"
+    "previous_review_sha": "d0cb70f4e525ea01b8d1b53bb255a5501ce9aa70"
   },
   "agreements": [
     "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age, uptime and self-test loops remain zero Experience.",
-    "PR10 strict_bool hardening now covers v2 reversibility, route_drift, recovery_active, event_independently_verified, contradiction, hard_safety_conflict, rollback_required and standby; the prior inherited-bool truthiness veto is resolved in the current candidate code.",
-    "PR10 now rejects missing event_id before verifier parsing; the prior missing-ID verifier-parse batch-DoS veto is resolved in the current candidate code.",
-    "v2 now additionally requires verification_stage=C_VERIFIED before real_experience_claim_allowed can be true; this is useful fail-closed hardening but is not trusted verifier provenance.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
-    "verified_progress_density remains reason-only and does not raise selected gear; keeping it observational is acceptable until independently derived and adversarially validated.",
+    "v2 now uses one strict_bool helper for inherited routing booleans; prior inherited truthiness defects remain resolved in current bytes.",
+    "v2.1 handles terminal N/R before anti-thrash numeric parsing and bounds non-Mapping ledger elements.",
+    "v2 rejects missing event_id before verifier parsing, so the previous missing-ID malformed-verifier batch DoS is resolved for identity-less records.",
+    "v2 real_experience_claim_allowed now additionally requires verification_stage=C_VERIFIED, which is useful fail-closed hardening but still not verifier provenance.",
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational progress only in v2.1 and must never become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
+    "verified_progress_density remains reason-only and does not raise selected gear; it is acceptable only as observational metadata until independently derived.",
     "GEARBOX_V2_1_CONTRACT correctly keeps speedup NOT_YET_STATISTICALLY_ESTABLISHED and formal_mutation_allowed remains false."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-050",
+      "severity": "HIGH",
+      "finding": "Material new defect: aggregate_experience_events parses independently_verified for every Mapping with a non-empty event_id before deciding whether the event kind is verified, operational or zero-credit. A valid-ID WAIT/HEARTBEAT/DURABLE_PROGRESS record carrying malformed independently_verified such as the string false raises GearboxGuardError and aborts the whole batch, censoring later valid evidence even though verification is irrelevant to that record's credit class.",
+      "required_change": "Classify canonical event kind before verifier parsing. Parse/validate verifier evidence only for verified kinds; operational/zero-credit kinds must either ignore irrelevant verifier metadata or bounded-reject only that record under a versioned schema. In non-atomic ingestion, one malformed irrelevant field must not abort later independent valid evidence and must not reserve identity."
+    },
+    {
+      "id": "QV-GB21-CURRENT-GEAR-NORMALIZATION-MISMATCH-051",
+      "severity": "MEDIUM_HIGH",
+      "finding": "Material wrapper inconsistency: select_gear_v2 canonicalizes current_gear with strip().upper(), but select_gear_v2_1 later re-reads the raw v2_kwargs current_gear using upper() without strip before int(current_gear[1:]). An input such as ' G3 ' is accepted by inherited v2 yet can crash the v2.1 anti-thrash wrapper with ValueError. The wrapper is therefore not closed over the inherited v2 accepted-input domain.",
+      "required_change": "Do not re-parse raw current_gear in v2.1. Consume a canonical current-gear value from a trusted runtime-state receipt or, at minimum for candidate code, one shared normalization function used once before v2/v2.1 logic. All inputs accepted by inherited v2 must either remain valid in v2.1 or fail at one bounded typed boundary before partial routing."
+    },
+    {
       "id": "QV-GB21-EVENT-KIND-TYPE-BOUNDARY-049",
       "severity": "HIGH",
-      "finding": "Material current defect: experience_candidate_delta normalizes event_kind with str(...), but select_gear_v2 later computes verified_event using event_kind.upper() on the original caller value. A non-string event_kind can therefore raise an uncaught AttributeError after part of the decision path has executed.",
-      "required_change": "Create one canonical typed EventKind intake before any routing/credit logic and use only that normalized value throughout v2/v2.1. Reject unsupported non-string structured values with GearboxGuardError or bounded zero-credit semantics; do not mix str coercion with raw .upper()."
+      "finding": "experience_candidate_delta normalizes event_kind with str(...), but select_gear_v2 later computes verified_event using event_kind.upper() on the original caller value. A non-string event_kind can raise an uncaught AttributeError after part of the path executes.",
+      "required_change": "Create one canonical typed EventKind intake before any routing/credit logic and use only that normalized value throughout v2/v2.1."
     },
     {
       "id": "QV-GB21-CURRENT-GEAR-STAGE-PROVENANCE-048",
       "severity": "HIGH",
-      "finding": "current_gear and verification_stage remain caller-supplied authority-sensitive inputs. current_gear controls one-step hysteresis and v2.1 anti-thrash reference state; caller-supplied C_VERIFIED now also gates real_experience_claim_allowed.",
+      "finding": "current_gear and verification_stage remain caller-supplied authority-sensitive inputs. current_gear controls one-step hysteresis and v2.1 anti-thrash; caller-supplied C_VERIFIED controls promotion/real-Experience gating labels.",
       "required_change": "Derive current_gear from canonical monotonic runtime/shift-state receipt and verification_stage from exact trusted C/independent-verifier acceptance evidence bound to mission/step/scope, runtime/install identity, policy, freshness/revocation and state fingerprint."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh and authority_conflict are still caller declarations. Strict bool proves type only, not source, timestamp/TTL, revocation, policy or runtime/install binding.",
+      "finding": "secretary_signal_fresh and authority_conflict remain caller declarations. Strict bool proves type only, not source, timestamp/TTL, revocation, policy or runtime/install binding.",
       "required_change": "Consume trusted SecretarySignalEnvelope and AuthorityDecisionEnvelope with replay-resistant provenance/freshness binding."
     },
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
       "severity": "HIGH",
-      "finding": "authority_conflict only replaces secretary_level with UNKNOWN; it does not load or enforce the actual fresh authority decision. Permissive caller kwargs can still drive the fallback route.",
+      "finding": "authority_conflict only replaces secretary_level with UNKNOWN; it does not load or enforce the actual fresh authority decision. Permissive caller kwargs can still drive fallback routing.",
       "required_change": "On authority conflict, project the exact trusted authority snapshot or fail closed; stale/revoked/cross-scope authority evidence must be rejected."
     },
     {
@@ -86,7 +106,7 @@
       "id": "QV-GB21-ANTI-THRASH-PERFORMANCE-004",
       "severity": "MEDIUM_HIGH",
       "finding": "Anti-thrash can reduce gear_shift_rate while delaying a necessary safe upshift and worsening cycle_completion_latency, verified_closure_per_hour or recovery_latency.",
-      "required_change": "Require paired performance non-regression and bounded release/cooldown; fewer shifts alone is not an improvement."
+      "required_change": "Require paired performance non-regression and bounded release/cooldown; fewer shifts alone is not improvement."
     },
     {
       "id": "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
@@ -103,7 +123,7 @@
     {
       "id": "QV-GB21-DUAL-CREDIT-BYPASS",
       "severity": "HIGH",
-      "finding": "select_gear_v2_1 recomputes verified and operational deltas directly from caller event fields, bypassing aggregate_experience_events and any future durable ledger repair.",
+      "finding": "select_gear_v2_1 recomputes verified and operational deltas directly from caller event fields, bypassing aggregate_experience_events and any future durable-ledger repair.",
       "required_change": "Both credit classes must come from one immutable AcceptedExperienceReceipt; receipt-less decision calls emit zero credit."
     },
     {
@@ -125,12 +145,9 @@
       "required_change": "Use sealed matched workloads and paired/crossover baselines over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen numerator/denominator provenance, exposure/censoring/order, full assigned-workload coverage, uncertainty and verification/risk non-regression."
     }
   ],
-  "resolved_since_previous_latest": [
-    "QV-GB21-INHERITED-BOOL-BOUNDARY-047_RESOLVED_IN_CURRENT_CANDIDATE_BY_SHARED_STRICT_BOOL",
-    "QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046_RESOLVED_IN_CURRENT_CANDIDATE_BY_IDENTITY_FIRST_REJECTION",
-    "QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044_PARTIALLY_REPAIRED_BY_C_VERIFIED_STAGE_GATE_BUT_PROVENANCE_VETO_REMAINS"
-  ],
   "statistical_risks": [
+    "Malformed verifier metadata on non-verified events can censor later valid evidence and create order-dependent missingness in longitudinal Experience/progress statistics.",
+    "v2/v2.1 current-gear normalization mismatch can selectively crash only wrapper evaluations, biasing candidate-vs-baseline comparisons toward inputs that happen to use canonical formatting.",
     "Caller-forged current_gear or verification_stage contaminates routing and real-Experience eligibility comparisons.",
     "Caller-declared secretary freshness/authority conflict invalidates causal routing comparisons.",
     "Stale secretary-derived numeric pressure may survive secretary-level freshness suppression.",
@@ -143,8 +160,10 @@
     "Speed metrics are denominator/exposure/order/workload-coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-EVENT-KIND-TYPE-089: event_kind values 123, true, list, mapping and arbitrary object must deterministically fail closed at one canonical EventKind boundary; no uncaught AttributeError/TypeError.",
-    "GB21-EVENT-KIND-CONSISTENCY-090: v2 experience classification, verified_event classification and v2.1 classification must consume the exact same normalized kind.",
+    "GB21-IRRELEVANT-VERIFIER-BATCH-091: [WAIT with valid event_id and independently_verified='false', then a valid verified event] must bounded-reject/ignore the first record and still accept the second; no batch exception.",
+    "GB21-OPERATIONAL-VERIFIER-BATCH-092: DURABLE_PROGRESS with malformed irrelevant verifier metadata must not abort later valid records or create verified credit; operational acceptance policy must be explicit.",
+    "GB21-CURRENT-GEAR-NORMALIZATION-093: current_gear=' G3 ' must either normalize once and behave identically to G3 throughout v2/v2.1 or fail at one typed boundary before inherited routing; no ValueError in wrapper anti-thrash.",
+    "GB21-EVENT-KIND-TYPE-089 + EVENT-KIND-CONSISTENCY-090: all event-kind classification uses one canonical typed value and never raw caller .upper().",
     "GB21-CURRENT-GEAR-PROVENANCE-087 + VERIFICATION-STAGE-PROVENANCE-088: forged caller history/stage cannot override canonical bound state/receipt.",
     "GB21-STALE-PRESSURE-PROVENANCE-059 + MIXED-SOURCE-060: stale secretary-derived numeric fields are ignored; trusted independent telemetry remains usable.",
     "GB21-AUTHORITY-DECISION-PROJECTION-028: fresh authority=G1/recovery must project G1 even when fallback caller kwargs are permissive.",
@@ -158,6 +177,8 @@
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen metric provenance, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
+    "QV-GB21-IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-050",
+    "QV-GB21-CURRENT-GEAR-NORMALIZATION-MISMATCH-051",
     "QV-GB21-EVENT-KIND-TYPE-BOUNDARY-049",
     "QV-GB21-CURRENT-GEAR-STAGE-PROVENANCE-048",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -174,6 +195,8 @@
   ],
   "release_condition": {
     "candidate_only_until": [
+      "non-atomic ledger ingestion isolates irrelevant/malformed verifier metadata and cannot censor later independent evidence",
+      "v2 and v2.1 share one canonical current-gear normalization/state source without wrapper-only parse failures",
       "freshness and authority are receipt/envelope bound rather than caller declarations",
       "current_gear and verification_stage are canonical-state/verifier-receipt derived",
       "event_kind has one strict canonical type/normalization boundary",
@@ -182,17 +205,22 @@
       "v2.1 decision credit consumes only immutable accepted receipts and public v2/v2.1 operational-vs-Experience semantics are unified",
       "anti-thrash metric is canonically derived with sufficient support, uncertainty and hysteretic release, with paired performance non-regression",
       "speedup is demonstrated by matched paired/crossover durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency, not commit/wake/awake time",
-      "exact-current v1/v2/v2.1 regression evidence is independently reviewed through existing A->B->C before any formal adoption"
+      "exact-current v1/v2/v2.1 regression evidence receives the required independent Spirit/Navigator/formal review path"
     ],
-    "numeric_thresholds": "TEST_REQUIRED",
-    "formal_state_mutation": false,
-    "c_pass_claimed": false,
-    "p_base": "READ_ONLY",
-    "real_5min_runtime_live": false
+    "explicit_non_claims": [
+      "NO_FORMAL_PASS",
+      "NO_C_PASS",
+      "NO_P_BASE_WRITE",
+      "NO_REAL_5MIN_RUNTIME_LIVE_PROMOTION",
+      "NO_EXPERIENCE_FROM_HEARTBEAT_POLL_RETRY_WINDOW_AGE",
+      "NO_CAPABILITY_TRUTH_FROM_5_4_3_CREDIT_TOTALS"
+    ]
   },
   "return_to_runtime": {
-    "small_world_expected_source": "SPIRIT",
-    "small_world_next_sequence": 12,
-    "quantum_action": "VALID_NO_OP_ON_SMALL_WORLD_UNTIL_EXACT_HANDOFF"
-  }
+    "after_review": "ALWAYS_ON_RUNTIME_AND_SMALL_WORLD",
+    "small_world_action": "READ_EXACT_ENDPOINT_BEFORE_ANY_QUANTUM_TURN; DO_NOT_IMPERSONATE_OTHER_SOURCE",
+    "formal_mutation": false
+  },
+  "created_at": "2026-08-19T13:29:10+08:00",
+  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
