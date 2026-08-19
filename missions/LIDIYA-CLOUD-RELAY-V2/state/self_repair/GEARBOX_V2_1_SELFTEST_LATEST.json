@@ -1,17 +1,17 @@
 {
-  "schema_version": "4.15",
+  "schema_version": "4.16",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T05:26:22+08:00",
+  "recorded_at": "2026-08-20T05:36:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact six Gearbox blobs are unchanged and inspectable through the GitHub connector. Latest branch head 74b8857b4bb6038c6f90452f7071818a40ff0234 is review-only and has zero qualifying workflow runs; connector blobs are not mountable into one trusted same-runner filesystem. No fresh PASS is claimed.",
+    "reason": "Current exact six Gearbox blobs are unchanged and inspectable through the GitHub connector. Latest branch head 8a6a0fa801939aa6b7ffd931dd25d26193e54d6e is review-only; connector blobs are not mountable into one trusted same-runner filesystem. No fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "74b8857b4bb6038c6f90452f7071818a40ff0234",
-    "runner_provenance": "GitHub connector exact-blob inspection plus exact-head workflow lookup",
+    "latest_repository_head_observed": "8a6a0fa801939aa6b7ffd931dd25d26193e54d6e",
+    "runner_provenance": "GitHub connector exact-blob inspection; no qualifying same-runner exact-byte executor available",
     "fresh_acquisition_exit_code": 128,
-    "fresh_acquisition_error": "Prior direct git acquisition probe: Could not resolve host: github.com; current exact-head workflow lookup returned zero runs.",
+    "fresh_acquisition_error": "Prior direct git acquisition probe: Could not resolve host: github.com; no trusted exact-byte runner is available in this wake.",
     "fresh_test_exit_code": null,
     "historical_results_reusable_as_fresh_pass": false
   },
@@ -43,6 +43,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0429 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-CURRENT-GEAR-RAW-REPARSE-067: v2 canonicalizes current_gear with strip().upper(), while v2.1 reparses raw current_gear with upper() only before int(current_gear[1:]); formatting such as ' G3 ' can pass v2 then fail in v2.1. Require one canonical typed/runtime-bound current-control-state parse consumed by both layers. Existing HIGH operational-progress evidence binding 066, terminal precedence 065 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0533 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-INHERITED-EXPERIENCE-GATE-DROP-068: v2 can deny real Experience outside canonical C_VERIFIED while v2.1 independently remints positive verified_experience_delta from raw caller event_kind plus event_independently_verified. Require one immutable AcceptedExperienceReceipt or exact inherited verification eligibility result; preserve verification_gate/real_experience_claim_allowed or exact inherited-decision binding across v2->v2.1. Existing HIGH current_gear raw reparse 067, operational-progress evidence binding 066, terminal precedence 065 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
