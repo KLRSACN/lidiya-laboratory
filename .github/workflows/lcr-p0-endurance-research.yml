@@ -7,6 +7,8 @@ on:
     paths:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/run_p0_self_test.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/run_p0_self_test_endurance.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/self_test_trend.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/test_self_test_trend.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/SELF_TEST_OPTIMIZATION_RESEARCH.json'
       - '.github/workflows/lcr-p0-endurance-research.yml'
   workflow_dispatch:
@@ -52,6 +54,8 @@ jobs:
           python -m py_compile
           evolution/run_p0_self_test.py
           evolution/run_p0_self_test_endurance.py
+          evolution/self_test_trend.py
+          evolution/test_self_test_trend.py
           evolution/gearbox_controller.py
           evolution/gearbox_controller_v2.py
           evolution/gearbox_controller_v2_1.py
@@ -86,6 +90,8 @@ jobs:
           assert evidence['formal_c_verification'] == 'NOT_CLAIMED'
           assert evidence['p_base'] == 'READ_ONLY_UNCHANGED'
           assert evidence['rounds_completed'] >= 1
+          assert evidence['comparison_group_consistent'] is True
+          assert evidence['comparison_group']
           print('BOUNDARY_VALIDATION=PASS')
           PY
 
