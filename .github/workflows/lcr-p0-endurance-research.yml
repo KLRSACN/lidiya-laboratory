@@ -1,0 +1,99 @@
+name: LCR P0 Bounded Self-Test Endurance Research
+
+on:
+  push:
+    branches:
+      - lidiya-cloud-relay-v2
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/run_p0_self_test.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/run_p0_self_test_endurance.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/SELF_TEST_OPTIMIZATION_RESEARCH.json'
+      - '.github/workflows/lcr-p0-endurance-research.yml'
+  workflow_dispatch:
+    inputs:
+      target_duration_seconds:
+        description: 'Bounded endurance target seconds; research timing only'
+        required: false
+        default: '15'
+      min_rounds:
+        description: 'Minimum completed rounds before duration stop is allowed'
+        required: false
+        default: '8'
+      max_rounds:
+        description: 'Hard round cap'
+        required: false
+        default: '120'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lcr-p0-endurance-research-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bounded_endurance:
+    name: Bounded P0 self-test endurance timing
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile bounded endurance runner and exact-current candidate sources
+        env:
+          PYTHONPATH: .:evolution:evolution/local_command_tower
+        run: >-
+          python -m py_compile
+          evolution/run_p0_self_test.py
+          evolution/run_p0_self_test_endurance.py
+          evolution/gearbox_controller.py
+          evolution/gearbox_controller_v2.py
+          evolution/gearbox_controller_v2_1.py
+          evolution/local_command_tower/always_on_runtime.py
+
+      - name: Run bounded self-test endurance research
+        env:
+          PYTHONPATH: .:evolution:evolution/local_command_tower
+          TARGET_SECONDS: ${{ github.event_name == 'workflow_dispatch' && inputs.target_duration_seconds || '15' }}
+          MIN_ROUNDS: ${{ github.event_name == 'workflow_dispatch' && inputs.min_rounds || '8' }}
+          MAX_ROUNDS: ${{ github.event_name == 'workflow_dispatch' && inputs.max_rounds || '120' }}
+        run: >-
+          python evolution/run_p0_self_test_endurance.py
+          --output evidence/p0-self-test-endurance.json
+          --target-duration-seconds "$TARGET_SECONDS"
+          --min-rounds "$MIN_ROUNDS"
+          --max-rounds "$MAX_ROUNDS"
+          --slowest-count 5
+
+      - name: Validate research claim boundaries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('evidence/p0-self-test-endurance.json')
+          evidence = json.loads(path.read_text(encoding='utf-8'))
+          assert evidence['formal_state_mutation'] is False
+          assert evidence['real_5min_runtime_live'] is False
+          assert evidence['runtime_maintenance_counts_as_experience'] is False
+          assert evidence['optimization_boundary']['self_test_duration_is_experience'] is False
+          assert evidence['formal_c_verification'] == 'NOT_CLAIMED'
+          assert evidence['p_base'] == 'READ_ONLY_UNCHANGED'
+          assert evidence['rounds_completed'] >= 1
+          print('BOUNDARY_VALIDATION=PASS')
+          PY
+
+      - name: Upload bounded endurance timing evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-p0-bounded-self-test-endurance
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/p0-self-test-endurance.json
+          if-no-files-found: error
+          retention-days: 7
