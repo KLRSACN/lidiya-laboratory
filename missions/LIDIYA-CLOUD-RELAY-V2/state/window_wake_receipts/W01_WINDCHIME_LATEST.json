@@ -10,7 +10,8 @@
     "Archive No-Read Fence targeted startup through Active-8 Home continuity anchor, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
     "Checked latest exact branch head and workflow availability; current six Gearbox blobs are unchanged and latest head has no qualifying workflow run, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE.",
     "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies.",
-    "Updated canonical state because W02 advanced materially from 0228 to 0333."
+    "Updated canonical state because W02 advanced materially from 0228 to 0333.",
+    "Fresh-read MISSION_STATE and the same canonical EVOLUTION_PROGRESS after writes; both matched expected authority/gate state before owner report."
   ],
   "material_delta": [
     "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0333 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
@@ -64,5 +65,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PENDING"
+  "readback_status": "PASS"
 }
