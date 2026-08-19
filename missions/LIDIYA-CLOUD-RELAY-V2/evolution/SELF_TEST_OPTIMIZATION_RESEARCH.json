@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "research_id": "W01-P0-SELF-TEST-OPTIMIZATION-20260819",
+  "owner_role": "LCR-A_CANDIDATE_RESEARCH",
+  "status": "RESEARCH_BASELINE_ACTIVE",
+  "formal_effect": "NONE",
+  "historical_reference": {
+    "workflow_run_id": 32036406694,
+    "commit_sha": "afc3da9a0594b036a873f439135ea298671dc960",
+    "reported_test_count": 59,
+    "unittest_reported_duration_seconds": 0.089,
+    "approx_test_step_wall_seconds": 0.255,
+    "approx_compile_step_wall_seconds": 0.119,
+    "approx_job_wall_seconds": 3.07,
+    "interpretation": "Historical-only workflow-shape baseline. It is not an exact-current speed sample and cannot establish current performance or speedup."
+  },
+  "findings": [
+    "The historical P0 test functions themselves were very fast relative to total GitHub Actions job wall time.",
+    "Checkout, runner/action initialization, evidence production and artifact upload dominate more wall time than the historical unittest execution body.",
+    "Deleting or selectively skipping safety tests would trade verification quality for negligible expected wall-time savings at the current suite scale.",
+    "The next optimization step should therefore instrument exact-current per-test and per-suite duration before changing execution topology.",
+    "Self-test duration must remain separate from real always-on runtime duration and from any Experience or capability claim."
+  ],
+  "implemented_experiment": {
+    "runner": "evolution/run_p0_self_test.py",
+    "clock": "time.perf_counter monotonic",
+    "outputs": [
+      "self_test_duration_seconds",
+      "runner_total_duration_seconds",
+      "per_suite_duration_seconds",
+      "slowest_tests",
+      "test_count",
+      "failure_count",
+      "error_count",
+      "skipped_count"
+    ],
+    "policy": "OBSERVATIONAL_ONLY_NO_SPEEDUP_OR_PROMOTION_CLAIM"
+  },
+  "optimization_plan": [
+    {
+      "priority": 1,
+      "action": "Collect exact-current timing evidence for at least 10 comparable runs before declaring a stable baseline.",
+      "reason": "Avoid optimizing from one noisy hosted-runner sample."
+    },
+    {
+      "priority": 2,
+      "action": "Track median and p95 self-test duration plus slowest-test identity; investigate only regressions that are repeated across comparable runs.",
+      "reason": "Hosted CI timing is noisy and single-run thresholds would create false alarms."
+    },
+    {
+      "priority": 3,
+      "action": "Preserve the complete P0 regression suite while test-body duration remains small relative to workflow overhead.",
+      "reason": "Coverage is currently more valuable than micro-optimizing sub-second unit tests."
+    },
+    {
+      "priority": 4,
+      "action": "If suite duration grows materially, split slow deterministic simulation tests from fast control-boundary tests while keeping both required for candidate evidence.",
+      "reason": "Parallelism becomes useful only after measured suite growth justifies its setup overhead."
+    },
+    {
+      "priority": 5,
+      "action": "Evaluate artifact upload compression and evidence bundling only after timing data shows artifact handling is a sustained bottleneck.",
+      "reason": "Do not weaken durable evidence merely to reduce a small amount of CI overhead."
+    },
+    {
+      "priority": 6,
+      "action": "Any speedup claim must use matched workloads, frozen metric definitions, equal verification/risk quality, and repeated paired/crossover measurements.",
+      "reason": "Commit count, wake count, window age and runner uptime are invalid speed evidence."
+    }
+  ],
+  "do_not_optimize_by": [
+    "dropping adversarial tests",
+    "counting heartbeat/poll/retry as productive work",
+    "using commit count as speed evidence",
+    "using awake time or runner uptime as speed evidence",
+    "relaxing P_base, Identity, Personality or Governance boundaries",
+    "promoting real_5min_runtime_live from CI duration"
+  ],
+  "boundaries": {
+    "candidate_only": true,
+    "p_base": "READ_ONLY_UNCHANGED",
+    "real_5min_runtime_live": false,
+    "formal_c_verification": "NOT_CLAIMED",
+    "step009": "PRESERVED_CLOSED"
+  }
+}
