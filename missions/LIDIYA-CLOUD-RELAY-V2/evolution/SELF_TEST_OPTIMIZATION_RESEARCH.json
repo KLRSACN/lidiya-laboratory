@@ -1,9 +1,9 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "research_id": "W01-P0-SELF-TEST-OPTIMIZATION-20260819",
   "owner_role": "LCR-A_CANDIDATE_RESEARCH",
   "quantum_extension": "W02_NON_FORMAL_DURATION_AND_OPTIMIZATION_RESEARCH",
-  "status": "RESEARCH_BASELINE_PLUS_BOUNDED_ENDURANCE_ACTIVE",
+  "status": "RESEARCH_BASELINE_PLUS_BOUNDED_ENDURANCE_AND_COMPARABLE_TREND_ACTIVE",
   "formal_effect": "NONE",
   "historical_reference": {
     "workflow_run_id": 32036406694,
@@ -13,21 +13,31 @@
     "approx_test_step_wall_seconds": 0.255,
     "approx_compile_step_wall_seconds": 0.119,
     "approx_job_wall_seconds": 3.07,
-    "interpretation": "Historical-only workflow-shape baseline. It is not an exact-current speed sample and cannot establish current performance or speedup."
+    "interpretation": "Historical-only workflow-shape baseline. It is not an exact-current comparable sample because the suite fingerprint and test count can differ. It cannot establish current performance or speedup."
   },
   "findings": [
-    "The historical P0 test functions themselves were very fast relative to total GitHub Actions job wall time.",
-    "Checkout, runner/action initialization, evidence production and artifact upload dominate more wall time than the historical unittest execution body.",
-    "Deleting or selectively skipping safety tests would trade verification quality for negligible expected wall-time savings at the current suite scale.",
+    "Historical P0 test-body time was very small relative to total GitHub Actions job wall time.",
+    "Checkout, runner/action initialization, evidence production and artifact upload dominated more wall time than the historical unittest body.",
+    "Dropping adversarial tests would trade verification quality for negligible expected wall-time savings at the present suite scale.",
     "Single-run timing answers how long one regression pass takes but does not measure repeated-run drift, intermittent failure latency or sustained stability.",
-    "A bounded endurance session is preferable to an always-on self-test loop: it collects repeated-run evidence without turning testing into permanent runtime load.",
-    "Endurance duration itself is not Experience, capability proof, Trust, Personality evidence or real always-on runtime evidence.",
+    "A bounded endurance session is preferable to an always-on self-test loop because it collects repeated-run evidence without turning testing into permanent runtime load.",
+    "Timing comparisons must bind to an exact test-suite fingerprint and Python series; otherwise suite growth or runtime changes can be misread as performance regression or speedup.",
+    "At least 10 successful comparable cross-run samples are required before median/p95 are treated as a stable optimization diagnostic baseline.",
+    "Endurance duration and cross-run timing are not Experience, capability proof, Trust, Personality evidence, formal verification or real always-on runtime evidence.",
     "Optimization must target information gained per unit test cost, not merely fewer seconds or fewer tests."
   ],
   "implemented_experiments": {
     "single_run": {
       "runner": "evolution/run_p0_self_test.py",
       "clock": "time.perf_counter monotonic",
+      "sample_binding": [
+        "suite_signature_sha256",
+        "python_series",
+        "commit_sha",
+        "github_run_id",
+        "github_run_attempt"
+      ],
+      "comparison_group": "suite_signature_sha256 + python_series",
       "outputs": [
         "self_test_duration_seconds",
         "runner_total_duration_seconds",
@@ -36,15 +46,19 @@
         "test_count",
         "failure_count",
         "error_count",
-        "skipped_count"
+        "skipped_count",
+        "suite_signature_sha256",
+        "comparison_group"
       ]
     },
     "bounded_endurance": {
       "runner": "evolution/run_p0_self_test_endurance.py",
+      "workflow": ".github/workflows/lcr-p0-endurance-research.yml",
       "clock": "time.perf_counter monotonic",
       "default_target_duration_seconds": 15,
       "minimum_rounds": 8,
       "maximum_rounds": 120,
+      "comparison_group_required_consistent_across_rounds": true,
       "stop_conditions": [
         "first regression failure -> fail fast",
         "target duration reached after minimum rounds",
@@ -56,6 +70,8 @@
         "target_duration_reached",
         "rounds_completed",
         "successful_rounds",
+        "comparison_group",
+        "comparison_group_consistent",
         "test_count_consistent",
         "cumulative_self_test_duration_seconds",
         "round self-test min/median/p95/max",
@@ -67,13 +83,31 @@
       "adaptive_stop": "DISABLED_PENDING_COMPARABLE_EVIDENCE",
       "numeric_threshold_policy": "TEST_REQUIRED"
     },
+    "comparable_cross_run_trend": {
+      "analyzer": "evolution/self_test_trend.py",
+      "tests": "evolution/test_self_test_trend.py",
+      "minimum_stable_samples": 10,
+      "inclusion_rule": "successful samples with the exact same comparison_group only",
+      "outputs": [
+        "comparable_sample_count",
+        "median_duration_seconds",
+        "p95_duration_seconds",
+        "min_duration_seconds",
+        "max_duration_seconds",
+        "latest_vs_median_ratio",
+        "recurring_slowest_tests",
+        "optimization_signal"
+      ],
+      "speedup_claim_allowed": false
+    },
     "policy": "OBSERVATIONAL_ONLY_NO_SPEEDUP_OR_PROMOTION_CLAIM"
   },
   "duration_strategy": {
-    "tier_0_every_candidate_push": "single exact-current regression timing only",
+    "tier_0_every_candidate_push": "single exact-current regression timing plus one-sample trend diagnostic",
     "tier_1_bounded_endurance": "15-second target, trigger-gated or manual research run; intended to detect immediate intermittent failure and short-horizon drift",
-    "tier_2_extended_endurance": "candidate research only after evidence justifies it; proposed 60-second-class run, exact duration TEST_REQUIRED",
-    "tier_3_long_endurance": "not automatic; only after repeated anomaly or explicit research need because self-test load must not become its own bottleneck",
+    "tier_2_cross_run_baseline": "collect >=10 exact comparison_group samples for median/p95 and recurring-slowest diagnostics",
+    "tier_3_extended_endurance": "candidate research only after evidence justifies it; proposed 60-second-class run, exact duration TEST_REQUIRED",
+    "tier_4_long_endurance": "not automatic; only after repeated anomaly or explicit research need because self-test load must not become its own bottleneck",
     "rule": "Do not infer more confidence merely from longer duration. Duration is useful only when it increases failure-discovery or stability information under matched conditions."
   },
   "optimization_research": [
@@ -86,32 +120,32 @@
     {
       "priority": 2,
       "hypothesis": "A small subset of tests will dominate self-test wall time as the suite grows.",
-      "measurement": "Track slowest-test identity and per-suite duration across comparable runs, using median/p95 instead of one noisy observation.",
-      "optimization_if_supported": "Split slow deterministic simulation strata from fast safety-boundary tests only when repeated timing evidence shows a material bottleneck; both remain required before candidate evidence is considered complete."
+      "measurement": "Track recurring slowest-test identity and per-suite duration across >=10 exact comparison_group samples using median/p95.",
+      "optimization_if_supported": "Split slow deterministic simulation strata from fast safety-boundary tests only when repeated comparable timing evidence shows a material bottleneck; both remain required before candidate evidence is considered complete."
     },
     {
       "priority": 3,
       "hypothesis": "Longer self-test duration has diminishing information gain once round timing and failure discovery stabilize.",
-      "measurement": "Compare failure discovery, p95 duration and first-half/second-half median drift as session length increases under matched workloads.",
+      "measurement": "Compare failure discovery, p95 duration and first-half/second-half median drift as session length increases under matched comparison_group workloads.",
       "optimization_if_supported": "Introduce an adaptive stop rule only after multiple comparable sessions establish a precommitted stability envelope; thresholds remain TEST_REQUIRED and may not be selected after seeing the candidate result."
     },
     {
       "priority": 4,
       "hypothesis": "Process launch and evidence serialization may dominate repeated endurance overhead.",
       "measurement": "Use session_minus_runner_duration_seconds and runner_fraction_of_session.",
-      "optimization_if_supported": "Evaluate in-process repeated suite execution or batched evidence serialization, but only if isolation/non-regression tests show no cross-round state leakage."
+      "optimization_if_supported": "Evaluate in-process repeated suite execution or batched evidence serialization only if isolation/non-regression tests show no cross-round state leakage."
     },
     {
       "priority": 5,
       "hypothesis": "In-process repetition can be faster but may hide state-leak defects that subprocess isolation exposes.",
-      "measurement": "Paired comparison of isolated-process and same-process repetitions from matched snapshots, with explicit state-reset and order tests.",
+      "measurement": "Paired comparison of isolated-process and same-process repetitions from matched snapshots with explicit state-reset and order tests.",
       "optimization_if_supported": "Use faster in-process mode only for analytics if it is non-inferior for defect detection; preserve isolated-process mode for authoritative candidate regression evidence until independently verified."
     },
     {
       "priority": 6,
-      "hypothesis": "Self-test optimization can falsely look successful if test coverage, assigned workload or verification quality declines.",
-      "measurement": "Track test-count consistency, failure/error/skipped counts, assigned workload coverage and unchanged verification/risk boundaries.",
-      "optimization_if_supported": "Reject any speed gain caused by skipped tests, selective deferral, weakened assertions or reduced evidence binding."
+      "hypothesis": "Self-test optimization can falsely look successful if test coverage, suite identity, assigned workload or verification quality declines.",
+      "measurement": "Track suite_signature_sha256, test-count consistency, failure/error/skipped counts, assigned workload coverage and unchanged verification/risk boundaries.",
+      "optimization_if_supported": "Reject any speed gain caused by skipped tests, changed comparison groups, selective deferral, weakened assertions or reduced evidence binding."
     }
   ],
   "candidate_adaptive_stop_contract": {
@@ -122,6 +156,7 @@
       "round-duration distribution",
       "failure-discovery curve",
       "test-count consistency",
+      "comparison-group consistency",
       "state-leak/non-regression result",
       "runner/setup overhead distribution"
     ],
@@ -135,6 +170,7 @@
       "stop because current result looks favorable",
       "drop slow safety tests",
       "change duration after observing candidate advantage",
+      "mix different comparison groups in one baseline",
       "count repeated test loops as Experience or autonomous life",
       "promote real_5min_runtime_live from CI endurance duration"
     ]
@@ -142,12 +178,12 @@
   "optimization_plan": [
     {
       "priority": 1,
-      "action": "Collect exact-current timing evidence for at least 10 comparable single-run sessions before declaring a stable baseline.",
-      "reason": "Avoid optimizing from one noisy hosted-runner sample."
+      "action": "Collect exact-current timing evidence for at least 10 successful samples with one exact comparison_group before declaring a stable cross-run diagnostic baseline.",
+      "reason": "Avoid optimizing from one noisy hosted-runner sample or mixing changed suites/Python series."
     },
     {
       "priority": 2,
-      "action": "Collect bounded endurance evidence separately from single-run timing and compare round median/p95, drift and intermittent failures.",
+      "action": "Collect bounded endurance evidence separately and compare round median/p95, drift, comparison-group consistency and intermittent failures.",
       "reason": "A fast single pass cannot reveal short-horizon repeated-run instability."
     },
     {
@@ -157,23 +193,29 @@
     },
     {
       "priority": 4,
+      "action": "Use recurring slowest-test frequency and per-suite median/p95 to choose optimization targets only after the comparable baseline becomes stable.",
+      "reason": "Optimize persistent measured bottlenecks instead of one-off noise."
+    },
+    {
+      "priority": 5,
       "action": "Do not enable adaptive stopping until thresholds are precommitted from comparable baseline evidence and validated against deliberately unstable positive controls.",
       "reason": "Otherwise an adaptive stop rule can censor late failures and create false confidence."
     },
     {
-      "priority": 5,
+      "priority": 6,
       "action": "If suite duration grows materially, evaluate process reuse, suite partitioning and selective parallelism under explicit state-leak and coverage non-regression tests.",
       "reason": "Execution-topology optimization should follow measured bottlenecks, not assumptions."
     },
     {
-      "priority": 6,
-      "action": "Any speedup claim must use matched workloads, frozen metric definitions, equal verification/risk quality, and repeated paired/crossover measurements.",
+      "priority": 7,
+      "action": "Any speedup claim must use matched workloads, frozen metric definitions, equal verification/risk quality and repeated paired/crossover measurements.",
       "reason": "Commit count, wake count, window age, runner uptime and raw test-loop duration are invalid capability evidence."
     }
   ],
   "do_not_optimize_by": [
     "dropping adversarial tests",
     "selectively skipping slow failures",
+    "mixing different suite_signature_sha256 values or Python series into one baseline",
     "changing duration after observing the result",
     "counting heartbeat/poll/retry/self-test loops as productive Experience",
     "using commit count as speed evidence",
@@ -188,6 +230,7 @@
     "runtime_maintenance_counts_as_experience": false,
     "self_test_duration_counts_as_experience": false,
     "formal_c_verification": "NOT_CLAIMED",
+    "speedup_claim": "NOT_ESTABLISHED",
     "step009": "PRESERVED_CLOSED"
   }
 }
