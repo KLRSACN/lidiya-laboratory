@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0830",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-0932",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -36,37 +36,27 @@
     "gearbox_controller_v2_sha": "45fe6e72a26aaf1d7505a9c6c3c8fdc15e22e2c9",
     "test_gearbox_controller_v2_sha": "38799e41561e6cdbc7378e9bd94596a18d4ab672",
     "gearbox_v2_contract_sha": "7c272b09264be765354fe2052eeb9e2f230f1705",
-    "gearbox_controller_v2_1_sha": "50660075a97d9bab71f0a7d7c402527cc01f6afa",
-    "test_gearbox_controller_v2_1_sha": "3e815a2beaa653ca218514d8a915426c6f12b677",
+    "gearbox_controller_v2_1_sha": "6b6b0f2b773916322a8030275a8206aaf547053c",
+    "test_gearbox_controller_v2_1_sha": "e7265dad769c45babb28ca676a46c59f594c6043",
     "gearbox_v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
   },
   "agreements": [
     "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
-    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid type hardening, but they do not establish provenance, freshness or verifier authority.",
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational progress only under v2.1 and must not become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
+    "v2.1 strict-bool checks for secretary_signal_fresh, authority_conflict and direct event_independently_verified are valid type hardening, but do not establish provenance, freshness or verifier authority.",
+    "Fresh v2.1 correctly handles terminal N/R before G-gear parsing; prior N/R parse-crash veto is resolved in current executable.",
+    "Fresh ledger correctly bounds non-Mapping elements and later valid records survive; prior non-Mapping batch-element DoS veto is resolved in current executable/tests.",
     "verified_progress_density is currently reason-only; keeping it observational is acceptable until independently derived and adversarially validated.",
     "GEARBOX_V2_1_CONTRACT correctly states speedup is NOT_YET_STATISTICALLY_ESTABLISHED.",
     "formal_mutation_allowed remains false and P_base remains read-only."
   ],
   "disagreements": [
     {
-      "id": "QV-GB21-LEDGER-ELEMENT-TYPE-DOS-045",
+      "id": "QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046",
       "severity": "HIGH",
-      "finding": "New material finding: aggregate_experience_events assumes every Iterable element is a Mapping and immediately calls event.get(...). A malformed element such as None, a string, integer, list or arbitrary object can therefore raise AttributeError before bounded rejection, aborting the entire batch and preventing later independent valid evidence from being processed. Current tests cover malformed fields inside mappings, but not non-Mapping batch elements.",
-      "required_change": "Add a strict Mapping/type boundary before any .get access. In non-atomic ingestion, a non-Mapping element must produce zero credit plus a bounded rejection/quarantine reason and processing must continue for later independent valid records. It must not reserve an event identity or mutate any accepted-event state."
-    },
-    {
-      "id": "QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044",
-      "severity": "HIGH",
-      "finding": "Gearbox v2 can set real_experience_claim_allowed from verified-kind credit without requiring verification_stage=C_VERIFIED or an exact trusted acceptance receipt.",
-      "required_change": "Authoritative real/verified Experience eligibility must require exact evidence identity plus trusted C/independent-verifier acceptance receipt bound to mission/step/scope and compatible canonical verification stage."
-    },
-    {
-      "id": "QV-GB21-V2-SEMANTIC-INHERITANCE-CONFLICT-043",
-      "severity": "HIGH",
-      "finding": "Public v2 still exposes DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND through experience_candidate_delta although v2.1 classifies them operational-only.",
-      "required_change": "Unify v2/v2.1 authoritative classification; operational events must never appear in an authoritative Experience-labelled field."
+      "finding": "New material finding: aggregate_experience_events parses independently_verified with _strict_bool before checking whether event_id is empty. A Mapping that should otherwise be ignored for missing identity can therefore use independently_verified=\"false\" or another malformed value to raise GearboxGuardError and abort the entire batch before later independent valid evidence is processed.",
+      "required_change": "Validate canonical record shape and non-empty event identity before verifier-boundary parsing. In non-atomic ingestion, malformed/missing-identity records must yield zero credit plus bounded rejection/quarantine and must not abort later records or reserve event identity."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -79,6 +69,12 @@
       "severity": "HIGH",
       "finding": "authority_conflict only neutralizes secretary_level; it does not load or enforce the actual fresh authority decision.",
       "required_change": "Project the exact trusted authority snapshot; stale, revoked or cross-scope authority evidence must fail closed."
+    },
+    {
+      "id": "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
+      "severity": "MEDIUM_HIGH",
+      "finding": "Stale secretary handling only neutralizes secretary_level. Numeric pressure inputs can still affect routing without per-field provenance, so stale secretary-derived telemetry may continue to force checkpoint/downshift through the pressure side channel.",
+      "required_change": "Bind provenance/freshness per pressure component; stale secretary-derived components are ignored while independently trusted fresh runtime telemetry may still contribute."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
@@ -111,16 +107,16 @@
       "required_change": "Both credit classes must come from one immutable AcceptedExperienceReceipt; receipt-less decision calls emit zero credit."
     },
     {
-      "id": "QV-GB21-OPERATIONAL-EVIDENCE-BINDING-042",
+      "id": "QV-GB21-V2-SEMANTIC-INHERITANCE-CONFLICT-043",
       "severity": "HIGH",
-      "finding": "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND receive operational credit without durable artifact/defect evidence receipt or lineage binding.",
-      "required_change": "Require evidence-bound operational acceptance receipt before nonzero operational credit; raw caller-only claims get zero."
+      "finding": "Public v2 still exposes DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND through experience_candidate_delta although v2.1 classifies them operational-only.",
+      "required_change": "Unify v2/v2.1 authoritative classification; operational events must never appear in an authoritative Experience-labelled field."
     },
     {
-      "id": "QV-GB21-NR-SAFETY-STATE-PARSE-040",
+      "id": "QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044",
       "severity": "HIGH",
-      "finding": "v1 supports N/R; v2.1 unconditionally parses selected[1:] as an integer, so standby/rollback safety paths can crash.",
-      "required_change": "Treat N/R as terminal control states before G-gear parsing; anti-thrash must never delay rollback/standby semantics."
+      "finding": "Gearbox v2 can set real_experience_claim_allowed from verified-kind credit without requiring verification_stage=C_VERIFIED or an exact trusted acceptance receipt.",
+      "required_change": "Authoritative real/verified Experience eligibility must require exact evidence identity plus trusted C/independent-verifier acceptance receipt bound to mission/step/scope and compatible canonical verification stage."
     },
     {
       "id": "QV-GB21-CREDIT-WEIGHTS-007",
@@ -136,64 +132,69 @@
     }
   ],
   "statistical_risks": [
-    "A single malformed non-Mapping record can censor all later records in a batch, creating order-dependent missingness and biased verified/operational rates.",
-    "real_experience_claim_allowed can disagree with verification_stage, contaminating longitudinal labels used as ground truth.",
+    "Malformed missing-ID mappings can censor all later records in a batch because verifier type parsing occurs before identity rejection, creating order-dependent missingness.",
     "Caller-declared secretary freshness or authority conflict invalidates causal routing comparisons.",
+    "Stale secretary-derived numeric pressure fields can leak through even when secretary_level itself is suppressed.",
     "Small-n shift-rate estimates have high variance and can false-trigger or chatter around a single threshold.",
     "Anti-thrash can improve gear_shift_rate while worsening cycle, closure or recovery latency.",
     "verified_progress_density becomes self-reinforcing if policy-created progress is later fed back into upshift decisions.",
     "Transient event identity and direct decision-path credit can inflate longitudinal verified/operational totals.",
     "Operational-vs-Experience semantics differ between public v2 and v2.1 interfaces, making mixed-consumer metrics incomparable.",
+    "real_experience_claim_allowed can disagree with canonical verification stage and contaminate longitudinal labels.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
     "durable_progress_per_wake is numerator/denominator-sensitive; verified_closure_per_hour is exposure/censoring-sensitive; fixed order and completed-only analysis create carryover/survivorship bias."
   ],
   "proposed_tests": [
-    "GB21-LEDGER-ELEMENT-TYPE-081: aggregate [None, valid_verified_event] and [\"junk\", valid_verified_event]; malformed first element must yield bounded rejection/zero credit while the later valid event is still accepted. No uncaught AttributeError/TypeError.",
-    "GB21-LEDGER-ELEMENT-ID-NO-POISON-082: a malformed non-Mapping element cannot reserve or consume any canonical event identity and cannot change later duplicate/identity-conflict semantics.",
-    "GB21-REAL-EXPERIENCE-STAGE-079 + REAL-EXPERIENCE-RECEIPT-080: verified kind requires compatible canonical stage plus exact trusted receipt.",
-    "GB21-V2-V21-CLASSIFIER-CONSISTENCY-078: every event kind must have the same verified-vs-operational semantics across authoritative v2/v2.1 interfaces.",
+    "GB21-MISSING-ID-VERIFY-PARSE-083: missing event_id plus independently_verified=\"false\" before a valid verified event must be bounded reject/zero credit; later valid event is accepted and no batch-level GearboxGuardError occurs.",
+    "GB21-MISSING-ID-NO-POISON-084: malformed/missing-ID record must not reserve identity or alter later duplicate/identity-conflict semantics.",
+    "GB21-STALE-PRESSURE-PROVENANCE-059 + MIXED-SOURCE-060: stale secretary-derived pressure fields are ignored while independently trusted fresh telemetry remains effective.",
     "GB21-AUTHORITY-DECISION-PROJECTION-028: trusted authority=G1/recovery projects G1 even when fallback caller kwargs are permissive.",
     "GB21-SHIFT-RATE-PROVENANCE-017 + SHIFT-SMALL-N-004 + ANTI-THRASH-CHATTER-040 + RELEASE-041: canonical shift history, adequate support, uncertainty and bounded release are required.",
     "GB21-PROGRESS-DENSITY-FORGE-007: verified_progress_density=1 alone has zero routing/Experience/promotion/authority effect.",
     "GB21-CROSS-RUN-SAME-ID-018 + ROLLBACK-LEDGER-019 + POLL-REPLAY-020 + EVENT-REBIND-021: durable exactly-once and identity-conflict semantics survive restart, rollback and polling.",
     "GB21-VERIFIER-EVIDENCE-011: verified kind without exact evidence hash plus trusted verifier/C receipt gets zero credit.",
     "GB21-DIRECT-CREDIT-BYPASS-022 + OPERATIONAL-CREDIT-BYPASS-024: every nonzero credit is tied to one immutable accepted receipt.",
+    "GB21-V2-V21-CLASSIFIER-CONSISTENCY-078 + REAL-EXPERIENCE-STAGE-079/080: public authoritative interfaces share semantics and trusted stage/receipt binding.",
     "GB21-CREDIT-SCORE-014: equal aggregate scores from different event mixes cannot imply equivalent capability or trigger promotion.",
     "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen metric provenance, crossover/order control, full assigned-workload coverage and uncertainty/non-regression."
   ],
   "bounded_veto": [
-    "QV-GB21-LEDGER-ELEMENT-TYPE-DOS-045",
-    "QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044",
-    "QV-GB21-V2-SEMANTIC-INHERITANCE-CONFLICT-043",
+    "QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046",
     "QV-GB21-FRESHNESS-AUTHORITY-001",
     "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
+    "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
     "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
     "QV-GB21-ANTI-THRASH-PERFORMANCE-004",
     "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
     "QV-GB21-EVENT-REPLAY-FAMILY",
     "QV-GB21-DUAL-CREDIT-BYPASS",
-    "QV-GB21-OPERATIONAL-EVIDENCE-BINDING-042",
-    "QV-GB21-NR-SAFETY-STATE-PARSE-040",
+    "QV-GB21-V2-SEMANTIC-INHERITANCE-CONFLICT-043",
+    "QV-GB21-REAL-EXPERIENCE-STAGE-BYPASS-044",
     "QV-GB21-CREDIT-WEIGHTS-007",
     "QV-GB21-SPEEDUP-CLAIM-008"
   ],
+  "resolved_since_previous": [
+    "QV-GB21-LEDGER-ELEMENT-TYPE-DOS-045: resolved in current executable/tests by Mapping boundary before .get and bounded ignore of non-Mapping elements.",
+    "QV-GB21-NR-SAFETY-STATE-PARSE-040: resolved in current executable/tests by terminal N/R bypass before anti-thrash numeric gear parsing."
+  ],
   "release_condition": [
     "No formal adoption or speedup claim from this research review alone.",
-    "Experience ingestion must reject/quarantine malformed non-Mapping elements without aborting later independent valid records or consuming event identity.",
-    "real_experience_claim_allowed and verified Experience credit must be derived from exact trusted verifier/C acceptance evidence plus canonical verification-stage binding; caller booleans or labels alone are insufficient.",
-    "Authoritative v2/v2.1 event semantics must be unified: DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational-only everywhere.",
-    "Secretary freshness/provenance must be evidence-bound; fresh authority must be projected from an exact trusted decision, not a caller boolean.",
+    "Missing-ID or malformed records cannot abort later independent valid evidence and cannot reserve event identity.",
+    "Secretary freshness/provenance must be evidence-bound per signal/component; fresh authority must be projected from an exact trusted decision, not a caller boolean.",
     "Anti-thrash inputs must be canonically derived with adequate sample support, uncertainty and hysteretic release; cycle/closure/recovery performance must be non-inferior.",
     "verified_progress_density remains observational until independently derived and tested against feedback/self-reinforcement.",
-    "All verified Experience requires exact evidence identity plus trusted C/independent-verifier receipt.",
-    "Event/evidence acceptance must be durable, rollback-resistant, lineage-aware and exactly-once across restart/poll/replay.",
-    "Operational progress must be evidence-bound and exactly-once; unsupported caller-only operational claims get zero credit.",
-    "Credit weights 5/4/3/1 remain heuristic and cannot be used as capability/Trust/Identity/Personality truth or promotion thresholds.",
-    "Speedup requires sealed matched-workload paired/crossover evidence using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen metric provenance, exposure/censoring/order/coverage, uncertainty and verification/risk non-regression.",
-    "Heartbeat/poll/retry/reconnect/window age remain zero Experience; P_base remains read-only; Gearbox v1 verified baseline and Step009 verified foundation remain preserved.",
-    "Any formal adoption requires the existing A->B build and independent C verification path."
+    "Verified Experience and operational progress must come from durable accepted evidence/receipts with rollback-resistant identity/lineage dedupe; decision calls without accepted receipts produce zero credit.",
+    "Authoritative v2/v2.1 event semantics must be unified: DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational-only everywhere; real Experience eligibility requires compatible canonical verification stage plus exact trusted C/independent-verifier receipt.",
+    "5/4/3/1 weights remain heuristic and must never be used as capability truth or promotion thresholds without calibration.",
+    "Speedup requires sealed matched assigned workloads and paired/crossover analysis over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen numerator/denominator provenance, exposure/censoring/order, uncertainty, workload coverage and verification/risk non-regression.",
+    "All Gearbox v1 verified baseline tests remain preserved; any v2/v2.1 failure rolls back only affected candidate scope. P_base remains read-only and runtime maintenance remains zero Experience."
   ],
-  "next_runtime_route": "AFTER_DURABLE_REVIEW_READBACK_RETURN_ALWAYS_ON_RUNTIME_SMALL_WORLD; WRITE_NO_RESEARCH_TURN_UNLESS_EXACT_ENDPOINT_EXPECTS_QUANTUM",
-  "created_at": "2026-08-19T08:30:43+08:00",
-  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
+  "small_world_return": {
+    "endpoint": "state/SMALL_WORLD_TRIPARTITE_ACTIVE.json",
+    "latest_sequence": 11,
+    "next_sequence": 12,
+    "next_expected_source": "SPIRIT",
+    "quantum_action": "VALID_NO_OP_DO_NOT_IMPERSONATE_SPIRIT"
+  },
+  "created_at": "2026-08-19T09:32:34+08:00"
 }
