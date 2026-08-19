@@ -1,14 +1,14 @@
 {
-  "schema_version": "3.6",
+  "schema_version": "3.7",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-19T10:27:00+08:00",
+  "recorded_at": "2026-08-19T10:36:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current Gearbox code/test bytes remain anchored at source head b3cb60d8f4ca479817df1ca406502693a23b0a45. Latest repository head 2512bba18503f7780d50c674faca3be392f0aeab is review-only and does not change the six Gearbox blobs. W01 still has no trusted executor surface that can mount the connector-returned exact repository bytes into one runner for the required compile plus all three suites. The last commit-pinned raw-acquisition probe failed before byte acquisition with DNS exit 6. No fresh PASS is claimed.",
+    "reason": "Current Gearbox code/test bytes remain anchored at source head b3cb60d8f4ca479817df1ca406502693a23b0a45. Latest repository head 1ef76da43ddeebc871efc37aca1ba4654c84e4c9 is review-only and does not change the six Gearbox blobs. W01 still has no trusted executor surface that can mount connector-returned exact repository bytes into one runner for the required compile plus all three suites. The last commit-pinned raw-acquisition probe failed before byte acquisition with DNS exit 6. No fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "b3cb60d8f4ca479817df1ca406502693a23b0a45",
-    "latest_repository_head_observed": "2512bba18503f7780d50c674faca3be392f0aeab",
+    "latest_repository_head_observed": "1ef76da43ddeebc871efc37aca1ba4654c84e4c9",
     "runner_provenance": "W01 exact GitHub blob inspection; prior commit-pinned same-runner raw-acquisition probe retained as last executor probe evidence",
     "runner_probe_exit_code": 6,
     "fresh_test_exit_code": null,
@@ -54,6 +54,6 @@
     "heartbeat_poll_retry_window_age_counts_as_experience": false,
     "real_5min_runtime_live": false
   },
-  "material_delta": "W02 review QUANTUM-GEARBOX-V2.1-20260819-0932 is now fresh against current v2.1 blobs 6b6b0f2b/e7265dad and explicitly resolves the prior non-Mapping batch-element DoS and N/R parse-crash vetoes. It remains BOUNDED_VETO_ACTIVE and adds HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046: missing-ID mappings can still raise during verifier strict-bool parsing before bounded identity rejection and abort later valid records.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1032 against unchanged current v2.1 blobs 6b6b0f2b/e7265dad and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-INHERITED-BOOL-BOUNDARY-047 confirms inherited v1/v2 control booleans still rely on Python truthiness, so values such as non-empty string 'false' can falsely trigger standby, rollback, recovery/safety brake, route drift, or checkpoint/downshift. Existing v2 tests cover literal booleans only. HIGH QV-GB21-MISSING-ID-VERIFY-PARSE-DOS-046 also remains open.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
