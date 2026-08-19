@@ -1,6 +1,6 @@
 {
-  "schema_version": "3.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-2132",
+  "schema_version": "3.2",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260819-2230",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_state/EVOLUTION_PROGRESS.json_SCHEMA_6.46-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_state/EVOLUTION_PROGRESS.json_SCHEMA_6.47-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -31,7 +31,7 @@
     "real_5min_runtime_live": false
   },
   "source_fingerprints": {
-    "active8_sha": "21307d74ea433c80bce3d6ee8a7228fee510579a",
+    "active8_sha": "149fc2e5159f977af5c45a9b681d24a6d6bc6e48",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -41,45 +41,51 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_quantum_review_sha": "9a9989e345dff5892b86f4d7f92fad5e5c5286dd"
+    "previous_quantum_review_sha": "689770b53df0ddf9fc1d5dfefcd43ff74fcd6dc5"
   },
   "agreements": [
-    "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review mutates no formal state/code and claims no C PASS.",
+    "Gearbox v1 verified baseline and Step009 Heartbeat verified foundation remain preserved; this review changes no formal state/code and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "v2.1 direct classification keeps DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND operational-only; they must never become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
-    "Strict bool validation in v2/v2.1 is valid type hardening but is not source provenance, freshness proof, verifier authority or acceptance proof.",
-    "verified_progress_density is currently reason-only and does not independently raise gear; keeping it observational is acceptable until independently derived and adversarially validated.",
+    "Gearbox v2.1 direct classification keeps DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND operational-only; they must never become verified Experience, P_base, Trust, Identity, Personality or Governance evidence.",
+    "Strict bool validation in current v2/v2.1 is useful type hardening but is not source provenance, freshness proof, verifier authority or acceptance proof.",
+    "verified_progress_density is currently reason-only and does not independently increase gear; keeping it observational is acceptable until independently derived and adversarially validated.",
     "The v2.1 contract correctly leaves speedup NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-TERMINAL-INTEGRITY-STRUCTURAL-061",
+      "severity": "HIGH",
+      "finding": "New material objection/refinement: terminal N/R preservation in v2 is not implemented as a structural terminal contract. After verified v1 returns N or R, v2 continues through pressure, progress-age, verification-cap and hysteresis logic. Some branches happen to preserve N/R only because _cap_gear returns non-G values unchanged and _gear_number(N/R)=0; meanwhile recovery/anchor/RED-secretary already overwrites N/R with G1. Safety therefore depends partly on incidental helper behavior rather than an explicit terminal projection boundary, making later overlays or refactors capable of silently erasing terminal semantics.",
+      "required_change": "After v1 produces trusted R, v2 must immediately return a terminal-safe projection or enter a dedicated terminal path that no nonterminal telemetry/secretary/pressure/anti-thrash overlay may alter. Standby N must follow an explicit preregistered precedence rule and may be superseded only by a separately trusted higher-priority authority/safety decision, never by caller-declared secretary telemetry. v2.1 must consume and preserve the terminal result plus its safety metadata/fingerprint."
+    },
+    {
       "id": "QV-GB21-TERMINAL-PRECEDENCE-060",
       "severity": "HIGH",
-      "finding": "New material objection: v2 obtains canonical N/R from the verified v1 selector, but then its recovery/anchor/RED-secretary branch unconditionally replaces selected with G1. Therefore standby=True plus recovery_active/anchor<0.50/fresh RED, or rollback_required=True plus those signals, can erase the terminal N/R control state before v2.1 sees it. The later v2.1 N/R parsing bypass cannot protect a terminal state already overwritten inside v2.",
-      "required_change": "Define terminal precedence explicitly. Trusted rollback R must be non-overridable by secretary/pressure/recovery overlays; standby N may only be superseded by a separately specified higher-priority trusted safety/authority rule, never by an unbound secretary signal. Return terminal decisions before nonterminal pressure overlays or consume a trusted terminal-authority envelope."
+      "finding": "v2 obtains N/R from verified v1, then recovery_active, anchor<0.50 or RED secretary unconditionally replaces selected with G1 before v2.1 sees the terminal state.",
+      "required_change": "Trusted rollback R must be non-overridable by secretary/pressure/recovery overlays; standby N needs explicit trusted precedence."
     },
     {
       "id": "QV-GB21-INHERITED-SAFETY-METADATA-DROP-059",
       "severity": "HIGH",
       "finding": "GearboxV21Decision omits inherited v2 checkpoint_required, receiver_ack_required, verification_gate, real_experience_claim_allowed and pressure_score semantics.",
-      "required_change": "Re-project all safety-critical inherited v2 metadata or bind an exact inherited-v2 decision fingerprint/reference; v2.1 may tighten but never erase inherited safety constraints."
+      "required_change": "Re-project all safety-critical inherited metadata or bind an exact inherited-v2 decision fingerprint/reference; v2.1 may tighten but never erase inherited safety constraints."
     },
     {
       "id": "QV-GB21-V21-VERIFIED-DELTA-STAGE-BYPASS-058",
       "severity": "HIGH",
-      "finding": "v2 gates real_experience_claim_allowed on C_VERIFIED, while v2.1 independently recomputes verified_experience_delta from caller event fields without consuming the inherited verification-stage eligibility result.",
-      "required_change": "Every nonzero authoritative verified delta must originate from one immutable AcceptedExperienceReceipt binding exact evidence identity, trusted C/independent-verifier receipt and canonical verification stage."
+      "finding": "v2 gates real_experience_claim_allowed on C_VERIFIED, while v2.1 independently recomputes verified_experience_delta from caller event fields without consuming inherited stage eligibility.",
+      "required_change": "Every authoritative verified delta must originate from one immutable AcceptedExperienceReceipt binding exact evidence identity, trusted C/independent-verifier receipt and canonical verification stage."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
       "severity": "HIGH",
-      "finding": "secretary_signal_fresh remains caller-declared; literal True can label stale telemetry fresh because source, timestamp/TTL, revocation, scope, policy and runtime/install identity are unbound.",
+      "finding": "secretary_signal_fresh remains caller-declared; literal true can label stale telemetry fresh because source, timestamp/TTL, revocation, scope, policy and runtime/install identity are unbound.",
       "required_change": "Consume a replay-resistant SecretarySignalEnvelope with trusted source and freshness metadata."
     },
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
       "severity": "HIGH",
-      "finding": "authority_conflict=True only replaces secretary_level with UNKNOWN; it does not load or enforce the actual fresh authority decision, so permissive caller kwargs still determine routing.",
+      "finding": "authority_conflict=true only replaces secretary_level with UNKNOWN; it does not load or enforce the actual fresh authority decision, so permissive caller kwargs still determine routing.",
       "required_change": "Project an exact trusted AuthorityDecisionEnvelope or fail closed."
     },
     {
@@ -150,7 +156,8 @@
     }
   ],
   "statistical_risks": [
-    "Terminal N/R overwrite creates mixed-treatment safety behavior: identical rollback/standby intent can produce different control states depending on secretary/recovery/anchor telemetry, invalidating safety and performance comparisons.",
+    "Terminal safety currently depends partly on incidental helper behavior rather than an explicit terminal contract; future overlays/refactors can create unmeasured treatment changes.",
+    "Terminal N/R overwrite creates mixed-treatment safety behavior: identical rollback/standby intent can produce different control states depending on secretary/recovery/anchor telemetry.",
     "Dropping inherited v2 safety metadata can silently remove checkpoint/ACK/verification constraints from downstream v2.1 behavior.",
     "Caller-declared secretary freshness/authority and unbound pressure provenance invalidate causal routing comparisons.",
     "Small-n caller-supplied shift-rate estimates can false-trigger anti-thrash or chatter around the threshold.",
@@ -162,9 +169,10 @@
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-ROLLBACK-TERMINAL-PRECEDENCE-110: rollback_required=true combined separately with fresh RED secretary, recovery_active=true and continuity_anchor_health<0.50 must preserve R; no nonterminal overlay may convert trusted rollback to G1.",
-    "GB21-STANDBY-PRECEDENCE-111: standby=true plus RED/recovery/anchor-failure must follow an explicit preregistered precedence rule; an unbound secretary signal alone may not silently convert N to G1.",
-    "GB21-TERMINAL-CROSS-LAYER-112: v1/v2/v2.1 must agree on the exact terminal-control result and preserve it through wrapper projection.",
+    "GB21-TERMINAL-STRUCTURAL-113: once v1 emits trusted R, inject every v2/v2.1 nonterminal overlay individually and in combination; final control state and terminal metadata must remain R without relying on _gear_number/_cap_gear incidental behavior.",
+    "GB21-STANDBY-STRUCTURAL-114: once v1 emits N, only an explicit trusted higher-priority authority/safety envelope may supersede it; secretary/pressure-only overlays cannot do so.",
+    "GB21-TERMINAL-REFRACTOR-NONREGRESSION-115: replace helper implementations with behaviorally equivalent versions and prove terminal safety does not depend on _gear_number(N/R)=0 or _cap_gear returning non-G values unchanged.",
+    "GB21-ROLLBACK-TERMINAL-PRECEDENCE-110 + STANDBY-PRECEDENCE-111 + TERMINAL-CROSS-LAYER-112 remain required.",
     "GB21-INHERITED-SAFETY-METADATA-107 + SAFETY-FINGERPRINT-108: v2.1 preserves exact inherited checkpoint/ACK/verification constraints.",
     "GB21-V21-STAGE-BYPASS-105 + STAGE-CONSISTENCY-106: non-C_VERIFIED or receipt-less verified events produce zero authoritative v2.1 verified credit.",
     "GB21-SECRETARY-FRESHNESS-FORGE-109: stale signal plus caller fresh=true is rejected by trusted freshness metadata.",
@@ -177,42 +185,50 @@
     "GB21-VERIFIER-EVIDENCE-011: verified kind without exact evidence hash plus trusted verifier/C receipt gets zero credit.",
     "GB21-DIRECT-CREDIT-BYPASS-022 + OPERATIONAL-CREDIT-BYPASS-024: every nonzero credit is tied to one immutable accepted receipt.",
     "GB21-CREDIT-SCORE-014: equal aggregate scores from different event mixes cannot imply equivalent capability or trigger promotion.",
-    "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: speedup requires matched workload, frozen metric provenance, crossover/order control, complete assigned-workload coverage and uncertainty/non-regression."
+    "GB21-PAIRED-SPEED-015 + WAKE-DENOMINATOR-FREEZE-030 + TIME-WINDOW-FREEZE-032 + ORDER-CROSSOVER-036 + ITT-WORKLOAD-COVERAGE-038: paired speed evidence uses frozen definitions, randomized/crossover order and full assigned-workload accounting."
   ],
-  "bounded_veto": [
-    "QV-GB21-TERMINAL-PRECEDENCE-060",
-    "QV-GB21-INHERITED-SAFETY-METADATA-DROP-059",
-    "QV-GB21-V21-VERIFIED-DELTA-STAGE-BYPASS-058",
-    "QV-GB21-FRESHNESS-AUTHORITY-001",
-    "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
-    "QV-GB21-STALE-SECRETARY-PRESSURE-SIDECHANNEL-035",
-    "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
-    "QV-GB21-ANTI-THRASH-PERFORMANCE-004",
-    "QV-GB21-PROGRESS-DENSITY-SELF-REINFORCEMENT",
-    "QV-GB21-EVENT-REPLAY-FAMILY",
-    "QV-GB21-EVENT-ID-CANONICAL-TYPE-055",
-    "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
-    "QV-GB21-DUAL-CREDIT-BYPASS",
-    "QV-GB21-V2-SEMANTIC-INHERITANCE-CONFLICT-043",
-    "QV-GB21-CREDIT-WEIGHTS-007",
-    "QV-GB21-SPEEDUP-CLAIM-008"
-  ],
-  "release_condition": {
-    "formal_route_allowed_now": false,
-    "requirements": [
-      "Preserve verified Gearbox v1 and Step001-009 baselines; candidate failures roll back only v2/v2.1 delta.",
-      "Resolve terminal N/R precedence so trusted rollback cannot be overwritten by secretary/pressure/recovery overlays, and standby precedence is explicitly bounded.",
-      "Preserve or cryptographically bind inherited v2 checkpoint/ACK/verification safety metadata through v2.1.",
-      "Replace caller-declared secretary freshness/authority with trusted replay-resistant envelopes and bind provenance/freshness for each pressure component.",
-      "Derive anti-thrash inputs from canonical shift history with precommitted sample/window/uncertainty/hysteretic release and demonstrate cycle/closure/recovery non-regression.",
-      "Keep verified_progress_density observational until independently derived and anti-self-reinforcement tested.",
-      "Implement strict canonical EventIdentity plus durable rollback-resistant event/evidence lineage registry and accepted-receipt projection.",
-      "Require exact evidence hash plus trusted C/independent-verifier receipt and compatible canonical verification stage for every nonzero authoritative verified Experience delta.",
-      "Keep DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND operational-only across every authoritative public interface.",
-      "Treat 5/4/3/1 weights as heuristic analytics only; never as capability, Trust, Identity, Personality or promotion truth.",
-      "Establish speedup only with sealed matched paired/randomized-crossover baseline over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency, with frozen metric provenance, exposure/censoring/order, complete assigned-workload coverage, uncertainty and verification/risk non-regression.",
-      "Obtain fresh exact-current executable evidence plus independent Spirit review and current Navigator synthesis before any A->B->C adoption route."
+  "bounded_veto": {
+    "active": true,
+    "scope": "GEARBOX_V2_AND_V2_1_CANDIDATE_DELTA_ONLY",
+    "does_not_revoke": [
+      "Gearbox v1 VERIFIED_PASS",
+      "Step009 Heartbeat VERIFIED_FOUNDATION",
+      "Step001-009 historical verified baseline"
+    ],
+    "blocks": [
+      "formal adoption/promotion of Gearbox v2/v2.1",
+      "claim that fresh authority is guaranteed to win based only on authority_conflict boolean",
+      "claim that transient event_id dedupe is durable replay protection",
+      "claim that caller/stage labels alone establish verified Experience",
+      "claim that anti-thrash improves performance from shift-count reduction alone",
+      "claim that credit totals are calibrated capability truth",
+      "claim that speedup is established without matched paired/crossover evidence"
     ]
   },
-  "return_to_runtime": "After durable latest-only write/readback, return to Always-on Runtime / Small-World; do not write a QUANTUM dialogue turn unless the authenticated endpoint names QUANTUM next."
+  "release_condition": {
+    "required": [
+      "Implement explicit structural terminal N/R precedence and projection across v1->v2->v2.1; trusted R is non-overridable by nonterminal overlays and N follows a preregistered trusted precedence policy.",
+      "Preserve inherited v2 safety/verification metadata or bind an exact inherited decision fingerprint.",
+      "Bind secretary freshness and authority conflict to trusted source/authority envelopes; stale secretary-derived pressure fields contribute zero.",
+      "Derive anti-thrash shift rate from canonical history with minimum support, window, uncertainty and hysteretic release; demonstrate cycle/closure/recovery non-regression.",
+      "Keep verified_progress_density observational until independently derived and anti-self-reinforcement tested.",
+      "Replace transient/noncanonical event_id accounting with durable rollback-resistant EventIdentity/evidence-lineage acceptance and exactly-once replay semantics.",
+      "Require exact evidence hash plus trusted C/independent-verifier identity/receipt and canonical verification-stage binding before any authoritative verified Experience credit.",
+      "Route both verified and operational credit only through immutable AcceptedExperienceReceipt; direct caller-field credit is zero.",
+      "Unify v2/v2.1 verified-versus-operational classification; DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only.",
+      "Keep 5/4/3/1 weights explicitly heuristic and non-authoritative for capability/Trust/Identity/Personality/Governance.",
+      "Establish speed only through sealed matched paired/randomized-crossover baseline on durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen metric provenance, exposure/censoring/order, complete workload coverage, uncertainty and verification/risk non-regression.",
+      "Obtain fresh exact-current same-runner executable evidence plus independent Spirit review and fresh Navigator synthesis before any A->B->C formal route."
+    ],
+    "numeric_thresholds": "TEST_REQUIRED",
+    "formal_route_allowed_now": false
+  },
+  "always_on_return": {
+    "status": "RETURN_TO_ALWAYS_ON_RUNTIME_SMALL_WORLD",
+    "small_world_action": "NO_QUANTUM_TURN_UNLESS_EXACT_ENDPOINT_AUTHENTICATES_QUANTUM",
+    "p_base": "READ_ONLY_UNCHANGED",
+    "runtime_maintenance_is_experience": false
+  },
+  "created_at": "2026-08-19T22:30:55+08:00",
+  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
