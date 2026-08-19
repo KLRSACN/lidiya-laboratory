@@ -1,39 +1,40 @@
 {
-  "schema_version": "4.2",
+  "schema_version": "4.3",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-19T12:36:47+08:00",
+  "recorded_at": "2026-08-19T14:22:35+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
     "Archive No-Read Fence targeted startup through current Active-8, fresh MISSION_STATE, Gearbox v1/v2/v2.1 contract/code/tests, latest W02/W03/W04, W01 checkpoint and receipt.",
     "Rechecked exact-current executor availability on the current six Gearbox blobs without promoting historical results.",
     "Reconciled paired speed gate using only required paired metrics and no awake/window/commit/heartbeat/poll/retry proxies.",
-    "Updated canonical state only because W02 freshness/review outcome materially changed."
+    "Updated canonical state only because W02 advanced materially from 1234 to 1329."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1234 and is now fresh to current v2/v2.1 exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5; the prior W02 stale-to-current gate is cleared as a freshness issue only.",
-    "W02 remains BOUNDED_VETO_ACTIVE. It marks inherited-bool 047 and missing-ID verifier-parse 046 resolved in the current candidate, partially hardens real-Experience stage gating, and adds HIGH QV-GB21-EVENT-KIND-TYPE-BOUNDARY-049.",
-    "Other release vetoes remain, including current_gear/verification_stage provenance, freshness/authority envelopes, authority projection, secretary pressure provenance, anti-thrash provenance/performance, exact verifier evidence, durable replay-resistant lineage/receipt-only credit, v2/v2.1 semantic consistency and speed evidence.",
-    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: exact-byte anchor and latest pre-bookkeeping branch head both have zero workflow runs and connector exact blobs are not mountable into one executor.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260819-1329 and remains fresh to current v2/v2.1 exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
+    "New HIGH QV-GB21-IRRELEVANT-VERIFIER-FIELD-BATCH-DOS-050: a valid-ID non-verified event such as WAIT/HEARTBEAT/DURABLE_PROGRESS with malformed independently_verified can abort the whole non-atomic ledger batch and censor later valid evidence because verifier parsing occurs before event-class relevance is known.",
+    "New MEDIUM_HIGH QV-GB21-CURRENT-GEAR-NORMALIZATION-MISMATCH-051: inherited v2 accepts strip().upper() current_gear, but v2.1 reparses the raw value with upper() only; an input such as ' G3 ' can pass v2 then fail in the wrapper anti-thrash int parse.",
+    "HIGH EVENT-KIND-TYPE-BOUNDARY-049 and other authority/provenance/evidence/replay/receipt/anti-thrash/speed release vetoes remain.",
+    "Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE: exact-byte anchor 2f84d370 and latest pre-bookkeeping branch head 23c098bc both have zero workflow runs and connector exact blobs are not mountable into one executor.",
     "Dedicated W03 Gearbox v2.1 review remains absent; latest W03 is a stale general VALID_NO_OP. W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed_before_w01_bookkeeping": "a02b5c2a02bbc865e9e13383daa09fb141858b66",
+    "latest_repository_head_observed_before_w01_bookkeeping": "23c098bc63f51832e9c0d23bf58d286c69c6755f",
     "canonical_progress_overwritten": true,
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "5785ad21165feaa816bf237d225237ba191ed754",
+    "selftest_sha": "b3a26cecf9edbdc208fcfdd6011e6da81fa3a316",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "32f65d51629b81daf7e3e6577a46b02698c1957b",
+    "speed_baseline_sha": "216bcfdf3593b072e3ac7605ada1d9049ac843ad",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "cf8e7d8ded2eae759edf2c97a25a28dcb6864a07",
-    "progress_sha": "9d0081b363c5577eb9dee4390dd63a58f1006775"
+    "checkpoint_sha": "4de8fd1dc9d59329d52f0fea360186d3c34ec883",
+    "progress_sha": "34bade432e11fb9fdcbdb618eb3abd9770ac42a2"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -60,7 +61,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260819-1234_CURRENT_BOUNDED_VETO_ACTIVE_EVENT_KIND_049_HIGH",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260819-1329_CURRENT_BOUNDED_VETO_ACTIVE_VERIFIER_BATCH_050_HIGH_EVENT_KIND_049_HIGH_CURRENT_GEAR_NORMALIZATION_051_MEDIUM_HIGH",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -73,12 +74,6 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS",
-  "readback_evidence": {
-    "first_receipt_blob_sha": "6c7aa99f9996a004b2a2986f89834895c7dfe281",
-    "selftest_readback_sha": "5785ad21165feaa816bf237d225237ba191ed754",
-    "speed_readback_sha": "32f65d51629b81daf7e3e6577a46b02698c1957b",
-    "checkpoint_readback_sha": "cf8e7d8ded2eae759edf2c97a25a28dcb6864a07",
-    "progress_readback_sha": "9d0081b363c5577eb9dee4390dd63a58f1006775"
-  }
+  "readback_status": "PENDING_POST_WRITE_READBACK",
+  "readback_evidence": {}
 }
