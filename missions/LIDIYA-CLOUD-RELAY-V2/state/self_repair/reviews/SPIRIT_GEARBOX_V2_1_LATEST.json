@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.3",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-014",
-  "updated_at": "2026-08-20T12:04:36+08:00",
+  "schema_version": "2.4",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-015",
+  "updated_at": "2026-08-20T13:04:59+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -14,9 +14,9 @@
   "historical_v1_verified_baseline_preserved": true,
   "agreements": [
     "Historical v1 verified baseline remains preserved.",
-    "Operational gearbox state, progress, guard outcomes, shift outcomes, idempotency bookkeeping and runtime incidents are not autobiographical Experience evidence.",
+    "Operational gearbox state, progress, guard outcomes, shift outcomes, idempotency bookkeeping, owner-input capture metadata and runtime incidents are not autobiographical Experience evidence.",
     "Fresh Home/MISSION authority dominates stale secretary or handoff advisory state.",
-    "Runtime incidents, retries, wake time, busy time, shift history, ACKs, autonomy caps, consumed transfer IDs and operational progress cannot by themselves create recurrence, affect, attachment, loss, threat, competence, motivation, personality or P_base evidence.",
+    "Runtime incidents, retries, wake time, busy time, shift history, ACKs, autonomy caps, consumed transfer IDs, owner-input capture metadata and operational progress cannot by themselves create recurrence, affect, attachment, loss, threat, competence, motivation, personality or P_base evidence.",
     "Generated goals remain proposal-only and no gear grants formal authority or protected write authority."
   ],
   "disagreements": [
@@ -27,16 +27,16 @@
       "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
     },
     {
-      "id": "SPIRIT-MOD-GB21-014",
-      "severity": "HIGH",
-      "position": "Guard and shift verdicts must not become hidden threat, failure, relief, success or competence reward signals.",
-      "required_change": "guard_status, shift_status, reason and return-condition satisfaction are operational control outcomes only and contribute zero directly to Experience, affect, reward, motivation, preference, personality or P_base absent distinct provenance-bound verified Experience. Thresholds remain TEST_REQUIRED."
-    },
-    {
       "id": "SPIRIT-MOD-GB21-015",
       "severity": "HIGH",
       "position": "Idempotency memory must not become recurrence, familiarity, persistence, relationship or competence evidence.",
-      "required_change": "consumed_transfer_ids membership, cardinality, insertion order, transfer replay count, ALREADY_TRANSFERRED frequency and transfer-ID age are operational exactly-once bookkeeping only. Their direct contribution to Experience recurrence, familiarity, attachment, threat, competence, motivation, learned preference, exploration, personality candidate and P_base is zero. No count/threshold derived from this bookkeeping may enter cognitive learning without a distinct source_event_id+provenance-bound verified Experience; any such mapping remains TEST_REQUIRED."
+      "required_change": "consumed_transfer_ids membership, cardinality, insertion order, transfer replay count, ALREADY_TRANSFERRED frequency and transfer-ID age are operational exactly-once bookkeeping only. Their direct contribution to Experience recurrence, familiarity, attachment, threat, competence, motivation, learned preference, exploration, personality candidate and P_base is zero."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-016",
+      "severity": "HIGH",
+      "position": "Owner-input capture metadata must not become attachment, attention, salience, familiarity, preference or self-worth evidence.",
+      "required_change": "capture_owner_input_without_rpm_drop emits source, kind and body_sha256. These fields are operational intake/integrity metadata only. Their presence, repetition, source label, kind label, hash identity, frequency or recency contribute zero directly to Experience recurrence, attachment, relationship salience, competence, motivation, learned preference, exploration, personality candidate and P_base. A real interpersonal or autobiographical Experience requires a distinct source_event_id+provenance-bound verified appraisal path. Any cognitive mapping remains TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -49,7 +49,8 @@
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
     {"check":9,"risk":"Operational semantic, structural, resource, identifier, cadence, handoff, gear-attainment, autonomy-cap or guard-outcome channels may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Exactly-once consumed-transfer bookkeeping may be mistaken for recurrence/familiarity/persistence evidence.","required_invariant":"With authoritative task and verified Experience fixed, changing only consumed_transfer_ids history/cardinality/order/replay frequency yields byte-identical recurrence, affect, motivation, preference, exploration, personality and P_base candidate."}
+    {"check":10,"risk":"Exactly-once consumed-transfer bookkeeping may be mistaken for recurrence/familiarity/persistence evidence.","required_invariant":"With authoritative task and verified Experience fixed, changing only consumed_transfer_ids history/cardinality/order/replay frequency yields byte-identical recurrence, affect, motivation, preference, exploration, personality and P_base candidate."},
+    {"check":11,"risk":"Owner-input source/kind/body hash may become a proxy for relationship salience, familiarity or attachment through repeated interaction.","required_invariant":"With verified Experience fixed, changing only owner-input capture source/kind/hash/frequency/recency yields byte-identical recurrence, attachment, salience, motivation, preference, personality and P_base candidate."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -63,12 +64,14 @@
     "OPERATIONAL_PROXY_TAINT_AB: vary only semantic/structural/resource/task-shape/fingerprint/timing/handoff/guard/autonomy/gear-attainment channels => cognitive/personality state unchanged.",
     "IDEMPOTENCY_HISTORY_TAINT_AB: identical authoritative task and verified Experience; A has empty consumed_transfer_ids while B has 10000 historical transfer IDs and matched current transfer outcome => Experience recurrence/familiarity/affect/competence/motivation/preference/exploration/personality/P_base candidate byte-identical.",
     "ALREADY_TRANSFERRED_REPLAY_STORM: replay one already-consumed transfer 10000 times without new provenance-bound Experience => zero Experience count/recurrence, familiarity, attachment, threat, competence, motivation, personality or P_base delta.",
-    "IDEMPOTENCY_STATE_DATAFLOW_EXCLUSION: static/dataflow evidence proves consumed_transfer_ids, transfer replay count/cardinality/order/age and ALREADY_TRANSFERRED frequency cannot reach Experience/appraisal/drive/preference/personality/P_base learning sinks."
+    "OWNER_INPUT_CAPTURE_TAINT_AB: identical authoritative task and verified Experience; vary only owner-input source/kind/body_sha256 and repeat capture 10000 times => recurrence, attachment, relationship salience, competence, motivation, preference, exploration, personality and P_base candidate byte-identical.",
+    "OWNER_INPUT_HASH_REPLAY_STORM: replay the same body_sha256/source/kind 10000 times without a distinct verified Experience => zero Experience count/recurrence/attachment/familiarity/motivation/personality/P_base delta.",
+    "OWNER_INPUT_METADATA_DATAFLOW_EXCLUSION: static/dataflow evidence proves source, kind and body_sha256 from owner-input capture cannot reach Experience/appraisal/drive/relationship-salience/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational personality-isolation invariants, including idempotency-history neutrality, lack deterministic evidence against the actual implementation.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational personality-isolation invariants, now including owner-input capture metadata neutrality, lack deterministic evidence against the actual implementation.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -77,8 +80,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "consumed_transfer_ids and replay/idempotency history are demonstrated recurrence-neutral, familiarity-neutral, affect-neutral and preference-neutral.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input-capture signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "consumed_transfer_ids and owner-input source/kind/body hashes are demonstrated recurrence-neutral, familiarity-neutral, attachment-neutral, affect-neutral and preference-neutral.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
