@@ -1,25 +1,25 @@
 {
-  "schema_version": "6.7",
+  "schema_version": "6.8",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-20T14:27:00+08:00",
+  "recorded_at": "2026-08-20T14:33:26+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
     "Archive No-Read Fence targeted startup through Home continuity pointer, Active-8, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
     "Direct Home#73 lookup remained unavailable; continuity was retained only through the fresh Active-8 exact pointer and no broad archive read was performed.",
     "Checked current exact six Gearbox blobs. Connector exact blobs are inspectable but not mountable into one trusted same-runner filesystem, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical result is promoted.",
-    "Reconciled paired speed gate using only required paired metrics and identical denominator/censoring semantics; no awake/window/commit/heartbeat/poll/retry proxies were used.",
-    "Updated latest-only selftest, speed baseline and canonical EVOLUTION_PROGRESS because W02 advanced materially from 1230 to 1330.",
+    "Confirmed current v2 code parses nonessential pressure telemetry before calling v1 terminal rollback/standby authority, matching new W02 HIGH finding 077.",
+    "Updated latest-only selftest, speed baseline and canonical EVOLUTION_PROGRESS because W02 advanced materially from 1330 to 1431.",
     "Checkpoint overwrite was attempted twice but GitHub Contents API returned 409 while fresh readback still showed the prior checkpoint blob; canonical progress and this receipt carry the current delta without falsely claiming checkpoint overwrite.",
-    "Fresh-read MISSION_STATE, canonical EVOLUTION_PROGRESS, selftest and speed baseline after writes; expected SHA/status bindings matched before receipt confirmation."
+    "Fresh-read MISSION_STATE, canonical EVOLUTION_PROGRESS, selftest, speed baseline and receipt after writes; expected status bindings must match before final owner report."
   ],
   "material_delta": [
-    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1330 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
-    "New MEDIUM_HIGH QV-GB21-SPEED-METRIC-SEMANTIC-DRIFT-076: v2 contract names rework_or_rollback_ratio while v2.1 contract names rework_ratio, so rollback treatment can differ between paired arms and manufacture a false speedup.",
-    "Release now requires one immutable versioned SpeedMetricManifest shared by baseline and candidate, defining rollback inclusion, exact numerator/denominator event classes, exposure/censoring rules and experiment epoch; metric-definition changes require a new epoch and cannot be pooled.",
-    "Existing 075/074/073 plus remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain.",
+    "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1431 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
+    "New HIGH QV-GB21-V2-TERMINAL-PRESSURE-PARSE-BLOCK-077: select_gear_v2 parses context/tool/stale/anchor/progress/storage/uncertainty/evidence/task telemetry before v1 terminal authority, so malformed nonessential telemetry can suppress trusted rollback_required/standby before terminal R/N is produced.",
+    "Release now requires structural terminal-authority intake before nonessential pressure telemetry across v1/v2/v2.1, or an independently trusted terminal envelope whose evaluation cannot be suppressed by telemetry parsing.",
+    "Existing 076/075/074/073 plus remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain.",
     "Dedicated W03 Gearbox v2.1 review remains absent; W04 1332 remains stale/veto-active. Paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
@@ -27,18 +27,18 @@
     "home_latest_continuity_gearbox": "DIRECT_HOME73_LOOKUP_UNAVAILABLE_ACTIVE8_POINTER_USED_NO_BROAD_ARCHIVE_READ",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed_before_w01_bookkeeping": "4344e47545a9ffcae18bbe39e19e56f8f228095f",
+    "latest_repository_head_observed_before_w01_bookkeeping": "67ed3c6389a8444c38ab1af5864f821a158abca8",
     "canonical_progress_overwritten": true,
     "checkpoint_overwrite": "ATTEMPTED_TWICE_409_NOT_CLAIMED",
     "receipt_bookkeeping_only": false
   },
   "readback_expected": {
-    "selftest_sha": "3aa039a7d9fb5a3c64580f915aaa60e520baf20d",
+    "selftest_sha": "82c34be1d1c1039b9200f49cea94883f3b05bf3c",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "0c708668a78c99d0377f07328ef0cee349c079be",
+    "speed_baseline_sha": "ba05a33c9d042cdd2147bcac443f41e7baaef10a",
     "speed_status": "INSUFFICIENT_SAMPLE",
     "checkpoint_sha": "c4306ac5a8bdef281dabff1617e33a15af4a87d5c",
-    "progress_sha": "ede268b68e31c77c2c3c3f5d81d6c6757faeb204"
+    "progress_sha": "d34886c74911aab7817c06f358d4eef79047b84a"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -55,7 +55,7 @@
   },
   "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","Identity":"NO_V2_1_MUTATION_AUTHORITY","Personality":"NO_V2_1_MUTATION_AUTHORITY","Governance":"NO_V2_1_MUTATION_AUTHORITY","real_5min_runtime_live":false},
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260820-1330_CURRENT_BOUNDED_VETO_ACTIVE_SPEED_METRIC_SEMANTIC_DRIFT_076_PLUS_075_074_073",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260820-1431_CURRENT_BOUNDED_VETO_ACTIVE_V2_TERMINAL_PRESSURE_PARSE_BLOCK_077_PLUS_076_075_074_073",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -68,5 +68,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_FINAL_READBACK"
 }
