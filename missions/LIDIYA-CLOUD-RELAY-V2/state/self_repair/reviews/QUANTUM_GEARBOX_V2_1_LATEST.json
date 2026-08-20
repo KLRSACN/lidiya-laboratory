@@ -1,6 +1,6 @@
 {
-  "schema_version": "5.3",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1928",
+  "schema_version": "5.4",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-2031",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; Home#73 retained only through fresh Active-8 exact pointer; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_SCHEMA_6.67-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_SCHEMA_6.69-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -22,7 +22,7 @@
     "own_latest_review": "READ_OK"
   },
   "source_fingerprints": {
-    "active8_sha": "035f4b129ca2a7f3e5da1c0b4203409ec142c76c",
+    "active8_sha": "2b48210ea3732b735be16268f487a30bc09e5b35",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -32,7 +32,7 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_latest_review_sha": "679bad680d5d4cfed57e5655d158b1ef04e66300"
+    "previous_latest_review_sha": "9208c383cef181901cb5d3b13967f1f793ed4313"
   },
   "agreements": [
     "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor code and does not claim C PASS.",
@@ -44,28 +44,16 @@
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-EVENT-KIND-CANONICAL-PARSER-083",
+      "severity": "HIGH",
+      "finding": "New exact-current finding: event_kind has no single canonical typed parser across v2/v2.1. experience_candidate_delta uses str(event_kind).strip().upper(); select_gear_v2 later calls event_kind.upper() on the raw caller object; select_gear_v2_1 uses str(event_kind).upper() without strip before verified/operational classification. Non-string values can therefore crash the inherited v2 path, while whitespace-padded strings can receive positive credit in one path but fail verified/operational classification in another.",
+      "required_change": "Introduce one canonical EventKind parser shared by v2/v2.1 and the ledger; parse exactly once, reject non-string/ambiguous values fail-closed, normalize whitespace/case once, and make credit, verified eligibility, ledger classification and v2.1 projection consume that same canonical value."
+    },
+    {
       "id": "QV-GB21-PROPOSED-AUTONOMY-CAP-082",
       "severity": "HIGH",
-      "finding": "New exact-current finding: v1 accepts proposed_autonomy in 0..6, but only applies the cap when proposed_autonomy > 0 and then forces the normal selected gear through max(2,...). Consequently proposed_autonomy=0 does not constrain autonomy at all, and proposed_autonomy=1 can still return G2. Because v2/v2.1 inherit v1 selection, proposed_autonomy cannot currently be claimed as a trustworthy maximum-autonomy or maximum-gear ceiling for the candidate path.",
-      "required_change": "Define canonical semantics for proposed_autonomy 0..6 and enforce them identically across v1/v2/v2.1. If 0 means no autonomous execution, map it to N or an explicit nonexecuting state; if 1 means a G1 ceiling, never return G2+. If the field is not an authority ceiling, rename/recontract it so callers cannot rely on a false safety guarantee."
-    },
-    {
-      "id": "QV-GB21-RISK-NULL-COERCION-081",
-      "severity": "HIGH",
-      "finding": "select_gear_v2 normalizes risk with str(risk).strip().upper(); Python None becomes literal NONE, a valid lowest-risk class. Missing/null risk can therefore fail open as safest risk.",
-      "required_change": "Use one explicit typed RiskLevel parser shared by v1/v2/v2.1; reject null/non-string/ambiguous values and require explicit NONE for no-risk."
-    },
-    {
-      "id": "QV-GB21-V2-TERMINAL-TELEMETRY-PARSE-BLOCK-080",
-      "severity": "HIGH",
-      "finding": "select_gear_v2 parses nonessential pressure telemetry before v1 can apply authenticated rollback_required/standby, so malformed telemetry can suppress trusted R/N.",
-      "required_change": "Resolve authenticated terminal authority before nonessential telemetry, or consume a prevalidated telemetry envelope whose parse failure cannot suppress R/N."
-    },
-    {
-      "id": "QV-GB21-FIRST-CLAIM-IDENTITY-POISON-079",
-      "severity": "HIGH",
-      "finding": "aggregate_experience_events reserves event_id before accepted evidence/verifier binding is proven, so rejected/unverified/ignored first claims can suppress a later legitimate claim of the same identity.",
-      "required_change": "Reserve identity only after acceptance; exact accepted replay NO_OP; same-ID/different-binding IDENTITY_CONFLICT; rejected/unverified/ignored claims reserve nothing."
+      "finding": "v1 accepts proposed_autonomy in 0..6, but only applies the cap when proposed_autonomy > 0 and then forces normal selection through max(2,...); proposed_autonomy=0 does not constrain autonomy and proposed_autonomy=1 can still return G2.",
+      "required_change": "Define one canonical proposed_autonomy 0..6 meaning shared by v1/v2/v2.1, or explicitly recontract the field as non-authoritative."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -135,10 +123,8 @@
     }
   ],
   "statistical_risks": [
-    "proposed_autonomy 0/1 can be interpreted as a hard autonomy ceiling by callers even though current v1 floor semantics can return G2, invalidating authority-cap comparisons.",
-    "Null/missing risk can alias to explicit NONE under string coercion, biasing safety routing toward permissive gears.",
-    "Malformed nonessential telemetry can censor terminal rollback/standby, biasing recovery and safety-path latency measurements.",
-    "First-claim identity poisoning can suppress later legitimate evidence and makes acceptance/rejection statistics order-dependent.",
+    "EventKind parser divergence can create path-dependent classification: the same logical event may gain credit in one layer but lose verified/operational status in another, invalidating ledger and longitudinal comparisons.",
+    "Non-string event_kind values can crash the inherited v2 path before bounded v2.1 handling, creating denial-of-evidence and batch/order bias.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
     "Small-n caller-supplied shift-rate estimates can false-trigger anti-thrash or chatter around the threshold.",
     "Anti-thrash may improve gear_shift_rate while degrading cycle, closure or recovery latency.",
@@ -149,15 +135,13 @@
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-PROPOSED-AUTONOMY-CAP-174: with all other inputs permissive, test proposed_autonomy=0 and =1 against the predeclared authority ceiling; neither may silently yield a higher autonomous gear than its canonical meaning.",
-    "GB21-PROPOSED-AUTONOMY-CROSSPATH-175: v1/v2/v2.1 must use one canonical 0..6 semantics; wrappers may only preserve or tighten the ceiling, never loosen it.",
-    "GB21-RISK-NULL-COERCION-171 and canonical RiskLevel boundary tests remain required.",
-    "GB21-V2-ROLLBACK-PRESSURE-PARSE-168 and GB21-V2-STANDBY-PRESSURE-PARSE-169 remain required.",
-    "GB21-FIRST-CLAIM-POISON-165 and same-ID/different-binding IDENTITY_CONFLICT coverage remain required.",
+    "GB21-EVENT-KIND-CANONICAL-176: feed canonical, whitespace-padded and case-varied forms of every event kind through experience_candidate_delta, select_gear_v2, aggregate_experience_events and select_gear_v2_1; every path must yield one identical canonical classification and credit result.",
+    "GB21-EVENT-KIND-TYPE-177: event_kind=None/123/true/list/mapping/object must fail closed through the same GearboxGuardError boundary; no raw AttributeError/TypeError and no silent str coercion into an authoritative class.",
+    "GB21-EVENT-KIND-CROSSPATH-178: VERIFIED_RECOVERY and DURABLE_PROGRESS with leading/trailing whitespace must not produce credit/classification disagreement between v2 and v2.1.",
     "Secretary freshness-forge and exact AuthorityDecisionEnvelope projection tests remain required.",
     "Shift-rate provenance, small-n false-trigger, chatter/release and paired performance non-regression tests remain required.",
     "Cross-run replay, rollback replay, same-evidence/new-ID lineage and exact verifier receipt tests remain required.",
-    "Operational progress without durable artifact/defect receipt must yield zero authoritative operational credit.",
+    "DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND without durable artifact/defect receipt must yield zero authoritative operational credit.",
     "Paired speed baseline must use durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency under sealed matched workloads and randomized/crossover order."
   ],
   "bounded_veto": {
@@ -170,10 +154,8 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
-      "claim that proposed_autonomy is a trustworthy hard maximum-autonomy/gear ceiling while 0/1 can still yield the v1 normal G2 floor",
-      "claim that risk is fail-closed while null/missing risk can string-coerce into explicit NONE",
-      "claim that terminal rollback/standby has structural precedence while nonessential telemetry can abort before R/N is formed",
-      "claim that event identity/replay semantics are exactly-once while rejected first claims can reserve identity and accepted state is invocation-local",
+      "claim that event classification is canonical while v2/v2.1 parse event_kind differently and can crash or diverge on type/whitespace",
+      "claim that proposed_autonomy is a trustworthy hard maximum-autonomy/gear ceiling under current v1 floor semantics",
       "claim that secretary freshness or fresh-authority precedence is executable from current caller booleans",
       "claim that anti-thrash is calibrated or performance-safe from current caller-supplied shift ratio",
       "authoritative verified Experience accounting from current raw-field paths",
@@ -183,26 +165,24 @@
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
-    "proposed_autonomy has one explicit canonical 0..6 authority meaning shared by v1/v2/v2.1; values 0 and 1 cannot silently produce an autonomous gear above their declared ceiling, or the field is explicitly redefined as non-authoritative.",
-    "Risk input uses a single explicit typed fail-closed boundary; null/missing/non-string values cannot alias to NONE or any permissive risk class.",
-    "Authenticated rollback/standby terminal authority is resolved before nonessential telemetry parsing across v2/v2.1; malformed routing telemetry cannot suppress trusted R/N.",
-    "Rejected/unverified/ignored records do not reserve event identity; accepted identities bind exact canonical event/evidence/verifier receipts; exact replay NO_OPs and same-ID/different-binding becomes IDENTITY_CONFLICT.",
-    "A durable rollback-resistant event/evidence acceptance registry prevents same-ID replay, same-evidence/new-ID laundering, restart/rollback replay and first-claim identity poisoning.",
-    "Secretary routing inputs use replay-resistant provenance/freshness binding and authority_conflict projects an exact trusted authority decision rather than merely neutralizing secretary_level.",
-    "recent_shift_rate_ratio is derived from canonical shift history with precommitted support/window/uncertainty and stateful enter/exit hysteresis; paired performance shows no safety-upshift or latency regression.",
-    "verified_progress_density remains observational unless independently derived and non-self-reinforcing.",
-    "Verified Experience requires exact evidence identity and trusted C/independent-verifier acceptance receipt; v2.1 cannot re-mint verified credit from raw caller fields.",
-    "Operational progress requires durable artifact/defect acceptance receipt and lineage dedupe; raw event_kind/event_id is insufficient.",
-    "5/4/3/1 credit weights remain explicitly heuristic and are never used as direct capability/Trust/Identity/Personality/Governance or promotion truth.",
-    "Speedup uses one frozen versioned metric manifest shared by baseline/candidate and a sealed matched paired/randomized-crossover evaluation over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency, with fixed numerator/denominator provenance, exposure/censoring, assigned-workload coverage, uncertainty and verification/risk non-regression."
+    "One canonical typed EventKind parser is shared by v2/v2.1 and ledger; non-string/ambiguous values fail closed and whitespace/case normalization cannot produce cross-path classification or credit divergence.",
+    "Secretary signal provenance/freshness is replay-resistant and fresh authority is projected from an exact trusted authority decision, not caller booleans.",
+    "recent_shift_rate_ratio is derived from canonical shift history with precommitted denominator/sample/window/uncertainty and bounded hysteretic release; paired performance non-regression passes.",
+    "verified_progress_density remains observational unless independent derivation and anti-self-reinforcement tests pass.",
+    "Accepted event identity and evidence lineage are durable and rollback-resistant; exact replay NO_OPs, same evidence/new ID cannot re-credit, and same-ID/different-binding is IDENTITY_CONFLICT.",
+    "Verified Experience requires exact evidence hash plus trusted C/independent-verifier acceptance receipt; v2.1 cannot re-mint verified credit from raw fields.",
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only and authoritative operational credit requires durable artifact/defect acceptance receipt.",
+    "Credit weights remain explicitly heuristic and are forbidden as capability/Trust/Identity/Personality/Governance truth or promotion thresholds.",
+    "Speedup requires sealed matched paired/randomized-crossover evidence on durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency with frozen metric definitions, uncertainty and verification/risk non-regression.",
+    "Formal A->B->C is not entered until candidate vetoes are resolved; v1 verified baseline remains preserved."
   ],
+  "next_state": "RETURN_ALWAYS_ON_RUNTIME_THEN_SMALL_WORLD; QUANTUM_MAY_WRITE_ONLY_IF_EXACT_ENDPOINT_AUTHENTICATES_QUANTUM",
   "boundaries": {
-    "p_base": "READ_ONLY_UNCHANGED",
+    "P_base": "READ_ONLY_UNCHANGED",
+    "heartbeat_poll_retry_window_age_is_experience": false,
+    "gearbox_v1_verified_baseline": "PRESERVED",
     "formal_mutation": false,
-    "formal_c_pass_claimed": false,
-    "heartbeat_poll_retry_window_age_are_experience": false,
-    "v1_verified_baseline": "PRESERVED",
-    "gearbox_v2_v2_1": "CANDIDATE_ONLY",
     "real_5min_runtime_live": false
-  }
+  },
+  "created_at": "2026-08-20T20:31:00+08:00"
 }
