@@ -1,16 +1,14 @@
 {
-  "schema_version": "4.33",
+  "schema_version": "4.34",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T23:27:44+08:00",
+  "recorded_at": "2026-08-21T00:23:43+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current six Gearbox blobs are exact-inspectable through the GitHub connector, but no trusted same-runner filesystem executor is available. Latest pre-bookkeeping branch head has zero qualifying workflow runs. No exact-current compile/test execution was performed and no historical PASS is promoted.",
+    "reason": "Current six Gearbox blobs are exact-inspectable through the GitHub connector, but no trusted same-runner filesystem executor is available. No exact-current compile/test execution was performed and no historical PASS is promoted.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "1351b2573d8f467bd73251a421f28572b45f0b40",
-    "runner_provenance": "GitHub connector exact-blob inspection plus commit workflow-run lookup; no trusted same-runner mount surface",
-    "latest_head_workflow_runs": 0,
+    "runner_provenance": "GitHub connector exact-blob inspection; no trusted same-runner mount surface",
     "fresh_acquisition_exit_code": null,
     "fresh_test_exit_code": null,
     "historical_results_reusable_as_fresh_pass": false
@@ -43,6 +41,6 @@
   },
   "baseline": {"v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE", "v2": "CANDIDATE", "v2_1": "CANDIDATE"},
   "boundaries": {"P_base": "READ_ONLY_UNCHANGED", "Identity": "NO_MUTATION_AUTHORITY", "Personality": "NO_MUTATION_AUTHORITY", "Governance": "NO_MUTATION_AUTHORITY", "heartbeat_poll_retry_window_age_counts_as_experience": false, "real_5min_runtime_live": false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-2228 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-EVENT-ID-NULL-COERCION-085: aggregate_experience_events uses str(event.get(event_id)).strip(), so literal None becomes the non-empty identity string 'None'; bool/numeric/list/mapping/object IDs are likewise coercible. Current v2.1 tests do not cover null/non-string canonical EventIdentity. Release requires one typed canonical EventIdentity boundary accepting only bounded explicit string IDs or deterministic structured-envelope hashes; null/missing/non-string values fail closed. Existing HIGH RiskLevel 084, EventKind 083 and authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 absent; W04 stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-2331 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-INHERITED-SAFETY-METADATA-PROJECTION-086: GearboxV21Decision drops inherited v2 checkpoint_required, receiver_ack_required, verification_gate, real_experience_claim_allowed and pressure_score. Release requires complete safety-critical metadata re-projection or an immutable exact inherited-decision fingerprint/reference verified downstream. Existing HIGH EventIdentity 085 plus authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 absent; W04 stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
