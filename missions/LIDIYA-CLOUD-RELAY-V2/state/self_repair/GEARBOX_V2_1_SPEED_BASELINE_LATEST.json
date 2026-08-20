@@ -1,7 +1,7 @@
 {
-  "schema_version": "5.15",
+  "schema_version": "5.16",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T13:23:00+08:00",
+  "recorded_at": "2026-08-20T14:26:00+08:00",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
   "forbidden_proxies": ["awake_time", "window_age", "commit_count", "heartbeat_count", "poll_count", "retry_count", "task_last_run"],
@@ -15,11 +15,18 @@
     "stale_pointer_rate": "INSUFFICIENT_SAMPLE",
     "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
   },
+  "speed_metric_manifest": {
+    "status": "PRECOMMIT_REQUIRED_TEST_REQUIRED",
+    "reason": "Current v2 contract names rework_or_rollback_ratio while v2.1 contract names rework_ratio; paired evaluation cannot begin until one immutable versioned manifest freezes identical metric semantics for both arms.",
+    "required_fields": ["manifest_version","manifest_hash","rollback_included_in_rework","exact_numerator_event_classes","exact_denominator_event_classes","exposure_clock","censoring_rules","experiment_epoch"],
+    "same_manifest_hash_required_for_both_arms": true,
+    "metric_definition_change_requires_new_experiment_epoch": true
+  },
   "pairing_rule": "Use matched baseline/candidate assigned workloads with equal verification/risk and precommitted eligible-wake, exposure/censoring and admission/defer/timeout policies. Randomize AB/BA or crossover from the same sealed starting snapshot and report intention-to-treat coverage plus order/carryover interaction.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "rule": "Both arms must use identical authoritative Experience/operational classification, immutable accepted-receipt semantics, trusted canonical C_VERIFIED stage binding, canonical EventIdentity/EventKind intake, durable replay semantics, structural terminal precedence, authority/freshness provenance, evidence-bound operational progress, exhaustive conserved ledger outcomes, EventKind-first verifier parsing, per-field routing telemetry provenance/freshness, terminal authority precedence over nonessential telemetry parsing, and the same bounded ledger-ingestion record/time/memory budget plus resumable continuation semantics.",
-    "reject": "No positive speed claim from awake/window/commit/heartbeat/poll/retry proxies, raw caller credit, replay inflation, stale secretary pressure leakage, vanished failed-verification records, irrelevant-verifier batch censoring, terminal R/N censoring, or comparing arms under different ledger batch budgets/overflow behavior."
+    "rule": "Both arms must use the same immutable SpeedMetricManifest and identical authoritative Experience/operational classification, immutable accepted-receipt semantics, trusted canonical C_VERIFIED stage binding, canonical EventIdentity/EventKind intake, durable replay semantics, structural terminal precedence, authority/freshness provenance, evidence-bound operational progress, exhaustive conserved ledger outcomes, EventKind-first verifier parsing, per-field routing telemetry provenance/freshness, terminal authority precedence over nonessential telemetry parsing, and the same bounded ledger-ingestion record/time/memory budget plus resumable continuation semantics.",
+    "reject": "No positive speed claim from awake/window/commit/heartbeat/poll/retry proxies, raw caller credit, replay inflation, stale secretary pressure leakage, vanished failed-verification records, irrelevant-verifier batch censoring, terminal R/N censoring, differing rework/rollback definitions, or comparing arms under different ledger batch budgets/overflow behavior."
   },
   "selection_bias_control": {
     "status": "TEST_REQUIRED",
@@ -27,7 +34,7 @@
   },
   "current_candidate_binding": {
     "source_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "b62a9936e704b55aff021d59bb857cc0395c9699",
+    "latest_repository_head_observed": "4344e47545a9ffcae18bbe39e19e56f8f228095f",
     "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "v1_test": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "v2_source": "13aafeed851a2b5453dd36eaf64b85552bc79838",
@@ -36,6 +43,6 @@
     "v2_1_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "exact_validation": "DEFER_EXECUTOR_UNAVAILABLE"
   },
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260820-1230 is fresh to current exact bytes and remains BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH LEDGER-UNBOUNDED-BATCH-RESOURCE-075 requires precommitted bounded record/time/memory ingestion with deterministic resumable BATCH_LIMIT_REACHED semantics so large/nonterminating iterables cannot stall availability or bias latency. Existing HIGH 074/073/072, MEDIUM_HIGH 071 and remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260820-1330 is fresh to current exact bytes and remains BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH SPEED-METRIC-SEMANTIC-DRIFT-076 requires a shared immutable SpeedMetricManifest because v2 names rework_or_rollback_ratio while v2.1 names rework_ratio. Existing 075/074/073 and remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
