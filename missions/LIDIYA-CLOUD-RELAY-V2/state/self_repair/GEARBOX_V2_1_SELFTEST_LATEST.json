@@ -1,15 +1,15 @@
 {
-  "schema_version": "4.21",
+  "schema_version": "4.22",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T10:35:00+08:00",
+  "recorded_at": "2026-08-20T11:36:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact six Gearbox blobs remain inspectable through the GitHub connector, but connector blobs are not mountable into one trusted same-runner filesystem. No exact-current compile/test execution was performed and no historical PASS is promoted.",
+    "reason": "Current exact six Gearbox blobs remain inspectable through the GitHub connector, but connector blobs are not mountable into one trusted same-runner filesystem. The fresh review-only branch head has no qualifying workflow run. No exact-current compile/test execution was performed and no historical PASS is promoted.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "702e174ebce3ae8abf4c00fb7c4c45b6ad964397",
-    "runner_provenance": "GitHub connector exact-blob inspection; no trusted mountable same-runner exact-byte executor available",
+    "latest_repository_head_observed": "018386e1a01b511ac0543b7332ce5ab2a13c72ca",
+    "runner_provenance": "GitHub connector exact-blob inspection plus exact-head workflow lookup; no trusted mountable same-runner exact-byte executor available",
     "fresh_acquisition_exit_code": 128,
     "fresh_acquisition_error": "NO_TRUSTED_SAME_RUNNER_EXACT_BYTE_EXECUTOR_AVAILABLE",
     "fresh_test_exit_code": null,
@@ -43,6 +43,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1030 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-STALE-SECRETARY-PRESSURE-PROVENANCE-073: secretary freshness currently neutralizes secretary_level only; routing-relevant numeric pressure fields remain unbound to per-field source/freshness and stale secretary-derived telemetry can still force checkpoint/downshift. Release requires typed per-field source/freshness provenance and exclusion of stale or authority-conflicting secretary-derived pressure while independent fresh runtime telemetry may remain usable. Existing 072/071 plus authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1132 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-TERMINAL-TELEMETRY-PARSE-BLOCK-074: select_gear_v2_1 parses recent_shift_rate_ratio and verified_progress_density before inherited v2 can produce authenticated rollback R or standby N, so malformed or out-of-range nonessential telemetry can suppress terminal safety authority. Release requires terminal/safety authority to precede nonessential telemetry parsing, or a separately validated trusted telemetry envelope whose failure cannot suppress authenticated R/N, with explicit regression tests. Existing 073/072/071 plus authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
