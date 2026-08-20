@@ -1,6 +1,6 @@
 {
-  "schema_version": "4.5",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1132",
+  "schema_version": "4.6",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1230",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; Home#73 retained only through fresh Active-8 pointer; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_SCHEMA_6.60-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_SCHEMA_6.61-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -22,7 +22,7 @@
     "own_latest_review": "READ_OK"
   },
   "source_fingerprints": {
-    "active8_sha": "a780a95a2a6e33d12172c907a033064480c634e6",
+    "active8_sha": "9fe27915106236b30745bf9a4fefc5037188a4f9",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -34,37 +34,43 @@
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
   },
   "agreements": [
-    "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; no formal/code mutation and no C PASS claim.",
+    "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review mutates neither formal state nor candidate code and does not claim C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only in the v2.1 classification boundary and must never be promoted to verified Experience merely by repetition.",
-    "verified_progress_density is currently reason-only and should remain observational until independently derived and tested against feedback reinforcement.",
-    "Strict bool intake covers v2 authority-sensitive booleans and the v2.1 secretary/authority flags; type coercion is not treated as a current defect for those fields.",
-    "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED."
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only in the v2.1 semantic boundary; repetition cannot promote them to verified Experience.",
+    "verified_progress_density is reason-only in current v2.1 and should remain observational until independently derived and anti-self-reinforcement tested.",
+    "Strict bool intake is present for v2 authority-sensitive booleans and v2.1 secretary/authority flags; those type-coercion defects are not current findings.",
+    "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED; commits, wakes, heartbeats or awake time are invalid substitutes."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-LEDGER-UNBOUNDED-BATCH-RESOURCE-075",
+      "severity": "MEDIUM_HIGH",
+      "finding": "aggregate_experience_events accepts an arbitrary Iterable with no maximum record budget, time budget, streaming cursor or bounded seen-set policy. A very large or non-terminating iterable can consume unbounded CPU/time and grow the per-call seen set until the review/runtime path stalls. This is distinct from replay-credit inflation: even unique, syntactically valid IDs can exhaust ingestion resources and bias latency/availability measurements.",
+      "required_change": "Add a versioned bounded ingestion contract: precommitted maximum records and/or monotonic processing budget per batch, deterministic continuation cursor, explicit BATCH_LIMIT_REACHED outcome, and bounded memory semantics. Never silently drop accepted evidence; overflow must be resumable and auditable. Thresholds remain TEST_REQUIRED."
+    },
+    {
       "id": "QV-GB21-TERMINAL-TELEMETRY-PARSE-BLOCK-074",
       "severity": "HIGH",
-      "finding": "select_gear_v2_1 parses recent_shift_rate_ratio and verified_progress_density before it calls inherited v2, so malformed or out-of-range nonessential telemetry can raise before a trusted rollback_required->R or standby->N terminal control state is produced. The later N/R anti-thrash bypass does not protect this earlier parse point.",
-      "required_change": "Terminal/safety authority must precede nonessential anti-thrash/progress telemetry parsing, or those telemetry fields must arrive in a separately validated trusted envelope whose failure cannot suppress an authenticated rollback/standby command. Add explicit R/N precedence tests with malformed/out-of-range telemetry."
+      "finding": "select_gear_v2_1 parses recent_shift_rate_ratio and verified_progress_density before inherited v2 can produce authenticated rollback R or standby N, so malformed/out-of-range nonessential telemetry can suppress terminal safety evaluation.",
+      "required_change": "Terminal/safety authority must precede nonessential telemetry parsing, or telemetry must arrive through a separately validated trusted envelope whose failure cannot suppress authenticated R/N."
     },
     {
       "id": "QV-GB21-STALE-SECRETARY-PRESSURE-PROVENANCE-073",
       "severity": "HIGH",
-      "finding": "v2.1 freshness handling neutralizes secretary_level only. Numeric pressure inputs remain unbound to per-field source/freshness, so stale secretary-derived telemetry can still force checkpoint/downshift even while stale_secretary_ignored=true.",
-      "required_change": "Bind every routing-relevant telemetry component to typed source/freshness/scope/policy provenance; exclude stale or authority-conflicting secretary-derived components individually."
+      "finding": "Freshness logic neutralizes secretary_level only; routing-relevant numeric pressure fields remain unbound to per-field source/freshness, so stale secretary-derived telemetry can still force checkpoint/downshift.",
+      "required_change": "Bind every routing telemetry component to typed source/freshness/scope/policy provenance and exclude stale/conflicting secretary-derived components individually."
     },
     {
       "id": "QV-GB21-IRRELEVANT-VERIFIER-PARSE-072",
       "severity": "HIGH",
-      "finding": "aggregate_experience_events parses independently_verified for every identity-bearing event before deciding whether that event kind requires verifier semantics, so irrelevant malformed verifier metadata can abort a batch and censor later valid evidence.",
-      "required_change": "Canonicalize EventKind before verifier parsing; only verified classes enter verifier-receipt parsing, and irrelevant malformed verifier metadata must be bounded to that record."
+      "finding": "aggregate_experience_events parses independently_verified before determining whether the event kind requires verifier semantics, so irrelevant malformed verifier metadata can abort a batch and censor later valid evidence.",
+      "required_change": "Canonicalize EventKind first; only verified classes enter verifier parsing, and irrelevant malformed verifier metadata must be bounded to that record."
     },
     {
       "id": "QV-GB21-UNVERIFIED-CLAIM-AUDIT-SINK-071",
       "severity": "MEDIUM_HIGH",
-      "finding": "Verified-class events with independently_verified=false receive zero credit but disappear from ledger outcome accounting because there is no rejected_unverified outcome.",
-      "required_change": "Use exhaustive conserved outcomes: accepted_verified, accepted_operational, rejected_unverified, duplicate, identity_conflict, ignored_malformed."
+      "finding": "Verified-class events with independently_verified=false receive zero credit but disappear from outcome accounting because there is no rejected_unverified outcome.",
+      "required_change": "Use exhaustive conserved outcomes: accepted_verified, accepted_operational, rejected_unverified, duplicate, identity_conflict and ignored_malformed."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -75,7 +81,7 @@
     {
       "id": "QV-GB21-AUTHORITY-CONFLICT-NO-AUTHORITY-SNAPSHOT-018",
       "severity": "HIGH",
-      "finding": "authority_conflict=true only replaces secretary_level with UNKNOWN; it does not load or enforce the actual fresh authority decision.",
+      "finding": "authority_conflict=true only replaces secretary_level with UNKNOWN; it does not load, validate or enforce the actual fresh authority decision.",
       "required_change": "Project an exact trusted AuthorityDecisionEnvelope or fail closed."
     },
     {
@@ -134,7 +140,8 @@
     }
   ],
   "statistical_risks": [
-    "Malformed anti-thrash/progress telemetry can censor trusted terminal rollback/standby before terminal authority is evaluated, creating safety-state selection bias.",
+    "Unbounded event batches can cause memory/time exhaustion, make availability dependent on caller batch size, and bias cycle/recovery latency measurements even without duplicate-credit inflation.",
+    "Malformed anti-thrash/progress telemetry can censor trusted terminal rollback/standby before terminal authority is evaluated.",
     "Stale secretary telemetry can leak through unbound numeric pressure components even when secretary_level itself is ignored.",
     "Irrelevant verifier-field parsing can create batch-order denial-of-evidence and censor later valid observations.",
     "Unverified verified-class claims disappear from current ledger quality denominators.",
@@ -148,8 +155,10 @@
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-TERMINAL-TELEMETRY-PARSE-151: rollback_required=true with malformed recent_shift_rate_ratio and/or verified_progress_density must still reach authenticated R or an explicitly stronger terminal fail-closed result; nonessential telemetry may not suppress rollback authority.",
-    "GB21-STANDBY-TELEMETRY-PARSE-152: standby=true with malformed/out-of-range anti-thrash/progress telemetry must not crash before terminal standby semantics are evaluated.",
+    "GB21-LEDGER-BATCH-LIMIT-153: feed a finite batch just below, at and above the precommitted record budget; over-budget records must produce deterministic resumable BATCH_LIMIT_REACHED without losing or double-crediting accepted evidence.",
+    "GB21-LEDGER-NONTERMINATING-ITERABLE-154: an unbounded generator must not hang the ingestion path indefinitely; processing stops at the trusted budget and emits a continuation cursor with zero silent loss.",
+    "GB21-LEDGER-BUDGET-REPLAY-155: resume an overflowed batch repeatedly; exact accepted records remain NO_OP and continuation cannot inflate verified or operational credit.",
+    "GB21-TERMINAL-TELEMETRY-PARSE-151 and GB21-STANDBY-TELEMETRY-PARSE-152 remain required.",
     "GB21-STALE-PRESSURE-PROVENANCE-148 and GB21-AUTHORITY-PRESSURE-OVERRIDE-150 remain required.",
     "GB21-IRRELEVANT-VERIFIER-BATCH-145 and GB21-VERIFIER-PARSE-BY-KIND-147 remain required.",
     "GB21-LEDGER-OUTCOME-CONSERVATION-143 remains required.",
@@ -170,6 +179,7 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
+      "claim that Experience ledger ingestion is availability-bounded while event batch size/time/memory are unbounded",
       "claim that rollback/standby terminal authority is structurally protected while nonessential telemetry can abort before inherited terminal evaluation",
       "claim that stale secretary signals have zero routing effect until every routing-relevant secretary-derived field is freshness/provenance bound",
       "claim that authority precedence is executable until exact fresh AuthorityDecisionEnvelope projection exists",
@@ -181,6 +191,7 @@
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
+    "Experience ledger ingestion has a precommitted bounded record/time/memory budget with deterministic resumable continuation and replay-safe accounting; thresholds remain TEST_REQUIRED.",
     "Trusted rollback/standby terminal authority cannot be suppressed by malformed or out-of-range nonessential anti-thrash/progress telemetry; terminal precedence has explicit executable tests.",
     "Every routing-relevant secretary-derived telemetry field is bound to source/freshness/scope/policy; stale or authority-conflicting secretary-derived pressure is excluded while independent fresh runtime telemetry remains usable.",
     "Event kind is canonically classified before verifier parsing; only verified classes parse verifier evidence, and irrelevant malformed verifier metadata cannot censor later independent records.",
@@ -193,11 +204,13 @@
     "verified_progress_density remains observational until independent derivation and anti-self-reinforcement tests pass.",
     "Heartbeat/poll/retry/reconnect/wait/scheduler wake/window age/uptime remain zero Experience; P_base remains read-only.",
     "5/4/3/1 credit weights remain explicitly heuristic and are never capability truth or promotion authority.",
-    "Speedup is established only by sealed matched paired/randomized-crossover baselines using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency.",
-    "Quantum, dedicated Spirit review and fresh Navigator synthesis have zero unresolved material vetoes before formal A->B->C adoption."
+    "Speedup is established only by sealed matched paired/randomized-crossover baselines using durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen metric provenance, full assigned-workload coverage and equal-or-better verification/risk quality."
   ],
-  "return_to_runtime": {
-    "always_on_runtime": "RETURN_AFTER_DURABLE_READBACK",
-    "small_world": "CHECK_EXACT_ENDPOINT_AFTER_REVIEW; DO_NOT_IMPERSONATE_OTHER_SOURCE"
-  }
+  "decision_summary": [
+    "New material objection: Experience-ledger ingestion is computationally unbounded because aggregate_experience_events accepts arbitrary Iterable input with no record/time/memory budget or resumable overflow semantics.",
+    "The ten owner-priority checks remain bounded-veto active where applicable: secretary freshness/authority, small-n anti-thrash, anti-thrash performance, progress-density feedback, replay/lineage, operational-only classification, verifier evidence binding, heuristic credits and statistically valid speedup measurement.",
+    "No formal/code mutation, no C PASS claim, v1 verified baseline preserved, P_base read-only."
+  ],
+  "created_at": "2026-08-20T12:30:00+08:00",
+  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
