@@ -1,6 +1,6 @@
 {
-  "schema_version": "4.4",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1030",
+  "schema_version": "4.5",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1132",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; Home#73 retained only through fresh Active-8 pointer; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_SCHEMA_6.59-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_SCHEMA_6.60-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -22,7 +22,7 @@
     "own_latest_review": "READ_OK"
   },
   "source_fingerprints": {
-    "active8_sha": "fc3824bde4c7e6cb01831344d8164cbef6a1023d",
+    "active8_sha": "a780a95a2a6e33d12172c907a033064480c634e6",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -37,27 +37,33 @@
     "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; no formal/code mutation and no C PASS claim.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
     "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only in the v2.1 classification boundary and must never be promoted to verified Experience merely by repetition.",
-    "verified_progress_density is currently reason-only; it does not raise selected gear and should remain observational until independently derived and tested against feedback reinforcement.",
-    "Strict bool intake now covers v2 authority-sensitive booleans and the v2.1 secretary/authority flags; type coercion is not treated as a current defect for those fields.",
+    "verified_progress_density is currently reason-only and should remain observational until independently derived and tested against feedback reinforcement.",
+    "Strict bool intake covers v2 authority-sensitive booleans and the v2.1 secretary/authority flags; type coercion is not treated as a current defect for those fields.",
     "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-TERMINAL-TELEMETRY-PARSE-BLOCK-074",
+      "severity": "HIGH",
+      "finding": "select_gear_v2_1 parses recent_shift_rate_ratio and verified_progress_density before it calls inherited v2, so malformed or out-of-range nonessential telemetry can raise before a trusted rollback_required->R or standby->N terminal control state is produced. The later N/R anti-thrash bypass does not protect this earlier parse point.",
+      "required_change": "Terminal/safety authority must precede nonessential anti-thrash/progress telemetry parsing, or those telemetry fields must arrive in a separately validated trusted envelope whose failure cannot suppress an authenticated rollback/standby command. Add explicit R/N precedence tests with malformed/out-of-range telemetry."
+    },
+    {
       "id": "QV-GB21-STALE-SECRETARY-PRESSURE-PROVENANCE-073",
       "severity": "HIGH",
-      "finding": "v2.1 freshness handling only neutralizes secretary_level. The numeric pressure inputs inherited by v2 (context_load_ratio, tool_failure_ratio, stale_pointer_ratio, durable_progress_age_ratio, continuity_anchor_health and storage pressure) remain unbound to per-field source/freshness. If those values originate from the same stale secretary observation, stale telemetry can still force checkpoint/downshift through the pressure path even while stale_secretary_ignored=true.",
-      "required_change": "Bind every routing-relevant telemetry component to typed source/freshness provenance. Stale or authority-conflicting secretary-derived components must be excluded individually; independently sourced fresh runtime telemetry may still participate. Ambiguous provenance fails closed."
+      "finding": "v2.1 freshness handling neutralizes secretary_level only. Numeric pressure inputs remain unbound to per-field source/freshness, so stale secretary-derived telemetry can still force checkpoint/downshift even while stale_secretary_ignored=true.",
+      "required_change": "Bind every routing-relevant telemetry component to typed source/freshness/scope/policy provenance; exclude stale or authority-conflicting secretary-derived components individually."
     },
     {
       "id": "QV-GB21-IRRELEVANT-VERIFIER-PARSE-072",
       "severity": "HIGH",
-      "finding": "aggregate_experience_events parses independently_verified for every identity-bearing event before classifying whether the event kind requires verification. WAIT, HEARTBEAT, POLL, RETRY, SCHEDULER_WAKE, DURABLE_PROGRESS or ADVERSARIAL_DEFECT_FOUND can therefore carry malformed verifier metadata and abort the batch before later valid evidence is processed.",
-      "required_change": "Canonicalize EventKind before verifier parsing; only verified classes enter verifier-receipt parsing. In non-atomic ingestion, irrelevant malformed verifier metadata must be bounded to that record and cannot censor later evidence or consume canonical identity."
+      "finding": "aggregate_experience_events parses independently_verified for every identity-bearing event before deciding whether that event kind requires verifier semantics, so irrelevant malformed verifier metadata can abort a batch and censor later valid evidence.",
+      "required_change": "Canonicalize EventKind before verifier parsing; only verified classes enter verifier-receipt parsing, and irrelevant malformed verifier metadata must be bounded to that record."
     },
     {
       "id": "QV-GB21-UNVERIFIED-CLAIM-AUDIT-SINK-071",
       "severity": "MEDIUM_HIGH",
-      "finding": "Verified-class events with independently_verified=false receive zero credit but disappear from outcome accounting because there is no rejected_unverified class.",
+      "finding": "Verified-class events with independently_verified=false receive zero credit but disappear from ledger outcome accounting because there is no rejected_unverified outcome.",
       "required_change": "Use exhaustive conserved outcomes: accepted_verified, accepted_operational, rejected_unverified, duplicate, identity_conflict, ignored_malformed."
     },
     {
@@ -128,7 +134,8 @@
     }
   ],
   "statistical_risks": [
-    "Stale secretary telemetry can leak through unbound numeric pressure components even when secretary_level itself is ignored, confounding stale-vs-fresh routing comparisons.",
+    "Malformed anti-thrash/progress telemetry can censor trusted terminal rollback/standby before terminal authority is evaluated, creating safety-state selection bias.",
+    "Stale secretary telemetry can leak through unbound numeric pressure components even when secretary_level itself is ignored.",
     "Irrelevant verifier-field parsing can create batch-order denial-of-evidence and censor later valid observations.",
     "Unverified verified-class claims disappear from current ledger quality denominators.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
@@ -141,9 +148,9 @@
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-STALE-PRESSURE-PROVENANCE-148: RED/ORANGE secretary plus context/tool/stale/progress-age pressure from the same stale secretary envelope must have zero routing effect; equivalent independently sourced fresh runtime telemetry may still act.",
-    "GB21-STALE-PRESSURE-MIXED-SOURCE-149: mix stale secretary context pressure with fresh trusted runtime tool-failure telemetry; only the fresh component may enter the canonical pressure calculation.",
-    "GB21-AUTHORITY-PRESSURE-OVERRIDE-150: when fresh authority conflicts with secretary-derived pressure, the exact trusted authority envelope must win and stale/ambiguous secretary pressure must be excluded.",
+    "GB21-TERMINAL-TELEMETRY-PARSE-151: rollback_required=true with malformed recent_shift_rate_ratio and/or verified_progress_density must still reach authenticated R or an explicitly stronger terminal fail-closed result; nonessential telemetry may not suppress rollback authority.",
+    "GB21-STANDBY-TELEMETRY-PARSE-152: standby=true with malformed/out-of-range anti-thrash/progress telemetry must not crash before terminal standby semantics are evaluated.",
+    "GB21-STALE-PRESSURE-PROVENANCE-148 and GB21-AUTHORITY-PRESSURE-OVERRIDE-150 remain required.",
     "GB21-IRRELEVANT-VERIFIER-BATCH-145 and GB21-VERIFIER-PARSE-BY-KIND-147 remain required.",
     "GB21-LEDGER-OUTCOME-CONSERVATION-143 remains required.",
     "Secretary freshness forge and exact AuthorityDecisionEnvelope projection tests remain required.",
@@ -163,6 +170,7 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
+      "claim that rollback/standby terminal authority is structurally protected while nonessential telemetry can abort before inherited terminal evaluation",
       "claim that stale secretary signals have zero routing effect until every routing-relevant secretary-derived field is freshness/provenance bound",
       "claim that authority precedence is executable until exact fresh AuthorityDecisionEnvelope projection exists",
       "authoritative verified Experience accounting from current raw-field paths",
@@ -173,6 +181,7 @@
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
+    "Trusted rollback/standby terminal authority cannot be suppressed by malformed or out-of-range nonessential anti-thrash/progress telemetry; terminal precedence has explicit executable tests.",
     "Every routing-relevant secretary-derived telemetry field is bound to source/freshness/scope/policy; stale or authority-conflicting secretary-derived pressure is excluded while independent fresh runtime telemetry remains usable.",
     "Event kind is canonically classified before verifier parsing; only verified classes parse verifier evidence, and irrelevant malformed verifier metadata cannot censor later independent records.",
     "Ledger outcome accounting is exhaustive and conserved, including rejected_unverified.",
