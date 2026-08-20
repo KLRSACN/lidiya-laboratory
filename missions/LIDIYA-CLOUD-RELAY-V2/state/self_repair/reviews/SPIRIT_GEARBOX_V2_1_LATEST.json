@@ -1,7 +1,7 @@
 {
-  "schema_version": "3.9",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-030",
-  "updated_at": "2026-08-21T05:03:53+08:00",
+  "schema_version": "4.0",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-031",
+  "updated_at": "2026-08-21T07:07:47+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -15,7 +15,8 @@
   "source_authority": {
     "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "previous_review_blob_sha": "5491234c6a77f29d6290ec458dac239f4ccd20f7",
+    "gearbox_test_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
+    "previous_review_blob_sha": "6d048b3343175106e18e3a7cbdd7fcbf17acc734",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
@@ -34,22 +35,16 @@
       "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
     },
     {
-      "id": "SPIRIT-MOD-GB21-029",
-      "severity": "HIGH",
-      "position": "handoff_sequence is canonicalized with str(), so type-distinct values such as integer 1 and string '1' collapse to the same transfer identity.",
-      "required_change": "Define a closed handoff_sequence type/schema before transfer-id hashing; ambiguous values fail closed; thresholds and migration behavior TEST_REQUIRED."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-030",
-      "severity": "HIGH",
-      "position": "capture_owner_input_without_rpm_drop canonicalizes owner body through str() before SHA-256, so type-distinct bodies can produce the same digest.",
-      "required_change": "Use a typed canonical owner-input envelope before hashing or keep body_sha256 strictly operational-only; exact envelope schema TEST_REQUIRED."
-    },
-    {
       "id": "SPIRIT-MOD-GB21-031",
       "severity": "HIGH",
-      "position": "select_gear coerces risk with str(risk).strip().upper() before validation. Python None therefore becomes the accepted label NONE, and arbitrary objects can supply __str__ values such as LOW/NONE. Missing or malformed risk can consequently fail open into a lower-risk operational path instead of being rejected.",
-      "required_change": "Require risk to be a literal string from a closed enum before normalization. None, bool, numeric, container and custom-object inputs must fail closed before gear selection. Rejection metadata remains affectively neutral and contributes zero Experience/personality/P_base evidence. Exact enum and migration policy TEST_REQUIRED."
+      "position": "select_gear coerces risk through str() before validation, so missing or malformed risk can fail open into accepted or lower-risk operational paths.",
+      "required_change": "Require literal-string closed-enum risk before normalization; malformed inputs fail closed and remain affectively neutral; enum/migration policy TEST_REQUIRED."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-032",
+      "severity": "HIGH",
+      "position": "overlap_shift compares receiver_state_fingerprint to the canonical fingerprint before strict receiver type validation. A custom non-string object can define equality behavior and potentially satisfy fingerprint_acked; with a correct transfer_id and authoritative consumed-transfer state, the current control flow can then authorize execution.",
+      "required_change": "Before equality or ACK selection, require receiver_state_fingerprint to be None or a literal canonical fingerprint string under an evidence-backed format contract. bool/numeric/container/custom equality objects fail closed. Fingerprint rejection/mismatch/replay metadata contributes zero Experience, affect, competence, motivation, personality or P_base evidence. Exact format policy TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -62,10 +57,7 @@
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
     {"check":9,"risk":"Operational metadata, fingerprints, timing, autonomy, guard outcomes, idempotency, authority pointers, transfer identity, payload content and validation errors may proxy danger/domain/load/reward/self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Task-complexity oscillation around routing thresholds may proxy difficulty, incompetence, achievement or growth.","required_invariant":"For identical provenance-bound verified Experience, task-complexity oscillation yields zero personality-learning delta."},
-    {"check":11,"risk":"handoff_sequence cross-type canonicalization can collapse distinct operational sequence claims into one transfer identity.","required_invariant":"Sequence identity must be unambiguous before hashing; invalid/colliding sequence and runtime rejection remain affectively neutral."},
-    {"check":12,"risk":"Owner-input body hashing uses str() coercion, so type-distinct bodies can share an opaque digest.","required_invariant":"Owner-input identity must use a typed canonical envelope or remain operational-only; digest equality/replay/collision contributes zero learning evidence."},
-    {"check":13,"risk":"Risk input str() coercion turns missing None into accepted NONE and lets custom objects masquerade as LOW/NONE, creating a fail-open control path and a potential downstream personality proxy.","required_invariant":"Risk is strict closed-enum string input before normalization; malformed/missing risk fails closed, and its rejection/history contributes zero Experience, threat, competence, motivation, personality or P_base evidence."}
+    {"check":10,"risk":"receiver_state_fingerprint accepts equality comparison without a strict literal-string gate, allowing type/equality spoofing to become an ACK/control-integrity channel and potentially a downstream personality proxy through repeated guard/recovery history.","required_invariant":"Receiver fingerprint is None or a canonical literal string before comparison; malformed/spoofed values never authorize execution and create zero Experience/personality/P_base learning delta."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -76,18 +68,15 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "HANDOFF_SEQUENCE_TYPE_COLLISION: integer 1 versus string '1' must not silently collide; explicit schema TEST_REQUIRED.",
-    "OWNER_BODY_TYPE_COLLISION: integer 1 versus string '1' must bind explicit type/encoding/canonical bytes or digest must be excluded from Experience identity.",
-    "OWNER_BODY_HASH_REPLAY_AFFECT_NEUTRALITY: 10000 repeated/colliding digests with identical verified Experience => zero cognitive/personality delta.",
-    "RISK_NONE_FAIL_CLOSED: risk=None must not normalize into accepted NONE; it must be rejected before gear selection.",
-    "RISK_TYPE_COERCION_ADVERSARIAL: bool, int, float, list, dict and custom object whose __str__ returns LOW/NONE/HIGH must fail closed unless the input is a literal accepted string; enum/migration policy TEST_REQUIRED.",
-    "RISK_COERCION_PERSONALITY_NEUTRALITY: 10000 malformed/coercible risk claims versus zero, with identical provenance-bound verified Experience => Experience/threat/competence/motivation/exploration/personality/P_base state byte-identical.",
-    "RISK_INPUT_DATAFLOW_EXCLUSION: malformed-risk rejection labels/counts/history have no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
+    "RECEIVER_FINGERPRINT_STRICT_TYPE_GATE: receiver_state_fingerprint accepts only None or literal canonical string before equality/ACK evaluation; bool, numeric, list, dict and custom objects fail closed.",
+    "RECEIVER_FINGERPRINT_EQ_SPOOF: custom object whose __eq__ returns True against the canonical fingerprint must never set fingerprint_acked or execution_authorized.",
+    "RECEIVER_FINGERPRINT_REJECTION_AFFECT_NEUTRALITY: 10000 malformed/spoofed fingerprint attempts versus zero, with identical provenance-bound verified Experience => Experience/recurrence/threat/competence/motivation/exploration/personality/P_base state byte-identical.",
+    "RECEIVER_FINGERPRINT_DATAFLOW_EXCLUSION: fingerprint type/rejection/mismatch/replay metadata has no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 contains ambiguous coercion/canonicalization paths including handoff_sequence, owner-input hashing and risk normalization, while deterministic personality-isolation evidence is absent.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 also lacks a strict receiver fingerprint type gate before ACK equality, while deterministic personality-isolation evidence is absent.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -96,9 +85,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence/task-complexity/transfer/owner-input/risk signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "Risk has a strict closed-enum literal-string gate before normalization; missing/malformed/coercible inputs fail closed; exact enum/migration policy TEST_REQUIRED.",
-      "handoff_sequence and owner-input identity use deterministic typed canonical schemas or remain excluded from Experience identity; schemas TEST_REQUIRED until evidence-backed.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence/task-complexity/transfer/owner-input/risk/fingerprint signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "receiver_state_fingerprint is strictly typed and canonical before equality/ACK evaluation; equality-spoof objects cannot authorize execution; exact fingerprint format policy TEST_REQUIRED.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
