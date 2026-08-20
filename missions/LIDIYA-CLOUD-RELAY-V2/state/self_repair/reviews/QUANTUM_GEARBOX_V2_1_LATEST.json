@@ -1,6 +1,6 @@
 {
-  "schema_version": "5.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1730",
+  "schema_version": "5.2",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1833",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; Home#73 retained only through fresh Active-8 exact pointer; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_SCHEMA_6.66-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_SCHEMA_6.67-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -22,7 +22,7 @@
     "own_latest_review": "READ_OK"
   },
   "source_fingerprints": {
-    "active8_sha": "412f873930095a0bfba5b8685b28c8c3425cca4f",
+    "active8_sha": "035f4b129ca2a7f3e5da1c0b4203409ec142c76c",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -32,27 +32,33 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_latest_review_sha": "93f4b345d3e9b0c7cc087bd9434859b6d5daae4b"
+    "previous_latest_review_sha": "8dca1552abeef3d7c09046eb53b8cdb3393691b6"
   },
   "agreements": [
     "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor code and does not claim C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only at the intended v2.1 boundary and must not become verified Experience through repetition.",
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only at the intended v2.1 boundary and must never become verified Experience through repetition.",
     "verified_progress_density is reason-only in current v2.1; keep it observational until independently derived and anti-self-reinforcement tested.",
     "Credit weights 5/4/3 and operational 1 are engineering heuristics only, not calibrated capability units.",
     "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED; commit count, awake time, window age, heartbeat count and wake count are invalid substitutes."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-RISK-NULL-COERCION-081",
+      "severity": "HIGH",
+      "finding": "New exact-current finding: select_gear_v2 normalizes risk with str(risk).strip().upper(). Python None therefore becomes the literal string NONE, and NONE is a valid lowest-risk RISK_LEVEL. A missing/null risk can consequently be silently interpreted as the safest risk instead of failing closed. v1 likewise string-coerces risk before its safety branches. This is a fail-open typed-boundary alias at an authority-sensitive safety input.",
+      "required_change": "Introduce one canonical typed RiskLevel parser shared by v1/v2/v2.1. Accept only explicit bounded strings/enums from the allowed set; reject None, bool, numeric, mapping/list/object and ambiguous/missing risk. Missing risk must fail closed to a brake/error state, never alias to NONE."
+    },
+    {
       "id": "QV-GB21-V2-TERMINAL-TELEMETRY-PARSE-BLOCK-080",
       "severity": "HIGH",
-      "finding": "New exact-current finding: select_gear_v2 parses context/tool/stale/anchor/progress/storage/uncertainty/evidence/task telemetry before it calls v1, so malformed nonessential telemetry can raise GearboxGuardError before authenticated rollback_required or standby can produce terminal R/N. This violates structural terminal-authority precedence and means telemetry parsing can suppress rollback/standby.",
-      "required_change": "Resolve trusted terminal authority before nonessential pressure telemetry, or consume a prevalidated telemetry envelope whose parse failure cannot suppress authenticated rollback/standby. R must be terminal and fail-closed; N exit semantics require explicit trusted authority."
+      "finding": "select_gear_v2 parses nonessential pressure telemetry before it calls v1, so malformed telemetry can raise before authenticated rollback_required or standby can produce terminal R/N.",
+      "required_change": "Resolve trusted terminal authority before nonessential telemetry, or consume a prevalidated telemetry envelope whose parse failure cannot suppress authenticated rollback/standby."
     },
     {
       "id": "QV-GB21-FIRST-CLAIM-IDENTITY-POISON-079",
       "severity": "HIGH",
-      "finding": "aggregate_experience_events reserves event_id with seen.add(event_id) before accepted evidence/verifier binding is proven, so rejected/unverified/ignored first claims can suppress a later legitimate claim of the same identity.",
+      "finding": "aggregate_experience_events reserves event_id before accepted evidence/verifier binding is proven, so rejected/unverified/ignored first claims can suppress a later legitimate claim of the same identity.",
       "required_change": "Reserve identity only after acceptance; exact accepted replay NO_OP; same-ID/different-binding IDENTITY_CONFLICT; rejected/unverified/ignored claims reserve nothing."
     },
     {
@@ -123,6 +129,7 @@
     }
   ],
   "statistical_risks": [
+    "Null/missing risk can alias to explicit NONE under string coercion, biasing safety-routing and any performance comparison toward permissive gears.",
     "Malformed nonessential telemetry can censor terminal rollback/standby, biasing recovery and safety-path latency measurements.",
     "First-claim identity poisoning can suppress later legitimate evidence and makes acceptance/rejection statistics order-dependent.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
@@ -135,9 +142,10 @@
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-V2-ROLLBACK-PRESSURE-PARSE-168: rollback_required=true plus malformed context/tool/stale/anchor/progress/storage telemetry must still reach trusted R or a stricter explicit terminal fail-closed result; no telemetry parser may suppress rollback.",
-    "GB21-V2-STANDBY-PRESSURE-PARSE-169: standby=true plus malformed nonessential pressure telemetry must not crash before N semantics are applied.",
-    "GB21-TERMINAL-PRECEDENCE-CROSS-LAYER-170: v1/v2/v2.1 must preserve authenticated terminal authority ahead of secretary/pressure/anti-thrash telemetry parsing and overlays.",
+    "GB21-RISK-NULL-COERCION-171: risk=None must fail closed and must never normalize to valid NONE; repeat for bool, numeric, mapping/list/object and missing/empty risk.",
+    "GB21-RISK-CANONICAL-BOUNDARY-172: v1/v2/v2.1 must consume one canonical typed RiskLevel and yield identical classification for explicit NONE/LOW/MEDIUM/HIGH/CRITICAL; only explicit NONE may represent no-risk.",
+    "GB21-RISK-FAIL-CLOSED-173: malformed/missing risk combined with otherwise permissive inputs must never select a higher gear than the explicit fail-closed brake policy.",
+    "GB21-V2-ROLLBACK-PRESSURE-PARSE-168 and GB21-V2-STANDBY-PRESSURE-PARSE-169 remain required.",
     "GB21-FIRST-CLAIM-POISON-165 and same-ID/different-binding IDENTITY_CONFLICT coverage remain required.",
     "Secretary freshness-forge and exact AuthorityDecisionEnvelope projection tests remain required.",
     "Shift-rate provenance, small-n false-trigger, chatter/release and paired performance non-regression tests remain required.",
@@ -151,7 +159,8 @@
     "does_not_reset": ["Gearbox v1 VERIFIED_PASS", "Step009 Heartbeat VERIFIED_FOUNDATION", "Step001-009 verified history"],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
-      "claim that terminal rollback/standby has structural precedence while nonessential telemetry is parsed first and can abort before R/N is formed",
+      "claim that risk is fail-closed while null/missing risk can string-coerce into explicit NONE",
+      "claim that terminal rollback/standby has structural precedence while nonessential telemetry can abort before R/N is formed",
       "claim that event identity/replay semantics are exactly-once while rejected first claims can reserve identity and accepted state is invocation-local",
       "claim that secretary freshness or fresh-authority precedence is executable from current caller booleans",
       "claim that anti-thrash is calibrated or performance-safe from current caller-supplied shift ratio",
@@ -162,6 +171,7 @@
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
+    "Risk input uses a single explicit typed fail-closed boundary; null/missing/non-string values cannot alias to NONE or any permissive risk class.",
     "Authenticated rollback/standby terminal authority is resolved before nonessential telemetry parsing across v2/v2.1; malformed routing telemetry cannot suppress trusted R/N.",
     "Rejected/unverified/ignored records do not reserve event identity; accepted identities bind exact canonical event/evidence/verifier receipts; exact replay NO_OPs and same-ID/different-binding becomes IDENTITY_CONFLICT.",
     "A durable rollback-resistant event/evidence acceptance registry prevents same-ID replay, same-evidence/new-ID laundering, restart/rollback replay and first-claim identity poisoning.",
