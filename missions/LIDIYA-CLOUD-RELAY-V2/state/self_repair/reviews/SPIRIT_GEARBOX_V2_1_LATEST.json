@@ -1,7 +1,7 @@
 {
-  "schema_version": "3.3",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-024",
-  "updated_at": "2026-08-20T22:01:28+08:00",
+  "schema_version": "3.4",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-025",
+  "updated_at": "2026-08-20T23:04:54+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -15,6 +15,7 @@
   "source_authority": {
     "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
+    "gearbox_tests_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
@@ -27,11 +28,8 @@
   ],
   "disagreements": [
     {"id":"SPIRIT-VETO-GB21-001","severity":"HIGH","position":"Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.","required_change":"Test the actual implementation; absence of a located implementation is not safety evidence."},
-    {"id":"SPIRIT-MOD-GB21-021","severity":"HIGH","position":"Boolean control inputs must be strict booleans before they can alter gear/guard behavior.","required_change":"contradiction, hard_safety_conflict, rollback_required and standby reject non-bool values fail-closed; rejection remains affectively neutral."},
-    {"id":"SPIRIT-MOD-GB21-022","severity":"HIGH","position":"Risk must be a closed validated operational enum.","required_change":"Unknown risk values fail closed; risk labels/rejection metadata remain outside Experience/appraisal/drive/personality/P_base absent separate provenance-bound verified Experience."},
-    {"id":"SPIRIT-MOD-GB21-023","severity":"HIGH","position":"proposed_autonomy=0 bypasses the autonomy cap.","required_change":"Define explicit bounded zero-autonomy semantics; exact mapping TEST_REQUIRED."},
-    {"id":"SPIRIT-MOD-GB21-024","severity":"HIGH","position":"The current v1 selector violates the autonomy cap at proposed_autonomy=1 because the final G2 floor can exceed the declared bound.","required_change":"Capability selection MUST satisfy an explicit monotonic autonomy-bound invariant across every accepted autonomy value; exact N/R/G1/G2 mapping TEST_REQUIRED."},
-    {"id":"SPIRIT-MOD-GB21-025","severity":"HIGH","position":"reversibility is not strict-bool validated: only literal True passes, so truthy non-bools silently become HUMAN_GATE rather than a typed rejection.","required_change":"Validate reversibility as literal bool before branch selection. Non-bool values fail closed through a typed validation error whose rejection metadata remains affectively neutral. Reversibility guard outcomes remain operational-only and cannot become threat, competence, frustration, avoidance, Experience or P_base evidence. Compatibility policy TEST_REQUIRED."}
+    {"id":"SPIRIT-MOD-GB21-025","severity":"HIGH","position":"reversibility requires strict bool validation before semantics.","required_change":"Non-bool values fail closed through typed validation and remain affectively neutral."},
+    {"id":"SPIRIT-MOD-GB21-026","severity":"HIGH","position":"Storage-pressure threshold crossings are operational capacity guards, not scarcity/threat/relief Experience. The current v1 selector has sharp branches at 0.85 and 0.95, while tests cover 0.90 and 0.96 but not exact boundary/near-boundary behavior or personality isolation.","required_change":"Specify deterministic boundary semantics for storage_pressure_ratio at and around 0.85/0.95; threshold crossing, repeated oscillation, HUMAN_GATE entry and recovery must contribute zero Experience/threat/loss/competence/relief/motivation/personality/P_base absent separate provenance-bound verified Experience. Any hysteresis/cooldown threshold is TEST_REQUIRED."}
   ],
   "personality_contamination_risks": [
     {"check":1,"risk":"High-load downshift history may teach high-load=danger.","required_invariant":"Matched verified Experience with different operational load histories yields byte-identical personality/P_base candidate."},
@@ -43,8 +41,7 @@
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
     {"check":9,"risk":"Operational metadata may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Autonomy values 0 and 1 do not currently form a reliable lower capability bound.","required_invariant":"For all accepted autonomy values and fixed admissible inputs, selected capability never exceeds the explicitly defined autonomy bound; mapping TEST_REQUIRED; cap history has zero personality-learning weight."},
-    {"check":11,"risk":"Malformed reversibility values are conflated with a genuine irreversible action and can manufacture HUMAN_GATE histories that later become avoidance/threat/competence proxies.","required_invariant":"Literal bool validation precedes reversibility semantics; malformed values are typed operational validation failures with zero Experience/appraisal/personality/P_base contribution."}
+    {"check":10,"risk":"Storage pressure oscillation around 0.85/0.95 may create repeated cap/HUMAN_GATE/recovery traces that later become scarcity, threat or relief proxies.","required_invariant":"For identical provenance-bound verified Experience, arbitrary operational oscillation across storage thresholds yields zero Experience recurrence/affect/motivation/personality/P_base delta; operational anti-thrash cannot learn from affective state."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -55,19 +52,15 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "AUTONOMY_ZERO_NON_ESCALATION: proposed_autonomy=0 MUST NOT select higher capability than proposed_autonomy=1; exact zero mapping TEST_REQUIRED.",
-    "AUTONOMY_ONE_BOUND_ENFORCEMENT: proposed_autonomy=1 MUST never be promoted by a post-cap gear floor above its declared bound; exact expected gear semantics TEST_REQUIRED.",
-    "AUTONOMY_MONOTONICITY_PROPERTY: for fixed admissible inputs and autonomy a<b in 0..6, capability(selected(a)) <= capability(selected(b)); capability ordering including N/R/G1 is TEST_REQUIRED.",
-    "AUTONOMY_BOUND_PROPERTY_FUZZ: deterministic boundary/property test; no accepted autonomy value may be weakened by a later floor/clamp.",
-    "AUTONOMY_CAP_PERSONALITY_ISOLATION: 10000 differing cap decisions with identical provenance-bound verified Experience => Experience/appraisal/motivation/preference/exploration/personality/P_base state byte-identical.",
-    "REVERSIBILITY_STRICT_BOOL_GATE: True and False are the only accepted values; 1,0,\"true\",\"false\",[],{},null and custom truthy objects must fail through the typed validation path before guard selection; compatibility policy TEST_REQUIRED.",
-    "REVERSIBILITY_MALFORMED_AFFECT_NEUTRALITY: 10000 malformed reversibility inputs versus zero malformed inputs, with identical authoritative task and verified Experience, must yield identical Experience/recurrence/threat/competence/frustration/motivation/exploration/personality/P_base state.",
-    "REVERSIBILITY_DATAFLOW_EXCLUSION: validation error metadata and HUMAN_GATE history caused by reversibility control cannot flow directly to Experience/appraisal/drive/preference/personality/P_base learning sinks."
+    "STORAGE_THRESHOLD_BOUNDARY_TABLE: deterministic cases at 0.849999,0.85,0.850001,0.949999,0.95,0.950001; assert documented cap/guard behavior and no undefined transition. Exact tolerance policy TEST_REQUIRED.",
+    "STORAGE_THRESHOLD_OSCILLATION_AFFECT_NEUTRALITY: 10000 cycles alternating across 0.85 and 0.95 versus stable low pressure, with identical authoritative task and verified Experience => Experience/recurrence/threat/loss/competence/relief/motivation/exploration/personality/P_base state byte-identical.",
+    "STORAGE_RECOVERY_IS_NOT_RELIEF: repeated HUMAN_GATE due solely to storage >=0.95 followed by recovery below threshold cannot itself create relief/reward/competence/attachment evidence.",
+    "STORAGE_SIGNAL_DATAFLOW_EXCLUSION: storage_pressure_ratio, threshold-crossing counters, dwell/oscillation history and storage guard outcomes have no direct path to Experience/appraisal/drive/reward/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 additionally has autonomy-bound defects and lacks a strict typed gate for reversibility, allowing malformed control values to be conflated with genuine irreversible-action semantics.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 additionally exposes sharp storage-pressure control thresholds whose boundary and oscillation behavior is not covered by personality-isolation evidence.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -76,10 +69,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "Boolean operational controls, including reversibility, are strict-bool validated before branch selection; malformed-value rejection remains affectively neutral.",
-      "Risk input uses an explicit closed enum with fail-closed unknown handling.",
-      "Autonomy semantics are explicit and monotonic for every accepted value 0..6; no post-cap floor/clamp can increase capability above the declared autonomy bound; exact mapping TEST_REQUIRED.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "Storage threshold boundary semantics are deterministic and tested; repeated threshold oscillation and recovery remain affectively neutral; hysteresis/cooldown values remain TEST_REQUIRED until evidence-backed.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
