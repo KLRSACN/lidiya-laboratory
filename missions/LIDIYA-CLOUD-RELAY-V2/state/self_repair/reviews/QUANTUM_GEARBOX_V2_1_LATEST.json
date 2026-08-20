@@ -1,6 +1,6 @@
 {
-  "schema_version": "5.8",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260821-0030",
+  "schema_version": "5.9",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260821-0128",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -32,22 +32,28 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_latest_review_sha": "9f75fb3ac824bb1bda8e2e0dee35e7a3d01f8a40"
+    "previous_latest_review_sha": "10707645776bedca86105ff4ac9cd31a20e5a352"
   },
   "agreements": [
-    "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor code and does not claim C PASS.",
+    "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor executable code and does not claim C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
     "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only and must not become verified Experience.",
-    "verified_progress_density is reason-only in current v2.1; keep it observational until independently derived and anti-self-reinforcement tested.",
+    "verified_progress_density is reason-only in current v2.1 and should remain observational until independently derived and anti-self-reinforcement tested.",
     "Credit weights 5/4/3 and operational 1 are engineering heuristics only, not calibrated capability units or promotion truth.",
-    "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED; commit count and awake time are invalid substitutes."
+    "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED; commit count, heartbeat count, wake count and awake time are invalid substitutes."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-RISK-NULL-COERCION-088",
+      "severity": "HIGH",
+      "finding": "New exact-current finding: v1 and v2 normalize risk with str(risk).strip().upper(), while NONE is a valid lowest-risk value. Python None therefore becomes the literal string NONE and is accepted as explicit no-risk. Missing/null risk can silently fail open into the lowest-risk state.",
+      "required_change": "Introduce one canonical typed RiskLevel boundary shared by v1/v2/v2.1. Only explicit strings NONE/LOW/MEDIUM/HIGH/CRITICAL are accepted. None, missing, bool, numeric, list, mapping and arbitrary objects must fail closed; only an explicit caller value NONE may mean no-risk."
+    },
+    {
       "id": "QV-GB21-TERMINAL-AUTHORITY-PRECEDENCE-087",
       "severity": "HIGH",
-      "finding": "New exact-current finding: select_gear_v2 parses nonessential pressure telemetry before calling v1, so malformed context/tool/stale/anchor/progress/storage telemetry can prevent authenticated rollback/standby from ever producing R/N. After v1 returns R/N, v2 recovery_active, anchor<0.50 or RED secretary can still overwrite that terminal result with G1. Terminal authority is therefore not structurally dominant across v1->v2->v2.1.",
-      "required_change": "Authenticate terminal authority before nonessential telemetry. Trusted rollback R must be terminal and non-overridable by secretary/pressure/recovery overlays; standby N may exit only through an explicit trusted higher-priority authority rule. Add a canonical N/R/G1..G6 control-state transition contract and terminal-exit receipt."
+      "finding": "select_gear_v2 parses nonessential pressure telemetry before v1 can produce R/N, so malformed telemetry can censor rollback/standby. After v1 returns R/N, recovery_active, anchor failure or RED secretary can still overwrite that terminal result with G1.",
+      "required_change": "Authenticate terminal authority before nonessential telemetry. Trusted rollback R must be terminal and non-overridable by secretary/pressure/recovery overlays; standby N may exit only through an explicit trusted higher-priority authority rule."
     },
     {
       "id": "QV-GB21-INHERITED-SAFETY-METADATA-PROJECTION-086",
@@ -117,6 +123,7 @@
     }
   ],
   "statistical_risks": [
+    "Null or missing risk can be silently reclassified as explicit no-risk, biasing safety-state distributions and any routing performance comparison.",
     "Terminal rollback/standby outcomes can be censored by telemetry parse failures or overwritten by overlays, biasing safety and recovery statistics.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
     "Small-n caller-supplied shift-rate estimates can false-trigger anti-thrash or chatter around the threshold.",
@@ -127,9 +134,11 @@
     "Speed metrics require matched paired/crossover evaluation with a frozen versioned metric manifest."
   ],
   "proposed_tests": [
+    "GB21-RISK-NULL-COERCION-191: risk=None or missing must fail closed and must never normalize to explicit NONE.",
+    "GB21-RISK-CANONICAL-BOUNDARY-192: bool, numeric, list, mapping and arbitrary-object risk inputs are rejected; only explicit canonical RiskLevel strings are accepted.",
+    "GB21-RISK-CROSSPATH-193: v1/v2/v2.1 consume one canonical RiskLevel and cannot diverge through re-normalization.",
     "GB21-TERMINAL-PRECEDENCE-187: rollback_required=true with malformed pressure telemetry must still reach authenticated R or an explicitly stronger terminal fail-closed result.",
     "GB21-TERMINAL-OVERLAY-188: authenticated R plus recovery_active/anchor failure/RED secretary must remain R; nonterminal overlays cannot rewrite rollback.",
-    "GB21-STANDBY-EXIT-AUTHORITY-189: N may leave standby only through an explicit trusted terminal-exit authority rule.",
     "GB21-INHERITED-SAFETY-METADATA-190: v2 checkpoint/ACK/verification constraints must survive v2.1 projection or exact inherited-decision fingerprint verification.",
     "GB21-SECRETARY-FRESHNESS-FORGE: stale RED/ORANGE plus forged freshness=true and stale numeric pressure must not route without a trusted provenance envelope.",
     "GB21-AUTHORITY-DECISION-PROJECTION: fresh authority=G1/recovery with permissive caller fallback must still produce the trusted authority result.",
@@ -145,9 +154,14 @@
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_AND_V2_1_CANDIDATE_ONLY",
-    "does_not_reset": ["Gearbox v1 VERIFIED_PASS", "Step009 Heartbeat VERIFIED_FOUNDATION", "Step001-009 verified history"],
+    "does_not_reset": [
+      "Gearbox v1 VERIFIED_PASS",
+      "Step009 Heartbeat VERIFIED_FOUNDATION",
+      "Step001-009 verified history"
+    ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
+      "claim that current risk intake is fail-closed for missing/null inputs",
       "claim that authenticated R/N terminal authority structurally dominates telemetry and overlays",
       "claim that v2.1 preserves inherited v2 safety semantics while safety metadata are absent",
       "claim that secretary freshness or fresh-authority precedence is executable from current caller booleans",
@@ -159,6 +173,7 @@
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
+    "One canonical typed RiskLevel parser is shared by v1/v2/v2.1; null/missing/non-string risk fails closed and cannot alias to explicit NONE.",
     "Authenticated terminal authority is evaluated before nonessential telemetry; rollback R is structurally terminal and cannot be overwritten by secretary/pressure/recovery overlays; N exit requires explicit trusted authority.",
     "v2.1 preserves all safety-critical inherited v2 metadata or binds an immutable exact inherited-decision fingerprint/reference.",
     "Secretary signal provenance/freshness is replay-resistant and fresh authority is projected from an exact trusted authority decision.",
@@ -178,5 +193,5 @@
     "v1_verified_baseline": "PRESERVED",
     "small_world_action": "FRESH_ENDPOINT_CHECK_REQUIRED_AFTER_WRITE"
   },
-  "created_at": "2026-08-21T00:30:56+08:00"
+  "created_at": "2026-08-21T01:28:04+08:00"
 }
