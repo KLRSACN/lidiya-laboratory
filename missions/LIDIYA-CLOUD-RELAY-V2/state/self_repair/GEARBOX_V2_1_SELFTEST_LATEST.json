@@ -1,15 +1,15 @@
 {
-  "schema_version": "4.23",
+  "schema_version": "4.24",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T13:23:00+08:00",
+  "recorded_at": "2026-08-20T14:26:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact six Gearbox blobs are inspectable through the GitHub connector, but connector blobs are not mountable into one trusted same-runner filesystem. Fresh branch head b62a9936e704b55aff021d59bb857cc0395c9699 has no qualifying workflow run. No exact-current compile/test execution was performed and no historical PASS is promoted.",
+    "reason": "Current exact six Gearbox blobs are inspectable through the GitHub connector, but connector blobs are not mountable into one trusted same-runner filesystem. The current tool surface does not provide a qualifying exact-byte executor for the required compile plus three regression suites. No exact-current compile/test execution was performed and no historical PASS is promoted.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "b62a9936e704b55aff021d59bb857cc0395c9699",
-    "runner_provenance": "GitHub connector exact-blob inspection plus exact-head workflow lookup; no trusted mountable same-runner exact-byte executor available",
+    "latest_repository_head_observed": "4344e47545a9ffcae18bbe39e19e56f8f228095f",
+    "runner_provenance": "GitHub connector exact-blob inspection; no trusted mountable same-runner exact-byte executor available",
     "fresh_acquisition_exit_code": 128,
     "fresh_acquisition_error": "NO_TRUSTED_SAME_RUNNER_EXACT_BYTE_EXECUTOR_AVAILABLE",
     "fresh_test_exit_code": null,
@@ -43,6 +43,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1230 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH QV-GB21-LEDGER-UNBOUNDED-BATCH-RESOURCE-075: aggregate_experience_events accepts arbitrary Iterable input with no precommitted record/time/memory budget, continuation cursor, or bounded per-call seen-set policy; a huge or non-terminating iterable can stall ingestion and bias latency/availability measurements even without replay-credit inflation. Release requires a versioned bounded ingestion contract with deterministic resumable BATCH_LIMIT_REACHED semantics and replay-safe accounting. Existing HIGH 074/073/072, MEDIUM_HIGH 071, and remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1330 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New MEDIUM_HIGH QV-GB21-SPEED-METRIC-SEMANTIC-DRIFT-076: v2 contract names rework_or_rollback_ratio while v2.1 contract names rework_ratio. Release requires one immutable versioned SpeedMetricManifest shared by baseline and candidate, defining rollback inclusion, exact numerator/denominator, exposure/censoring semantics and experiment epoch. Existing 075/074/073 plus authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
