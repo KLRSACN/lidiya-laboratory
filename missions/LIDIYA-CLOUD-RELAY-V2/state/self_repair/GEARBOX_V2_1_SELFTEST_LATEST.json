@@ -1,14 +1,14 @@
 {
-  "schema_version": "4.30",
+  "schema_version": "4.31",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T20:23:42+08:00",
+  "recorded_at": "2026-08-20T21:26:02+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
     "reason": "Current six Gearbox blobs are exact-inspectable through the GitHub connector, but no trusted same-runner filesystem executor is available. No exact-current compile/test execution was performed and no historical PASS is promoted.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "1a4baa66d4d9a8c267ad1a6d96674fd1c12867dc",
+    "latest_repository_head_observed": "be7d4b7c7ed5552f3428adfdca2baf5ee5434e69",
     "runner_provenance": "GitHub connector exact-blob inspection; no trusted same-runner mount surface",
     "fresh_acquisition_exit_code": null,
     "fresh_test_exit_code": null,
@@ -40,8 +40,8 @@
     "v2": {"fresh_tests": null, "inventory_tests": 19, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"},
     "v2_1": {"fresh_tests": null, "inventory_tests": 21, "exit_code": null, "status": "NOT_RUN_EXACT_CURRENT"}
   },
-  "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
-  "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1928 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-PROPOSED-AUTONOMY-CAP-082: proposed_autonomy=0 does not constrain autonomy and proposed_autonomy=1 can still yield G2 under the inherited v1 floor. Release requires one canonical 0..6 semantics shared by v1/v2/v2.1, or explicit recontracting as non-authoritative. Existing HIGH 081/080/079 plus authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "baseline": {"v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE", "v2": "CANDIDATE", "v2_1": "CANDIDATE"},
+  "boundaries": {"P_base": "READ_ONLY_UNCHANGED", "Identity": "NO_MUTATION_AUTHORITY", "Personality": "NO_MUTATION_AUTHORITY", "Governance": "NO_MUTATION_AUTHORITY", "heartbeat_poll_retry_window_age_counts_as_experience": false, "real_5min_runtime_live": false},
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-2031 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-EVENT-KIND-CANONICAL-PARSER-083: v2/v2.1/ledger use divergent EventKind normalization/type handling; non-string values can crash inherited v2 while whitespace-padded values can receive credit in one path but fail classification in another. Release requires one shared typed canonical EventKind parser used exactly once across credit, eligibility, ledger classification and v2.1 projection. Existing HIGH 082 plus authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 absent; W04 stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
