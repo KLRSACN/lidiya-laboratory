@@ -1,7 +1,7 @@
 {
-  "schema_version": "4.35",
+  "schema_version": "4.36",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-21T01:28:00+08:00",
+  "recorded_at": "2026-08-21T02:29:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
@@ -34,6 +34,6 @@
   },
   "baseline": {"v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE", "v2": "CANDIDATE", "v2_1": "CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260821-0128 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH RISK-NULL-COERCION-088 requires one typed fail-closed RiskLevel boundary; HIGH TERMINAL-AUTHORITY-PRECEDENCE-087 requires authenticated R/N authority before nonessential telemetry and prevents recovery/secretary/pressure overlays from rewriting trusted R. Existing HIGH inherited-safety-metadata 086, EventIdentity 085 and authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 absent; W04 stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260821-0229 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH ROLLBACK-STANDBY-PRECEDENCE-089 finds v1 checks standby before rollback_required, so simultaneous authenticated standby+rollback can return N before R is formed. Release requires one explicit shared terminal-control precedence across v1/v2/v2.1 and simultaneous-conflict regression coverage. Existing HIGH RiskLevel 088, terminal-authority 087, inherited-safety-metadata 086, EventIdentity 085 and authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 absent; W04 stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
