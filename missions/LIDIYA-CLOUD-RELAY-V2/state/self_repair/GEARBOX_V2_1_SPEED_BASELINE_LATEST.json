@@ -1,7 +1,7 @@
 {
-  "schema_version": "5.25",
+  "schema_version": "5.26",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T23:27:44+08:00",
+  "recorded_at": "2026-08-21T00:23:43+08:00",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
   "forbidden_proxies": ["awake_time", "window_age", "commit_count", "heartbeat_count", "poll_count", "retry_count", "task_last_run"],
@@ -19,12 +19,11 @@
   "pairing_rule": "Use sealed matched baseline/candidate workloads, identical verification/risk/authority criteria, precommitted eligible-wake/exposure/censoring/admission/defer/timeout rules, randomized AB/BA or crossover order, intention-to-treat coverage and carryover controls.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "rule": "Both arms must share identical authoritative Experience/operational semantics, replay/receipt rules, canonical typed EventKind/RiskLevel/EventIdentity parsing, acceptance-before-identity-reservation, canonical N/R/G1..G6 state semantics, terminal-authority precedence, telemetry provenance and bounded ingestion behavior.",
-    "new_w02_2228_constraint": "EventIdentity typing must be identical and fail-closed in both arms. None/missing/bool/numeric/list/mapping/object values cannot be str-coerced into accepted ledger identities. Identity rejects/conflicts remain in intention-to-treat accounting and cannot be censored as candidate speed advantage."
+    "rule": "Both arms must share identical authoritative Experience/operational semantics, replay/receipt rules, canonical typed EventKind/RiskLevel/EventIdentity parsing, inherited v2 safety metadata obligations, canonical N/R/G1..G6 state semantics, terminal-authority precedence, telemetry provenance and bounded ingestion behavior.",
+    "new_w02_2331_constraint": "Candidate cannot appear faster by dropping inherited v2 checkpoint, receiver-ACK, verification-gate or non-promotion obligations. Both arms must preserve identical safety-critical inherited decision metadata or verify the same immutable inherited-decision reference/fingerprint."
   },
   "current_candidate_binding": {
     "source_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "1351b2573d8f467bd73251a421f28572b45f0b40",
     "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "v1_test": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "v2_source": "13aafeed851a2b5453dd36eaf64b85552bc79838",
@@ -33,6 +32,6 @@
     "v2_1_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "exact_validation": "DEFER_EXECUTOR_UNAVAILABLE"
   },
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260820-2228 is fresh to current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH EVENT-ID-NULL-COERCION-085 requires a canonical typed EventIdentity boundary; null/non-string IDs must not be str-coerced into accepted identities. Existing HIGH RiskLevel 084, EventKind 083 plus authority/evidence/replay/receipt/operational-progress/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260820-2331 is fresh to current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH INHERITED-SAFETY-METADATA-PROJECTION-086 requires v2.1 to preserve all safety-critical inherited v2 metadata or bind an immutable inherited-decision reference/fingerprint. Existing HIGH EventIdentity 085 and other authority/evidence/replay/receipt/operational-progress/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
