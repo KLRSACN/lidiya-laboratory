@@ -1,42 +1,39 @@
 {
-  "schema_version": "7.6",
+  "schema_version": "7.7",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-20T23:27:44+08:00",
+  "recorded_at": "2026-08-21T00:23:43+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
-    "Archive No-Read Fence targeted startup through Home continuity pointer, Active-8, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
+    "Archive No-Read Fence targeted startup through Active-8, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
     "Confirmed current exact Gearbox blobs remain v1 c29e3b2c/11527a9e, v2 13aafeed/d01cab7b, v2.1 81818f9d/d9252bb5; contracts remain 7c272b09/dce30f31.",
-    "Checked latest pre-bookkeeping branch head 1351b2573d8f467bd73251a421f28572b45f0b40; no qualifying workflow run exists and no trusted same-runner exact-byte filesystem executor is available, so no exact-current compile/tests were executed and no historical PASS was promoted.",
-    "Detected material delta: W02 advanced from 2129 to 2228 on current exact bytes and added HIGH EVENT-ID-NULL-COERCION-085.",
-    "Confirmed current aggregate_experience_events str-coerces event_id and current v2.1 tests do not cover null/non-string canonical EventIdentity boundaries.",
+    "No trusted same-runner exact-byte filesystem executor is available, so no exact-current compile/tests were executed and no historical PASS was promoted.",
+    "Detected material delta: W02 advanced from 2228 to 2331 on current exact bytes and added HIGH INHERITED-SAFETY-METADATA-PROJECTION-086.",
     "Confirmed dedicated W03 Gearbox v2.1 review remains absent and W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale/veto-active.",
-    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS, then fresh-read MISSION_STATE plus all updated artifacts before setting this receipt PASS."
+    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS, then fresh-read MISSION_STATE plus updated EVOLUTION_PROGRESS before setting this receipt PASS."
   ],
   "material_delta": [
-    "W02 is now QUANTUM-GEARBOX-V2.1-20260820-2228, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
-    "New HIGH QV-GB21-EVENT-ID-NULL-COERCION-085: event_id=None becomes string 'None' through str(...).strip(), and other non-string IDs can be fabricated by coercion.",
-    "Release requires one typed/versioned canonical EventIdentity boundary accepting only bounded explicit string IDs or deterministic structured-envelope hashes; null/missing/non-string values fail closed and cannot reserve ledger identity.",
-    "Exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE; HIGH RiskLevel 084, EventKind 083 and other authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain; dedicated W03 is absent; W04 1332 remains stale/veto-active; paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
+    "W02 is now QUANTUM-GEARBOX-V2.1-20260820-2331, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
+    "New HIGH QV-GB21-INHERITED-SAFETY-METADATA-PROJECTION-086: GearboxV21Decision drops inherited v2 checkpoint_required, receiver_ack_required, verification_gate, real_experience_claim_allowed and pressure_score.",
+    "Release requires v2.1 to re-project all safety-critical inherited v2 metadata or bind an immutable exact inherited-decision fingerprint/reference that downstream consumers verify; wrappers may tighten but never drop inherited safety obligations.",
+    "Exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE; EventIdentity 085 and other authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain; dedicated W03 is absent; W04 1332 remains stale/veto-active; paired speed remains INSUFFICIENT_SAMPLE with multiplier NOT_ESTABLISHED."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
-    "home_latest_continuity_gearbox": "DIRECT_HOME73_LOOKUP_UNAVAILABLE_ACTIVE8_POINTER_USED_NO_BROAD_ARCHIVE_READ",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed_before_w01_bookkeeping": "1351b2573d8f467bd73251a421f28572b45f0b40",
     "canonical_progress_overwritten": true,
     "checkpoint_overwrite": "SUCCESS"
   },
   "readback_expected": {
-    "selftest_sha": "b1f84fff09dbf95f335bb9626e85b1bad282f398",
+    "selftest_sha": "ef361f53b4178c44b638b63ca5a7e26c435ceb4c",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "96659e98e0437f76b259708eb97142ece05b2991",
+    "speed_baseline_sha": "3b2ee416c768a82edc39ea1e90f807401bb0e020",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "21a8371246166f6bb9328f4f65eb15b1f9047f44",
-    "progress_sha": "429993c5579f4685e47d39c066a0a9fddf0f1d1e"
+    "checkpoint_sha": "e885cefd3ced11e5431589da3c299e64da3ea293",
+    "progress_sha": "57506a27ee5283695e06bc1064605356877a6c32"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -52,7 +49,7 @@
     }
   },
   "immutable_baseline": {"six_gear_controller_v1": "VERIFIED_PASS", "step001_009": "PRESERVED", "P_base": "READ_ONLY_UNCHANGED", "Identity": "NO_V2_1_MUTATION_AUTHORITY", "Personality": "NO_V2_1_MUTATION_AUTHORITY", "Governance": "NO_V2_1_MUTATION_AUTHORITY", "real_5min_runtime_live": false},
-  "review_gate": {"w02": "QUANTUM-GEARBOX-V2.1-20260820-2228_CURRENT_BOUNDED_VETO_ACTIVE_EVENT_ID_NULL_COERCION_085_PLUS_RISK_084_EVENT_KIND_083_AND_EXISTING_GATES", "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW", "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"},
+  "review_gate": {"w02": "QUANTUM-GEARBOX-V2.1-20260820-2331_CURRENT_BOUNDED_VETO_ACTIVE_INHERITED_SAFETY_METADATA_PROJECTION_086_PLUS_EVENT_IDENTITY_085_AND_EXISTING_GATES", "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW", "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"},
   "speed_gate": "INSUFFICIENT_SAMPLE_MULTIPLIER_NOT_ESTABLISHED_SPEED_METRIC_MANIFEST_REQUIRED",
   "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_CURRENT_W02_BOUNDED_VETO_ACTIVE_PLUS_MISSING_W03_PLUS_STALE_W04_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "canonical_files_overwritten": true,
