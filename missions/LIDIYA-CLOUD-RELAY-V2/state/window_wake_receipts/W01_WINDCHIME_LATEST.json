@@ -13,7 +13,7 @@
     "Confirmed current v2 code parses nonessential pressure telemetry before calling v1 terminal rollback/standby authority, matching new W02 HIGH finding 077.",
     "Updated latest-only selftest, speed baseline and canonical EVOLUTION_PROGRESS because W02 advanced materially from 1330 to 1431.",
     "Checkpoint overwrite was attempted twice but GitHub Contents API returned 409 while fresh readback still showed the prior checkpoint blob; canonical progress and this receipt carry the current delta without falsely claiming checkpoint overwrite.",
-    "Fresh-read MISSION_STATE, canonical EVOLUTION_PROGRESS, selftest, speed baseline and receipt after writes; expected status bindings must match before final owner report."
+    "Fresh-read MISSION_STATE, canonical EVOLUTION_PROGRESS, selftest, speed baseline and receipt after writes; expected status bindings matched before final receipt confirmation."
   ],
   "material_delta": [
     "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1431 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
@@ -68,5 +68,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PENDING_FINAL_READBACK"
+  "readback_status": "PASS"
 }
