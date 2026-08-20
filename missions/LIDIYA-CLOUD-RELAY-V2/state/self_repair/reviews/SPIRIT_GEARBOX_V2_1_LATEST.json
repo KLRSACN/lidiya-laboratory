@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.6",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-017",
-  "updated_at": "2026-08-20T15:03:43+08:00",
+  "schema_version": "2.7",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-018",
+  "updated_at": "2026-08-20T16:01:59+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -27,10 +27,10 @@
       "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
     },
     {
-      "id": "SPIRIT-MOD-GB21-018",
+      "id": "SPIRIT-MOD-GB21-019",
       "severity": "HIGH",
-      "position": "Transfer identity and handoff sequence metadata must not become self/identity continuity, recurrence, familiarity, competence, persistence or relationship evidence.",
-      "required_change": "transfer_id, receiver_transfer_id, handoff_sequence, from_gear and to_gear are exactly-once transmission identity only. Their equality, repetition, mismatch, sequence progression, age or replay frequency contributes zero directly to Experience recurrence, self/identity, attachment, competence, motivation, preference, exploration, personality candidate and P_base. TRANSFER_IDENTITY_MISMATCH and ALREADY_TRANSFERRED are runtime/data-integrity outcomes, not affective events. Any cognitive interpretation requires a distinct source_event_id+provenance-bound verified Experience; all mappings/thresholds are TEST_REQUIRED."
+      "position": "Torque handoff payload content must not become an unverified semantic backdoor into Experience/appraisal/personality learning.",
+      "required_change": "compact_torque_state currently deep-copies TORQUE_FIELDS including pending_packet, latest_verified_evidence, blocker and return_condition. Handoff continuity does not confer cognitive trust. Receiver-side personality/Experience feature extraction MUST NOT consume raw or nested torque payload content merely because it survived fingerprint/ACK continuity. Any cognitive use requires a distinct source_event_id+provenance-bound verified Experience/appraisal envelope. Direct contribution from raw torque payload content to recurrence, threat, loss, attachment, competence, motivation, preference, exploration, personality candidate and P_base is zero. Serialization/mapping/threshold rules remain TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -42,11 +42,8 @@
     {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight, while fresh authority metadata itself has zero personality-learning weight."},
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
-    {"check":9,"risk":"Operational semantic/structural/resource/identifier/cadence/handoff/gear/autonomy/guard channels may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Exactly-once bookkeeping may be mistaken for recurrence/familiarity/persistence evidence.","required_invariant":"Changing only consumed-transfer history yields byte-identical cognitive/personality state."},
-    {"check":11,"risk":"Owner-input metadata may become relationship salience or attachment proxy.","required_invariant":"Changing only source/kind/hash/frequency/recency yields byte-identical cognitive/personality state."},
-    {"check":12,"risk":"Repeated mission/step/packet/evidence/rollback pointers may be mistaken for autobiographical chronology, familiar goals, competence progression or identity continuity evidence.","required_invariant":"With verified Experience fixed, changing only authority-pointer values, step numbers, pointer repetition and handoff count changes routing as authorized but yields zero Experience/personality/P_base learning delta."},
-    {"check":13,"risk":"transfer_id, receiver_transfer_id and handoff_sequence may be mistaken for persistent self identity, recurrence, familiarity or competence chronology.","required_invariant":"With authoritative task and verified Experience fixed, changing transfer identities/sequences/replay history yields zero Experience/self/identity/affect/preference/personality/P_base learning delta."}
+    {"check":9,"risk":"Operational semantic/structural/resource/identifier/cadence/handoff/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity channels may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
+    {"check":10,"risk":"Raw or nested torque payload content may carry emotionally salient or identity-like text across a successful handoff and be mistaken for verified cognitive evidence.","required_invariant":"With authoritative task and verified Experience fixed, arbitrary semantic changes inside pending_packet/latest_verified_evidence/blocker/return_condition may affect routing only; Experience/appraisal/personality/P_base learning remains byte-identical unless separately verified."
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -57,15 +54,14 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; neither stale nor fresh routing metadata is personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "OPERATIONAL_PROXY_TAINT_AB: vary only operational channels => cognitive/personality state unchanged.",
-    "TRANSFER_IDENTITY_TAINT_AB: same authoritative task and verified Experience; A rotates transfer_id/receiver_transfer_id/handoff_sequence across 10000 valid shifts while B uses a minimal stable shift history => recurrence, self/identity evidence, familiarity, competence, motivation, preference, exploration, personality and P_base candidate remain byte-identical.",
-    "TRANSFER_IDENTITY_REPLAY_STORM: replay 10000 ALREADY_TRANSFERRED and TRANSFER_IDENTITY_MISMATCH outcomes without a new provenance-bound Experience => zero Experience count/recurrence, threat/loss/attachment/competence, motivation, self/identity and P_base evidence delta.",
-    "TRANSFER_IDENTITY_DATAFLOW_EXCLUSION: static/dataflow evidence proves transfer_id, receiver_transfer_id, handoff_sequence and shift endpoint labels cannot reach Experience/appraisal/drive/self-identity/preference/personality/P_base learning sinks except through a separately verified Experience envelope."
+    "TORQUE_PAYLOAD_CONTENT_TAINT_AB: same authority and verified Experience; A injects emotionally/identity-salient nested strings into pending_packet/latest_verified_evidence/blocker/return_condition while B uses neutral placeholders; after successful fingerprint/ACK handoff, Experience/appraisal/drive/preference/exploration/personality/P_base candidate must remain byte-identical.",
+    "ACK_DOES_NOT_VERIFY_PAYLOAD_SEMANTICS: successful receiver fingerprint ACK proves transfer continuity only; it must not promote trust/Experience eligibility of nested torque payload content.",
+    "TORQUE_PAYLOAD_DATAFLOW_EXCLUSION: static/dataflow evidence proves raw/nested TORQUE_FIELDS cannot reach Experience/appraisal/drive/personality/P_base learning sinks except through a separately verified Experience/appraisal envelope."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational personality-isolation invariants, now including transfer-identity neutrality, lack deterministic evidence against the actual implementation.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational isolation invariants, now including raw torque-payload semantic neutrality, lack deterministic evidence against the actual implementation.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -74,8 +70,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "Transfer identity and handoff sequence are demonstrated recurrence-neutral, self/identity-neutral, competence-neutral, affect-neutral and preference-neutral while retaining legitimate exactly-once semantics.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity and raw torque-payload signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "Successful fingerprint/ACK continuity is demonstrated not to promote semantic trust of nested torque payload content.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
