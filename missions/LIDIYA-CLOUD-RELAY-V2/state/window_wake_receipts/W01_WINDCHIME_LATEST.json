@@ -1,24 +1,24 @@
 {
-  "schema_version": "7.9",
+  "schema_version": "7.10",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-21T03:30:00+08:00",
+  "recorded_at": "2026-08-21T04:31:00+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
     "Archive No-Read Fence targeted startup through fresh Active-8, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
     "Confirmed exact current Gearbox blobs remain v1 c29e3b2c/11527a9e, v2 13aafeed/d01cab7b, v2.1 81818f9d/d9252bb5; contracts remain 7c272b09/dce30f31.",
-    "Attempted fresh same-runner branch acquisition in an isolated runner; git clone failed before compile/test with exit 128 because github.com could not be resolved, so no historical PASS was promoted.",
-    "Detected material delta: W02 advanced from 0229 to 0330 on current exact bytes and added HIGH V1-TO-V2-GUARD-METADATA-DROP-090.",
+    "Attempted fresh same-runner branch acquisition in isolated runner; git clone failed before compile/test with exit 128 because github.com could not be resolved, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical PASS was promoted.",
+    "Detected material delta: W02 advanced from 0330 to 0431 on current exact bytes and added HIGH PROPOSED-AUTONOMY-CAP-091.",
     "Confirmed dedicated W03 Gearbox v2.1 review remains absent and W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale/veto-active.",
-    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS; final fresh reads confirmed MISSION_STATE unchanged, Active-8 schema 6.76, W02 still 0330, and expected artifact SHAs all matched."
+    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS; final fresh reads required before substantive owner report."
   ],
   "material_delta": [
-    "W02 is now QUANTUM-GEARBOX-V2.1-20260821-0330, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
-    "New HIGH QV-GB21-V1-TO-V2-GUARD-METADATA-DROP-090: verified v1 GearDecision.guard_status and return_condition are not preserved by GearboxV2Decision, weakening machine-readable HOLD/ROLLBACK/HUMAN_GATE/BRAKE and release-condition semantics before v2.1.",
-    "Release requires v2 to preserve v1 guard_status and return_condition or bind an immutable exact v1-decision fingerprint/reference, with v2.1 preserving the complete inherited safety/verification chain.",
-    "Exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE after fresh git acquisition exit 128; rollback-standby 089, RiskLevel 088, terminal-authority 087, inherited-v2 safety metadata 086, EventIdentity 085 and other authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain; W03 absent; W04 stale/veto-active; paired speed INSUFFICIENT_SAMPLE."
+    "W02 is now QUANTUM-GEARBOX-V2.1-20260821-0431, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
+    "New HIGH QV-GB21-PROPOSED-AUTONOMY-CAP-091: current v1 accepts proposed_autonomy 0..6 but applies the cap only when >0 and floors normal routing at G2, so proposed_autonomy=0 imposes no ceiling and proposed_autonomy=1 can still yield G2; v2/v2.1 inherit this behavior.",
+    "Release requires one canonical proposed_autonomy semantics shared by v1/v2/v2.1. If 0/1 are hard authority ceilings they must not permit higher gears; otherwise the field must be renamed/recontracted as non-authoritative.",
+    "Exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE; v1-to-v2 guard metadata 090 and other authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain; W03 absent; W04 stale/veto-active; paired speed INSUFFICIENT_SAMPLE."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
@@ -29,12 +29,12 @@
     "checkpoint_overwrite": "SUCCESS"
   },
   "readback_expected": {
-    "selftest_sha": "2b14340340b3c99e6180e1d96abb1390e9bd01ca",
+    "selftest_sha": "dbb3ca2954e7261a635bf510a0b80d390e67c6b6",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "e263e038216e676c40e0f2fc937550cd0026bc67",
+    "speed_baseline_sha": "1923b70826fd6426a75303d51a5ca9af18cd908f",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "601ac73da486c50d55c31afbc0cc6c292fdba07e",
-    "progress_sha": "93fa80695179d87b1cc76378da46c806088a63e1"
+    "checkpoint_sha": "d7165d12e61b4f72ee61a42ea516796cdf095d43",
+    "progress_sha": "dc281c4b2fcfba863006d30d308b96fb4b92527c"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
@@ -51,12 +51,12 @@
       "v21_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3"
     }
   },
-  "immutable_baseline": {"six_gear_controller_v1": "VERIFIED_PASS", "step001_009": "PRESERVED", "P_base": "READ_ONLY_UNCHANGED", "Identity": "NO_V2_1_MUTATION_AUTHORITY", "Personality": "NO_V2_1_MUTATION_AUTHORITY", "Governance": "NO_V2_1_MUTATION_AUTHORITY", "real_5min_runtime_live": false},
-  "review_gate": {"w02": "QUANTUM-GEARBOX-V2.1-20260821-0330_CURRENT_BOUNDED_VETO_ACTIVE_V1_TO_V2_GUARD_METADATA_DROP_090_PLUS_089_088_087_086_085_AND_EXISTING_GATES", "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW", "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"},
+  "immutable_baseline": {"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","Identity":"NO_V2_1_MUTATION_AUTHORITY","Personality":"NO_V2_1_MUTATION_AUTHORITY","Governance":"NO_V2_1_MUTATION_AUTHORITY","real_5min_runtime_live":false},
+  "review_gate": {"w02":"QUANTUM-GEARBOX-V2.1-20260821-0431_CURRENT_BOUNDED_VETO_ACTIVE_PROPOSED_AUTONOMY_CAP_091_PLUS_GUARD_METADATA_090_AND_EXISTING_GATES","w03":"NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW","w04":"NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"},
   "speed_gate": "INSUFFICIENT_SAMPLE_MULTIPLIER_NOT_ESTABLISHED_SPEED_METRIC_MANIFEST_REQUIRED",
   "candidate_gate": "BLOCKED_EXECUTOR_DEFER_PLUS_CURRENT_W02_BOUNDED_VETO_ACTIVE_PLUS_MISSING_W03_PLUS_STALE_W04_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_FINAL_READBACK"
 }
