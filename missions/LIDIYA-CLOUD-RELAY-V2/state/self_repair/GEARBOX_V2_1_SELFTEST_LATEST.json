@@ -1,15 +1,17 @@
 {
-  "schema_version": "4.36",
+  "schema_version": "4.37",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-21T02:29:00+08:00",
+  "recorded_at": "2026-08-21T03:30:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current six Gearbox blobs are exact-inspectable through the GitHub connector, but no trusted same-runner filesystem executor is available. No exact-current compile/test execution was performed and no historical PASS is promoted.",
+    "reason": "Fresh same-runner acquisition was attempted in an isolated runner but failed before compile/test because github.com could not be resolved. Connector exact blobs are inspectable but cannot be mounted into the same trusted filesystem runner. No historical PASS is promoted.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "runner_provenance": "GitHub connector exact-blob inspection; no trusted same-runner mount surface",
-    "fresh_acquisition_exit_code": null,
+    "runner_provenance": "isolated container git clone probe + GitHub connector exact-blob inspection",
+    "fresh_acquisition_command": "git clone --depth 1 --branch lidiya-cloud-relay-v2 https://github.com/KLRSACN/lidiya-laboratory.git",
+    "fresh_acquisition_exit_code": 128,
+    "fresh_acquisition_error": "Could not resolve host: github.com",
     "fresh_test_exit_code": null,
     "historical_results_reusable_as_fresh_pass": false
   },
@@ -34,6 +36,6 @@
   },
   "baseline": {"v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE", "v2": "CANDIDATE", "v2_1": "CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260821-0229 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH ROLLBACK-STANDBY-PRECEDENCE-089 finds v1 checks standby before rollback_required, so simultaneous authenticated standby+rollback can return N before R is formed. Release requires one explicit shared terminal-control precedence across v1/v2/v2.1 and simultaneous-conflict regression coverage. Existing HIGH RiskLevel 088, terminal-authority 087, inherited-safety-metadata 086, EventIdentity 085 and authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 absent; W04 stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260821-0330 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH V1-TO-V2-GUARD-METADATA-DROP-090 finds verified v1 GearDecision.guard_status and return_condition are not preserved by GearboxV2Decision, weakening machine-readable HOLD/ROLLBACK/HUMAN_GATE/BRAKE and release semantics before v2.1. Existing HIGH rollback-standby precedence 089, RiskLevel 088, terminal-authority 087, inherited-safety-metadata 086, EventIdentity 085 and authority/evidence/replay/receipt/operational-progress/anti-thrash gates remain. Dedicated W03 absent; W04 stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
