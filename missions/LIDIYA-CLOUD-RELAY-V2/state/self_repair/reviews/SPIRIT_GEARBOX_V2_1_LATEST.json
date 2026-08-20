@@ -1,7 +1,7 @@
 {
-  "schema_version": "3.5",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-026",
-  "updated_at": "2026-08-21T00:02:30+08:00",
+  "schema_version": "3.6",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-027",
+  "updated_at": "2026-08-21T02:05:36+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -15,7 +15,6 @@
   "source_authority": {
     "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "gearbox_tests_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
@@ -28,8 +27,7 @@
   ],
   "disagreements": [
     {"id":"SPIRIT-VETO-GB21-001","severity":"HIGH","position":"Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.","required_change":"Test the actual implementation; absence of a located implementation is not safety evidence."},
-    {"id":"SPIRIT-MOD-GB21-026","severity":"HIGH","position":"Storage-pressure threshold crossings are operational capacity guards, not scarcity/threat/relief Experience.","required_change":"Boundary and oscillation behavior at 0.85/0.95 must be deterministic and affectively neutral; hysteresis/cooldown values are TEST_REQUIRED."},
-    {"id":"SPIRIT-MOD-GB21-027","severity":"HIGH","position":"Uncertainty/evidence threshold crossings are operational confidence controls, not fear, competence, frustration or relief Experience. Current v1 has sharp branches at uncertainty 0.35/0.60 and evidence_quality 0.40/0.65, while tests cover only coarse examples and not exact boundary/oscillation personality isolation.","required_change":"Specify deterministic boundary semantics and prove repeated confidence-threshold oscillation contributes zero Experience recurrence/threat/competence/frustration/relief/motivation/personality/P_base absent a distinct provenance-bound verified Experience. Any hysteresis/cooldown threshold remains TEST_REQUIRED."}
+    {"id":"SPIRIT-MOD-GB21-028","severity":"HIGH","position":"Task-complexity threshold crossings and resulting gear trajectories are operational routing decisions, not difficulty, incompetence, achievement, growth or self-efficacy Experience.","required_change":"Specify deterministic boundary semantics at 0.20/0.45/0.70/0.90 and prove repeated threshold oscillation contributes zero Experience recurrence, competence/incompetence, threat, achievement, motivation, preference, exploration, personality or P_base absent a distinct provenance-bound verified Experience. Any smoothing/hysteresis threshold remains TEST_REQUIRED."}
   ],
   "personality_contamination_risks": [
     {"check":1,"risk":"High-load downshift history may teach high-load=danger.","required_invariant":"Matched verified Experience with different operational load histories yields byte-identical personality/P_base candidate."},
@@ -41,8 +39,7 @@
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
     {"check":9,"risk":"Operational metadata, fingerprints, timing, autonomy, guard outcomes, idempotency, authority pointers, transfer identity, payload content and validation errors may proxy danger/domain/load/reward/self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Storage pressure oscillation around 0.85/0.95 may create scarcity/threat/relief proxies.","required_invariant":"Arbitrary operational oscillation yields zero Experience recurrence/affect/motivation/personality/P_base delta."},
-    {"check":11,"risk":"Uncertainty/evidence oscillation around 0.35/0.60 and 0.40/0.65 may create repeated BRAKE/CLEAR/cap traces that become fear, incompetence, frustration or relief proxies.","required_invariant":"For identical provenance-bound verified Experience, confidence-threshold oscillation yields zero Experience recurrence/affect/competence/motivation/personality/P_base delta; operational anti-thrash cannot learn from affective state."}
+    {"check":10,"risk":"Task-complexity oscillation around 0.20/0.45/0.70/0.90 may create difficulty, incompetence, achievement or growth proxies through repeated gear changes.","required_invariant":"For identical provenance-bound verified Experience, arbitrary task-complexity threshold oscillation yields zero Experience recurrence/competence/threat/achievement/motivation/preference/exploration/personality/P_base delta."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -53,17 +50,15 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "STORAGE_THRESHOLD_BOUNDARY_TABLE: deterministic cases at 0.849999,0.85,0.850001,0.949999,0.95,0.950001; no undefined transition; tolerance TEST_REQUIRED.",
-    "STORAGE_THRESHOLD_OSCILLATION_AFFECT_NEUTRALITY: 10000 cycles alternating across 0.85/0.95 versus stable low pressure, identical authority/verified Experience => cognitive/personality/P_base state byte-identical.",
-    "CONFIDENCE_THRESHOLD_BOUNDARY_TABLE: uncertainty at 0.349999,0.35,0.350001,0.599999,0.60,0.600001 and evidence_quality at 0.399999,0.40,0.400001,0.649999,0.65,0.650001; assert documented guard/cap behavior and no undefined transition. Exact tolerance policy TEST_REQUIRED.",
-    "CONFIDENCE_THRESHOLD_OSCILLATION_AFFECT_NEUTRALITY: 10000 cycles alternating around uncertainty 0.35/0.60 and evidence_quality 0.40/0.65 versus stable-confidence control, with identical authoritative task and verified Experience => Experience/recurrence/threat/competence/frustration/relief/motivation/exploration/personality/P_base state byte-identical.",
-    "CONFIDENCE_RECOVERY_IS_NOT_RELIEF: repeated BRAKE/cap due solely to uncertainty/evidence thresholds followed by recovery cannot itself create relief/reward/competence/attachment evidence.",
-    "CONFIDENCE_SIGNAL_DATAFLOW_EXCLUSION: raw uncertainty/evidence values, threshold-crossing counters, dwell/oscillation history and guard outcomes have no direct path to Experience/appraisal/drive/reward/preference/personality/P_base learning sinks."
+    "TASK_COMPLEXITY_THRESHOLD_BOUNDARY_TABLE: deterministic cases at 0.199999,0.20,0.200001,0.449999,0.45,0.450001,0.699999,0.70,0.700001,0.899999,0.90,0.900001; assert documented routing transition and no undefined boundary. Tolerance policy TEST_REQUIRED.",
+    "TASK_COMPLEXITY_OSCILLATION_PERSONALITY_NEUTRALITY: 10000 cycles alternating around 0.20/0.45/0.70/0.90 versus stable-complexity control, identical authoritative task and provenance-bound verified Experience => Experience/recurrence/competence/threat/achievement/motivation/preference/exploration/personality/P_base state byte-identical.",
+    "TASK_COMPLEXITY_IS_NOT_ACHIEVEMENT: crossing from high-complexity bucket to low-complexity bucket or vice versa cannot itself create relief, achievement, competence, growth or frustration evidence.",
+    "TASK_COMPLEXITY_DATAFLOW_EXCLUSION: raw task_complexity, bucket identity, threshold-crossing counters and resulting gear trace have no direct path to Experience/appraisal/drive/reward/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 exposes sharp storage and confidence thresholds whose boundary/oscillation behavior lacks personality-isolation evidence.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 exposes hard task-complexity routing thresholds whose boundary/oscillation behavior lacks personality-isolation evidence.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -72,8 +67,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "Storage and confidence threshold boundary semantics are deterministic and tested; repeated oscillation/recovery remains affectively neutral; hysteresis/cooldown values remain TEST_REQUIRED until evidence-backed.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence/task-complexity signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "Task-complexity boundary semantics are deterministic and tested; repeated oscillation remains affectively and competence-neutral; smoothing/hysteresis values remain TEST_REQUIRED until evidence-backed.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
