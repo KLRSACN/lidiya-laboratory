@@ -1,6 +1,6 @@
 {
-  "schema_version": "4.9",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1529",
+  "schema_version": "5.0",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-1633",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; Home#73 retained only through fresh Active-8 exact pointer; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_SCHEMA_6.64-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_SCHEMA_6.65-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -22,7 +22,7 @@
     "own_latest_review": "READ_OK"
   },
   "source_fingerprints": {
-    "active8_sha": "d34886c74911aab7817c06f358d4eef79047b84a",
+    "active8_sha": "ca2f8b21a5b3b56fcf441601cf5d073356498928",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -32,28 +32,23 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_latest_review_sha": "968448c1b30fae2801ae15b3b2b89725cb1c2e5b"
+    "previous_latest_review_sha": "4dde38862b2a4af602ac771a0343660fa23dcb13"
   },
   "agreements": [
-    "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor candidate code and does not claim C PASS.",
+    "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor code and does not claim C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only at the intended v2.1 semantic boundary and must never become verified Experience merely by repetition.",
-    "verified_progress_density is reason-only in current v2.1 and must remain observational until independently derived and anti-self-reinforcement tested.",
-    "Strict bool intake now exists for inherited v2 authority-sensitive booleans and v2.1 secretary/authority flags; prior truthiness-coercion findings are not current defects.",
-    "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED; commit count, wake count, heartbeat count and awake/window time are invalid substitutes."
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only at the intended v2.1 boundary and must not become verified Experience through repetition.",
+    "verified_progress_density is reason-only in current v2.1; keep it observational until independently derived and anti-self-reinforcement tested.",
+    "Strict bool intake exists for v2 authority-sensitive booleans and v2.1 secretary/authority flags; earlier truthiness-coercion defects are not current findings.",
+    "Credit weights 5/4/3 and operational 1 are engineering heuristics only, not calibrated capability units.",
+    "Speed improvement remains NOT_YET_STATISTICALLY_ESTABLISHED; commit count, awake time, window age, heartbeat count and wake count are invalid substitutes."
   ],
   "disagreements": [
     {
-      "id": "QV-GB21-TERMINAL-STATE-ROUNDTRIP-078",
+      "id": "QV-GB21-FIRST-CLAIM-IDENTITY-POISON-079",
       "severity": "HIGH",
-      "finding": "New exact-current finding: v1 and v2 can legitimately output terminal control states N or R, but select_gear_v2 accepts current_gear only in G1..G6. A later decision cycle therefore cannot faithfully feed back the controller's own prior N/R state. Callers must either misreport a G-state or fail validation, which breaks terminal residence, terminal-exit authority, hysteresis and anti-thrash accounting.",
-      "required_change": "Replace current_gear with a canonical current-control-state that round-trips N/R/G1..G6. Define explicit trusted terminal-exit authority: R must not transition to Gx from ordinary secretary/pressure/anti-thrash telemetry; N may leave standby only under a predeclared trusted authority/safety rule. v2 and v2.1 must consume the same canonical state rather than reparsing caller strings."
-    },
-    {
-      "id": "QV-GB21-V2-TERMINAL-PRESSURE-PARSE-BLOCK-077",
-      "severity": "HIGH",
-      "finding": "select_gear_v2 validates nonessential pressure telemetry before calling v1, so malformed context/tool/stale/anchor/progress/storage/uncertainty/evidence/task fields can raise before trusted rollback_required/standby produce R/N.",
-      "required_change": "Authenticated terminal authority must be evaluated structurally before nonessential routing telemetry, or be carried in an independently validated authority envelope that unrelated telemetry cannot suppress."
+      "finding": "New exact-current finding: aggregate_experience_events consumes event identity with seen.add(event_id) before the record has proven an accepted canonical evidence/verifier binding. An unverified, zero-credit, unknown or otherwise non-accepted first claim can therefore reserve an event_id and cause a later legitimate claim with the same canonical identity to be treated as duplicate. This is denial-of-evidence/first-claim poisoning, distinct from same-evidence/new-ID replay.",
+      "required_change": "Consume/reserve canonical event identity only after event-kind classification and the relevant verified/operational acceptance proof succeeds. Exact same accepted binding replay must NO_OP; same event_id with a different canonical event/evidence/verifier binding must become explicit IDENTITY_CONFLICT; rejected/unverified/ignored claims must not reserve identity."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -71,7 +66,7 @@
       "id": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
       "severity": "HIGH",
       "finding": "recent_shift_rate_ratio is caller-supplied and thresholded at >=0.50 without canonical numerator/denominator, minimum sample, observation window, uncertainty or stateful enter/exit hysteresis; 1/1 can appear as 100 percent thrash.",
-      "required_change": "Derive from canonical append-only shift history with precommitted support/window/uncertainty and bounded hysteretic release; thresholds remain TEST_REQUIRED."
+      "required_change": "Derive it from canonical append-only shift history with precommitted support/window/uncertainty and bounded hysteretic release; numeric thresholds remain TEST_REQUIRED."
     },
     {
       "id": "QV-GB21-ANTI-THRASH-PERFORMANCE-004",
@@ -106,8 +101,14 @@
     {
       "id": "QV-GB21-OPERATIONAL-PROGRESS-EVIDENCE-BINDING-066",
       "severity": "HIGH",
-      "finding": "Operational progress is granted from caller-supplied event_id/event_kind without durable artifact or defect acceptance proof, so operational numerator and speed metrics can be inflated without proof of durable work.",
-      "required_change": "Require evidence-bound OperationalProgressAcceptanceReceipt plus lineage dedupe."
+      "finding": "DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND are correctly separated from verified Experience in v2.1, but operational credit is still granted from caller event_id/event_kind without durable artifact/defect acceptance proof.",
+      "required_change": "Require evidence-bound OperationalProgressAcceptanceReceipt plus lineage dedupe; raw caller events may be analytics-only."
+    },
+    {
+      "id": "QV-GB21-TERMINAL-STATE-ROUNDTRIP-078",
+      "severity": "HIGH",
+      "finding": "v1/v2 can output terminal N/R, but select_gear_v2 accepts current_gear only G1..G6, so the controller cannot faithfully round-trip its own prior terminal state into the next cycle.",
+      "required_change": "Use one canonical current-control-state N/R/G1..G6 with explicit trusted terminal-exit authority and consistent v1/v2/v2.1 semantics."
     },
     {
       "id": "QV-GB21-CREDIT-WEIGHTS-007",
@@ -123,27 +124,26 @@
     }
   ],
   "statistical_risks": [
-    "Terminal N/R cannot round-trip as current control state, so residence time, terminal-exit behavior and anti-thrash/hysteresis statistics can be misclassified as ordinary G-state behavior.",
-    "Malformed nonessential telemetry can censor terminal rollback/standby evaluation before trusted terminal authority is reached.",
+    "First-claim identity poisoning can suppress later legitimate evidence and makes acceptance/rejection statistics order-dependent.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
     "Small-n caller-supplied shift-rate estimates can false-trigger anti-thrash or chatter around the threshold.",
     "Anti-thrash may improve gear_shift_rate while degrading cycle, closure or recovery latency.",
     "verified_progress_density can become self-reinforcing if fed back into routing authority.",
-    "Transient event identity, same-evidence/new-ID replay and raw-field credit paths can inflate longitudinal Experience/progress totals.",
+    "Transient event identity, same-evidence/new-ID replay and raw-field credit paths can inflate or suppress longitudinal Experience/progress totals.",
     "Caller-created operational events can inflate durable-progress numerator without proof of durable work.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-TERMINAL-ROUNDTRIP-162: produce N and R in one cycle, then feed the exact prior selected state back as canonical current-control-state on the next cycle; validation must accept it and preserve terminal semantics.",
-    "GB21-TERMINAL-EXIT-AUTHORITY-163: without trusted terminal-exit authority, R->Gx and N->Gx must fail closed; secretary, pressure, anti-thrash and progress telemetry alone cannot release terminal state.",
-    "GB21-TERMINAL-ANTI-THRASH-164: current state N/R must bypass ordinary numeric gear hysteresis/anti-thrash and must not be silently coerced to a G-state for statistics.",
-    "GB21-V2-ROLLBACK-PRESSURE-PARSE-159, GB21-V2-STANDBY-PRESSURE-PARSE-160 and GB21-TERMINAL-PRECEDENCE-CROSS-LAYER-161 remain required.",
+    "GB21-FIRST-CLAIM-POISON-165: submit e1 VERIFIED_RECOVERY with independently_verified=false, then submit the same canonical e1 with valid exact verifier/evidence acceptance; the rejected first claim must not reserve identity and the second must be eligible for acceptance.",
+    "GB21-FIRST-CLAIM-CONFLICT-166: submit same event_id with two different canonical event/evidence/verifier bindings; the second must be IDENTITY_CONFLICT, not silent duplicate or first-writer-wins.",
+    "GB21-REJECTED-ID-NO-RESERVE-167: unknown/ignored/malformed/unverified records must not consume canonical event identity or change later duplicate/conflict semantics.",
     "Secretary freshness-forge and exact AuthorityDecisionEnvelope projection tests remain required.",
     "Shift-rate provenance, small-n false-trigger, chatter/release and paired performance non-regression tests remain required.",
     "Cross-run replay, rollback replay, same-evidence/new-ID lineage and same-ID/different-binding conflict tests remain required.",
     "Verified evidence without exact trusted verifier/C receipt must yield zero authoritative verified credit.",
     "Operational progress without durable artifact/defect receipt must yield zero authoritative operational credit.",
+    "Terminal N/R round-trip and trusted terminal-exit authority tests remain required.",
     "Paired speed baseline must use durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency under sealed matched workloads and randomized/crossover order."
   ],
   "bounded_veto": {
@@ -156,25 +156,25 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
-      "claim that terminal state semantics are closed-loop while N/R cannot be faithfully round-tripped as current control state",
-      "claim that terminal rollback/standby precedence is fail-closed while nonessential telemetry can abort before terminal authority is evaluated",
+      "claim that event identity/replay semantics are exactly-once while rejected first claims can reserve identity and accepted state is invocation-local",
       "claim that secretary freshness or fresh-authority precedence is executable from current caller booleans",
       "claim that anti-thrash is calibrated or performance-safe from current caller-supplied shift ratio",
       "authoritative verified Experience accounting from current raw-field paths",
       "authoritative operational-progress/speed numerator accounting from raw caller event fields",
+      "claim that terminal state semantics are closed-loop while N/R cannot faithfully round-trip as current control state",
       "speedup or capability claims from raw credit totals, commits, wakes, heartbeat count, window age or uptime"
     ]
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
-    "A canonical current-control-state round-trips N/R/G1..G6 and terminal-exit authority is explicit, trusted and consistent across v1/v2/v2.1.",
-    "A structural terminal-authority contract is enforced before nonessential pressure/anti-thrash/progress telemetry; authenticated rollback cannot be suppressed by malformed unrelated telemetry.",
+    "Rejected/unverified/ignored records do not reserve event identity; accepted identities bind exact canonical event/evidence/verifier receipts; exact replay NO_OPs and same-ID/different-binding becomes IDENTITY_CONFLICT.",
+    "A durable rollback-resistant event/evidence acceptance registry prevents same-ID replay, same-evidence/new-ID laundering, restart/rollback replay and first-claim identity poisoning.",
     "Secretary routing inputs use replay-resistant provenance/freshness binding and authority_conflict projects an exact trusted authority decision rather than merely neutralizing secretary_level.",
     "recent_shift_rate_ratio is derived from canonical shift history with precommitted support/window/uncertainty and stateful enter/exit hysteresis; paired performance shows no safety-upshift or latency regression.",
     "verified_progress_density remains observational unless independently derived and non-self-reinforcing.",
-    "A durable rollback-resistant event/evidence acceptance registry prevents same-ID replay, same-evidence/new-ID laundering, same-ID/different-binding rebinding and restart/rollback replay.",
     "Verified Experience requires exact evidence identity and trusted C/independent-verifier acceptance receipt; v2.1 cannot re-mint verified credit from raw caller fields.",
     "Operational progress requires durable artifact/defect acceptance receipt and lineage dedupe; raw event_kind/event_id is insufficient.",
+    "A canonical current-control-state round-trips N/R/G1..G6 and terminal-exit authority is explicit, trusted and consistent across v1/v2/v2.1.",
     "5/4/3/1 credit weights remain explicitly heuristic and are never used as direct capability/Trust/Identity/Personality/Governance or promotion truth.",
     "Speedup uses one frozen versioned metric manifest shared by baseline/candidate and a sealed matched paired/randomized-crossover evaluation over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency with equal-or-better verification/risk quality.",
     "Dedicated fresh Spirit review and fresh Navigator synthesis have no unresolved material vetoes before any formal A->B->C route is considered."
