@@ -1,14 +1,14 @@
 {
-  "schema_version": "4.25",
+  "schema_version": "4.26",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T14:33:26+08:00",
+  "recorded_at": "2026-08-20T16:27:17+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact six Gearbox blobs are inspectable through the GitHub connector, but connector blobs are not mountable into one trusted same-runner filesystem. The current tool surface does not provide a qualifying exact-byte executor for the required compile plus three regression suites. No exact-current compile/test execution was performed and no historical PASS is promoted.",
+    "reason": "Current exact six Gearbox blobs are inspectable through the GitHub connector, but are not mountable into one trusted same-runner filesystem. No exact-current compile/test execution was performed and no historical PASS is promoted.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "67ed3c6389a8444c38ab1af5864f821a158abca8",
+    "latest_repository_head_observed": "e31466445e630061122c410489937028691116bc",
     "runner_provenance": "GitHub connector exact-blob inspection; no trusted mountable same-runner exact-byte executor available",
     "fresh_acquisition_exit_code": 128,
     "fresh_acquisition_error": "NO_TRUSTED_SAME_RUNNER_EXACT_BYTE_EXECUTOR_AVAILABLE",
@@ -43,6 +43,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1431 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-V2-TERMINAL-PRESSURE-PARSE-BLOCK-077: select_gear_v2 validates nonessential pressure telemetry before calling v1, so malformed telemetry can suppress trusted rollback_required/standby before terminal R/N is produced. Release requires structural terminal-authority intake before nonessential pressure telemetry, or an independently trusted terminal envelope that cannot be suppressed by telemetry parsing. Existing 076/075/074/073 plus authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1529 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-TERMINAL-STATE-ROUNDTRIP-078: v1/v2 can output N/R but select_gear_v2 only accepts current_gear G1..G6, so the controller cannot faithfully round-trip its own terminal state into the next cycle. Release requires one canonical current-control-state domain N/R/G1..G6 plus explicit trusted terminal-exit authority. Existing 077 and remaining authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
