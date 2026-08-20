@@ -12,7 +12,7 @@
     "Reconciled paired speed gate using only required paired metrics and identical denominator/censoring semantics; no awake/window/commit/heartbeat/poll/retry proxies were used.",
     "Updated latest-only selftest, speed baseline and canonical EVOLUTION_PROGRESS because W02 advanced materially from 1030 to 1132.",
     "Checkpoint overwrite was attempted twice but GitHub Contents API returned 409 while fresh readback still showed the prior checkpoint blob; canonical progress and this receipt carry the current delta without falsely claiming checkpoint overwrite.",
-    "Fresh-read MISSION_STATE, canonical EVOLUTION_PROGRESS, selftest, speed baseline and this receipt is required before final owner report."
+    "Fresh-read MISSION_STATE, canonical EVOLUTION_PROGRESS, selftest, speed baseline and this receipt; expected bindings matched before final PASS confirmation."
   ],
   "material_delta": [
     "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-1132 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
@@ -67,5 +67,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PENDING_FINAL_READBACK"
+  "readback_status": "PASS"
 }
