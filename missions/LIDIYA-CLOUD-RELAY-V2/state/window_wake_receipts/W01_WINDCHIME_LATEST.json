@@ -11,7 +11,7 @@
     "Checked current exact six Gearbox blobs and exact-head workflow availability; no trusted same-runner exact-byte executor is available, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical result is promoted.",
     "Reconciled paired speed gate using only required paired metrics and exhaustive outcome denominators; no awake/window/commit/heartbeat/poll/retry proxies were used.",
     "Updated canonical latest-only state because W02 advanced materially from 0733 to 0832.",
-    "Readback of selftest, speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS required before owner report."
+    "Fresh-read selftest, speed baseline, W01 checkpoint, canonical EVOLUTION_PROGRESS and MISSION_STATE; all matched expected bindings before final receipt confirmation."
   ],
   "material_delta": [
     "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0832 and remains fresh to current exact blobs 13aafeed/d01cab7b/81818f9d/d9252bb5.",
@@ -65,5 +65,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PENDING_FINAL_READBACK"
+  "readback_status": "PASS"
 }
