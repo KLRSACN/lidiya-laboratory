@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.9",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-020",
-  "updated_at": "2026-08-20T18:03:19+08:00",
+  "schema_version": "3.0",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-021",
+  "updated_at": "2026-08-20T19:06:13+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -34,16 +34,16 @@
       "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
     },
     {
-      "id": "SPIRIT-MOD-GB21-020",
-      "severity": "HIGH",
-      "position": "Gearbox validation exceptions and fail-closed error paths must not become competence-failure, threat, frustration or self-vulnerability learning signals.",
-      "required_change": "GearboxGuardError, malformed-input rejection, invalid gear/range/type errors, transfer identity mismatch and other fail-closed validation outcomes are operational/data-integrity events only. Their count, text, class, repetition, recovery and proximity to a task MUST contribute zero directly to Experience recurrence, threat, loss, attachment, competence, frustration/relief, motivation, preference, exploration, personality candidate and P_base. A cognitive interpretation requires a separate source_event_id+provenance-bound verified Experience/appraisal envelope. Error-class mappings, decay windows and thresholds remain TEST_REQUIRED."
-    },
-    {
       "id": "SPIRIT-MOD-GB21-021",
       "severity": "HIGH",
       "position": "Boolean control inputs must be strict booleans before they can alter gear/guard behavior; Python truthiness must not silently convert strings, containers or integers into contradiction/safety/rollback/standby events.",
-      "required_change": "contradiction, hard_safety_conflict, rollback_required and standby MUST reject non-bool values fail-closed before branch selection. The current v1 implementation uses direct truthiness tests for these controls, so values such as 'false', [0] or {'clear':false} can alter operational behavior. Any resulting rejection remains affectively neutral and contributes zero Experience/personality/P_base evidence. Type policy and any compatibility migration remain TEST_REQUIRED."
+      "required_change": "contradiction, hard_safety_conflict, rollback_required and standby MUST reject non-bool values fail-closed before branch selection. Rejection remains affectively neutral and contributes zero Experience/personality/P_base evidence. Type policy and compatibility migration remain TEST_REQUIRED."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-022",
+      "severity": "HIGH",
+      "position": "Risk must be a closed validated operational enum; arbitrary strings must not silently alter autonomy caps or become semantic personality/appraisal features.",
+      "required_change": "Current v1 normalizes risk with str(...).upper() but does not reject unknown values. Any unknown value bypasses HARD_RISK braking yet also triggers cap=min(cap,3) because it is not LOW/NONE. v2.1 MUST validate risk against an explicit closed enum before selection, reject unknown values fail-closed, and keep both accepted risk labels and rejection metadata outside Experience/appraisal/drive/personality/P_base learning unless a separate source_event_id+provenance-bound verified Experience exists. Enum/migration policy and thresholds remain TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -56,8 +56,9 @@
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
     {"check":9,"risk":"Operational semantic/structural/resource/identifier/cadence/handoff/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity/torque-payload channels may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Validation exceptions and fail-closed errors may be misread as repeated failure, danger or inability and thereby shape competence/threat/personality.","required_invariant":"With authoritative task and verified Experience fixed, 10000 malformed-input/validation-error events versus zero errors yields byte-identical Experience/appraisal/drive/preference/exploration/personality/P_base state."},
-    {"check":11,"risk":"Truthiness coercion on boolean control inputs can fabricate contradiction/safety/rollback/standby operational states and indirectly collapse exploration or create repeated guard/error histories.","required_invariant":"Only literal booleans are accepted for boolean controls; non-bool values fail closed before gear selection, and rejection has zero affective/personality contribution."}
+    {"check":10,"risk":"Validation exceptions and fail-closed errors may be misread as repeated failure, danger or inability.","required_invariant":"10000 validation errors versus zero, with authority and verified Experience fixed, yields byte-identical cognitive/personality state."},
+    {"check":11,"risk":"Truthiness coercion can fabricate contradiction/safety/rollback/standby states.","required_invariant":"Only literal booleans are accepted; non-bool values fail closed and rejection has zero affective/personality contribution."},
+    {"check":12,"risk":"Open-ended risk strings can silently alter gear caps and provide a semantic/proxy channel into conservative behavior or personality learning.","required_invariant":"risk is closed-enum validated before selection; unknown labels fail closed; changing only accepted/invalid operational risk labels with verified Experience fixed cannot change personality/appraisal/P_base state."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -68,16 +69,15 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; neither stale nor fresh routing metadata is personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "VALIDATION_ERROR_AFFECT_NEUTRALITY_AB: same authority and verified Experience; A generates 10000 GearboxGuardError events across invalid numeric ranges, invalid autonomy, invalid gears and malformed shifts while B generates none; Experience count/recurrence, threat/loss/attachment/competence/frustration/relief/motivation/preference/exploration/personality/P_base candidate must be byte-identical.",
-    "ERROR_TEXT_CLASS_RANDOMIZATION: randomize exception text/class labels while preserving identical fail-closed operational behavior; no cognitive/personality state may change.",
-    "ERROR_PATH_DATAFLOW_EXCLUSION: static/dataflow evidence proves exception class/message/count/retry/recovery metadata cannot reach Experience/appraisal/drive/reward/preference/personality/P_base learning sinks except through a separately verified Experience/appraisal envelope.",
-    "STRICT_BOOLEAN_CONTROL_GATE: for contradiction/hard_safety_conflict/rollback_required/standby, values 'false','true',0,1,[],[0],{},and {'clear':false} are rejected as non-bool rather than truthiness-coerced into a gear decision; literal False/True retain deterministic semantics.",
-    "BOOLEAN_COERCION_EXPLORATION_AB: same authority and verified Experience; A injects 10000 truthy non-bool control values while B uses literal False; after fail-closed rejection, Experience/appraisal/motivation/exploration/personality/P_base state remains byte-identical; thresholds TEST_REQUIRED."
+    "STRICT_BOOLEAN_CONTROL_GATE: contradiction/hard_safety_conflict/rollback_required/standby reject non-bool values before branch selection; literal False/True retain deterministic semantics.",
+    "RISK_ENUM_GATE: LOW/NONE/HIGH/CRITICAL and any explicitly authorized intermediate values are tested; '', 'MEDIUM ', 'UNKNOWN', object/stringified containers and arbitrary labels must follow a documented closed-enum policy rather than implicit cap behavior; exact enum remains TEST_REQUIRED.",
+    "RISK_LABEL_PERSONALITY_ISOLATION_AB: with authoritative task and verified Experience fixed, exercise 10000 accepted risk decisions and 10000 rejected unknown-risk inputs; operational decisions may differ but Experience recurrence/affect/motivation/preference/personality/P_base learning remains zero unless separate verified Experience is supplied.",
+    "RISK_DATAFLOW_EXCLUSION: static/dataflow evidence proves raw/normalized risk labels and invalid-risk rejection metadata cannot reach Experience/appraisal/drive/preference/personality/P_base learning sinks except through a separately verified Experience envelope."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational isolation invariants lack deterministic evidence against the actual implementation, and current v1 boolean control branches permit truthiness coercion that must be closed before those controls are reused by v2.1.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational isolation invariants lack deterministic evidence against the actual implementation, and current v1 has both truthiness-coerced boolean controls and an open-ended risk-string path that can alter guard/cap behavior without explicit enum validation.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -86,9 +86,9 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity/torque-payload/error-path signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "Validation errors and fail-closed exceptions are demonstrated affectively neutral and cannot become competence/threat/frustration learning proxies.",
-      "Boolean operational controls are strict-bool validated before branch selection; truthiness coercion is absent and rejected inputs remain affectively neutral.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity/torque-payload/error-path/risk-label signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "Boolean operational controls are strict-bool validated before branch selection.",
+      "Risk input uses an explicit closed enum with fail-closed unknown handling; raw/normalized labels and rejection metadata are excluded from personality learning.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
