@@ -1,6 +1,6 @@
 {
-  "schema_version": "4.1",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-0733",
+  "schema_version": "4.2",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260820-0832",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; Home#73 retained only through fresh Active-8 pointer; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_state/EVOLUTION_PROGRESS.json_SCHEMA_6.56-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_state/EVOLUTION_PROGRESS.json_SCHEMA_6.57-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -19,8 +19,20 @@
     "gearbox_v2_1": "READ_OK",
     "test_gearbox_v2_1": "READ_OK",
     "gearbox_v2_1_contract": "READ_OK",
-    "previous_quantum_review": "READ_OK",
     "own_latest_receipt": "READ_OK_state/window_wake_receipts/W02_QUANTUM_LATEST.json"
+  },
+  "source_fingerprints": {
+    "active8_sha": "74c5529879d77ecac3beb60e7294c31b26a48eac",
+    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
+    "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
+    "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
+    "gearbox_v2_sha": "13aafeed851a2b5453dd36eaf64b85552bc79838",
+    "test_v2_sha": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
+    "v2_contract_sha": "7c272b09264be765354fe2052eeb9e2f230f1705",
+    "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
+    "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
+    "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
+    "own_latest_receipt_sha": "97d2f1c76a7d9dadde581a08e3df9cb1c27690b2"
   },
   "baseline_preservation": {
     "gearbox_v1_verified_baseline": "PRESERVED",
@@ -31,46 +43,26 @@
     "heartbeat_poll_retry_window_age_are_experience": false,
     "real_5min_runtime_live": false
   },
-  "source_fingerprints": {
-    "active8_sha": "44b5bec85dcdf98d13aff1bcc7e71833aca786d3",
-    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "gearbox_v2_sha": "13aafeed851a2b5453dd36eaf64b85552bc79838",
-    "test_v2_sha": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
-    "v2_contract_sha": "7c272b09264be765354fe2052eeb9e2f230f1705",
-    "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
-    "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
-    "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_quantum_review_sha": "9bca0ef7d391b32f330ae9061b4a9ce462ee6c10",
-    "own_latest_receipt_sha": "97d2f1c76a7d9dadde581a08e3df9cb1c27690b2"
-  },
   "agreements": [
     "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review mutates no formal state/code and claims no C PASS.",
     "Heartbeat, poll, retry, reconnect, wait, scheduler wake, window age and uptime remain zero Experience.",
-    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only in v2.1 and must not become verified Experience merely by aggregation.",
-    "Strict bool validation is useful type hardening but is not evidence of freshness, authority provenance, verifier authority or replay resistance.",
+    "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND remain operational-only in v2.1 and must never be promoted to verified Experience merely by aggregation.",
+    "Strict boolean validation is useful type hardening but is not evidence of freshness, authority provenance, verifier authority or replay resistance.",
     "verified_progress_density is currently reason-only and should remain observational until independently derived and tested against self-reinforcement.",
     "The v2.1 contract correctly keeps speed improvement NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
   "disagreements": [
     {
+      "id": "QV-GB21-UNVERIFIED-CLAIM-AUDIT-SINK-071",
+      "severity": "MEDIUM_HIGH",
+      "finding": "New material objection on current exact bytes: for a verified-class event with independently_verified=false, aggregate_experience_events computes delta=0 and enters the verified_kinds branch, but does not increment ignored_events or any rejected/unverified counter. The claim therefore disappears from ledger outcome accounting even though it was received and failed verification.",
+      "required_change": "Make ledger outcomes exhaustive and conserved. Every input record must land in exactly one auditable class such as accepted_verified, accepted_operational, rejected_unverified, duplicate, identity_conflict, or ignored_malformed. Failed verification must remain in quality and acceptance denominators and may not silently vanish because credit is zero."
+    },
+    {
       "id": "QV-GB21-PROPOSED-AUTONOMY-CAP-BYPASS-070",
       "severity": "HIGH",
-      "finding": "New primary objection on current exact bytes: proposed_autonomy is validated as integer 0..6, but v1 only applies the cap when proposed_autonomy > 0 and then forces the final normal gear to at least G2 via max(2,...). Consequently proposed_autonomy=0 does not cap routing at zero/standby and proposed_autonomy=1 can still return G2. v2 and v2.1 inherit this behavior. The candidate therefore cannot claim proposed_autonomy is an enforced maximum autonomy/gear authority boundary.",
-      "required_change": "Define the exact semantics of autonomy values 0 and 1 and enforce them at one canonical control boundary. If 0 means no autonomous execution it must map to N or another explicit nonexecuting state; if 1 means maximum G1 it must never return G2+. If the field is not an authority cap, rename/recontract it so callers cannot rely on a false safety guarantee. Preserve the historical v1 VERIFIED_PASS as baseline; this veto bounds v2/v2.1 adoption claims and does not retroactively invalidate formal history."
-    },
-    {
-      "id": "QV-GB21-DUPLICATE-REPLAY-VERIFIER-PARSE-069",
-      "severity": "HIGH",
-      "finding": "aggregate_experience_events parses independently_verified before checking whether event_id is already in seen. A replay that should be exactly-once NO_OP can reuse an already-seen event_id but supply malformed verifier metadata and raise GearboxGuardError before duplicate detection, aborting the batch and censoring later valid evidence.",
-      "required_change": "Canonicalize and authenticate event identity/binding before verifier parsing. Exact accepted replay is deterministic NO_OP; same ID with different binding is IDENTITY_CONFLICT; malformed duplicate cannot abort later independent records."
-    },
-    {
-      "id": "QV-GB21-INHERITED-EXPERIENCE-GATE-DROP-068",
-      "severity": "HIGH",
-      "finding": "v2 can deny real Experience outside canonical C_VERIFIED while v2.1 independently recomputes positive verified_experience_delta from raw caller event_kind plus event_independently_verified.",
-      "required_change": "v2.1 must consume one immutable AcceptedExperienceReceipt or exact inherited verification eligibility result bound to evidence, trusted C/independent-verifier identity, mission/step/scope, freshness/revocation and installation/workspace identity."
+      "finding": "proposed_autonomy accepts 0..6, but v1 only caps when >0 and floors normal gear to at least G2; therefore 0 does not enforce no autonomy and 1 can still return G2. v2/v2.1 inherit this behavior.",
+      "required_change": "Define and enforce one canonical semantics for values 0 and 1 across v1/v2/v2.1, or rename/recontract the field so it is not relied upon as a false authority ceiling."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -109,15 +101,27 @@
       "required_change": "Use a durable rollback-resistant event/evidence-lineage acceptance registry with exact replay NO_OP, same-evidence/new-ID lineage duplicate and same-ID/different-binding IDENTITY_CONFLICT."
     },
     {
+      "id": "QV-GB21-DUPLICATE-REPLAY-VERIFIER-PARSE-069",
+      "severity": "HIGH",
+      "finding": "aggregate_experience_events parses independently_verified before checking whether event_id is already in seen, so malformed duplicate replay can abort the batch before duplicate handling.",
+      "required_change": "Resolve canonical identity/binding before mutable verifier parsing; exact replay becomes deterministic NO_OP and malformed replay cannot censor later evidence."
+    },
+    {
       "id": "QV-GB21-VERIFIED-EVIDENCE-BINDING-002",
       "severity": "HIGH",
       "finding": "Verified Experience still lacks mandatory exact evidence hash and trusted C/independent-verifier identity/receipt in the executable authority path.",
       "required_change": "Require immutable exact evidence identity plus trusted verifier acceptance receipt bound to mission/step/scope, freshness/revocation and installation/workspace identity."
     },
     {
+      "id": "QV-GB21-INHERITED-EXPERIENCE-GATE-DROP-068",
+      "severity": "HIGH",
+      "finding": "v2 can deny real Experience outside canonical C_VERIFIED while v2.1 independently recomputes positive verified_experience_delta from raw caller event_kind plus event_independently_verified.",
+      "required_change": "v2.1 must consume one immutable AcceptedExperienceReceipt or exact inherited verification eligibility result; it must not re-mint verified credit from raw caller fields."
+    },
+    {
       "id": "QV-GB21-OPERATIONAL-PROGRESS-EVIDENCE-BINDING-066",
       "severity": "HIGH",
-      "finding": "Operational progress is still granted from caller-supplied event_id/event_kind without durable artifact or defect acceptance proof.",
+      "finding": "Operational progress is granted from caller-supplied event_id/event_kind without durable artifact or defect acceptance proof.",
       "required_change": "Require evidence-bound OperationalProgressAcceptanceReceipt plus lineage dedupe; raw claims yield zero authoritative operational credit."
     },
     {
@@ -140,28 +144,27 @@
     }
   ],
   "statistical_risks": [
-    "A nominal autonomy cap that is ignored at 0 or floored to G2 at 1 can confound safety/performance comparisons because test arms may not actually run under the requested autonomy ceiling.",
-    "Duplicate replay parser-order DoS can censor later valid evidence based on batch ordering, biasing acceptance and latency statistics.",
-    "Dropping inherited verification eligibility can inflate longitudinal verified-Experience totals with events that v2 marks NOT_PROMOTION_EVIDENCE.",
+    "Unverified verified-class claims currently disappear from ledger outcome accounting, biasing verification acceptance rates, quality denominators, rejection rates and any downstream speed/quality comparison.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
     "Small-n caller-supplied shift-rate estimates can false-trigger anti-thrash or chatter around the threshold.",
     "Anti-thrash may improve gear_shift_rate while degrading cycle, closure or recovery latency.",
     "verified_progress_density can become self-reinforcing if policy-created progress is fed back into routing authority.",
     "Transient event identity, same-evidence/new-ID replay and raw-field credit paths can inflate longitudinal Experience/progress totals.",
+    "Duplicate replay parser-order DoS can censor later valid evidence based on batch ordering.",
     "Caller-created operational events can inflate durable-progress numerator without proof of durable work.",
     "5/4/3/1 credits are ordinal engineering heuristics, not capability units.",
     "Speed metrics are numerator/denominator/exposure/order/coverage sensitive and require matched paired/crossover evaluation."
   ],
   "proposed_tests": [
-    "GB21-PROPOSED-AUTONOMY-CAP-140: under otherwise permissive inputs, proposed_autonomy=0 and proposed_autonomy=1 must follow the precommitted authority semantics; if defined as a cap they must never return a gear above that cap.",
-    "GB21-PROPOSED-AUTONOMY-CROSSPATH-141: v1, v2 and v2.1 must expose the same canonical autonomy-limit semantics for values 0..6; wrapper layers may tighten but may not silently weaken the requested ceiling.",
-    "GB21-DUPLICATE-REPLAY-PARSE-136/137 plus cross-run replay and same-evidence/new-ID lineage tests remain required.",
-    "GB21-INHERITED-EXPERIENCE-GATE-133/134 and verification-metadata binding remain required.",
+    "GB21-UNVERIFIED-CLAIM-AUDIT-142: verified-class + independently_verified=false must land in an explicit rejected_unverified/quarantine outcome with zero credit, not disappear from all counters.",
+    "GB21-LEDGER-OUTCOME-CONSERVATION-143: every input record must map to exactly one auditable outcome class; outcome counts must sum to total input records for non-atomic ingestion.",
+    "GB21-QUALITY-DENOMINATOR-144: inject many failed verification claims and prove verification acceptance/rejection denominators preserve them rather than improving because zero-credit failures vanish.",
     "Secretary freshness forge and exact AuthorityDecisionEnvelope projection tests remain required.",
-    "Shift-rate provenance, small-n, anti-thrash chatter/release and performance non-regression tests remain required.",
+    "Shift-rate provenance, small-n, anti-thrash chatter/release and paired performance non-regression tests remain required.",
+    "GB21-DUPLICATE-REPLAY-PARSE plus cross-run replay, rollback replay, same-evidence/new-ID lineage and same-ID/different-binding conflict tests remain required.",
     "Verified evidence without exact trusted verifier/C receipt must yield zero authoritative verified credit.",
     "Operational progress without durable artifact/defect receipt must yield zero authoritative operational credit.",
-    "Paired speed baseline must use durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency under sealed matched workload and randomized/crossover order."
+    "Paired speed baseline must use durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency under sealed matched workloads and randomized/crossover order."
   ],
   "bounded_veto": {
     "active": true,
@@ -173,32 +176,32 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
-      "claim that proposed_autonomy currently enforces a strict maximum authority/gear ceiling",
-      "authoritative verified Experience accounting from current v2/v2.1 raw-field paths",
+      "claim that secretary freshness or authority precedence is evidence-bound",
+      "authoritative verified Experience accounting from current raw-field paths",
       "authoritative operational-progress/speed numerator accounting from raw caller event fields",
+      "quality/acceptance statistics that omit failed verification claims from denominators",
       "automatic authority escalation based on secretary/anti-thrash/progress heuristics",
-      "speedup or capability claims from raw credit totals, commits, wakes or uptime"
+      "speedup or capability claims from raw credit totals, commits, wakes, heartbeat count or uptime"
     ]
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
-    "proposed_autonomy has a single documented canonical meaning across v1/v2/v2.1 and values 0/1 cannot silently result in a higher autonomous gear than the declared ceiling; if it is not an authority ceiling the API/contract is renamed so that no safety claim depends on it.",
-    "Duplicate/exact replay handling occurs before mutable verifier parsing or is resolved by a durable accepted-event registry: exact replay is deterministic NO_OP, same-ID/different-binding is IDENTITY_CONFLICT, malformed replay cannot censor later independent evidence.",
+    "Ledger outcome accounting is exhaustive and conserved: every input record is accepted_verified, accepted_operational, rejected_unverified, duplicate, identity_conflict or ignored_malformed exactly once; failed verification cannot disappear from quality denominators.",
     "Every authoritative verified delta comes only from an immutable AcceptedExperienceReceipt bound to exact evidence and trusted C/independent-verifier identity; v2.1 cannot re-mint verified credit from raw caller fields.",
-    "Operational progress remains non-Experience but every authoritative operational credit is evidence-bound to a durable artifact/defect acceptance receipt with lineage dedupe.",
-    "Secretary freshness and authority conflict are evidence-bound to trusted replay-resistant envelopes, with the actual fresh authority decision projected.",
-    "recent_shift_rate_ratio is derived from canonical history with precommitted support/window/uncertainty and hysteretic release; anti-thrash passes performance non-regression.",
-    "verified_progress_density remains observational unless independently derived and proven non-self-reinforcing.",
-    "Terminal-state precedence is structurally defined and tested: trusted R cannot be overwritten by secretary/pressure/recovery heuristics; N exits only through explicit trusted precedence rules.",
-    "5/4/3/1 credit weights remain heuristic analytics and never serve as capability, Trust, Identity, Personality, Governance or promotion truth.",
-    "Speedup claim remains NOT_YET_STATISTICALLY_ESTABLISHED until sealed matched paired/randomized-crossover evaluation shows improvement in durable_progress_per_wake and verified_closure_per_hour with non-inferior cycle_completion_latency, rework_ratio, recovery_latency, verification quality and risk under frozen metric definitions and complete assigned-workload coverage."
+    "Operational progress remains operational-only and authoritative numerator credit requires durable artifact/defect acceptance receipts with lineage dedupe.",
+    "Duplicate/exact replay is resolved by durable identity/binding before mutable verifier parsing; exact replay is NO_OP, same-ID/different-binding is IDENTITY_CONFLICT, malformed replay cannot censor later evidence.",
+    "secretary freshness is source/TTL/scope/policy bound and authority conflict projects the exact fresh AuthorityDecisionEnvelope rather than merely neutralizing secretary telemetry.",
+    "recent_shift_rate_ratio is internally derived from canonical shift history with precommitted sample/window/uncertainty and stateful hysteresis; anti-thrash passes paired performance non-regression.",
+    "verified_progress_density remains observational until independently derived and adversarially shown not to self-reinforce routing.",
+    "terminal R/N semantics have structural precedence across v1/v2/v2.1 and cannot be overwritten by untrusted secretary/pressure overlays.",
+    "5/4/3/1 credit weights remain explicitly heuristic and are never used as capability truth, Trust, Identity, Personality, Governance or promotion threshold.",
+    "Any speedup claim uses sealed matched paired/randomized-crossover baselines on durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, rework_ratio and recovery_latency with frozen metric provenance, exposure/censoring/order, complete assigned-workload coverage, uncertainty and verification/risk non-regression.",
+    "Formal adoption still requires exact-current Quantum/Spirit adversarial review, fresh Navigator synthesis and normal A->B->C; this review itself is never C PASS."
   ],
   "return_to_runtime": {
-    "after_review": "ALWAYS_ON_RUNTIME_SMALL_WORLD",
-    "small_world_action": "READ_EXACT_ENDPOINT_BEFORE_ANY_TURN; DO_NOT_IMPERSONATE_OTHER_ROLE",
+    "always_on_runtime": "RETURN_AFTER_DURABLE_READBACK",
+    "small_world": "CHECK_ACTIVE_ENDPOINT_AFTER_REVIEW; WRITE_NOTHING_UNLESS_next_expected_source_EQUALS_QUANTUM",
     "p_base": "READ_ONLY_UNCHANGED",
     "runtime_maintenance_is_experience": false
-  },
-  "created_at": "2026-08-20T07:33:56+08:00",
-  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
+  }
 }
