@@ -10,7 +10,8 @@
     "Archive No-Read Fence targeted startup through Home continuity pointer, Active-8, fresh MISSION_STATE, current Gearbox v1/v2/v2.1 contracts/code/tests, latest W02/W03/W04, W01 checkpoint and prior receipt.",
     "Checked latest branch head 4d26401d6f2c5969865b2d5a261fa129d3eb36e4 for qualifying workflow runs; none exist. Connector exact blobs remain inspectable but not mountable into one trusted same-runner filesystem, so no exact-current compile/tests were executed and no historical PASS was promoted.",
     "Detected material delta: W02 advanced from 1633 to 1730 on current exact bytes and added HIGH V2-TERMINAL-TELEMETRY-PARSE-BLOCK-080.",
-    "Updated latest-only selftest, paired speed baseline and canonical EVOLUTION_PROGRESS. Attempted W01 checkpoint overwrite twice; both returned 409 and fresh-read still showed prior checkpoint blob, so no false checkpoint update claim is made."
+    "Updated latest-only selftest, paired speed baseline and canonical EVOLUTION_PROGRESS. Attempted W01 checkpoint overwrite twice; both returned 409 and fresh-read still showed prior checkpoint blob, so no false checkpoint update claim is made.",
+    "Fresh-read MISSION_STATE, canonical EVOLUTION_PROGRESS, selftest, paired speed baseline and this receipt before finalizing readback_status."
   ],
   "material_delta": [
     "W02 is now QUANTUM-GEARBOX-V2.1-20260820-1730, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
@@ -59,5 +60,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PENDING_FINAL_READBACK"
+  "readback_status": "PASS"
 }
