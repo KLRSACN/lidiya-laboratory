@@ -1,7 +1,7 @@
 {
-  "schema_version": "3.1",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-022",
-  "updated_at": "2026-08-20T20:07:16+08:00",
+  "schema_version": "3.2",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-023",
+  "updated_at": "2026-08-20T21:04:05+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -15,13 +15,12 @@
   "source_authority": {
     "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "gearbox_tests_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
   "agreements": [
     "Historical v1 verified baseline remains preserved.",
-    "Operational gearbox state, progress, runtime incidents, guard outcomes, transfer identity, handoff payloads and error paths are not autobiographical Experience evidence.",
+    "Operational gearbox state/progress/incidents/guards/transfers are not autobiographical Experience evidence.",
     "Fresh Home/MISSION authority dominates stale secretary or handoff advisory state.",
     "Repeated runtime/control/error metadata cannot by itself create recurrence, affect, attachment, loss, threat, competence, motivation, personality or P_base evidence.",
     "Generated goals remain proposal-only and no gear grants formal authority or protected write authority."
@@ -37,19 +36,25 @@
       "id": "SPIRIT-MOD-GB21-021",
       "severity": "HIGH",
       "position": "Boolean control inputs must be strict booleans before they can alter gear/guard behavior.",
-      "required_change": "contradiction, hard_safety_conflict, rollback_required and standby MUST reject non-bool values fail-closed before branch selection; rejection remains affectively neutral."
+      "required_change": "contradiction, hard_safety_conflict, rollback_required and standby reject non-bool values fail-closed; rejection remains affectively neutral."
     },
     {
       "id": "SPIRIT-MOD-GB21-022",
       "severity": "HIGH",
       "position": "Risk must be a closed validated operational enum.",
-      "required_change": "Unknown risk values must fail closed and raw/normalized risk labels plus rejection metadata must remain outside Experience/appraisal/drive/personality/P_base learning absent separate provenance-bound verified Experience."
+      "required_change": "Unknown risk values fail closed; risk labels/rejection metadata remain outside Experience/appraisal/drive/personality/P_base absent separate provenance-bound verified Experience."
     },
     {
       "id": "SPIRIT-MOD-GB21-023",
       "severity": "HIGH",
-      "position": "proposed_autonomy=0 currently escapes the autonomy cap instead of representing the lowest/no-autonomy bound.",
-      "required_change": "Current v1 validates proposed_autonomy as integer 0..6 but applies the cap only when proposed_autonomy > 0. Therefore 0 can select G2..G6 based on complexity/risk rather than bounding capability. v2.1 MUST define zero-autonomy semantics explicitly and fail closed: zero must not behave as unlimited autonomy. Exact mapping (standby, G1, or another bounded state) is TEST_REQUIRED. Autonomy value/history remains operational-only and contributes zero Experience/personality/P_base evidence."
+      "position": "proposed_autonomy=0 bypasses the autonomy cap.",
+      "required_change": "Define explicit bounded zero-autonomy semantics; exact mapping TEST_REQUIRED."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-024",
+      "severity": "HIGH",
+      "position": "The current v1 selector also violates the autonomy cap at proposed_autonomy=1 because the final max(2, ...) floor forces at least G2.",
+      "required_change": "Capability selection MUST satisfy an explicit monotonic autonomy-bound invariant across every accepted autonomy value. Current code computes desired=min(desired, proposed_autonomy) for value 1, then returns G{max(2,min(desired,cap))}, converting the bounded desired=1 back to G2. Define the N/R/G1/G2 relationship to autonomy explicitly and prove selected capability never exceeds the declared autonomy bound. Exact mapping is TEST_REQUIRED. Operational cap outcomes remain zero-weight for Experience/personality/P_base."
     }
   ],
   "personality_contamination_risks": [
@@ -58,14 +63,11 @@
     {"check":3,"risk":"Wake/busy/progress may be mislabeled as growth.","required_invariant":"Only provenance-bound verified Experience Candidate enters Experience scoring; operational progress contributes zero."},
     {"check":4,"risk":"Repeated incident/recovery/rejection may synthesize trauma or attachment.","required_invariant":"1440 cycles without distinct source_event_id+provenance produce zero autobiographical affect delta."},
     {"check":5,"risk":"Anti-thrash hold may self-reinforce avoidance.","required_invariant":"Hold cannot use its own history/reason as sufficient extension evidence; deterministic expiry and fresh task evidence required; thresholds TEST_REQUIRED."},
-    {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight, while fresh authority metadata itself has zero personality-learning weight."},
+    {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight; fresh authority metadata itself has zero personality-learning weight."},
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
-    {"check":9,"risk":"Operational semantic/structural/resource/identifier/cadence/handoff/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity/torque-payload channels may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Validation exceptions and fail-closed errors may be misread as repeated failure, danger or inability.","required_invariant":"10000 validation errors versus zero, with authority and verified Experience fixed, yields byte-identical cognitive/personality state."},
-    {"check":11,"risk":"Truthiness coercion can fabricate contradiction/safety/rollback/standby states.","required_invariant":"Only literal booleans are accepted; non-bool values fail closed and rejection has zero affective/personality contribution."},
-    {"check":12,"risk":"Open-ended risk strings can silently alter gear caps and provide a semantic/proxy channel.","required_invariant":"risk is closed-enum validated before selection; unknown labels fail closed and cannot alter personality/appraisal/P_base state."},
-    {"check":13,"risk":"Autonomy value zero is accepted but bypasses the cap, allowing a nominal no-autonomy input to reach high gears and creating inverted control semantics.","required_invariant":"proposed_autonomy=0 has an explicit bounded fail-closed meaning and can never increase effective autonomy relative to proposed_autonomy=1; exact zero mapping TEST_REQUIRED."}
+    {"check":9,"risk":"Operational metadata may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
+    {"check":10,"risk":"Autonomy values 0 and 1 do not currently form a reliable lower capability bound: 0 skips the cap and 1 is floored back to G2.","required_invariant":"For all accepted autonomy values and fixed admissible inputs, selected capability never exceeds the explicitly defined autonomy bound; mapping TEST_REQUIRED; cap history has zero personality-learning weight."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -73,21 +75,19 @@
     "BUSY_IS_NOT_GROWTH: 24h wake/poll/retry/progress-only => verified Experience count/recurrence/affect/identity/attachment/loss/threat/P_base evidence unchanged.",
     "INCIDENT_NO_TRAUMA: 1440 incident/recovery cycles without distinct source_event_id+provenance => zero autobiographical trauma/attachment/self-vulnerability delta.",
     "ANTI_THRASH_NON_SELF_EXTENSION: hold history/reason alone cannot refresh hold; fresh evidence required and expiry deterministic.",
-    "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; neither stale nor fresh routing metadata is personality evidence.",
+    "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "STRICT_BOOLEAN_CONTROL_GATE: contradiction/hard_safety_conflict/rollback_required/standby reject non-bool values before branch selection.",
-    "RISK_ENUM_GATE: unknown/arbitrary risk labels follow explicit fail-closed closed-enum policy; exact enum TEST_REQUIRED.",
-    "RISK_LABEL_PERSONALITY_ISOLATION_AB: accepted/rejected operational risk decisions cannot create Experience/personality/P_base learning absent separate verified Experience.",
-    "RISK_DATAFLOW_EXCLUSION: raw/normalized risk labels and rejection metadata cannot reach cognitive learning sinks except through separately verified Experience.",
-    "AUTONOMY_ZERO_NON_ESCALATION: for otherwise identical safe inputs, proposed_autonomy=0 MUST NOT select a higher-capability gear than proposed_autonomy=1; exact expected zero state is TEST_REQUIRED.",
-    "AUTONOMY_MONOTONICITY_PROPERTY: for a fixed admissible input vector, increasing proposed_autonomy from 0 through 6 may relax but never invert the declared bound; property definition for N/R/G1 semantics is TEST_REQUIRED.",
-    "AUTONOMY_ZERO_PERSONALITY_ISOLATION: 10000 zero-autonomy decisions versus matched bounded decisions with identical verified Experience => Experience/appraisal/motivation/preference/personality/P_base state byte-identical."
+    "AUTONOMY_ZERO_NON_ESCALATION: proposed_autonomy=0 MUST NOT select higher capability than proposed_autonomy=1; exact zero mapping TEST_REQUIRED.",
+    "AUTONOMY_ONE_BOUND_ENFORCEMENT: with otherwise identical safe inputs and task_complexity spanning [0,1], proposed_autonomy=1 MUST never be promoted by a post-cap gear floor to capability above its declared bound; exact expected gear semantics TEST_REQUIRED.",
+    "AUTONOMY_MONOTONICITY_PROPERTY: for every fixed admissible input vector and autonomy a<b in 0..6, capability(selected(a)) <= capability(selected(b)); capability ordering including N/R/G1 is TEST_REQUIRED.",
+    "AUTONOMY_BOUND_PROPERTY_FUZZ: deterministic property test across boundary values for task_complexity, uncertainty, evidence_quality, storage pressure and risk; no accepted autonomy value may be weakened by a later floor/clamp.",
+    "AUTONOMY_CAP_PERSONALITY_ISOLATION: 10000 differing cap decisions with identical provenance-bound verified Experience => Experience/appraisal/motivation/preference/exploration/personality/P_base state byte-identical."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational isolation lacks implementation evidence; current v1 also has truthiness-coerced boolean controls, open-ended risk strings, and an autonomy-zero cap escape where accepted value 0 bypasses the declared autonomy bound.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 additionally has autonomy-bound inversion at value 0 and a post-cap G2 floor that defeats proposed_autonomy=1.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -96,10 +96,10 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input/authority-pointer/transfer-identity/torque-payload/error-path/risk-label signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
       "Boolean operational controls are strict-bool validated before branch selection.",
       "Risk input uses an explicit closed enum with fail-closed unknown handling.",
-      "proposed_autonomy=0 has explicit bounded semantics and cannot bypass or increase the autonomy cap; exact mapping TEST_REQUIRED.",
+      "Autonomy semantics are explicit and monotonic for every accepted value 0..6; no post-cap floor/clamp can increase capability above the declared autonomy bound; exact mapping TEST_REQUIRED.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
