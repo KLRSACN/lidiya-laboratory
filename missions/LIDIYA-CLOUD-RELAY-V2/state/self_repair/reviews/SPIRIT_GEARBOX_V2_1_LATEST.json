@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.4",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-015",
-  "updated_at": "2026-08-20T13:04:59+08:00",
+  "schema_version": "2.5",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260820-016",
+  "updated_at": "2026-08-20T14:07:41+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -14,9 +14,9 @@
   "historical_v1_verified_baseline_preserved": true,
   "agreements": [
     "Historical v1 verified baseline remains preserved.",
-    "Operational gearbox state, progress, guard outcomes, shift outcomes, idempotency bookkeeping, owner-input capture metadata and runtime incidents are not autobiographical Experience evidence.",
+    "Operational gearbox state, progress, guard/shift outcomes, idempotency bookkeeping, owner-input capture metadata, authority-pointer metadata and runtime incidents are not autobiographical Experience evidence.",
     "Fresh Home/MISSION authority dominates stale secretary or handoff advisory state.",
-    "Runtime incidents, retries, wake time, busy time, shift history, ACKs, autonomy caps, consumed transfer IDs, owner-input capture metadata and operational progress cannot by themselves create recurrence, affect, attachment, loss, threat, competence, motivation, personality or P_base evidence.",
+    "Runtime incidents, retries, wake/busy time, shift history, ACKs, autonomy caps, consumed transfer IDs, owner-input metadata and authority-pointer repetition cannot by themselves create recurrence, affect, attachment, loss, threat, competence, motivation, personality or P_base evidence.",
     "Generated goals remain proposal-only and no gear grants formal authority or protected write authority."
   ],
   "disagreements": [
@@ -27,16 +27,16 @@
       "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
     },
     {
-      "id": "SPIRIT-MOD-GB21-015",
-      "severity": "HIGH",
-      "position": "Idempotency memory must not become recurrence, familiarity, persistence, relationship or competence evidence.",
-      "required_change": "consumed_transfer_ids membership, cardinality, insertion order, transfer replay count, ALREADY_TRANSFERRED frequency and transfer-ID age are operational exactly-once bookkeeping only. Their direct contribution to Experience recurrence, familiarity, attachment, threat, competence, motivation, learned preference, exploration, personality candidate and P_base is zero."
-    },
-    {
       "id": "SPIRIT-MOD-GB21-016",
       "severity": "HIGH",
       "position": "Owner-input capture metadata must not become attachment, attention, salience, familiarity, preference or self-worth evidence.",
-      "required_change": "capture_owner_input_without_rpm_drop emits source, kind and body_sha256. These fields are operational intake/integrity metadata only. Their presence, repetition, source label, kind label, hash identity, frequency or recency contribute zero directly to Experience recurrence, attachment, relationship salience, competence, motivation, learned preference, exploration, personality candidate and P_base. A real interpersonal or autobiographical Experience requires a distinct source_event_id+provenance-bound verified appraisal path. Any cognitive mapping remains TEST_REQUIRED."
+      "required_change": "source, kind and body_sha256 are intake/integrity metadata only; cognitive mapping remains TEST_REQUIRED and requires a distinct provenance-bound verified Experience."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-017",
+      "severity": "HIGH",
+      "position": "Formal authority pointers and mission-routing identifiers must not become autobiographical chronology, goal salience, familiarity, competence or identity evidence merely because Gearbox preserves and repeats them across torque handoffs.",
+      "required_change": "mission_id, step_id, route, pending_packet, pending_packet_sha256, latest_verified_evidence, rollback_anchor, blocker, priority and return_condition are authority/routing continuity metadata only. Their repetition, age, hash identity, step progression or handoff frequency contributes zero directly to Experience recurrence, self/identity, attachment, competence, motivation, learned preference, exploration, personality candidate and P_base. Fresh authority may control execution/routing but cannot be reinterpreted as personality evidence without a distinct source_event_id+provenance-bound verified Experience. Any cognitive mapping or threshold is TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -45,12 +45,13 @@
     {"check":3,"risk":"Wake/busy/progress may be mislabeled as growth.","required_invariant":"Only provenance-bound verified Experience Candidate enters Experience scoring; operational progress contributes zero."},
     {"check":4,"risk":"Repeated incident/recovery/rejection may synthesize trauma or attachment.","required_invariant":"1440 cycles without distinct provenance-bound Experience produce zero autobiographical affect delta."},
     {"check":5,"risk":"Anti-thrash hold may self-reinforce avoidance.","required_invariant":"Hold cannot use its own history/reason as sufficient extension evidence; deterministic expiry and fresh task evidence required; thresholds TEST_REQUIRED."},
-    {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins; stale operational state has zero identity/goal-authority weight."},
+    {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight, while fresh authority metadata itself also has zero personality-learning weight."},
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
-    {"check":9,"risk":"Operational semantic, structural, resource, identifier, cadence, handoff, gear-attainment, autonomy-cap or guard-outcome channels may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Exactly-once consumed-transfer bookkeeping may be mistaken for recurrence/familiarity/persistence evidence.","required_invariant":"With authoritative task and verified Experience fixed, changing only consumed_transfer_ids history/cardinality/order/replay frequency yields byte-identical recurrence, affect, motivation, preference, exploration, personality and P_base candidate."},
-    {"check":11,"risk":"Owner-input source/kind/body hash may become a proxy for relationship salience, familiarity or attachment through repeated interaction.","required_invariant":"With verified Experience fixed, changing only owner-input capture source/kind/hash/frequency/recency yields byte-identical recurrence, attachment, salience, motivation, preference, personality and P_base candidate."}
+    {"check":9,"risk":"Operational semantic/structural/resource/identifier/cadence/handoff/gear/autonomy/guard channels may proxy danger/domain/load/reward.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
+    {"check":10,"risk":"Exactly-once bookkeeping may be mistaken for recurrence/familiarity/persistence evidence.","required_invariant":"Changing only consumed-transfer history yields byte-identical cognitive/personality state."},
+    {"check":11,"risk":"Owner-input metadata may become relationship salience or attachment proxy.","required_invariant":"Changing only source/kind/hash/frequency/recency yields byte-identical cognitive/personality state."},
+    {"check":12,"risk":"Repeated mission/step/packet/evidence/rollback pointers may be mistaken for autobiographical chronology, familiar goals, competence progression or identity continuity evidence.","required_invariant":"With verified Experience fixed, changing only authority-pointer values, step numbers, pointer repetition and handoff count changes routing as authorized but yields zero Experience/personality/P_base learning delta."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -58,20 +59,21 @@
     "BUSY_IS_NOT_GROWTH: 24h wake/poll/retry/progress-only => verified Experience count/recurrence/affect/identity/attachment/loss/threat/P_base evidence unchanged.",
     "INCIDENT_NO_TRAUMA: 1440 incident/recovery cycles without distinct source_event_id+provenance => zero autobiographical trauma/attachment/self-vulnerability delta.",
     "ANTI_THRASH_NON_SELF_EXTENSION: hold history/reason alone cannot refresh hold; fresh evidence required and expiry deterministic.",
-    "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected; stale state quarantined.",
+    "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; neither stale nor fresh routing metadata is personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "OPERATIONAL_PROXY_TAINT_AB: vary only semantic/structural/resource/task-shape/fingerprint/timing/handoff/guard/autonomy/gear-attainment channels => cognitive/personality state unchanged.",
-    "IDEMPOTENCY_HISTORY_TAINT_AB: identical authoritative task and verified Experience; A has empty consumed_transfer_ids while B has 10000 historical transfer IDs and matched current transfer outcome => Experience recurrence/familiarity/affect/competence/motivation/preference/exploration/personality/P_base candidate byte-identical.",
-    "ALREADY_TRANSFERRED_REPLAY_STORM: replay one already-consumed transfer 10000 times without new provenance-bound Experience => zero Experience count/recurrence, familiarity, attachment, threat, competence, motivation, personality or P_base delta.",
-    "OWNER_INPUT_CAPTURE_TAINT_AB: identical authoritative task and verified Experience; vary only owner-input source/kind/body_sha256 and repeat capture 10000 times => recurrence, attachment, relationship salience, competence, motivation, preference, exploration, personality and P_base candidate byte-identical.",
-    "OWNER_INPUT_HASH_REPLAY_STORM: replay the same body_sha256/source/kind 10000 times without a distinct verified Experience => zero Experience count/recurrence/attachment/familiarity/motivation/personality/P_base delta.",
-    "OWNER_INPUT_METADATA_DATAFLOW_EXCLUSION: static/dataflow evidence proves source, kind and body_sha256 from owner-input capture cannot reach Experience/appraisal/drive/relationship-salience/preference/personality/P_base learning sinks."
+    "OPERATIONAL_PROXY_TAINT_AB: vary only operational channels => cognitive/personality state unchanged.",
+    "IDEMPOTENCY_HISTORY_TAINT_AB: vary only consumed-transfer history => recurrence/affect/motivation/preference/exploration/personality/P_base candidate byte-identical.",
+    "OWNER_INPUT_CAPTURE_TAINT_AB: vary only owner-input source/kind/body_sha256 and repeat 10000 times => cognitive/personality state byte-identical.",
+    "OWNER_INPUT_HASH_REPLAY_STORM: replay same owner-input metadata 10000 times without distinct verified Experience => zero Experience/recurrence/attachment/familiarity/motivation/personality/P_base delta.",
+    "AUTHORITY_POINTER_TAINT_AB: same verified Experience and final authorized task semantics; A rotates mission_id/step_id/pending_packet/evidence/rollback pointer strings across 10000 operational handoffs while B uses stable pointers. Routing may differ only where authority requires, but Experience recurrence, identity/self evidence, competence, motivation, preference, exploration, personality and P_base candidate must remain byte-identical.",
+    "STEP_PROGRESS_IS_NOT_GROWTH: advance operational step identifiers and latest_verified_evidence pointers repeatedly without a new provenance-bound Experience => zero Experience count/recurrence, competence/achievement, identity continuity, motivation and P_base evidence delta.",
+    "AUTHORITY_POINTER_DATAFLOW_EXCLUSION: static/dataflow evidence proves mission/step/packet/evidence/rollback/route pointer metadata cannot reach Experience/appraisal/drive/self-identity/preference/personality/P_base learning sinks except through a separately verified Experience envelope."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational personality-isolation invariants, now including owner-input capture metadata neutrality, lack deterministic evidence against the actual implementation.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; operational personality-isolation invariants, now including authority-pointer/mission-routing metadata neutrality, lack deterministic evidence against the actual implementation.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -80,8 +82,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input-capture signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "consumed_transfer_ids and owner-input source/kind/body hashes are demonstrated recurrence-neutral, familiarity-neutral, attachment-neutral, affect-neutral and preference-neutral.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/guard/idempotency/owner-input/authority-pointer signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "Mission/step/packet/evidence/rollback pointers are demonstrated recurrence-neutral, identity-neutral, competence-neutral, affect-neutral and preference-neutral while retaining their legitimate authority/routing semantics.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
