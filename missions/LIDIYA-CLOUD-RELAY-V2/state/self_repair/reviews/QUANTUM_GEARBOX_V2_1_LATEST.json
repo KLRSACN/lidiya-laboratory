@@ -1,6 +1,6 @@
 {
-  "schema_version": "6.3",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260821-0529",
+  "schema_version": "6.4",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260821-0628",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -19,7 +19,7 @@
     "gearbox_v2_1": "READ_OK",
     "test_gearbox_v2_1": "READ_OK",
     "gearbox_v2_1_contract": "READ_OK",
-    "own_latest_review": "READ_OK_SCHEMA_6.2"
+    "own_latest_review": "READ_OK_SCHEMA_6.3"
   },
   "source_fingerprints": {
     "active8_sha": "dc281c4b2fcfba863006d30d308b96fb4b92527c",
@@ -32,7 +32,7 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_latest_review_sha": "79ca4fb869017082ce5cd586edf1b1c62241bb9c"
+    "previous_latest_review_sha": "348e4cce2cbc457aaae1598a83192c7a8274eee2"
   },
   "agreements": [
     "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor executable code and does not claim C PASS.",
@@ -44,16 +44,10 @@
   ],
   "disagreements": [
     {
-      "id": "QV-GB21-RISK-NULL-COERCION-092",
+      "id": "QV-GB21-CURRENT-GEAR-PROVENANCE-093",
       "severity": "HIGH",
-      "finding": "New exact-current finding not present in the previous latest receipt: v1 and v2 normalize risk with str(risk).strip().upper(), while NONE is a valid lowest-risk level. Python None therefore becomes the string NONE and is silently accepted as explicit no-risk. Missing/null risk can thus fail open into the least restrictive risk class.",
-      "required_change": "Introduce one canonical typed RiskLevel boundary shared by v1/v2/v2.1. Only explicit strings NONE/LOW/MEDIUM/HIGH/CRITICAL are accepted. None, missing, bool, numeric, list, mapping and arbitrary objects fail closed; only explicit NONE means no risk."
-    },
-    {
-      "id": "QV-GB21-PROPOSED-AUTONOMY-CAP-091",
-      "severity": "HIGH",
-      "finding": "v1 accepts proposed_autonomy 0..6 but only applies the cap when >0 and floors normal routing at G2, so 0 is not a zero-autonomy ceiling and 1 can still yield G2; v2/v2.1 inherit this behavior.",
-      "required_change": "Define one canonical 0..6 autonomy semantics shared by v1/v2/v2.1 or rename/recontract the field so it cannot be mistaken for an authority ceiling."
+      "finding": "New material finding for this review: current_gear is caller-supplied yet it directly controls v2 one-step upshift hysteresis and v2.1 anti-thrash comparison. A caller can misreport canonical runtime state and change whether an inherited decision is treated as an upshift, suppress a legitimate upshift, or force a hold/downshift baseline. Fixing recent_shift_rate_ratio alone therefore does not make anti-thrash trustworthy.",
+      "required_change": "Derive current control state from a canonical monotonic runtime/shift-state receipt bound to mission, runtime/installation identity, policy version and state fingerprint. v2 and v2.1 must consume one canonical normalized state and must not reparse or trust caller-declared current_gear as routing authority."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -117,7 +111,7 @@
     }
   ],
   "statistical_risks": [
-    "Null/missing risk can currently alias to explicit NONE, biasing safety-stratified experiments toward apparently lower risk and more permissive routing.",
+    "Caller-declared current_gear can confound anti-thrash and hysteresis experiments even if shift-rate statistics are later calibrated; measured treatment effect may actually be state-reporting bias.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
     "Small-n caller-supplied shift-rate estimates can false-trigger anti-thrash or chatter around the threshold.",
     "Anti-thrash may improve gear_shift_rate while degrading cycle, closure or recovery latency.",
@@ -128,10 +122,8 @@
     "Speed metrics require matched paired/crossover evaluation with a frozen versioned metric manifest and complete assigned-workload accounting."
   ],
   "proposed_tests": [
-    "GB21-RISK-NULL-COERCION-212: risk=None or missing must fail closed and must never canonicalize to NONE.",
-    "GB21-RISK-CANONICAL-BOUNDARY-213: reject bool/numeric/list/mapping/object risk values; accept only explicit NONE/LOW/MEDIUM/HIGH/CRITICAL strings.",
-    "GB21-RISK-CROSSPATH-214: v1->v2->v2.1 must consume one canonical RiskLevel result with identical semantics.",
-    "GB21-PROPOSED-AUTONOMY-CAP-200: under otherwise permissive inputs, proposed_autonomy=0 and 1 must obey one precommitted ceiling semantics.",
+    "GB21-CURRENT-GEAR-PROVENANCE-215: canonical runtime state=G2 while caller claims G5, and the reverse; v2 hysteresis and v2.1 anti-thrash must use only the canonical bound state.",
+    "GB21-CURRENT-GEAR-REPLAY-216: stale/cross-runtime/cross-installation current-state receipts must be rejected; a newer monotonic runtime receipt must win.",
     "GB21-SECRETARY-FRESHNESS-FORGE-202: stale RED/ORANGE plus forged freshness=true and stale numeric pressure must not route without trusted per-field provenance/freshness binding.",
     "GB21-AUTHORITY-DECISION-PROJECTION-203: fresh authority=G1/recovery with permissive caller fallback must still produce the trusted authority result.",
     "GB21-SHIFT-RATE-SMALL-N-204: 1/1 and 2/3 samples must not trigger calibrated anti-thrash without precommitted minimum support.",
@@ -153,8 +145,7 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
-      "claim that null/missing risk is safely equivalent to explicit NONE",
-      "claim that proposed_autonomy is an executable maximum-autonomy/maximum-gear ceiling under current v1 semantics",
+      "claim that anti-thrash or one-step hysteresis is authority-safe while current_gear is caller-declared rather than canonical runtime state",
       "claim that secretary freshness or fresh-authority precedence is executable from current caller booleans",
       "claim that anti-thrash is calibrated or performance-safe from current caller-supplied shift ratio",
       "authoritative verified Experience accounting from current raw-field paths",
@@ -164,8 +155,7 @@
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
-    "One canonical typed RiskLevel boundary is shared by v1/v2/v2.1. Null/missing or non-string values fail closed; only explicit NONE means no risk.",
-    "One canonical proposed_autonomy semantics is specified and shared by v1/v2/v2.1, or the field is renamed/recontracted as non-authoritative.",
+    "current control state is derived from a canonical monotonic runtime/shift-state receipt and shared by v2/v2.1; caller-declared current_gear cannot change hysteresis or anti-thrash authority.",
     "Secretary freshness and all secretary-derived routing fields are provenance/freshness bound; authority_conflict projects an exact trusted authority decision rather than merely neutralizing secretary_level.",
     "Anti-thrash shift rate is derived from canonical shift history with minimum support, window, uncertainty and hysteretic release; paired tests show no cycle/closure/recovery performance regression.",
     "verified_progress_density remains observational until independently derived and anti-self-reinforcement tested.",
@@ -173,12 +163,16 @@
     "Verified Experience requires exact evidence hash plus trusted C/independent-verifier receipt, and v2.1 only projects accepted receipts rather than re-minting from raw caller fields.",
     "DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND remain operational-only and authoritative operational credit requires evidence-bound receipts plus lineage dedupe.",
     "5/4/3/1 weights remain heuristic analytics only and cannot become capability/Trust/Identity/Personality/Governance/promotion truth without independent calibration.",
-    "Speedup requires sealed matched paired/randomized-crossover evidence over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency with identical versioned metric manifest, assigned-workload accounting and equal-or-better verification/risk quality.",
-    "Existing A->B->C remains required for any formal adoption; this W02 receipt alone has no promotion authority."
+    "Speedup requires sealed matched paired/randomized-crossover evidence over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency using one frozen versioned metric manifest and complete assigned-workload accounting.",
+    "All v2/v2.1 vetoes are resolved by exact-current executable evidence and independent review before any formal A->B->C adoption route is opened."
   ],
-  "return_to": "Always-on Runtime / Small-World after durable latest readback; no conversation turn unless authenticated endpoint assigns QUANTUM",
-  "P_base": "READ_ONLY_UNCHANGED",
-  "heartbeat_is_experience": false,
-  "poll_retry_window_age_is_experience": false,
-  "v1_verified_baseline_preserved": true
+  "preserved_boundaries": {
+    "P_base": "READ_ONLY_UNCHANGED",
+    "v1_verified_baseline": "PRESERVED",
+    "heartbeat_is_experience": false,
+    "poll_retry_window_age_is_experience": false,
+    "real_5min_runtime_live": false,
+    "formal_mutation_allowed": false
+  },
+  "return_route": "ALWAYS_ON_RUNTIME_THEN_SMALL_WORLD_AUTHENTICATED_ENDPOINT_ONLY"
 }
