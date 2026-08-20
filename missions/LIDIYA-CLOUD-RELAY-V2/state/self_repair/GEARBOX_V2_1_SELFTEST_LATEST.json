@@ -1,17 +1,17 @@
 {
-  "schema_version": "4.17",
+  "schema_version": "4.18",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-20T07:27:00+08:00",
+  "recorded_at": "2026-08-20T08:29:00+08:00",
   "status": "DEFER_EXECUTOR_UNAVAILABLE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
     "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "Current exact six Gearbox blobs are unchanged and inspectable through the GitHub connector. Latest pre-bookkeeping branch head f980c8dcdd71eb49e4d132f45da0ddf07cecd7f4 is W02 review-only and has no qualifying workflow run; connector blobs are not mountable into one trusted same-runner filesystem. No fresh PASS is claimed.",
+    "reason": "Current exact six Gearbox blobs are unchanged and inspectable through the GitHub connector. Latest pre-bookkeeping branch head 649fda5bd5da5f964e438a4ae820b805f9526066 is W02 review-only; connector blobs are not mountable into one trusted same-runner filesystem. No fresh PASS is claimed.",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "latest_repository_head_observed": "f980c8dcdd71eb49e4d132f45da0ddf07cecd7f4",
-    "runner_provenance": "GitHub connector exact-blob inspection plus exact-head workflow lookup; no qualifying same-runner exact-byte executor available",
+    "latest_repository_head_observed": "649fda5bd5da5f964e438a4ae820b805f9526066",
+    "runner_provenance": "GitHub connector exact-blob inspection; no qualifying same-runner exact-byte executor available",
     "fresh_acquisition_exit_code": 128,
-    "fresh_acquisition_error": "Prior direct git acquisition probe could not resolve github.com; current exact-head workflow lookup returned no runs and no trusted mountable exact-byte runner exists in this wake.",
+    "fresh_acquisition_error": "No trusted mountable exact-byte runner exists in this wake; prior direct git acquisition probe could not resolve github.com.",
     "fresh_test_exit_code": null,
     "historical_results_reusable_as_fresh_pass": false
   },
@@ -43,6 +43,6 @@
   },
   "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
   "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0632 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-DUPLICATE-REPLAY-VERIFIER-PARSE-069: aggregate_experience_events parses independently_verified before checking whether event_id is already seen, so a malformed replay can raise before deterministic duplicate handling and censor later valid evidence. Require canonical/authenticated event identity and binding before mutable verifier parsing; exact accepted replay is NO_OP, same-ID/different-binding is IDENTITY_CONFLICT, and malformed duplicate records cannot abort later independent records. HIGH inherited Experience gate drop 068, operational-progress evidence binding 066, terminal precedence 065 and remaining authority/evidence/replay/receipt/pressure/anti-thrash/semantic vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
+  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260820-0733 on current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-PROPOSED-AUTONOMY-CAP-BYPASS-070: v1 accepts proposed_autonomy 0..6 but only caps when >0 and floors normal gear to at least G2, so 0 does not enforce no-autonomy and 1 can still return G2. v2/v2.1 inherit this. Define one canonical semantics for autonomy 0/1 and enforce it across v1/v2/v2.1 or rename/recontract the field so no safety claim depends on a false cap. Existing HIGH 069, 068, 066, 065 and authority/evidence/replay/receipt/pressure/anti-thrash vetoes remain. Dedicated W03 remains absent; W04 1332 remains stale/veto-active.",
   "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
 }
