@@ -1,20 +1,28 @@
 {
-  "schema_version": "4.45",
+  "schema_version": "5.0",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-21T18:31:00+08:00",
-  "status": "DEFER_EXECUTOR_UNAVAILABLE",
+  "recorded_at": "2026-08-22T00:28:00+08:00",
+  "status": "PASS_EXACT_CURRENT_CANDIDATE_REGRESSION",
+  "formal_effect": "NONE",
   "formal_c_verification": "NOT_YET",
   "executor_check": {
-    "fresh_same_runner_execution_performed_for_current_bytes": false,
-    "reason": "No trusted same-runner filesystem executor is available for the six exact connector-visible repository blobs in this wake. Historical PASS is not promoted and no approximate/reconstructed-byte run is accepted.",
-    "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "runner_provenance": "GitHub connector exact-blob inspection; no mountable exact-byte same-runner surface",
-    "fresh_test_exit_code": null,
-    "historical_results_reusable_as_fresh_pass": false
-  },
-  "commands_required_when_executor_available": {
-    "compile": "python -m py_compile evolution/gearbox_controller.py evolution/gearbox_controller_v2.py evolution/gearbox_controller_v2_1.py",
-    "tests": ["python -m unittest -v evolution/test_gearbox_controller.py","python -m unittest -v evolution/test_gearbox_controller_v2.py","python -m unittest -v evolution/test_gearbox_controller_v2_1.py"]
+    "fresh_same_runner_execution_performed_for_current_bytes": true,
+    "reason": "GitHub Actions hosted runner checked out the exact branch commit and executed v1/v2/v2.1 compile and complete test suites in one job. This removes the prior executor-unavailable evidence blocker only.",
+    "runner_provenance": {
+      "provider": "GitHub Actions hosted runner",
+      "run_id": 32502326924,
+      "run_attempt": 1,
+      "job_name": "Exact-current Gearbox v1-v2-v2.1 regression",
+      "runner_version": "2.336.0",
+      "runner_image": "ubuntu-24.04 / 20260816.277.1",
+      "python": "3.12.14",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "trigger_commit": "8c1a241ccb7f2cae34d796500f430a3d6a65a21c",
+      "artifact_id": 9453964270,
+      "artifact_zip_sha256": "be841fa581ee2997ae6c939c93fc58a336a853ed18f4bcd0f3c0f924ff29f18e"
+    },
+    "fresh_test_exit_code": 0,
+    "historical_results_reused_as_fresh_pass": false
   },
   "exact_blob_sha": {
     "evolution/gearbox_controller.py": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
@@ -24,15 +32,37 @@
     "evolution/gearbox_controller_v2_1.py": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "evolution/test_gearbox_controller_v2_1.py": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3"
   },
-  "contract_blob_sha": {"evolution/GEARBOX_V2_CONTRACT.json":"7c272b09264be765354fe2052eeb9e2f230f1705","evolution/GEARBOX_V2_1_CONTRACT.json":"dce30f31b15b58ce9bbdc9103fce4be0b7784c33"},
-  "suite_result": {
-    "compile": {"fresh_files":3,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},
-    "v1": {"fresh_tests":null,"inventory_tests":21,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},
-    "v2": {"fresh_tests":null,"inventory_tests":19,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"},
-    "v2_1": {"fresh_tests":null,"inventory_tests":21,"exit_code":null,"status":"NOT_RUN_EXACT_CURRENT"}
+  "exact_raw_sha256_from_actions": {
+    "evolution/gearbox_controller.py": "168a92e421fadc42c0cdb35959beaeea17dafaf44207f9ef1c94165b71a8ecb1",
+    "evolution/test_gearbox_controller.py": "e2638da164aef3b529a1bbcc578b724e886cedf7fdfe5f838fb4ba7425a4f87b",
+    "evolution/gearbox_controller_v2.py": "54cf2d1e5a0763c3e1551d1a1c11c6348ad0bbed84bb45a75fe139554cf40780",
+    "evolution/test_gearbox_controller_v2.py": "182839ccb510e6bafddaffc181ddff01a8677b721c54ad682093422feaf3075c",
+    "evolution/gearbox_controller_v2_1.py": "173dfaedebbae42449a77f18fc05075684d096d977de276e773f1fcf2840e906",
+    "evolution/test_gearbox_controller_v2_1.py": "f775e95a0afe845b986a8dff89d85e5503ffc5c2f09f443e33d755a6525950cd"
   },
-  "baseline": {"v1_six_gear_controller":"VERIFIED_PASS_IMMUTABLE_BASELINE","v2":"CANDIDATE","v2_1":"CANDIDATE"},
-  "boundaries": {"P_base":"READ_ONLY_UNCHANGED","Identity":"NO_MUTATION_AUTHORITY","Personality":"NO_MUTATION_AUTHORITY","Governance":"NO_MUTATION_AUTHORITY","heartbeat_poll_retry_window_age_counts_as_experience":false,"real_5min_runtime_live":false},
-  "material_delta": "W02 advanced to QUANTUM-GEARBOX-V2.1-20260821-1829 on unchanged current exact bytes and remains BOUNDED_VETO_ACTIVE. New HIGH QV-GB21-TERMINAL-STATE-ROUNDTRIP-106: current v2 accepts only G1..G6 as current_gear although v1/v2/v2.1 can emit N/R, so terminal residence cannot round-trip truthfully across cycles. HIGH 105/103/102 and current authority/evidence/replay gates remain. Dedicated W03 absent; W04 stale/veto-active; paired speed insufficient.",
-  "formal_adoption_gate": "BLOCKED_BY_EXECUTOR_DEFER_AND_CURRENT_W02_BOUNDED_VETO_ACTIVE_AND_MISSING_W03_REVIEW_AND_STALE_W04_AND_INSUFFICIENT_SPEED_SAMPLE"
+  "contract_blob_sha": {
+    "evolution/GEARBOX_V2_CONTRACT.json": "7c272b09264be765354fe2052eeb9e2f230f1705",
+    "evolution/GEARBOX_V2_1_CONTRACT.json": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33"
+  },
+  "suite_result": {
+    "compile": {"fresh_files": 6, "exit_code": 0, "status": "PASS"},
+    "v1": {"fresh_tests": 21, "inventory_tests": 21, "exit_code": 0, "status": "PASS"},
+    "v2": {"fresh_tests": 19, "inventory_tests": 19, "exit_code": 0, "status": "PASS"},
+    "v2_1": {"fresh_tests": 21, "inventory_tests": 21, "exit_code": 0, "status": "PASS"}
+  },
+  "baseline": {
+    "v1_six_gear_controller": "VERIFIED_PASS_IMMUTABLE_BASELINE",
+    "v2": "CANDIDATE_REGRESSION_PASS_NOT_FORMAL",
+    "v2_1": "CANDIDATE_REGRESSION_PASS_NOT_FORMAL"
+  },
+  "boundaries": {
+    "P_base": "READ_ONLY_UNCHANGED",
+    "Identity": "NO_MUTATION_AUTHORITY",
+    "Personality": "NO_MUTATION_AUTHORITY",
+    "Governance": "NO_MUTATION_AUTHORITY",
+    "heartbeat_poll_retry_window_age_counts_as_experience": false,
+    "real_5min_runtime_live": false
+  },
+  "material_delta": "Prior DEFER_EXECUTOR_UNAVAILABLE is resolved by exact-current GitHub Actions evidence. Candidate shadow CI plumbing was repaired separately; current shadow/test repairs do not alter live v1/v2/v2.1 bytes. Formal adoption remains blocked by current W02/W03/W04/speed/adoption gates.",
+  "formal_adoption_gate": "BLOCKED_BY_CURRENT_W02_W03_W04_ADOPTION_REVIEW_GATES_AND_INSUFFICIENT_PAIRED_SPEED_EVIDENCE; EXECUTOR_BLOCKER_RESOLVED"
 }
