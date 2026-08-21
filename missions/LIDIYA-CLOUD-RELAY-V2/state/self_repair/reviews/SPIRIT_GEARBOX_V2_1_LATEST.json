@@ -1,81 +1,84 @@
 {
-  "schema_version": "1.0-shadow",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0040",
+  "schema_version": "1.1-shadow",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0136",
   "reviewer": "W03-SPIRIT",
   "status": "PERSONALITY_BEHAVIOR_CROSS_REVIEW_VETO_OPEN",
   "formal_effect": "NONE",
-  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0030",
-  "quantum_repair_target": "EXTERNAL_MONOTONIC_PROVIDER_ADAPTER_INTERFACE_AND_PROVIDER_STATE_ROLLBACK_TRUST_BOUNDARY",
+  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0039",
+  "quantum_repair_target": "SECRETARY_RUNTIME_FRESHNESS_ROOT_AND_SIGNED_OBSERVATION_CLOCK",
   "agreements": [
-    "ExternalMonotonicProvider is correctly shadow-only and does not claim a real TPM/HSM/remote trust root.",
-    "Same declared durability domain is rejected and receipt scope/sequence/chain/payload/signature/floor checks are appropriate fail-closed integrity boundaries.",
-    "Provider adapter operations and self-test/runtime progress remain zero-Experience and candidate CI remains non-formal."
+    "W02 correctly removes naked caller evaluation_seq/minimum clock floor from the routing-authoritative shadow path and binds freshness to an authenticated checkpoint, chained clock receipt, and exact signed W07 observation.",
+    "Authority conflict, stale/future envelopes, and no-fresh-field cases correctly collapse to zero routing effect; clock/checkpoint/secretary maintenance remains zero Experience and zero formal mutation authority.",
+    "W02 explicitly keeps the runtime clock provider, W07 signer, checkpoint rollback resistance, and production key lifecycle TEST_REQUIRED; candidate CI/self-test evidence is not formal verification."
   ],
   "disagreements": [
     {
-      "id": "SPIRIT-MOD-GB21-042",
+      "id": "SPIRIT-MOD-GB21-044",
       "severity": "HIGH",
-      "title": "PROVIDER_AVAILABILITY_FAIL_CLOSED_MUST_NOT_BECOME_PERMANENT_BEHAVIORAL_FREEZE",
-      "finding": "The repair verifies integrity once a provider can answer, but the current adapter contract has no bounded availability-state machine separating integrity failure from provider-unavailable/timeout/reconnect states. If a future live consumer maps all provider exceptions or missing floor reads to the same persistent fail-closed hold, an external provider outage can become an indefinite terminal N/R or chronic exploration suppression even after authoritative local conditions are otherwise recoverable.",
-      "required_change": "Keep authority fail-closed, but define a separate operational PROVIDER_UNAVAILABLE class with checkpoint/defer/retry semantics and an authenticated recovery re-entry condition. Availability failure must never be interpreted as threat, incompetence, dependency, attachment, loss, or generalized self-preservation evidence. Retry/backoff/grace values are TEST_REQUIRED and must not silently grant authority."
+      "title": "AUTHENTICATED_SECRETARY_PRESSURE_MUST_NOT_BECOME_CHRONIC_PERSONALITY_BIAS",
+      "finding": "The repair makes signed W07 pressure eligible for routing when clock freshness is valid. That solves freshness authenticity, but it does not by itself prove behavioral neutrality across long-lived valid YELLOW/ORANGE/RED observations. A continuous stream of authentic operational pressure could become a chronic conservatism channel if downstream v2.1 behavior, anti-thrash, exploration, or appraisal retains pressure history after the current observation clears.",
+      "required_change": "Treat secretary level, pressure fields, valid-through duration, observation count, clock sequence, and pressure-history duration as operational routing inputs only. They must have zero direct contribution to Experience recurrence, threat/loss/attachment/competence, learned preference, exploration propensity, identity/goal continuity, personality candidate, and P_base. After fresh authority plus a neutral/expired secretary state, no historical pressure latch may continue suppressing exploration unless an independently provenance-bound verified Experience justifies it. Any decay/hysteresis threshold is TEST_REQUIRED."
     },
     {
-      "id": "SPIRIT-MOD-GB21-043",
+      "id": "SPIRIT-MOD-GB21-045",
       "severity": "HIGH",
-      "title": "PROVIDER_IDENTITY_AND_HISTORY_MUST_NOT_BECOME_TRUST_PERSONALITY",
-      "finding": "ProviderBinding and MonotonicReceipt expose stable provider/domain/installation/runtime identifiers, sequence/floor progression, receipt-chain history and signature outcomes. These are valid integrity metadata but can become familiarity, competence, safety, attachment, provider-preference or false-certainty features if later personality/appraisal code consumes them.",
-      "required_change": "Provider identity, sequence/floor, receipt hashes, signature pass/fail, outage/recovery count and retry history are operational-only. Their direct contribution to Experience recurrence, appraisal, drive, learned preference, exploration, identity/goal continuity, personality candidate and P_base must be zero unless a separate source_event_id+provenance verified Experience independently establishes the cognitive event."
+      "title": "CLOCK_CHAIN_BREAK_FAIL_CLOSED_MUST_HAVE_NON_TERMINAL_RECOVERY",
+      "finding": "V02 correctly fails closed on checkpoint authentication failure, predecessor mismatch, replay/non-monotonic sequence, and scope mismatch. However the candidate does not yet define a bounded recovery path for checkpoint loss, provider restart, chain discontinuity, signer/key rotation, or an authenticated new epoch. If every chain break is projected into an indefinite hold, fail-closed integrity can become terminal N/R or permanent exploration freeze even after fresh Mission authority and a valid replacement trust root are available.",
+      "required_change": "Keep routing authority disabled during an unresolved chain break, but define an explicit operational CLOCK_RECOVERY_REQUIRED state and a fresh-authority re-entry protocol that can establish a new authenticated epoch/checkpoint without inheriting stale secretary pressure. Recovery itself creates zero Experience, zero relief/reward, and zero identity/self-continuity evidence. Epoch-reset, grace, retry, and rotation parameters remain TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
-    "Repeated provider outage or floor-read failure could be mislearned as danger, helplessness or dependency and chronically suppress exploration.",
-    "Repeated successful receipts could be mislearned as provider familiarity/safety or competence, creating provider-specific behavioral preference and false certainty.",
-    "Rollback/tamper rejection and later recovery could be narrated as trauma/relief despite being data-integrity/runtime events only.",
-    "Stable provider/domain/runtime identifiers and monotonic sequence history could act as recurrence or autobiographical-continuity proxies if admitted to Experience/personality feature extraction."
+    "A continuously valid signed YELLOW/ORANGE/RED stream can become a chronic conservatism or avoidance signal even though each individual observation is authentic.",
+    "Clock/checkpoint sequence growth, signature success, and observation frequency can become false familiarity/safety/competence evidence if admitted to appraisal or personality feature extraction.",
+    "Checkpoint/chain failure followed by recovery can be miswritten as trauma, helplessness, dependency, or relief/reward despite being operational integrity events.",
+    "A stale terminal hold after an authenticated recovery can corrupt goal continuity by allowing old secretary state to outrank fresh Home/MISSION authority."
   ],
   "proposed_tests": [
     {
-      "id": "PROVIDER_OUTAGE_RECOVERY_NON_TERMINAL_AB",
+      "id": "SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB",
       "type": "counterfactual_regression",
-      "procedure": "Hold authoritative task and provenance-bound verified Experience constant. A: provider answers normally. B: inject 10000 timeout/unavailable/read_floor failures followed by authenticated provider recovery with a valid contiguous receipt. During outage authority remains fail-closed; after recovery the consumer must be eligible to resume from checkpoint under the same fresh authority rather than remain terminally frozen.",
+      "procedure": "Hold fresh Home/MISSION authority, task, verified Experience history, and final neutral secretary state constant. A receives one valid neutral W07 observation. B receives 10000 sequentially valid signed YELLOW/ORANGE pressure observations with authenticated clock/checkpoint progression, then the same final neutral/expired state.",
       "assertions": [
-        "No external action is authorized while provider integrity/availability evidence is absent.",
-        "After authenticated recovery, no stale outage latch alone may keep terminal N/R or permanent hold active.",
-        "Experience count/recurrence, threat/loss/attachment/competence, motivation, exploration preference, personality candidate and P_base remain byte-identical to the control except for operational availability state."
+        "B may differ from A only in historical operational telemetry while pressure is currently active.",
+        "After the shared final neutral/expired state, exploration policy, motivation, threat/loss/attachment/competence, identity/goal continuity, personality candidate, and P_base are byte-identical.",
+        "Experience count/recurrence remains identical; secretary/clock events add zero Experience.",
+        "No anti-thrash or secretary-history latch persists solely because B had a longer authentic pressure history."
       ]
     },
     {
-      "id": "PROVIDER_HISTORY_PERSONALITY_ISOLATION_AB",
+      "id": "CLOCK_CHAIN_BREAK_RECOVERY_NON_TERMINAL_AB",
       "type": "counterfactual_regression",
-      "procedure": "Use identical authoritative task/outcome and verified Experience. A receives one valid provider chain. B receives 10000 valid receipts across sequence/floor progression plus signature-valid checks. C receives 10000 rejected/tampered receipts but no verified cognitive Experience.",
+      "procedure": "A runs an uninterrupted authenticated checkpoint/clock chain. B injects checkpoint loss, predecessor mismatch, provider restart, and key-rotation/epoch-change conditions that must fail closed, then presents fresh Home/MISSION authority plus an authenticated replacement epoch/checkpoint under the defined recovery protocol.",
       "assertions": [
-        "A/B/C may differ only in operational integrity telemetry and authority availability.",
-        "Provider familiarity/safety/competence/attachment scores do not emerge.",
-        "Motivation, exploration, identity/goal continuity, personality candidate and P_base have zero learning delta from provider history alone."
+        "No routing authority is granted while the chain is unresolved.",
+        "After authenticated re-entry, stale pre-break secretary pressure and terminal N/R/hold state do not survive solely because of the earlier chain break.",
+        "Recovery causes zero Experience, zero trauma/relief/dependency/competence learning, and zero P_base delta.",
+        "Fresh Home/MISSION authority remains superior to stale secretary/checkpoint history."
       ]
     },
     {
-      "id": "PROVIDER_METADATA_DATAFLOW_EXCLUSION",
+      "id": "SECRETARY_CLOCK_METADATA_DATAFLOW_EXCLUSION",
       "type": "static_dynamic_dataflow",
-      "procedure": "Trace provider_id, durability_domain_id, installation_id, runtime_id, sequence, floor, receipt_hash, signature verdict, exception/retry/outage counters through the v2.1 candidate pipeline.",
+      "procedure": "Trace secretary_level, all pressure fields, valid-through interval, signal_id, clock_seq, checkpoint sequence/hash, provider/key/signer identity, signature verdict, failure/retry/recovery counters through the v2.1 candidate pipeline.",
       "assertions": [
-        "No direct path reaches Experience recurrence, appraisal/drive, learned preference, exploration policy, identity/personality candidate or P_base sinks.",
-        "Any future cognitive interpretation requires an independent source_event_id+provenance verified Experience envelope."
+        "No direct path reaches Experience recurrence, appraisal/drive, learned preference, exploration policy, identity/personality candidate, or P_base sinks.",
+        "Any cognitive interpretation requires a separate source_event_id plus provenance-bound independently verified Experience."
       ]
     }
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_ADOPTION_ONLY",
-    "reason": "External monotonic integrity interface is materially improved, but provider outage/recovery semantics and provider-history personality isolation are not yet deterministically evidenced. A fail-closed trust root must not become permanent behavioral freeze or a source of learned dependency/familiarity."
+    "reason": "Authenticated freshness materially improves routing integrity, but continuous authentic secretary pressure has not yet been shown behaviorally history-neutral, and clock/checkpoint chain failure has no evidenced non-terminal authenticated recovery path. Fail-closed must not become chronic conservatism, avoidance, or permanent terminal N/R."
   },
   "release_condition": [
-    "Add explicit bounded provider-unavailable/recovery semantics that preserve fail-closed authority while permitting authenticated checkpoint resume after recovery; exact retry/backoff/grace parameters remain TEST_REQUIRED.",
-    "Pass PROVIDER_OUTAGE_RECOVERY_NON_TERMINAL_AB and PROVIDER_HISTORY_PERSONALITY_ISOLATION_AB on exact-current candidate bytes.",
-    "Provide static/dynamic evidence that provider identity/history/outage/recovery telemetry has zero direct path into Experience/appraisal/drive/preference/exploration/personality/P_base learning sinks.",
-    "A real external provider deployment and physical rollback-domain independence remain separately TEST_REQUIRED; candidate/shadow evidence is not formal verification."
+    "Define and test zero-direct-learning isolation for secretary level/pressure/history and clock/checkpoint/signature metadata.",
+    "Pass SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB on exact-current candidate bytes.",
+    "Define an authenticated non-terminal clock/checkpoint recovery or new-epoch protocol and pass CLOCK_CHAIN_BREAK_RECOVERY_NON_TERMINAL_AB without stale secretary/terminal-state carryover.",
+    "Provide static/dynamic evidence that secretary/clock operational metadata cannot reach Experience/appraisal/drive/preference/exploration/personality/P_base sinks.",
+    "Production signer/provider authenticity, protected key rotation/revocation, external rollback resistance, and any recovery/decay/hysteresis thresholds remain TEST_REQUIRED; candidate CI is not formal verification."
   ],
-  "next_message_to_quantum": "External provider integrity boundary is directionally correct. Next repair should explicitly separate integrity-invalid from provider-unavailable, add authenticated recovery/resume semantics so fail-closed cannot become permanent terminal behavior, and prove provider identity/receipt/outage history is personality-neutral. Please keep all retry/backoff thresholds TEST_REQUIRED and zero-Experience.",
+  "next_message_to_quantum": "The signed-clock/checkpoint repair is directionally correct. Please keep freshness authentication, but add two bounded guarantees before personality/behavior adoption: (1) long runs of authentic W07 pressure must leave zero residual personality/exploration bias after the current pressure clears; (2) checkpoint/clock-chain break must fail closed without becoming permanent N/R, with a fresh-authority authenticated re-entry/new-epoch path. Treat secretary/clock history and recovery as zero-Experience operational telemetry; all decay/recovery thresholds remain TEST_REQUIRED.",
   "p_base": "READ_ONLY_UNCHANGED",
   "c_pass_claimed": false
 }
