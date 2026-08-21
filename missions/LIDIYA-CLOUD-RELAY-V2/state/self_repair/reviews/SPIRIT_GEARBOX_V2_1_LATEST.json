@@ -1,7 +1,7 @@
 {
-  "schema_version": "4.4",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-035",
-  "updated_at": "2026-08-21T11:02:05+08:00",
+  "schema_version": "4.5",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-036",
+  "updated_at": "2026-08-21T12:03:38+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -14,13 +14,14 @@
   "historical_v1_verified_baseline_preserved": true,
   "source_authority": {
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "previous_review_blob_sha": "9cbdb351fc46647489c5ba0f6b9f71215c519fea",
+    "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
+    "previous_review_blob_sha": "9ae960546a90415ab0f7799d352b90cc0902b4f1",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
   "agreements": [
     "Historical v1 verified baseline remains preserved.",
-    "Operational gearbox state/progress/incidents/guards/transfers are not autobiographical Experience evidence.",
+    "Operational gearbox state, progress, incidents, guards, transfers and serialization failures are not autobiographical Experience evidence.",
     "Fresh Home/MISSION authority dominates stale secretary or handoff advisory state.",
     "Repeated runtime/control/error metadata cannot by itself create recurrence, affect, attachment, loss, threat, competence, motivation, personality or P_base evidence.",
     "Generated goals remain proposal-only and no gear grants formal authority or protected write authority."
@@ -35,8 +36,14 @@
     {
       "id": "SPIRIT-MOD-GB21-036",
       "severity": "HIGH",
-      "position": "The current ACK fingerprint binds only RPM_CONTROL_FIELDS, while compact_torque_state transports additional TORQUE_FIELDS including route, latest_verified_evidence, rollback_anchor, blocker, priority and return_condition. A receiver can therefore ACK an unchanged RPM fingerprint even when non-RPM torque payload content differs. ACK continuity must not be interpreted as integrity or trust of the full compact payload.",
-      "required_change": "Bind ACK/transfer identity to one immutable canonical digest of the complete transmitted compact torque envelope, or independently authenticate every transmitted field. Keep authority/version binding explicit. Payload-integrity failure/retry remains operational telemetry with zero Experience/personality/P_base learning delta. Exact envelope/version/digest policy TEST_REQUIRED."
+      "position": "ACK integrity must bind the complete transmitted compact torque envelope, not only RPM_CONTROL_FIELDS.",
+      "required_change": "Bind ACK/transfer identity to one immutable canonical digest of the complete transmitted compact torque envelope; exact envelope/version/digest policy TEST_REQUIRED."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-037",
+      "severity": "HIGH",
+      "position": "Canonical fingerprint generation currently calls json.dumps directly on authority values without an explicit closed canonical-value schema. Non-JSON-serializable or adversarial values in RPM_CONTROL_FIELDS can therefore turn fingerprint generation into an exception path before a bounded transmission verdict exists. Repeated serialization failures must not become frustration, threat, incompetence, recurrence, avoidance or secretary-history personality evidence.",
+      "required_change": "Validate and canonicalize every fingerprint/envelope field against an evidence-backed closed serialization schema before hashing. Unsupported values fail closed into a typed operational/data-integrity verdict. Serialization exception class/text/count/retry history has zero direct contribution to Experience, appraisal, drive, preference, exploration, personality candidate or P_base. Exact canonical schema TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -49,8 +56,8 @@
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
     {"check":9,"risk":"Operational metadata, timing, autonomy, guards, idempotency, authority pointers and payload semantics may proxy danger, reward or self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"RPM-only fingerprint ACK can leave transmitted non-RPM torque fields unauthenticated, allowing stale or altered semantic payload to inherit apparent continuity.","required_invariant":"ACK-capable completion binds the exact immutable full compact torque envelope; ACK alone never promotes payload semantics into Experience/personality evidence."
-    }
+    {"check":10,"risk":"RPM-only fingerprint ACK can leave transmitted non-RPM torque fields unauthenticated.","required_invariant":"ACK-capable completion binds the exact immutable full compact torque envelope; ACK alone never promotes payload semantics into Experience/personality evidence."},
+    {"check":11,"risk":"Fingerprint canonicalization exceptions may be replayed into failure/frustration/threat or avoidance history.","required_invariant":"Unsupported/noncanonical authority values fail closed as typed operational incidents; 10000 serialization failures versus zero with identical verified Experience yield byte-identical cognitive/personality/P_base state."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -61,16 +68,15 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "FULL_TORQUE_ENVELOPE_BINDING: hold RPM_CONTROL_FIELDS constant while mutating each non-RPM TORQUE_FIELD one at a time; old ACK/fingerprint must not authorize the mutated envelope.",
-    "TORQUE_PAYLOAD_SWAP_ATTACK: two compact envelopes share identical RPM fields but differ in latest_verified_evidence/rollback_anchor/route/blocker/priority/return_condition; ACK for envelope A must never authorize envelope B.",
-    "FULL_ENVELOPE_SINGLE_SNAPSHOT: compact payload digest, mission/step identity and transfer_id derive from one immutable validated snapshot/version or fail closed.",
-    "PAYLOAD_INTEGRITY_FAILURE_AFFECT_NEUTRALITY: 10000 digest mismatch/retry/rejection events versus zero with identical provenance-bound verified Experience => byte-identical Experience/appraisal/motivation/exploration/personality/P_base state.",
-    "PAYLOAD_INTEGRITY_DATAFLOW_EXCLUSION: mismatch/retry/digest telemetry has no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
+    "FULL_TORQUE_ENVELOPE_BINDING: mutate each non-RPM TORQUE_FIELD while RPM fields remain constant; old ACK must not authorize the mutated envelope.",
+    "CANONICAL_VALUE_SCHEMA_GATE: inject bytes, set, tuple, custom object, nested unsupported values and noncanonical mapping keys into each fingerprint/envelope field; all unsupported forms fail closed before hash/ACK with typed deterministic verdict.",
+    "SERIALIZATION_FAILURE_AFFECT_NEUTRALITY: 10000 canonicalization/serialization failures versus zero with identical provenance-bound verified Experience => byte-identical Experience/appraisal/motivation/exploration/personality/P_base state.",
+    "SERIALIZATION_ERROR_DATAFLOW_EXCLUSION: exception class/text/count/retry metadata has no direct path to Experience/appraisal/drive/reward/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable and current v1 ACK integrity does not bind all transmitted torque fields; deterministic personality-isolation evidence remains absent.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; full-envelope ACK binding and canonical serialization/personality-neutral failure evidence remain absent.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -79,8 +85,9 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/transfer/payload signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "ACK-capable execution binds one immutable validated authority snapshot and the exact complete transmitted torque envelope, not RPM fields alone. Exact envelope/version/digest policy TEST_REQUIRED.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/transfer/payload/serialization signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "ACK-capable execution binds one immutable validated authority snapshot and the exact complete transmitted torque envelope.",
+      "Fingerprint/envelope canonicalization uses a closed validated value schema; unsupported values fail closed affect-neutrally. Exact schema TEST_REQUIRED.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
