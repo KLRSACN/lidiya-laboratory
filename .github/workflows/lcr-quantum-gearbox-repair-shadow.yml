@@ -7,6 +7,8 @@ on:
     paths:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_authority_projection_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_V2_1_REPAIR_SHADOW_V01_CONTRACT.json'
       - '.github/workflows/lcr-quantum-gearbox-repair-shadow.yml'
   workflow_dispatch:
@@ -32,22 +34,31 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Compile shadow repair candidate
+      - name: Compile shadow repair candidates
         run: >-
           python -m py_compile
           evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/gearbox_authority_projection_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py
 
-      - name: Run shadow adversarial tests
-        id: shadow_tests
+      - name: Run core shadow adversarial tests
+        id: core_shadow_tests
         run: |
           set -o pipefail
-          python evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-tests.log
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-core-tests.log
+
+      - name: Run authority projection adversarial tests
+        id: authority_shadow_tests
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-authority-tests.log
 
       - name: Emit bounded shadow evidence
         if: always()
         env:
-          TEST_OUTCOME: ${{ steps.shadow_tests.outcome }}
+          CORE_TEST_OUTCOME: ${{ steps.core_shadow_tests.outcome }}
+          AUTHORITY_TEST_OUTCOME: ${{ steps.authority_shadow_tests.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           REF_NAME: ${{ github.ref_name }}
         run: |
@@ -60,15 +71,22 @@ jobs:
           bound = [
               'evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/gearbox_authority_projection_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py',
           ]
+          outcomes = {
+              'core': os.environ.get('CORE_TEST_OUTCOME', 'skipped'),
+              'authority_projection': os.environ.get('AUTHORITY_TEST_OUTCOME', 'skipped'),
+          }
+          overall = 'success' if all(value == 'success' for value in outcomes.values()) else 'failure'
           evidence = {
-              'schema_version': '1.0-shadow',
+              'schema_version': '1.1-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'quantum_gearbox_v2_1_repair_shadow',
               'commit_sha': os.environ['COMMIT_SHA'],
               'ref_name': os.environ['REF_NAME'],
-              'test_outcome': os.environ['TEST_OUTCOME'],
-              'status': 'PASS' if os.environ['TEST_OUTCOME'] == 'success' else 'FAIL',
+              'test_outcomes': outcomes,
+              'status': 'PASS' if overall == 'success' else 'FAIL',
               'formal_effect': 'NONE',
               'formal_c_verification': 'NOT_CLAIMED',
               'formal_mutation_allowed': False,
