@@ -1,5 +1,6 @@
 {
   "schema_version": "0.4-shadow",
+  "contract_revision": 1,
   "mission_id": "LCR-EVOLUTION-0005",
   "step_id": 9,
   "status": "CANDIDATE_NON_FORMAL",
