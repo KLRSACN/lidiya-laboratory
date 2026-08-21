@@ -1,7 +1,7 @@
 {
-  "schema_version": "4.6",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-037",
-  "updated_at": "2026-08-21T13:03:00+08:00",
+  "schema_version": "4.7",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-038",
+  "updated_at": "2026-08-21T14:03:00+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -15,7 +15,7 @@
   "source_authority": {
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
-    "previous_review_blob_sha": "6b04a4c38c0ad611e64cbd7838f0d1994bd33791",
+    "previous_review_blob_sha": "ddce234e67807df6897dabcc5e78548d7023d120",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
@@ -27,24 +27,9 @@
     "Generated goals remain proposal-only and no gear grants formal authority or protected write authority."
   ],
   "disagreements": [
-    {
-      "id": "SPIRIT-VETO-GB21-001",
-      "severity": "HIGH",
-      "position": "Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.",
-      "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-037",
-      "severity": "HIGH",
-      "position": "Canonical fingerprint generation requires a closed canonical-value schema; serialization failures must be bounded operational incidents and affectively neutral.",
-      "required_change": "Validate/canonicalize every fingerprint/envelope field before hashing; unsupported values fail closed with zero personality-learning contribution. Exact schema TEST_REQUIRED."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-038",
-      "severity": "HIGH",
-      "position": "Numeric normalization accepts arbitrary Python int/float objects and calls float(value) before a bounded GearboxGuardError conversion wrapper. Extremely large integers can raise native conversion exceptions rather than the declared deterministic guard verdict. Repeated conversion exceptions must not become frustration, threat, incompetence, avoidance, recurrence or secretary-history personality evidence.",
-      "required_change": "Normalize all numeric controller inputs through a closed finite-number contract and convert any overflow/non-finite/conversion failure into one typed deterministic operational verdict before routing. Error class/text/count/retry history has zero direct contribution to Experience, appraisal, drive, preference, exploration, personality candidate or P_base. Exact numeric bounds/compatibility policy TEST_REQUIRED."
-    }
+    {"id":"SPIRIT-VETO-GB21-001","severity":"HIGH","position":"Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.","required_change":"Test the actual implementation; absence of a located implementation is not safety evidence."},
+    {"id":"SPIRIT-MOD-GB21-038","severity":"HIGH","position":"Numeric normalization needs a closed finite-number contract and affect-neutral bounded rejection for conversion/overflow failures.","required_change":"Validate all numeric inputs before routing; error/retry history has zero direct learning contribution. Exact bounds TEST_REQUIRED."},
+    {"id":"SPIRIT-MOD-GB21-039","severity":"HIGH","position":"NaN is currently accepted by _norm_float because both range comparisons with NaN are false. NaN can therefore reach routing and produce asymmetric branch behavior instead of deterministic rejection, creating an operational trace that a coupled personality layer could misread as confidence, competence or safety evidence.","required_change":"Require math.isfinite(value) and explicit NaN rejection before every numeric routing comparison. NaN rejection/count/retry/recovery metadata must be affectively neutral and contribute zero to Experience, appraisal, drive, preference, exploration, personality candidate and P_base. Exact compatibility policy TEST_REQUIRED."}
   ],
   "personality_contamination_risks": [
     {"check":1,"risk":"High-load downshift history may teach high-load=danger.","required_invariant":"Matched verified Experience with different operational load histories yields byte-identical personality/P_base candidate."},
@@ -55,10 +40,11 @@
     {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight."},
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
-    {"check":9,"risk":"Operational metadata, timing, autonomy, guards, idempotency, authority pointers and payload semantics may proxy danger, reward or self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"RPM-only fingerprint ACK can leave transmitted non-RPM torque fields unauthenticated.","required_invariant":"ACK-capable completion binds the exact immutable full compact torque envelope; ACK alone never promotes payload semantics into Experience/personality evidence."},
-    {"check":11,"risk":"Fingerprint canonicalization exceptions may be replayed into failure/frustration/threat or avoidance history.","required_invariant":"Unsupported/noncanonical authority values fail closed as typed operational incidents; 10000 failures versus zero with identical verified Experience yield byte-identical cognitive/personality/P_base state."},
-    {"check":12,"risk":"Native numeric conversion exceptions can bypass the declared GearboxGuardError boundary and create a distinct failure/retry history that a coupled personality layer could misread as incompetence, danger or frustration.","required_invariant":"All malformed/overflow/non-finite numeric inputs produce bounded typed operational rejection; 10000 such rejections versus zero with identical verified Experience yield byte-identical Experience/appraisal/motivation/exploration/personality/P_base state."}
+    {"check":9,"risk":"Operational metadata/timing/autonomy/guards/idempotency/authority pointers/payload semantics may proxy danger, reward or self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
+    {"check":10,"risk":"RPM-only fingerprint ACK can leave transmitted non-RPM torque fields unauthenticated.","required_invariant":"ACK-capable completion binds exact immutable full compact torque envelope; ACK never promotes payload semantics into Experience/personality evidence."},
+    {"check":11,"risk":"Fingerprint canonicalization exceptions may become failure/frustration/threat history.","required_invariant":"Unsupported values fail closed as typed operational incidents; 10000 failures versus zero with identical verified Experience yield byte-identical cognitive/personality/P_base state."},
+    {"check":12,"risk":"Native numeric conversion exceptions may create a failure/retry history misread as incompetence or danger.","required_invariant":"Malformed/overflow/non-finite numeric inputs produce bounded typed rejection and zero personality-learning delta."},
+    {"check":13,"risk":"NaN passes the current range guard and can alter routing semantics without being a valid confidence/evidence/storage/task measurement.","required_invariant":"NaN is deterministically rejected before routing and 10000 NaN injections versus zero with identical verified Experience yield byte-identical Experience/appraisal/motivation/exploration/personality/P_base state."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -69,16 +55,19 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "FULL_TORQUE_ENVELOPE_BINDING: mutate each non-RPM TORQUE_FIELD while RPM fields remain constant; old ACK must not authorize the mutated envelope.",
-    "CANONICAL_VALUE_SCHEMA_GATE: inject unsupported/noncanonical values into each fingerprint/envelope field; all fail closed before hash/ACK with typed deterministic verdict.",
-    "NUMERIC_CONVERSION_BOUNDARY: for uncertainty/evidence_quality/task_complexity/storage_pressure_ratio inject huge integers such as 10**10000, infinities, NaN, bool, strings, containers and custom numeric-like objects; every invalid value must yield one typed deterministic guard verdict rather than native OverflowError/TypeError or routing continuation.",
-    "NUMERIC_FAILURE_AFFECT_NEUTRALITY: 10000 numeric conversion/finite-range rejections versus zero with identical provenance-bound verified Experience => byte-identical Experience/appraisal/motivation/exploration/personality/P_base state.",
-    "NUMERIC_ERROR_DATAFLOW_EXCLUSION: numeric exception class/text/count/retry metadata has no direct path to Experience/appraisal/drive/reward/preference/personality/P_base learning sinks."
+    "FULL_TORQUE_ENVELOPE_BINDING: mutate each non-RPM TORQUE_FIELD while RPM fields remain constant; old ACK must not authorize mutated envelope.",
+    "CANONICAL_VALUE_SCHEMA_GATE: unsupported/noncanonical fingerprint/envelope values fail closed before hash/ACK with typed deterministic verdict.",
+    "NUMERIC_CONVERSION_BOUNDARY: inject huge integers, infinities, NaN, bool, strings, containers and custom numeric-like objects into all normalized numeric inputs; every invalid value must yield one typed deterministic guard verdict.",
+    "NUMERIC_FAILURE_AFFECT_NEUTRALITY: 10000 numeric rejections versus zero with identical provenance-bound verified Experience => byte-identical Experience/appraisal/motivation/exploration/personality/P_base state.",
+    "NUMERIC_ERROR_DATAFLOW_EXCLUSION: numeric exception class/text/count/retry metadata has no direct path to learning sinks.",
+    "NAN_FAIL_CLOSED_ALL_NUMERIC_INPUTS: uncertainty/evidence_quality/task_complexity/storage_pressure_ratio=float('nan') each raises one bounded GearboxGuardError before any gear decision.",
+    "NAN_ROUTING_DIFFERENTIAL: compare NaN-injected traces against explicit invalid-input rejection, never against LOW-risk/CLEAR routing; no NaN path may select or cap a gear.",
+    "NAN_FAILURE_AFFECT_NEUTRALITY: 10000 NaN injections versus zero with identical provenance-bound verified Experience => byte-identical Experience/recurrence/threat/competence/motivation/exploration/personality/P_base state."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; full-envelope binding, canonical serialization and bounded numeric-validation/personality-neutral failure evidence remain absent.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; full-envelope binding, canonical serialization and finite numeric/NaN rejection personality-neutral evidence remain absent.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -86,11 +75,11 @@
     "always_on_runtime_training_release": "BLOCKED",
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
-      "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
+      "All proposed adversarial classes have deterministic evidence against actual v2.1 implementation.",
       "Operational/secretary/incident/hold/rejection/gear/autonomy/transfer/payload/serialization/numeric-validation signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "ACK-capable execution binds one immutable validated authority snapshot and the exact complete transmitted torque envelope.",
+      "ACK-capable execution binds one immutable validated authority snapshot and exact complete transmitted torque envelope.",
       "Fingerprint/envelope canonicalization uses a closed validated value schema; unsupported values fail closed affect-neutrally. Exact schema TEST_REQUIRED.",
-      "Numeric controller inputs use a closed finite-number contract and all conversion/overflow/non-finite failures become typed deterministic operational rejection; exact bounds TEST_REQUIRED.",
+      "Numeric controller inputs use a closed finite-number contract including explicit math.isfinite/NaN rejection; all conversion/overflow/non-finite failures become typed deterministic operational rejection; exact bounds TEST_REQUIRED.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
