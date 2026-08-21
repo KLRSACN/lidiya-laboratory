@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_SIGNER_EPOCH_RECOVERY_SHADOW_V01",
+  "status": "NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "scope": [
+    "external-monotonic signer trust root",
+    "authenticated replacement signer epoch",
+    "old authority/verifier epoch revocation",
+    "non-terminal recovery re-entry",
+    "zero stale secretary pressure carryover"
+  ],
+  "invariants": [
+    "Current local trust root must equal the external provider monotonic floor before rotation; rolled-back local root cannot mint another epoch.",
+    "Replacement trust snapshot must link exact previous snapshot SHA256, advance snapshot_id, rotate authority/verifier epochs and revoke the old active epochs.",
+    "Recovery binds the replacement trust snapshot and fresh MISSION_STATE Git blob into the next external monotonic receipt.",
+    "Recovery state is non-terminal and carries UNKNOWN secretary level, zero pressure inputs, no stale pressure latch and no prior terminal-hold carryover.",
+    "Leaving recovery requires a fresh signed AuthorityDecisionEnvelope under the replacement trust snapshot; old secretary pressure remains neutral until separately fresh authenticated telemetry exists.",
+    "Recovery, root verification, epoch rotation and re-entry create zero Experience, zero operational progress and zero formal mutation authority.",
+    "Shadow authority projection never becomes live routing authority and does not claim LCR-C verification."
+  ],
+  "known_limits": [
+    "The ExternalMonotonicProvider interface is shadow-only; no real HSM/TPM/remote monotonic service deployment is proven.",
+    "Synthetic signer epochs prove protocol semantics only; production protected key storage, rotation ceremony and revocation distribution remain TEST_REQUIRED.",
+    "This tranche resets secretary pressure at epoch recovery but does not yet prove 10000-event chronic-pressure A/B neutrality across the full appraisal/drive/personality pipeline.",
+    "Authenticated terminal-exit envelope remains a separate unresolved release gate.",
+    "Exact-current executable Actions evidence and paired speed evidence remain required before any formal candidate route."
+  ],
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "p_base": "READ_ONLY_UNCHANGED",
+  "runtime_maintenance_counts_as_experience": false
+}
