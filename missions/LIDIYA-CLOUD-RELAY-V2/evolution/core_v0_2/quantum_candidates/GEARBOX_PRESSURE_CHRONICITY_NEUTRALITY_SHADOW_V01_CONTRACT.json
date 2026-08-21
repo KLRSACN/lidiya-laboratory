@@ -1,0 +1,20 @@
+{
+  "schema_version":"1.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_PRESSURE_CHRONICITY_NEUTRALITY_SHADOW_V01",
+  "status":"NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "scope":["authenticated secretary pressure chronicity exclusion","10000-observation A/B neutrality","zero cognitive/personality learning from operational pressure history"],
+  "invariants":[
+    "Authenticated secretary pressure may affect only the current operational routing projection.",
+    "Pressure observation count/history is not persisted across neutralization and cannot become Experience/appraisal/drive/exploration/preference/personality/P_base/trauma-relief.",
+    "After the same final neutral projection, paths with one neutral observation and with 10000 YELLOW/ORANGE observations plus neutralization have byte-identical cognitive/personality state when verified Experience is identical.",
+    "Pressure processing and neutralization create zero Experience, zero operational progress credit and zero formal mutation authority."
+  ],
+  "known_limits":[
+    "This module proves an explicit shadow exclusion boundary; end-to-end static/dynamic tracing through all v2.1 consumers remains required.",
+    "Synthetic/authored regression is not production or formal C evidence until executable workflow evidence is visible."
+  ],
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
