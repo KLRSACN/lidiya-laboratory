@@ -1,0 +1,30 @@
+name: LCR Quantum Gearbox Terminal Exit Shadow
+on:
+  push:
+    branches: [lidiya-cloud-relay-v2]
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_authenticated_terminal_exit_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_authenticated_terminal_exit_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_AUTHENTICATED_TERMINAL_EXIT_SHADOW_V01_CONTRACT.json'
+      - '.github/workflows/lcr-quantum-gearbox-terminal-exit-shadow.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  terminal_exit_shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution:${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile terminal-exit candidate
+        run: python -m py_compile evolution/core_v0_2/quantum_candidates/gearbox_authenticated_terminal_exit_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_authenticated_terminal_exit_shadow_v01.py
+      - name: Run terminal-exit stale-state regressions
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_authenticated_terminal_exit_shadow_v01.py
