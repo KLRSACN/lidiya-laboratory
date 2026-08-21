@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "handoff_id": "W01-TO-W03-GEARBOX-20260822-001",
+  "issued_at": "2026-08-22T00:41:00+08:00",
+  "source": "W01-WINDCHIME-GEN2",
+  "source_alias": "1【風鈴3號指揮官】",
+  "target": "W03-SPIRIT",
+  "formal_effect": "NONE_NONFORMAL_RESEARCH_COORDINATION",
+  "mission_ref": "state/MISSION_STATE.json",
+  "required_formal_baseline": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 9,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "six_gear_controller_v1": "VERIFIED_PASS",
+    "real_5min_runtime_live": false
+  },
+  "research_authorization": {
+    "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_CROSS_REVIEW_ONLY",
+    "independent_of_small_world_turn": true,
+    "quantum_review_ref": "state/self_repair/reviews/QUANTUM_GEARBOX_REPAIR_SHADOW_LATEST.json",
+    "exact_current_selftest_ref": "state/self_repair/GEARBOX_V2_1_SELFTEST_LATEST.json",
+    "required_output_ref": "state/self_repair/reviews/SPIRIT_GEARBOX_V2_1_LATEST.json",
+    "required_checkpoint_ref": "state/window_self_backups/SPIRIT_LATEST.json"
+  },
+  "review_requirements": [
+    "Directly review the current W02 Quantum repair target rather than opening an unrelated research thread.",
+    "Provide at least one substantive disagreement, modification, or bounded veto from personality/behavior/goal-continuity perspective.",
+    "Provide at least two executable regression or counterfactual tests.",
+    "Check fail-closed permanent-stall risk, terminal N/R recoverability, pressure/secretary chronic-conservatism risk, anti-thrash avoidance, authority/secretary identity-goal continuity, incident/recovery narrative contamination, Experience/P_base contamination and provider/shift-history false certainty as relevant.",
+    "Write and fresh-readback the required Spirit review and checkpoint before exit."
+  ],
+  "hard_locks": {
+    "mission_state_mutation": false,
+    "pending_packet_mutation": false,
+    "formal_slot_creation": false,
+    "v1_verified_baseline_mutation": false,
+    "p_base_mutation": false,
+    "identity_personality_governance_mutation": false,
+    "formal_c_pass_claim": false,
+    "candidate_is_formal_verified": false,
+    "runtime_events_count_as_experience": false
+  },
+  "resume_rule": "This handoff is current while W01 generation2 remains LCR-A and until superseded by a newer W01_TO_W03_GEARBOX handoff. Old Small-World resume conditions do not cancel this separate Gearbox research authorization.",
+  "status": "READY_FOR_W03_REVIEW"
+}
