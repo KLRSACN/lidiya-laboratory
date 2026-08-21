@@ -1,7 +1,7 @@
 {
-  "schema_version": "5.32",
+  "schema_version": "5.33",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-21T08:26:27+08:00",
+  "recorded_at": "2026-08-21T09:24:05+08:00",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
   "forbidden_proxies": ["awake_time","window_age","commit_count","heartbeat_count","poll_count","retry_count","task_last_run"],
@@ -23,11 +23,12 @@
   "pairing_rule": "Use sealed matched baseline/candidate workloads, identical verification/risk/authority criteria, precommitted eligible-wake/exposure/censoring/admission/defer/timeout rules, randomized AB/BA or crossover order, intention-to-treat coverage and carryover controls.",
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
-    "rule": "Both arms must share identical authoritative Experience/operational semantics, replay/receipt rules, canonical typed EventKind/RiskLevel/EventIdentity parsing, complete inherited v1/v2 safety metadata obligations, canonical N/R/G1..G6 state semantics, terminal-authority precedence, telemetry provenance and bounded ingestion behavior.",
-    "w02_0732_constraints": [
+    "rule": "Both arms must share identical authoritative Experience/operational semantics, replay/receipt rules, canonical typed EventKind/RiskLevel/EventIdentity parsing, complete inherited v1/v2 safety metadata obligations, canonical N/R/G1..G6 state semantics, explicit terminal-authority precedence, telemetry provenance and bounded ingestion behavior.",
+    "w02_0830_constraints": [
+      "Simultaneous authenticated standby=true and rollback_required=true must resolve by the same explicit versioned terminal-authority rule in both arms; branch order cannot determine outcome.",
+      "The resolved simultaneous terminal state must be preserved identically across v1->v2->v2.1 and cannot be rewritten by secretary, pressure, recovery or anti-thrash overlays.",
+      "Malformed/extreme nonessential telemetry during a simultaneous terminal conflict remains intention-to-treat and cannot be censored from either arm.",
       "Both arms must derive current control state from the same canonical monotonic runtime/shift-state receipt; caller-declared current_gear cannot alter hysteresis, anti-thrash or denominator eligibility.",
-      "Trusted rollback R and standby N terminal outcomes plus terminal-exit authority must remain structurally preserved; candidate samples cannot appear faster by overwriting R/N with G1 or by dropping guard/return-condition obligations.",
-      "Ledger outcomes must be exhaustive and mutually exclusive; rejected_unverified claims remain in denominator accounting and cannot disappear from paired quality/throughput statistics.",
       "Only evidence-bound AcceptedExperienceReceipt and OperationalProgressAcceptanceReceipt outputs may enter verified_closure or durable_progress numerators; raw caller credit fields are excluded."
     ]
   },
@@ -41,6 +42,6 @@
     "v2_1_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "exact_validation": "DEFER_EXECUTOR_UNAVAILABLE"
   },
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260821-0732 is fresh to current exact bytes and BOUNDED_VETO_ACTIVE. New HIGH TERMINAL-PRECEDENCE-094 requires structural R precedence and trusted N exit; new MEDIUM_HIGH UNVERIFIED-CLAIM-AUDIT-SINK-095 requires conserving ledger outcomes. CURRENT-GEAR-PROVENANCE-093 and existing freshness/authority, anti-thrash, EventIdentity/evidence/replay/receipt, operational-progress and speed gates remain. Dedicated W03 absent; W04 1332 stale/veto-active.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260821-0830 is fresh to current exact bytes and BOUNDED_VETO_ACTIVE. New HIGH ROLLBACK-STANDBY-CONFLICT-096 requires an explicit versioned simultaneous terminal-authority precedence rule and cross-layer preservation. TERMINAL-PRECEDENCE-094, CURRENT-GEAR-PROVENANCE-093 and existing freshness/authority, anti-thrash, EventIdentity/evidence/replay/receipt, operational-progress and speed gates remain. Dedicated W03 absent; W04 1332 stale/veto-active.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
