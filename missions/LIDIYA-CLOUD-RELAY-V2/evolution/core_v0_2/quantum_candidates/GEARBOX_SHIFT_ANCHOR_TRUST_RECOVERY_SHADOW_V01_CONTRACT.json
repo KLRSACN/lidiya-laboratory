@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.1-shadow",
+  "candidate_id": "QUANTUM-SHIFT-ANCHOR-TRUST-RECOVERY-SHADOW-V01-20260821",
+  "owner_role": "W02-QUANTUM_NON_FORMAL",
+  "status": "EXECUTABLE_SHADOW_REPAIR_TEST_PENDING",
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "scope": "SHIFT_ANCHOR_PROVIDER_AUTHENTICATION_AND_CRASH_RECOVERY_SEMANTICS_ONLY",
+  "implementation": "evolution/core_v0_2/quantum_candidates/gearbox_shift_anchor_trust_recovery_shadow_v01.py",
+  "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_shift_anchor_trust_recovery_shadow_v01.py",
+  "provider_trust_model": {
+    "provider_id": "QUANTUM_SHADOW_MONOTONIC_PROVIDER_V01",
+    "key_id": "shadow-hmac-key-v01",
+    "durability_domain_id": "trusted-anchor-domain-A",
+    "authentication": "HMAC-SHA256 receipt authentication with a pinned external-key fingerprint",
+    "test_key_boundary": "The repository regression secret is synthetic/public test material. It demonstrates authentication semantics only and MUST NOT be interpreted as a production trust root or credential.",
+    "production_requirement_remaining": "A genuinely independent provider/registry/HSM/TPM/remote monotonic service identity and protected key material remain TEST_REQUIRED."
+  },
+  "authenticated_crash_recovery": {
+    "only_incident": "UNANCHORED_LEDGER_ADVANCE_CRASH_WINDOW",
+    "preconditions": [
+      "existing anchor is readable and scope-bound",
+      "shift ledger passes complete internal integrity validation",
+      "ledger is exactly one accepted event ahead of anchor",
+      "provider-authenticated receipt binds exact previous anchor hash and exact observed anchor seq/head",
+      "provider-authenticated receipt binds exact current ledger seq/head, mission, step, installation, runtime, provider, key, domain and nonce",
+      "writer lock is held for the complete recovery transition"
+    ],
+    "forbidden_recovery": [
+      "ledger rollback",
+      "same-sequence fork",
+      "more than one unanchored advance",
+      "wrong provider key fingerprint",
+      "receipt tamper",
+      "cross runtime/install/domain",
+      "automatic local recovery without an authenticated receipt"
+    ],
+    "idempotency": "Exact authenticated replay after recovery is a NO_OP; same recovery_id with different authenticated binding is IDENTITY_CONFLICT when the local recovery audit registry is intact.",
+    "crash_after_anchor_before_audit_registry": "An authenticated receipt matching the already-advanced anchor may rebuild the local audit record without advancing the anchor again."
+  },
+  "authority_boundary": {
+    "live_routing_authority_allowed": false,
+    "formal_mutation_allowed": false,
+    "experience_delta": 0,
+    "operational_progress_delta": 0,
+    "does_not_clear_live_v2_v2_1_veto": true,
+    "does_not_prove_external_provider_physical_independence": true
+  },
+  "self_review_boundary": {
+    "confirmed": "Receipt HMAC authenticates exact recovery observations to the pinned synthetic provider identity and prevents arbitrary local auto-blessing.",
+    "not_claimed": "Normal anchor states are not yet provider-attested on every append, and the local recovery audit registry is not itself independently rollback anchored. These remain distinct future trust-hardening targets."
+  },
+  "formal_adoption": "TEST_REQUIRED; NORMAL A_TO_B_TO_C ONLY AFTER EXACT EXECUTABLE EVIDENCE AND REMAINING VETO RESOLUTION"
+}
