@@ -1,8 +1,8 @@
 {
-  "schema_version": "1.0-shadow",
+  "schema_version": "1.1-shadow",
   "candidate_id": "QUANTUM-GEARBOX-V2.1-REPAIR-SHADOW-V01-20260821",
   "owner_role": "W02-QUANTUM_NON_FORMAL",
-  "status": "EXECUTABLE_SHADOW_REPAIR_CANDIDATE",
+  "status": "EXECUTABLE_SHADOW_REPAIR_CANDIDATE_TEST_PENDING",
   "formal_effect": "NONE",
   "c_pass_claimed": false,
   "scope": "GEARBOX_V2_AND_V2_1_CANDIDATE_REPAIR_ONLY",
@@ -33,8 +33,8 @@
       "current_control_state": "N/R/G1..G6 canonical typed boundary"
     },
     "credit_semantics": {
-      "verified": "raw event_kind + bool is zero shadow credit without a matching C/independent-verifier receipt and C_VERIFIED stage",
-      "operational": "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational-only and require a durable artifact receipt for nonzero shadow operational credit",
+      "verified": "raw event_kind + bool is zero shadow credit without a matching event-bound C/independent-verifier receipt and C_VERIFIED stage",
+      "operational": "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational-only and require an event-bound durable artifact receipt for nonzero shadow operational credit",
       "heartbeat_runtime": "HEARTBEAT/POLL/RETRY/WAIT/SCHEDULER_WAKE remain zero Experience"
     },
     "durable_replay_registry": {
@@ -58,11 +58,37 @@
       "v2_real_experience_claim": "recomputed fail-closed from receipt-bound shadow eligibility"
     }
   },
+  "repair_tranche_2_authority_projection": {
+    "implementation": "evolution/core_v0_2/quantum_candidates/gearbox_authority_projection_shadow_v01.py",
+    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py",
+    "authority_conflict_semantics": "authority_conflict=true requires a valid exact AuthorityDecisionEnvelope; missing/stale/cross-step/cross-role envelope fails closed instead of falling back to caller routing",
+    "fresh_snapshot_binding": {
+      "source": "fresh-read state/MISSION_STATE.json Git blob",
+      "pinned_blob_sha": "e32e01fa304a857f5185951443682ea937335473",
+      "pinned_step_id": 9,
+      "caller_override_allowed": false,
+      "rebase_rule": "If formal MISSION_STATE blob or step advances, this tranche must checkpoint/rebase before projecting authority."
+    },
+    "projection_rules": [
+      "only LCR-A is accepted as authority_role in this non-formal shadow tranche",
+      "authority decision selected_state/guard/return_condition/checkpoint/ACK/verification_gate are projected exactly after typed validation",
+      "R requires ROLLBACK guard and N requires HOLD guard",
+      "authority projection happens before ordinary secretary/pressure/anti-thrash telemetry parsing",
+      "authority projection creates zero Experience and zero operational credit",
+      "shadow AuthorityDecisionEnvelope can never authorize formal mutation",
+      "unsolicited envelope without authority_conflict does not silently become authority"
+    ],
+    "self_review_repairs": [
+      "removed caller-supplied expected authority snapshot because stale envelope plus stale expected SHA could self-consistently forge freshness",
+      "separated 40-hex Git blob identity validation from 64-hex evidence SHA-256 validation"
+    ],
+    "formal_adoption": "TEST_REQUIRED; DOES_NOT_CLEAR_LIVE_V2_V2_1_AUTHORITY_VETO"
+  },
   "known_unresolved_after_v01": [
     "SecretarySignalEnvelope and per-field freshness/provenance are not yet implemented in this shadow tranche.",
-    "AuthorityDecisionEnvelope exact projection is not yet implemented.",
     "recent_shift_rate_ratio still needs a canonical append-only shift-history source, minimum support, uncertainty and hysteretic release.",
     "authenticated terminal-exit envelope is intentionally not implemented; N/R residence therefore fails closed.",
+    "AuthorityDecisionEnvelope authenticity is structurally modeled and exact-snapshot pinned, but cryptographic/registry-backed signer authenticity is not established by this shadow module.",
     "receipt authenticity is structurally modeled but cryptographic/registry-backed trust is not established by this shadow module.",
     "production-grade durable ledger concurrency, locking and rollback resistance remain TEST_REQUIRED.",
     "speedup remains NOT_YET_STATISTICALLY_ESTABLISHED."
