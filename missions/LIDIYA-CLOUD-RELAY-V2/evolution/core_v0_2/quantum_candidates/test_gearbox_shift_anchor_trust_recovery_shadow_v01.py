@@ -62,7 +62,7 @@ class ShiftAnchorTrustRecoveryShadowTests(unittest.TestCase):
             durability_domain_id=PROVIDER_DOMAIN_ID,
         )
         appended = append_shift_event(
-            event(1, ZERO), registry_path=self.registry,
+            event(1, ZERO_HASH), registry_path=self.registry,
             installation_id=INSTALL, runtime_id=RUNTIME,
         )
         self.assertEqual(appended.status, "ACCEPTED")
