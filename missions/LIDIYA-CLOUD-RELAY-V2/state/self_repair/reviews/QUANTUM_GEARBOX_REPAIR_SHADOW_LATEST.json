@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.2-shadow",
-  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-2034",
+  "schema_version": "1.3-shadow",
+  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-2130",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_REPAIR_DEVELOPMENT",
   "status": "REPAIR_ACTIVE_TEST_PENDING",
@@ -37,32 +37,26 @@
   },
   "adversarial_review_delta": {
     "new_distinct_live_veto_id": null,
-    "existing_veto_sharpened": "QV-GB21-FRESHNESS-AUTHORITY-001",
-    "finding": "Live v2.1 still neutralizes only secretary_level while v2 numeric pressure fields remain caller-supplied and unbound to secretary source/freshness. This round did not create a duplicate veto; it implemented the missing shadow provenance semantics for the existing gap.",
-    "next_unrepaired_priority": "recent_shift_rate_ratio still lacks canonical append-only history, support/window/uncertainty and stateful hysteretic release."
+    "existing_veto_sharpened": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
+    "finding": "Live v2.1 still accepts raw caller recent_shift_rate_ratio and applies >=0.50 without canonical support/window/uncertainty/stateful release. This round did not duplicate the veto; it implemented the missing executable shadow derivation semantics from accepted append-only shift history.",
+    "next_unrepaired_priority": "The local shift registry is restart-persistent and internally hash-chain verified, but a whole-file rollback to an older internally consistent snapshot still needs an external monotonic durability anchor before rollback-resistant routing evidence can exist."
   },
   "material_repair_this_round": {
-    "target": "SECRETARY_SIGNAL_ENVELOPE_AND_PER_FIELD_PRESSURE_PROVENANCE",
-    "previous_gap": "W07 is sensor-only and stale/conflicting secretary telemetry should have zero routing effect, but live v2/v2.1 has no envelope or per-field provenance binding for secretary-derived pressure inputs.",
+    "target": "CANONICAL_APPEND_ONLY_SHIFT_HISTORY_SMALL_N_UNCERTAINTY_HYSTERESIS",
     "implemented_shadow_only": [
-      "Added SecretarySignalEnvelope pinned to the fresh W07 protocol Git blob 0e4ba4108ca9953a566e3ea5ca4957e1ee6d142b, mission LCR-EVOLUTION-0005, step 9, W07 source role and authority NONE.",
-      "Each pressure measurement now carries typed value, sensor_id, observed_seq, valid_through_seq, installation_id and runtime_id; mixed installation/runtime and unknown fields fail closed.",
-      "Future/stale whole envelopes produce zero effect; stale/future individual fields are neutralized independently; missing fields receive safe neutral defaults.",
-      "authority_conflict produces UNKNOWN/neutral zero-effect projection.",
-      "Secretary signal observation/provenance/freshness produces zero Experience, zero operational progress and no formal mutation authority."
+      "Added a mission/step/installation/runtime scoped append-only shift registry with strict contiguous sequence, previous-event hash chain, explicit EventIdentity, evidence_sha256 lineage and atomic persistence.",
+      "Exact accepted replay is DUPLICATE_NO_OP; same ID/different binding is IDENTITY_CONFLICT; same evidence lineage under a new ID is LINEAGE_DUPLICATE_NO_OP; cross runtime/install fails closed.",
+      "Anti-thrash observation is derived from accepted history only, never a caller ratio. Minimum support and window are explicit TEST_REQUIRED policy inputs.",
+      "Uncertainty uses a Wilson interval: CLEAR enters THRASH only when the lower bound reaches enter_rate; THRASH exits only when the upper bound falls below a lower exit_rate; the middle/uncertain region holds prior state.",
+      "A policy fingerprint change cannot silently clear an active THRASH state.",
+      "Shift-history observation has zero Experience, zero operational credit, zero formal mutation authority and no live routing authority."
     ],
     "self_review_repairs": [
-      "Initial implementation exposed fresh observations through fields shaped like routing inputs while relying on routing_authority_allowed=false for safety.",
-      "Hardened the same tranche by physically separating observed_secretary_level/observed_pressure_inputs from routing_secretary_level/routing_pressure_inputs.",
-      "Because evaluation_seq is not yet bound to an authenticated runtime freshness root, all routing-facing secretary/pressure outputs now remain UNKNOWN/neutral even for apparently fresh envelopes."
+      "Initial implementation validated predecessor/hash-chain integrity only while appending.",
+      "Fresh-read self-review identified that a locally tampered stored event/index/head could otherwise influence later statistics.",
+      "Repaired the same tranche so every reload/evaluation reconstructs and validates all stored event receipts, contiguous seq, predecessor chain, event hashes, changed_gear flags, identity index, lineage index and head hash before computing any rate or uncertainty."
     ],
     "does_not_clear_live_veto": true
-  },
-  "secretary_protocol_readback": {
-    "path": "state/WIND_SECRETARY_PROTOCOL.json",
-    "sha": "0e4ba4108ca9953a566e3ea5ca4957e1ee6d142b",
-    "authority": "NONE",
-    "handoff_rule": "Secretary prepares; W01 decides; formal B/C verify any promoted implementation."
   },
   "shadow_artifacts": {
     "core_code_sha": "97e9bb2ff0a44d3c95586132aef9336d78c75de7",
@@ -71,41 +65,48 @@
     "authority_test_sha": "0c927796db4f3e52087059201bd76c834b11c5d0",
     "secretary_code_sha": "ff791a7499837c270482ff42f6cee954d2710d7b",
     "secretary_test_sha": "c074e168f94a46dc4918501cb7b0bb24ec4b3859",
-    "contract_sha": "4919da5a16145feaae3080a662db1f4e9831eb49",
-    "workflow_sha": "04537181215827738a4c84554400ff227c2acc6b"
+    "shift_history_code_sha": "245549a3f5a9eec6c5f2ae44c2d02f4908a37a5e",
+    "shift_history_test_sha": "fd78a35e7296b575096d9792d8b72662c4fcf744",
+    "contract_sha": "ecfa5833b7e492f066b22b4829ccbc28944214af",
+    "workflow_sha": "86ddc50f590d91c58f092048b4fd7e598bdf32b9"
   },
   "regression_added_this_round": [
-    "fresh complete envelope sanitizes observational fields but routing-facing fields remain neutral",
-    "caller-selected evaluation sequence never populates routing-facing fields",
-    "stale/future envelope zero effect",
-    "authority conflict zero effect",
-    "stale/future single field neutralization",
-    "missing field safe neutral default",
-    "mixed installation/runtime provenance fail closed",
-    "field validity cannot outlive envelope",
-    "protocol snapshot mismatch and cross-step require rebase",
-    "W07 cannot claim routing authority",
-    "typed ratio and unknown pressure fields fail closed",
-    "envelope fingerprint changes on measurement change"
+    "append-only contiguous sequence and predecessor hash chain",
+    "exact replay duplicate NO_OP",
+    "same ID different binding identity conflict",
+    "same evidence new ID lineage duplicate",
+    "cross-restart exactly-once persistence",
+    "cross-runtime/install rejection",
+    "typed event identity",
+    "small-N cannot enter thrash",
+    "raw 3/5 rate cannot enter when uncertainty lower bound is insufficient",
+    "supported all-shift window can enter",
+    "stateful lower-threshold exit using uncertainty upper bound",
+    "uncertain middle region holds prior state",
+    "policy change cannot silently clear active guard",
+    "tampered event payload/index/head fails on reload",
+    "observation has zero live/formal authority and zero credit"
   ],
   "executable_evidence": {
     "workflow": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
-    "workflow_updated_to_include_secretary_suite": true,
+    "workflow_updated_to_include_shift_history_suite": true,
+    "latest_workflow_trigger_commit": "da395784be72a68a8d665e75d30b2bfa86683b9e",
     "commit_workflow_runs_retrievable": 0,
     "workflow_run_evidence": "NOT_RETRIEVABLE_FOR_CURRENT_PUSH_COMMIT",
     "verdict": "TEST_PENDING_DEFER_NO_PASS_CLAIM"
   },
   "remaining_gaps_after_this_round": [
-    "Live v2/v2.1 still have the original secretary freshness/provenance gap; shadow repair does not modify live candidate.",
-    "Secretary evaluation_seq has no authenticated runtime freshness root yet; tranche 3 intentionally remains observational-only and cannot affect routing.",
-    "Canonical append-only shift-history observation with support/window/uncertainty and calibrated anti-thrash remains unimplemented.",
-    "AuthorityDecisionEnvelope signer authenticity is structurally modeled but not cryptographically or registry authenticated.",
+    "Live v2/v2.1 still accept caller recent_shift_rate_ratio; shadow repair does not modify live candidate.",
+    "Window/minimum-support/enter/exit/z policy values are explicit research inputs and remain uncalibrated TEST_REQUIRED parameters.",
+    "A whole-file rollback of the local shadow registry to an older internally consistent snapshot is not detectable without an external monotonic durability anchor.",
+    "Shift registry production concurrency/interprocess locking remains TEST_REQUIRED.",
+    "Secretary evaluation_seq still lacks an authenticated runtime freshness root; tranche 3 remains observational-only.",
+    "AuthorityDecisionEnvelope signer authenticity is structurally modeled but not registry/cryptographically authenticated.",
     "Authenticated terminal-exit envelope remains intentionally absent; N/R residence stays fail-closed.",
-    "Production receipt/ledger concurrency, rollback resistance and locking remain TEST_REQUIRED.",
     "Fresh same-runner shadow CI evidence remains unavailable; no PASS claim.",
     "Speedup remains NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
-  "next_repair_target": "CANONICAL_APPEND_ONLY_SHIFT_HISTORY_SMALL_N_UNCERTAINTY_HYSTERESIS",
+  "next_repair_target": "SHIFT_HISTORY_EXTERNAL_MONOTONIC_DURABILITY_ANCHOR_AND_CONCURRENCY_BOUNDARY",
   "live_candidate_status": {
     "v2_v2_1_bounded_veto_remains": true,
     "formal_adoption": "BLOCKED_UNTIL_NORMAL_A_TO_B_TO_C_AFTER_REQUIRED_EVIDENCE"
@@ -113,6 +114,7 @@
   "experience_boundary": {
     "heartbeat_poll_retry_reconnect_window_age_self_test_duration": "ZERO_EXPERIENCE",
     "secretary_observation_is_experience": false,
+    "shift_history_observation_is_experience": false,
     "operational_progress_is_verified_experience": false,
     "heuristic_credit_is_capability_truth": false,
     "speedup_established": false
