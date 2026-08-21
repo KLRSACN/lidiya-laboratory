@@ -1,0 +1,107 @@
+name: LCR Quantum Gearbox Clock Epoch Shadow
+
+on:
+  push:
+    branches:
+      - lidiya-cloud-relay-v2
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V01_CONTRACT.json'
+      - '.github/workflows/lcr-quantum-gearbox-clock-epoch-shadow.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lcr-quantum-gearbox-clock-epoch-shadow-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  clock_epoch_shadow:
+    name: Non-formal clock epoch recovery and pressure isolation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution:${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Import and compile clock epoch boundary
+        run: |
+          python - <<'PY'
+          import gearbox_clock_epoch_recovery_shadow_v01
+          print('CLOCK_EPOCH_IMPORT_PASS')
+          PY
+          python -m py_compile \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py
+
+      - name: Run clock epoch adversarial regression
+        id: clock_tests
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py 2>&1 | tee /tmp/gearbox-clock-epoch-shadow.log
+
+      - name: Emit bounded clock epoch evidence
+        if: always()
+        env:
+          CLOCK_TEST_OUTCOME: ${{ steps.clock_tests.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+
+          files = [
+              'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V01_CONTRACT.json',
+          ]
+          outcome = os.environ.get('CLOCK_TEST_OUTCOME', 'skipped')
+          evidence = {
+              'schema_version': '1.0-shadow',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'evidence_type': 'gearbox_clock_epoch_recovery_shadow',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'ref_name': os.environ['REF_NAME'],
+              'status': 'PASS' if outcome == 'success' else 'FAIL',
+              'test_outcome': outcome,
+              'formal_effect': 'NONE',
+              'formal_c_verification': 'NOT_CLAIMED',
+              'formal_mutation_allowed': False,
+              'p_base': 'READ_ONLY_UNCHANGED',
+              'real_5min_runtime_live': False,
+              'recovery_counts_as_experience': False,
+              'pressure_history_counts_as_personality': False,
+              'claim_boundary': 'Synthetic-key and provider-interface executable candidate evidence only; does not prove production key custody, remote/HSM durability, formal C PASS, live routing authority, or Gearbox promotion.',
+              'bound_files': {},
+          }
+          for rel in files:
+              data = Path(rel).read_bytes()
+              evidence['bound_files'][rel] = {
+                  'sha256': hashlib.sha256(data).hexdigest(),
+                  'size_bytes': len(data),
+              }
+          out = Path('evidence/quantum-gearbox-clock-epoch-shadow.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(out.read_text(encoding='utf-8'))
+          PY
+
+      - name: Upload clock epoch shadow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-quantum-gearbox-clock-epoch-shadow
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/quantum-gearbox-clock-epoch-shadow.json
+          if-no-files-found: error
+          retention-days: 7
