@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import asdict
 
 from gearbox_controller import GearboxGuardError
 from gearbox_secretary_signal_shadow_v01 import (
@@ -7,6 +8,19 @@ from gearbox_secretary_signal_shadow_v01 import (
     PRESSURE_FIELDS,
     project_secretary_signal_shadow,
 )
+from gearbox_secretary_runtime_freshness_shadow_v01 import (
+    SecretaryFreshnessGuardError,
+    sign_runtime_clock,
+    sign_secretary_observation,
+)
+from gearbox_secretary_runtime_freshness_shadow_v02 import (
+    ZERO_HASH,
+    project_secretary_with_authenticated_checkpoint_shadow,
+    sign_clock_checkpoint,
+)
+
+CLOCK_SECRET = b"quantum-runtime-clock-shadow-key-v01-32bytes"
+SECRETARY_SECRET = b"quantum-w07-secretary-shadow-key-v01-32bytes"
 
 
 def measurement(value, *, seq=10, through=12, sensor="sensor-a", installation="install-a", runtime="runtime-a"):
@@ -175,6 +189,63 @@ class SecretarySignalShadowTests(unittest.TestCase):
         fields["context_load_ratio"] = measurement(0.71)
         p2 = project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
         self.assertNotEqual(p1.envelope_fingerprint, p2.envelope_fingerprint)
+
+    def test_authenticated_checkpoint_enables_routing_shadow_without_caller_evaluation_seq(self):
+        env = envelope(issued=10, through=20, level="YELLOW")
+        signed = sign_secretary_observation(env, secretary_secret=SECRETARY_SECRET)
+        cp = sign_clock_checkpoint({
+            "last_clock_seq":0,"last_clock_hash":ZERO_HASH,"installation_id":"install-a",
+            "runtime_id":"runtime-a","checkpoint_nonce":"cp-0"
+        }, clock_secret=CLOCK_SECRET)
+        clk = sign_runtime_clock({
+            "clock_seq":11,"previous_clock_hash":ZERO_HASH,"installation_id":"install-a",
+            "runtime_id":"runtime-a","nonce":"clock-11"
+        }, clock_secret=CLOCK_SECRET)
+        p = project_secretary_with_authenticated_checkpoint_shadow(
+            env, signed_observation=signed, clock_receipt=clk, clock_checkpoint=cp,
+            clock_secret=CLOCK_SECRET, secretary_secret=SECRETARY_SECRET,
+            installation_id="install-a", runtime_id="runtime-a")
+        self.assertTrue(p.routing_authority_allowed)
+        self.assertEqual(p.routing_secretary_level, "YELLOW")
+        self.assertEqual(p.verified_experience_delta, 0)
+        self.assertFalse(p.formal_mutation_allowed)
+
+    def test_authenticated_checkpoint_floor_cannot_be_downgraded_by_caller(self):
+        cp = asdict(sign_clock_checkpoint({
+            "last_clock_seq":10,"last_clock_hash":"a"*64,"installation_id":"install-a",
+            "runtime_id":"runtime-a","checkpoint_nonce":"cp-10"
+        }, clock_secret=CLOCK_SECRET))
+        cp["last_clock_seq"] = 0
+        cp["last_clock_hash"] = ZERO_HASH
+        env = envelope(issued=10, through=20)
+        signed = sign_secretary_observation(env, secretary_secret=SECRETARY_SECRET)
+        clk = sign_runtime_clock({
+            "clock_seq":11,"previous_clock_hash":ZERO_HASH,"installation_id":"install-a",
+            "runtime_id":"runtime-a","nonce":"clock-11"
+        }, clock_secret=CLOCK_SECRET)
+        with self.assertRaisesRegex(SecretaryFreshnessGuardError, "checkpoint authentication failed"):
+            project_secretary_with_authenticated_checkpoint_shadow(
+                env, signed_observation=signed, clock_receipt=clk, clock_checkpoint=cp,
+                clock_secret=CLOCK_SECRET, secretary_secret=SECRETARY_SECRET,
+                installation_id="install-a", runtime_id="runtime-a")
+
+    def test_authenticated_clock_still_yields_zero_effect_on_authority_conflict(self):
+        env = envelope(issued=10, through=20)
+        signed = sign_secretary_observation(env, secretary_secret=SECRETARY_SECRET)
+        cp = sign_clock_checkpoint({
+            "last_clock_seq":0,"last_clock_hash":ZERO_HASH,"installation_id":"install-a",
+            "runtime_id":"runtime-a","checkpoint_nonce":"cp-0"
+        }, clock_secret=CLOCK_SECRET)
+        clk = sign_runtime_clock({
+            "clock_seq":11,"previous_clock_hash":ZERO_HASH,"installation_id":"install-a",
+            "runtime_id":"runtime-a","nonce":"clock-11"
+        }, clock_secret=CLOCK_SECRET)
+        p = project_secretary_with_authenticated_checkpoint_shadow(
+            env, signed_observation=signed, clock_receipt=clk, clock_checkpoint=cp,
+            clock_secret=CLOCK_SECRET, secretary_secret=SECRETARY_SECRET,
+            installation_id="install-a", runtime_id="runtime-a", authority_conflict=True)
+        self.assertFalse(p.routing_authority_allowed)
+        self.assertEqual(p.routing_secretary_level, "UNKNOWN")
 
 
 if __name__ == "__main__":
