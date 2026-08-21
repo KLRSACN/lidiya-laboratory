@@ -53,6 +53,8 @@ jobs:
           import gearbox_shift_history_shadow_v01
           import gearbox_shift_durability_anchor_shadow_v01
           import gearbox_shift_anchor_trust_recovery_shadow_v01
+          import gearbox_shift_provider_attested_anchor_shadow_v01
+          import gearbox_shift_provider_attested_anchor_shadow_v02
           print('IMPORT_SMOKE_PASS')
           PY
 
@@ -72,6 +74,9 @@ jobs:
           evolution/core_v0_2/quantum_candidates/test_gearbox_shift_durability_anchor_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/gearbox_shift_anchor_trust_recovery_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/test_gearbox_shift_anchor_trust_recovery_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/gearbox_shift_provider_attested_anchor_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/gearbox_shift_provider_attested_anchor_shadow_v02.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_shift_provider_attested_anchor_shadow_v02.py
 
       - name: Run core shadow adversarial tests
         id: core_shadow_tests
@@ -115,6 +120,13 @@ jobs:
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_shift_anchor_trust_recovery_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-shift-anchor-trust-recovery-tests.log
 
+      - name: Run provider-attested anchor and audit adversarial tests
+        id: provider_attested_anchor_tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_shift_provider_attested_anchor_shadow_v02.py 2>&1 | tee /tmp/quantum-shadow-provider-attested-anchor-tests.log
+
       - name: Emit bounded shadow evidence
         if: always()
         env:
@@ -126,6 +138,7 @@ jobs:
           SHIFT_HISTORY_TEST_OUTCOME: ${{ steps.shift_history_shadow_tests.outcome }}
           SHIFT_DURABILITY_TEST_OUTCOME: ${{ steps.shift_durability_shadow_tests.outcome }}
           SHIFT_ANCHOR_TRUST_RECOVERY_OUTCOME: ${{ steps.shift_anchor_trust_recovery_tests.outcome }}
+          PROVIDER_ATTESTED_ANCHOR_OUTCOME: ${{ steps.provider_attested_anchor_tests.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           REF_NAME: ${{ github.ref_name }}
         run: |
@@ -148,6 +161,9 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/test_gearbox_shift_durability_anchor_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/gearbox_shift_anchor_trust_recovery_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/test_gearbox_shift_anchor_trust_recovery_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/gearbox_shift_provider_attested_anchor_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/gearbox_shift_provider_attested_anchor_shadow_v02.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_shift_provider_attested_anchor_shadow_v02.py',
           ]
           outcomes = {
               'import_smoke': os.environ.get('IMPORT_SMOKE_OUTCOME', 'skipped'),
@@ -158,10 +174,11 @@ jobs:
               'shift_history_anti_thrash': os.environ.get('SHIFT_HISTORY_TEST_OUTCOME', 'skipped'),
               'shift_durability_anchor': os.environ.get('SHIFT_DURABILITY_TEST_OUTCOME', 'skipped'),
               'shift_anchor_trust_recovery': os.environ.get('SHIFT_ANCHOR_TRUST_RECOVERY_OUTCOME', 'skipped'),
+              'provider_attested_anchor_and_audit': os.environ.get('PROVIDER_ATTESTED_ANCHOR_OUTCOME', 'skipped'),
           }
           overall = 'success' if all(value == 'success' for value in outcomes.values()) else 'failure'
           evidence = {
-              'schema_version': '1.6-shadow',
+              'schema_version': '1.7-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'quantum_gearbox_v2_1_repair_shadow',
               'commit_sha': os.environ['COMMIT_SHA'],
@@ -179,7 +196,8 @@ jobs:
               'shift_history_observation_counts_as_experience': False,
               'shift_durability_anchor_maintenance_counts_as_experience': False,
               'shift_anchor_recovery_counts_as_experience': False,
-              'claim_boundary': 'Executable non-formal shadow evidence only. It does not promote Gearbox v2/v2.1, replace LCR-C, or alter historical v1/Step009 verification.',
+              'provider_attestation_counts_as_experience': False,
+              'claim_boundary': 'Executable non-formal shadow evidence only. It does not promote Gearbox v2/v2.1, replace LCR-C, prove production HSM/TPM/provider independence/key secrecy/rollback resistance, or alter historical v1/Step009 verification.',
               'bound_files': {},
           }
           for rel in bound:
@@ -214,6 +232,7 @@ jobs:
           SHIFT_HISTORY_TEST_OUTCOME: ${{ steps.shift_history_shadow_tests.outcome }}
           SHIFT_DURABILITY_TEST_OUTCOME: ${{ steps.shift_durability_shadow_tests.outcome }}
           SHIFT_ANCHOR_TRUST_RECOVERY_OUTCOME: ${{ steps.shift_anchor_trust_recovery_tests.outcome }}
+          PROVIDER_ATTESTED_ANCHOR_OUTCOME: ${{ steps.provider_attested_anchor_tests.outcome }}
         run: |
           python - <<'PY'
           import os
@@ -222,7 +241,7 @@ jobs:
               'IMPORT_SMOKE_OUTCOME', 'COMPILE_OUTCOME', 'CORE_TEST_OUTCOME',
               'AUTHORITY_TEST_OUTCOME', 'SECRETARY_TEST_OUTCOME',
               'SHIFT_HISTORY_TEST_OUTCOME', 'SHIFT_DURABILITY_TEST_OUTCOME',
-              'SHIFT_ANCHOR_TRUST_RECOVERY_OUTCOME',
+              'SHIFT_ANCHOR_TRUST_RECOVERY_OUTCOME', 'PROVIDER_ATTESTED_ANCHOR_OUTCOME',
           ]
           failed = {name: os.environ.get(name, 'skipped') for name in names if os.environ.get(name, 'skipped') != 'success'}
           if failed:
