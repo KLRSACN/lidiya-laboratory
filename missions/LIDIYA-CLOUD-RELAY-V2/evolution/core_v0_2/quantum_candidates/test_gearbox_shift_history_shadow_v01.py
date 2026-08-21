@@ -124,6 +124,30 @@ class ShiftHistoryShadowTests(unittest.TestCase):
         replay = append_shift_event(raw, registry_path=Path(str(self.path)), installation_id=INSTALLATION, runtime_id=RUNTIME)
         self.assertEqual(replay.status, "DUPLICATE_NO_OP")
 
+    def test_reload_rejects_tampered_event_payload(self):
+        self.append()
+        data = json.loads(self.path.read_text(encoding="utf-8"))
+        data["events"][0]["to_gear"] = "G6"
+        self.path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaises(ShiftHistoryGuardError):
+            evaluate_thrash(registry_path=self.path, installation_id=INSTALLATION, runtime_id=RUNTIME, policy=POLICY)
+
+    def test_reload_rejects_tampered_identity_index(self):
+        self.append()
+        data = json.loads(self.path.read_text(encoding="utf-8"))
+        data["by_event_id"]["shift-1"] = evidence(999)
+        self.path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaises(ShiftHistoryGuardError):
+            evaluate_thrash(registry_path=self.path, installation_id=INSTALLATION, runtime_id=RUNTIME, policy=POLICY)
+
+    def test_reload_rejects_tampered_head_or_latest_seq(self):
+        self.append()
+        data = json.loads(self.path.read_text(encoding="utf-8"))
+        data["head_hash"] = evidence(998)
+        self.path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaises(ShiftHistoryGuardError):
+            evaluate_thrash(registry_path=self.path, installation_id=INSTALLATION, runtime_id=RUNTIME, policy=POLICY)
+
     def test_cross_runtime_and_installation_are_rejected(self):
         self.append()
         with self.assertRaises(ShiftHistoryGuardError):
@@ -189,7 +213,6 @@ class ShiftHistoryShadowTests(unittest.TestCase):
         for _ in range(5):
             self.append()
         evaluate_thrash(registry_path=self.path, installation_id=INSTALLATION, runtime_id=RUNTIME, policy=POLICY)
-        # 3/5 shifts is uncertain and must not force a state change.
         pattern = [True, True, True, False, False]
         for changed in pattern:
             self.append(from_gear="G2", to_gear="G3" if changed else "G2")
