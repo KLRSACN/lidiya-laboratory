@@ -1,0 +1,24 @@
+{
+  "schema_version":"1.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_AUTHORITY_EXPERIENCE_SIGNER_SHADOW_V01",
+  "status":"NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "scope":["AuthorityDecisionEnvelope signer authenticity","AcceptedExperienceReceipt signer authenticity","key epoch selection","explicit revocation fail-closed","exact payload/trust-snapshot binding"],
+  "invariants":[
+    "Only current trusted LCR-A epoch may authenticate AuthorityDecisionEnvelope.",
+    "Only current trusted LCR-C or INDEPENDENT_VERIFIER epoch may authenticate AcceptedExperienceReceipt and receipt.verifier_role must equal signer_role.",
+    "Revoked epochs never authenticate new authority or Experience.",
+    "Authority/Experience signatures bind exact canonical payload plus trust_snapshot_id; tamper/cross-step/cross-role fails closed.",
+    "Signer/trust maintenance creates zero Experience, zero operational progress and zero formal mutation authority.",
+    "Synthetic HMAC regression keys are not production trust roots and do not prove HSM/TPM/remote key protection."
+  ],
+  "known_limits":[
+    "TrustSnapshot rollback resistance is not established; previous_snapshot_sha256 is structural only in v0.1 and requires an external monotonic trust provider before adoption.",
+    "Production key generation, protected storage, rotation ceremony, revocation distribution, compromise recovery and signer deployment evidence remain TEST_REQUIRED.",
+    "This tranche does not implement terminal-exit authentication.",
+    "W03 SPIRIT-MOD-GB21-044 chronic pressure neutrality and SPIRIT-MOD-GB21-045 non-terminal clock recovery remain open and are not weakened by this signer repair."
+  ],
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
