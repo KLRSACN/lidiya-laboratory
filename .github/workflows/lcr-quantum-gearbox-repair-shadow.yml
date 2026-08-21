@@ -11,6 +11,8 @@ on:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_secretary_signal_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_secretary_signal_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_shift_history_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_shift_history_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_V2_1_REPAIR_SHADOW_V01_CONTRACT.json'
       - '.github/workflows/lcr-quantum-gearbox-repair-shadow.yml'
   workflow_dispatch:
@@ -45,6 +47,8 @@ jobs:
           evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/gearbox_secretary_signal_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/test_gearbox_secretary_signal_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/gearbox_shift_history_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_shift_history_shadow_v01.py
 
       - name: Run core shadow adversarial tests
         id: core_shadow_tests
@@ -64,12 +68,19 @@ jobs:
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_secretary_signal_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-secretary-tests.log
 
+      - name: Run shift history anti-thrash adversarial tests
+        id: shift_history_shadow_tests
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_shift_history_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-shift-history-tests.log
+
       - name: Emit bounded shadow evidence
         if: always()
         env:
           CORE_TEST_OUTCOME: ${{ steps.core_shadow_tests.outcome }}
           AUTHORITY_TEST_OUTCOME: ${{ steps.authority_shadow_tests.outcome }}
           SECRETARY_TEST_OUTCOME: ${{ steps.secretary_shadow_tests.outcome }}
+          SHIFT_HISTORY_TEST_OUTCOME: ${{ steps.shift_history_shadow_tests.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           REF_NAME: ${{ github.ref_name }}
         run: |
@@ -86,15 +97,18 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/gearbox_secretary_signal_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/test_gearbox_secretary_signal_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/gearbox_shift_history_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_shift_history_shadow_v01.py',
           ]
           outcomes = {
               'core': os.environ.get('CORE_TEST_OUTCOME', 'skipped'),
               'authority_projection': os.environ.get('AUTHORITY_TEST_OUTCOME', 'skipped'),
               'secretary_provenance': os.environ.get('SECRETARY_TEST_OUTCOME', 'skipped'),
+              'shift_history_anti_thrash': os.environ.get('SHIFT_HISTORY_TEST_OUTCOME', 'skipped'),
           }
           overall = 'success' if all(value == 'success' for value in outcomes.values()) else 'failure'
           evidence = {
-              'schema_version': '1.2-shadow',
+              'schema_version': '1.3-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'quantum_gearbox_v2_1_repair_shadow',
               'commit_sha': os.environ['COMMIT_SHA'],
@@ -108,6 +122,7 @@ jobs:
               'real_5min_runtime_live': False,
               'runtime_maintenance_counts_as_experience': False,
               'secretary_observation_counts_as_experience': False,
+              'shift_history_observation_counts_as_experience': False,
               'claim_boundary': 'Executable non-formal shadow evidence only. It does not promote Gearbox v2/v2.1, replace LCR-C, or alter historical v1/Step009 verification.',
               'bound_files': {},
           }
