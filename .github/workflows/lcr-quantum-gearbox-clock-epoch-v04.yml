@@ -1,0 +1,139 @@
+name: LCR Quantum Gearbox Clock Epoch V04 Candidate
+
+on:
+  push:
+    branches:
+      - candidate/gearbox-clock-epoch-recovery-v04
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V04_CONTRACT.json'
+      - '.github/workflows/lcr-quantum-gearbox-clock-epoch-v04.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v04-candidate-regression:
+    name: V04 final-reentry provenance candidate regression
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution:${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile V03 baseline and V04 candidate
+        id: compile
+        run: |
+          python -m py_compile \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py
+
+      - name: Run unchanged V03 baseline regression
+        id: v03_baseline
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py 2>&1 | tee /tmp/v03-baseline.log
+
+      - name: Run V04 provenance regression
+        id: v04_tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py 2>&1 | tee /tmp/v04-provenance.log
+
+      - name: Emit bounded V04 evidence
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          V03_BASELINE_OUTCOME: ${{ steps.v03_baseline.outcome }}
+          V04_TEST_OUTCOME: ${{ steps.v04_tests.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+
+          files = [
+              'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py',
+              'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py',
+              'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V04_CONTRACT.json',
+          ]
+          outcomes = {
+              'compile': os.environ.get('COMPILE_OUTCOME', 'skipped'),
+              'v03_baseline': os.environ.get('V03_BASELINE_OUTCOME', 'skipped'),
+              'v04_provenance': os.environ.get('V04_TEST_OUTCOME', 'skipped'),
+          }
+          overall = all(v == 'success' for v in outcomes.values())
+          evidence = {
+              'schema_version': '0.4-candidate-evidence',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'evidence_type': 'clock_epoch_recovery_v04_final_reentry_provenance',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'ref_name': os.environ['REF_NAME'],
+              'status': 'PASS' if overall else 'FAIL',
+              'test_outcomes': outcomes,
+              'parent_v03_policy': 'READ_ONLY_UNCHANGED',
+              'formal_effect': 'NONE',
+              'formal_mutation_allowed': False,
+              'live_routing_authority_allowed': False,
+              'promotion_allowed': False,
+              'production_key_or_hsm_tpm_proof': False,
+              'bound_files': {},
+          }
+          for rel in files:
+              data = Path(rel).read_bytes()
+              evidence['bound_files'][rel] = {
+                  'sha256': hashlib.sha256(data).hexdigest(),
+                  'size_bytes': len(data),
+              }
+          out = Path('evidence/quantum-gearbox-clock-epoch-v04.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(out.read_text(encoding='utf-8'))
+          PY
+
+      - name: Upload V04 candidate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-quantum-gearbox-clock-epoch-v04
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/quantum-gearbox-clock-epoch-v04.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Aggregate V04 candidate verdict
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          V03_BASELINE_OUTCOME: ${{ steps.v03_baseline.outcome }}
+          V04_TEST_OUTCOME: ${{ steps.v04_tests.outcome }}
+        run: |
+          python - <<'PY'
+          import os, sys
+          outcomes = {k: os.environ.get(k, 'skipped') for k in (
+              'COMPILE_OUTCOME', 'V03_BASELINE_OUTCOME', 'V04_TEST_OUTCOME'
+          )}
+          failed = {k: v for k, v in outcomes.items() if v != 'success'}
+          if failed:
+              print('V04_CANDIDATE_AGGREGATE_FAIL', failed)
+              sys.exit(1)
+          print('V04_CANDIDATE_AGGREGATE_PASS')
+          PY
