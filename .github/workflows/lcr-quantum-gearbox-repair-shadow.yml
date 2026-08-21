@@ -1,0 +1,100 @@
+name: LCR Quantum Gearbox Repair Shadow
+
+on:
+  push:
+    branches:
+      - lidiya-cloud-relay-v2
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_V2_1_REPAIR_SHADOW_V01_CONTRACT.json'
+      - '.github/workflows/lcr-quantum-gearbox-repair-shadow.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lcr-quantum-gearbox-repair-shadow-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  shadow_repair:
+    name: Non-formal Gearbox repair shadow tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile shadow repair candidate
+        run: >-
+          python -m py_compile
+          evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py
+
+      - name: Run shadow adversarial tests
+        id: shadow_tests
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-tests.log
+
+      - name: Emit bounded shadow evidence
+        if: always()
+        env:
+          TEST_OUTCOME: ${{ steps.shadow_tests.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          bound = [
+              'evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py',
+          ]
+          evidence = {
+              'schema_version': '1.0-shadow',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'evidence_type': 'quantum_gearbox_v2_1_repair_shadow',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'ref_name': os.environ['REF_NAME'],
+              'test_outcome': os.environ['TEST_OUTCOME'],
+              'status': 'PASS' if os.environ['TEST_OUTCOME'] == 'success' else 'FAIL',
+              'formal_effect': 'NONE',
+              'formal_c_verification': 'NOT_CLAIMED',
+              'formal_mutation_allowed': False,
+              'p_base': 'READ_ONLY_UNCHANGED',
+              'real_5min_runtime_live': False,
+              'runtime_maintenance_counts_as_experience': False,
+              'claim_boundary': 'Executable non-formal shadow evidence only. It does not promote Gearbox v2/v2.1, replace LCR-C, or alter historical v1/Step009 verification.',
+              'bound_files': {},
+          }
+          for rel in bound:
+              data = Path(rel).read_bytes()
+              evidence['bound_files'][rel] = {
+                  'sha256': hashlib.sha256(data).hexdigest(),
+                  'size_bytes': len(data),
+              }
+          path = Path('evidence/quantum-gearbox-v2-1-repair-shadow.json')
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(path.read_text(encoding='utf-8'))
+          PY
+
+      - name: Upload shadow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-quantum-gearbox-repair-shadow
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/quantum-gearbox-v2-1-repair-shadow.json
+          if-no-files-found: error
+          retention-days: 7
