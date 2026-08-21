@@ -10,6 +10,7 @@ on:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_AUTHORITY_EXPERIENCE_SIGNER_SHADOW_V01_CONTRACT.json'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03_w01_adversarial.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json'
       - '.github/workflows/lcr-quantum-gearbox-signer-shadow.yml'
   workflow_dispatch:
@@ -49,7 +50,8 @@ jobs:
             evolution/core_v0_2/quantum_candidates/gearbox_authority_experience_signer_shadow_v01.py \
             evolution/core_v0_2/quantum_candidates/test_gearbox_authority_experience_signer_shadow_v01.py \
             evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py \
-            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03_w01_adversarial.py
 
       - name: Run signer boundary adversarial regression
         id: signer_tests
@@ -65,12 +67,20 @@ jobs:
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py 2>&1 | tee /tmp/gearbox-clock-epoch-recovery-shadow.log
 
+      - name: Run W01 final reentry trust-root adversarial regression
+        id: w01_reentry_adversarial
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03_w01_adversarial.py 2>&1 | tee /tmp/gearbox-clock-epoch-v03-w01-adversarial.log
+
       - name: Emit bounded signer/recovery evidence
         if: always()
         env:
           COMPILE_OUTCOME: ${{ steps.compile_shadow.outcome }}
           SIGNER_TEST_OUTCOME: ${{ steps.signer_tests.outcome }}
           CLOCK_EPOCH_TEST_OUTCOME: ${{ steps.clock_epoch_tests.outcome }}
+          W01_REENTRY_ADVERSARIAL_OUTCOME: ${{ steps.w01_reentry_adversarial.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           REF_NAME: ${{ github.ref_name }}
         run: |
@@ -84,18 +94,20 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/GEARBOX_AUTHORITY_EXPERIENCE_SIGNER_SHADOW_V01_CONTRACT.json',
               'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py',
               'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03_w01_adversarial.py',
               'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json',
           ]
           outcomes = {
               'compile': os.environ.get('COMPILE_OUTCOME', 'skipped'),
               'signer': os.environ.get('SIGNER_TEST_OUTCOME', 'skipped'),
               'clock_epoch_recovery': os.environ.get('CLOCK_EPOCH_TEST_OUTCOME', 'skipped'),
+              'w01_final_reentry_adversarial': os.environ.get('W01_REENTRY_ADVERSARIAL_OUTCOME', 'skipped'),
           }
           overall = all(v == 'success' for v in outcomes.values())
           evidence = {
-              'schema_version': '1.1-shadow',
+              'schema_version': '1.2-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
-              'evidence_type': 'gearbox_signer_and_clock_epoch_recovery_shadow',
+              'evidence_type': 'gearbox_signer_clock_epoch_and_reentry_trust_root_shadow',
               'commit_sha': os.environ['COMMIT_SHA'],
               'ref_name': os.environ['REF_NAME'],
               'status': 'PASS' if overall else 'FAIL',
@@ -111,6 +123,7 @@ jobs:
               'provider_maintenance_counts_as_experience': False,
               'recovery_appraisal_personality_trauma_relief_delta': 0,
               'stale_secretary_pressure_carryover': False,
+              'release_gate_note': 'The W01 final-reentry adversarial suite is release-blocking candidate evidence. Red means the V03 re-entry trust-root boundary remains open; it does not invalidate v1 VERIFIED_PASS or alter formal mission state.',
               'claim_boundary': 'Synthetic-key/provider executable protocol evidence only; does not prove protected production keys, real HSM/TPM/remote provider independence, physical rollback-domain separation, formal C PASS, or Gearbox promotion.',
               'bound_files': {},
           }
@@ -138,10 +151,13 @@ jobs:
           COMPILE_OUTCOME: ${{ steps.compile_shadow.outcome }}
           SIGNER_TEST_OUTCOME: ${{ steps.signer_tests.outcome }}
           CLOCK_EPOCH_TEST_OUTCOME: ${{ steps.clock_epoch_tests.outcome }}
+          W01_REENTRY_ADVERSARIAL_OUTCOME: ${{ steps.w01_reentry_adversarial.outcome }}
         run: |
           python - <<'PY'
           import os, sys
-          outcomes = {k: os.environ.get(k, 'skipped') for k in ('COMPILE_OUTCOME','SIGNER_TEST_OUTCOME','CLOCK_EPOCH_TEST_OUTCOME')}
+          outcomes = {k: os.environ.get(k, 'skipped') for k in (
+              'COMPILE_OUTCOME','SIGNER_TEST_OUTCOME','CLOCK_EPOCH_TEST_OUTCOME','W01_REENTRY_ADVERSARIAL_OUTCOME'
+          )}
           failed = {k:v for k,v in outcomes.items() if v != 'success'}
           if failed:
               print('SIGNER_CLOCK_RECOVERY_AGGREGATE_FAIL', failed)
