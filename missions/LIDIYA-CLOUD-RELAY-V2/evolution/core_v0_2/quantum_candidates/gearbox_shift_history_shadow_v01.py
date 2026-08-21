@@ -231,6 +231,54 @@ def _empty_registry(*, installation_id: str, runtime_id: str) -> dict[str, Any]:
     }
 
 
+def _validate_registry_integrity(data: Mapping[str, Any]) -> None:
+    events = data["events"]
+    by_event_id = data["by_event_id"]
+    by_lineage = data["by_lineage"]
+    if int(data.get("latest_seq", -1)) != len(events):
+        raise ShiftHistoryGuardError("shift registry latest_seq mismatch")
+    expected_previous = ZERO_HASH
+    rebuilt_by_event_id: dict[str, str] = {}
+    rebuilt_by_lineage: dict[str, str] = {}
+    for expected_seq, stored in enumerate(events, start=1):
+        if not isinstance(stored, Mapping):
+            raise ShiftHistoryGuardError("malformed stored shift event")
+        raw = {key: stored.get(key) for key in (
+            "event_id", "seq", "from_gear", "to_gear", "evidence_sha256",
+            "previous_event_hash", "installation_id", "runtime_id",
+            "mission_id", "step_id", "source_role",
+        )}
+        receipt = ShiftEventReceipt.from_value(raw)
+        if receipt.seq != expected_seq:
+            raise ShiftHistoryGuardError("stored shift sequence mismatch")
+        if receipt.installation_id != data["installation_id"] or receipt.runtime_id != data["runtime_id"]:
+            raise ShiftHistoryGuardError("stored shift event scope mismatch")
+        if receipt.previous_event_hash != expected_previous:
+            raise ShiftHistoryGuardError("stored shift predecessor mismatch")
+        event_hash = receipt.event_hash()
+        if stored.get("event_hash") != event_hash:
+            raise ShiftHistoryGuardError("stored shift event hash mismatch")
+        if stored.get("changed_gear") is not (receipt.from_gear != receipt.to_gear):
+            raise ShiftHistoryGuardError("stored changed_gear mismatch")
+        if receipt.event_id in rebuilt_by_event_id:
+            raise ShiftHistoryGuardError("duplicate stored event_id")
+        lineage = receipt.lineage_key()
+        if lineage in rebuilt_by_lineage:
+            raise ShiftHistoryGuardError("duplicate stored evidence lineage")
+        rebuilt_by_event_id[receipt.event_id] = event_hash
+        rebuilt_by_lineage[lineage] = receipt.event_id
+        expected_previous = event_hash
+    if dict(by_event_id) != rebuilt_by_event_id:
+        raise ShiftHistoryGuardError("event identity index mismatch")
+    if dict(by_lineage) != rebuilt_by_lineage:
+        raise ShiftHistoryGuardError("evidence lineage index mismatch")
+    if data.get("head_hash") != expected_previous:
+        raise ShiftHistoryGuardError("shift registry head hash mismatch")
+    policy_fp = data.get("thrash_policy_fingerprint")
+    if policy_fp is not None:
+        _sha256(policy_fp, name="thrash_policy_fingerprint")
+
+
 def _load_registry(path: Path, *, installation_id: str, runtime_id: str) -> dict[str, Any]:
     installation_id = _explicit_string(installation_id, name="installation_id")
     runtime_id = _explicit_string(runtime_id, name="runtime_id")
@@ -250,6 +298,7 @@ def _load_registry(path: Path, *, installation_id: str, runtime_id: str) -> dict
         raise ShiftHistoryGuardError("invalid thrash state")
     if not isinstance(data.get("events"), list) or not isinstance(data.get("by_event_id"), dict) or not isinstance(data.get("by_lineage"), dict):
         raise ShiftHistoryGuardError("malformed shift registry")
+    _validate_registry_integrity(data)
     return data
 
 
