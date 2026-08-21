@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.3-shadow",
-  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-2130",
+  "schema_version": "1.4-shadow",
+  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-2233",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_REPAIR_DEVELOPMENT",
   "status": "REPAIR_ACTIVE_TEST_PENDING",
@@ -38,24 +38,25 @@
   "adversarial_review_delta": {
     "new_distinct_live_veto_id": null,
     "existing_veto_sharpened": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
-    "finding": "Live v2.1 still accepts raw caller recent_shift_rate_ratio and applies >=0.50 without canonical support/window/uncertainty/stateful release. This round did not duplicate the veto; it implemented the missing executable shadow derivation semantics from accepted append-only shift history.",
-    "next_unrepaired_priority": "The local shift registry is restart-persistent and internally hash-chain verified, but a whole-file rollback to an older internally consistent snapshot still needs an external monotonic durability anchor before rollback-resistant routing evidence can exist."
+    "finding": "The prior shadow shift ledger now detects local tamper and derives small-N-aware hysteresis from accepted history, but internally valid whole-ledger rollback and concurrent writers are separate durability hazards. A routing metric cannot become authoritative merely because its local JSON hash-chain is self-consistent.",
+    "non_duplicate_conclusion": "This round did not add another raw-ratio veto. It implemented the next missing durability/concurrency boundary beneath the already-existing anti-thrash metric-binding veto."
   },
   "material_repair_this_round": {
-    "target": "CANONICAL_APPEND_ONLY_SHIFT_HISTORY_SMALL_N_UNCERTAINTY_HYSTERESIS",
+    "target": "SHIFT_HISTORY_EXTERNAL_MONOTONIC_DURABILITY_ANCHOR_AND_CONCURRENCY_BOUNDARY",
     "implemented_shadow_only": [
-      "Added a mission/step/installation/runtime scoped append-only shift registry with strict contiguous sequence, previous-event hash chain, explicit EventIdentity, evidence_sha256 lineage and atomic persistence.",
-      "Exact accepted replay is DUPLICATE_NO_OP; same ID/different binding is IDENTITY_CONFLICT; same evidence lineage under a new ID is LINEAGE_DUPLICATE_NO_OP; cross runtime/install fails closed.",
-      "Anti-thrash observation is derived from accepted history only, never a caller ratio. Minimum support and window are explicit TEST_REQUIRED policy inputs.",
-      "Uncertainty uses a Wilson interval: CLEAR enters THRASH only when the lower bound reaches enter_rate; THRASH exits only when the upper bound falls below a lower exit_rate; the middle/uncertain region holds prior state.",
-      "A policy fingerprint change cannot silently clear an active THRASH state.",
-      "Shift-history observation has zero Experience, zero operational credit, zero formal mutation authority and no live routing authority."
+      "Added an ExternalMonotonicAnchorReceipt binding anchor_seq, ledger_head_hash, mission/step, installation/runtime, durability_domain_id and previous_anchor_hash.",
+      "Anchor bootstrap is allowed only for an empty ledger; a nonempty ledger cannot be retroactively blessed by creating an anchor.",
+      "Verification distinguishes LEDGER_ROLLBACK_DETECTED, UNANCHORED_LEDGER_ADVANCE, LEDGER_ANCHOR_FORK_DETECTED and ANCHOR_MATCH.",
+      "Anchored append is serialized by an atomic directory-creation writer lock. A second writer fails closed and an abandoned lock is never auto-stolen.",
+      "The ledger advances first and the anchor advances only after accepted append; a crash window leaving the ledger ahead fails closed and is never auto-reconciled locally.",
+      "Anchor/lock maintenance has zero Experience, zero operational progress, zero formal mutation authority and zero live routing authority."
     ],
     "self_review_repairs": [
-      "Initial implementation validated predecessor/hash-chain integrity only while appending.",
-      "Fresh-read self-review identified that a locally tampered stored event/index/head could otherwise influence later statistics.",
-      "Repaired the same tranche so every reload/evaluation reconstructs and validates all stored event receipts, contiguous seq, predecessor chain, event hashes, changed_gear flags, identity index, lineage index and head hash before computing any rate or uncertainty."
+      "Initial anchor verifier compared only ledger latest_seq/head_hash and could miss an internally tampered event/index if the stored head field stayed unchanged.",
+      "Repaired in the same tranche by forcing the existing complete shift-registry reload-integrity validator to pass before every anchor comparison.",
+      "Writer lock now creates its parent directory but still refuses automatic stale-lock stealing."
     ],
+    "trust_boundary": "The shadow code structurally models an external monotonic domain but cannot prove that the anchor path is physically/cryptographically outside the ledger rollback domain. Production authority still requires a genuinely independent monotonic provider or equivalent trusted primitive.",
     "does_not_clear_live_veto": true
   },
   "shadow_artifacts": {
@@ -67,46 +68,49 @@
     "secretary_test_sha": "c074e168f94a46dc4918501cb7b0bb24ec4b3859",
     "shift_history_code_sha": "245549a3f5a9eec6c5f2ae44c2d02f4908a37a5e",
     "shift_history_test_sha": "fd78a35e7296b575096d9792d8b72662c4fcf744",
-    "contract_sha": "ecfa5833b7e492f066b22b4829ccbc28944214af",
-    "workflow_sha": "86ddc50f590d91c58f092048b4fd7e598bdf32b9"
+    "shift_durability_code_sha": "4d210f3957cb74589bf6cc66ed466ebd8d1505ea",
+    "shift_durability_test_sha": "7c5d486d816d378f29bdda4cd797b6fa7ed11382",
+    "umbrella_contract_sha": "ecfa5833b7e492f066b22b4829ccbc28944214af",
+    "shift_durability_contract_sha": "98647e9f7f9ff48235d809a8049bb7af9bbe94c0",
+    "workflow_sha": "f076352e0b8a54804ccca7178cd52ac113b3e80c"
   },
   "regression_added_this_round": [
-    "append-only contiguous sequence and predecessor hash chain",
-    "exact replay duplicate NO_OP",
-    "same ID different binding identity conflict",
-    "same evidence new ID lineage duplicate",
-    "cross-restart exactly-once persistence",
-    "cross-runtime/install rejection",
-    "typed event identity",
-    "small-N cannot enter thrash",
-    "raw 3/5 rate cannot enter when uncertainty lower bound is insufficient",
-    "supported all-shift window can enter",
-    "stateful lower-threshold exit using uncertainty upper bound",
-    "uncertain middle region holds prior state",
-    "policy change cannot silently clear active guard",
-    "tampered event payload/index/head fails on reload",
-    "observation has zero live/formal authority and zero credit"
+    "empty-only anchor bootstrap",
+    "nonempty retroactive bootstrap rejected",
+    "anchored append advances ledger and anchor together",
+    "exact duplicate NO_OP leaves anchor unchanged",
+    "whole-ledger rollback to older internally valid snapshot detected",
+    "same-sequence internally valid fork detected",
+    "internal event tamper fails before anchor comparison",
+    "unanchored ledger advance fails closed",
+    "anchor hash tamper rejected",
+    "cross durability-domain anchor rejected",
+    "second writer blocked by atomic lock",
+    "abandoned lock is not auto-stolen",
+    "successive anchor state binds previous anchor hash"
   ],
   "executable_evidence": {
     "workflow": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
-    "workflow_updated_to_include_shift_history_suite": true,
-    "latest_workflow_trigger_commit": "da395784be72a68a8d665e75d30b2bfa86683b9e",
+    "workflow_updated_to_include_shift_durability_suite": true,
+    "latest_workflow_trigger_commit": "f19a9d68d9465698099ab90bd5eb33f9de2efa49",
     "commit_workflow_runs_retrievable": 0,
     "workflow_run_evidence": "NOT_RETRIEVABLE_FOR_CURRENT_PUSH_COMMIT",
+    "isolated_exact_byte_execution_attempt": "DEFER_DNS_UNAVAILABLE_RAW_GITHUB_COULD_NOT_RESOLVE",
     "verdict": "TEST_PENDING_DEFER_NO_PASS_CLAIM"
   },
   "remaining_gaps_after_this_round": [
-    "Live v2/v2.1 still accept caller recent_shift_rate_ratio; shadow repair does not modify live candidate.",
-    "Window/minimum-support/enter/exit/z policy values are explicit research inputs and remain uncalibrated TEST_REQUIRED parameters.",
-    "A whole-file rollback of the local shadow registry to an older internally consistent snapshot is not detectable without an external monotonic durability anchor.",
-    "Shift registry production concurrency/interprocess locking remains TEST_REQUIRED.",
-    "Secretary evaluation_seq still lacks an authenticated runtime freshness root; tranche 3 remains observational-only.",
-    "AuthorityDecisionEnvelope signer authenticity is structurally modeled but not registry/cryptographically authenticated.",
+    "A real external monotonic provider/registry identity is still absent; durability_domain_id is a structural shadow assertion, not cryptographic or hardware-backed proof.",
+    "Automatic crash reconciliation is intentionally absent. UNANCHORED_LEDGER_ADVANCE requires a future authenticated recovery receipt or external authority decision.",
+    "The directory lock is a bounded local cross-process serialization primitive, not a distributed lock or lease service.",
+    "Live v2/v2.1 still accept caller recent_shift_rate_ratio; this shadow tranche does not modify live candidate.",
+    "Shift-history threshold/window/minimum-support/z policy remains uncalibrated TEST_REQUIRED input.",
+    "Secretary evaluation_seq still lacks an authenticated runtime freshness root.",
+    "AuthorityDecisionEnvelope and accepted Experience receipt signer authenticity remain structurally modeled but not cryptographically/registry authenticated.",
     "Authenticated terminal-exit envelope remains intentionally absent; N/R residence stays fail-closed.",
     "Fresh same-runner shadow CI evidence remains unavailable; no PASS claim.",
     "Speedup remains NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
-  "next_repair_target": "SHIFT_HISTORY_EXTERNAL_MONOTONIC_DURABILITY_ANCHOR_AND_CONCURRENCY_BOUNDARY",
+  "next_repair_target": "SHIFT_ANCHOR_TRUST_PROVIDER_AND_AUTHENTICATED_CRASH_RECOVERY_RECEIPT",
   "live_candidate_status": {
     "v2_v2_1_bounded_veto_remains": true,
     "formal_adoption": "BLOCKED_UNTIL_NORMAL_A_TO_B_TO_C_AFTER_REQUIRED_EVIDENCE"
@@ -115,6 +119,7 @@
     "heartbeat_poll_retry_reconnect_window_age_self_test_duration": "ZERO_EXPERIENCE",
     "secretary_observation_is_experience": false,
     "shift_history_observation_is_experience": false,
+    "shift_anchor_or_lock_maintenance_is_experience": false,
     "operational_progress_is_verified_experience": false,
     "heuristic_credit_is_capability_truth": false,
     "speedup_established": false
