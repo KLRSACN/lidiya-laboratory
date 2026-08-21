@@ -1,47 +1,34 @@
 {
-  "schema_version": "5.34",
+  "schema_version": "5.35",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-21T16:24:08+08:00",
+  "recorded_at": "2026-08-21T16:31:00+08:00",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
   "forbidden_proxies": ["awake_time","window_age","commit_count","heartbeat_count","poll_count","retry_count","task_last_run"],
   "required_paired_metrics": {
-    "durable_progress_per_wake": "INSUFFICIENT_SAMPLE",
-    "verified_closure_per_hour": "INSUFFICIENT_SAMPLE",
-    "cycle_completion_latency": "INSUFFICIENT_SAMPLE",
-    "rework_ratio": "INSUFFICIENT_SAMPLE",
-    "recovery_latency": "INSUFFICIENT_SAMPLE",
-    "gear_shift_rate": "INSUFFICIENT_SAMPLE",
-    "stale_pointer_rate": "INSUFFICIENT_SAMPLE",
-    "route_drift_recurrence": "INSUFFICIENT_SAMPLE"
+    "durable_progress_per_wake":"INSUFFICIENT_SAMPLE",
+    "verified_closure_per_hour":"INSUFFICIENT_SAMPLE",
+    "cycle_completion_latency":"INSUFFICIENT_SAMPLE",
+    "rework_ratio":"INSUFFICIENT_SAMPLE",
+    "recovery_latency":"INSUFFICIENT_SAMPLE",
+    "gear_shift_rate":"INSUFFICIENT_SAMPLE",
+    "stale_pointer_rate":"INSUFFICIENT_SAMPLE",
+    "route_drift_recurrence":"INSUFFICIENT_SAMPLE"
   },
-  "speed_metric_manifest": {
-    "status": "PRECOMMIT_REQUIRED_TEST_REQUIRED",
-    "same_manifest_hash_required_for_both_arms": true,
-    "metric_definition_change_requires_new_experiment_epoch": true
-  },
+  "speed_metric_manifest": {"status":"PRECOMMIT_REQUIRED_TEST_REQUIRED","same_manifest_hash_required_for_both_arms":true,"metric_definition_change_requires_new_experiment_epoch":true},
   "pairing_rule": "Use sealed matched baseline/candidate workloads, identical verification/risk/authority criteria, precommitted eligible-wake/exposure/censoring/admission/defer/timeout rules, randomized AB/BA or crossover order, intention-to-treat coverage and carryover controls.",
   "denominator_integrity": {
-    "status": "TEST_REQUIRED",
-    "rule": "Both arms must share identical authoritative verified-Experience and operational-progress classification, receipt/lineage dedupe, verification-stage eligibility and terminal/authority semantics.",
-    "w02_1531_constraints": [
-      "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only in both arms and cannot enter any authoritative Experience-labelled numerator.",
-      "Only evidence-bound OperationalProgressAcceptanceReceipt outputs may enter durable_progress_per_wake; raw caller event fields are excluded.",
-      "Only immutable AcceptedExperienceReceipt outputs with trusted verifier/C acceptance and canonical C_VERIFIED eligibility may enter verified_closure or verified-Experience numerators.",
-      "v2 and v2.1 must use one authoritative event classifier and one verification-eligibility path; cross-version semantic drift invalidates paired comparison.",
-      "Rejected/unverified/duplicate/identity-conflict/deferred outcomes remain intention-to-treat and cannot be censored selectively."
+    "status":"TEST_REQUIRED",
+    "rule":"Both arms must share identical inherited safety obligations, authoritative verified-Experience and operational-progress classification, receipt/lineage dedupe, verification-stage eligibility and terminal/authority semantics.",
+    "w02_1628_constraints":[
+      "Candidate may not appear faster by dropping v1 guard_status/return_condition or v2 checkpoint/ACK/verification obligations across wrapper boundaries.",
+      "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational progress only and cannot enter authoritative Experience-labelled numerators.",
+      "Only evidence-bound OperationalProgressAcceptanceReceipt outputs may enter durable_progress_per_wake.",
+      "Only immutable AcceptedExperienceReceipt outputs with trusted verifier/C acceptance and canonical C_VERIFIED eligibility may enter verified Experience/closure numerators.",
+      "Rejected/unverified/duplicate/identity-conflict/deferred outcomes remain intention-to-treat and cannot be selectively censored."
     ]
   },
-  "current_candidate_binding": {
-    "source_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
-    "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "v1_test": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "v2_source": "13aafeed851a2b5453dd36eaf64b85552bc79838",
-    "v2_test": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
-    "v2_1_source": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
-    "v2_1_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
-    "exact_validation": "DEFER_EXECUTOR_UNAVAILABLE"
-  },
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260821-1531 is fresh/current and BOUNDED_VETO_ACTIVE. New HIGH V2-OPERATIONAL-AS-EXPERIENCE-103 plus HIGH V21-VERIFICATION-STAGE-BYPASS-102 require one authoritative classifier and immutable receipt-bound eligibility path. Dedicated W03 absent; W04 1332 stale/veto-active.",
-  "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
+  "current_candidate_binding": {"source_head":"2f84d3705bea4901e18c749c19f593025df0c9b2","v1_source":"c29e3b2cab639397b65ffb3dca08cbdddd28ce6b","v1_test":"11527a9e3cf196b9b77416b8e66b66bb5a3a640e","v2_source":"13aafeed851a2b5453dd36eaf64b85552bc79838","v2_test":"d01cab7ba5c5642fb6c0a0348bf8cbb2314be029","v2_1_source":"81818f9dd5cf79c89fb437a6449a617140b0fe7b","v2_1_test":"d9252bb55feaa0871eb3d37b01dd13e4805c8de3","exact_validation":"DEFER_EXECUTOR_UNAVAILABLE"},
+  "review_gate_note":"W02 QUANTUM-GEARBOX-V2.1-20260821-1628 is fresh/current and BOUNDED_VETO_ACTIVE. New HIGH V1-V2-GUARD-METADATA-DROP-104 plus HIGH 103/102 remain. Dedicated W03 absent; W04 1332 stale/veto-active.",
+  "interpretation":"No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
