@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0-shadow",
+  "contract_id": "GEARBOX-CLOCK-EPOCH-RECOVERY-SHADOW-V01",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 9,
+  "formal_effect": "NONE",
+  "formal_c_verification": "NOT_CLAIMED",
+  "promotion_allowed": false,
+  "purpose": "Provide a bounded candidate protocol for authenticated runtime-clock epoch replacement after clock-chain failure while preventing stale secretary pressure, terminal-hold, Experience, appraisal, personality, and P_base carryover.",
+  "required_invariants": [
+    "Clock epoch trust snapshot is signed by the current synthetic LCR-A signer epoch and bound to the current signer trust snapshot id.",
+    "Replacement clock epoch must bind the exact previous clock snapshot hash, rotate epoch/key identity, and explicitly revoke the prior clock epoch.",
+    "Clock epoch root mutation is serialized through the current external-monotonic-provider interface and rejects local durability-domain aliasing.",
+    "Recovery is non-terminal and enters CLOCK_EPOCH_RECOVERED_AWAITING_FRESH_AUTHORITY_AND_CLOCK with UNKNOWN secretary state, zero pressure history, zero Experience, zero operational progress, and no live/formal authority.",
+    "Fresh authority re-entry must bind the same fresh Mission Git blob used by clock recovery.",
+    "Old epoch checkpoints, receipts, and epoch-bound secretary observations cannot cross the recovery barrier.",
+    "Only a fresh current-epoch signed secretary observation plus a current-epoch authenticated clock receipt may repopulate routing pressure.",
+    "Authority conflict always zeroes secretary routing effect.",
+    "Recovery, clock, provider, and secretary metadata are excluded from Experience, personality, P_base, appraisal reward, trauma, relief, familiarity, dependency, and capability claims."
+  ],
+  "required_regressions": [
+    "clock-chain break fails closed and authenticated new epoch re-enters neutrally",
+    "old clock checkpoint and old epoch pressure cannot cross recovery",
+    "only fresh current-epoch pressure can route after recovery",
+    "current-epoch checkpoint advances from exact current-epoch receipt hash",
+    "old local clock root rollback is detected by external provider floor",
+    "replacement must revoke old clock epoch",
+    "fresh Mission blob change blocks recovery",
+    "authority conflict zeroes post-recovery pressure",
+    "recovery metadata is excluded from learning/personality/appraisal/P_base"
+  ],
+  "claim_boundaries": {
+    "synthetic_hmac_proves_production_key_secrecy": false,
+    "external_provider_interface_proves_real_remote_or_hardware_durability": false,
+    "candidate_test_pass_is_formal_c_pass": false,
+    "candidate_test_pass_is_live_routing_authority": false,
+    "recovery_counts_as_experience": false,
+    "pressure_history_counts_as_personality": false,
+    "real_5min_runtime_live": false
+  },
+  "known_remaining_gaps": [
+    "A real rollback-independent monotonic provider is not installed or Reality-verified.",
+    "Synthetic clock and secretary keys do not prove protected production key custody, rotation ceremony, or compromise recovery.",
+    "This candidate excludes historical pressure by construction at the clock boundary but still requires W03 counterfactual review of downstream appraisal/drive/exploration caches.",
+    "Terminal-exit authenticated envelope and the shared v2/v2.1 authoritative event classifier remain separate future closures.",
+    "Formal adoption still requires current W02/W03/W04 evidence, zero unresolved adoption veto, paired speed evidence, and normal A-to-B-to-C verification."
+  ],
+  "p_base": "READ_ONLY_UNCHANGED",
+  "identity_personality_governance_mutation": false,
+  "real_5min_runtime_live": false
+}
