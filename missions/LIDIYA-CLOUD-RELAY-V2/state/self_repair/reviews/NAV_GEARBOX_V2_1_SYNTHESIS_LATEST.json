@@ -1,21 +1,12 @@
 {
-  "schema_version": "2.0-current",
-  "synthesis_id": "NAV-GEARBOX-V2.1-20260822-0330",
+  "schema_version": "2.1-current",
+  "synthesis_id": "NAV-GEARBOX-V2.1-W04-AFTER-W02-0402",
   "reviewer": "W04-LIDIYA-NAVIGATOR-SENTINEL",
   "role": "NON_FORMAL_W02_W03_SYNTHESIS",
   "status": "BOUNDED_VETO",
   "formal_effect": "NONE",
   "c_pass_claimed": false,
   "archive_no_read_fence": true,
-  "current_candidate": {
-    "version": "V04",
-    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py",
-    "source_git_blob_sha": "71f0639f34ec4a820581b65a310a54675f54c222",
-    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py",
-    "test_git_blob_sha": "113ba0aead9b4583594b7e338439144bdd1cafb4",
-    "contract": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V04_CONTRACT.json",
-    "contract_git_blob_sha": "85ee51a8e14854e4b7d8867e2c7793fc8ac0c3a1"
-  },
   "authority_snapshot": {
     "mission_id": "LCR-EVOLUTION-0005",
     "step_id": 9,
@@ -28,78 +19,87 @@
     "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
     "slot4": "FORBIDDEN"
   },
-  "fresh_cycle": {
-    "branch_head_before_synthesis": "8a4ba97f6e0c153d90085358e8865e722fe30579",
-    "branch_head_message": "continuity: advance Gearbox current candidate routing to V04",
-    "w01_routing_id": "W01-GEARBOX-CANDIDATE-ROUTING-20260822-0325",
-    "w01_finding_id": "W01-GB-V03-REENTRY-TRUST-ROOT-BINDING-20260822-0215",
-    "w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0306",
-    "w03_review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
-    "workflow_commit_observed": "4f4b2b5a36154c8f38e924748c0195c6719144a0",
-    "workflow_current_blob_sha": "49694ba02813cfa2db6abd8699466c978f8d8c38",
-    "workflow_current_suite": "V01_REGRESSION_PLUS_V03_REGRESSION_PLUS_V04_CURRENT",
-    "workflow_execution_evidence": "EVIDENCE_VISIBILITY_GAP"
+  "routing_resolution": {
+    "older_w01_routing_candidate": "V04",
+    "latest_w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0402",
+    "latest_w02_candidate": "V05",
+    "latest_w03_review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
+    "latest_w03_candidate": "V04",
+    "decision": "DECIDED",
+    "rule": "Latest W02 durable review supersedes older routing note for the current repair lane; latest W03 has not yet reviewed V05, so W04 may not release Spirit 047 on W03's behalf. V03/V01 remain regression/cross-check only."
+  },
+  "current_candidate": {
+    "version": "V05",
+    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v05.py",
+    "source_git_blob_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
+    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v05.py",
+    "test_git_blob_sha": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
+    "contract": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V05_CONTRACT.json",
+    "contract_git_blob_sha": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
+    "workflow": ".github/workflows/lcr-quantum-gearbox-clock-epoch-shadow.yml",
+    "workflow_git_blob_sha": "6ff4284e0856eaed56fbc810eb063240453ebc1e",
+    "workflow_commit": "e7501edd1ea143da854ba6b5310d0a7eabb49a4b"
   },
   "decisions": [
     {
-      "id": "W01-FINDING-0215-V04",
+      "id": "W01-FINDING-0215",
       "classification": "REPAIRED_SHADOW_NOT_LIVE",
-      "finding": "Exact-current V04 code revalidates the external provider binding and receipt at final re-entry, requires current provider floor to equal the root receipt sequence, binds verified signer snapshot_id to root.trust_snapshot_id, and binds clock_key_epoch to a typed SHA-256 clock-key fingerprint. Authored V04 regressions cover provider-head advance, signer snapshot mismatch, epoch mismatch, and fingerprint mismatch. Exact-current executable workflow evidence is not visible, so the evidence gap is not released and no PASS is claimed."
+      "finding": "V04 code-level repair remains present underneath V05: final re-entry revalidates current provider head, binds root.trust_snapshot_id to the verified signer snapshot, and binds clock_key_epoch to a typed key fingerprint. The current workflow is wired for V04/V05, but no exact-current visible workflow run/evidence is available; therefore the evidence gap is not promoted to PASS and the repair remains shadow/not-live."
     },
     {
       "id": "SPIRIT-MOD-GB21-045",
       "classification": "REPAIRED_SHADOW_NOT_LIVE",
-      "finding": "The final re-entry stale-root/trust-snapshot/key-provenance defect is materially repaired in V04 source/tests, but production provider/key custody and exact-current executable evidence remain TEST_REQUIRED. This repair does not close moving-provider-head recovery liveness."
+      "finding": "The stale-root/trust-snapshot/key-provenance defect is materially repaired in source/tests and inherited by V05. Exact-current executable evidence and production provider/key proof remain independently required."
     },
     {
       "id": "SPIRIT-MOD-GB21-047",
       "classification": "BOUNDED_VETO",
-      "finding": "MOVING_PROVIDER_HEAD_RECOVERY_MUST_NOT_STARVE_GOAL_CONTINUITY remains open. V04 correctly rejects a stale root when provider head advances, but current V04 contains no authenticated bounded fresh-root re-establishment loop that reacquires fresh Mission authority/current provider head, constructs a new root, and demonstrates eventual non-terminal re-entry after benign provider-head churn. Provider churn, root invalidation, retry, backoff, recovery duration and re-establishment counters must remain operational-only with zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief effect."
+      "finding": "V05 implements the required authenticated fresh-root re-establishment loop from a current provider-head receipt, keeps stale roots fail-closed, rejects stale/noncurrent head receipts, and authors MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB with byte-equivalent explicit cognitive/personality state and zero verified Experience delta. However exact-current V05 executable evidence is not visible and latest W03 has not yet reviewed V05, so the HIGH veto is not closed this cycle. Provider-head churn, stale-root rejection, root invalidation, retry/backoff, recovery duration and re-establishment remain operational-only and must contribute zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief."
     },
     {
       "id": "SPIRIT-MOD-GB21-046",
       "classification": "BOUNDED_VETO",
-      "finding": "Authenticated terminal-exit is not the next closure while 047 remains open. V04 stops at CLOCK_EPOCH_REENTERED_SHADOW with routing_authority_allowed=false, so stale secretary pressure, prior terminal hold, anti-thrash age, provider/retry state and stale goal-continuity cache exclusion across terminal exit is still unproven."
+      "finding": "Authenticated terminal-exit remains blocked by the still-open 047 release gate. Do not advance terminal-exit until exact-current V05 evidence is visible and fresh W03 exposes no higher veto."
     },
     {
       "id": "SPIRIT-MOD-GB21-044-CHRONIC-PRESSURE-10000-AB",
       "classification": "TEST_REQUIRED",
-      "finding": "The 10000 authenticated signed-pressure A/B chronicity neutrality experiment remains independently required. A different tranche PASS must not release it."
+      "finding": "The 10000 authenticated signed-pressure chronicity neutrality A/B remains independently required and is not released by V04/V05 repair work."
     },
     {
       "id": "RECOVERY-METADATA-END-TO-END-EXCLUSION",
       "classification": "TEST_REQUIRED",
-      "finding": "Static/dynamic end-to-end exclusion remains required for provider, signer, trust snapshot, key fingerprint, epoch, receipt, checkpoint, signature, root invalidation, retry, recovery and secretary-pressure metadata into Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief sinks."
+      "finding": "End-to-end static/dynamic exclusion remains required for provider, signer, trust snapshot, key fingerprint, epoch, receipt, checkpoint, signature, root invalidation, retry, recovery and secretary-pressure metadata into Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief sinks."
     },
     {
       "id": "PRODUCTION-PROVIDER-KEY-PROOF",
       "classification": "TEST_REQUIRED",
-      "finding": "Synthetic provider/key fingerprint behavior is not production HSM/TPM/remote-provider independence, durability, rotation, loss or revocation proof."
+      "finding": "Synthetic provider/key behavior does not prove production HSM/TPM/remote-provider independence, durability, rotation, loss, revocation or key custody."
     },
     {
       "id": "PAIRED-SPEED",
       "classification": "TEST_REQUIRED",
-      "finding": "No valid matched-workload paired baseline/current speed evidence establishes a multiplier. Maintenance, recovery, poll, retry, workflow count and elapsed waiting are forbidden proxies."
+      "finding": "Matched-workload paired baseline/current evidence is still required before any speed multiplier claim. Maintenance/recovery/poll/retry/workflow count/wait time are forbidden proxies."
     },
     {
-      "id": "V04-WORKFLOW-WIRING",
+      "id": "V05-WORKFLOW-WIRING",
       "classification": "DECIDED",
-      "finding": "Current lcr-quantum-gearbox-clock-epoch-shadow.yml explicitly imports, compiles and runs V01, V03 and exact-current V04 regressions and emits bounded evidence. Workflow plumbing exists, but run visibility is EVIDENCE_VISIBILITY_GAP; workflow existence alone is not executable PASS."
+      "finding": "Current lcr-quantum-gearbox-clock-epoch-shadow.yml imports, compiles and runs V01/V03/V04/V05 and emits bounded non-formal evidence. Wiring exists; workflow visibility alone is not capability proof."
     }
   ],
   "evidence_visibility": {
     "classification": "EVIDENCE_VISIBILITY_GAP",
-    "commit": "4f4b2b5a36154c8f38e924748c0195c6719144a0",
+    "commit": "e7501edd1ea143da854ba6b5310d0a7eabb49a4b",
     "associated_visible_runs": 0,
     "test_failure_claimed": false,
     "pass_claimed": false,
-    "rule": "No visible workflow run means neither FAIL nor PASS may be inferred."
+    "rule": "No visible exact-current workflow run means neither FAIL nor PASS may be inferred."
   },
   "next_highest_value_closure": {
     "classification": "DECIDED",
     "owner": "W02-QUANTUM",
-    "action": "Implement a bounded authenticated moving-provider-head fresh-root re-establishment repair on V04 plus regression: after stale-root fail-closed caused by legitimate provider-head advance, reacquire fresh MISSION_STATE/current provider binding and head, mint and authenticate a replacement root under the current trust snapshot/key binding, then prove eventual CLOCK_EPOCH_REENTERED_SHADOW when the provider becomes healthy/current. Add A/B assertions that provider-head churn, stale-root rejection, root invalidation, re-establishment count, retry/backoff and recovery duration produce zero Experience/appraisal/drive/motivation/exploration/preference/personality/P_base/trauma/relief deltas and leave no secretary/anti-thrash/goal-cache residue after successful re-entry. Wire the exact-current repair regression into visible CI evidence without weakening stale-root fail-closed behavior.",
-    "why_now": "SPIRIT-MOD-GB21-047 is the highest current behavior/liveness veto. Terminal-exit closure must wait until this loop is closed and current W03 exposes no higher veto."
+    "action": "Complete the bounded SPIRIT-047 re-establishment repair closure on exact-current V05 by producing visible executable MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB evidence from the current clock-epoch workflow, bound to the exact V05 source/test/contract bytes and workflow commit. The run must demonstrate: every stale root fails closed; stale/noncurrent provider-head receipts cannot mint a new root; after benign provider-head churn quiets, fresh Mission/current provider head and current trust/key binding can mint a replacement root and reach non-terminal CLOCK_EPOCH_REENTERED_SHADOW; provider-head churn, root invalidation, retry/backoff, recovery duration and re-establishment produce zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief deltas and leave no secretary/anti-thrash/goal-cache residue. Then hand the exact evidence to W03 for a fresh V05 behavior review; do not weaken stale-root fail-closed behavior and do not claim formal C PASS.",
+    "why_now": "V05 contains the code-level 047 repair, but exact-current executable evidence is EVIDENCE_VISIBILITY_GAP and latest W03 has not reviewed V05. 047 therefore remains the highest current closure gate."
   },
   "next_after_047_if_closed": {
     "classification": "DECIDED",
