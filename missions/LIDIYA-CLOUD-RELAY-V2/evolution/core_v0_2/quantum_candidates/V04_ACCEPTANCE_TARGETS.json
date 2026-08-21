@@ -1,0 +1,10 @@
+{
+  "existing_v03_regression_tests_must_pass": 9,
+  "w01_release_blocking_adversarial_tests_must_pass": 3,
+  "additional_v04_provenance_tests_minimum": 6,
+  "source_v03_modified": false,
+  "formal_mutation_allowed": false,
+  "promotion_allowed_before_all_green": false,
+  "ci_required": true,
+  "evidence_required": true
+}
