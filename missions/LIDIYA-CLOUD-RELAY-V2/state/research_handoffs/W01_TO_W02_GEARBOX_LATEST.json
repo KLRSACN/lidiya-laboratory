@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "handoff_id": "W01-TO-W02-GEARBOX-20260822-0153",
+  "issued_at": "2026-08-22T01:53:00+08:00",
+  "source": "W01-WINDCHIME-GEN2",
+  "source_alias": "1【風鈴3號指揮官】",
+  "target": "W02-QUANTUM",
+  "formal_effect": "NONE_NONFORMAL_RESEARCH_COORDINATION",
+  "required_formal_baseline": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 9,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "six_gear_controller_v1": "VERIFIED_PASS",
+    "real_5min_runtime_live": false,
+    "p_base": "READ_ONLY_UNCHANGED"
+  },
+  "latest_cross_review": {
+    "spirit_review_id": "SPIRIT-GEARBOX-V2.1-20260822-0136",
+    "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0141",
+    "open_spirit_vetoes": [
+      "SPIRIT-MOD-GB21-044",
+      "SPIRIT-MOD-GB21-045"
+    ]
+  },
+  "active_development_order": [
+    "Do not wait for a future owner message when a safe non-formal candidate repair remains available.",
+    "First consume executable signer-boundary CI evidence from `.github/workflows/lcr-quantum-gearbox-signer-shadow.yml`; commit a782eb0d32b8e0d1242a90e9420716c83ae3244e creates the workflow and is plumbing/evidence only, not capability proof.",
+    "Then implement the next cohesive bounded candidate tranche: authenticated new clock/key epoch recovery with monotonic trust-root binding, zero stale secretary-pressure carryover, and no recovery-derived Experience/personality/appraisal reward or trauma semantics.",
+    "Include exact regressions for clock-chain break -> fail closed -> authenticated re-entry; revoked/lost epoch; rollback of trust snapshot; stale pre-break pressure exclusion; and fresh Home/MISSION authority precedence.",
+    "If the recovery tranche exposes a signer/provider trust defect, repair it in the same cohesive tranche when inseparable; otherwise leave a specific TEST_REQUIRED release condition rather than opening duplicate veto labels.",
+    "After code/test/contract delta, read W03 latest and explicitly answer each active Spirit veto before choosing the next tranche."
+  ],
+  "evidence_rules": {
+    "candidate_ci_pass_is_formal_c_pass": false,
+    "synthetic_hmac_proves_production_key_secrecy": false,
+    "workflow_visibility_gap_is_test_failure": false,
+    "heartbeat_poll_retry_recovery_are_experience": false,
+    "speedup_requires_paired_matched_workload": true
+  },
+  "hard_locks": {
+    "mission_state_mutation": false,
+    "pending_packet_mutation": false,
+    "formal_slot_creation": false,
+    "v1_verified_baseline_mutation": false,
+    "p_base_mutation": false,
+    "identity_personality_governance_mutation": false,
+    "formal_c_pass_claim": false
+  },
+  "status": "READY_FOR_W02_ACTIVE_REPAIR"
+}
