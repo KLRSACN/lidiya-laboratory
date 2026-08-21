@@ -9,10 +9,10 @@ if str(HERE) not in sys.path:
 from gearbox_controller import GearboxGuardError
 from gearbox_authority_projection_shadow_v01 import (
     AuthorityDecisionEnvelope,
+    PINNED_MISSION_STATE_BLOB_SHA,
+    PINNED_STEP_ID,
     select_gear_with_authority_projection_shadow,
 )
-
-MISSION_SHA = "e" * 64
 
 BASE = dict(
     risk="LOW",
@@ -44,20 +44,26 @@ BASE = dict(
 def authority_envelope(
     *,
     selected_state="G1",
-    mission_sha=MISSION_SHA,
-    step_id=9,
+    mission_sha=PINNED_MISSION_STATE_BLOB_SHA,
+    step_id=PINNED_STEP_ID,
     authority_role="LCR-A",
     formal_mutation_allowed=False,
 ):
+    if selected_state == "R":
+        guard = "ROLLBACK"
+    elif selected_state == "N":
+        guard = "HOLD"
+    else:
+        guard = "BRAKE"
     return AuthorityDecisionEnvelope(
         schema_version="1.0-shadow",
         mission_id="LCR-EVOLUTION-0005",
         step_id=step_id,
         authority_role=authority_role,
-        mission_state_sha256=mission_sha,
+        mission_state_blob_sha=mission_sha,
         decision_id="authority-decision-001",
         selected_state=selected_state,
-        guard_status="BRAKE" if selected_state == "G1" else "HOLD",
+        guard_status=guard,
         return_condition="fresh authority re-evaluation required",
         checkpoint_required=True,
         receiver_ack_required=True,
@@ -72,8 +78,6 @@ class AuthorityProjectionShadowTests(unittest.TestCase):
             select_gear_with_authority_projection_shadow(
                 authority_conflict=True,
                 authority_decision_envelope=None,
-                expected_mission_state_sha256=MISSION_SHA,
-                expected_step_id=9,
                 **BASE,
             )
 
@@ -81,8 +85,6 @@ class AuthorityProjectionShadowTests(unittest.TestCase):
         d = select_gear_with_authority_projection_shadow(
             authority_conflict=True,
             authority_decision_envelope=authority_envelope(selected_state="G1"),
-            expected_mission_state_sha256=MISSION_SHA,
-            expected_step_id=9,
             **{**BASE, "risk": "LOW", "task_complexity": 1.0, "secretary_level": "GREEN"},
         )
         self.assertEqual(d.selected_state, "G1")
@@ -96,20 +98,28 @@ class AuthorityProjectionShadowTests(unittest.TestCase):
         d = select_gear_with_authority_projection_shadow(
             authority_conflict=True,
             authority_decision_envelope=authority_envelope(selected_state="R"),
-            expected_mission_state_sha256=MISSION_SHA,
-            expected_step_id=9,
             **{**BASE, "risk": None, "context_load_ratio": "bad", "recent_shift_rate_ratio": "bad"},
         )
         self.assertEqual(d.selected_state, "R")
+        self.assertEqual(d.guard_status, "ROLLBACK")
         self.assertTrue(d.terminal_precedence_applied)
 
     def test_stale_authority_snapshot_fails_closed(self):
         with self.assertRaises(GearboxGuardError):
             select_gear_with_authority_projection_shadow(
                 authority_conflict=True,
-                authority_decision_envelope=authority_envelope(mission_sha="a" * 64),
-                expected_mission_state_sha256=MISSION_SHA,
-                expected_step_id=9,
+                authority_decision_envelope=authority_envelope(mission_sha="a" * 40),
+                **BASE,
+            )
+
+    def test_caller_cannot_supply_matching_stale_expected_snapshot(self):
+        stale = authority_envelope(mission_sha="a" * 40)
+        with self.assertRaises(GearboxGuardError):
+            select_gear_with_authority_projection_shadow(
+                authority_conflict=True,
+                authority_decision_envelope=stale,
+                expected_mission_state_sha256="a" * 64,
+                expected_step_id=PINNED_STEP_ID,
                 **BASE,
             )
 
@@ -118,8 +128,6 @@ class AuthorityProjectionShadowTests(unittest.TestCase):
             select_gear_with_authority_projection_shadow(
                 authority_conflict=True,
                 authority_decision_envelope=authority_envelope(step_id=8),
-                expected_mission_state_sha256=MISSION_SHA,
-                expected_step_id=9,
                 **BASE,
             )
 
@@ -128,8 +136,6 @@ class AuthorityProjectionShadowTests(unittest.TestCase):
             select_gear_with_authority_projection_shadow(
                 authority_conflict=True,
                 authority_decision_envelope=authority_envelope(authority_role="W07-SECRETARY"),
-                expected_mission_state_sha256=MISSION_SHA,
-                expected_step_id=9,
                 **BASE,
             )
 
@@ -138,8 +144,16 @@ class AuthorityProjectionShadowTests(unittest.TestCase):
             select_gear_with_authority_projection_shadow(
                 authority_conflict=True,
                 authority_decision_envelope=authority_envelope(formal_mutation_allowed=True),
-                expected_mission_state_sha256=MISSION_SHA,
-                expected_step_id=9,
+                **BASE,
+            )
+
+    def test_terminal_guard_must_match_terminal_state(self):
+        good = authority_envelope(selected_state="R")
+        bad = AuthorityDecisionEnvelope(**{**good.to_dict(), "guard_status": "HOLD"})
+        with self.assertRaises(GearboxGuardError):
+            select_gear_with_authority_projection_shadow(
+                authority_conflict=True,
+                authority_decision_envelope=bad,
                 **BASE,
             )
 
@@ -147,8 +161,6 @@ class AuthorityProjectionShadowTests(unittest.TestCase):
         d = select_gear_with_authority_projection_shadow(
             authority_conflict=False,
             authority_decision_envelope=authority_envelope(selected_state="R"),
-            expected_mission_state_sha256=MISSION_SHA,
-            expected_step_id=9,
             **BASE,
         )
         self.assertNotEqual(d.mode, "FRESH_AUTHORITY_PROJECTION_SHADOW")
