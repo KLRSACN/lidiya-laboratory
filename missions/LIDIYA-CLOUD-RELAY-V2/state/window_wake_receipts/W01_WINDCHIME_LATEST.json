@@ -23,7 +23,7 @@
     "historical_results_reused_as_fresh_pass":false,
     "exact_blobs":{"v1":"c29e3b2c/11527a9e","v2":"13aafeed/d01cab7b","v2_1":"81818f9d/d9252bb5"}
   },
-  "readback_expected":{
+  "readback_confirmed":{
     "mission_state_sha":"e32e01fa304a857f5185951443682ea937335473",
     "progress_sha":"73eb01f9fd9047f8bfed4c42af016b24e6319a64",
     "selftest_sha":"12bd1621a2d36c49725da3dde794623bea017218",
@@ -34,5 +34,5 @@
   "candidate_gate":"BLOCKED_EXECUTOR_DEFER_PLUS_CURRENT_W02_BOUNDED_VETO_ACTIVE_PLUS_MISSING_W03_PLUS_STALE_W04_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "next_trigger":"W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved":true,
-  "readback_status":"PENDING"
+  "readback_status":"PASS"
 }
