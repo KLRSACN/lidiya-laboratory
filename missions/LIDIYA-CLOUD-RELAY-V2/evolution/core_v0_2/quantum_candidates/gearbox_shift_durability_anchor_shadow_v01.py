@@ -17,6 +17,7 @@ from gearbox_shift_history_shadow_v01 import (
     MISSION_ID,
     STEP_ID,
     ShiftHistoryGuardError,
+    _load_registry as _load_shift_registry,
     append_shift_event,
 )
 
@@ -155,16 +156,16 @@ class AnchoredAppendResult:
 def _ledger_snapshot(registry_path: Path, *, installation_id: str, runtime_id: str) -> tuple[int, str]:
     if not registry_path.exists():
         return 0, ZERO_HASH
-    data = _read_json(registry_path, label="shift registry")
-    if data.get("mission_id") != MISSION_ID or data.get("step_id") != STEP_ID:
-        raise DurabilityAnchorGuardError("shift registry mission/step mismatch")
-    if data.get("installation_id") != installation_id or data.get("runtime_id") != runtime_id:
-        raise DurabilityAnchorGuardError("shift registry scope mismatch")
+    try:
+        data = _load_shift_registry(
+            registry_path,
+            installation_id=installation_id,
+            runtime_id=runtime_id,
+        )
+    except ShiftHistoryGuardError as exc:
+        raise DurabilityAnchorGuardError(f"shift registry integrity failure: {exc}") from exc
     seq = _nonnegative_int(data.get("latest_seq"), name="ledger latest_seq")
     head = _sha256(data.get("head_hash"), name="ledger head_hash")
-    events = data.get("events")
-    if not isinstance(events, list) or len(events) != seq:
-        raise DurabilityAnchorGuardError("shift registry event count mismatch")
     return seq, head
 
 
@@ -249,6 +250,7 @@ def exclusive_writer_lock(lock_path: Path, *, owner_token: str | None = None) ->
     """
     token = owner_token or uuid.uuid4().hex
     token = _explicit_string(token, name="owner_token")
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         os.mkdir(lock_path)
     except FileExistsError as exc:
