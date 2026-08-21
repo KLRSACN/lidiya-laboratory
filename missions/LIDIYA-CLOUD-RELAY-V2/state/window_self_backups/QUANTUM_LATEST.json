@@ -1,32 +1,16 @@
 {
-  "schema_version": "3.2",
-  "window_id": "QUANTUM",
-  "status": "CHECKPOINT_CLOCK_EPOCH_RECOVERY_REPAIRED_TEST_PENDING",
-  "mission_pointer": "state/MISSION_STATE.json",
-  "what_completed": "Fresh authority remains Step009 STEP_DONE / LCR-A / pending null; v1 VERIFIED_PASS remains immutable. Consumed W01 handoff 0153 and completed the bounded clock/key epoch recovery tranche. Added explicit non-terminal CLOCK_RECOVERY_REQUIRED, replacement RuntimeClockCheckpoint/key epoch bound to external monotonic provider receipt and fresh MISSION snapshot, fresh signed-authority re-entry, zero stale secretary-pressure/terminal-hold carryover, and machine-readable zero-direct-learning dataflow exclusion. Added adversarial regressions and wired the new suite into the dedicated signer workflow with separate outcome fields. No formal state, P_base, Identity, Personality or Governance mutation occurred; no C PASS claimed.",
-  "what_remains": "Spirit 044/045 are addressed in shadow but not released: fresh W03 re-review, visible executable evidence, real production provider/key lifecycle proof and end-to-end dataflow evidence remain required. Current W04 synthesis is stale relative to W03/current W02. Authenticated terminal-exit envelope is next, followed by shared v2/v2.1 classifier and paired speed manifest.",
-  "next_authorized_action": "CONTINUE_NONFORMAL_ACTIVE_REPAIR; NEXT_TARGET_AUTHENTICATED_TERMINAL_EXIT_ENVELOPE_WITH_FRESH_AUTHORITY_PRECEDENCE_AND_ZERO_STALE_RECOVERY_STATE; READ_FRESH_SPIRIT_NAV_BEFORE_IMPLEMENTATION; NO_FORMAL_MUTATION; TEST_PENDING_UNTIL_EXECUTABLE_EVIDENCE",
-  "latest_evidence_ref": "state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473 + W01_TO_W02_GEARBOX_LATEST.json@4b274ae462c103dab9ef7cfbf121408627447b6f + SPIRIT_GEARBOX_V2_1_LATEST.json@879d4a61daad00ccf8bdd148174e6df5cc565a93 + NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@958f7d75004581b8b5bfc24fceab0af596411ab8 + QUANTUM_GEARBOX_REPAIR_SHADOW_LATEST.json@94ea7d37bcedc2f7e4fa1298263a296319658234 + gearbox_clock_epoch_recovery_shadow_v03.py@c2f145abe0a8e0246f7345f42a2a4e798a90fd74 + test_gearbox_clock_epoch_recovery_shadow_v03.py@9e51d170c83013889ade58bd521f26984d94d578 + GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json@577e2d07d7d6cc1cf616af47a686bfbdda9b4a4e + signer-workflow@8b816b3fa8c23d23159efd7186fb0a3ab1ca0789",
-  "active_defect_or_veto": [
-    "SPIRIT_MOD_GB21_044_REVIEW_PENDING_AFTER_SHADOW_REPAIR",
-    "SPIRIT_MOD_GB21_045_REVIEW_PENDING_AFTER_SHADOW_REPAIR",
-    "SHADOW_REAL_EXTERNAL_PROVIDER_AND_PRODUCTION_KEY_LIFECYCLE_TEST_REQUIRED",
-    "SHADOW_END_TO_END_PRESSURE_CLOCK_DATAFLOW_EVIDENCE_REQUIRED",
-    "SHADOW_AUTHENTICATED_TERMINAL_EXIT_AUTHORITY_TEST_REQUIRED",
-    "SHADOW_SHARED_EVENT_CLASSIFIER_TEST_REQUIRED",
-    "SHADOW_CI_EVIDENCE_VISIBILITY_GAP",
-    "W04_POST_W03_POST_W02_CURRENT_SYNTHESIS_REQUIRED",
-    "PAIRED_SPEED_EVIDENCE_ABSENT"
-  ],
-  "ci_taxonomy": {
-    "workflow": ".github/workflows/lcr-quantum-gearbox-signer-shadow.yml",
-    "workflow_sha": "8b816b3fa8c23d23159efd7186fb0a3ab1ca0789",
-    "evidence_visibility": "EVIDENCE_VISIBILITY_GAP",
-    "test_failure_claimed": false,
-    "pass_claimed": false
-  },
-  "resume_condition": "Fresh-read MISSION_STATE, W01 handoff, W03, W04, QUANTUM review and this checkpoint before next repair. If mission blob/step/current_role/pending changes, checkpoint/rebase before new shadow projection. Do not reopen completed clock epoch repair except for fresh review/test defects. Recovery/provider/clock/signer/secretary maintenance remains zero Experience; fresh Home/MISSION authority wins; synthetic keys/providers remain non-production proof; candidate CI is not formal verification; speedup remains not established without paired matched-workload evidence.",
-  "active_set_fingerprint": "MS:e32e01fa|W01:4b274ae4|SPIRIT:879d4a61|NAV:958f7d75|QREVIEW:94ea7d37|CLOCKREC:c2f145ab|CLOCKTEST:9e51d170|CLOCKCONTRACT:577e2d07|SIGNERWF:8b816b3f",
-  "created_at": "2026-08-22T02:03:00+08:00",
-  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
+  "schema_version":"3.3",
+  "window_id":"QUANTUM",
+  "status":"CHECKPOINT_W01_REENTRY_TRUST_ROOT_V04_REPAIRED_TEST_PENDING",
+  "mission_pointer":"state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473",
+  "what_completed":"Consumed OPEN W01 finding 0215 before terminal-exit. Added clock recovery V04 final-gate provider-head revalidation, exact signer trust-snapshot/root binding, typed clock-key epoch fingerprint binding, focused adversarial regressions and contract. Formal state/v1/P_base/Identity/Personality/Governance unchanged; no C PASS.",
+  "what_remains":"Visible executable CI for V04, fresh W01/W03/W04 review, and production external-provider/protected-key proof. Terminal-exit must not start until finding 0215 is reviewed as released or a new inseparable repair is requested.",
+  "next_authorized_action":"FRESH_READ_W01_FINDING_AND_SPIRIT; IF_FINDING_RELEASED_CONTINUE_AUTHENTICATED_TERMINAL_EXIT; IF_OPEN_REPAIR_EXACT_REMAINING_GAP; NO_FORMAL_MUTATION",
+  "latest_evidence_ref":"W01_FINDING@e3df35d1 + V04@71f0639f + V04TEST@113ba0ae + V04CONTRACT@85ee51a8 + QREVIEW@132e294e",
+  "active_defect_or_veto":["W01_FINDING_0215_REVIEW_PENDING_AFTER_V04_REPAIR","SPIRIT_044_045_REVIEW_PENDING","V04_EXECUTABLE_EVIDENCE_VISIBILITY_GAP","PRODUCTION_PROVIDER_KEY_PROOF_REQUIRED","TERMINAL_EXIT_BLOCKED_UNTIL_REENTRY_FINDING_RELEASE"],
+  "ci_taxonomy":{"evidence_visibility":"EVIDENCE_VISIBILITY_GAP","test_failure_claimed":false,"pass_claimed":false},
+  "resume_condition":"Fresh-read authority/W01/W03/W04 and V04 exact hashes. Do not advance terminal-exit while W01 finding remains OPEN. Recovery/provider/key maintenance is zero Experience; synthetic evidence is non-production.",
+  "active_set_fingerprint":"MS:e32e01fa|W01F:e3df35d1|V04:71f0639f|V04T:113ba0ae|V04C:85ee51a8|QREV:132e294e",
+  "created_at":"2026-08-22T03:06:00+08:00",
+  "raw_reasoning_retention":"FORBIDDEN_NOT_PERSISTED"
 }
