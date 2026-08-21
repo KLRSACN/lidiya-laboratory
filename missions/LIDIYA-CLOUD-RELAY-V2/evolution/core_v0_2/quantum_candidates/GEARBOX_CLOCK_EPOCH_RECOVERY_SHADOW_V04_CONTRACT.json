@@ -1,0 +1,57 @@
+{
+  "schema_version": "0.4-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 9,
+  "status": "CANDIDATE_NON_FORMAL",
+  "parent": "GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json",
+  "parent_policy": "READ_ONLY_UNCHANGED",
+  "purpose": "Close final re-entry trust-root provenance gaps without changing formal mission state.",
+  "final_reentry_required_guards": {
+    "mission_state_blob_sha_matches_pinned_and_root": true,
+    "external_provider_binding_matches_root": true,
+    "external_provider_current_floor_equals_root_receipt_sequence": true,
+    "root_provider_receipt_verifies": true,
+    "root_provider_payload_commitment_matches": true,
+    "clock_key_epoch_binding_recomputes_with_clock_secret": true,
+    "root_trust_snapshot_id_matches_current_signer_trust_snapshot": true,
+    "signed_authority_trust_snapshot_id_matches_current_signer_trust_snapshot": true,
+    "signed_authority_verifies": true
+  },
+  "clock_key_epoch_semantics": {
+    "security_relevant": true,
+    "binding": "HMAC-SHA256 shadow binding over schema/mission/step/key-epoch/checkpoint-fingerprint/installation/runtime using the authenticated clock secret",
+    "production_key_proof": false,
+    "hsm_tpm_proof": false
+  },
+  "provider_head_semantics": {
+    "final_reentry_must_use_same_provider_binding": true,
+    "final_reentry_must_observe_exact_root_sequence": true,
+    "head_advance_fails_closed": true,
+    "head_rollback_fails_closed": true
+  },
+  "trust_snapshot_semantics": {
+    "root_snapshot_id_must_equal_current_trust_snapshot_id": true,
+    "authority_snapshot_id_must_equal_current_trust_snapshot_id": true,
+    "mismatch_fails_closed": true
+  },
+  "cognitive_effects": {
+    "recovery_counts_as_experience": false,
+    "signature_success_counts_as_experience": false,
+    "provider_maintenance_counts_as_experience": false,
+    "appraisal_delta": 0,
+    "personality_delta": 0,
+    "trauma_or_relief_delta": 0
+  },
+  "authority_boundary": {
+    "formal_mutation_allowed": false,
+    "live_routing_authority_allowed": false,
+    "promotion_allowed": false,
+    "formal_c_verification_claimed": false
+  },
+  "release_gate": {
+    "existing_v03_regressions_required": true,
+    "v04_provenance_regressions_required": true,
+    "all_tests_must_pass": true,
+    "ci_must_pass": true
+  }
+}
