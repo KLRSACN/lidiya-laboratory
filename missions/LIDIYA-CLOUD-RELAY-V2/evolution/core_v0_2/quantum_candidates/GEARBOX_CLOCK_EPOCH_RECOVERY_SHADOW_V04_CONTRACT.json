@@ -1,0 +1,20 @@
+{
+  "schema_version":"0.4-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "finding_response":"W01-GB-V03-REENTRY-TRUST-ROOT-BINDING-20260822-0215",
+  "status":"NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "invariants":[
+    "Final re-entry revalidates the exact root provider binding/receipt and requires provider current floor to equal the root receipt sequence; a later provider head makes the root stale.",
+    "Verified SignerTrustSnapshot.snapshot_id must equal ClockEpochRoot.trust_snapshot_id before signed authority can authorize re-entry.",
+    "clock_key_epoch is security-relevant in V04 and must match a typed ReentryTrustBinding whose SHA-256 fingerprint matches the supplied clock key material.",
+    "Fresh Mission binding and otherwise-valid authority signature cannot bypass provider-head, trust-snapshot, or key-identity mismatch.",
+    "Re-entry remains neutral: zero Experience, zero operational progress, zero appraisal/personality/trauma-relief delta, no stale pressure or prior terminal-hold carryover."
+  ],
+  "production_limits":[
+    "Synthetic keys/providers and durability-domain labels are not production HSM/TPM/remote-provider proof.",
+    "V04 fingerprint proves equality to supplied synthetic key material only; protected key storage and hardware-backed identity remain external evidence requirements."
+  ],
+  "formal_effect":"NONE",
+  "formal_c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
