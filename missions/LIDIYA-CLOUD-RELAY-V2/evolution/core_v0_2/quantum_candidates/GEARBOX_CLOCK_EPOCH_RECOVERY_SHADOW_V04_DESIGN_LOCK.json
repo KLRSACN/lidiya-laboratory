@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.4-design-lock",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "status": "CANDIDATE_DESIGN_LOCK",
+  "parent_commit": "c5927545cb90101e4fce8dc787aeda8cd2fb62c7",
+  "parent_implementation": "gearbox_clock_epoch_recovery_shadow_v03.py",
+  "parent_policy": "READ_ONLY_UNCHANGED",
+  "branch": "candidate/gearbox-clock-epoch-recovery-v04",
+  "release_blockers": [
+    "provider_head_advance_makes_old_root_reentry_fail_closed",
+    "root_signer_trust_snapshot_mismatch_fails_closed",
+    "security_relevant_clock_key_epoch_cannot_be_unbound_label"
+  ],
+  "required_guards": [
+    "final_reentry_revalidates_external_provider_head",
+    "final_reentry_binds_root_trust_snapshot_to_verified_signer_trust_snapshot",
+    "clock_key_epoch_is_cryptographically_bound_or_explicitly_downgraded_to_non_security_metadata"
+  ],
+  "formal_effect": "NONE",
+  "formal_mutation_allowed": false,
+  "source_hot_patch_allowed": false,
+  "promotion_allowed": false
+}
