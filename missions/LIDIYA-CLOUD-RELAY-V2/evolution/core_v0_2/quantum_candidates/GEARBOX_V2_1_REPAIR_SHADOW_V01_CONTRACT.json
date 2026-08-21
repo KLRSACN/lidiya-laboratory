@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1-shadow",
+  "schema_version": "1.2-shadow",
   "candidate_id": "QUANTUM-GEARBOX-V2.1-REPAIR-SHADOW-V01-20260821",
   "owner_role": "W02-QUANTUM_NON_FORMAL",
   "status": "EXECUTABLE_SHADOW_REPAIR_CANDIDATE_TEST_PENDING",
@@ -84,8 +84,56 @@
     ],
     "formal_adoption": "TEST_REQUIRED; DOES_NOT_CLEAR_LIVE_V2_V2_1_AUTHORITY_VETO"
   },
+  "repair_tranche_3_secretary_provenance": {
+    "implementation": "evolution/core_v0_2/quantum_candidates/gearbox_secretary_signal_shadow_v01.py",
+    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_secretary_signal_shadow_v01.py",
+    "protocol_binding": {
+      "source": "fresh-read state/WIND_SECRETARY_PROTOCOL.json Git blob",
+      "pinned_blob_sha": "0e4ba4108ca9953a566e3ea5ca4957e1ee6d142b",
+      "pinned_step_id": 9,
+      "source_role": "W07",
+      "authority": "NONE",
+      "rebase_rule": "Protocol blob or formal step change requires checkpoint/rebase before accepting a new shadow envelope."
+    },
+    "per_field_provenance": {
+      "fields": [
+        "context_load_ratio",
+        "tool_failure_ratio",
+        "stale_pointer_ratio",
+        "durable_progress_age_ratio",
+        "continuity_anchor_health",
+        "storage_pressure_ratio"
+      ],
+      "each_measurement_requires": [
+        "typed numeric value in [0,1]",
+        "W07 source_role",
+        "sensor_id",
+        "observed_seq",
+        "valid_through_seq",
+        "installation_id",
+        "runtime_id"
+      ],
+      "mixed_installation_or_runtime": "FAIL_CLOSED",
+      "unknown_pressure_field": "FAIL_CLOSED",
+      "stale_or_future_individual_field": "NEUTRALIZE_FIELD_ONLY",
+      "missing_field": "SAFE_NEUTRAL_DEFAULT"
+    },
+    "envelope_freshness": {
+      "future_envelope": "ZERO_EFFECT",
+      "stale_envelope": "ZERO_EFFECT",
+      "authority_conflict": "ZERO_EFFECT",
+      "freshness_root_status": "NOT_AUTHENTICATED_YET"
+    },
+    "self_review_hardening": [
+      "Initial shadow projection exposed fresh observed values through routing-shaped field names even while routing_authority_allowed=false.",
+      "Repaired by physically separating observed_secretary_level/observed_pressure_inputs from routing_secretary_level/routing_pressure_inputs.",
+      "Until an authenticated runtime freshness root exists, routing-facing secretary remains UNKNOWN and routing-facing pressure remains neutral for every projection, including apparently fresh envelopes."
+    ],
+    "experience_boundary": "Secretary observation/provenance/freshness creates zero verified Experience and zero operational progress.",
+    "formal_adoption": "TEST_REQUIRED; DOES_NOT_CLEAR_LIVE_V2_V2_1_SECRETARY_VETO"
+  },
   "known_unresolved_after_v01": [
-    "SecretarySignalEnvelope and per-field freshness/provenance are not yet implemented in this shadow tranche.",
+    "A trusted runtime freshness root for SecretarySignalEnvelope evaluation_seq is not yet implemented; tranche 3 therefore remains observational-only and cannot affect shadow routing.",
     "recent_shift_rate_ratio still needs a canonical append-only shift-history source, minimum support, uncertainty and hysteretic release.",
     "authenticated terminal-exit envelope is intentionally not implemented; N/R residence therefore fails closed.",
     "AuthorityDecisionEnvelope authenticity is structurally modeled and exact-snapshot pinned, but cryptographic/registry-backed signer authenticity is not established by this shadow module.",
@@ -104,6 +152,7 @@
   "experience_boundary": {
     "runtime_maintenance_counts_as_experience": false,
     "self_test_duration_counts_as_experience": false,
+    "secretary_observation_counts_as_experience": false,
     "operational_progress_counts_as_verified_experience": false,
     "p_base": "READ_ONLY_UNCHANGED"
   }
