@@ -1,0 +1,20 @@
+{
+  "schema_version":"1.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_AUTHENTICATED_TERMINAL_EXIT_SHADOW_V01",
+  "status":"NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "scope":["authenticated terminal exit","fresh Mission/current signer authority precedence","explicit fresh-state allowlist","stale recovery-state denylist","zero-learning exit"],
+  "invariants":[
+    "Terminal exit accepts only a non-routing authenticated CLOCK_EPOCH_REENTERED_SHADOW projection with zero stale pressure and terminal-hold carryover.",
+    "Exit payload is closed-world allowlisted; any unknown field fails closed and explicit pre-break secretary pressure/history, anti-thrash/terminal-hold age, provider/clock/recovery counters, stale goal cache and signer familiarity are denied.",
+    "Fresh pinned Mission snapshot and current signer trust epoch authenticate the exact authority decision; requested control state must equal the signed authority selected state.",
+    "Successful exit deterministically resets secretary pressure, anti-thrash, terminal-hold and recovery state before shadow routing resumes.",
+    "Terminal exit adds zero Experience, appraisal, drive, exploration, preference, personality, trauma/relief or P_base mutation.",
+    "Shadow routing authority is candidate-only and never formal mutation authority or LCR-C PASS."
+  ],
+  "required_regressions":["TERMINAL_EXIT_STALE_STATE_REINJECTION_AB","unknown non-allowlisted field fail-closed","fresh authority precedence mismatch fail-closed","stale reentry fail-closed","zero-learning boundary"],
+  "known_limits":["Synthetic signer/provider/key evidence is not production custody/durability proof.","Home snapshot authenticity is represented as fresh allowlisted metadata in V01; a separate cryptographic Home-root binding remains TEST_REQUIRED before adoption.","Executable workflow evidence remains required."],
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
