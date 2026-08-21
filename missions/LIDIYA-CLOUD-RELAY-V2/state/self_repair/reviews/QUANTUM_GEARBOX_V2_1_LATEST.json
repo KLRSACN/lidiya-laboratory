@@ -1,6 +1,6 @@
 {
-  "schema_version": "6.6",
-  "review_id": "QUANTUM-GEARBOX-V2.1-20260821-0830",
+  "schema_version": "6.7",
+  "review_id": "QUANTUM-GEARBOX-V2.1-20260821-0933",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_ADVERSARIAL_REVIEW",
   "status": "BOUNDED_VETO_ACTIVE",
@@ -9,7 +9,7 @@
   "archive_no_read_fence": true,
   "startup_read_status": {
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH; continuity retained through fresh Active-8 exact pointer only; NO_BROAD_ARCHIVE_READ",
-    "active_8": "READ_OK_SCHEMA_6.79-ACTIVE8-GEARBOX-V2.1",
+    "active_8": "READ_OK_SCHEMA_6.80-ACTIVE8-GEARBOX-V2.1",
     "fresh_mission_state": "READ_OK_STEP009_STEP_DONE_LCR_A_PENDING_NULL",
     "gearbox_v1": "READ_OK",
     "test_gearbox_v1": "READ_OK",
@@ -19,10 +19,10 @@
     "gearbox_v2_1": "READ_OK",
     "test_gearbox_v2_1": "READ_OK",
     "gearbox_v2_1_contract": "READ_OK",
-    "own_latest_review": "READ_OK_SCHEMA_6.5"
+    "own_latest_review": "READ_OK_SCHEMA_6.6"
   },
   "source_fingerprints": {
-    "active8_sha": "095fb11972ff7224e77d88943c2644065c1fcd4b",
+    "active8_sha": "7ee6c50ce124e1f910cec095e0560a62309ec775",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "gearbox_v1_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "test_v1_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
@@ -32,7 +32,7 @@
     "gearbox_v2_1_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "test_v2_1_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
-    "previous_latest_review_sha": "ccf32d32f0bbcf02719a27a86d54428ebb381afe"
+    "previous_latest_review_sha": "bd3719991078d40e546795abf9deab45b6dbf6f7"
   },
   "agreements": [
     "Gearbox v1 VERIFIED_PASS and Step009 Heartbeat VERIFIED_FOUNDATION remain preserved; this review changes neither formal state nor executable code and does not claim C PASS.",
@@ -44,16 +44,16 @@
   ],
   "disagreements": [
     {
-      "id": "QV-GB21-ROLLBACK-STANDBY-CONFLICT-096",
+      "id": "QV-GB21-RISK-NULL-COERCION-097",
       "severity": "HIGH",
-      "finding": "New material finding: select_gear checks standby before rollback_required, so when both authenticated terminal requests are true the function returns N and rollback R never forms. Current tests exercise standby and rollback separately but not the simultaneous conflict, so terminal authority precedence is currently incidental source order rather than an explicit safety contract.",
-      "required_change": "Define and test explicit rollback-vs-standby precedence before v2/v2.1 adoption. If rollback is the stronger recovery authority, R must dominate simultaneous standby; if another policy is intended, encode it as a versioned trusted terminal-conflict rule rather than branch order. Preserve the resolved terminal state across v1->v2->v2.1 and prevent secretary/pressure/anti-thrash from rewriting it."
+      "finding": "New material finding: v1 and v2 normalize risk with str(risk).strip().upper(), while NONE is a valid lowest-risk value. Python None therefore becomes the valid string NONE, silently converting missing/null risk into explicit no-risk instead of failing closed. Existing v1/v2 tests do not cover this authority-sensitive null alias.",
+      "required_change": "Use one typed RiskLevel parser shared by v1/v2/v2.1. Only explicit string values NONE/LOW/MEDIUM/HIGH/CRITICAL are accepted; None, missing, bool, numeric, list, mapping and arbitrary object inputs fail closed. Explicit NONE must remain distinguishable from missing risk."
     },
     {
-      "id": "QV-GB21-TERMINAL-PRECEDENCE-094",
+      "id": "QV-GB21-ROLLBACK-STANDBY-CONFLICT-096",
       "severity": "HIGH",
-      "finding": "v1 can return trusted R rollback or N standby, but v2 can overwrite surviving R/N with G1 through recovery_active, continuity-anchor failure or RED-secretary overlays.",
-      "required_change": "Authenticated terminal authority must have structural precedence over nonterminal telemetry; trusted R cannot be overwritten and N exit requires explicit trusted terminal-exit authority."
+      "finding": "select_gear checks standby before rollback_required, so simultaneous terminal requests return N and rollback R never forms; terminal authority precedence is incidental branch order rather than an explicit safety contract.",
+      "required_change": "Define and test explicit rollback-vs-standby precedence; preserve the resolved terminal state across v1->v2->v2.1 and prevent secretary/pressure/anti-thrash from rewriting it."
     },
     {
       "id": "QV-GB21-FRESHNESS-AUTHORITY-001",
@@ -117,7 +117,7 @@
     }
   ],
   "statistical_risks": [
-    "Simultaneous standby and rollback are currently resolved by branch order, so recovery/terminal-state statistics can be censored or misclassified depending on call shape rather than explicit authority policy.",
+    "Missing/null risk currently aliases to explicit NONE, which can bias safety and performance comparisons by silently moving unknown-risk cases into the lowest-risk stratum.",
     "Caller-declared secretary freshness and incomplete authority projection invalidate causal routing comparisons.",
     "Small-n caller-supplied shift-rate estimates can false-trigger anti-thrash or chatter around the threshold.",
     "Anti-thrash may improve gear_shift_rate while degrading cycle, closure or recovery latency.",
@@ -128,19 +128,20 @@
     "Speed metrics require matched paired/crossover evaluation with a frozen versioned metric manifest and complete assigned-workload accounting."
   ],
   "proposed_tests": [
-    "GB21-ROLLBACK-STANDBY-CONFLICT-231: standby=true and rollback_required=true simultaneously must resolve by an explicit precommitted terminal-authority rule; the result must not depend on source-code branch order.",
-    "GB21-ROLLBACK-STANDBY-CROSSPATH-232: the resolved simultaneous terminal state must remain identical across v1->v2->v2.1 and cannot be rewritten by secretary, pressure, recovery or anti-thrash overlays.",
-    "GB21-ROLLBACK-STANDBY-TELEMETRY-233: simultaneous terminal conflict with malformed/extreme nonessential telemetry must still reach the authenticated terminal conflict-resolution path or a stronger explicit terminal fail-closed state.",
-    "GB21-SECRETARY-FRESHNESS-FORGE-234: stale RED/ORANGE plus forged freshness=true and stale numeric pressure must not route without trusted per-field provenance/freshness binding.",
-    "GB21-AUTHORITY-DECISION-PROJECTION-235: fresh authority=G1/recovery with permissive caller fallback must still produce the trusted authority result.",
-    "GB21-SHIFT-RATE-SMALL-N-236: 1/1 and 2/3 samples must not trigger calibrated anti-thrash without precommitted minimum support; test entry/exit hysteresis around the threshold.",
-    "GB21-ANTI-THRASH-PERF-NR-237: lower shift rate is rejected as improvement if cycle_completion_latency, verified_closure_per_hour or recovery_latency regresses.",
-    "GB21-PROGRESS-DENSITY-NULL-238: forged high verified_progress_density remains observational and cannot upshift or create credit.",
-    "GB21-EVENT-LINEAGE-REPLAY-239: same evidence under 10000 new IDs plus exact-ID restart/rollback replay produces one authoritative acceptance only.",
-    "GB21-VERIFIED-RECEIPT-BINDING-240: verified event without exact evidence hash plus trusted C/independent-verifier receipt yields zero authoritative verified Experience.",
-    "GB21-OPERATIONAL-RECEIPT-BINDING-241: raw DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND IDs without durable artifact/defect receipt yield zero authoritative operational credit.",
-    "GB21-CREDIT-NON-EQUIVALENCE-242: equal aggregate heuristic scores from different event mixtures are not equal capability or promotion evidence.",
-    "GB21-SPEED-PAIRED-BASELINE-243: sealed matched AB/BA or randomized crossover uses durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency with identical versioned metric manifest and assigned-workload coverage."
+    "GB21-RISK-NULL-COERCION-244: risk=None or missing must fail closed and must never normalize to explicit NONE.",
+    "GB21-RISK-CANONICAL-BOUNDARY-245: bool/numeric/list/mapping/object risk values fail closed; only explicit canonical RiskLevel strings are accepted.",
+    "GB21-RISK-CROSSPATH-246: v1, v2 and v2.1 must consume the same canonical RiskLevel result for NONE/LOW/MEDIUM/HIGH/CRITICAL and reject missing/null identically.",
+    "GB21-ROLLBACK-STANDBY-CONFLICT-247: standby=true and rollback_required=true simultaneously must resolve by an explicit precommitted terminal-authority rule independent of source-code branch order.",
+    "GB21-SECRETARY-FRESHNESS-FORGE-248: stale RED/ORANGE plus forged freshness=true and stale numeric pressure must not route without trusted per-field provenance/freshness binding.",
+    "GB21-AUTHORITY-DECISION-PROJECTION-249: fresh authority=G1/recovery with permissive caller fallback must still produce the trusted authority result.",
+    "GB21-SHIFT-RATE-SMALL-N-250: 1/1 and 2/3 samples must not trigger calibrated anti-thrash without precommitted minimum support; test entry/exit hysteresis around the threshold.",
+    "GB21-ANTI-THRASH-PERF-NR-251: lower shift rate is rejected as improvement if cycle_completion_latency, verified_closure_per_hour or recovery_latency regresses.",
+    "GB21-PROGRESS-DENSITY-NULL-252: forged high verified_progress_density remains observational and cannot upshift or create credit.",
+    "GB21-EVENT-LINEAGE-REPLAY-253: same evidence under 10000 new IDs plus exact-ID restart/rollback replay produces one authoritative acceptance only.",
+    "GB21-VERIFIED-RECEIPT-BINDING-254: verified event without exact evidence hash plus trusted C/independent-verifier receipt yields zero authoritative verified Experience.",
+    "GB21-OPERATIONAL-RECEIPT-BINDING-255: raw DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND IDs without durable artifact/defect receipt yield zero authoritative operational credit.",
+    "GB21-CREDIT-NON-EQUIVALENCE-256: equal aggregate heuristic scores from different event mixtures are not equal capability or promotion evidence.",
+    "GB21-SPEED-PAIRED-BASELINE-257: sealed matched AB/BA or randomized crossover uses durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency with identical versioned metric manifest and assigned-workload coverage."
   ],
   "bounded_veto": {
     "active": true,
@@ -152,8 +153,8 @@
     ],
     "blocks": [
       "formal adoption/promotion of Gearbox v2/v2.1",
+      "claim that missing/null risk is safely fail-closed under current typed boundaries",
       "claim that simultaneous rollback/standby authority is safely resolved",
-      "claim that terminal rollback/standby precedence is structurally preserved across v1->v2->v2.1",
       "claim that secretary freshness or fresh-authority precedence is executable from current caller booleans",
       "claim that anti-thrash is calibrated or performance-safe from current caller-supplied shift ratio",
       "authoritative verified Experience accounting from current raw-field paths",
@@ -163,8 +164,8 @@
   },
   "release_condition": [
     "Fresh exact-current v1+v2+v2.1 executable regression evidence exists on the same candidate bytes; historical results are not promoted as fresh PASS.",
+    "RiskLevel has one shared typed parser across v1/v2/v2.1; missing/null and non-string risk inputs fail closed and cannot alias to explicit NONE.",
     "Rollback-vs-standby simultaneous conflict has an explicit versioned terminal-authority precedence rule and cross-layer tests; terminal outcome cannot depend on branch order.",
-    "Authenticated terminal rollback/standby precedence is structural across v1->v2->v2.1; trusted R cannot be overwritten by secretary/pressure/recovery overlays and N exit requires explicit trusted authority.",
     "Secretary freshness and every secretary-derived routing field are provenance/freshness bound; stale/conflicting values have zero routing effect unless independently fresh and trusted.",
     "authority_conflict projects the actual fresh AuthorityDecisionEnvelope or fails closed.",
     "recent_shift_rate_ratio is derived from canonical shift history with precommitted support/window/uncertainty and stateful hysteretic release; anti-thrash has paired performance non-regression evidence.",
@@ -176,6 +177,6 @@
     "Any speedup claim uses a sealed matched paired/randomized-crossover baseline over durable_progress_per_wake, verified_closure_per_hour, cycle_completion_latency, canonical rework/rollback metric and recovery_latency with identical metric manifest, assigned-workload accounting and equal-or-better verification/risk quality.",
     "P_base remains read-only; heartbeat/poll/retry/window age/uptime remain zero Experience; Gearbox v1 verified baseline and Step001-009 verified history remain preserved."
   ],
-  "created_at": "2026-08-21T08:30:24+08:00",
+  "created_at": "2026-08-21T09:33:41+08:00",
   "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
