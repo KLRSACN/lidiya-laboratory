@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.4-shadow",
-  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-2233",
+  "schema_version": "1.5-shadow",
+  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-2331",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_REPAIR_DEVELOPMENT",
   "status": "REPAIR_ACTIVE_TEST_PENDING",
@@ -29,88 +29,74 @@
     "v1_test_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
     "v2_source_sha": "13aafeed851a2b5453dd36eaf64b85552bc79838",
     "v2_test_sha": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
-    "v2_contract_sha": "7c272b09264be765354fe2052eeb9e2f230f1705",
     "v2_1_source_sha": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
     "v2_1_test_sha": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
-    "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
     "delta": "UNCHANGED_FROM_ACTIVE8; NO_REBASE_REQUIRED"
   },
   "adversarial_review_delta": {
     "new_distinct_live_veto_id": null,
     "existing_veto_sharpened": "QV-GB21-ANTI-THRASH-METRIC-BINDING-011",
-    "finding": "The prior shadow shift ledger now detects local tamper and derives small-N-aware hysteresis from accepted history, but internally valid whole-ledger rollback and concurrent writers are separate durability hazards. A routing metric cannot become authoritative merely because its local JSON hash-chain is self-consistent.",
-    "non_duplicate_conclusion": "This round did not add another raw-ratio veto. It implemented the next missing durability/concurrency boundary beneath the already-existing anti-thrash metric-binding veto."
+    "finding": "The previous shadow durability anchor detects whole-ledger rollback/fork and serializes local writers, but its declared durability_domain_id was not an authenticated provider identity and UNANCHORED_LEDGER_ADVANCE had no authenticated crash-recovery path. This round implements provider-authenticated recovery semantics without claiming a real production trust root.",
+    "non_duplicate_conclusion": "No duplicate raw-ratio or terminal veto was added. The repair advances the distinct external-provider/recovery boundary beneath the existing shift-history durability gate."
   },
   "material_repair_this_round": {
-    "target": "SHIFT_HISTORY_EXTERNAL_MONOTONIC_DURABILITY_ANCHOR_AND_CONCURRENCY_BOUNDARY",
+    "target": "SHIFT_ANCHOR_TRUST_PROVIDER_AND_AUTHENTICATED_CRASH_RECOVERY_RECEIPT",
     "implemented_shadow_only": [
-      "Added an ExternalMonotonicAnchorReceipt binding anchor_seq, ledger_head_hash, mission/step, installation/runtime, durability_domain_id and previous_anchor_hash.",
-      "Anchor bootstrap is allowed only for an empty ledger; a nonempty ledger cannot be retroactively blessed by creating an anchor.",
-      "Verification distinguishes LEDGER_ROLLBACK_DETECTED, UNANCHORED_LEDGER_ADVANCE, LEDGER_ANCHOR_FORK_DETECTED and ANCHOR_MATCH.",
-      "Anchored append is serialized by an atomic directory-creation writer lock. A second writer fails closed and an abandoned lock is never auto-stolen.",
-      "The ledger advances first and the anchor advances only after accepted append; a crash window leaving the ledger ahead fails closed and is never auto-reconciled locally.",
-      "Anchor/lock maintenance has zero Experience, zero operational progress, zero formal mutation authority and zero live routing authority."
+      "Added a pinned shadow provider identity/key fingerprint and HMAC-SHA256 authenticated crash-recovery receipt.",
+      "Receipt binds exact previous anchor hash, observed anchor seq/head, observed ledger seq/head, mission, step, installation, runtime, provider, key, durability domain and nonce.",
+      "Recovery is allowed only for UNANCHORED_LEDGER_ADVANCE with ledger exactly one accepted event ahead of the old anchor.",
+      "Rollback, same-sequence fork, more-than-one-step divergence, wrong provider key, receipt tamper and cross-scope recovery fail closed.",
+      "Recovery executes under the existing exclusive writer lock, advances the anchor once, and records an idempotency/audit receipt locally.",
+      "Exact authenticated replay after an already-applied recovery is a NO_OP; same recovery_id with a different authenticated binding is an identity conflict while the audit registry is intact.",
+      "Recovery creates zero Experience, zero operational progress, zero formal mutation authority and zero live routing authority."
     ],
-    "self_review_repairs": [
-      "Initial anchor verifier compared only ledger latest_seq/head_hash and could miss an internally tampered event/index if the stored head field stayed unchanged.",
-      "Repaired in the same tranche by forcing the existing complete shift-registry reload-integrity validator to pass before every anchor comparison.",
-      "Writer lock now creates its parent directory but still refuses automatic stale-lock stealing."
+    "self_review": [
+      "The synthetic provider key used by regression is public test material; HMAC success demonstrates authentication semantics, not production external-provider secrecy or physical independence.",
+      "Normal anchor states are still local self-hash receipts rather than provider-attested on every append.",
+      "The recovery audit registry is local and not independently rollback anchored; anchor state remains the authoritative no-double-advance guard, but recovery-ID audit durability needs a future trust-hardening tranche."
     ],
-    "trust_boundary": "The shadow code structurally models an external monotonic domain but cannot prove that the anchor path is physically/cryptographically outside the ledger rollback domain. Production authority still requires a genuinely independent monotonic provider or equivalent trusted primitive.",
     "does_not_clear_live_veto": true
   },
   "shadow_artifacts": {
-    "core_code_sha": "97e9bb2ff0a44d3c95586132aef9336d78c75de7",
-    "core_test_sha": "1c698c2b70cd913943ced91ca5767bd177bcfaf3",
-    "authority_code_sha": "10c11ccdc506b7ed4ece068a64e4c997fbbf8678",
-    "authority_test_sha": "0c927796db4f3e52087059201bd76c834b11c5d0",
-    "secretary_code_sha": "ff791a7499837c270482ff42f6cee954d2710d7b",
-    "secretary_test_sha": "c074e168f94a46dc4918501cb7b0bb24ec4b3859",
-    "shift_history_code_sha": "245549a3f5a9eec6c5f2ae44c2d02f4908a37a5e",
-    "shift_history_test_sha": "fd78a35e7296b575096d9792d8b72662c4fcf744",
-    "shift_durability_code_sha": "4d210f3957cb74589bf6cc66ed466ebd8d1505ea",
-    "shift_durability_test_sha": "7c5d486d816d378f29bdda4cd797b6fa7ed11382",
-    "umbrella_contract_sha": "ecfa5833b7e492f066b22b4829ccbc28944214af",
-    "shift_durability_contract_sha": "98647e9f7f9ff48235d809a8049bb7af9bbe94c0",
-    "workflow_sha": "f076352e0b8a54804ccca7178cd52ac113b3e80c"
+    "shift_anchor_trust_recovery_code_sha": "94e5ec76528f61a15b6f0769652526c0f54cec6c",
+    "shift_anchor_trust_recovery_test_sha": "2cdc2d74ec3274ef975aef9ba5563977b7892d76",
+    "shift_anchor_trust_recovery_contract_sha": "a433c262fcb4347a0cdb3a07c70fb90932051fa6",
+    "workflow_sha": "022267b545d1a67a28ab259e91a125ff12e4e4ff",
+    "prior_shift_durability_code_sha": "4d210f3957cb74589bf6cc66ed466ebd8d1505ea",
+    "prior_shift_history_code_sha": "245549a3f5a9eec6c5f2ae44c2d02f4908a37a5e"
   },
   "regression_added_this_round": [
-    "empty-only anchor bootstrap",
-    "nonempty retroactive bootstrap rejected",
-    "anchored append advances ledger and anchor together",
-    "exact duplicate NO_OP leaves anchor unchanged",
-    "whole-ledger rollback to older internally valid snapshot detected",
-    "same-sequence internally valid fork detected",
-    "internal event tamper fails before anchor comparison",
-    "unanchored ledger advance fails closed",
-    "anchor hash tamper rejected",
-    "cross durability-domain anchor rejected",
-    "second writer blocked by atomic lock",
-    "abandoned lock is not auto-stolen",
-    "successive anchor state binds previous anchor hash"
+    "authenticated one-step crash recovery advances anchor",
+    "wrong provider secret rejected by pinned key fingerprint",
+    "authenticated receipt tamper rejected",
+    "cross-runtime scope mismatch rejected",
+    "more than one unanchored advance cannot be blessed",
+    "exact recovery receipt replay is idempotent NO_OP",
+    "same recovery ID with different authenticated binding conflicts",
+    "already-anchored state requires exact prior recovery binding before audit reconstruction"
   ],
   "executable_evidence": {
     "workflow": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
-    "workflow_updated_to_include_shift_durability_suite": true,
-    "latest_workflow_trigger_commit": "f19a9d68d9465698099ab90bd5eb33f9de2efa49",
+    "workflow_updated_to_include_anchor_trust_recovery_suite": true,
+    "latest_workflow_trigger_commit": "c0d46b794b8a12367e3ccd1d5002c02cf1e11d49",
     "commit_workflow_runs_retrievable": 0,
     "workflow_run_evidence": "NOT_RETRIEVABLE_FOR_CURRENT_PUSH_COMMIT",
-    "isolated_exact_byte_execution_attempt": "DEFER_DNS_UNAVAILABLE_RAW_GITHUB_COULD_NOT_RESOLVE",
     "verdict": "TEST_PENDING_DEFER_NO_PASS_CLAIM"
   },
   "remaining_gaps_after_this_round": [
-    "A real external monotonic provider/registry identity is still absent; durability_domain_id is a structural shadow assertion, not cryptographic or hardware-backed proof.",
-    "Automatic crash reconciliation is intentionally absent. UNANCHORED_LEDGER_ADVANCE requires a future authenticated recovery receipt or external authority decision.",
-    "The directory lock is a bounded local cross-process serialization primitive, not a distributed lock or lease service.",
-    "Live v2/v2.1 still accept caller recent_shift_rate_ratio; this shadow tranche does not modify live candidate.",
+    "A real independent provider/registry/HSM/TPM/remote monotonic service and protected production key are still absent; the pinned HMAC provider is synthetic shadow test infrastructure only.",
+    "Normal anchor states are not provider-attested on every append, so provider trust is demonstrated only for crash recovery authorization.",
+    "The local recovery audit/idempotency registry is not independently rollback anchored.",
+    "The directory lock remains local cross-process serialization rather than a distributed lease.",
+    "Live v2/v2.1 still accept caller recent_shift_rate_ratio; shadow repairs do not modify live candidate.",
     "Shift-history threshold/window/minimum-support/z policy remains uncalibrated TEST_REQUIRED input.",
     "Secretary evaluation_seq still lacks an authenticated runtime freshness root.",
-    "AuthorityDecisionEnvelope and accepted Experience receipt signer authenticity remain structurally modeled but not cryptographically/registry authenticated.",
+    "AuthorityDecisionEnvelope and accepted Experience receipt production signer authenticity remain unresolved.",
     "Authenticated terminal-exit envelope remains intentionally absent; N/R residence stays fail-closed.",
     "Fresh same-runner shadow CI evidence remains unavailable; no PASS claim.",
     "Speedup remains NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
-  "next_repair_target": "SHIFT_ANCHOR_TRUST_PROVIDER_AND_AUTHENTICATED_CRASH_RECOVERY_RECEIPT",
+  "next_repair_target": "SHIFT_PROVIDER_ATTESTED_ANCHOR_CHAIN_AND_RECOVERY_AUDIT_ROLLBACK_RESISTANCE",
   "live_candidate_status": {
     "v2_v2_1_bounded_veto_remains": true,
     "formal_adoption": "BLOCKED_UNTIL_NORMAL_A_TO_B_TO_C_AFTER_REQUIRED_EVIDENCE"
@@ -119,7 +105,7 @@
     "heartbeat_poll_retry_reconnect_window_age_self_test_duration": "ZERO_EXPERIENCE",
     "secretary_observation_is_experience": false,
     "shift_history_observation_is_experience": false,
-    "shift_anchor_or_lock_maintenance_is_experience": false,
+    "shift_anchor_or_recovery_maintenance_is_experience": false,
     "operational_progress_is_verified_experience": false,
     "heuristic_credit_is_capability_truth": false,
     "speedup_established": false
