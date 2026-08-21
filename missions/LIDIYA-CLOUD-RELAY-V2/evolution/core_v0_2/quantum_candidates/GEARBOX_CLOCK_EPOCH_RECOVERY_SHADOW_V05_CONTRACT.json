@@ -1,0 +1,20 @@
+{
+  "schema_version":"0.5-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V05",
+  "status":"NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "responds_to":"SPIRIT-MOD-GB21-047",
+  "invariants":[
+    "V04 stale-root final re-entry remains fail-closed whenever provider head has advanced.",
+    "A stale root is never revived; recovery re-establishes a new root from an authenticated receipt at the provider's current monotonic floor.",
+    "Fresh root issuance binds fresh MISSION snapshot, current signer trust snapshot identifier, replacement checkpoint and typed clock-key epoch; V04 final re-entry still verifies key fingerprint and signed authority.",
+    "Provider-head churn, stale-root rejection, retry/backoff, recovery duration and re-establishment are operational-only and add zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief state.",
+    "Stable-head and moving-head recovery converge to equivalent neutral cognitive/personality state when verified Experience is identical.",
+    "Synthetic provider/key behavior is not production liveness, HSM/TPM, physical durability independence or key-custody proof."
+  ],
+  "required_regression":"MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB",
+  "formal_effect":"NONE",
+  "formal_mutation_allowed":false,
+  "c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
