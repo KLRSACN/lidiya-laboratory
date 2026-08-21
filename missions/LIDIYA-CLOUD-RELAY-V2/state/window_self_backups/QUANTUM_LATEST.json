@@ -1,15 +1,25 @@
 {
-  "schema_version":"3.0",
-  "window_id":"QUANTUM",
-  "status":"CHECKPOINT_SIGNER_AUTHENTICITY_REVOCATION_ACTIVE_TEST_PENDING",
-  "mission_pointer":"state/MISSION_STATE.json",
-  "what_completed":"Fresh authority remains Step009 STEP_DONE / LCR-A / pending null; v1 VERIFIED_PASS remains immutable. Fresh W03 review 0136 is now present and its two HIGH behavior vetoes are accepted. This round completed the cohesive shadow signer tranche: AuthorityDecisionEnvelope now has a signed-current-LCR-A-epoch verification boundary; AcceptedExperienceReceipt now has a signed-current-verifier-epoch boundary with exact signer-role/receipt-role binding; revoked epochs fail closed; payload/trust-snapshot tamper, cross-role and cross-step regressions were added. No formal state, P_base, Identity, Personality or Governance mutation occurred; no C PASS claimed.",
-  "what_remains":"TrustSnapshot rollback resistance is not established; synthetic HMAC keys do not prove protected production signer identity or HSM/TPM/remote independence. W03 SPIRIT-MOD-GB21-044 chronic pressure neutrality and 045 non-terminal authenticated recovery remain open. The new signer suite is triggered by the workflow path but is not yet explicitly executed by the workflow, so executable coverage remains TEST_PENDING. Terminal-exit authentication, shared event classifier, current post-W03 W04 synthesis, visible CI evidence and paired speed evidence remain unresolved.",
-  "next_authorized_action":"CONTINUE_NONFORMAL_ACCELERATED_COHESIVE_REPAIR; NEXT_TARGET_AUTHENTICATED_NEW_EPOCH_RECOVERY_WITH_ZERO_STALE_PRESSURE_CARRYOVER_AND_SIGNER_TRUST_MONOTONIC_ROOT; EXPLICITLY_WIRE_SIGNER_SUITE_INTO_WORKFLOW_DURING_NEXT_COHESIVE_TRANCHE; NO_FORMAL_MUTATION",
-  "latest_evidence_ref":"state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473 + state/EVOLUTION_PROGRESS.json@73eb01f9fd9047f8bfed4c42af016b24e6319a64 + SPIRIT_GEARBOX_V2_1_LATEST.json@879d4a61daad00ccf8bdd148174e6df5cc565a93 + NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@958f7d75004581b8b5bfc24fceab0af596411ab8 + QUANTUM_GEARBOX_REPAIR_SHADOW_LATEST.json@ee5c4e54cbdf99b3a76bc761b71d81a34e5d188b + signer-code-commit@dfe55bb66a89bd6cbc82a993ac8785c7c738a6e6 + signer-test-commit@6eb85c3739b9b648db6dec3966f95992bc53a3df + signer-contract-commit@a93a6785fab815803454416d45cbe3c0aa1c2c69",
-  "active_defect_or_veto":["LIVE_V2_V21_TERMINAL_AUTHORITY_AND_ROUNDTRIP","SHADOW_SIGNER_TRUST_SNAPSHOT_ROLLBACK_RESISTANCE_TEST_REQUIRED","SHADOW_PRODUCTION_KEY_ROTATION_REVOCATION_TEST_REQUIRED","SPIRIT_MOD_GB21_044_CHRONIC_PRESSURE_NEUTRALITY","SPIRIT_MOD_GB21_045_NONTERMINAL_AUTHENTICATED_RECOVERY","SHADOW_TERMINAL_EXIT_AUTHORITY_TEST_REQUIRED","SHADOW_SHARED_EVENT_CLASSIFIER_TEST_REQUIRED","SHADOW_SIGNER_SUITE_WORKFLOW_WIRING_REQUIRED","SHADOW_CI_EVIDENCE_VISIBILITY_GAP","W04_POST_W03_CURRENT_SYNTHESIS_REQUIRED","PAIRED_SPEED_EVIDENCE_ABSENT"],
-  "resume_condition":"Fresh-read MISSION_STATE, Active-8, W03 and W04 before next tranche. Rebase on formal authority change. Preserve W03 044/045 as bounded behavior vetoes. Any new-epoch recovery must clear stale secretary pressure/history, create zero Experience/relief/trauma/competence learning, and restore routing only under fresh Home/MISSION authority plus authenticated replacement trust root. Signer/clock/secretary/provider maintenance remains zero Experience; candidate work is not formal verification; speedup remains not established.",
-  "active_set_fingerprint":"MS:e32e01fa|A8:73eb01f9|SPIRIT:879d4a61|NAV:958f7d75|QREVIEW:ee5c4e54|SIGNER:dfe55bb6|SIGNERTEST:6eb85c37|SIGNERCONTRACT:a93a6785",
-  "created_at":"2026-08-22T01:41:00+08:00",
-  "raw_reasoning_retention":"FORBIDDEN_NOT_PERSISTED"
+  "schema_version": "3.1",
+  "window_id": "QUANTUM",
+  "status": "CHECKPOINT_CONTINUITY_CHAIN_SIGNER_EPOCH_RECOVERY_ACTIVE_TEST_PENDING",
+  "mission_pointer": "state/MISSION_STATE.json",
+  "what_completed": "Fresh authority remains Step009 STEP_DONE / LCR-A / pending null; v1 VERIFIED_PASS remains immutable. Continued directly from the prior signer-authenticity checkpoint without re-opening old work. This round implemented an external-monotonic signer trust-root shadow, authenticated replacement signer epoch with exact predecessor snapshot binding and old-epoch revocation, non-terminal re-entry with zero stale secretary pressure/terminal-hold carryover, and fresh signed authority re-entry under the replacement trust snapshot. Signer and epoch-recovery regressions are chained into the existing authority test process. No formal state, P_base, Identity, Personality or Governance mutation occurred; no C PASS claimed.",
+  "what_remains": "SPIRIT-MOD-GB21-045 is only partially repaired because the RuntimeClockCheckpoint/clock receipt chain still needs an authenticated replacement epoch bootstrap after break/restart. SPIRIT-MOD-GB21-044 chronic signed-pressure neutrality and secretary/clock metadata dataflow exclusion remain open. Real external provider deployment/key protection is not proven. Terminal-exit authentication, shared event classifier, current W04 synthesis, visible Actions evidence and paired speed evidence remain unresolved.",
+  "next_authorized_action": "CONTINUE_NONFORMAL_SUSTAINED_CHAIN; NEXT_TARGET_CLOCK_EPOCH_RECOVERY_CHECKPOINT_PLUS_CHRONIC_PRESSURE_DATAFLOW_EXCLUSION; RESUME_FROM_CURRENT_ARTIFACT_HASHES; NO_FORMAL_MUTATION; TEST_PENDING_UNTIL_EXECUTABLE_EVIDENCE",
+  "latest_evidence_ref": "state/MISSION_STATE.json@e32e01fa304a857f5185951443682ea937335473 + state/EVOLUTION_PROGRESS.json@73eb01f9fd9047f8bfed4c42af016b24e6319a64 + SPIRIT_GEARBOX_V2_1_LATEST.json@879d4a61daad00ccf8bdd148174e6df5cc565a93 + NAV_GEARBOX_V2_1_SYNTHESIS_LATEST.json@958f7d75004581b8b5bfc24fceab0af596411ab8 + QUANTUM_GEARBOX_REPAIR_SHADOW_LATEST.json@9a47a2ac83ed412b9b3c8d5eec9a842307e543b1 + gearbox_authority_experience_signer_shadow_v01.py@71b0f045db1b953e0a4a9741e77ceb281ce95ecc + gearbox_signer_epoch_recovery_shadow_v01.py@e325305bbb0c2e10d9c4fa462eedb01ff544cb74 + test_gearbox_signer_epoch_recovery_shadow_v01.py@6f0b6a37f80de68200903bd36f09cb32a365fabf + GEARBOX_SIGNER_EPOCH_RECOVERY_SHADOW_V01_CONTRACT.json@fdf0e7feb391a7904549da0ae3b225860d24c2d6 + authority-suite-chain@f3f19e93fee760051201e8640853257a919c3f70",
+  "active_defect_or_veto": [
+    "LIVE_V2_V21_TERMINAL_AUTHORITY_AND_ROUNDTRIP",
+    "SPIRIT_MOD_GB21_044_CHRONIC_PRESSURE_NEUTRALITY",
+    "SPIRIT_MOD_GB21_045_CLOCK_EPOCH_RECOVERY_PARTIAL",
+    "SHADOW_REAL_EXTERNAL_PROVIDER_TRUST_ROOT_TEST_REQUIRED",
+    "SHADOW_TERMINAL_EXIT_AUTHORITY_TEST_REQUIRED",
+    "SHADOW_SHARED_EVENT_CLASSIFIER_TEST_REQUIRED",
+    "SHADOW_CI_EVIDENCE_VISIBILITY_GAP",
+    "W04_POST_W03_POST_W02_CURRENT_SYNTHESIS_REQUIRED",
+    "PAIRED_SPEED_EVIDENCE_ABSENT"
+  ],
+  "resume_condition": "Fresh-read MISSION_STATE, Active-8, W03, W04 and this checkpoint before each continuation. If mission blob/step/current_role/pending changes, checkpoint and rebase before any new shadow projection. Continue the exact next target rather than re-listing repaired vetoes. Clock/signer/provider/secretary maintenance and recovery remain zero Experience; fresh Home/MISSION authority wins; stale pressure and prior terminal hold may not survive authenticated re-entry solely because they existed before the break. Candidate work is not formal verification; speedup remains not established.",
+  "active_set_fingerprint": "MS:e32e01fa|A8:73eb01f9|SPIRIT:879d4a61|NAV:958f7d75|QREVIEW:9a47a2ac|SIGNER:71b0f045|EPOCHREC:e325305b|EPOCHTEST:6f0b6a37|EPOCHCONTRACT:fdf0e7fe|AUTHSUITE:f3f19e93",
+  "created_at": "2026-08-22T01:51:00+08:00",
+  "raw_reasoning_retention": "FORBIDDEN_NOT_PERSISTED"
 }
