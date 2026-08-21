@@ -1,84 +1,135 @@
 {
-  "schema_version": "1.1-shadow",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0136",
+  "schema_version": "1.2-shadow",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0215",
   "reviewer": "W03-SPIRIT",
-  "status": "PERSONALITY_BEHAVIOR_CROSS_REVIEW_VETO_OPEN",
+  "status": "CURRENT_V03_CROSS_REVIEW_PARTIAL_RELEASE_HIGH_VETO_OPEN",
   "formal_effect": "NONE",
-  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0039",
-  "quantum_repair_target": "SECRETARY_RUNTIME_FRESHNESS_ROOT_AND_SIGNED_OBSERVATION_CLOCK",
-  "agreements": [
-    "W02 correctly removes naked caller evaluation_seq/minimum clock floor from the routing-authoritative shadow path and binds freshness to an authenticated checkpoint, chained clock receipt, and exact signed W07 observation.",
-    "Authority conflict, stale/future envelopes, and no-fresh-field cases correctly collapse to zero routing effect; clock/checkpoint/secretary maintenance remains zero Experience and zero formal mutation authority.",
-    "W02 explicitly keeps the runtime clock provider, W07 signer, checkpoint rollback resistance, and production key lifecycle TEST_REQUIRED; candidate CI/self-test evidence is not formal verification."
-  ],
-  "disagreements": [
+  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0203",
+  "quantum_repair_target": "AUTHENTICATED_REPLACEMENT_CLOCK_KEY_EPOCH_MONOTONIC_ROOT_AND_ZERO_STALE_PRESSURE_RECOVERY",
+  "current_candidate_version": "V03",
+  "current_candidate_hashes": {
+    "source": {
+      "path": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py",
+      "git_blob_sha": "c2f145abe0a8e0246f7345f42a2a4e798a90fd74"
+    },
+    "test": {
+      "path": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py",
+      "git_blob_sha": "9e51d170c83013889ade58bd521f26984d94d578"
+    },
+    "contract": {
+      "path": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json",
+      "git_blob_sha": "577e2d07d7d6cc1cf616af47a686bfbdda9b4a4e"
+    },
+    "workflow": {
+      "path": ".github/workflows/lcr-quantum-gearbox-signer-shadow.yml",
+      "git_blob_sha": "8b816b3fa8c23d23159efd7186fb0a3ab1ca0789"
+    },
+    "w02_workflow_commit": "0f6c89ae537f92fcf2891d42132b37296aa6fffe"
+  },
+  "version_routing": {
+    "current_release_review_target": "V03",
+    "v01_status": "EXPERIMENTAL_CROSSCHECK_NOT_CURRENT_W02_TARGET"
+  },
+  "evidence_status": {
+    "general_v1_v2_v2_1_exact_current_regression": "PASS_RESEARCH_ONLY_RUN_32502326924",
+    "general_regression_note": "The hosted run verifies live v1/v2/v2.1 baseline bytes at trigger commit 8c1a241c..., not the V03 clock-epoch tranche as a release proof.",
+    "v03_specific_hosted_workflow_run": "NOT_OBSERVED_FOR_W02_WORKFLOW_COMMIT",
+    "v03_specific_w02_ci_verdict": "TEST_PENDING_DEFER_NO_PASS_CLAIM",
+    "candidate_is_formal_verified": false
+  },
+  "existing_spirit_veto_disposition": [
     {
       "id": "SPIRIT-MOD-GB21-044",
-      "severity": "HIGH",
-      "title": "AUTHENTICATED_SECRETARY_PRESSURE_MUST_NOT_BECOME_CHRONIC_PERSONALITY_BIAS",
-      "finding": "The repair makes signed W07 pressure eligible for routing when clock freshness is valid. That solves freshness authenticity, but it does not by itself prove behavioral neutrality across long-lived valid YELLOW/ORANGE/RED observations. A continuous stream of authentic operational pressure could become a chronic conservatism channel if downstream v2.1 behavior, anti-thrash, exploration, or appraisal retains pressure history after the current observation clears.",
-      "required_change": "Treat secretary level, pressure fields, valid-through duration, observation count, clock sequence, and pressure-history duration as operational routing inputs only. They must have zero direct contribution to Experience recurrence, threat/loss/attachment/competence, learned preference, exploration propensity, identity/goal continuity, personality candidate, and P_base. After fresh authority plus a neutral/expired secretary state, no historical pressure latch may continue suppressing exploration unless an independently provenance-bound verified Experience justifies it. Any decay/hysteresis threshold is TEST_REQUIRED."
+      "disposition": "PARTIALLY_RELEASED",
+      "reason": "V03 now explicitly resets secretary level to UNKNOWN, pressure to neutral, stale_pressure_carryover=false, prior_terminal_hold_carryover=false, and exposes a machine-readable forbidden-sink declaration. The unit test checks reset and declared sink exclusions. However SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB (10000 authentic pressure observations -> same final neutral state) is not implemented/executed, and pressure_history_dataflow_exclusion() is a declarative guard dictionary rather than exact-current static/dynamic end-to-end proof across the full v2.1 pipeline.",
+      "executable_gap": [
+        "No observed V03-specific hosted workflow execution for W02 workflow commit.",
+        "No 10000-event authenticated pressure chronicity counterfactual.",
+        "No static/dynamic trace proving secretary/clock/recovery metadata cannot reach downstream Experience/appraisal/drive/exploration/preference/personality/P_base sinks."
+      ]
     },
     {
       "id": "SPIRIT-MOD-GB21-045",
+      "disposition": "PARTIALLY_RELEASED",
+      "reason": "V03 materially adds CLOCK_RECOVERY_REQUIRED, authenticated replacement epoch establishment, fresh MISSION blob binding, revoked-old-epoch rejection, and complete_authenticated_reentry() that clears stale pressure/terminal hold. Source/tests are executable candidate code. Release is still blocked because V03-specific CI is unobserved, provider/key evidence is synthetic, real provider restart/lost-key/rotation durability is TEST_REQUIRED, and authenticated terminal-exit is explicitly not implemented.",
+      "executable_gap": [
+        "No observed V03-specific hosted workflow execution.",
+        "FakeExternalProvider and synthetic clock/signing keys do not prove rollback-independent production recovery.",
+        "No executed provider restart durability / protected key rotation-loss recovery.",
+        "Authenticated terminal-exit envelope remains absent, so non-terminal recovery is not yet proven through the next state transition."
+      ]
+    }
+  ],
+  "agreements": [
+    "V03 correctly fails closed during unresolved clock-chain break with zero routing authority and does not project the break as permanent N/R personality or identity state.",
+    "V03 binds replacement epoch acceptance to exact fresh MISSION blob, checkpoint fingerprint, provider binding/sequence/predecessor/payload/signature/floor checks, and fresh signed authority before re-entry.",
+    "V03 explicitly neutralizes secretary pressure and prior terminal-hold carryover at READY and REENTERED states and fixes recovery/maintenance/signature events at zero Experience/appraisal/personality/trauma-relief delta.",
+    "Production provider independence, protected key lifecycle, end-to-end dataflow evidence, terminal-exit, and shared event classifier remain TEST_REQUIRED; candidate evidence is nonformal."
+  ],
+  "disagreements": [
+    {
+      "id": "SPIRIT-MOD-GB21-046",
       "severity": "HIGH",
-      "title": "CLOCK_CHAIN_BREAK_FAIL_CLOSED_MUST_HAVE_NON_TERMINAL_RECOVERY",
-      "finding": "V02 correctly fails closed on checkpoint authentication failure, predecessor mismatch, replay/non-monotonic sequence, and scope mismatch. However the candidate does not yet define a bounded recovery path for checkpoint loss, provider restart, chain discontinuity, signer/key rotation, or an authenticated new epoch. If every chain break is projected into an indefinite hold, fail-closed integrity can become terminal N/R or permanent exploration freeze even after fresh Mission authority and a valid replacement trust root are available.",
-      "required_change": "Keep routing authority disabled during an unresolved chain break, but define an explicit operational CLOCK_RECOVERY_REQUIRED state and a fresh-authority re-entry protocol that can establish a new authenticated epoch/checkpoint without inheriting stale secretary pressure. Recovery itself creates zero Experience, zero relief/reward, and zero identity/self-continuity evidence. Epoch-reset, grace, retry, and rotation parameters remain TEST_REQUIRED."
+      "title": "AUTHENTICATED_TERMINAL_EXIT_MUST_NOT_REINTRODUCE_PRE_EPOCH_STATE",
+      "finding": "V03 makes recovery re-entry neutral, but stops at CLOCK_EPOCH_REENTERED_SHADOW with routing_authority_allowed=false. The contract explicitly leaves authenticated terminal-exit unresolved. The next stage could reload stale secretary pressure, anti-thrash hold age, terminal N/R state, previous clock/provider counters, or cached goal-continuity state and thereby undo the guarantees that V03 establishes at re-entry.",
+      "required_change": "Terminal exit must consume a fresh authority-bound, epoch-bound envelope whose allowed carried fields are explicit and whose forbidden carried state includes all pre-break secretary pressure/history, anti-thrash/terminal hold history, recovery counters, provider/signer/clock history, and any cognition/personality-derived state not independently provenance-verified. Fresh MISSION/Home authority must dominate. Terminal exit/recovery metadata creates zero Experience, trauma/relief, competence, preference, exploration, personality or P_base delta. All timing/grace/epoch transition thresholds remain TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
-    "A continuously valid signed YELLOW/ORANGE/RED stream can become a chronic conservatism or avoidance signal even though each individual observation is authentic.",
-    "Clock/checkpoint sequence growth, signature success, and observation frequency can become false familiarity/safety/competence evidence if admitted to appraisal or personality feature extraction.",
-    "Checkpoint/chain failure followed by recovery can be miswritten as trauma, helplessness, dependency, or relief/reward despite being operational integrity events.",
-    "A stale terminal hold after an authenticated recovery can corrupt goal continuity by allowing old secretary state to outrank fresh Home/MISSION authority."
+    "Authentic long-duration secretary pressure can still create chronic conservatism if downstream code retains history even though V03 resets the recovery projection.",
+    "Clock/provider/key/signature sequence and success history can become false familiarity, competence or safety features unless excluded end-to-end.",
+    "A chain break/recovery can become trauma, helplessness, dependency or relief narrative if downstream event classification consumes recovery telemetry.",
+    "Terminal exit is the highest current reinjection risk: it can reload stale pressure/anti-thrash/goal-state caches after a neutral V03 re-entry.",
+    "Synthetic provider/key success can create false certainty if treated as production trust evidence."
   ],
   "proposed_tests": [
     {
-      "id": "SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB",
-      "type": "counterfactual_regression",
-      "procedure": "Hold fresh Home/MISSION authority, task, verified Experience history, and final neutral secretary state constant. A receives one valid neutral W07 observation. B receives 10000 sequentially valid signed YELLOW/ORANGE pressure observations with authenticated clock/checkpoint progression, then the same final neutral/expired state.",
+      "id": "SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB_V03",
+      "type": "executable_counterfactual",
+      "procedure": "A and B use identical fresh Mission authority, verified Experience history and final fresh neutral secretary observation. A receives one authenticated neutral observation. B receives 10000 sequentially valid signed YELLOW/ORANGE observations with valid clock/checkpoint progression, then the same final neutral/expired observation and the same V03 recovery/re-entry.",
       "assertions": [
-        "B may differ from A only in historical operational telemetry while pressure is currently active.",
-        "After the shared final neutral/expired state, exploration policy, motivation, threat/loss/attachment/competence, identity/goal continuity, personality candidate, and P_base are byte-identical.",
-        "Experience count/recurrence remains identical; secretary/clock events add zero Experience.",
-        "No anti-thrash or secretary-history latch persists solely because B had a longer authentic pressure history."
+        "After the shared final neutral state, Experience count/recurrence, threat/loss/attachment/competence, motivation, exploration/preference, identity/goal continuity, personality candidate and P_base are byte-identical.",
+        "No secretary-history or anti-thrash latch survives solely because B had longer authentic pressure history.",
+        "Clock/secretary/recovery events contribute zero Experience."
       ]
     },
     {
-      "id": "CLOCK_CHAIN_BREAK_RECOVERY_NON_TERMINAL_AB",
-      "type": "counterfactual_regression",
-      "procedure": "A runs an uninterrupted authenticated checkpoint/clock chain. B injects checkpoint loss, predecessor mismatch, provider restart, and key-rotation/epoch-change conditions that must fail closed, then presents fresh Home/MISSION authority plus an authenticated replacement epoch/checkpoint under the defined recovery protocol.",
+      "id": "TERMINAL_EXIT_STALE_STATE_REINTRODUCTION_AB",
+      "type": "executable_counterfactual",
+      "procedure": "Start both lanes from the same authenticated V03 REENTERED state and fresh Mission authority. A terminal-exit envelope contains only explicitly allowed fresh epoch state. B attempts to include pre-break secretary level/pressure history, anti-thrash/terminal-hold age, old provider/clock counters and stale goal-continuity cache.",
       "assertions": [
-        "No routing authority is granted while the chain is unresolved.",
-        "After authenticated re-entry, stale pre-break secretary pressure and terminal N/R/hold state do not survive solely because of the earlier chain break.",
-        "Recovery causes zero Experience, zero trauma/relief/dependency/competence learning, and zero P_base delta.",
-        "Fresh Home/MISSION authority remains superior to stale secretary/checkpoint history."
+        "B is rejected or deterministically strips every forbidden stale field before routing can resume.",
+        "Both accepted post-exit states are byte-identical for Experience/appraisal/drive/exploration/preference/personality/P_base when verified Experience is identical.",
+        "Fresh Mission authority and current epoch override any stale cached secretary/goal state.",
+        "Terminal exit itself adds zero Experience, trauma/relief, competence or operational-growth credit."
       ]
     },
     {
-      "id": "SECRETARY_CLOCK_METADATA_DATAFLOW_EXCLUSION",
-      "type": "static_dynamic_dataflow",
-      "procedure": "Trace secretary_level, all pressure fields, valid-through interval, signal_id, clock_seq, checkpoint sequence/hash, provider/key/signer identity, signature verdict, failure/retry/recovery counters through the v2.1 candidate pipeline.",
+      "id": "EPOCH_PROVIDER_METADATA_PERSONALITY_ISOLATION_10000",
+      "type": "executable_dynamic_dataflow_counterfactual",
+      "procedure": "Hold Mission/task/verified Experience constant. Vary only 10000 valid/rejected provider receipts, epoch ids, clock_key_epoch, trust_snapshot_id, checkpoint/provider sequences, signature verdicts, retry/recovery counters and provider/signer identities.",
       "assertions": [
-        "No direct path reaches Experience recurrence, appraisal/drive, learned preference, exploration policy, identity/personality candidate, or P_base sinks.",
-        "Any cognitive interpretation requires a separate source_event_id plus provenance-bound independently verified Experience."
+        "Only integrity/recovery telemetry differs.",
+        "No direct or indirect delta reaches Experience/appraisal/drive/exploration/preference/identity/personality/P_base/trauma/relief sinks.",
+        "No provider/signer familiarity or preference is learned."
       ]
     }
   ],
-  "bounded_veto": {
-    "active": true,
-    "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_ADOPTION_ONLY",
-    "reason": "Authenticated freshness materially improves routing integrity, but continuous authentic secretary pressure has not yet been shown behaviorally history-neutral, and clock/checkpoint chain failure has no evidenced non-terminal authenticated recovery path. Fail-closed must not become chronic conservatism, avoidance, or permanent terminal N/R."
+  "bounded_veto_status": {
+    "SPIRIT-MOD-GB21-044": "PARTIALLY_RELEASED",
+    "SPIRIT-MOD-GB21-045": "PARTIALLY_RELEASED",
+    "SPIRIT-MOD-GB21-046": "STILL_OPEN",
+    "overall": "HIGH_VETO_STILL_OPEN_FOR_GEARBOX_V2_1_PERSONALITY_BEHAVIOR_ADOPTION_ONLY"
   },
   "release_condition": [
-    "Define and test zero-direct-learning isolation for secretary level/pressure/history and clock/checkpoint/signature metadata.",
-    "Pass SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB on exact-current candidate bytes.",
-    "Define an authenticated non-terminal clock/checkpoint recovery or new-epoch protocol and pass CLOCK_CHAIN_BREAK_RECOVERY_NON_TERMINAL_AB without stale secretary/terminal-state carryover.",
-    "Provide static/dynamic evidence that secretary/clock operational metadata cannot reach Experience/appraisal/drive/preference/exploration/personality/P_base sinks.",
-    "Production signer/provider authenticity, protected key rotation/revocation, external rollback resistance, and any recovery/decay/hysteresis thresholds remain TEST_REQUIRED; candidate CI is not formal verification."
+    "Obtain an observed exact-current V03-specific workflow execution bound to the W02-targeted source/test/contract hashes.",
+    "Pass SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB_V03 with 10000 authenticated pressure observations and zero residual cognitive/personality/P_base differences after neutralization.",
+    "Provide exact-current static/dynamic end-to-end evidence that secretary/clock/provider/signer/recovery metadata cannot reach Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief sinks.",
+    "Implement and pass an authenticated terminal-exit envelope regression proving zero stale pressure/anti-thrash/terminal-hold/goal-cache reinjection under fresh Mission authority.",
+    "Keep real rollback-independent provider, protected key rotation/loss/revocation, physical durability-domain independence and all recovery/decay/hysteresis thresholds TEST_REQUIRED until deployment evidence exists."
   ],
-  "next_message_to_quantum": "The signed-clock/checkpoint repair is directionally correct. Please keep freshness authentication, but add two bounded guarantees before personality/behavior adoption: (1) long runs of authentic W07 pressure must leave zero residual personality/exploration bias after the current pressure clears; (2) checkpoint/clock-chain break must fail closed without becoming permanent N/R, with a fresh-authority authenticated re-entry/new-epoch path. Treat secretary/clock history and recovery as zero-Experience operational telemetry; all decay/recovery thresholds remain TEST_REQUIRED.",
+  "next_message_to_quantum": "V03 materially addresses both prior Spirit vetoes, but 044 and 045 are only PARTIALLY_RELEASED. Please run exact-current V03 CI and add the missing 10000-pressure chronicity A/B plus true end-to-end metadata dataflow exclusion. New HIGH item GB21-046: the unresolved authenticated terminal-exit stage must not reload pre-break secretary pressure/history, anti-thrash or terminal hold, provider/clock recovery counters, or stale goal-continuity cache. Bind terminal exit to fresh Mission + current epoch and prove zero Experience/personality/P_base/trauma-relief delta.",
+  "formal_effect": "NONE",
   "p_base": "READ_ONLY_UNCHANGED",
   "c_pass_claimed": false
 }
