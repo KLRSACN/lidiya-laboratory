@@ -37,10 +37,10 @@ class ShiftDurabilityAnchorShadowTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         root = Path(self.tmp.name)
+        self.root = root
         self.registry = root / "ledger" / "shift.json"
         self.anchor = root / "anchor-domain" / "anchor.json"
         self.lock = root / "locks" / "shift.lock"
-        self.lock.parent.mkdir(parents=True, exist_ok=True)
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -120,17 +120,32 @@ class ShiftDurabilityAnchorShadowTests(unittest.TestCase):
         )
         self.assertEqual(status.status, "LEDGER_ROLLBACK_DETECTED")
 
-    def test_equal_sequence_different_head_is_detected_as_fork(self):
+    def test_equal_sequence_internally_valid_fork_is_detected(self):
         self.init_anchor()
         self.append1()
-        data = json.loads(self.registry.read_text(encoding="utf-8"))
-        data["head_hash"] = "f" * 64
-        self.registry.write_text(json.dumps(data), encoding="utf-8")
+        alternate = self.root / "alternate" / "shift.json"
+        append_shift_event(
+            event(1, ZERO, event_id="fork-1", evidence="f" * 64),
+            registry_path=alternate, installation_id=INSTALL, runtime_id=RUNTIME,
+        )
+        self.registry.write_bytes(alternate.read_bytes())
         status = verify_anchor(
             registry_path=self.registry, anchor_path=self.anchor,
             installation_id=INSTALL, runtime_id=RUNTIME, durability_domain_id=DOMAIN,
         )
         self.assertEqual(status.status, "LEDGER_ANCHOR_FORK_DETECTED")
+
+    def test_internal_event_tamper_fails_before_anchor_comparison(self):
+        self.init_anchor()
+        self.append1()
+        data = json.loads(self.registry.read_text(encoding="utf-8"))
+        data["events"][0]["to_gear"] = "G4"
+        self.registry.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(DurabilityAnchorGuardError, "shift registry integrity failure"):
+            verify_anchor(
+                registry_path=self.registry, anchor_path=self.anchor,
+                installation_id=INSTALL, runtime_id=RUNTIME, durability_domain_id=DOMAIN,
+            )
 
     def test_unanchored_ledger_advance_fails_closed(self):
         self.init_anchor()
@@ -166,14 +181,17 @@ class ShiftDurabilityAnchorShadowTests(unittest.TestCase):
                 installation_id=INSTALL, runtime_id=RUNTIME, durability_domain_id="other-domain",
             )
 
-    def test_writer_lock_blocks_second_writer_and_never_auto_steals(self):
+    def test_writer_lock_creates_parent_and_blocks_second_writer(self):
+        self.assertFalse(self.lock.parent.exists())
         with exclusive_writer_lock(self.lock, owner_token="writer-a"):
+            self.assertTrue(self.lock.exists())
             with self.assertRaisesRegex(DurabilityAnchorGuardError, "WRITER_LOCK_HELD"):
                 with exclusive_writer_lock(self.lock, owner_token="writer-b"):
                     pass
         self.assertFalse(self.lock.exists())
 
     def test_preexisting_abandoned_lock_is_fail_closed(self):
+        self.lock.parent.mkdir(parents=True, exist_ok=True)
         os.mkdir(self.lock)
         (self.lock / "owner.json").write_text(json.dumps({"owner_token": "dead-writer"}), encoding="utf-8")
         with self.assertRaisesRegex(DurabilityAnchorGuardError, "WRITER_LOCK_HELD"):
