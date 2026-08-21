@@ -5,9 +5,9 @@ on:
     branches:
       - lidiya-cloud-relay-v2
     paths:
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V01_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v*.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v*.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V*_CONTRACT.json'
       - '.github/workflows/lcr-quantum-gearbox-clock-epoch-shadow.yml'
   workflow_dispatch:
 
@@ -20,9 +20,9 @@ concurrency:
 
 jobs:
   clock_epoch_shadow:
-    name: Non-formal clock epoch recovery and pressure isolation
+    name: Non-formal clock epoch recovery V01/V03/V04 regression
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 7
     defaults:
       run:
         working-directory: missions/LIDIYA-CLOUD-RELAY-V2
@@ -34,26 +34,46 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Import and compile clock epoch boundary
+      - name: Import and compile clock epoch boundaries
         run: |
           python - <<'PY'
           import gearbox_clock_epoch_recovery_shadow_v01
-          print('CLOCK_EPOCH_IMPORT_PASS')
+          import gearbox_clock_epoch_recovery_shadow_v03
+          import gearbox_clock_epoch_recovery_shadow_v04
+          print('CLOCK_EPOCH_IMPORT_PASS_V01_V03_V04')
           PY
           python -m py_compile \
             evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py \
-            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py
 
-      - name: Run clock epoch adversarial regression
-        id: clock_tests
+      - name: Run V01 baseline clock epoch regression
+        id: v01_tests
         run: |
           set -o pipefail
-          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py 2>&1 | tee /tmp/gearbox-clock-epoch-shadow.log
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py 2>&1 | tee /tmp/gearbox-clock-epoch-shadow-v01.log
+
+      - name: Run V03 recovery regression
+        id: v03_tests
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py 2>&1 | tee /tmp/gearbox-clock-epoch-shadow-v03.log
+
+      - name: Run V04 final re-entry trust-root regression
+        id: v04_tests
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py 2>&1 | tee /tmp/gearbox-clock-epoch-shadow-v04.log
 
       - name: Emit bounded clock epoch evidence
         if: always()
         env:
-          CLOCK_TEST_OUTCOME: ${{ steps.clock_tests.outcome }}
+          V01_TEST_OUTCOME: ${{ steps.v01_tests.outcome }}
+          V03_TEST_OUTCOME: ${{ steps.v03_tests.outcome }}
+          V04_TEST_OUTCOME: ${{ steps.v04_tests.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           REF_NAME: ${{ github.ref_name }}
         run: |
@@ -65,16 +85,28 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V01_CONTRACT.json',
+              'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py',
+              'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json',
+              'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py',
+              'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V04_CONTRACT.json',
           ]
-          outcome = os.environ.get('CLOCK_TEST_OUTCOME', 'skipped')
+          outcomes = {
+              'v01': os.environ.get('V01_TEST_OUTCOME', 'skipped'),
+              'v03': os.environ.get('V03_TEST_OUTCOME', 'skipped'),
+              'v04': os.environ.get('V04_TEST_OUTCOME', 'skipped'),
+          }
+          aggregate = 'PASS' if all(v == 'success' for v in outcomes.values()) else 'FAIL'
           evidence = {
-              'schema_version': '1.0-shadow',
+              'schema_version': '1.1-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'gearbox_clock_epoch_recovery_shadow',
+              'current_release_candidate': 'V04',
               'commit_sha': os.environ['COMMIT_SHA'],
               'ref_name': os.environ['REF_NAME'],
-              'status': 'PASS' if outcome == 'success' else 'FAIL',
-              'test_outcome': outcome,
+              'status': aggregate,
+              'test_outcomes': outcomes,
               'formal_effect': 'NONE',
               'formal_c_verification': 'NOT_CLAIMED',
               'formal_mutation_allowed': False,
@@ -82,7 +114,7 @@ jobs:
               'real_5min_runtime_live': False,
               'recovery_counts_as_experience': False,
               'pressure_history_counts_as_personality': False,
-              'claim_boundary': 'Synthetic-key and provider-interface executable candidate evidence only; does not prove production key custody, remote/HSM durability, formal C PASS, live routing authority, or Gearbox promotion.',
+              'claim_boundary': 'V01/V03 regression plus exact-current V04 executable candidate evidence only; does not prove production key custody, remote/HSM durability, formal C PASS, live routing authority, or Gearbox promotion.',
               'bound_files': {},
           }
           for rel in files:
