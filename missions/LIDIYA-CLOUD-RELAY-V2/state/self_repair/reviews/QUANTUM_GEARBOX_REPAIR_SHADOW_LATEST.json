@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.1-shadow",
-  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-1930",
+  "schema_version": "1.2-shadow",
+  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260821-2034",
   "reviewer": "W02-QUANTUM",
   "role": "NON_FORMAL_REPAIR_DEVELOPMENT",
   "status": "REPAIR_ACTIVE_TEST_PENDING",
@@ -19,8 +19,8 @@
     "p_base": "READ_ONLY_UNCHANGED"
   },
   "active8_snapshot": {
-    "sha": "32738a5791eacd19095fe11d6de0472782e9f5a8",
-    "schema": "6.83-ACTIVE8-GEARBOX-V2.1",
+    "sha": "73eb01f9fd9047f8bfed4c42af016b24e6319a64",
+    "schema": "6.84-ACTIVE8-GEARBOX-V2.1",
     "formal_route_allowed_now": false,
     "fresh_validation_status": "DEFER_EXECUTOR_UNAVAILABLE"
   },
@@ -35,53 +35,69 @@
     "v2_1_contract_sha": "dce30f31b15b58ce9bbdc9103fce4be0b7784c33",
     "delta": "UNCHANGED_FROM_ACTIVE8; NO_REBASE_REQUIRED"
   },
+  "adversarial_review_delta": {
+    "new_distinct_live_veto_id": null,
+    "existing_veto_sharpened": "QV-GB21-FRESHNESS-AUTHORITY-001",
+    "finding": "Live v2.1 still neutralizes only secretary_level while v2 numeric pressure fields remain caller-supplied and unbound to secretary source/freshness. This round did not create a duplicate veto; it implemented the missing shadow provenance semantics for the existing gap.",
+    "next_unrepaired_priority": "recent_shift_rate_ratio still lacks canonical append-only history, support/window/uncertainty and stateful hysteretic release."
+  },
   "material_repair_this_round": {
-    "target": "AUTHORITY_DECISION_ENVELOPE_EXACT_PROJECTION",
-    "previous_gap": "authority_conflict only neutralized secretary; it did not load or execute the fresh authority result, so permissive caller fallback could remain authoritative.",
+    "target": "SECRETARY_SIGNAL_ENVELOPE_AND_PER_FIELD_PRESSURE_PROVENANCE",
+    "previous_gap": "W07 is sensor-only and stale/conflicting secretary telemetry should have zero routing effect, but live v2/v2.1 has no envelope or per-field provenance binding for secretary-derived pressure inputs.",
     "implemented_shadow_only": [
-      "Added AuthorityDecisionEnvelope shadow module with typed mission/step/role/blob/state/guard/checkpoint/ACK/verification fields.",
-      "authority_conflict=true now requires an exact envelope pinned to the fresh-read MISSION_STATE Git blob e32e01fa304a857f5185951443682ea937335473 and step 9; missing/stale/cross-step/cross-role envelope fails closed.",
-      "Fresh authority selected state and safety metadata are projected before ordinary secretary/pressure/anti-thrash telemetry parsing.",
-      "Authority projection creates zero verified Experience, zero operational credit and no formal mutation authority.",
-      "Unsolicited authority envelope without authority_conflict is not silently elevated into an authority path.",
-      "R authority projection requires ROLLBACK guard; N requires HOLD guard."
+      "Added SecretarySignalEnvelope pinned to the fresh W07 protocol Git blob 0e4ba4108ca9953a566e3ea5ca4957e1ee6d142b, mission LCR-EVOLUTION-0005, step 9, W07 source role and authority NONE.",
+      "Each pressure measurement now carries typed value, sensor_id, observed_seq, valid_through_seq, installation_id and runtime_id; mixed installation/runtime and unknown fields fail closed.",
+      "Future/stale whole envelopes produce zero effect; stale/future individual fields are neutralized independently; missing fields receive safe neutral defaults.",
+      "authority_conflict produces UNKNOWN/neutral zero-effect projection.",
+      "Secretary signal observation/provenance/freshness produces zero Experience, zero operational progress and no formal mutation authority."
     ],
     "self_review_repairs": [
-      "Removed caller-supplied expected authority snapshot after finding stale-envelope + stale-expected-SHA could self-consistently forge freshness.",
-      "Corrected identity typing: MISSION_STATE anchor is a 40-hex Git blob SHA, not a 64-hex evidence SHA-256; added dedicated canonical_git_blob_sha validation."
+      "Initial implementation exposed fresh observations through fields shaped like routing inputs while relying on routing_authority_allowed=false for safety.",
+      "Hardened the same tranche by physically separating observed_secretary_level/observed_pressure_inputs from routing_secretary_level/routing_pressure_inputs.",
+      "Because evaluation_seq is not yet bound to an authenticated runtime freshness root, all routing-facing secretary/pressure outputs now remain UNKNOWN/neutral even for apparently fresh envelopes."
     ],
     "does_not_clear_live_veto": true
+  },
+  "secretary_protocol_readback": {
+    "path": "state/WIND_SECRETARY_PROTOCOL.json",
+    "sha": "0e4ba4108ca9953a566e3ea5ca4957e1ee6d142b",
+    "authority": "NONE",
+    "handoff_rule": "Secretary prepares; W01 decides; formal B/C verify any promoted implementation."
   },
   "shadow_artifacts": {
     "core_code_sha": "97e9bb2ff0a44d3c95586132aef9336d78c75de7",
     "core_test_sha": "1c698c2b70cd913943ced91ca5767bd177bcfaf3",
     "authority_code_sha": "10c11ccdc506b7ed4ece068a64e4c997fbbf8678",
     "authority_test_sha": "0c927796db4f3e52087059201bd76c834b11c5d0",
-    "contract_sha": "0061a2e9df9b284e92c1c5a5724d727d6921bf66",
-    "workflow_sha": "2bcb577029d28b330104c052fd0cd9ef2e85c62a"
+    "secretary_code_sha": "ff791a7499837c270482ff42f6cee954d2710d7b",
+    "secretary_test_sha": "c074e168f94a46dc4918501cb7b0bb24ec4b3859",
+    "contract_sha": "4919da5a16145feaae3080a662db1f4e9831eb49",
+    "workflow_sha": "04537181215827738a4c84554400ff227c2acc6b"
   },
   "regression_added_this_round": [
-    "authority conflict requires exact envelope",
-    "fresh authority exact result overrides permissive fallback",
-    "authority projection precedes malformed nonessential telemetry",
-    "stale authority snapshot fails closed",
-    "caller cannot override pinned authority snapshot with matching stale expected SHA",
-    "cross-step authority fails closed",
-    "untrusted secretary role cannot become authority",
-    "shadow envelope cannot authorize formal mutation",
-    "terminal guard/state mismatch fails closed",
-    "without conflict unsolicited envelope does not become authority"
+    "fresh complete envelope sanitizes observational fields but routing-facing fields remain neutral",
+    "caller-selected evaluation sequence never populates routing-facing fields",
+    "stale/future envelope zero effect",
+    "authority conflict zero effect",
+    "stale/future single field neutralization",
+    "missing field safe neutral default",
+    "mixed installation/runtime provenance fail closed",
+    "field validity cannot outlive envelope",
+    "protocol snapshot mismatch and cross-step require rebase",
+    "W07 cannot claim routing authority",
+    "typed ratio and unknown pressure fields fail closed",
+    "envelope fingerprint changes on measurement change"
   ],
   "executable_evidence": {
     "workflow": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
-    "workflow_updated_to_include_authority_suite": true,
-    "combined_status_for_latest_repair_commits": "NO_RETRIEVABLE_STATUS",
-    "workflow_run_evidence": "NOT_RETRIEVABLE_IN_CURRENT_CONNECTOR_PATH",
+    "workflow_updated_to_include_secretary_suite": true,
+    "commit_workflow_runs_retrievable": 0,
+    "workflow_run_evidence": "NOT_RETRIEVABLE_FOR_CURRENT_PUSH_COMMIT",
     "verdict": "TEST_PENDING_DEFER_NO_PASS_CLAIM"
   },
   "remaining_gaps_after_this_round": [
-    "Live v2/v2.1 still have the original authority-conflict gap; shadow repair does not modify live candidate.",
-    "SecretarySignalEnvelope with source/tick/TTL/policy/installation binding and per-field pressure provenance remains unimplemented.",
+    "Live v2/v2.1 still have the original secretary freshness/provenance gap; shadow repair does not modify live candidate.",
+    "Secretary evaluation_seq has no authenticated runtime freshness root yet; tranche 3 intentionally remains observational-only and cannot affect routing.",
     "Canonical append-only shift-history observation with support/window/uncertainty and calibrated anti-thrash remains unimplemented.",
     "AuthorityDecisionEnvelope signer authenticity is structurally modeled but not cryptographically or registry authenticated.",
     "Authenticated terminal-exit envelope remains intentionally absent; N/R residence stays fail-closed.",
@@ -89,13 +105,14 @@
     "Fresh same-runner shadow CI evidence remains unavailable; no PASS claim.",
     "Speedup remains NOT_YET_STATISTICALLY_ESTABLISHED."
   ],
-  "next_repair_target": "SECRETARY_SIGNAL_ENVELOPE_AND_PER_FIELD_PRESSURE_PROVENANCE",
+  "next_repair_target": "CANONICAL_APPEND_ONLY_SHIFT_HISTORY_SMALL_N_UNCERTAINTY_HYSTERESIS",
   "live_candidate_status": {
     "v2_v2_1_bounded_veto_remains": true,
     "formal_adoption": "BLOCKED_UNTIL_NORMAL_A_TO_B_TO_C_AFTER_REQUIRED_EVIDENCE"
   },
   "experience_boundary": {
     "heartbeat_poll_retry_reconnect_window_age_self_test_duration": "ZERO_EXPERIENCE",
+    "secretary_observation_is_experience": false,
     "operational_progress_is_verified_experience": false,
     "heuristic_credit_is_capability_truth": false,
     "speedup_established": false
