@@ -13,10 +13,20 @@ from gearbox_v2_1_repair_shadow_v01 import AcceptedExperienceReceipt, MISSION_ID
 SCHEMA = "1.0-shadow"
 PINNED_STEP_ID = 9
 # Synthetic regression identities only. These prove protocol semantics, not protected production keys.
+# Epoch-2 identities exist only to exercise authenticated rotation/recovery semantics.
 SYNTHETIC_KEYS = {
-    "LCR-A": {"a-epoch-1": b"shadow-lcr-a-regression-key-v1"},
-    "LCR-C": {"c-epoch-1": b"shadow-lcr-c-regression-key-v1"},
-    "INDEPENDENT_VERIFIER": {"iv-epoch-1": b"shadow-independent-verifier-key-v1"},
+    "LCR-A": {
+        "a-epoch-1": b"shadow-lcr-a-regression-key-v1",
+        "a-epoch-2": b"shadow-lcr-a-regression-key-v2",
+    },
+    "LCR-C": {
+        "c-epoch-1": b"shadow-lcr-c-regression-key-v1",
+        "c-epoch-2": b"shadow-lcr-c-regression-key-v2",
+    },
+    "INDEPENDENT_VERIFIER": {
+        "iv-epoch-1": b"shadow-independent-verifier-key-v1",
+        "iv-epoch-2": b"shadow-independent-verifier-key-v2",
+    },
 }
 
 
