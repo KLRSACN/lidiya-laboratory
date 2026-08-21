@@ -27,12 +27,12 @@ def envelope(*, issued=10, through=12, level="ORANGE", measurements=None,
              source_role="W07", authority="NONE"):
     if measurements is None:
         measurements = {
-            "context_load_ratio": measurement(0.7, installation=installation, runtime=runtime),
-            "tool_failure_ratio": measurement(0.2, installation=installation, runtime=runtime),
-            "stale_pointer_ratio": measurement(0.3, installation=installation, runtime=runtime),
-            "durable_progress_age_ratio": measurement(0.4, installation=installation, runtime=runtime),
-            "continuity_anchor_health": measurement(0.8, installation=installation, runtime=runtime),
-            "storage_pressure_ratio": measurement(0.5, installation=installation, runtime=runtime),
+            "context_load_ratio": measurement(0.7, seq=issued, through=through, installation=installation, runtime=runtime),
+            "tool_failure_ratio": measurement(0.2, seq=issued, through=through, installation=installation, runtime=runtime),
+            "stale_pointer_ratio": measurement(0.3, seq=issued, through=through, installation=installation, runtime=runtime),
+            "durable_progress_age_ratio": measurement(0.4, seq=issued, through=through, installation=installation, runtime=runtime),
+            "continuity_anchor_health": measurement(0.8, seq=issued, through=through, installation=installation, runtime=runtime),
+            "storage_pressure_ratio": measurement(0.5, seq=issued, through=through, installation=installation, runtime=runtime),
         }
     return {
         "schema_version": "1.0-shadow",
