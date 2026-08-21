@@ -1,10 +1,10 @@
 {
-  "schema_version": "6.14",
+  "schema_version": "6.15",
   "window_id": "W01-WINDCHIME-FL-A1",
   "worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL",
   "formal_slot": "LCR-A",
   "status": "LATEST_CHECKPOINT",
-  "updated_at": "2026-08-21T09:24:05+08:00",
+  "updated_at": "2026-08-21T16:24:08+08:00",
   "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
   "mission_pointer": "state/MISSION_STATE.json",
   "formal_state": {
@@ -19,11 +19,11 @@
     "real_5min_runtime_live": false,
     "P_base": "READ_ONLY_UNCHANGED"
   },
-  "home_startup": "Home latest continuity/gearbox exact path remained ambiguous under the no-read fence; continuity retained through fresh Active-8 exact pointer only. No broad archive read performed.",
-  "what_completed": "Fresh-read Active-8, MISSION_STATE, current Gearbox/review gate pointers, latest W02/W03/W04 and own latest-only artifacts. Current blobs remain v1 c29e3b2c/11527a9e, v2 13aafeed/d01cab7b, v2.1 81818f9d/d9252bb5. Fresh same-runner acquisition was attempted and failed before compile/test with git clone exit 128 DNS failure, so exact-current validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical PASS was promoted. W02 advanced to QUANTUM-GEARBOX-V2.1-20260821-0830 and is current/veto-active; dedicated W03 remains absent; W04 1332 remains stale/veto-active; paired speed remains INSUFFICIENT_SAMPLE.",
-  "what_remains": "Repair W02 ROLLBACK-STANDBY-CONFLICT-096 by defining explicit versioned simultaneous terminal-authority precedence and preserving the resolved terminal state across v1->v2->v2.1. Continue TERMINAL-PRECEDENCE-094, CURRENT-GEAR-PROVENANCE-093 and remaining freshness/authority, anti-thrash, EventIdentity/evidence/replay/receipt and operational-progress gates. Obtain fresh exact-current same-runner PASS, dedicated W03, regenerated zero-veto W04 and valid paired speed evidence.",
+  "home_startup": "Home latest continuity/gearbox exact path remained ambiguous under the No-Read Fence; continuity retained through fresh Active-8 exact pointer only. No broad archive read performed.",
+  "what_completed": "Fresh-read Active-8, MISSION_STATE, current Gearbox review bindings, latest W02/W03/W04 and own artifacts. Current blobs remain v1 c29e3b2c/11527a9e, v2 13aafeed/d01cab7b, v2.1 81818f9d/d9252bb5. Exact-current same-runner validation remains DEFER_EXECUTOR_UNAVAILABLE; no historical PASS promoted. W02 advanced to QUANTUM-GEARBOX-V2.1-20260821-1531 and is current/veto-active. Dedicated W03 remains absent; W04 1332 remains stale/veto-active; paired speed remains INSUFFICIENT_SAMPLE.",
+  "what_remains": "Repair HIGH V2-OPERATIONAL-AS-EXPERIENCE-103 by making v2/v2.1 share one authoritative classifier with separate verified and operational deltas; repair HIGH V21-VERIFICATION-STAGE-BYPASS-102 using immutable AcceptedExperienceReceipt and canonical C-stage eligibility; then clear remaining freshness/authority, anti-thrash, EventIdentity/evidence/replay/receipt and operational-progress gates. Obtain fresh exact-current same-runner PASS, dedicated W03, regenerated zero-veto W04 and valid paired speed evidence.",
   "next_authorized_action": "Do not route A->B->C. Continue candidate-only repair/validation. Preserve v1 verified baseline. Always-on Runtime remains independent and cannot cross-prove Gearbox v2.1.",
-  "active_defect_or_veto": "Exact-current executor unavailable; W02 0830 BOUNDED_VETO_ACTIVE with new HIGH ROLLBACK-STANDBY-CONFLICT-096 plus TERMINAL-PRECEDENCE-094, CURRENT-GEAR-PROVENANCE-093 and existing release vetoes; W03 missing; W04 stale/veto-active; paired speed insufficient.",
+  "active_defect_or_veto": "Exact-current executor unavailable; W02 1531 BOUNDED_VETO_ACTIVE with new HIGH V2-OPERATIONAL-AS-EXPERIENCE-103 plus HIGH V21-VERIFICATION-STAGE-BYPASS-102 and existing release vetoes; W03 missing; W04 stale/veto-active; paired speed insufficient.",
   "resume_condition": "Fresh-read MISSION_STATE and EVOLUTION_PROGRESS first. Route only after exact-current regression PASS, current W02/W03 reviews complete, regenerated W04 with zero unresolved vetoes, and valid paired speed evidence.",
   "raw_reasoning_retention": "COMPACT_ONLY"
 }
