@@ -1,0 +1,53 @@
+{
+  "schema_version": "0.2-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_SHIFT_PROVIDER_ATTESTED_ANCHOR_SHADOW_V02",
+  "status": "NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "purpose": "Increase repair throughput by closing normal anchor attestation, provider monotonic floor, journal crash recovery and recovery-audit rollback detection in one bounded shadow tranche.",
+  "authority_boundary": {
+    "formal_effect": "NONE",
+    "formal_mutation_allowed": false,
+    "live_routing_authority_allowed": false,
+    "lcr_c_pass_claimed": false,
+    "p_base": "READ_ONLY_UNCHANGED",
+    "identity_personality_governance_mutation": false
+  },
+  "provider_model": {
+    "provider_id": "QUANTUM_SHADOW_MONOTONIC_PROVIDER_V01",
+    "durability_domain_id": "trusted-anchor-domain-A",
+    "authentication": "HMAC-SHA256 synthetic regression semantics",
+    "provider_state": "logically provider-owned monotonic floor with authenticated last anchor/audit state",
+    "production_hsm_tpm_remote_provider_proven": false,
+    "production_secret_protection_proven": false,
+    "physical_independence_proven": false
+  },
+  "required_semantics": [
+    "Every normal matched local anchor can receive a provider-authenticated attestation bound to exact anchor hash, anchor sequence, ledger head, installation, runtime, mission and step.",
+    "Provider attestations form a contiguous authenticated chain with provider_seq and previous_attestation_hash.",
+    "Provider state is the monotonic floor for the consumer journal; rolling the consumer journal behind provider state fails closed.",
+    "A crash after provider state commit but before consumer-journal commit can reconcile exactly one already-issued provider receipt; larger divergence fails closed.",
+    "All provider-state mutations use one provider writer lock in the v0.2 safe API.",
+    "Recovery audit registry is canonically hashed and authenticated into provider state; registry rollback/tamper relative to the current provider state fails closed.",
+    "Recovery audit attestation must be rebound after the current anchor attestation advances.",
+    "Provider/anchor/audit maintenance creates zero Experience and zero operational progress."
+  ],
+  "acceptance_tests": [
+    "normal anchor chain provider attestation",
+    "consumer journal rollback detected by provider floor",
+    "exact one missing journal receipt recoverable from provider state",
+    "more-than-one journal rollback fails closed",
+    "recovery audit registry rollback or tamper detected",
+    "recovery audit becomes stale after anchor attestation advances",
+    "provider state mutation lock contention fails closed",
+    "shadow non-authority/zero-Experience boundary preserved"
+  ],
+  "known_remaining_gaps": [
+    "The provider state is represented by a local shadow file; if provider state and consumer state are rolled back together, this model cannot prove detection without a genuinely independent monotonic trust service.",
+    "Synthetic HMAC test material is public regression material and must never be treated as a production credential.",
+    "Provider state crash recovery beyond the modeled one-receipt journal gap remains TEST_REQUIRED.",
+    "Distributed multi-host lease/consensus is absent; the current lock is local cross-process only.",
+    "Live v2/v2.1 still do not consume this shadow provider evidence and remain bounded-veto candidate code.",
+    "Fresh exact-current CI execution evidence is still required before any shadow PASS claim."
+  ],
+  "release_rule": "This shadow candidate may only inform a later bounded A->B->C proposal after exact tests and independent review. It cannot directly promote live Gearbox v2/v2.1."
+}
