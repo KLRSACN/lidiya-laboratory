@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from typing import Any, Mapping
+import re
 
 from pathlib import Path as _Path
 import sys as _sys
@@ -19,7 +20,6 @@ from gearbox_v2_1_repair_shadow_v01 import (
     MISSION_ID,
     RepairDecision,
     canonical_control_state,
-    canonical_sha256,
     canonical_event_id,
     select_gear_repair_shadow,
 )
@@ -28,12 +28,19 @@ AUTHORITY_ROLES = {"LCR-A"}
 AUTHORITY_SCHEMA = "1.0-shadow"
 AUTHORITY_GUARDS = {"HOLD", "ROLLBACK", "HUMAN_GATE", "BRAKE", "CLEAR"}
 AUTHORITY_VERIFICATION_GATES = {"C_VERIFIED", "NOT_PROMOTION_EVIDENCE"}
+GIT_BLOB_SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
 # Fresh-read authority anchor for this shadow tranche. This is intentionally not a
 # caller parameter. If formal authority advances, W02 must checkpoint/rebase this
 # candidate before it can project any new authority decision.
 PINNED_MISSION_STATE_BLOB_SHA = "e32e01fa304a857f5185951443682ea937335473"
 PINNED_STEP_ID = 9
+
+
+def canonical_git_blob_sha(value: Any, *, name: str) -> str:
+    if type(value) is not str or not GIT_BLOB_SHA_RE.fullmatch(value):
+        raise GearboxGuardError(f"{name} must be 40-hex Git blob SHA")
+    return value.lower()
 
 
 @dataclass(frozen=True)
@@ -75,7 +82,7 @@ class AuthorityDecisionEnvelope:
         if envelope.authority_role not in AUTHORITY_ROLES:
             raise GearboxGuardError("untrusted authority role")
 
-        actual_sha = canonical_sha256(envelope.mission_state_blob_sha, name="authority mission_state_blob_sha")
+        actual_sha = canonical_git_blob_sha(envelope.mission_state_blob_sha, name="authority mission_state_blob_sha")
         if actual_sha != PINNED_MISSION_STATE_BLOB_SHA:
             raise GearboxGuardError("stale or cross-snapshot authority envelope; shadow rebase required")
 
@@ -159,7 +166,7 @@ def select_gear_with_authority_projection_shadow(
     """Project exact pinned formal authority when an authority conflict exists.
 
     On conflict, permissive caller fallback is forbidden. A valid envelope bound to
-    this tranche's fresh-read MISSION_STATE blob and step is mandatory. Missing,
+    this tranche's fresh-read MISSION_STATE Git blob and step is mandatory. Missing,
     stale, cross-step, cross-role or malformed authority fails closed before ordinary
     secretary/pressure/anti-thrash telemetry is parsed.
 
