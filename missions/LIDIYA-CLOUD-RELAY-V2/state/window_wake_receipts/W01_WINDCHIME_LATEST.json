@@ -25,17 +25,17 @@
     "suite_inventory":{"v1":21,"v2":19,"v2_1":21},
     "fresh_executed_counts":{"v1":null,"v2":null,"v2_1":null}
   },
-  "readback_expected":{
+  "readback_confirmed":{
     "mission_state_sha":"e32e01fa304a857f5185951443682ea937335473",
     "progress_sha":"73eb01f9fd9047f8bfed4c42af016b24e6319a64",
     "selftest_sha":"12bd1621a2d36c49725da3dde794623bea017218",
     "speed_baseline_sha":"0436e275225ed7a2f8578bc2b09c1f78023fe689",
     "checkpoint_sha":"c4abb7e53de45c6db03334238f5c172ae718f85d",
-    "w02_sha":"be_checked_by_final_readback"
+    "w02_sha":"42692686dc6a75f916711ca3533f113d77cc2adb"
   },
   "immutable_baseline":{"six_gear_controller_v1":"VERIFIED_PASS","step001_009":"PRESERVED","P_base":"READ_ONLY_UNCHANGED","Identity":"NO_V2_1_MUTATION_AUTHORITY","Personality":"NO_V2_1_MUTATION_AUTHORITY","Governance":"NO_V2_1_MUTATION_AUTHORITY","real_5min_runtime_live":false},
   "candidate_gate":"BLOCKED_EXECUTOR_DEFER_PLUS_CURRENT_W02_BOUNDED_VETO_ACTIVE_PLUS_MISSING_W03_PLUS_STALE_W04_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "next_trigger":"W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved":true,
-  "readback_status":"PENDING_FINAL_READBACK"
+  "readback_status":"PASS"
 }
