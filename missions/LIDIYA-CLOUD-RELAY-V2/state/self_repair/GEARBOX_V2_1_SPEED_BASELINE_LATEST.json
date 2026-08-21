@@ -1,7 +1,7 @@
 {
-  "schema_version": "5.31",
+  "schema_version": "5.32",
   "mission_id": "LCR-EVOLUTION-0005",
-  "recorded_at": "2026-08-21T07:22:15+08:00",
+  "recorded_at": "2026-08-21T08:26:27+08:00",
   "status": "INSUFFICIENT_SAMPLE",
   "speed_multiplier": "NOT_ESTABLISHED",
   "forbidden_proxies": ["awake_time","window_age","commit_count","heartbeat_count","poll_count","retry_count","task_last_run"],
@@ -24,7 +24,12 @@
   "denominator_integrity": {
     "status": "TEST_REQUIRED",
     "rule": "Both arms must share identical authoritative Experience/operational semantics, replay/receipt rules, canonical typed EventKind/RiskLevel/EventIdentity parsing, complete inherited v1/v2 safety metadata obligations, canonical N/R/G1..G6 state semantics, terminal-authority precedence, telemetry provenance and bounded ingestion behavior.",
-    "new_w02_0628_constraint": "Both arms must derive current control state from the same canonical monotonic runtime/shift-state receipt. Caller-declared current_gear must not alter v2 hysteresis, v2.1 anti-thrash classification, denominator eligibility or performance outcomes. Stale/cross-runtime/cross-installation state receipts are rejected and cannot be censored from intention-to-treat accounting."
+    "w02_0732_constraints": [
+      "Both arms must derive current control state from the same canonical monotonic runtime/shift-state receipt; caller-declared current_gear cannot alter hysteresis, anti-thrash or denominator eligibility.",
+      "Trusted rollback R and standby N terminal outcomes plus terminal-exit authority must remain structurally preserved; candidate samples cannot appear faster by overwriting R/N with G1 or by dropping guard/return-condition obligations.",
+      "Ledger outcomes must be exhaustive and mutually exclusive; rejected_unverified claims remain in denominator accounting and cannot disappear from paired quality/throughput statistics.",
+      "Only evidence-bound AcceptedExperienceReceipt and OperationalProgressAcceptanceReceipt outputs may enter verified_closure or durable_progress numerators; raw caller credit fields are excluded."
+    ]
   },
   "current_candidate_binding": {
     "source_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
@@ -36,6 +41,6 @@
     "v2_1_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3",
     "exact_validation": "DEFER_EXECUTOR_UNAVAILABLE"
   },
-  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260821-0628 is fresh to current exact bytes and BOUNDED_VETO_ACTIVE. New HIGH CURRENT-GEAR-PROVENANCE-093 requires canonical monotonic runtime/shift-state receipt binding. Existing freshness/authority, anti-thrash metric, EventIdentity/evidence/replay/receipt, operational-progress and speed gates remain. Dedicated W03 absent; W04 1332 stale/veto-active.",
+  "review_gate_note": "W02 QUANTUM-GEARBOX-V2.1-20260821-0732 is fresh to current exact bytes and BOUNDED_VETO_ACTIVE. New HIGH TERMINAL-PRECEDENCE-094 requires structural R precedence and trusted N exit; new MEDIUM_HIGH UNVERIFIED-CLAIM-AUDIT-SINK-095 requires conserving ledger outcomes. CURRENT-GEAR-PROVENANCE-093 and existing freshness/authority, anti-thrash, EventIdentity/evidence/replay/receipt, operational-progress and speed gates remain. Dedicated W03 absent; W04 1332 stale/veto-active.",
   "interpretation": "No statistically defensible paired speed claim exists; do not estimate a multiplier."
 }
