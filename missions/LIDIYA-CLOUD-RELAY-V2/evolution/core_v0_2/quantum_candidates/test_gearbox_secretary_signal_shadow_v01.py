@@ -53,86 +53,101 @@ def envelope(*, issued=10, through=12, level="ORANGE", measurements=None,
 
 class SecretarySignalShadowTests(unittest.TestCase):
     def test_fresh_fields_are_sanitized_but_observational_only(self):
-        p = project_secretary_signal_shadow(envelope(), trusted_current_seq=11)
+        p = project_secretary_signal_shadow(envelope(), evaluation_seq=11)
         self.assertEqual(set(p.accepted_fields), PRESSURE_FIELDS)
+        self.assertEqual(p.observed_secretary_level, "ORANGE")
+        self.assertEqual(p.observed_pressure_inputs["context_load_ratio"], 0.7)
+        self.assertEqual(p.routing_secretary_level, "UNKNOWN")
+        self.assertEqual(p.routing_pressure_inputs, NEUTRAL_PRESSURE)
         self.assertFalse(p.routing_authority_allowed)
         self.assertFalse(p.formal_mutation_allowed)
         self.assertEqual(p.verified_experience_delta, 0)
         self.assertEqual(p.operational_progress_delta, 0)
         self.assertEqual(p.status, "FRESH_FIELDS_OBSERVATIONAL_ONLY")
 
+    def test_caller_evaluation_seq_never_populates_routing_fields(self):
+        for seq in (10, 11, 12):
+            with self.subTest(seq=seq):
+                p = project_secretary_signal_shadow(envelope(), evaluation_seq=seq)
+                self.assertEqual(p.routing_secretary_level, "UNKNOWN")
+                self.assertEqual(p.routing_pressure_inputs, NEUTRAL_PRESSURE)
+                self.assertFalse(p.routing_authority_allowed)
+
     def test_stale_envelope_has_zero_effect(self):
-        p = project_secretary_signal_shadow(envelope(issued=5, through=9), trusted_current_seq=10)
-        self.assertEqual(p.secretary_level, "UNKNOWN")
-        self.assertEqual(p.pressure_inputs, NEUTRAL_PRESSURE)
+        p = project_secretary_signal_shadow(envelope(issued=5, through=9), evaluation_seq=10)
+        self.assertEqual(p.observed_secretary_level, "UNKNOWN")
+        self.assertEqual(p.observed_pressure_inputs, NEUTRAL_PRESSURE)
+        self.assertEqual(p.routing_pressure_inputs, NEUTRAL_PRESSURE)
         self.assertEqual(p.status, "STALE_ENVELOPE_ZERO_EFFECT")
 
     def test_future_envelope_has_zero_effect(self):
-        p = project_secretary_signal_shadow(envelope(issued=12, through=14), trusted_current_seq=11)
-        self.assertEqual(p.pressure_inputs, NEUTRAL_PRESSURE)
+        p = project_secretary_signal_shadow(envelope(issued=12, through=14), evaluation_seq=11)
+        self.assertEqual(p.observed_pressure_inputs, NEUTRAL_PRESSURE)
+        self.assertEqual(p.routing_pressure_inputs, NEUTRAL_PRESSURE)
         self.assertEqual(p.status, "FUTURE_ENVELOPE_ZERO_EFFECT")
 
     def test_authority_conflict_zeroes_all_secretary_effect(self):
-        p = project_secretary_signal_shadow(envelope(), trusted_current_seq=11, authority_conflict=True)
-        self.assertEqual(p.secretary_level, "UNKNOWN")
-        self.assertEqual(p.pressure_inputs, NEUTRAL_PRESSURE)
+        p = project_secretary_signal_shadow(envelope(), evaluation_seq=11, authority_conflict=True)
+        self.assertEqual(p.observed_secretary_level, "UNKNOWN")
+        self.assertEqual(p.observed_pressure_inputs, NEUTRAL_PRESSURE)
+        self.assertEqual(p.routing_pressure_inputs, NEUTRAL_PRESSURE)
         self.assertEqual(p.status, "AUTHORITY_CONFLICT_ZERO_EFFECT")
 
-    def test_stale_single_field_is_neutralized_without_poisoning_fresh_fields(self):
+    def test_stale_single_field_is_neutralized_without_poisoning_fresh_observations(self):
         fields = envelope()["measurements"]
         fields["tool_failure_ratio"] = measurement(0.9, seq=5, through=9)
-        p = project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
+        p = project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
         self.assertIn("tool_failure_ratio", p.dropped_fields)
         self.assertNotIn("tool_failure_ratio", p.accepted_fields)
-        self.assertEqual(p.pressure_inputs["tool_failure_ratio"], 0.0)
-        self.assertEqual(p.pressure_inputs["context_load_ratio"], 0.7)
+        self.assertEqual(p.observed_pressure_inputs["tool_failure_ratio"], 0.0)
+        self.assertEqual(p.observed_pressure_inputs["context_load_ratio"], 0.7)
+        self.assertEqual(p.routing_pressure_inputs, NEUTRAL_PRESSURE)
 
     def test_future_single_field_is_neutralized(self):
         fields = envelope()["measurements"]
         fields["stale_pointer_ratio"] = measurement(0.9, seq=12, through=12)
-        p = project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
-        self.assertEqual(p.pressure_inputs["stale_pointer_ratio"], 0.0)
+        p = project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
+        self.assertEqual(p.observed_pressure_inputs["stale_pointer_ratio"], 0.0)
         self.assertIn("stale_pointer_ratio", p.dropped_fields)
 
     def test_missing_field_uses_safe_neutral_default(self):
         fields = envelope()["measurements"]
         fields.pop("continuity_anchor_health")
-        p = project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
-        self.assertEqual(p.pressure_inputs["continuity_anchor_health"], 1.0)
+        p = project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
+        self.assertEqual(p.observed_pressure_inputs["continuity_anchor_health"], 1.0)
         self.assertIn("continuity_anchor_health", p.dropped_fields)
 
     def test_mixed_installation_provenance_fails_closed(self):
         fields = envelope()["measurements"]
         fields["tool_failure_ratio"] = measurement(0.9, installation="other-install")
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
 
     def test_mixed_runtime_provenance_fails_closed(self):
         fields = envelope()["measurements"]
         fields["tool_failure_ratio"] = measurement(0.9, runtime="other-runtime")
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
 
     def test_field_validity_cannot_outlive_envelope(self):
         fields = envelope()["measurements"]
         fields["tool_failure_ratio"] = measurement(0.9, through=13)
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
 
     def test_protocol_snapshot_mismatch_requires_rebase(self):
-        bad_sha = "0" * 40
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(protocol_sha=bad_sha), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(protocol_sha="0" * 40), evaluation_seq=11)
 
     def test_source_role_cannot_be_promoted_to_authority(self):
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(authority="ROUTING"), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(authority="ROUTING"), evaluation_seq=11)
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(source_role="LCR-A"), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(source_role="LCR-A"), evaluation_seq=11)
 
     def test_cross_step_requires_rebase(self):
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(step_id=10), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(step_id=10), evaluation_seq=11)
 
     def test_bool_or_out_of_range_measurement_fails_closed(self):
         for bad in (True, -0.1, 1.1, "0.5"):
@@ -140,25 +155,25 @@ class SecretarySignalShadowTests(unittest.TestCase):
             fields["context_load_ratio"] = measurement(bad)
             with self.subTest(value=bad):
                 with self.assertRaises(GearboxGuardError):
-                    project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
+                    project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
 
     def test_unknown_pressure_field_fails_closed(self):
         fields = envelope()["measurements"]
         fields["mystery_pressure"] = measurement(0.9)
         with self.assertRaises(GearboxGuardError):
-            project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
+            project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
 
-    def test_invalid_current_seq_fails_closed(self):
+    def test_invalid_evaluation_seq_fails_closed(self):
         for bad in (-1, True, 1.5, "11"):
             with self.subTest(value=bad):
                 with self.assertRaises(GearboxGuardError):
-                    project_secretary_signal_shadow(envelope(), trusted_current_seq=bad)
+                    project_secretary_signal_shadow(envelope(), evaluation_seq=bad)
 
     def test_envelope_fingerprint_changes_on_measurement_change(self):
-        p1 = project_secretary_signal_shadow(envelope(), trusted_current_seq=11)
+        p1 = project_secretary_signal_shadow(envelope(), evaluation_seq=11)
         fields = envelope()["measurements"]
         fields["context_load_ratio"] = measurement(0.71)
-        p2 = project_secretary_signal_shadow(envelope(measurements=fields), trusted_current_seq=11)
+        p2 = project_secretary_signal_shadow(envelope(measurements=fields), evaluation_seq=11)
         self.assertNotEqual(p1.envelope_fingerprint, p2.envelope_fingerprint)
 
 
