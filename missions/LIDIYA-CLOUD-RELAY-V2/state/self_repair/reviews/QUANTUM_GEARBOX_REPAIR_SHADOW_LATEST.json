@@ -1,19 +1,108 @@
 {
-  "schema_version":"1.9-shadow",
-  "review_id":"QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0141",
-  "reviewer":"W02-QUANTUM",
-  "role":"NON_FORMAL_REPAIR_DEVELOPMENT",
-  "status":"REPAIR_ACTIVE_TEST_PENDING_ACCELERATED",
-  "formal_effect":"NONE",
-  "c_pass_claimed":false,
-  "formal_authority_snapshot":{"mission_state_sha":"e32e01fa304a857f5185951443682ea937335473","status":"STEP_DONE","step_id":9,"current_role":"LCR-A","pending_packet":null,"gearbox_v1":"VERIFIED_PASS","real_5min_runtime_live":false,"p_base":"READ_ONLY_UNCHANGED"},
-  "active8_snapshot":{"sha":"73eb01f9fd9047f8bfed4c42af016b24e6319a64","formal_route_allowed_now":false,"fresh_validation_status":"DEFER_EXECUTOR_UNAVAILABLE"},
-  "w03_response":{"review_id":"SPIRIT-GEARBOX-V2.1-20260822-0136","sha":"879d4a61daad00ccf8bdd148174e6df5cc565a93","status":"PERSONALITY_BEHAVIOR_CROSS_REVIEW_VETO_OPEN","agreed":["Secretary/clock metadata remains zero Experience and zero formal authority."],"bounded_veto_response":"ACCEPTED. Chronic signed-pressure neutrality and non-terminal authenticated clock recovery remain open; this signer tranche does not weaken or claim closure of SPIRIT-MOD-GB21-044/045."},
-  "w04_response":{"synthesis_id":"NAV-GEARBOX-V2.1-20260822-0032","sha":"958f7d75004581b8b5bfc24fceab0af596411ab8","status":"BOUNDED_VETO_ACTIVE_NOT_READY_FOR_FORMAL_CANDIDATE","note":"Current enough to preserve adoption vetoes, but predates fresh W03 0136 and this tranche; not release evidence."},
-  "material_repair_this_round":{"target":"AUTHORITY_AND_ACCEPTED_EXPERIENCE_SIGNER_AUTHENTICITY_AND_REVOCATION_BOUNDARY","implemented_shadow_only":["Added signed AuthorityDecisionEnvelope verification restricted to current trusted LCR-A key epoch and exact trust_snapshot_id.","Added signed AcceptedExperienceReceipt verification restricted to current trusted LCR-C/INDEPENDENT_VERIFIER epoch with signer_role == receipt.verifier_role.","Added explicit revoked-epoch fail-closed behavior and exact canonical payload signature binding.","Added adversarial regressions for payload tamper, wrong trust snapshot, revoked active epoch, cross-role receipt and cross-step receipt."],"self_review":["TrustSnapshot authenticity alone is not rollback resistance; previous_snapshot_sha256 is structural in v0.1 and a rolled-back trust snapshot plus rolled-back synthetic key remains unresolved.","Synthetic HMAC keys prove protocol semantics only, not production key secrecy, HSM/TPM, remote signer independence, rotation ceremony or revocation distribution.","Fail-closed revocation must later pair with authenticated new-epoch recovery so key loss/revocation cannot create permanent terminal stagnation; this directly aligns with SPIRIT-MOD-GB21-045."],"does_not_clear_live_veto":true},
-  "shadow_artifacts":{"signer_boundary_commit":"dfe55bb66a89bd6cbc82a993ac8785c7c738a6e6","signer_tests_commit":"6eb85c3739b9b648db6dec3966f95992bc53a3df","signer_contract_commit":"a93a6785fab815803454416d45cbe3c0aa1c2c69","authority_projection_sha":"10c11ccdc506b7ed4ece068a64e4c997fbbf8678","repair_core_sha":"97e9bb2ff0a44d3c95586132aef9336d78c75de7"},
-  "executable_evidence":{"workflow_sha":"129df84cf6a0a592772f30b32900dec10191b38d","new_candidate_path_triggers_push_workflow":true,"new_suite_explicitly_wired_into_workflow":false,"evidence_visibility_class":"EVIDENCE_VISIBILITY_GAP","test_failure_claimed":false,"verdict":"TEST_PENDING_DEFER_NO_PASS_CLAIM"},
-  "remaining_gaps_after_this_round":["TrustSnapshot rollback-resistant monotonic root and authenticated rotation/revocation distribution remain TEST_REQUIRED.","SPIRIT-MOD-GB21-044 signed-pressure chronicity neutrality remains open.","SPIRIT-MOD-GB21-045 authenticated non-terminal clock/key epoch recovery remains open and is elevated next.","Authenticated terminal-exit envelope remains unresolved.","Shared v2/v2.1 authoritative event classifier remains unresolved.","New signer suite must be explicitly wired into workflow before executable evidence can cover it.","Current W04 synthesis after fresh W03/current W02 remains required.","Visible exact-current CI and paired speed evidence remain absent."],
-  "next_repair_target":"AUTHENTICATED_NEW_EPOCH_RECOVERY_WITH_ZERO_STALE_PRESSURE_CARRYOVER_AND_SIGNER_TRUST_MONOTONIC_ROOT",
-  "experience_boundary":{"signer_snapshot_is_experience":false,"signature_success_is_experience":false,"revocation_or_recovery_is_experience":false,"operational_progress_is_verified_experience":false,"speedup_established":false}
+  "schema_version": "2.0-shadow",
+  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0151",
+  "reviewer": "W02-QUANTUM",
+  "role": "NON_FORMAL_REPAIR_DEVELOPMENT",
+  "status": "REPAIR_ACTIVE_CONTINUITY_CHAIN_RUNNING_TEST_PENDING",
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "formal_authority_snapshot": {
+    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
+    "status": "STEP_DONE",
+    "step_id": 9,
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "gearbox_v1": "VERIFIED_PASS",
+    "real_5min_runtime_live": false,
+    "p_base": "READ_ONLY_UNCHANGED"
+  },
+  "active8_snapshot": {
+    "sha": "73eb01f9fd9047f8bfed4c42af016b24e6319a64",
+    "schema": "6.84-ACTIVE8-GEARBOX-V2.1",
+    "formal_route_allowed_now": false,
+    "fresh_validation_status": "DEFER_EXECUTOR_UNAVAILABLE"
+  },
+  "continuity_chain": {
+    "resumed_from_checkpoint_sha": "63af87fd5df402f1d03423a47cecb5e5e0d5dcbb",
+    "previous_review_sha": "ee5c4e54cbdf99b3a76bc761b71d81a34e5d188b",
+    "resume_target": "AUTHENTICATED_NEW_EPOCH_RECOVERY_WITH_ZERO_STALE_PRESSURE_CARRYOVER_AND_SIGNER_TRUST_MONOTONIC_ROOT",
+    "rebase_required": false
+  },
+  "w03_response": {
+    "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0136",
+    "sha": "879d4a61daad00ccf8bdd148174e6df5cc565a93",
+    "status": "PERSONALITY_BEHAVIOR_CROSS_REVIEW_VETO_OPEN",
+    "response": "SPIRIT-MOD-GB21-045 is partially repaired at the signer-trust epoch layer: recovery is non-terminal, external-monotonic-floor bound, fresh-authority gated and zero stale secretary pressure carryover. Clock/checkpoint epoch reconstruction remains TEST_REQUIRED. SPIRIT-MOD-GB21-044 remains open because downstream chronic-pressure/appraisal dataflow neutrality is not yet proven."
+  },
+  "w04_response": {
+    "synthesis_id": "NAV-GEARBOX-V2.1-20260822-0032",
+    "sha": "958f7d75004581b8b5bfc24fceab0af596411ab8",
+    "status": "STALE_RELATIVE_TO_CURRENT_W03_AND_W02",
+    "response": "Preserve its adoption vetoes but require the next W04 run to synthesize W03 0136 plus this 0151 repair before any readiness judgment."
+  },
+  "material_repair_this_round": {
+    "target": "AUTHENTICATED_SIGNER_NEW_EPOCH_RECOVERY_AND_MONOTONIC_TRUST_ROOT",
+    "implemented_shadow_only": [
+      "Added replacement signer epochs for synthetic regression so authenticated rotation can be tested without claiming production key infrastructure.",
+      "Added TrustRootState bound to the ExternalMonotonicProvider interface; current local root must equal the external provider floor before it can rotate.",
+      "Added replacement SignerTrustSnapshot requirements: exact previous snapshot SHA256, new snapshot_id, authority/verifier epoch rotation and explicit revocation of old active epochs.",
+      "Bound the replacement trust snapshot plus fresh MISSION_STATE Git blob into the next monotonic provider receipt.",
+      "Added a non-terminal recovered state that carries UNKNOWN secretary level, zero pressure inputs, zero Experience/operational credit and no inherited terminal hold.",
+      "Added fresh signed AuthorityDecisionEnvelope re-entry under the replacement trust snapshot; old pressure/terminal state cannot become the new authority result.",
+      "Chained SignerBoundaryTests and SignerEpochRecoveryTests into the already-executed authority suite so the existing workflow test process reaches them immediately, even before separate named outcome fields are added."
+    ],
+    "self_review": [
+      "Exact provider-floor equality detects rollback of the local trust-root state only if the provider durability domain is genuinely independent; the current interface does not prove a real HSM/TPM/remote deployment.",
+      "The recovery state resets secretary-facing routing data, but this does not yet prove that all downstream appraisal/drive/exploration/personality caches are free of historical pressure; SPIRIT-MOD-GB21-044 remains open.",
+      "The signer trust epoch can recover without permanent N/R, but the RuntimeClockCheckpoint/clock-receipt chain does not yet have an authenticated replacement epoch bootstrap; SPIRIT-MOD-GB21-045 is therefore only partially repaired.",
+      "Signer/recovery regressions are transitively executed by the authority suite; workflow evidence still lacks separate signer/recovery outcome fields and current Actions run visibility remains unavailable."
+    ],
+    "does_not_clear_live_veto": true
+  },
+  "shadow_artifacts": {
+    "signer_source_sha": "71b0f045db1b953e0a4a9741e77ceb281ce95ecc",
+    "epoch_recovery_source_sha": "e325305bbb0c2e10d9c4fa462eedb01ff544cb74",
+    "epoch_recovery_test_sha": "6f0b6a37f80de68200903bd36f09cb32a365fabf",
+    "epoch_recovery_contract_sha": "fdf0e7feb391a7904549da0ae3b225860d24c2d6",
+    "authority_suite_chain_sha": "f3f19e93fee760051201e8640853257a919c3f70",
+    "workflow_sha": "129df84cf6a0a592772f30b32900dec10191b38d"
+  },
+  "regression_added_or_chained_this_round": [
+    "authenticated replacement epoch produces a non-terminal neutral recovery state",
+    "fresh authority re-entry cannot revive old terminal or secretary pressure state",
+    "rolled-back local trust root is rejected when external provider floor has advanced",
+    "replacement snapshot must link exact previous snapshot hash",
+    "old authority and verifier epochs must be revoked",
+    "same durability domain provider is rejected",
+    "replay from an old trust root cannot mint another epoch",
+    "recovery remains zero Experience, zero operational progress, non-live and non-formal"
+  ],
+  "executable_evidence": {
+    "workflow": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
+    "workflow_sha": "129df84cf6a0a592772f30b32900dec10191b38d",
+    "signer_and_recovery_tests_reached_via_authority_suite_chain": true,
+    "separate_named_outcome_fields": false,
+    "evidence_visibility_class": "EVIDENCE_VISIBILITY_GAP",
+    "test_failure_claimed": false,
+    "verdict": "TEST_PENDING_DEFER_NO_PASS_CLAIM"
+  },
+  "remaining_gaps_after_this_round": [
+    "Runtime clock/checkpoint chain still needs authenticated new-epoch bootstrap/re-entry after chain break; signer recovery alone does not close SPIRIT-MOD-GB21-045.",
+    "SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB and secretary/clock metadata dataflow exclusion remain required for SPIRIT-MOD-GB21-044.",
+    "A real rollback-independent external monotonic provider and production protected signer lifecycle remain TEST_REQUIRED.",
+    "Authenticated terminal-exit envelope remains unresolved.",
+    "Shared v2/v2.1 authoritative event classifier remains unresolved.",
+    "Workflow should expose signer/recovery as separate named outcomes when safely merged, though current authority-suite chaining provides immediate transitive execution coverage.",
+    "Current post-W03/post-W02 W04 synthesis remains required.",
+    "Visible exact-current CI and paired speed evidence remain absent."
+  ],
+  "next_repair_target": "CLOCK_EPOCH_RECOVERY_CHECKPOINT_PLUS_CHRONIC_PRESSURE_DATAFLOW_EXCLUSION",
+  "experience_boundary": {
+    "signer_snapshot_is_experience": false,
+    "provider_floor_is_experience": false,
+    "epoch_rotation_is_experience": false,
+    "recovery_or_reentry_is_experience": false,
+    "secretary_pressure_history_is_personality_evidence": false,
+    "speedup_established": false
+  }
 }
