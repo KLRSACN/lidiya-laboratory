@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.2",
+  "handoff_id": "W01-SAME-SLOT-FRESH-CHAT-20260822-001",
+  "created_at": "2026-08-22T00:20:00+08:00",
+  "target_bound_at": "2026-08-22T00:20:00+08:00",
+  "prior_handoff_id": "W01-SAME-SLOT-FRESH-CHAT-20260817-001",
+  "source_window": "W01_WINDCHIME_FRESH_CHAT_SHELL",
+  "source_window_alias": "1【二號風鈴】 / 開發先驅2型",
+  "source_generation": 1,
+  "target_window": "W01_WINDCHIME_GENERATION_2_CONTROL_SHELL",
+  "target_window_alias": "1【風鈴3號指揮官】",
+  "target_generation": 2,
+  "worker_id": "ONLINE-LIDIYA-PRIMARY-CONTROL",
+  "formal_slot": "LCR-A",
+  "handoff_type": "SAME_SLOT_DURABLE_HANDOFF_ONLY",
+  "reason": "VISIBLE_CHAT_SHELL_ABSENT_OWNER_REBIND_AND_CONTINUOUS_DEVELOPMENT",
+  "identity_rule": "NEW_CHAT_IS_NEW_EXECUTION_SHELL_NOT_NEW_IDENTITY",
+  "owner_assignment": "EXPLICIT",
+  "archive_no_read_fence": true,
+  "authority_refs": {
+    "mission_state": "state/MISSION_STATE.json",
+    "active_progress": "state/EVOLUTION_PROGRESS.json",
+    "w01_checkpoint": "state/window_self_backups/WINDCHIME_LATEST.json",
+    "w01_receipt": "state/window_wake_receipts/W01_WINDCHIME_LATEST.json",
+    "w07_checkpoint": "state/window_self_backups/W07_WIND_SECRETARY_LATEST.json",
+    "quantum_review": "state/self_repair/reviews/QUANTUM_GEARBOX_REPAIR_SHADOW_LATEST.json",
+    "spirit_review": "state/self_repair/reviews/SPIRIT_GEARBOX_V2_1_LATEST.json",
+    "workflow": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml"
+  },
+  "verified_baseline": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 9,
+    "attempt": 4,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
+    "mission_result": "STEP009_VERIFIED_FOUNDATION",
+    "six_gear_controller_v1": "VERIFIED_PASS",
+    "E3_LOCAL_OPERATOR": "BLOCKED_PENDING_REAL_LOCAL_EVIDENCE",
+    "real_5min_runtime_live": false,
+    "P_base": "READ_ONLY_UNCHANGED"
+  },
+  "cross_window_validation": {
+    "target_rebind_check": "PASS_OWNER_ASSIGNED_DURABLE_STATE_MATCHED",
+    "fresh_mission_state_matches_verified_baseline": true,
+    "same_worker_id": true,
+    "same_formal_slot": true,
+    "same_platform_task_reused": true,
+    "duplicate_worker_created": false,
+    "slot4_created": false,
+    "raw_chat_replay_used": false
+  },
+  "continuous_development": {
+    "w01_alias": "風鈴3號指揮官",
+    "w02_quantum": "ACTIVE_SHARED_GEARBOX_REPAIR_ENGINEERING",
+    "w03_spirit": "RE_ENABLED_SHARED_BEHAVIOR_REVIEW",
+    "w07_secretary": "RETAIN_NONFORMAL_CONTINUITY_WATCHDOG",
+    "verified_lane": "GEARBOX_V1_VERIFIED_PASS_PRESERVED",
+    "candidate_lane": "GEARBOX_V2_V2_1_AND_QUANTUM_SHADOW",
+    "ci_repair_commit": "8c1a241ccb7f2cae34d796500f430a3d6a65a21c",
+    "ci_policy": "IMPORT_SMOKE_PLUS_ISOLATED_SUITES_PLUS_AGGREGATE_VERDICT_PLUS_EXACT_CURRENT_ACTIONS_JOB"
+  },
+  "formal_route_gate": {
+    "route_now": false,
+    "requirements": [
+      "exact-current v1/v2/v2.1 candidate regression evidence",
+      "current W02 adversarial review",
+      "current W03 personality/behavior review",
+      "W04 regenerated synthesis with zero unresolved veto",
+      "valid paired speed evidence",
+      "normal A-to-B-to-C route"
+    ]
+  },
+  "forbidden_on_boot": [
+    "broad-reload old chat chronology",
+    "create a new formal slot",
+    "create a duplicate Windchime task",
+    "reopen verified Step009 or Gearbox v1 without fresh formal evidence",
+    "promote candidate/shadow CI to formal C PASS",
+    "claim real_5min_runtime_live without real authorized external-runner evidence",
+    "mutate P_base/Identity/Personality/Governance"
+  ],
+  "success_criteria": [
+    "generation 2 retains exact W01/LCR-A authority and verified baseline",
+    "W02 and W03 exchange durable review pointers before subsequent repair selection",
+    "CI import-path defect is separated from capability regressions",
+    "all shadow suites produce independent outcomes in one run",
+    "candidate exact-current regression runs on one GitHub hosted runner",
+    "formal promotion remains blocked until all gates pass"
+  ]
+}
