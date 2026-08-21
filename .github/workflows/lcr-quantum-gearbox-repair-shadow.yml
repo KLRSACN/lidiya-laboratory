@@ -5,21 +5,15 @@ on:
     branches:
       - lidiya-cloud-relay-v2
     paths:
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_authority_projection_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_secretary_signal_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_secretary_signal_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_shift_history_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_shift_history_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_shift_durability_anchor_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_shift_durability_anchor_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_shift_anchor_trust_recovery_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_shift_anchor_trust_recovery_shadow_v01.py'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_V2_1_REPAIR_SHADOW_V01_CONTRACT.json'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_SHIFT_DURABILITY_ANCHOR_SHADOW_V01_CONTRACT.json'
-      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_SHIFT_ANCHOR_TRUST_RECOVERY_SHADOW_V01_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/gearbox_controller.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/test_gearbox_controller.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/gearbox_controller_v2.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/test_gearbox_controller_v2.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/gearbox_controller_v2_1.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/test_gearbox_controller_v2_1.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/GEARBOX_V2_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/GEARBOX_V2_1_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/**'
       - '.github/workflows/lcr-quantum-gearbox-repair-shadow.yml'
   workflow_dispatch:
 
@@ -34,17 +28,36 @@ jobs:
   shadow_repair:
     name: Non-formal Gearbox repair shadow tests
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     defaults:
       run:
         working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution:${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
+      - name: Import smoke gate
+        id: import_smoke
+        run: |
+          python - <<'PY'
+          import gearbox_controller
+          import gearbox_controller_v2
+          import gearbox_controller_v2_1
+          import gearbox_v2_1_repair_shadow_v01
+          import gearbox_authority_projection_shadow_v01
+          import gearbox_secretary_signal_shadow_v01
+          import gearbox_shift_history_shadow_v01
+          import gearbox_shift_durability_anchor_shadow_v01
+          import gearbox_shift_anchor_trust_recovery_shadow_v01
+          print('IMPORT_SMOKE_PASS')
+          PY
+
       - name: Compile shadow repair candidates
+        id: compile_shadow
         run: >-
           python -m py_compile
           evolution/core_v0_2/quantum_candidates/gearbox_v2_1_repair_shadow_v01.py
@@ -62,36 +75,42 @@ jobs:
 
       - name: Run core shadow adversarial tests
         id: core_shadow_tests
+        continue-on-error: true
         run: |
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_v2_1_repair_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-core-tests.log
 
       - name: Run authority projection adversarial tests
         id: authority_shadow_tests
+        continue-on-error: true
         run: |
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_authority_projection_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-authority-tests.log
 
       - name: Run secretary provenance adversarial tests
         id: secretary_shadow_tests
+        continue-on-error: true
         run: |
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_secretary_signal_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-secretary-tests.log
 
       - name: Run shift history anti-thrash adversarial tests
         id: shift_history_shadow_tests
+        continue-on-error: true
         run: |
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_shift_history_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-shift-history-tests.log
 
       - name: Run shift durability anchor adversarial tests
         id: shift_durability_shadow_tests
+        continue-on-error: true
         run: |
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_shift_durability_anchor_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-shift-durability-tests.log
 
       - name: Run shift anchor trust recovery adversarial tests
         id: shift_anchor_trust_recovery_tests
+        continue-on-error: true
         run: |
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_gearbox_shift_anchor_trust_recovery_shadow_v01.py 2>&1 | tee /tmp/quantum-shadow-shift-anchor-trust-recovery-tests.log
@@ -99,6 +118,8 @@ jobs:
       - name: Emit bounded shadow evidence
         if: always()
         env:
+          IMPORT_SMOKE_OUTCOME: ${{ steps.import_smoke.outcome }}
+          COMPILE_OUTCOME: ${{ steps.compile_shadow.outcome }}
           CORE_TEST_OUTCOME: ${{ steps.core_shadow_tests.outcome }}
           AUTHORITY_TEST_OUTCOME: ${{ steps.authority_shadow_tests.outcome }}
           SECRETARY_TEST_OUTCOME: ${{ steps.secretary_shadow_tests.outcome }}
@@ -129,6 +150,8 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/test_gearbox_shift_anchor_trust_recovery_shadow_v01.py',
           ]
           outcomes = {
+              'import_smoke': os.environ.get('IMPORT_SMOKE_OUTCOME', 'skipped'),
+              'compile': os.environ.get('COMPILE_OUTCOME', 'skipped'),
               'core': os.environ.get('CORE_TEST_OUTCOME', 'skipped'),
               'authority_projection': os.environ.get('AUTHORITY_TEST_OUTCOME', 'skipped'),
               'secretary_provenance': os.environ.get('SECRETARY_TEST_OUTCOME', 'skipped'),
@@ -138,11 +161,12 @@ jobs:
           }
           overall = 'success' if all(value == 'success' for value in outcomes.values()) else 'failure'
           evidence = {
-              'schema_version': '1.5-shadow',
+              'schema_version': '1.6-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'quantum_gearbox_v2_1_repair_shadow',
               'commit_sha': os.environ['COMMIT_SHA'],
               'ref_name': os.environ['REF_NAME'],
+              'failure_classification_rule': 'import/compile outcomes are environment-or-syntax gates; individual suites continue independently after those gates pass',
               'test_outcomes': outcomes,
               'status': 'PASS' if overall == 'success' else 'FAIL',
               'formal_effect': 'NONE',
@@ -155,7 +179,7 @@ jobs:
               'shift_history_observation_counts_as_experience': False,
               'shift_durability_anchor_maintenance_counts_as_experience': False,
               'shift_anchor_recovery_counts_as_experience': False,
-              'claim_boundary': 'Executable non-formal shadow evidence only. It does not promote Gearbox v2/v2.1, replace LCR-C, prove production external-provider independence/key secrecy, or alter historical v1/Step009 verification.',
+              'claim_boundary': 'Executable non-formal shadow evidence only. It does not promote Gearbox v2/v2.1, replace LCR-C, or alter historical v1/Step009 verification.',
               'bound_files': {},
           }
           for rel in bound:
@@ -178,3 +202,165 @@ jobs:
           path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/quantum-gearbox-v2-1-repair-shadow.json
           if-no-files-found: error
           retention-days: 7
+
+      - name: Aggregate shadow verdict
+        if: always()
+        env:
+          IMPORT_SMOKE_OUTCOME: ${{ steps.import_smoke.outcome }}
+          COMPILE_OUTCOME: ${{ steps.compile_shadow.outcome }}
+          CORE_TEST_OUTCOME: ${{ steps.core_shadow_tests.outcome }}
+          AUTHORITY_TEST_OUTCOME: ${{ steps.authority_shadow_tests.outcome }}
+          SECRETARY_TEST_OUTCOME: ${{ steps.secretary_shadow_tests.outcome }}
+          SHIFT_HISTORY_TEST_OUTCOME: ${{ steps.shift_history_shadow_tests.outcome }}
+          SHIFT_DURABILITY_TEST_OUTCOME: ${{ steps.shift_durability_shadow_tests.outcome }}
+          SHIFT_ANCHOR_TRUST_RECOVERY_OUTCOME: ${{ steps.shift_anchor_trust_recovery_tests.outcome }}
+        run: |
+          python - <<'PY'
+          import os
+          import sys
+          names = [
+              'IMPORT_SMOKE_OUTCOME', 'COMPILE_OUTCOME', 'CORE_TEST_OUTCOME',
+              'AUTHORITY_TEST_OUTCOME', 'SECRETARY_TEST_OUTCOME',
+              'SHIFT_HISTORY_TEST_OUTCOME', 'SHIFT_DURABILITY_TEST_OUTCOME',
+              'SHIFT_ANCHOR_TRUST_RECOVERY_OUTCOME',
+          ]
+          failed = {name: os.environ.get(name, 'skipped') for name in names if os.environ.get(name, 'skipped') != 'success'}
+          if failed:
+              print('SHADOW_AGGREGATE_FAIL', failed)
+              sys.exit(1)
+          print('SHADOW_AGGREGATE_PASS')
+          PY
+
+  exact_current_regression:
+    name: Exact-current Gearbox v1-v2-v2.1 regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile exact-current Gearbox sources and tests
+        id: exact_compile
+        run: >-
+          python -m py_compile
+          evolution/gearbox_controller.py evolution/test_gearbox_controller.py
+          evolution/gearbox_controller_v2.py evolution/test_gearbox_controller_v2.py
+          evolution/gearbox_controller_v2_1.py evolution/test_gearbox_controller_v2_1.py
+
+      - name: Run v1 exact-current tests
+        id: v1_tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/test_gearbox_controller.py 2>&1 | tee /tmp/gearbox-v1-tests.log
+
+      - name: Run v2 exact-current tests
+        id: v2_tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/test_gearbox_controller_v2.py 2>&1 | tee /tmp/gearbox-v2-tests.log
+
+      - name: Run v2.1 exact-current tests
+        id: v21_tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/test_gearbox_controller_v2_1.py 2>&1 | tee /tmp/gearbox-v2-1-tests.log
+
+      - name: Emit exact-current candidate regression evidence
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.exact_compile.outcome }}
+          V1_OUTCOME: ${{ steps.v1_tests.outcome }}
+          V2_OUTCOME: ${{ steps.v2_tests.outcome }}
+          V21_OUTCOME: ${{ steps.v21_tests.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          REF_NAME: ${{ github.ref_name }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import platform
+          import sys
+          from pathlib import Path
+
+          files = [
+              'evolution/gearbox_controller.py', 'evolution/test_gearbox_controller.py',
+              'evolution/gearbox_controller_v2.py', 'evolution/test_gearbox_controller_v2.py',
+              'evolution/gearbox_controller_v2_1.py', 'evolution/test_gearbox_controller_v2_1.py',
+          ]
+          outcomes = {
+              'compile': os.environ.get('COMPILE_OUTCOME', 'skipped'),
+              'v1': os.environ.get('V1_OUTCOME', 'skipped'),
+              'v2': os.environ.get('V2_OUTCOME', 'skipped'),
+              'v2_1': os.environ.get('V21_OUTCOME', 'skipped'),
+          }
+          evidence = {
+              'schema_version': '1.0-actions-exact-current',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'ref_name': os.environ['REF_NAME'],
+              'run_id': os.environ['RUN_ID'],
+              'run_attempt': os.environ['RUN_ATTEMPT'],
+              'python': sys.version,
+              'platform': platform.platform(),
+              'outcomes': outcomes,
+              'status': 'PASS' if all(v == 'success' for v in outcomes.values()) else 'FAIL',
+              'formal_effect': 'NONE',
+              'formal_c_verification': 'NOT_CLAIMED',
+              'candidate_regression_only': True,
+              'v1_verified_baseline_mutated': False,
+              'p_base': 'READ_ONLY_UNCHANGED',
+              'real_5min_runtime_live': False,
+              'files': {},
+          }
+          for rel in files:
+              data = Path(rel).read_bytes()
+              evidence['files'][rel] = {
+                  'sha256': hashlib.sha256(data).hexdigest(),
+                  'size_bytes': len(data),
+              }
+          path = Path('evidence/gearbox-v2-1-exact-current-actions.json')
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(path.read_text(encoding='utf-8'))
+          PY
+
+      - name: Upload exact-current regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-gearbox-v2-1-exact-current-regression
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/gearbox-v2-1-exact-current-actions.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Aggregate exact-current verdict
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.exact_compile.outcome }}
+          V1_OUTCOME: ${{ steps.v1_tests.outcome }}
+          V2_OUTCOME: ${{ steps.v2_tests.outcome }}
+          V21_OUTCOME: ${{ steps.v21_tests.outcome }}
+        run: |
+          python - <<'PY'
+          import os
+          import sys
+          outcomes = {name: os.environ.get(name, 'skipped') for name in ('COMPILE_OUTCOME', 'V1_OUTCOME', 'V2_OUTCOME', 'V21_OUTCOME')}
+          failed = {k: v for k, v in outcomes.items() if v != 'success'}
+          if failed:
+              print('EXACT_CURRENT_AGGREGATE_FAIL', failed)
+              sys.exit(1)
+          print('EXACT_CURRENT_AGGREGATE_PASS')
+          PY
