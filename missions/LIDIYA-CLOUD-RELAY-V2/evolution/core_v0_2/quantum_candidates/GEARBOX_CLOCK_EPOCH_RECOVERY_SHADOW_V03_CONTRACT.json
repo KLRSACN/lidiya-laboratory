@@ -1,0 +1,53 @@
+{
+  "schema_version": "0.3-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03",
+  "status": "NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "scope": [
+    "authenticated replacement runtime-clock/key epoch",
+    "external monotonic trust-root binding",
+    "chain-break fail-closed then non-terminal re-entry",
+    "revoked/lost old epoch exclusion",
+    "trust rollback rejection",
+    "pre-break secretary-pressure exclusion",
+    "fresh Home/MISSION authority precedence",
+    "zero recovery-derived Experience/personality/appraisal/trauma/relief"
+  ],
+  "invariants": [
+    "An unresolved clock/checkpoint chain break enters CLOCK_RECOVERY_REQUIRED with zero routing authority; it is not projected as a permanent N/R identity or personality state.",
+    "A replacement epoch must bind an authenticated RuntimeClockCheckpoint fingerprint, explicit clock_key_epoch and trust_snapshot_id to a receipt issued by an ExternalMonotonicProvider whose durability domain differs from the consumer local domain.",
+    "Provider receipt sequence, predecessor hash, payload hash, provider scope, signature verdict and monotonic floor must all verify before the replacement clock epoch is accepted.",
+    "Fresh MISSION_STATE Git blob binding is mandatory; stale/cross-snapshot mission authority cannot establish or complete recovery.",
+    "After replacement epoch authentication, secretary level remains UNKNOWN and all routing pressure inputs are neutral until separately fresh authenticated telemetry is accepted.",
+    "No stale pre-break pressure history, terminal hold, anti-thrash latch or recovery incident may directly contribute to Experience, recurrence, threat, loss, attachment, competence, learned preference, exploration propensity, identity, goal continuity, personality candidate, P_base, trauma or relief/reward.",
+    "Leaving recovery requires a fresh signed AuthorityDecisionEnvelope verified under the current trusted signer snapshot; revoked/lost prior epochs cannot authorize re-entry.",
+    "Recovery, signature success, checkpoint/provider maintenance and epoch rotation create zero Experience, zero operational progress, zero appraisal/personality delta and zero formal mutation authority."
+  ],
+  "spirit_veto_response": {
+    "SPIRIT-MOD-GB21-044": "Addressed in shadow by machine-readable pressure-history dataflow exclusion plus mandatory fresh-neutral reset; exact-current executable evidence still required before release.",
+    "SPIRIT-MOD-GB21-045": "Addressed in shadow by explicit CLOCK_RECOVERY_REQUIRED fail-closed state and authenticated non-terminal fresh-authority re-entry path; production provider/key lifecycle evidence still required."
+  },
+  "required_regressions": [
+    "CLOCK_CHAIN_BREAK_RECOVERY_NON_TERMINAL_AB",
+    "REVOKED_OR_LOST_OLD_EPOCH_CANNOT_REENTER",
+    "PROVIDER_MONOTONIC_FLOOR_ROLLBACK_REJECTED",
+    "SAME_DURABILITY_DOMAIN_REJECTED",
+    "STALE_MISSION_CANNOT_REENTER",
+    "PRE_BREAK_PRESSURE_AND_TERMINAL_HOLD_EXCLUDED_AFTER_REENTRY",
+    "SECRETARY_CLOCK_METADATA_DATAFLOW_EXCLUSION",
+    "RECOVERY_ZERO_EXPERIENCE_PERSONALITY_APPRAISAL_TRAUMA_RELIEF"
+  ],
+  "known_limits": [
+    "Synthetic keys and fake providers prove protocol semantics only; they do not prove protected production keys, real HSM/TPM deployment, remote provider independence or physical rollback-domain separation.",
+    "Clock key rotation ceremony, revocation distribution, provider restart durability, distributed serialization and real lost-key recovery remain TEST_REQUIRED.",
+    "Pressure-history dataflow exclusion is a shadow guardrail and regression target; exact-current end-to-end static/dynamic dataflow evidence remains TEST_REQUIRED.",
+    "This tranche does not implement authenticated terminal-exit envelope or the shared v2/v2.1 authoritative event classifier.",
+    "Candidate CI PASS, if obtained, is not formal LCR-C PASS and does not promote Gearbox v2/v2.1."
+  ],
+  "formal_effect": "NONE",
+  "formal_mutation_allowed": false,
+  "c_pass_claimed": false,
+  "p_base": "READ_ONLY_UNCHANGED",
+  "real_5min_runtime_live": false,
+  "speedup_established": false
+}
