@@ -14,7 +14,6 @@ from gearbox_v2_1_repair_shadow_v01 import (
     aggregate_events_shadow,
     canonical_event_id,
     canonical_event_kind,
-    canonical_risk,
     select_gear_repair_shadow,
 )
 
@@ -74,6 +73,10 @@ class GearboxRepairShadowTests(unittest.TestCase):
         self.assertTrue(d.terminal_precedence_applied)
         self.assertIn("rollback outranks standby", d.reason)
 
+    def test_rollback_is_not_blocked_by_malformed_lower_priority_standby(self):
+        d = select_gear_repair_shadow(rollback_required=True, standby="malformed")
+        self.assertEqual(d.selected_state, "R")
+
     def test_terminal_authority_precedes_malformed_nonessential_telemetry(self):
         d = select_gear_repair_shadow(
             rollback_required=True,
@@ -115,10 +118,20 @@ class GearboxRepairShadowTests(unittest.TestCase):
         d = select_gear_repair_shadow(**BASE, current_control_state=" G3 ")
         self.assertIn(d.selected_state, {"G1", "G2", "G3", "G4", "G5", "G6"})
 
+    def test_untrusted_secretary_does_not_route_shadow_candidate(self):
+        d = select_gear_repair_shadow(
+            **{**BASE, "secretary_level": "RED"},
+            current_control_state="G3",
+            secretary_signal_fresh=True,
+        )
+        self.assertTrue(d.untrusted_secretary_routing_disabled)
+        self.assertNotEqual(d.mode, "RECOVERY_BRAKE")
+
     def test_raw_verified_claim_has_zero_credit_without_receipt(self):
         d = select_gear_repair_shadow(
             **{**BASE, "event_kind": "VERIFIED_RECOVERY", "event_independently_verified": True},
             current_control_state="G3",
+            event_id="e1",
         )
         self.assertEqual(d.verified_experience_delta, 0)
         self.assertFalse(d.real_experience_claim_allowed)
@@ -132,6 +145,7 @@ class GearboxRepairShadowTests(unittest.TestCase):
                 "event_independently_verified": True,
             },
             current_control_state="G3",
+            event_id="e1",
             accepted_experience_receipt=exp_receipt(),
         )
         self.assertEqual(d.verified_experience_delta, 0)
@@ -141,21 +155,32 @@ class GearboxRepairShadowTests(unittest.TestCase):
         d = select_gear_repair_shadow(
             **{**BASE, "event_kind": " verified_recovery ", "event_independently_verified": True},
             current_control_state="G3",
+            event_id="e1",
             accepted_experience_receipt=exp_receipt(),
         )
         self.assertEqual(d.verified_experience_delta, 4)
         self.assertTrue(d.real_experience_claim_allowed)
         self.assertEqual(d.credit_status, "SHADOW_RECEIPT_BOUND_ONLY")
 
+    def test_mismatched_receipt_event_id_has_zero_credit(self):
+        d = select_gear_repair_shadow(
+            **{**BASE, "event_kind": "VERIFIED_RECOVERY", "event_independently_verified": True},
+            current_control_state="G3",
+            event_id="e2",
+            accepted_experience_receipt=exp_receipt(event_id="e1"),
+        )
+        self.assertEqual(d.verified_experience_delta, 0)
+
     def test_operational_progress_is_separate_and_receipt_bound(self):
         raw = select_gear_repair_shadow(
-            **{**BASE, "event_kind": "DURABLE_PROGRESS"}, current_control_state="G3"
+            **{**BASE, "event_kind": "DURABLE_PROGRESS"}, current_control_state="G3", event_id="o1"
         )
         self.assertEqual(raw.verified_experience_delta, 0)
         self.assertEqual(raw.operational_progress_delta, 0)
         accepted = select_gear_repair_shadow(
             **{**BASE, "event_kind": "DURABLE_PROGRESS"},
             current_control_state="G3",
+            event_id="o1",
             operational_progress_receipt=op_receipt(),
         )
         self.assertEqual(accepted.verified_experience_delta, 0)
