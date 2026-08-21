@@ -13,6 +13,12 @@ from gearbox_authority_projection_shadow_v01 import (
     PINNED_STEP_ID,
     select_gear_with_authority_projection_shadow,
 )
+# Continuity/CI chaining: the already-executed authority suite also carries the
+# signer-authenticity and authenticated new-epoch recovery regression classes.
+# This keeps executable coverage moving even before the workflow exposes separate
+# named outcome fields for those two sub-suites.
+from test_gearbox_authority_experience_signer_shadow_v01 import SignerBoundaryTests
+from test_gearbox_signer_epoch_recovery_shadow_v01 import SignerEpochRecoveryTests
 
 BASE = dict(
     risk="LOW",
