@@ -61,5 +61,5 @@
   "verified_baseline_preserved": true,
   "formal_mission_mutated": false,
   "formal_c_pass_claimed": false,
-  "readback_status": "PENDING_READBACK"
+  "readback_status": "PASS"
 }
