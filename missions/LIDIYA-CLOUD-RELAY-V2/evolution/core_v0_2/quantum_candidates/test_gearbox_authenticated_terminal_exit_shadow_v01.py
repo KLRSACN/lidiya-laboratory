@@ -4,8 +4,9 @@ import unittest
 from gearbox_authenticated_terminal_exit_shadow_v01 import (
     TerminalExitGuardError, authenticated_terminal_exit, terminal_exit_boundaries,
 )
+from gearbox_authority_experience_signer_shadow_v01 import sign_for_regression
 from gearbox_clock_epoch_recovery_shadow_v03 import ClockRecoveryProjection, REENTERED_STATE
-from test_gearbox_clock_epoch_recovery_shadow_v03 import MISSION_BLOB, signed_authority, trust
+from test_gearbox_clock_epoch_recovery_shadow_v03 import MISSION_BLOB, trust
 
 
 def reentry():
@@ -27,7 +28,18 @@ def payload():
     }
 
 def auth():
-    return signed_authority(trust(), selected_state="G1", decision_id="auth-2")
+    t=trust()
+    env={
+        "schema_version":"1.0-shadow", "mission_id":"LCR-EVOLUTION-0005", "step_id":9,
+        "authority_role":"LCR-A", "mission_state_blob_sha":MISSION_BLOB,
+        "decision_id":"auth-2", "selected_state":"G1", "guard_status":"BRAKE",
+        "return_condition":"fresh authority re-evaluation required", "checkpoint_required":True,
+        "receiver_ack_required":True, "verification_gate":"NOT_PROMOTION_EVIDENCE",
+        "formal_mutation_allowed":False,
+    }
+    s={"envelope":env,"signer_role":"LCR-A","key_epoch":t["authority_active_epoch"],"trust_snapshot_id":t["snapshot_id"]}
+    s["signature"]=sign_for_regression(s,"LCR-A",s["key_epoch"])
+    return s
 
 class AuthenticatedTerminalExitShadowV01Tests(unittest.TestCase):
     def test_fresh_allowlisted_exit_resumes_shadow_routing(self):
