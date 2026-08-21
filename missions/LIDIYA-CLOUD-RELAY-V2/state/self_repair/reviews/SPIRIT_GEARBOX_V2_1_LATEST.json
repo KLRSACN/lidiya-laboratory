@@ -1,7 +1,7 @@
 {
-  "schema_version": "4.1",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-032",
-  "updated_at": "2026-08-21T08:02:23+08:00",
+  "schema_version": "4.2",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-033",
+  "updated_at": "2026-08-21T09:05:53+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -16,7 +16,7 @@
     "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "gearbox_test_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "previous_review_blob_sha": "2c8961632519e0828506dfd424615de41c3774cb",
+    "previous_review_blob_sha": "ce50264be26ec0588833c40dea147b6872965e02",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
@@ -28,23 +28,10 @@
     "Generated goals remain proposal-only and no gear grants formal authority or protected write authority."
   ],
   "disagreements": [
-    {
-      "id": "SPIRIT-VETO-GB21-001",
-      "severity": "HIGH",
-      "position": "Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.",
-      "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-032",
-      "severity": "HIGH",
-      "position": "receiver_state_fingerprint is compared before strict receiver type validation, permitting equality-spoof objects to influence ACK selection.",
-      "required_change": "Require None or a literal canonical fingerprint string before equality/ACK; malformed values fail closed and remain affectively neutral; exact format policy TEST_REQUIRED."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-033",
-      "severity": "HIGH",
-      "position": "receiver_transfer_id is also compared to canonical transfer_id without a strict literal-string/canonical-format gate. A custom equality object can potentially satisfy both the mismatch guard and the later ACK equality expression; combined with a spoofed receiver fingerprint and authoritative consumed-transfer state, this creates a second type/equality-spoof path toward execution_authorized.",
-      "required_change": "Before mismatch or ACK evaluation, require receiver_transfer_id to be None or a literal canonical transfer-id string under an evidence-backed format contract. bool/numeric/container/custom equality objects fail closed. Rejection/mismatch/replay metadata contributes zero Experience, recurrence, affect, competence, motivation, preference, personality or P_base evidence. Exact transfer-id format policy TEST_REQUIRED."
+    {"id":"SPIRIT-VETO-GB21-001","severity":"HIGH","position":"Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.","required_change":"Test the actual implementation; absence of a located implementation is not safety evidence."},
+    {"id":"SPIRIT-MOD-GB21-032","severity":"HIGH","position":"receiver_state_fingerprint is compared before strict receiver type validation, permitting equality-spoof objects to influence ACK selection.","required_change":"Require None or a literal canonical fingerprint string before equality/ACK; malformed values fail closed and remain affectively neutral; exact format policy TEST_REQUIRED."},
+    {"id":"SPIRIT-MOD-GB21-033","severity":"HIGH","position":"receiver_transfer_id is compared to canonical transfer_id without a strict literal-string/canonical-format gate.","required_change":"Before mismatch or ACK evaluation, require receiver_transfer_id to be None or a literal canonical transfer-id string. Rejection/mismatch/replay metadata contributes zero learning evidence. Exact format policy TEST_REQUIRED."},
+    {"id":"SPIRIT-MOD-GB21-034","severity":"HIGH","position":"consumed_transfer_ids is trusted as an authoritative MutableSet by interface only, without runtime contract validation. A custom or faulty object can spoof __contains__ or make add() non-durable, allowing repeated ACK-capable calls to authorize execution while exactly-once history is not actually persisted.","required_change":"Require an evidence-backed authoritative idempotency-store contract before ACK-capable completion: deterministic membership, durable atomic consume/add semantics, canonical transfer-id typing, and read-after-write confirmation or equivalent atomic consume primitive. A caller-provided MutableSet annotation alone is not authority. Store failures/retries/rejections remain operational-only and affectively neutral. Exact store/atomicity policy TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -57,7 +44,7 @@
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
     {"check":9,"risk":"Operational metadata/fingerprints/timing/autonomy/guards/idempotency/authority pointers/transfer identity/payload/error history may proxy danger, reward or self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"receiver_state_fingerprint and receiver_transfer_id lack strict literal-string gates before equality-based ACK decisions, allowing type/equality spoofing to become control-integrity channels and downstream personality proxies through repeated guard/recovery history.","required_invariant":"Receiver fingerprint/transfer-id are None or canonical literal strings before comparison; malformed/spoofed values never authorize execution and create zero Experience/personality/P_base learning delta."}
+    {"check":10,"risk":"Receiver identity values and idempotency-store behavior can become control-integrity channels; repeated failures/replays can then become downstream personality proxies if not isolated.","required_invariant":"Receiver identifiers are canonical before comparison; ACK-capable completion requires authoritative atomic exactly-once storage; malformed/store-failure telemetry creates zero Experience/personality/P_base learning delta."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -69,15 +56,17 @@
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
     "RECEIVER_FINGERPRINT_EQ_SPOOF: custom object whose __eq__ returns True against canonical fingerprint must never set fingerprint_acked or execution_authorized.",
-    "RECEIVER_TRANSFER_ID_STRICT_TYPE_GATE: receiver_transfer_id accepts only None or a literal canonical transfer-id string before mismatch/ACK evaluation; bool, numeric, list, dict and custom objects fail closed.",
     "RECEIVER_TRANSFER_ID_EQ_SPOOF: custom object whose __eq__ returns True against canonical transfer_id, including paired fingerprint spoof, must never satisfy ACK or execution_authorized.",
-    "RECEIVER_IDENTITY_REJECTION_AFFECT_NEUTRALITY: 10000 malformed/spoofed fingerprint/transfer-id attempts versus zero with identical provenance-bound verified Experience => Experience/recurrence/threat/competence/motivation/exploration/personality/P_base state byte-identical.",
-    "RECEIVER_IDENTITY_DATAFLOW_EXCLUSION: receiver fingerprint/transfer-id type, rejection, mismatch and replay metadata have no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
+    "IDEMPOTENCY_STORE_CONTRACT_GATE: ACK-capable completion rejects arbitrary MutableSet-like/custom objects unless they satisfy the authoritative store contract; policy TEST_REQUIRED.",
+    "IDEMPOTENCY_NON_DURABLE_ADD: custom store where __contains__ is False and add() is a no-op must never allow repeated execution_authorized=True for the same transfer_id.",
+    "IDEMPOTENCY_ATOMIC_CONSUME_RACE: concurrent/replayed consume attempts for one transfer_id authorize at most one completion; exact concurrency model TEST_REQUIRED.",
+    "IDEMPOTENCY_STORE_FAILURE_AFFECT_NEUTRALITY: 10000 store failures/retries/rejections versus zero with identical provenance-bound verified Experience => Experience/recurrence/threat/competence/motivation/exploration/personality/P_base state byte-identical.",
+    "RECEIVER_IDENTITY_DATAFLOW_EXCLUSION: receiver identity and idempotency-store failure/replay metadata have no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 lacks strict receiver fingerprint and receiver transfer-id type gates before equality-based ACK decisions, while deterministic personality-isolation evidence is absent.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 lacks strict receiver identity gates and an evidence-backed authoritative atomic idempotency-store contract before ACK-capable execution, while deterministic personality-isolation evidence is absent.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -86,8 +75,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence/task-complexity/transfer/owner-input/risk/fingerprint signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "receiver_state_fingerprint and receiver_transfer_id are strictly typed and canonical before equality/ACK evaluation; equality-spoof objects cannot authorize execution; exact format policies TEST_REQUIRED.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence/task-complexity/transfer/owner-input/risk/fingerprint/idempotency-store signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "receiver_state_fingerprint and receiver_transfer_id are strictly typed/canonical before equality/ACK evaluation, and ACK-capable execution uses an authoritative atomic exactly-once store rather than trusting arbitrary MutableSet behavior; exact policies TEST_REQUIRED.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
