@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "routing_id": "W01-GEARBOX-CANDIDATE-ROUTING-20260822-0213",
+  "issued_at": "2026-08-22T02:13:00+08:00",
+  "source": "W01-WINDCHIME-GEN2",
+  "formal_effect": "NONE_NONFORMAL_CANDIDATE_ROUTING_ONLY",
+  "formal_baseline": {
+    "mission_id": "LCR-EVOLUTION-0005",
+    "step_id": 9,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "gearbox_v1": "VERIFIED_PASS",
+    "real_5min_runtime_live": false,
+    "p_base": "READ_ONLY_UNCHANGED"
+  },
+  "current_w02_review": {
+    "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0203",
+    "status": "CLOCK_EPOCH_RECOVERY_SHADOW_REPAIRED_TEST_PENDING",
+    "current_repair_target": "AUTHENTICATED_REPLACEMENT_CLOCK_KEY_EPOCH_MONOTONIC_ROOT_AND_ZERO_STALE_PRESSURE_RECOVERY"
+  },
+  "current_candidate": {
+    "version": "V03",
+    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py",
+    "source_git_blob_sha": "c2f145abe0a8e0246f7345f42a2a4e798a90fd74",
+    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py",
+    "test_git_blob_sha": "9e51d170c83013889ade58bd521f26984d94d578",
+    "contract": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json",
+    "contract_git_blob_sha": "577e2d07d7d6cc1cf616af47a686bfbdda9b4a4e",
+    "selection_rule": "The exact version and hashes named by the latest W02 durable review are the current non-formal candidate lane. W03/W04/W01 must review this lane unless a newer W02 review explicitly rebases it."
+  },
+  "experimental_crosscheck": {
+    "version": "V01",
+    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py",
+    "source_git_blob_sha": "126c9860f6849f74d0049c7813e30208503e6364",
+    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py",
+    "test_git_blob_sha": "68525b1508883e4f9d511c2800fe790ad0c3543b",
+    "contract": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V01_CONTRACT.json",
+    "contract_git_blob_sha": "a1c1463d68aea9685324f6738f94d90bc6c4b4a7",
+    "status": "EXPERIMENTAL_CROSSCHECK_NOT_CURRENT_W02_TARGET",
+    "allowed_use": [
+      "adversarial test idea comparison",
+      "counterexample discovery",
+      "non-formal implementation cross-check"
+    ],
+    "forbidden_use": [
+      "release decision target",
+      "formal adoption authority",
+      "replacement for the exact W02-referenced V03 candidate without an explicit W02 rebase"
+    ]
+  },
+  "workflows_to_observe": [
+    ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
+    ".github/workflows/lcr-quantum-gearbox-signer-shadow.yml",
+    ".github/workflows/lcr-quantum-gearbox-clock-epoch-shadow.yml"
+  ],
+  "evidence_policy": {
+    "workflow_visibility_gap_is_pass": false,
+    "workflow_visibility_gap_is_test_failure": false,
+    "candidate_ci_pass_is_formal_c_pass": false,
+    "synthetic_key_or_provider_is_production_independence_proof": false,
+    "v1_verified_baseline_affected_by_candidate_failure": false
+  },
+  "next_consumers": ["W03-SPIRIT", "W04-NAVIGATOR", "W01-WINDCHIME-GEN2", "W07-WIND-SECRETARY"],
+  "status": "CURRENT_ROUTING_PINNED"
+}
