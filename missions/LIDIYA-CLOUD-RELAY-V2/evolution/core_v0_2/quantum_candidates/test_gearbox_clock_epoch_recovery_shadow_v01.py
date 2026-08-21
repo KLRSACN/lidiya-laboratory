@@ -20,7 +20,7 @@ from gearbox_clock_epoch_recovery_shadow_v01 import (
 )
 from gearbox_external_monotonic_provider_shadow_v01 import MonotonicReceipt, ProviderBinding
 from gearbox_secretary_runtime_freshness_shadow_v01 import SECRETARY_KEY_SHA256
-from gearbox_secretary_signal_shadow_v01 import PINNED_SECRETARY_PROTOCOL_BLOB_SHA
+from gearbox_secretary_signal_shadow_v01 import NEUTRAL_PRESSURE, PINNED_SECRETARY_PROTOCOL_BLOB_SHA
 from gearbox_signer_epoch_recovery_shadow_v01 import bootstrap_trust_root, recover_new_epoch
 
 MISSION_BLOB = "e32e01fa304a857f5185951443682ea937335473"
@@ -228,7 +228,7 @@ class ClockEpochRecoveryTests(unittest.TestCase):
         self.assertEqual(gate.state, "CLOCK_RECOVERY_FRESH_AUTHORITY_READY_SHADOW")
         self.assertEqual(gate.selected_state, "G3")
         self.assertEqual(gate.secretary_level, "UNKNOWN")
-        self.assertTrue(all(value == 0.0 for value in gate.pressure_inputs.values()))
+        self.assertEqual(dict(gate.pressure_inputs), dict(NEUTRAL_PRESSURE))
         self.assertFalse(gate.pressure_history_consumed)
         self.assertFalse(gate.stale_pressure_carryover_allowed)
         self.assertFalse(gate.terminal_hold_carryover_allowed)
@@ -367,8 +367,8 @@ class ClockEpochRecoveryTests(unittest.TestCase):
             authority_conflict=True,
         )
         self.assertFalse(projection.routing_authority_allowed)
-        self.assertEqual(projection.routing_secretary_level, "NONE")
-        self.assertTrue(all(v == 0.0 for v in projection.routing_pressure_inputs.values()))
+        self.assertEqual(projection.routing_secretary_level, "UNKNOWN")
+        self.assertEqual(projection.routing_pressure_inputs, NEUTRAL_PRESSURE)
         self.assertEqual(projection.verified_experience_delta, 0)
 
     def test_recovery_metadata_is_excluded_from_learning_personality_and_appraisal(self):
