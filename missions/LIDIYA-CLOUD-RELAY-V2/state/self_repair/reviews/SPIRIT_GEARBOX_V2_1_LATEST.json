@@ -1,7 +1,7 @@
 {
-  "schema_version": "4.0",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-031",
-  "updated_at": "2026-08-21T07:07:47+08:00",
+  "schema_version": "4.1",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-032",
+  "updated_at": "2026-08-21T08:02:23+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -16,7 +16,7 @@
     "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
     "gearbox_test_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "previous_review_blob_sha": "6d048b3343175106e18e3a7cbdd7fcbf17acc734",
+    "previous_review_blob_sha": "2c8961632519e0828506dfd424615de41c3774cb",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
@@ -35,16 +35,16 @@
       "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
     },
     {
-      "id": "SPIRIT-MOD-GB21-031",
-      "severity": "HIGH",
-      "position": "select_gear coerces risk through str() before validation, so missing or malformed risk can fail open into accepted or lower-risk operational paths.",
-      "required_change": "Require literal-string closed-enum risk before normalization; malformed inputs fail closed and remain affectively neutral; enum/migration policy TEST_REQUIRED."
-    },
-    {
       "id": "SPIRIT-MOD-GB21-032",
       "severity": "HIGH",
-      "position": "overlap_shift compares receiver_state_fingerprint to the canonical fingerprint before strict receiver type validation. A custom non-string object can define equality behavior and potentially satisfy fingerprint_acked; with a correct transfer_id and authoritative consumed-transfer state, the current control flow can then authorize execution.",
-      "required_change": "Before equality or ACK selection, require receiver_state_fingerprint to be None or a literal canonical fingerprint string under an evidence-backed format contract. bool/numeric/container/custom equality objects fail closed. Fingerprint rejection/mismatch/replay metadata contributes zero Experience, affect, competence, motivation, personality or P_base evidence. Exact format policy TEST_REQUIRED."
+      "position": "receiver_state_fingerprint is compared before strict receiver type validation, permitting equality-spoof objects to influence ACK selection.",
+      "required_change": "Require None or a literal canonical fingerprint string before equality/ACK; malformed values fail closed and remain affectively neutral; exact format policy TEST_REQUIRED."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-033",
+      "severity": "HIGH",
+      "position": "receiver_transfer_id is also compared to canonical transfer_id without a strict literal-string/canonical-format gate. A custom equality object can potentially satisfy both the mismatch guard and the later ACK equality expression; combined with a spoofed receiver fingerprint and authoritative consumed-transfer state, this creates a second type/equality-spoof path toward execution_authorized.",
+      "required_change": "Before mismatch or ACK evaluation, require receiver_transfer_id to be None or a literal canonical transfer-id string under an evidence-backed format contract. bool/numeric/container/custom equality objects fail closed. Rejection/mismatch/replay metadata contributes zero Experience, recurrence, affect, competence, motivation, preference, personality or P_base evidence. Exact transfer-id format policy TEST_REQUIRED."
     }
   ],
   "personality_contamination_risks": [
@@ -56,8 +56,8 @@
     {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight; fresh authority metadata itself has zero personality-learning weight."},
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
-    {"check":9,"risk":"Operational metadata, fingerprints, timing, autonomy, guard outcomes, idempotency, authority pointers, transfer identity, payload content and validation errors may proxy danger/domain/load/reward/self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"receiver_state_fingerprint accepts equality comparison without a strict literal-string gate, allowing type/equality spoofing to become an ACK/control-integrity channel and potentially a downstream personality proxy through repeated guard/recovery history.","required_invariant":"Receiver fingerprint is None or a canonical literal string before comparison; malformed/spoofed values never authorize execution and create zero Experience/personality/P_base learning delta."}
+    {"check":9,"risk":"Operational metadata/fingerprints/timing/autonomy/guards/idempotency/authority pointers/transfer identity/payload/error history may proxy danger, reward or self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
+    {"check":10,"risk":"receiver_state_fingerprint and receiver_transfer_id lack strict literal-string gates before equality-based ACK decisions, allowing type/equality spoofing to become control-integrity channels and downstream personality proxies through repeated guard/recovery history.","required_invariant":"Receiver fingerprint/transfer-id are None or canonical literal strings before comparison; malformed/spoofed values never authorize execution and create zero Experience/personality/P_base learning delta."}
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -68,15 +68,16 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "RECEIVER_FINGERPRINT_STRICT_TYPE_GATE: receiver_state_fingerprint accepts only None or literal canonical string before equality/ACK evaluation; bool, numeric, list, dict and custom objects fail closed.",
-    "RECEIVER_FINGERPRINT_EQ_SPOOF: custom object whose __eq__ returns True against the canonical fingerprint must never set fingerprint_acked or execution_authorized.",
-    "RECEIVER_FINGERPRINT_REJECTION_AFFECT_NEUTRALITY: 10000 malformed/spoofed fingerprint attempts versus zero, with identical provenance-bound verified Experience => Experience/recurrence/threat/competence/motivation/exploration/personality/P_base state byte-identical.",
-    "RECEIVER_FINGERPRINT_DATAFLOW_EXCLUSION: fingerprint type/rejection/mismatch/replay metadata has no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
+    "RECEIVER_FINGERPRINT_EQ_SPOOF: custom object whose __eq__ returns True against canonical fingerprint must never set fingerprint_acked or execution_authorized.",
+    "RECEIVER_TRANSFER_ID_STRICT_TYPE_GATE: receiver_transfer_id accepts only None or a literal canonical transfer-id string before mismatch/ACK evaluation; bool, numeric, list, dict and custom objects fail closed.",
+    "RECEIVER_TRANSFER_ID_EQ_SPOOF: custom object whose __eq__ returns True against canonical transfer_id, including paired fingerprint spoof, must never satisfy ACK or execution_authorized.",
+    "RECEIVER_IDENTITY_REJECTION_AFFECT_NEUTRALITY: 10000 malformed/spoofed fingerprint/transfer-id attempts versus zero with identical provenance-bound verified Experience => Experience/recurrence/threat/competence/motivation/exploration/personality/P_base state byte-identical.",
+    "RECEIVER_IDENTITY_DATAFLOW_EXCLUSION: receiver fingerprint/transfer-id type, rejection, mismatch and replay metadata have no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 also lacks a strict receiver fingerprint type gate before ACK equality, while deterministic personality-isolation evidence is absent.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 lacks strict receiver fingerprint and receiver transfer-id type gates before equality-based ACK decisions, while deterministic personality-isolation evidence is absent.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -86,7 +87,7 @@
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
       "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence/task-complexity/transfer/owner-input/risk/fingerprint signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "receiver_state_fingerprint is strictly typed and canonical before equality/ACK evaluation; equality-spoof objects cannot authorize execution; exact fingerprint format policy TEST_REQUIRED.",
+      "receiver_state_fingerprint and receiver_transfer_id are strictly typed and canonical before equality/ACK evaluation; equality-spoof objects cannot authorize execution; exact format policies TEST_REQUIRED.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
