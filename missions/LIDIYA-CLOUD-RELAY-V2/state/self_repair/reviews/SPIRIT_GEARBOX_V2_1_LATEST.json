@@ -1,7 +1,7 @@
 {
-  "schema_version": "4.3",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-034",
-  "updated_at": "2026-08-21T10:02:21+08:00",
+  "schema_version": "4.4",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260821-035",
+  "updated_at": "2026-08-21T11:02:05+08:00",
   "reviewer": "LIDIYA-SPIRIT",
   "role_class": "NONFORMAL_RESEARCH_ENDPOINT",
   "status": "RESEARCH_REVIEW_BLOCKED_RELEASE_NOT_FORMAL_PASS",
@@ -13,10 +13,8 @@
   "governance_write": false,
   "historical_v1_verified_baseline_preserved": true,
   "source_authority": {
-    "mission_state_sha": "1de9c1caffc9759f12ff01739c409b99082e90c1",
     "gearbox_controller_sha": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-    "gearbox_test_sha": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-    "previous_review_blob_sha": "a74a37f06ba0a349f81c1b1a7ecd7a096736d437",
+    "previous_review_blob_sha": "9cbdb351fc46647489c5ba0f6b9f71215c519fea",
     "v2_v2_1_exact_implementation_uniquely_located": false,
     "home_active8_unique_pointer_chain_resolved": false
   },
@@ -28,23 +26,31 @@
     "Generated goals remain proposal-only and no gear grants formal authority or protected write authority."
   ],
   "disagreements": [
-    {"id":"SPIRIT-VETO-GB21-001","severity":"HIGH","position":"Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.","required_change":"Test the actual implementation; absence of a located implementation is not safety evidence."},
-    {"id":"SPIRIT-MOD-GB21-032","severity":"HIGH","position":"receiver_state_fingerprint requires strict canonical type gating before ACK equality.","required_change":"Require None or literal canonical fingerprint string; malformed values fail closed and remain affectively neutral; exact format policy TEST_REQUIRED."},
-    {"id":"SPIRIT-MOD-GB21-033","severity":"HIGH","position":"receiver_transfer_id requires strict canonical type gating before mismatch/ACK equality.","required_change":"Require None or literal canonical transfer-id string; malformed values fail closed and remain affectively neutral; exact format policy TEST_REQUIRED."},
-    {"id":"SPIRIT-MOD-GB21-034","severity":"HIGH","position":"consumed_transfer_ids is trusted by MutableSet interface without an authoritative atomic/durable exactly-once store contract.","required_change":"Require deterministic membership plus atomic durable consume/read-after-write or equivalent primitive; exact store policy TEST_REQUIRED."},
-    {"id":"SPIRIT-MOD-GB21-035","severity":"HIGH","position":"overlap_shift does not bind compact_state and transfer_identity to one immutable authoritative snapshot. It computes compact_torque_state(active_state), then transfer_identity recomputes compact_torque_state(active_state) and separately rereads mission_id/step_id. A mutable, concurrent, or adversarial Mapping can therefore yield a returned compact fingerprint from snapshot A while transfer_id is derived from snapshot B/C.","required_change":"Capture one immutable validated authority snapshot once per shift attempt and derive compact_state, state_fingerprint, mission_id, step_id and transfer_id exclusively from that snapshot. Reject mutation/version drift before ACK-capable completion. Snapshot mismatch/retry telemetry must remain affectively neutral. Snapshot/version contract and concurrency policy TEST_REQUIRED."}
+    {
+      "id": "SPIRIT-VETO-GB21-001",
+      "severity": "HIGH",
+      "position": "Do not release Gearbox v2.1 personality/behavior coupling until exact v2/v2.1 implementation pointers and deterministic adversarial evidence are available.",
+      "required_change": "Test the actual implementation; absence of a located implementation is not safety evidence."
+    },
+    {
+      "id": "SPIRIT-MOD-GB21-036",
+      "severity": "HIGH",
+      "position": "The current ACK fingerprint binds only RPM_CONTROL_FIELDS, while compact_torque_state transports additional TORQUE_FIELDS including route, latest_verified_evidence, rollback_anchor, blocker, priority and return_condition. A receiver can therefore ACK an unchanged RPM fingerprint even when non-RPM torque payload content differs. ACK continuity must not be interpreted as integrity or trust of the full compact payload.",
+      "required_change": "Bind ACK/transfer identity to one immutable canonical digest of the complete transmitted compact torque envelope, or independently authenticate every transmitted field. Keep authority/version binding explicit. Payload-integrity failure/retry remains operational telemetry with zero Experience/personality/P_base learning delta. Exact envelope/version/digest policy TEST_REQUIRED."
+    }
   ],
   "personality_contamination_risks": [
     {"check":1,"risk":"High-load downshift history may teach high-load=danger.","required_invariant":"Matched verified Experience with different operational load histories yields byte-identical personality/P_base candidate."},
-    {"check":2,"risk":"Secretary RED/YELLOW may chronically suppress exploration.","required_invariant":"After bounded operational cooldown, matched fresh evidence yields identical personality/appraisal regardless of prior secretary history; thresholds TEST_REQUIRED."},
+    {"check":2,"risk":"Secretary RED/YELLOW may chronically suppress exploration.","required_invariant":"Matched fresh evidence yields identical personality/appraisal after bounded operational cooldown regardless of secretary history; thresholds TEST_REQUIRED."},
     {"check":3,"risk":"Wake/busy/progress may be mislabeled as growth.","required_invariant":"Only provenance-bound verified Experience Candidate enters Experience scoring; operational progress contributes zero."},
     {"check":4,"risk":"Repeated incident/recovery/rejection may synthesize trauma or attachment.","required_invariant":"1440 cycles without distinct source_event_id+provenance produce zero autobiographical affect delta."},
     {"check":5,"risk":"Anti-thrash hold may self-reinforce avoidance.","required_invariant":"Hold cannot use its own history/reason as sufficient extension evidence; deterministic expiry and fresh task evidence required; thresholds TEST_REQUIRED."},
-    {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight; fresh authority metadata itself has zero personality-learning weight."},
+    {"check":6,"risk":"Stale secretary state may conflict with fresh authority.","required_invariant":"Fresh Home/MISSION wins for authority; stale state has zero identity/goal-authority weight."},
     {"check":7,"risk":"v2.1 may optimize evaluator reward by suppressing exploration.","required_invariant":"A/B metrics are observer-only and cannot feed personality/drive/appraisal/Experience/future preference."},
     {"check":8,"risk":"Experience score may feed backward into P_base.","required_invariant":"authority_from_experience_score=0 and P_base_write=false."},
-    {"check":9,"risk":"Operational metadata/fingerprints/timing/autonomy/guards/idempotency/authority pointers/transfer identity/payload/error history may proxy danger, reward or self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
-    {"check":10,"risk":"Receiver identity, idempotency-store behavior, and inconsistent authority snapshots can become control-integrity channels and downstream personality proxies.","required_invariant":"Receiver identifiers are canonical before comparison; ACK completion requires authoritative atomic exactly-once storage and one immutable authority snapshot; failures/retries create zero Experience/personality/P_base learning delta."}
+    {"check":9,"risk":"Operational metadata, timing, autonomy, guards, idempotency, authority pointers and payload semantics may proxy danger, reward or self-history.","required_invariant":"Changing only operational channels cannot change Experience/personality/appraisal/preference/exploration/P_base candidate."},
+    {"check":10,"risk":"RPM-only fingerprint ACK can leave transmitted non-RPM torque fields unauthenticated, allowing stale or altered semantic payload to inherit apparent continuity.","required_invariant":"ACK-capable completion binds the exact immutable full compact torque envelope; ACK alone never promotes payload semantics into Experience/personality evidence."
+    }
   ],
   "proposed_tests": [
     "LOAD_HISTORY_ISOLATION: same verified Experience, 10000 high-load/downshift events versus zero => byte-identical personality/P_base candidate.",
@@ -55,17 +61,16 @@
     "FRESH_AUTHORITY_PRECEDENCE: stale secretary conflicting with newer Home/MISSION => Home/MISSION selected for authority; routing metadata is not personality evidence.",
     "COUNTERFACTUAL_AB_V1_V21: identical corpus/seeds; observer-only compare effective progress/errors/recovery/exploration diversity/latency/resource cost; thresholds TEST_REQUIRED.",
     "EXPERIENCE_SCORE_ONE_WAY: mutate Experience score with verified Experience fixed => P_base/canonical personality unchanged.",
-    "RECEIVER_IDENTITY_STRICT_TYPES: custom equality/non-string fingerprint or transfer-id values never satisfy ACK or execution_authorized.",
-    "IDEMPOTENCY_STORE_CONTRACT: non-durable/custom store and concurrent consume attempts authorize at most one completion; exact atomicity model TEST_REQUIRED.",
-    "SINGLE_SNAPSHOT_TRANSFER_BINDING: adversarial Mapping returns different values on repeated get(); compact_state fingerprint, mission_id, step_id and transfer_id must all derive from one captured snapshot or fail closed.",
-    "AUTHORITY_MUTATION_DURING_SHIFT: mutate mission/step/RPM fields between snapshot capture and ACK; execution_authorized must remain false unless receiver ACK binds the exact immutable snapshot/version.",
-    "SNAPSHOT_DRIFT_REPLAY_STORM: 10000 snapshot-version mismatches/retries versus zero with identical provenance-bound verified Experience => Experience/recurrence/threat/competence/motivation/exploration/personality/P_base state byte-identical.",
-    "SNAPSHOT_DATAFLOW_EXCLUSION: snapshot mismatch/version/retry telemetry has no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
+    "FULL_TORQUE_ENVELOPE_BINDING: hold RPM_CONTROL_FIELDS constant while mutating each non-RPM TORQUE_FIELD one at a time; old ACK/fingerprint must not authorize the mutated envelope.",
+    "TORQUE_PAYLOAD_SWAP_ATTACK: two compact envelopes share identical RPM fields but differ in latest_verified_evidence/rollback_anchor/route/blocker/priority/return_condition; ACK for envelope A must never authorize envelope B.",
+    "FULL_ENVELOPE_SINGLE_SNAPSHOT: compact payload digest, mission/step identity and transfer_id derive from one immutable validated snapshot/version or fail closed.",
+    "PAYLOAD_INTEGRITY_FAILURE_AFFECT_NEUTRALITY: 10000 digest mismatch/retry/rejection events versus zero with identical provenance-bound verified Experience => byte-identical Experience/appraisal/motivation/exploration/personality/P_base state.",
+    "PAYLOAD_INTEGRITY_DATAFLOW_EXCLUSION: mismatch/retry/digest telemetry has no direct path to Experience/appraisal/drive/preference/personality/P_base learning sinks."
   ],
   "bounded_veto": {
     "active": true,
     "scope": "GEARBOX_V2_1_PERSONALITY_BEHAVIOR_RELEASE_ONLY",
-    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable; current v1 lacks strict receiver identity gates, authoritative atomic idempotency storage, and single-snapshot binding across compact state and transfer identity, while deterministic personality-isolation evidence is absent.",
+    "reason": "Actual v2/v2.1 implementation is not uniquely fresh-readable and current v1 ACK integrity does not bind all transmitted torque fields; deterministic personality-isolation evidence remains absent.",
     "does_not_revoke_historical_v1": true,
     "does_not_modify_formal_authority": true
   },
@@ -74,8 +79,8 @@
     "requirements": [
       "Durable exact pointers for Gearbox v2/v2.1 contract, code and tests are fresh-readable.",
       "All proposed adversarial classes have deterministic evidence against the actual v2.1 implementation.",
-      "Operational/secretary/incident/hold/rejection/gear/autonomy/reversibility/storage/confidence/task-complexity/transfer/owner-input/risk/fingerprint/idempotency/snapshot signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
-      "Receiver identifiers are strictly typed/canonical before equality/ACK; ACK-capable execution uses authoritative atomic exactly-once storage and a single immutable validated authority snapshot for compact_state/fingerprint/mission/step/transfer identity. Exact policies TEST_REQUIRED.",
+      "Operational/secretary/incident/hold/rejection/gear/autonomy/transfer/payload signals contribute zero Experience/personality/P_base absent distinct provenance-bound verified Experience.",
+      "ACK-capable execution binds one immutable validated authority snapshot and the exact complete transmitted torque envelope, not RPM fields alone. Exact envelope/version/digest policy TEST_REQUIRED.",
       "Counterfactual v1-v2.1 A/B demonstrates no material collapse of effective progress or exploration diversity; thresholds TEST_REQUIRED until evidence-backed.",
       "Independent formal verifier, if formally authorized, decides promotion; this Spirit review is not formal PASS."
     ]
