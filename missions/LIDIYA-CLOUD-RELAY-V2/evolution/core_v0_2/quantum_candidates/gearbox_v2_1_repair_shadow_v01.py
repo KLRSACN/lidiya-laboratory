@@ -24,7 +24,6 @@ from gearbox_controller_v2 import select_gear_v2, strict_bool
 MISSION_ID = "LCR-EVOLUTION-0005"
 RISK_LEVELS = {"NONE", "LOW", "MEDIUM", "HIGH", "CRITICAL"}
 CONTROL_STATES = {"N", "R", "G1", "G2", "G3", "G4", "G5", "G6"}
-GEAR_STATES = {"G1", "G2", "G3", "G4", "G5", "G6"}
 VERIFICATION_STAGES = {"UNVERIFIED", "CANDIDATE", "BUILT_NOT_VERIFIED", "C_VERIFIED"}
 VERIFIED_KINDS = {
     "VERIFIED_CAPABILITY": 5,
@@ -196,6 +195,8 @@ class RepairDecision:
     real_experience_claim_allowed: bool
     verified_experience_delta: int
     operational_progress_delta: int
+    untrusted_secretary_routing_disabled: bool
+    untrusted_shift_metrics_observational_only: bool
     credit_status: str = "SHADOW_RECEIPT_BOUND_ONLY"
     formal_mutation_allowed: bool = False
     repair_candidate_only: bool = True
@@ -226,30 +227,41 @@ def _terminal_decision(state: str, reason: str) -> RepairDecision:
         real_experience_claim_allowed=False,
         verified_experience_delta=0,
         operational_progress_delta=0,
+        untrusted_secretary_routing_disabled=True,
+        untrusted_shift_metrics_observational_only=True,
     )
 
 
 def select_gear_repair_shadow(
     *,
     current_control_state: str = "G1",
+    event_id: Any = None,
     accepted_experience_receipt: Any = None,
     operational_progress_receipt: Any = None,
+    secretary_signal_fresh: Any = False,
+    authority_conflict: Any = False,
+    recent_shift_rate_ratio: Any = 0.0,
+    verified_progress_density: Any = 0.0,
     **v2_kwargs: Any,
 ) -> RepairDecision:
     """Shadow repair for terminal precedence and receipt-bound credit semantics.
 
     Terminal authority is evaluated before nonessential telemetry. Existing N/R
     residence fails closed because no authenticated terminal-exit envelope is yet
-    available in the current live candidate. Nonterminal routing delegates to v2
-    only after canonical typed boundaries are established.
+    available. Caller-declared secretary freshness and shift/progress metrics are
+    explicitly observational/no-routing until evidence-bound envelopes exist.
     """
     rollback_required = strict_bool(v2_kwargs.get("rollback_required", False), "rollback_required")
-    standby = strict_bool(v2_kwargs.get("standby", False), "standby")
+    standby_raw = v2_kwargs.get("standby", False)
 
     # Versioned structural terminal precedence: rollback outranks standby.
+    # A malformed lower-priority standby field cannot suppress trusted rollback.
     if rollback_required:
-        suffix = " (standby conflict resolved: rollback outranks standby)" if standby else ""
+        conflict = type(standby_raw) is bool and standby_raw is True
+        suffix = " (standby conflict resolved: rollback outranks standby)" if conflict else ""
         return _terminal_decision("R", "trusted rollback requested" + suffix)
+
+    standby = strict_bool(standby_raw, "standby")
     if standby:
         return _terminal_decision("N", "trusted standby requested")
 
@@ -264,6 +276,12 @@ def select_gear_repair_shadow(
     event_verified = strict_bool(
         v2_kwargs.get("event_independently_verified", False), "event_independently_verified"
     )
+
+    # Current caller booleans/ratios are not authority evidence. Keep them out of
+    # shadow routing until SecretarySignalEnvelope / AuthorityDecisionEnvelope /
+    # canonical shift history are available.
+    _ = secretary_signal_fresh, authority_conflict, recent_shift_rate_ratio, verified_progress_density
+    effective_secretary = "UNKNOWN"
 
     # Project v1 guard metadata explicitly so wrappers cannot silently drop it.
     base_v1 = select_v1(
@@ -285,6 +303,7 @@ def select_gear_repair_shadow(
         "risk": risk,
         "verification_stage": stage,
         "current_gear": current_state,
+        "secretary_level": effective_secretary,
         "event_kind": kind,
         "event_independently_verified": event_verified,
         "rollback_required": False,
@@ -293,22 +312,33 @@ def select_gear_repair_shadow(
 
     exp_receipt = AcceptedExperienceReceipt.from_value(accepted_experience_receipt)
     op_receipt = OperationalProgressReceipt.from_value(operational_progress_receipt)
+    canonical_decision_event_id: str | None = None
+    if kind in VERIFIED_KINDS or kind in OPERATIONAL_KINDS:
+        try:
+            canonical_decision_event_id = canonical_event_id(event_id)
+        except GearboxGuardError:
+            canonical_decision_event_id = None
 
     verified_delta = 0
-    if kind in VERIFIED_KINDS and exp_receipt is not None:
-        if exp_receipt.event_kind == kind and stage == "C_VERIFIED":
+    if kind in VERIFIED_KINDS and exp_receipt is not None and canonical_decision_event_id is not None:
+        if (
+            exp_receipt.event_id == canonical_decision_event_id
+            and exp_receipt.event_kind == kind
+            and stage == "C_VERIFIED"
+        ):
             verified_delta = VERIFIED_KINDS[kind]
 
     operational_delta = 0
-    if kind in OPERATIONAL_KINDS and op_receipt is not None and op_receipt.event_kind == kind:
-        operational_delta = OPERATIONAL_KINDS[kind]
+    if kind in OPERATIONAL_KINDS and op_receipt is not None and canonical_decision_event_id is not None:
+        if op_receipt.event_id == canonical_decision_event_id and op_receipt.event_kind == kind:
+            operational_delta = OPERATIONAL_KINDS[kind]
 
     real_allowed = verified_delta > 0 and stage == "C_VERIFIED"
-    reason = inherited.reason
+    reason = inherited.reason + "; untrusted secretary and shift/progress metrics disabled for shadow routing"
     if kind in VERIFIED_KINDS and verified_delta == 0:
-        reason += "; raw verified claim has zero shadow credit without matching C/independent-verifier receipt"
+        reason += "; raw/mismatched verified claim has zero shadow credit without event-bound C/independent-verifier receipt"
     if kind in OPERATIONAL_KINDS and operational_delta == 0:
-        reason += "; raw operational claim has zero shadow credit without durable artifact receipt"
+        reason += "; raw/mismatched operational claim has zero shadow credit without event-bound durable artifact receipt"
 
     return RepairDecision(
         selected_state=inherited.selected_gear,
@@ -325,6 +355,8 @@ def select_gear_repair_shadow(
         real_experience_claim_allowed=real_allowed,
         verified_experience_delta=verified_delta,
         operational_progress_delta=operational_delta,
+        untrusted_secretary_routing_disabled=True,
+        untrusted_shift_metrics_observational_only=True,
     )
 
 
