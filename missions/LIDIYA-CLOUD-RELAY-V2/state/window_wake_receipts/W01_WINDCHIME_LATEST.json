@@ -12,7 +12,8 @@
     "Attempted fresh same-runner branch acquisition; git clone failed before compile/test with exit 128 because github.com could not resolve, therefore validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical PASS was promoted.",
     "Detected material delta: W02 advanced from 0732 to 0830 on current exact bytes, adding HIGH ROLLBACK-STANDBY-CONFLICT-096 while TERMINAL-PRECEDENCE-094, CURRENT-GEAR-PROVENANCE-093 and existing release gates remain.",
     "Confirmed dedicated W03 Gearbox v2.1 review remains absent and W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale/veto-active.",
-    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS for W02 0830."
+    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS for W02 0830.",
+    "Final fresh reads confirmed MISSION_STATE unchanged, EVOLUTION_PROGRESS schema 6.80, W02 still 0830, and selftest/speed/checkpoint SHAs exactly match the receipt expectations."
   ],
   "material_delta": [
     "W02 is now QUANTUM-GEARBOX-V2.1-20260821-0830, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
@@ -69,5 +70,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PENDING_FINAL_FRESH_READ"
+  "readback_status": "PASS"
 }
