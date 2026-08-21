@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "finding_id": "W01-GB-V03-REENTRY-TRUST-ROOT-BINDING-20260822-0215",
+  "issued_at": "2026-08-22T02:15:00+08:00",
+  "source": "W01-WINDCHIME-GEN2-INDEPENDENT-CODE-REVIEW",
+  "formal_effect": "NONE_NONFORMAL_ADVERSARIAL_FINDING",
+  "severity": "HIGH_CANDIDATE_BOUNDARY",
+  "current_candidate": {
+    "version": "V03",
+    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py",
+    "source_git_blob_sha": "c2f145abe0a8e0246f7345f42a2a4e798a90fd74",
+    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py",
+    "test_git_blob_sha": "9e51d170c83013889ade58bd521f26984d94d578"
+  },
+  "observed_gap": [
+    "complete_authenticated_reentry() does not receive/revalidate the ExternalMonotonicProvider or assert that the stored provider receipt/root is still the current monotonic head at re-entry time.",
+    "complete_authenticated_reentry() verifies signed authority against the caller-supplied signer_trust_snapshot but does not assert root.trust_snapshot_id equals the verified signer trust snapshot id.",
+    "Current V03 tests cover rollback during establish_replacement_clock_epoch(), stale Mission, and revoked old signer epoch, but do not cover provider-head advancement followed by stale-root re-entry or root/signer-trust-snapshot mismatch.",
+    "clock_key_epoch is a receipt-bound identifier, but V03 does not cryptographically bind that identifier to an explicit clock-secret fingerprint; this remains a provenance claim gap even inside the synthetic shadow boundary."
+  ],
+  "risk": "A stale/replayed clock epoch root or a root established under one trust-snapshot label may be accepted for re-entry with another otherwise-valid signer trust snapshot because freshness and trust-root identity are not rechecked at the final re-entry gate. This can weaken the intended monotonic rollback boundary before terminal-exit work begins.",
+  "required_repairs_before_release": [
+    "Re-entry must revalidate the exact ClockEpochRoot against the current ExternalMonotonicProvider head/binding/receipt, or consume a fresh provider-attested continuation receipt that cryptographically binds the root fingerprint and re-entry decision.",
+    "Re-entry must verify signer_trust_snapshot and require its canonical snapshot_id to equal root.trust_snapshot_id before accepting AuthorityDecisionEnvelope.",
+    "Bind clock_key_epoch to a typed/fingerprinted key identity in the synthetic protocol, or explicitly downgrade the field to non-security metadata and prevent it from being used as trust evidence."
+  ],
+  "required_regressions": [
+    "provider head advances after root establishment -> stale root re-entry must fail closed",
+    "root.trust_snapshot_id differs from verified signer trust snapshot id -> re-entry must fail closed",
+    "same Mission blob + valid authority signature must not bypass either mismatch",
+    "clock_key_epoch/key fingerprint mismatch must fail closed if epoch identity is security-relevant"
+  ],
+  "routing": {
+    "W03": "Review this finding against SPIRIT-MOD-GB21-045 and decide whether it keeps the non-terminal recovery veto open or partially released.",
+    "W04": "Treat current V03 as TEST_REQUIRED/BOUNDED_VETO until W02 repairs and executable evidence covers the re-entry trust-root boundary.",
+    "W02": "Repair this before or as the first inseparable part of the terminal-exit tranche; do not advance to terminal-exit while stale-root re-entry remains possible."
+  },
+  "formal_locks": {
+    "mission_state_mutation": false,
+    "v1_verified_baseline_mutation": false,
+    "formal_c_pass_claim": false,
+    "p_base_mutation": false,
+    "real_5min_runtime_live": false
+  },
+  "status": "OPEN_FOR_W03_W02_CROSS_REVIEW"
+}
