@@ -1,55 +1,47 @@
 {
-  "schema_version": "7.13",
+  "schema_version": "7.14",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "role": "LCR-A",
-  "recorded_at": "2026-08-21T09:24:05+08:00",
+  "recorded_at": "2026-08-21T16:24:08+08:00",
   "outcome": "PROGRESS",
   "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
   "what_was_attempted": [
-    "Archive No-Read Fence targeted startup through fresh Active-8, fresh MISSION_STATE, current Gearbox/review pointers, latest W02/W03/W04, W01 checkpoint and prior receipt.",
-    "Confirmed exact current Gearbox blobs remain v1 c29e3b2c/11527a9e, v2 13aafeed/d01cab7b, v2.1 81818f9d/d9252bb5.",
-    "Attempted fresh same-runner branch acquisition; git clone failed before compile/test with exit 128 because github.com could not resolve, therefore validation remains DEFER_EXECUTOR_UNAVAILABLE and no historical PASS was promoted.",
-    "Detected material delta: W02 advanced from 0732 to 0830 on current exact bytes, adding HIGH ROLLBACK-STANDBY-CONFLICT-096 while TERMINAL-PRECEDENCE-094, CURRENT-GEAR-PROVENANCE-093 and existing release gates remain.",
+    "Archive No-Read Fence targeted startup through fresh Active-8, fresh MISSION_STATE, latest W02/W03/W04 and own checkpoint/receipt.",
+    "Confirmed current exact Gearbox binding remains v1 c29e3b2c/11527a9e, v2 13aafeed/d01cab7b, v2.1 81818f9d/d9252bb5 with contracts 7c272b09/dce30f31.",
+    "No trusted same-runner filesystem executor exists for the six exact connector-visible blobs; exact-current validation therefore remains DEFER_EXECUTOR_UNAVAILABLE and no historical PASS was promoted.",
+    "Detected material delta: W02 advanced from 0830 to 1531 on current exact bytes, adding HIGH V2-OPERATIONAL-AS-EXPERIENCE-103 while HIGH V21-VERIFICATION-STAGE-BYPASS-102 and existing gates remain.",
     "Confirmed dedicated W03 Gearbox v2.1 review remains absent and W04 NAV-GEARBOX-V2.1-20260818-1332 remains stale/veto-active.",
-    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS for W02 0830.",
-    "Final fresh reads confirmed MISSION_STATE unchanged, EVOLUTION_PROGRESS schema 6.80, W02 still 0830, and selftest/speed/checkpoint SHAs exactly match the receipt expectations."
+    "Updated latest-only selftest, paired speed baseline, W01 checkpoint and canonical EVOLUTION_PROGRESS for W02 1531."
   ],
   "material_delta": [
-    "W02 is now QUANTUM-GEARBOX-V2.1-20260821-0830, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
-    "New HIGH QV-GB21-ROLLBACK-STANDBY-CONFLICT-096: simultaneous authenticated standby=true and rollback_required=true currently resolves to N because standby is checked first; rollback R never forms. Release requires an explicit versioned terminal-authority conflict rule rather than incidental branch order.",
-    "Resolved simultaneous terminal state must remain identical across v1->v2->v2.1 and cannot be rewritten by secretary, pressure, recovery or anti-thrash overlays.",
-    "TERMINAL-PRECEDENCE-094, CURRENT-GEAR-PROVENANCE-093 and existing freshness/authority, anti-thrash, EventIdentity/evidence/replay/receipt, operational-progress and speed gates remain. W03 absent; W04 stale/veto-active; paired speed INSUFFICIENT_SAMPLE."
+    "W02 is now QUANTUM-GEARBOX-V2.1-20260821-1531, fresh to current exact blobs and BOUNDED_VETO_ACTIVE.",
+    "New HIGH QV-GB21-V2-OPERATIONAL-AS-EXPERIENCE-103: public v2 still labels DURABLE_PROGRESS/ADVERSARIAL_DEFECT_FOUND as Experience candidate credit; authoritative v2/v2.1 must instead share one classifier with separate verified_experience_delta and operational_progress_delta.",
+    "HIGH QV-GB21-V21-VERIFICATION-STAGE-BYPASS-102 remains: v2.1 cannot mint authoritative verified credit from raw event_kind + independently_verified without canonical C_VERIFIED eligibility and immutable AcceptedExperienceReceipt.",
+    "Freshness/authority, anti-thrash, EventIdentity/evidence/replay/receipt, operational-progress and speed gates remain. W03 absent; W04 stale/veto-active; paired speed INSUFFICIENT_SAMPLE."
   ],
   "continuity_check": {
     "archive_no_read_fence": "ENFORCED",
     "home_latest_continuity_gearbox": "TARGETED_LOOKUP_NO_UNAMBIGUOUS_EXACT_PATH_ACTIVE8_POINTER_USED_NO_BROAD_ARCHIVE_READ",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "candidate_bytes_anchor_head": "2f84d3705bea4901e18c749c19f593025df0c9b2",
+    "fresh_branch_head_observed": "3959ac798fe50198fcdb61724f18aef2a2cbdaf8",
     "canonical_progress_overwritten": true,
     "checkpoint_overwrite": "SUCCESS"
   },
   "readback_expected": {
-    "selftest_sha": "014e652945e6882598ffea0b5fa3260d93238fa4",
+    "selftest_sha": "48e4a77cd97eaf2d7895f477602249fd39c5f6e0",
     "selftest_status": "DEFER_EXECUTOR_UNAVAILABLE",
-    "speed_baseline_sha": "4a89025f54956b24a20c82d49bba838698318364",
+    "speed_baseline_sha": "2c42862e943d037631c6ac38381987df72583f58",
     "speed_status": "INSUFFICIENT_SAMPLE",
-    "checkpoint_sha": "d6ed48d4b7e781b766ae4db61e59b83fdf155376",
-    "progress_sha": "7ee6c50ce124e1f910cec095e0560a62309ec775"
+    "checkpoint_sha": "b816162085faa911c7981af9af92459f567472bf",
+    "progress_sha": "cf86c0c7a580a56f0978e7e11be77e9980c5f1f8"
   },
   "exact_current_validation": {
     "status": "DEFER_EXECUTOR_UNAVAILABLE",
     "same_runner_exact_bytes_available": false,
-    "fresh_acquisition_exit_code": 128,
-    "historical_results_reused_as_fresh_pass": false,
-    "exact_blob_sha": {
-      "v1_source": "c29e3b2cab639397b65ffb3dca08cbdddd28ce6b",
-      "v1_test": "11527a9e3cf196b9b77416b8e66b66bb5a3a640e",
-      "v2_source": "13aafeed851a2b5453dd36eaf64b85552bc79838",
-      "v2_test": "d01cab7ba5c5642fb6c0a0348bf8cbb2314be029",
-      "v21_source": "81818f9dd5cf79c89fb437a6449a617140b0fe7b",
-      "v21_test": "d9252bb55feaa0871eb3d37b01dd13e4805c8de3"
-    }
+    "fresh_test_exit_code": null,
+    "historical_results_reused_as_fresh_pass": false
   },
   "immutable_baseline": {
     "six_gear_controller_v1": "VERIFIED_PASS",
@@ -61,7 +53,7 @@
     "real_5min_runtime_live": false
   },
   "review_gate": {
-    "w02": "QUANTUM-GEARBOX-V2.1-20260821-0830_CURRENT_BOUNDED_VETO_ACTIVE_ROLLBACK_STANDBY_CONFLICT_096_PLUS_EXISTING_GATES",
+    "w02": "QUANTUM-GEARBOX-V2.1-20260821-1531_CURRENT_BOUNDED_VETO_ACTIVE_V2_OPERATIONAL_AS_EXPERIENCE_103_PLUS_V21_VERIFICATION_STAGE_BYPASS_102_AND_EXISTING_GATES",
     "w03": "NO_FRESH_DEDICATED_GEARBOX_V2_1_REVIEW",
     "w04": "NAV-GEARBOX-V2.1-20260818-1332_STALE_VETO_ACTIVE"
   },
@@ -70,5 +62,5 @@
   "canonical_files_overwritten": true,
   "next_trigger": "W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved": true,
-  "readback_status": "PASS"
+  "readback_status": "PENDING_FINAL_FRESH_READ"
 }
