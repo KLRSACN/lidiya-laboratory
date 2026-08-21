@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_EXTERNAL_MONOTONIC_PROVIDER_SHADOW_V01",
+  "status": "NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "purpose": "Define a replaceable trust boundary for a genuinely external monotonic provider without claiming that TPM/HSM/remote-service infrastructure exists.",
+  "requirements": [
+    "Provider binding MUST identify provider_id, durability_domain_id, installation_id and runtime_id.",
+    "Provider durability_domain_id MUST differ from the consumer local durability domain before externality is accepted by the adapter.",
+    "Receipts MUST advance exactly one sequence, bind previous receipt hash and payload hash, and pass provider verification.",
+    "Provider read_floor MUST be at least the accepted receipt sequence; a floor behind a receipt is fail-closed rollback evidence.",
+    "Cross-installation/runtime/provider/domain receipts fail closed.",
+    "The adapter MUST NOT claim that a real external provider, protected production key, HSM, TPM, remote service, multi-host lease or physical independence has been established.",
+    "Provider maintenance and receipt verification are zero Experience and zero operational progress.",
+    "No formal MISSION_STATE mutation or live routing authority is granted."
+  ],
+  "trust_boundary": {
+    "consumer_and_provider_common_rollback": "DETECTABLE_ONLY_IF_PROVIDER_DURABILITY_DOMAIN_IS_GENUINELY_INDEPENDENT",
+    "synthetic_fake_provider_tests": "SEMANTICS_ONLY_NOT_PRODUCTION_TRUST_PROOF",
+    "production_adapter": "TEST_REQUIRED",
+    "protected_key_or_hardware_root": "TEST_REQUIRED",
+    "provider_state_crash_recovery": "TEST_REQUIRED"
+  },
+  "formal_effect": "NONE",
+  "formal_c_verification": "NOT_CLAIMED"
+}
