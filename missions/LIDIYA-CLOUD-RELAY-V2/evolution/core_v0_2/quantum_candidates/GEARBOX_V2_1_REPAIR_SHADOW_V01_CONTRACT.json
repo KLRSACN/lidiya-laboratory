@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0-shadow",
+  "candidate_id": "QUANTUM-GEARBOX-V2.1-REPAIR-SHADOW-V01-20260821",
+  "owner_role": "W02-QUANTUM_NON_FORMAL",
+  "status": "EXECUTABLE_SHADOW_REPAIR_CANDIDATE",
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "scope": "GEARBOX_V2_AND_V2_1_CANDIDATE_REPAIR_ONLY",
+  "does_not_modify": [
+    "Gearbox v1 verified baseline",
+    "MISSION_STATE",
+    "P_base",
+    "Identity",
+    "Personality",
+    "Governance",
+    "formal A/B/C packets"
+  ],
+  "repair_tranche_1": {
+    "terminal_authority": {
+      "policy_version": "ROLLBACK_OVER_STANDBY_V1_SHADOW",
+      "rules": [
+        "rollback outranks simultaneous standby in this shadow candidate",
+        "rollback/standby are resolved before nonessential telemetry parsing",
+        "existing N/R terminal residence is preserved fail-closed until an authenticated terminal-exit envelope exists",
+        "current-control-state accepts N/R/G1..G6 instead of forcing terminal residence into a fake G-state"
+      ],
+      "formal_adoption": "TEST_REQUIRED_A_TO_B_TO_C"
+    },
+    "typed_boundaries": {
+      "risk": "explicit string only: NONE/LOW/MEDIUM/HIGH/CRITICAL; None and non-string values fail closed",
+      "event_kind": "single canonical typed parser shared by shadow routing and ledger",
+      "event_id": "explicit bounded token string only; no str(None)/numeric/list/mapping coercion",
+      "current_control_state": "N/R/G1..G6 canonical typed boundary"
+    },
+    "credit_semantics": {
+      "verified": "raw event_kind + bool is zero shadow credit without a matching C/independent-verifier receipt and C_VERIFIED stage",
+      "operational": "DURABLE_PROGRESS and ADVERSARIAL_DEFECT_FOUND are operational-only and require a durable artifact receipt for nonzero shadow operational credit",
+      "heartbeat_runtime": "HEARTBEAT/POLL/RETRY/WAIT/SCHEDULER_WAKE remain zero Experience"
+    },
+    "durable_replay_registry": {
+      "mode": "SHADOW_JSON_ATOMIC_REGISTRY",
+      "rules": [
+        "identity is consumed only after full acceptance",
+        "exact accepted replay is duplicate NO_OP",
+        "same event ID with different binding is IDENTITY_CONFLICT",
+        "same evidence/artifact lineage under a new ID is lineage duplicate",
+        "rejected/unverified claims do not reserve identity",
+        "irrelevant verifier metadata is not parsed for zero/operational classes"
+      ],
+      "production_note": "Shadow registry proves semantics only; production durability/locking/concurrency remains TEST_REQUIRED."
+    },
+    "metadata_projection": {
+      "v1_guard_status": "projected",
+      "v1_return_condition": "projected",
+      "v2_checkpoint_required": "projected",
+      "v2_receiver_ack_required": "projected",
+      "v2_verification_gate": "projected",
+      "v2_real_experience_claim": "recomputed fail-closed from receipt-bound shadow eligibility"
+    }
+  },
+  "known_unresolved_after_v01": [
+    "SecretarySignalEnvelope and per-field freshness/provenance are not yet implemented in this shadow tranche.",
+    "AuthorityDecisionEnvelope exact projection is not yet implemented.",
+    "recent_shift_rate_ratio still needs a canonical append-only shift-history source, minimum support, uncertainty and hysteretic release.",
+    "authenticated terminal-exit envelope is intentionally not implemented; N/R residence therefore fails closed.",
+    "receipt authenticity is structurally modeled but cryptographic/registry-backed trust is not established by this shadow module.",
+    "production-grade durable ledger concurrency, locking and rollback resistance remain TEST_REQUIRED.",
+    "speedup remains NOT_YET_STATISTICALLY_ESTABLISHED."
+  ],
+  "acceptance_boundary": {
+    "shadow_ci": "required",
+    "fresh_same_runner_pass": "required before any promotion claim",
+    "dedicated_w03": "required",
+    "current_zero_veto_w04": "required",
+    "formal_c": "required for adoption",
+    "speed_evidence": "matched paired/randomized-crossover required for speed claim"
+  },
+  "experience_boundary": {
+    "runtime_maintenance_counts_as_experience": false,
+    "self_test_duration_counts_as_experience": false,
+    "operational_progress_counts_as_verified_experience": false,
+    "p_base": "READ_ONLY_UNCHANGED"
+  }
+}
