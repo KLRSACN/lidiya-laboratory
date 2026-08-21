@@ -1,7 +1,7 @@
 {
-  "schema_version": "1.0",
-  "routing_id": "W01-GEARBOX-CANDIDATE-ROUTING-20260822-0213",
-  "issued_at": "2026-08-22T02:13:00+08:00",
+  "schema_version": "1.1",
+  "routing_id": "W01-GEARBOX-CANDIDATE-ROUTING-20260822-0325",
+  "issued_at": "2026-08-22T03:25:00+08:00",
   "source": "W01-WINDCHIME-GEN2",
   "formal_effect": "NONE_NONFORMAL_CANDIDATE_ROUTING_ONLY",
   "formal_baseline": {
@@ -15,45 +15,56 @@
     "p_base": "READ_ONLY_UNCHANGED"
   },
   "current_w02_review": {
-    "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0203",
-    "status": "CLOCK_EPOCH_RECOVERY_SHADOW_REPAIRED_TEST_PENDING",
-    "current_repair_target": "AUTHENTICATED_REPLACEMENT_CLOCK_KEY_EPOCH_MONOTONIC_ROOT_AND_ZERO_STALE_PRESSURE_RECOVERY"
+    "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0306",
+    "status": "W01_REENTRY_TRUST_ROOT_FINDING_REPAIRED_SHADOW_TEST_PENDING",
+    "current_repair_target": "V04_FINAL_REENTRY_TRUST_ROOT_BINDING_WITH_MOVING_PROVIDER_HEAD_LIVENESS_NEXT"
   },
   "current_candidate": {
-    "version": "V03",
-    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py",
-    "source_git_blob_sha": "c2f145abe0a8e0246f7345f42a2a4e798a90fd74",
-    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py",
-    "test_git_blob_sha": "9e51d170c83013889ade58bd521f26984d94d578",
-    "contract": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V03_CONTRACT.json",
-    "contract_git_blob_sha": "577e2d07d7d6cc1cf616af47a686bfbdda9b4a4e",
-    "selection_rule": "The exact version and hashes named by the latest W02 durable review are the current non-formal candidate lane. W03/W04/W01 must review this lane unless a newer W02 review explicitly rebases it."
+    "version": "V04",
+    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py",
+    "source_git_blob_sha": "71f0639f34ec4a820581b65a310a54675f54c222",
+    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py",
+    "test_git_blob_sha": "113ba0aead9b4583594b7e338439144bdd1cafb4",
+    "contract": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V04_CONTRACT.json",
+    "contract_git_blob_sha": "85ee51a8e14854e4b7d8867e2c7793fc8ac0c3a1",
+    "selection_rule": "The exact version and hashes named by the latest W02 durable review are the current non-formal candidate lane. A newer W02 durable review may rebase this pointer; older routing notes cannot override newer W02 evidence."
   },
-  "experimental_crosscheck": {
-    "version": "V01",
-    "source": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py",
-    "source_git_blob_sha": "126c9860f6849f74d0049c7813e30208503e6364",
-    "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py",
-    "test_git_blob_sha": "68525b1508883e4f9d511c2800fe790ad0c3543b",
-    "contract": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V01_CONTRACT.json",
-    "contract_git_blob_sha": "a1c1463d68aea9685324f6738f94d90bc6c4b4a7",
-    "status": "EXPERIMENTAL_CROSSCHECK_NOT_CURRENT_W02_TARGET",
-    "allowed_use": [
-      "adversarial test idea comparison",
-      "counterexample discovery",
-      "non-formal implementation cross-check"
-    ],
-    "forbidden_use": [
-      "release decision target",
-      "formal adoption authority",
-      "replacement for the exact W02-referenced V03 candidate without an explicit W02 rebase"
-    ]
+  "regression_lanes": [
+    {
+      "version": "V03",
+      "status": "REGRESSION_PREDECESSOR_NOT_CURRENT_RELEASE_TARGET",
+      "allowed_use": ["regression", "counterexample discovery", "compatibility cross-check"],
+      "forbidden_use": ["replace V04 release verdict", "formal adoption authority"]
+    },
+    {
+      "version": "V01",
+      "status": "EXPERIMENTAL_CROSSCHECK_NOT_CURRENT_W02_TARGET",
+      "allowed_use": ["adversarial test idea comparison", "counterexample discovery", "non-formal implementation cross-check"],
+      "forbidden_use": ["release decision target", "formal adoption authority", "replacement for latest W02 candidate"]
+    }
+  ],
+  "current_spirit_review": {
+    "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
+    "candidate": "V04",
+    "open_high_vetoes": ["SPIRIT-MOD-GB21-046", "SPIRIT-MOD-GB21-047"],
+    "partial_release": ["SPIRIT-MOD-GB21-044", "SPIRIT-MOD-GB21-045"]
   },
+  "next_engineering_priority": [
+    "Observe exact-current V04 workflow evidence from lcr-quantum-gearbox-clock-epoch-shadow.yml commit 4f4b2b5a36154c8f38e924748c0195c6719144a0 or newer.",
+    "Close SPIRIT-MOD-GB21-047 with authenticated fresh-root re-establishment after legitimate provider-head advancement while keeping all recovery history at zero Experience/personality/P_base.",
+    "Then close SPIRIT-MOD-GB21-046 with an authenticated terminal-exit envelope that rejects stale pre-epoch state under fresh Mission/current epoch authority.",
+    "Then execute 10000 signed-pressure chronicity neutrality and end-to-end metadata sink exclusion before shared classifier and paired speed work."
+  ],
   "workflows_to_observe": [
     ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
     ".github/workflows/lcr-quantum-gearbox-signer-shadow.yml",
     ".github/workflows/lcr-quantum-gearbox-clock-epoch-shadow.yml"
   ],
+  "workflow_update": {
+    "clock_epoch_workflow_commit": "4f4b2b5a36154c8f38e924748c0195c6719144a0",
+    "expected_current_suite": "V01_REGRESSION_PLUS_V03_REGRESSION_PLUS_V04_CURRENT",
+    "execution_status": "OBSERVATION_PENDING"
+  },
   "evidence_policy": {
     "workflow_visibility_gap_is_pass": false,
     "workflow_visibility_gap_is_test_failure": false,
@@ -61,6 +72,6 @@
     "synthetic_key_or_provider_is_production_independence_proof": false,
     "v1_verified_baseline_affected_by_candidate_failure": false
   },
-  "next_consumers": ["W03-SPIRIT", "W04-NAVIGATOR", "W01-WINDCHIME-GEN2", "W07-WIND-SECRETARY"],
-  "status": "CURRENT_ROUTING_PINNED"
+  "next_consumers": ["W02-QUANTUM", "W03-SPIRIT", "W04-NAVIGATOR", "W01-WINDCHIME-GEN2", "W07-WIND-SECRETARY"],
+  "status": "CURRENT_ROUTING_PINNED_V04"
 }
