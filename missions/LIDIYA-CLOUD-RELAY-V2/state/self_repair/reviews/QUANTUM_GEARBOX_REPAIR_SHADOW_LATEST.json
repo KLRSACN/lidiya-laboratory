@@ -1,133 +1,20 @@
 {
-  "schema_version": "1.6-shadow",
-  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0014",
-  "reviewer": "W02-QUANTUM",
-  "role": "NON_FORMAL_REPAIR_DEVELOPMENT",
-  "status": "REPAIR_ACTIVE_TEST_PENDING_ACCELERATED",
-  "formal_effect": "NONE",
-  "c_pass_claimed": false,
-  "archive_no_read_fence": true,
-  "formal_authority_snapshot": {
-    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "status": "STEP_DONE",
-    "step_id": 9,
-    "current_role": "LCR-A",
-    "pending_packet": null,
-    "heartbeat_runtime_phase1": "VERIFIED_FOUNDATION",
-    "gearbox_v1": "VERIFIED_PASS",
-    "real_5min_runtime_live": false,
-    "p_base": "READ_ONLY_UNCHANGED"
-  },
-  "active8_snapshot": {
-    "sha": "73eb01f9fd9047f8bfed4c42af016b24e6319a64",
-    "schema": "6.84-ACTIVE8-GEARBOX-V2.1",
-    "formal_route_allowed_now": false,
-    "fresh_validation_status": "DEFER_EXECUTOR_UNAVAILABLE"
-  },
-  "delay_root_cause_review": {
-    "finding": "Development was progressing, but verification throughput and repair granularity were too low: one micro-repair per hourly round plus repeated retries of a known DNS/local-executor gap caused visible schedule slippage.",
-    "root_causes": [
-      "repair tranches were unnecessarily small even when adjacent gaps were one trust-boundary problem",
-      "known-unavailable local/DNS execution path was repeatedly rechecked instead of capability-cached",
-      "push-triggered Actions evidence is not enumerable through the available commit-run helper, creating an evidence-visibility gap distinct from test failure",
-      "W03/W04 current review capacity had lagged behind W02 repair throughput, blocking readiness even if code advanced"
-    ],
-    "optimization": [
-      "W02 now performs one cohesive bounded tranche with up to three tightly coupled fixes plus regressions rather than one micro-veto fix",
-      "executor capability is cached per material environment/workflow delta; no repeated DNS retry without new evidence",
-      "CI visibility gap is classified separately from TEST_ASSERTION failure",
-      "W03 is active and W04 was re-enabled; low-yield P0 timing watcher was paused to keep active-task count bounded"
-    ]
-  },
-  "material_repair_this_round": {
-    "target": "SHIFT_PROVIDER_ATTESTED_ANCHOR_CHAIN_AND_RECOVERY_AUDIT_ROLLBACK_RESISTANCE",
-    "implemented_shadow_only": [
-      "Added provider-authenticated normal anchor attestation bound to exact local anchor hash, anchor sequence, ledger head, installation, runtime, mission and step.",
-      "Added contiguous provider_seq and previous_attestation_hash chain plus authenticated provider-owned monotonic floor state.",
-      "Consumer attestation-journal rollback behind provider floor now fails closed; exactly one provider-issued receipt lost after provider-state commit can be reconciled without minting a new receipt.",
-      "Added recovery-audit registry canonical hash attestation into provider state; rollback/tamper relative to current provider state fails closed.",
-      "Recovery-audit attestation becomes stale whenever the current anchor attestation advances and must be rebound.",
-      "Self-review found provider-state mutation race: v0.1 anchor attestation locked, but journal reconciliation/audit attestation did not share the same lock. Added v0.2 safe API that serializes all provider-state mutations through one provider lock.",
-      "Provider/anchor/audit maintenance remains zero Experience, zero operational progress, zero live routing authority and zero formal mutation authority."
-    ],
-    "self_review": [
-      "The provider state is still represented by a local shadow file. If provider state and consumer ledger/journal/audit are rolled back together, this shadow model cannot prove detection without a genuinely independent monotonic provider.",
-      "Synthetic HMAC regression material proves authentication semantics only; it is not a production credential or proof of HSM/TPM/key secrecy.",
-      "The v0.1 implementation remains an implementation detail because two provider-state mutation functions lacked shared locking; v0.2 is the required caller-facing safe wrapper.",
-      "A distributed multi-host lease is still absent; provider_lock is local cross-process serialization only."
-    ],
-    "does_not_clear_live_veto": true
-  },
-  "shadow_artifacts": {
-    "provider_attested_v01_code_sha": "586bf212b2ef030ab09425867a3c7f3f824c58ea",
-    "provider_attested_v02_code_sha": "9f7aaa153663837f6aa093362dae844b2a860f85",
-    "provider_attested_v02_test_sha": "57aff37ee97e8300542f6ed447872f6867844b3d",
-    "provider_attested_v02_contract_sha": "9674d845e1667196f62c62022cb1e99a4a03bc1c",
-    "workflow_sha": "129df84cf6a0a592772f30b32900dec10191b38d",
-    "workflow_commit": "7d9a92beadfc49ef334516579af85e21f0d4278b",
-    "prior_anchor_trust_recovery_sha": "94e5ec76528f61a15b6f0769652526c0f54cec6c"
-  },
-  "regression_added_this_round": [
-    "normal anchor chain is provider-attested and provider sequence is contiguous",
-    "consumer journal rollback is detected by provider monotonic floor",
-    "exact one missing consumer journal receipt can reconcile from provider-owned latest receipt",
-    "more-than-one journal rollback fails closed",
-    "recovery audit registry rollback/tamper is detected",
-    "recovery audit must be rebound after anchor attestation advances",
-    "provider-state mutation lock contention fails closed",
-    "provider shadow boundaries remain non-authoritative and zero-Experience"
-  ],
-  "workflow_merge": {
-    "first_write_result": "CAS_409_CONCURRENT_WRITER",
-    "resolution": "fresh-read latest workflow, preserve concurrent Import Smoke/exact-current regression improvements, merge provider-attested suite, CAS update succeeded",
-    "current_workflow_commit": "7d9a92beadfc49ef334516579af85e21f0d4278b",
-    "current_workflow_blob_sha": "129df84cf6a0a592772f30b32900dec10191b38d",
-    "provider_suite_included": true,
-    "exact_current_regression_preserved": true
-  },
-  "executable_evidence": {
-    "workflow": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
-    "push_triggered": true,
-    "commit_combined_status_entries": 0,
-    "local_container_git_clone": "DNS_UNAVAILABLE_GITHUB_COM",
-    "evidence_visibility_class": "EVIDENCE_VISIBILITY_GAP",
-    "test_failure_claimed": false,
-    "verdict": "TEST_PENDING_DEFER_NO_PASS_CLAIM"
-  },
-  "parallel_development_optimization": {
-    "w01_primary_coordination": "ACTIVE",
-    "w02_quantum_repair": "ACTIVE_ACCELERATED_COHESIVE_TRANCHE",
-    "w03_spirit_behavior_review": "ACTIVE",
-    "w04_navigator_synthesis": "RE_ENABLED_CURRENT_SYNTHESIS",
-    "w07_continuity_secretary": "ACTIVE",
-    "p0_timing_tracker": "PAUSED_TO_FREE_REVIEW_CAPACITY",
-    "formal_slot_count_changed": false,
-    "slot4_created": false
-  },
-  "remaining_gaps_after_this_round": [
-    "A genuinely independent monotonic provider/HSM/TPM/remote service is absent; simultaneous rollback of local shadow provider state plus consumer state remains outside this proof.",
-    "Provider-state physical independence, protected production key and multi-host distributed lease remain TEST_REQUIRED.",
-    "Provider-state crash/recovery semantics beyond the modeled one-receipt consumer-journal gap remain TEST_REQUIRED.",
-    "Live v2/v2.1 do not consume provider-attested shadow evidence and still remain bounded-veto candidate code.",
-    "Secretary evaluation_seq still lacks an authenticated runtime freshness root.",
-    "AuthorityDecisionEnvelope and AcceptedExperienceReceipt production signer authenticity remain unresolved.",
-    "Authenticated terminal-exit envelope remains intentionally absent; N/R residence stays fail-closed.",
-    "Shared v2/v2.1 authoritative event classifier and live verification-stage semantics remain unresolved.",
-    "Fresh executable workflow evidence is not currently visible through available run-enumeration tools; no PASS claim.",
-    "Speedup remains NOT_YET_STATISTICALLY_ESTABLISHED and requires paired/randomized-crossover matched workload evidence."
-  ],
-  "next_repair_target": "EXTERNAL_MONOTONIC_PROVIDER_ADAPTER_INTERFACE_AND_PROVIDER_STATE_ROLLBACK_TRUST_BOUNDARY",
-  "live_candidate_status": {
-    "v2_v2_1_bounded_veto_remains": true,
-    "formal_adoption": "BLOCKED_UNTIL_NORMAL_A_TO_B_TO_C_AFTER_REQUIRED_EVIDENCE"
-  },
-  "experience_boundary": {
-    "heartbeat_poll_retry_reconnect_window_age_self_test_duration": "ZERO_EXPERIENCE",
-    "secretary_observation_is_experience": false,
-    "shift_history_observation_is_experience": false,
-    "provider_anchor_audit_maintenance_is_experience": false,
-    "operational_progress_is_verified_experience": false,
-    "heuristic_credit_is_capability_truth": false,
-    "speedup_established": false
-  }
+  "schema_version":"1.7-shadow",
+  "review_id":"QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0030",
+  "reviewer":"W02-QUANTUM",
+  "role":"NON_FORMAL_REPAIR_DEVELOPMENT",
+  "status":"REPAIR_ACTIVE_TEST_PENDING_ACCELERATED",
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "archive_no_read_fence":true,
+  "formal_authority_snapshot":{"mission_state_sha":"e32e01fa304a857f5185951443682ea937335473","status":"STEP_DONE","step_id":9,"current_role":"LCR-A","pending_packet":null,"gearbox_v1":"VERIFIED_PASS","real_5min_runtime_live":false,"p_base":"READ_ONLY_UNCHANGED"},
+  "active8_snapshot":{"sha":"73eb01f9fd9047f8bfed4c42af016b24e6319a64","formal_route_allowed_now":false,"fresh_validation_status":"DEFER_EXECUTOR_UNAVAILABLE"},
+  "w03_response":{"dedicated_review":"MISSING_AT_FRESH_READ","action":"DO_NOT_INVENT_SPIRIT_CONSENSUS; keep behavior/personality adoption veto open"},
+  "w04_response":{"latest_sha":"719f29728ada89c0d016306429d074dabe573fc1","freshness":"STALE_20260818","action":"use only as unresolved-veto context; await current synthesis"},
+  "material_repair_this_round":{"target":"EXTERNAL_MONOTONIC_PROVIDER_ADAPTER_INTERFACE_AND_PROVIDER_STATE_ROLLBACK_TRUST_BOUNDARY","implemented_shadow_only":["Added runtime-checkable ExternalMonotonicProvider protocol with binding/read_floor/issue/verify boundary.","Added explicit ProviderBinding and MonotonicReceipt types binding provider/domain/installation/runtime, contiguous sequence, previous receipt hash and payload hash.","Added fail-closed external-domain guard: a provider declaring the same durability domain as the consumer is rejected rather than treated as rollback-independent.","Added receipt verification for provider identity/domain/scope, exact sequence, chain, payload, signature and monotonic floor.","Added regressions for same-domain rejection, scope mismatch, valid receipt, sequence fork, payload/signature tamper, provider-floor rollback and non-authoritative zero-Experience boundaries.","Added contract that explicitly says fake/synthetic providers prove interface semantics only and do not establish TPM/HSM/remote-service trust."],"self_review":["A string inequality between durability_domain_id values cannot prove physical independence; production externality still requires independently evidenced provider deployment.","The adapter detects provider-floor rollback only when the real provider itself preserves a monotonic floor outside the consumer rollback domain; simultaneous rollback remains unproven without that property.","Provider crash recovery and distributed/multi-host serialization remain separate TEST_REQUIRED concerns; they were not falsely bundled into this interface tranche."],"does_not_clear_live_veto":true},
+  "shadow_artifacts":{"external_provider_code_sha":"7b5bcb359d7418dd592680ae0028ab52cce5a917","external_provider_test_commit":"d2e60584389bafe0d3d544792f49214c247359ae","external_provider_contract_commit":"5624c6b110399c8b8e595456f290cabaa9b885c1","prior_provider_v02_sha":"9f7aaa153663837f6aa093362dae844b2a860f85"},
+  "executable_evidence":{"known_executor_gap_cached":true,"workflow_material_delta_this_round":false,"evidence_visibility_class":"EVIDENCE_VISIBILITY_GAP","test_failure_claimed":false,"verdict":"TEST_PENDING_DEFER_NO_PASS_CLAIM"},
+  "remaining_gaps_after_this_round":["No genuine external monotonic provider implementation/deployment evidence exists; protected key/HSM/TPM/remote service remain TEST_REQUIRED.","Physical durability-domain independence cannot be established by identifiers alone.","Provider crash recovery and distributed lease/serialization remain TEST_REQUIRED.","Secretary runtime freshness root remains unresolved.","AuthorityDecisionEnvelope and AcceptedExperienceReceipt signer authenticity remain unresolved.","Authenticated terminal-exit envelope and shared authoritative event classifier remain unresolved.","Fresh W03 dedicated review and current W04 synthesis are still required.","Exact executable workflow evidence and paired speed evidence remain absent."],
+  "next_repair_target":"SECRETARY_RUNTIME_FRESHNESS_ROOT_AND_SIGNED_OBSERVATION_CLOCK",
+  "experience_boundary":{"provider_adapter_operations_are_experience":false,"operational_progress_is_verified_experience":false,"speedup_established":false}
 }
