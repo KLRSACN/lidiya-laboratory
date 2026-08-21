@@ -245,8 +245,10 @@ class SecretarySignalEnvelope:
 class SecretarySignalProjection:
     signal_id: str | None
     envelope_fingerprint: str | None
-    secretary_level: str
-    pressure_inputs: dict[str, float]
+    observed_secretary_level: str
+    observed_pressure_inputs: dict[str, float]
+    routing_secretary_level: str
+    routing_pressure_inputs: dict[str, float]
     accepted_fields: tuple[str, ...]
     dropped_fields: tuple[str, ...]
     status: str
@@ -265,8 +267,10 @@ def neutral_secretary_projection(*, status: str, signal_id: str | None = None,
     return SecretarySignalProjection(
         signal_id=signal_id,
         envelope_fingerprint=fingerprint,
-        secretary_level="UNKNOWN",
-        pressure_inputs=dict(NEUTRAL_PRESSURE),
+        observed_secretary_level="UNKNOWN",
+        observed_pressure_inputs=dict(NEUTRAL_PRESSURE),
+        routing_secretary_level="UNKNOWN",
+        routing_pressure_inputs=dict(NEUTRAL_PRESSURE),
         accepted_fields=(),
         dropped_fields=dropped_fields,
         status=status,
@@ -280,17 +284,18 @@ def neutral_secretary_projection(*, status: str, signal_id: str | None = None,
 def project_secretary_signal_shadow(
     envelope_value: Any,
     *,
-    trusted_current_seq: int,
+    evaluation_seq: int,
     authority_conflict: bool = False,
 ) -> SecretarySignalProjection:
     """Validate secretary telemetry and sanitize each pressure field independently.
 
-    This tranche deliberately does not grant routing authority. It proves envelope and
-    per-field provenance/freshness semantics only. A future trusted runtime freshness
-    root must bind ``trusted_current_seq`` before any projection can affect routing.
-    Until then, sanitized values are observational evidence only.
+    ``evaluation_seq`` is only a shadow freshness evaluator, not a trusted runtime
+    authority. Therefore even fresh validated observations are emitted only through
+    ``observed_*`` fields. Routing-facing fields remain UNKNOWN/neutral until a future
+    authenticated runtime freshness root exists. This prevents downstream consumers
+    from accidentally routing on a caller-supplied freshness coordinate.
     """
-    current_seq = _nonnegative_int(trusted_current_seq, name="trusted_current_seq")
+    current_seq = _nonnegative_int(evaluation_seq, name="evaluation_seq")
     conflict = strict_bool(authority_conflict, "authority_conflict")
     envelope = SecretarySignalEnvelope.from_value(envelope_value)
     fingerprint = envelope.canonical_fingerprint()
@@ -318,7 +323,7 @@ def project_secretary_signal_shadow(
             dropped_fields=tuple(sorted(envelope.measurements.keys())),
         )
 
-    pressure = dict(NEUTRAL_PRESSURE)
+    observed_pressure = dict(NEUTRAL_PRESSURE)
     accepted: list[str] = []
     dropped: list[str] = []
 
@@ -328,7 +333,7 @@ def project_secretary_signal_shadow(
             dropped.append(field_name)
             continue
         if measurement.observed_seq <= current_seq <= measurement.valid_through_seq:
-            pressure[field_name] = measurement.value
+            observed_pressure[field_name] = measurement.value
             accepted.append(field_name)
         else:
             dropped.append(field_name)
@@ -337,8 +342,10 @@ def project_secretary_signal_shadow(
     return SecretarySignalProjection(
         signal_id=envelope.signal_id,
         envelope_fingerprint=fingerprint,
-        secretary_level=envelope.secretary_level if accepted else "UNKNOWN",
-        pressure_inputs=pressure,
+        observed_secretary_level=envelope.secretary_level if accepted else "UNKNOWN",
+        observed_pressure_inputs=observed_pressure,
+        routing_secretary_level="UNKNOWN",
+        routing_pressure_inputs=dict(NEUTRAL_PRESSURE),
         accepted_fields=tuple(accepted),
         dropped_fields=tuple(dropped),
         status=status,
