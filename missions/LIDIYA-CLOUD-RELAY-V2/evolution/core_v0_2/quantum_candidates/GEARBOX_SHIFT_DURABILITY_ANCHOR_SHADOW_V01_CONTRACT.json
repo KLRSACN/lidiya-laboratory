@@ -1,0 +1,88 @@
+{
+  "schema_version": "0.1-shadow",
+  "candidate_id": "QUANTUM-SHIFT-DURABILITY-ANCHOR-SHADOW-V01-20260821",
+  "owner_role": "W02-QUANTUM_NON_FORMAL",
+  "status": "EXECUTABLE_SHADOW_REPAIR_TEST_PENDING",
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "scope": "SHIFT_HISTORY_EXTERNAL_MONOTONIC_ANCHOR_AND_CONCURRENCY_BOUNDARY",
+  "implementation": "evolution/core_v0_2/quantum_candidates/gearbox_shift_durability_anchor_shadow_v01.py",
+  "test": "evolution/core_v0_2/quantum_candidates/test_gearbox_shift_durability_anchor_shadow_v01.py",
+  "depends_on": {
+    "shift_history_code": "evolution/core_v0_2/quantum_candidates/gearbox_shift_history_shadow_v01.py",
+    "shift_history_requirement": "Complete internal ledger integrity validation must pass before monotonic anchor comparison."
+  },
+  "external_anchor": {
+    "purpose": "Detect rollback of the shift ledger to an older internally valid snapshot by comparing it with a separately persisted monotonic anchor state.",
+    "bootstrap": "Allowed only when the ledger is empty and no anchor exists. A nonempty ledger cannot be retroactively blessed by creating a new anchor.",
+    "receipt_fields": [
+      "anchor_seq",
+      "ledger_head_hash",
+      "installation_id",
+      "runtime_id",
+      "durability_domain_id",
+      "previous_anchor_hash",
+      "authority_id",
+      "mission_id",
+      "step_id",
+      "schema_version",
+      "anchor_hash"
+    ],
+    "verification_outcomes": {
+      "ledger_seq < anchor_seq": "LEDGER_ROLLBACK_DETECTED",
+      "ledger_seq > anchor_seq": "UNANCHORED_LEDGER_ADVANCE",
+      "same seq different head": "LEDGER_ANCHOR_FORK_DETECTED",
+      "same seq same head": "ANCHOR_MATCH"
+    },
+    "crash_boundary": "If the ledger advances but the anchor write does not complete, the next operation fails closed as UNANCHORED_LEDGER_ADVANCE. This shadow code never auto-reconciles an unanchored advance because that could bless an untrusted fork.",
+    "trust_boundary": "The code validates anchor structure/hash/domain binding, but it cannot prove that anchor storage is physically or cryptographically outside the ledger rollback domain. Production use requires a genuinely independent monotonic durability service or equivalent trusted storage primitive."
+  },
+  "concurrency": {
+    "writer_serialization": "Atomic directory-creation lock is required around anchor-verified append and anchor advance.",
+    "stale_lock_policy": "NO_AUTO_STEAL_FAIL_CLOSED",
+    "reason": "Automatically stealing a stale-looking lock can create split-brain writers when time/liveness evidence is wrong.",
+    "recovery": "Abandoned lock removal requires external recovery/operator authority and is intentionally not implemented by this shadow module."
+  },
+  "self_review_hardening": [
+    "Initial anchor comparison inspected only ledger latest_seq/head_hash and could miss an internally tampered event/index if the stored head field was left unchanged.",
+    "Repaired in the same tranche by invoking the existing complete shift-registry reload integrity validator before every anchor comparison.",
+    "Writer lock now creates its parent directory but never automatically steals an existing lock."
+  ],
+  "regression_scope": [
+    "empty-only anchor bootstrap",
+    "nonempty retroactive bootstrap rejected",
+    "anchored append advances ledger and anchor together",
+    "exact duplicate is NO_OP without anchor advance",
+    "whole-ledger rollback to older valid snapshot detected",
+    "internally valid same-seq fork detected",
+    "internal event tamper rejected before anchor comparison",
+    "unanchored ledger advance fails closed",
+    "anchor hash tamper rejected",
+    "cross durability-domain anchor rejected",
+    "second writer blocked by atomic lock",
+    "abandoned lock is not auto-stolen",
+    "successive anchor state binds previous anchor hash"
+  ],
+  "authority_boundary": {
+    "live_routing_authority_allowed": false,
+    "formal_mutation_allowed": false,
+    "experience_delta": 0,
+    "operational_progress_delta": 0,
+    "p_base": "READ_ONLY_UNCHANGED"
+  },
+  "does_not_claim": [
+    "formal Gearbox v2/v2.1 verification",
+    "LCR-C PASS",
+    "production-grade external anchor authenticity",
+    "production-grade distributed locking",
+    "automatic crash reconciliation",
+    "speedup",
+    "Experience from runtime/locking/anchor maintenance"
+  ],
+  "next_unresolved_after_this_tranche": [
+    "A real external monotonic durability provider/registry identity must replace the shadow durability-domain assertion before authoritative routing use.",
+    "Crash reconciliation requires an authenticated recovery receipt rather than automatic local blessing.",
+    "Shift-history policy calibration and paired performance non-regression remain TEST_REQUIRED.",
+    "Live v2/v2.1 still consume raw caller recent_shift_rate_ratio and are unchanged by this shadow tranche."
+  ]
+}
