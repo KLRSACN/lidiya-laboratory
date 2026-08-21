@@ -37,5 +37,5 @@
   "candidate_gate":"BLOCKED_EXECUTOR_DEFER_PLUS_CURRENT_W02_BOUNDED_VETO_ACTIVE_PLUS_MISSING_W03_PLUS_STALE_W04_PLUS_INSUFFICIENT_SPEED_SAMPLE",
   "next_trigger":"W02 repair/review change, dedicated W03 arrival, W04 regeneration, exact-current executor availability, current Gearbox byte change, paired speed evidence, or formal authority change. Do not route A->B->C before all release gates pass.",
   "verified_baseline_preserved":true,
-  "readback_status":"PENDING_FINAL_READBACK"
+  "readback_status":"PASS"
 }
