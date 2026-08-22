@@ -1,20 +1,103 @@
 {
-  "schema_version":"3.5-shadow",
-  "review_id":"QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-1806",
-  "reviewer":"W02-QUANTUM",
-  "status":"W02_W03_EXACT_HANDOFF_FRESHNESS_GATE_AUTHORED_AND_WIRED_TEST_PENDING",
-  "formal_effect":"NONE",
-  "c_pass_claimed":false,
-  "formal_authority":{"mission_state_sha":"e32e01fa304a857f5185951443682ea937335473","step_id":9,"status":"STEP_DONE","current_role":"LCR-A","pending_packet":null,"v1":"VERIFIED_PASS"},
-  "current_candidate":{"clock_recovery_version":"V05","source_sha":"9aaf3ad9f673944d548e2cd880c9286b98e72704","test_sha":"a4c98981561cf8c310c66c03367aa8fbf3954d61","contract_sha":"df4753a9eaa7d734afb81a7e32d7efb3fa6617b7","terminal_exit_version":"V01_AUTHORED_NOT_ACTIVATED","spirit_047_gate_version":"V02","learning_isolation_evidence_binding_version":"V02_HARDENED","handoff_freshness_gate_version":"V01","handoff_freshness_source_sha":"d8954261be3f25f5e8c14837157168a2084070af","handoff_freshness_test_sha":"322327b1ddc77aa89d9615ac1e1036609da57764","handoff_freshness_contract_sha":"e66a84b157ea78ef284a9af75debdb5a54a9e593","handoff_freshness_workflow_sha":"5c94ba1e2fa36dff9e505adb7c2de653df4d9ce0"},
-  "current_spirit":{"review_id":"SPIRIT-GEARBOX-V2.1-20260822-0320","git_blob_sha":"48e789898c82cac58bfc0c68066c8bdb0e0c8e67","freshness":"V04_ERA_STALE_FOR_V05_047_RELEASE"},
-  "current_nav":{"synthesis_id":"NAV-GEARBOX-V2.1-W04-20260822-W02-1705-REFRESH","git_blob_sha":"59942ab96edf27df8f9f8a7cfa93201c659e7717","verdict":"BOUNDED_VETO"},
-  "material_engineering_this_round":{"target":"EXACT_CURRENT_W02_TO_W03_HANDOFF_FRESHNESS_SECURITY_BOUNDARY","implemented":["Added a closed fail-closed W02-to-W03 handoff freshness validator requiring independently fresh mission/W02/NAV/V05/gate/evidence identities.","Bound exact-current V05 source/test/contract and visible moving-provider-head run 32524738088, job 96904287434, artifact 9461767094, digest c3bba5ce... and complete 27/27 regression counts.","Added adversarial regressions for stale W02 review, candidate substitution, run substitution, incomplete V05 regression counts, formal-C claim and zero-learning relaxation.","Added a contract that explicitly prevents a valid handoff from self-closing Spirit-047 or activating terminal exit.","Wired the gate into a dedicated push-triggered executable workflow with bounded evidence artifact."],"self_review":["The stale 1605 W02-to-W03 packet was the current orchestration blocker even though V05 behavior evidence was already visible 27/27.","Fresh handoff evidence must not be mistaken for W03 adjudication; the validator therefore always returns spirit_047_closed=false and terminal_exit_activation_allowed=false.","Synthetic provider/key evidence remains non-production and formal C remains independent."]},
-  "visible_clock_recovery_evidence":{"workflow_run_id":32524738088,"job_id":96904287434,"job_conclusion":"success","regression_counts":{"V01":"9/9","V03":"9/9","V04":"5/5","V05":"4/4","total":"27/27"},"artifact_id":9461767094,"artifact_zip_sha256":"c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429","claim_boundary":"Non-formal exact-current candidate behavior evidence only."},
-  "response_to_each_open_veto":{"SPIRIT-MOD-GB21-047":"V05 remains visible 27/27. This round removes the stale-handoff ambiguity by creating an exact-current executable handoff freshness boundary; W03 must still perform fresh V05 adjudication and W02 does not self-release 047.","SPIRIT-MOD-GB21-046":"Terminal exit remains inactive until a fresh exact-V05 W03 closure is consumed through Spirit-047 gate V02 with no higher HIGH veto.","SPIRIT-MOD-GB21-044":"10000-pressure chronicity remains independently evidence-gated; no closure is borrowed from the handoff gate.","RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION":"Candidate isolation remains independently TEST_REQUIRED; handoff freshness does not substitute whole-repository taint evidence."},
-  "ci_taxonomy":{"clock_recovery_behavior":"VISIBLE_SUCCESS_NONFORMAL","handoff_freshness_gate":"NEW_WORKFLOW_TRIGGERED_TEST_PENDING","handoff_freshness_workflow_sha":"5c94ba1e2fa36dff9e505adb7c2de653df4d9ce0","learning_isolation":"EVIDENCE_VISIBILITY_GAP_TEST_PENDING","test_failure_claimed":false,"formal_pass_claimed":false},
-  "remaining_gaps":["Refresh W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json against this exact W02 review and current NAV/V05 bytes.","Fresh W03 exact-current V05 Spirit-047 adjudication and Spirit-047 gate V02 consumption.","Visible handoff freshness workflow evidence; invisibility is EVIDENCE_VISIBILITY_GAP, not PASS/FAIL.","Learning isolation/whole-repository taint evidence.","Terminal-exit activation remains gated by 047.","Production provider/key proof and paired speed evidence."],
-  "next_repair_target":"REFRESH_DURABLE_W02_TO_W03_PACKET_TO_THIS_EXACT_W02_REVIEW_AND_CURRENT_NAV_V05_EVIDENCE; THEN_W03_MUST_ADJUDICATE_EXACT_V05_SPIRIT_047; DO_NOT_ACTIVATE_TERMINAL_EXIT_UNTIL_V02_CONSUMES_FRESH_CLOSURE",
-  "experience_boundary":{"provider_head_churn_is_experience":false,"retry_backoff_is_experience":false,"recovery_duration_is_experience":false,"handoff_freshness_is_experience":false,"appraisal_delta":0,"drive_delta":0,"exploration_delta":0,"preference_delta":0,"personality_delta":0,"trauma_relief_delta":0,"p_base_mutation_allowed":false},
-  "p_base":"READ_ONLY_UNCHANGED"
+  "schema_version": "3.6-shadow",
+  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-1906",
+  "reviewer": "W02-QUANTUM",
+  "status": "W02_W03_HANDOFF_SEMANTIC_COMPLETENESS_V02_AUTHORED_WIRED_TEST_PENDING",
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "formal_authority": {
+    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
+    "step_id": 9,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "v1": "VERIFIED_PASS"
+  },
+  "current_candidate": {
+    "clock_recovery_version": "V05",
+    "source_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
+    "test_sha": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
+    "contract_sha": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
+    "terminal_exit_version": "V01_AUTHORED_NOT_ACTIVATED",
+    "spirit_047_gate_version": "V02",
+    "handoff_freshness_gate_version": "V02",
+    "handoff_freshness_v01_source_sha": "d8954261be3f25f5e8c14837157168a2084070af",
+    "handoff_freshness_v02_source_commit": "3f3ed93277ceb27324c006da215362cb0e4c1ec8",
+    "handoff_freshness_v02_test_commit": "8d742cf9d5b9c66fee798fc0d7e8c3daf0e9e8c5",
+    "handoff_freshness_v02_contract_commit": "b1e97819cc566ea3418c05cb3ce95d5db3c8beab",
+    "handoff_workflow_sha": "ac400d51360ad767f5a0faf6d05b718de7bde3a0"
+  },
+  "current_spirit": {
+    "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
+    "git_blob_sha": "48e789898c82cac58bfc0c68066c8bdb0e0c8e67",
+    "freshness": "V04_ERA_STALE_FOR_V05_047_RELEASE"
+  },
+  "current_nav": {
+    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-1806-SYNTHESIS",
+    "git_blob_sha": "686726ecefeb63897313133fdf05f3829d6a4ff6",
+    "verdict": "BOUNDED_VETO"
+  },
+  "material_engineering_this_round": {
+    "target": "W02_TO_W03_EXACT_HANDOFF_SEMANTIC_COMPLETENESS_AND_CURRENT_NAV_REBIND",
+    "implemented": [
+      "Added handoff freshness gate V02 on top of V01 exact identity checks.",
+      "V02 fail-closes if the packet omits required Spirit-047 stale-root, fresh-root eventual-recovery, zero-learning, higher-HIGH or durable-review adjudication clauses.",
+      "V02 binds the durable handoff id and current NAV verdict so a fresh packet cannot silently downgrade the current synthesis boundary.",
+      "V02 rejects premature terminal-exit activation language and production-provider/key proof escalation.",
+      "Added six adversarial regressions and a machine-readable V02 contract.",
+      "Updated the dedicated handoff workflow to compile/run V01+V02 and emit bounded evidence."
+    ],
+    "self_review": [
+      "V05 behavior closure remains visibly executed 27/27; no V05 byte changed, so rerunning V05 solely for this handoff tranche is unnecessary.",
+      "A semantically complete fresh handoff still cannot adjudicate Spirit-047; W03 remains the required independent behavior reviewer.",
+      "Terminal-exit remains inactive while 047 is open; this tranche strengthens routing of evidence rather than bypassing the gate."
+    ]
+  },
+  "visible_clock_recovery_evidence": {
+    "workflow_run_id": 32524738088,
+    "job_id": 96904287434,
+    "job_conclusion": "success",
+    "regression_counts": {"V01": "9/9", "V03": "9/9", "V04": "5/5", "V05": "4/4", "total": "27/27"},
+    "artifact_id": 9461767094,
+    "artifact_zip_sha256": "c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
+    "claim_boundary": "Non-formal exact-current candidate behavior evidence only."
+  },
+  "response_to_each_open_veto": {
+    "SPIRIT-MOD-GB21-047": "V05 moving-provider-head recovery remains visible 27/27. This round closes the evidence-routing semantic downgrade gap and rebinds the packet to current NAV; fresh exact-V05 W03 adjudication remains mandatory and W02 does not self-release 047.",
+    "SPIRIT-MOD-GB21-046": "Terminal-exit remains inactive until fresh exact-V05 W03 closes 047 with no higher HIGH veto and Spirit-047 gate V02 consumes that exact durable review.",
+    "SPIRIT-MOD-GB21-044": "10000-pressure chronicity remains independently evidence-gated and cannot borrow closure from handoff freshness.",
+    "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION": "Whole-repository static/dynamic taint proof remains independently TEST_REQUIRED."
+  },
+  "ci_taxonomy": {
+    "clock_recovery_behavior": "VISIBLE_SUCCESS_NONFORMAL",
+    "clock_recovery_run_id": 32524738088,
+    "clock_recovery_job_id": 96904287434,
+    "handoff_v02_workflow_update_commit": "c05d93e2981e388dbe7914d73773af3eb32492e6",
+    "handoff_v02": "TEST_PENDING_EVIDENCE_VISIBILITY_NOT_YET_OBSERVED",
+    "test_failure_claimed": false,
+    "formal_pass_claimed": false
+  },
+  "remaining_gaps": [
+    "Refresh W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json against this W02-1906 review and current NAV-1806 synthesis.",
+    "Fresh W03 exact-current V05 Spirit-047 adjudication and Spirit-047 gate V02 consumption.",
+    "Observe V02 handoff workflow evidence when visible; invisibility remains EVIDENCE_VISIBILITY_GAP, not PASS/FAIL.",
+    "Spirit-044 learning-isolation executable evidence and whole-repository taint proof.",
+    "Terminal-exit activation remains gated by 047.",
+    "Production provider/key proof and paired speed evidence."
+  ],
+  "next_repair_target": "REFRESH_W02_TO_W03_PACKET_TO_W02_1906_AND_CURRENT_NAV_1806; THEN_REQUIRE_FRESH_W03_EXACT_V05_047_ADJUDICATION; IF_CLOSED_WITH_NO_HIGHER_HIGH_CONSUME_THROUGH_SPIRIT_047_GATE_V02_AND_ONLY_THEN_ACTIVATE_TERMINAL_EXIT",
+  "experience_boundary": {
+    "provider_head_churn_is_experience": false,
+    "retry_backoff_is_experience": false,
+    "recovery_duration_is_experience": false,
+    "handoff_freshness_is_experience": false,
+    "appraisal_delta": 0,
+    "drive_delta": 0,
+    "exploration_delta": 0,
+    "preference_delta": 0,
+    "personality_delta": 0,
+    "trauma_relief_delta": 0,
+    "p_base_mutation_allowed": false
+  },
+  "p_base": "READ_ONLY_UNCHANGED"
 }
