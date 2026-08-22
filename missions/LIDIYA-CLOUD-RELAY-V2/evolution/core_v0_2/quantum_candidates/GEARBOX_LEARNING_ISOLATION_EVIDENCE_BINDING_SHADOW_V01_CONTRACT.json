@@ -1,18 +1,22 @@
 {
-  "schema_version":"1.0-shadow",
+  "schema_version":"1.1-shadow",
   "mission_id":"LCR-EVOLUTION-0005",
   "artifact":"GEARBOX_LEARNING_ISOLATION_EVIDENCE_BINDING_SHADOW_V01",
   "status":"NON_FORMAL_SECURITY_CANDIDATE_TEST_REQUIRED",
   "required_suite_identities":["SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_10000_AB","RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION"],
+  "required_bound_blob_identities":["pressure_source","pressure_test","pressure_contract","metadata_source","metadata_test","metadata_contract","evidence_binding_source","evidence_binding_test","evidence_binding_contract","workflow"],
   "invariants":[
     "Both required suites must be exactly present and successful; unrelated passing suites cannot substitute them.",
-    "Evidence consumption binds positive run/job/artifact identities, artifact SHA-256 and exact Git blob identities for the exercised candidate/workflow bytes.",
+    "Evidence consumption binds positive run/job/artifact identities and artifact SHA-256.",
+    "The bound Git blob key set is closed-world and exact; missing or extra blob identities fail closed.",
+    "A consumer may provide independently fresh expected Git blob identities; every bound blob must equal the expected exact candidate/workflow byte identity, so a merely well-formed substituted SHA cannot pass.",
     "Experience, appraisal, drive, exploration, preference, personality, trauma/relief and P_base mutation deltas remain zero.",
     "Candidate executable isolation evidence is non-formal and never implies LCR-C PASS.",
     "Candidate projection evidence is not a whole-repository static/dynamic taint proof and cannot release that independent requirement.",
     "Provider/signer/clock/recovery/secretary maintenance remains operational-only and creates zero Experience."
   ],
   "known_limits":[
+    "Actual run/job/artifact ZIP identity remains post-run evidence and is not invented before visibility.",
     "Production provider/key custody and physical rollback independence remain TEST_REQUIRED.",
     "Whole-repository taint analysis remains TEST_REQUIRED even after this evidence binding passes.",
     "Spirit HIGH veto disposition remains owned by fresh W03 review; W02 cannot self-release it."
