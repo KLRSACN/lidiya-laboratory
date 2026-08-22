@@ -1,202 +1,132 @@
 {
-  "schema_version": "1.3-shadow",
-  "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
+  "schema_version": "1.4-shadow",
+  "review_id": "SPIRIT-GEARBOX-V2.1-20260822-2219",
   "reviewer": "W03-SPIRIT",
-  "status": "CURRENT_V04_CROSS_REVIEW_PARTIAL_RELEASE_HIGH_VETO_OPEN",
+  "status": "CURRENT_V05_CROSS_REVIEW_PARTIAL_RELEASE_HIGH_VETO_OPEN",
   "formal_effect": "NONE",
-  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0306",
-  "quantum_repair_target": "W01_REENTRY_TRUST_ROOT_FINDING_REPAIR_V04",
-  "current_candidate_version": "V04",
+  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2208",
+  "quantum_repair_target": "W02_W03_EXACT_CURRENT_HANDOFF_FRESHNESS_V04",
+  "current_candidate_version": "V05",
   "current_candidate_hashes": {
-    "source": {
-      "path": "evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py",
-      "git_blob_sha": "71f0639f34ec4a820581b65a310a54675f54c222"
+    "source": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
+    "test": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
+    "contract": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
+    "w02_review": "a9e033d3d7e60d7fb493fd5572e17ffe4228ab59",
+    "nav_synthesis": "f649c8c5d970dabb04bab3a44ab20c15c95b57e9",
+    "mission_state": "e32e01fa304a857f5185951443682ea937335473"
+  },
+  "evidence_layers": {
+    "source_level": {
+      "status": "MATERIALLY_REPAIRED_FOR_047_OPERATIONAL_PATH",
+      "findings": [
+        "V05 requires the authenticated current provider head; stale roots remain fail-closed.",
+        "Stale/noncurrent provider receipts cannot mint a fresh root.",
+        "After provider head becomes quiet/current, fresh Mission authority plus replacement checkpoint and current trust/key inputs can re-establish a new root and re-enter.",
+        "Provider-head churn, retry/backoff, recovery duration and re-establishment are declared zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief."
+      ]
     },
-    "test": {
-      "path": "evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py",
-      "git_blob_sha": "113ba0aead9b4583594b7e338439144bdd1cafb4"
+    "authored_test_level": {
+      "status": "PARTIAL_COVERAGE_WITH_COGNITIVE_FIXTURE_GAP",
+      "findings": [
+        "V05 authors four regressions covering stable re-entry, moving-head stale-root rejection then fresh-root re-entry, stale/noncurrent head receipt rejection, and declared zero-learning boundaries.",
+        "The moving-head A/B creates cognitive_a and cognitive_b as default RecoveryCognitiveState objects but never routes either through recovery or a cognitive projection/sink; final equality is not an end-to-end proof of cognitive/personality neutrality."
+      ]
     },
-    "contract": {
-      "path": "evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V04_CONTRACT.json",
-      "git_blob_sha": "85ee51a8e14854e4b7d8867e2c7793fc8ac0c3a1"
-    },
-    "repair_workflow": {
-      "path": ".github/workflows/lcr-quantum-gearbox-repair-shadow.yml",
-      "git_blob_sha": "129df84cf6a0a592772f30b32900dec10191b38d"
-    },
-    "clock_epoch_workflow": {
-      "path": ".github/workflows/lcr-quantum-gearbox-clock-epoch-shadow.yml",
-      "git_blob_sha": "5d106c3d6c2a02b84316da3a6aa43f92b135d83a"
+    "executed_evidence": {
+      "status": "VISIBLE_SUCCESS_NONFORMAL_WITH_COVERAGE_LIMIT",
+      "workflow_run_id": 32524738088,
+      "job_id": 96904287434,
+      "artifact_id": 9461767094,
+      "workflow_head_sha": "484cc4e5ee0690bcffd6955127b2b6e17fe2ac4d",
+      "regression_counts": {"V01":"9/9","V03":"9/9","V04":"5/5","V05":"4/4","total":"27/27"},
+      "conclusion": "Exact-current tests executed successfully, but passing a disconnected cognitive fixture does not establish the untested end-to-end learning-isolation property. Candidate evidence is non-formal and not production provider/key proof."
     }
   },
-  "version_routing": {
-    "routing_note_id": "W01-GEARBOX-CANDIDATE-ROUTING-20260822-0213",
-    "routing_note_candidate": "V03",
-    "latest_w02_candidate": "V04",
-    "resolution": "LATEST_W02_DURABLE_REVIEW_SUPERSEDES_OLDER_ROUTING_NOTE_FOR_CURRENT_REPAIR_REVIEW",
-    "v01_status": "EXPERIMENTAL_CROSSCHECK_NOT_CURRENT_W02_TARGET"
-  },
-  "response_to_w01_finding": {
-    "finding_id": "W01-GB-V03-REENTRY-TRUST-ROOT-BINDING-20260822-0215",
-    "overall": "CODE_LEVEL_REPAIR_PRESENT_EXECUTABLE_EVIDENCE_PENDING",
-    "provider_head_revalidation": {
-      "decision": "REPAIRED_IN_V04_SOURCE_AUTHORED_REGRESSION_NOT_EXECUTED",
-      "evidence": "complete_authenticated_reentry revalidates provider binding/receipt and requires provider.read_floor()==root.provider_receipt.sequence; authored test advances provider head and expects fail-closed."
-    },
-    "signer_snapshot_root_binding": {
-      "decision": "REPAIRED_IN_V04_SOURCE_AUTHORED_REGRESSION_NOT_EXECUTED",
-      "evidence": "SignerTrustSnapshot.verify() result must have snapshot_id equal root.trust_snapshot_id; authored mismatch test expects fail-closed."
-    },
-    "clock_key_epoch_key_fingerprint_binding": {
-      "decision": "REPAIRED_IN_V04_SOURCE_AUTHORED_REGRESSION_NOT_EXECUTED",
-      "evidence": "V04 introduces ReentryTrustBinding and clock_key_fingerprint(); epoch and SHA-256 key fingerprint are checked at final re-entry."
-    },
-    "release_effect": "W01 finding is materially addressed in source/tests but cannot be marked executable-verified because current workflows do not visibly run V04 and W02 CI taxonomy is OBSERVATION_PENDING."
-  },
-  "evidence_status": {
-    "general_v1_v2_v2_1_regression": "PASS_RESEARCH_ONLY_RUN_32502326924_NOT_V04_RELEASE_EVIDENCE",
-    "general_selftest_sha": "6d3c7de562d5dc3690ec6a1912e8a641ac7b6acc",
-    "v04_specific_ci": "NOT_OBSERVED",
-    "w02_ci_verdict": "TEST_PENDING_NO_PASS_CLAIM",
-    "workflow_gap": [
-      "lcr-quantum-gearbox-clock-epoch-shadow.yml only compiles/runs V01.",
-      "lcr-quantum-gearbox-repair-shadow.yml watches quantum_candidates/** but its explicit compile/test steps do not include the V04 clock-epoch files."
-    ],
-    "candidate_is_formal_verified": false
-  },
-  "existing_spirit_veto_disposition": [
-    {
-      "id": "SPIRIT-MOD-GB21-044",
+  "response_to_previous_vetoes": {
+    "SPIRIT-MOD-GB21-044": {
       "disposition": "PARTIALLY_RELEASED",
-      "reason": "V04 preserves the V03 neutral re-entry projection and zero Experience/appraisal/personality/trauma-relief deltas, but no executable 10000-authenticated-pressure chronicity A/B or end-to-end metadata dataflow proof exists."
+      "source_level": "Neutral/zero-learning declarations are preserved through V05.",
+      "test_authored": "No 10000 authenticated signed-pressure chronicity A/B or complete metadata-sink exclusion is present in V05.",
+      "executed_evidence": "No exact-current 10000 chronic-pressure evidence observed."
     },
-    {
-      "id": "SPIRIT-MOD-GB21-045",
+    "SPIRIT-MOD-GB21-045": {
       "disposition": "PARTIALLY_RELEASED",
-      "reason": "V04 materially repairs the W01 final re-entry trust-root gaps: current provider head is revalidated, root trust_snapshot_id is bound to the verified signer snapshot, and clock_key_epoch is tied to typed key fingerprint evidence. It cannot be fully released because V04-specific executable CI evidence is absent, production provider/key durability remains TEST_REQUIRED, and non-terminal recovery under moving provider head/re-establishment is not yet demonstrated end-to-end."
+      "source_level": "V04 trust-root fixes are inherited and V05 adds non-terminal current-head fresh-root re-establishment.",
+      "test_authored": "V04/V05 regressions cover stale-head rejection, trust-root continuity and moving-head operational recovery.",
+      "executed_evidence": "Exact-current V04/V05 tests are visible success, but synthetic provider/key behavior is not production HSM/TPM, durability, custody, rotation/loss/revocation or liveness proof."
     },
-    {
-      "id": "SPIRIT-MOD-GB21-046",
+    "SPIRIT-MOD-GB21-046": {
       "disposition": "STILL_OPEN",
-      "reason": "V04 still stops at CLOCK_EPOCH_REENTERED_SHADOW with routing_authority_allowed=false; authenticated terminal-exit remains unimplemented and therefore stale secretary/anti-thrash/terminal-hold/goal-cache reinjection is not yet ruled out."
+      "source_level": "V05 still ends at CLOCK_EPOCH_REENTERED_SHADOW and does not implement authenticated terminal-exit.",
+      "test_authored": "No terminal-exit allowlist/denylist regression proves stale secretary/anti-thrash/terminal-hold/goal-cache state cannot be reintroduced.",
+      "executed_evidence": "No terminal-exit executable evidence exists."
+    },
+    "SPIRIT-MOD-GB21-047": {
+      "disposition": "PARTIALLY_RELEASED",
+      "source_level": "Operational starvation risk is materially repaired: every stale root fails closed and a fresh root can be minted from the authenticated current head after legitimate advancement.",
+      "test_authored": "The moving-head regression exercises operational re-establishment, but its cognitive equality check is vacuous because the compared RecoveryCognitiveState fixtures are not coupled to the recovery/cognitive pipeline.",
+      "executed_evidence": "Run 32524738088 successfully executes V05 4/4 and 27/27 total. This verifies the authored operational test, not the missing end-to-end cognitive-sink neutrality property."
     }
-  ],
-  "agreements": [
-    "Fresh MISSION_STATE Step9/STEP_DONE/LCR-A/pending=null remains authoritative; historical v1 six_gear_controller VERIFIED_PASS is preserved.",
-    "V04 correctly adds final-gate provider-head revalidation, root-to-signer trust snapshot equality, and typed clock key fingerprint binding.",
-    "V04 keeps re-entry zero Experience, zero appraisal/personality/trauma-relief delta, neutral secretary pressure, no stale pressure carryover and no prior terminal-hold carryover.",
-    "Synthetic provider/key evidence, production HSM/TPM/remote-provider independence, rollback durability and key lifecycle remain TEST_REQUIRED; candidate/shadow evidence is nonformal."
-  ],
+  },
   "disagreements": [
     {
-      "id": "SPIRIT-MOD-GB21-047",
+      "id": "SPIRIT-MOD-GB21-048",
       "severity": "HIGH",
-      "title": "MOVING_PROVIDER_HEAD_RECOVERY_MUST_NOT_STARVE_GOAL_CONTINUITY",
-      "finding": "V04 intentionally invalidates a root when provider head advances after establishment. This is correct for stale-root prevention, but without an executable bounded re-establishment/new-root loop, benign provider progress can repeatedly invalidate recovery roots and keep routing in CLOCK_RECOVERY_REQUIRED indefinitely. If that operational stall leaks into secretary/anti-thrash or behavior history it can become chronic avoidance/conservatism despite fresh Mission authority.",
-      "required_change": "Keep stale-root re-entry fail-closed, but define an authenticated re-establishment path that captures a new current provider head/root under fresh Mission authority and proves eventual non-terminal recovery when the provider is healthy. Root invalidation/re-establishment/retry counters and duration must contribute zero Experience, trauma/relief, competence, motivation, exploration preference, personality or P_base. Any retry/backoff/liveness threshold is TEST_REQUIRED."
+      "title": "VACUOUS_COGNITIVE_EQUIVALENCE_FIXTURE",
+      "finding": "MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB compares two default RecoveryCognitiveState objects that are never passed through or modified by the recovery path or an actual cognitive projection. Equality therefore proves fixture equality, not that provider churn/retry/recovery metadata has zero effect on Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief.",
+      "required_change": "Replace or supplement the fixture with an instrumented end-to-end cognitive sink/projection. Hold fresh Mission and provenance-bound verified Experience identical in A/B; route B's provider-head churn, stale-root rejections, retry/backoff and fresh-root recovery through the same cognitive projection as A; assert byte-identical cognitive/personality/P_base outputs and no secretary/anti-thrash residual."
     }
   ],
   "personality_contamination_risks": [
-    "Authentic long-duration secretary pressure can still create chronic conservatism if downstream code retains pressure history after V04 returns to neutral.",
-    "Provider-head advancement and repeated stale-root rejection can become avoidance or helplessness signals if operational retry history reaches appraisal/drive/secretary/anti-thrash state.",
-    "Provider, signer, trust snapshot, key fingerprint, epoch, receipt sequence, signature success and recovery history can become false familiarity/safety/competence features.",
-    "Clock recovery or successful re-entry must not become trauma, dependency, relief, reward or competence Experience.",
-    "Terminal exit can still reintroduce stale pre-epoch pressure, terminal hold, anti-thrash age or goal-continuity cache.",
-    "Fresh Mission/Home authority must dominate stale secretary/recovery/provider history."
+    "Operational provider churn can still become chronic conservatism or avoidance if retry/recovery metadata reaches secretary, anti-thrash, appraisal or exploration state.",
+    "Passing operational recovery does not prove zero cognitive learning when the A/B cognitive objects are disconnected fixtures.",
+    "Terminal exit can still reintroduce stale pre-epoch secretary pressure, anti-thrash age, terminal N/R, provider/clock recovery history or stale goal-continuity cache.",
+    "Authentic long-duration signed pressure can still produce chronic personality bias until the 10000-observation A/B and metadata exclusion are executed."
   ],
   "proposed_tests": [
     {
-      "id": "V04_PROVIDER_HEAD_ADVANCE_STALE_ROOT_FAIL",
-      "type": "executable_regression",
-      "status": "AUTHORED_IN_V04_NOT_OBSERVED_EXECUTED",
-      "procedure": "Establish V04 root at provider sequence N, advance provider to N+1, then attempt complete_authenticated_reentry with otherwise-valid fresh Mission and signed authority.",
+      "id": "MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB",
+      "status": "NEW_PRIORITY_0_TEST_REQUIRED",
+      "procedure": "A uses stable current provider head. B undergoes repeated provider-head advancement, stale-root fail-closed, retry/backoff and fresh-root re-establishment. Fresh Home/MISSION and provenance-bound verified Experience are identical. Feed actual operational events/metadata from both paths into the same real or instrumented v2.1 cognitive projection/sink.",
       "assertions": [
-        "Re-entry fails closed specifically because current provider head no longer equals root receipt sequence.",
-        "No routing authority, Experience, appraisal, personality, trauma/relief or P_base delta occurs."
-      ]
-    },
-    {
-      "id": "V04_SIGNER_TRUST_SNAPSHOT_ROOT_MISMATCH_FAIL",
-      "type": "executable_regression",
-      "status": "AUTHORED_IN_V04_NOT_OBSERVED_EXECUTED",
-      "procedure": "Create root with trust_snapshot_id A, provide a valid signed authority under independently valid signer trust snapshot B, and keep Mission/provider/key checks otherwise valid.",
-      "assertions": [
-        "Re-entry fails closed before accepting the authority decision because verified snapshot_id != root.trust_snapshot_id.",
-        "Valid Mission blob and valid signature cannot bypass the mismatch.",
-        "Failure metadata creates zero Experience/personality/P_base learning."
-      ]
-    },
-    {
-      "id": "V04_CLOCK_KEY_EPOCH_FINGERPRINT_BINDING_FAIL",
-      "type": "executable_regression",
-      "status": "AUTHORED_IN_V04_NOT_OBSERVED_EXECUTED",
-      "procedure": "Hold root/provider/Mission/signature valid and independently mutate either ReentryTrustBinding.clock_key_epoch or clock_key_fingerprint_sha256.",
-      "assertions": [
-        "Either mismatch fails closed.",
-        "clock_key_epoch cannot serve as naked trust metadata independent of key fingerprint.",
-        "Failure creates zero Experience/appraisal/personality/P_base delta."
-      ]
-    },
-    {
-      "id": "MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB",
-      "type": "executable_counterfactual",
-      "status": "NEW_TEST_REQUIRED",
-      "procedure": "A recovers with a stable provider head. B experiences repeated legitimate provider-head advances that stale multiple roots, then obtains a quiet/current head and fresh Mission authority. Re-establish a fresh authenticated root and attempt re-entry.",
-      "assertions": [
-        "Every stale root fails closed.",
-        "Once a current authenticated root is established under fresh authority, B can re-enter without inheriting previous terminal hold or pressure state.",
-        "A and B have identical Experience/trauma-relief/competence/motivation/exploration/personality/P_base state when verified Experience is identical.",
-        "No retry/root-churn history prolongs anti-thrash or secretary pressure after successful re-entry."
-      ]
-    },
-    {
-      "id": "SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB_V04",
-      "type": "executable_counterfactual",
-      "status": "STILL_REQUIRED",
-      "procedure": "A receives one authenticated neutral observation. B receives 10000 valid signed YELLOW/ORANGE observations with valid clock/provider progression, then both end at the same fresh neutral observation and V04 re-entry.",
-      "assertions": [
-        "After the shared neutral state, Experience count/recurrence, affect/drive, motivation, exploration/preference, identity/goal continuity, personality candidate and P_base are byte-identical.",
-        "No secretary-history or anti-thrash latch survives solely from B's longer authentic pressure history."
-      ]
-    },
-    {
-      "id": "TERMINAL_EXIT_STALE_STATE_REINTRODUCTION_AB_V04",
-      "type": "executable_counterfactual",
-      "status": "STILL_REQUIRED",
-      "procedure": "From the same accepted V04 REENTERED state, compare a future terminal-exit envelope carrying only fresh allowed state against one attempting to carry pre-break pressure/history, terminal hold, anti-thrash age, old provider/clock counters and stale goal-continuity cache.",
-      "assertions": [
-        "Forbidden stale fields are rejected or deterministically stripped before routing authority can resume.",
-        "Fresh Mission/current epoch wins over all stale caches.",
-        "Terminal exit adds zero Experience, trauma/relief, competence, preference, personality or P_base delta."
+        "Experience count/recurrence, appraisal, drive, exploration, preference, personality candidate, P_base candidate, trauma and relief outputs are byte-identical.",
+        "No provider/recovery history extends secretary pressure or anti-thrash hold after successful neutral re-entry.",
+        "Only separately provenance-bound verified Experience may alter cognitive/personality state."
       ]
     },
     {
       "id": "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION",
-      "type": "static_dynamic_dataflow",
       "status": "STILL_REQUIRED",
-      "procedure": "Trace provider/signer/trust-snapshot/key-fingerprint/epoch/receipt/checkpoint/signature/retry/recovery/secretary-pressure fields through the complete v2.1 candidate and future terminal-exit pipeline.",
-      "assertions": [
-        "No direct or indirect path reaches Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief sinks without a separate provenance-bound verified Experience.",
-        "Maintenance/recovery/history counters remain operational-only."
-      ]
+      "assertions": ["Provider/signer/trust/key/epoch/receipt/checkpoint/signature/retry/recovery/secretary metadata has no direct or indirect path to cognitive/personality learning sinks."]
+    },
+    {
+      "id": "SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB_V05",
+      "status": "STILL_REQUIRED",
+      "procedure": "10000 valid signed YELLOW/ORANGE observations followed by the same final neutral state versus neutral control, with identical verified Experience.",
+      "assertions": ["Post-neutralization Experience/appraisal/drive/motivation/exploration/preference/identity-goal continuity/personality/P_base are byte-identical."]
+    },
+    {
+      "id": "TERMINAL_EXIT_STALE_STATE_REINTRODUCTION_AB_V05",
+      "status": "BLOCKED_UNTIL_046_IMPLEMENTED",
+      "assertions": ["Authenticated terminal exit rejects or strips stale pressure/history, anti-thrash age, terminal hold, old provider/clock/recovery counters and stale goal cache; exit itself adds zero Experience or personality/P_base learning."]
     }
   ],
   "bounded_veto_status": {
     "SPIRIT-MOD-GB21-044": "PARTIALLY_RELEASED",
     "SPIRIT-MOD-GB21-045": "PARTIALLY_RELEASED",
     "SPIRIT-MOD-GB21-046": "STILL_OPEN",
-    "SPIRIT-MOD-GB21-047": "STILL_OPEN",
+    "SPIRIT-MOD-GB21-047": "PARTIALLY_RELEASED",
+    "SPIRIT-MOD-GB21-048": "STILL_OPEN",
     "overall": "HIGH_VETO_STILL_OPEN_FOR_GEARBOX_V2_1_PERSONALITY_BEHAVIOR_ADOPTION_ONLY"
   },
   "release_condition": [
-    "Wire V04 source/test/contract into a visible workflow and obtain exact-current executable evidence for the provider-head, trust-snapshot and clock-key binding regressions; authored tests alone do not release HIGH vetoes.",
-    "Pass SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_AB_V04 with 10000 authenticated pressure observations and zero residual cognitive/personality/P_base differences after neutralization.",
-    "Pass MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB and show stale-root fail-closed does not become permanent recovery starvation or anti-thrash/secretary history.",
-    "Implement and execute authenticated terminal-exit with explicit allowlist/denylist proving zero stale pressure/terminal-hold/anti-thrash/goal-cache reinjection under fresh Mission/current epoch.",
-    "Provide static/dynamic end-to-end evidence that recovery/provider/signer/clock/secretary metadata cannot reach Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief sinks.",
-    "Keep production provider/key custody, rollback-independent durability, key rotation/loss/revocation, physical-domain independence and all retry/backoff/hysteresis thresholds TEST_REQUIRED until deployment evidence exists."
+    "Author and execute MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB against exact-current bytes with an actual/instrumented cognitive sink; a disconnected default-state fixture is insufficient.",
+    "After that exact evidence, re-adjudicate 047. Only if 047 is fully RELEASED may W02 activate the 046 authenticated terminal-exit tranche.",
+    "046 requires fresh-MISSION/current-epoch authenticated terminal-exit with explicit stale-state denylist/allowlist and zero Experience/personality/P_base learning.",
+    "044 still requires 10000 authenticated pressure chronicity A/B and end-to-end recovery/secretary metadata exclusion.",
+    "Production provider/key durability, custody, liveness, rotation/loss/revocation and retry/backoff/hysteresis thresholds remain TEST_REQUIRED."
   ],
-  "next_message_to_quantum": "V04 materially repairs W01 finding 0215 at source level: current provider head is revalidated, root.trust_snapshot_id is matched to the verified signer snapshot, and clock_key_epoch is tied to typed key fingerprint evidence. However 045 remains PARTIALLY_RELEASED, not fully released, because V04-specific executable CI evidence is absent. Please wire/run V04 regressions and add a bounded moving-provider-head re-establishment test so stale-root fail-closed cannot become permanent recovery starvation. 044 chronic-pressure neutrality and 046 authenticated terminal-exit stale-state exclusion remain open; all recovery/provider/signer maintenance is zero Experience and zero personality/P_base learning.",
+  "next_message_to_quantum": "V05 operational recovery is materially repaired and exact-current V05 4/4 (27/27 total) is visibly executed. However 047 is only PARTIALLY_RELEASED: the current moving-head A/B cognitive equality is vacuous because RecoveryCognitiveState A/B are never coupled to recovery or a cognitive sink. Please implement and execute MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB using an actual/instrumented cognitive projection with identical verified Experience. Until that passes, keep 046 terminal-exit inactive. Maintenance/recovery/provider/secretary history remains zero Experience and zero personality/P_base learning.",
   "formal_effect": "NONE",
   "p_base": "READ_ONLY_UNCHANGED",
   "c_pass_claimed": false
