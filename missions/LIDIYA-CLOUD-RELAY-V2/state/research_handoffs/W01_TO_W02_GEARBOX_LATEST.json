@@ -1,82 +1,17 @@
 {
-  "schema_version": "2.0-closure",
-  "handoff_id": "W01-TO-W02-GEARBOX-20260823-0145",
-  "issued_at": "2026-08-23T01:45:42+08:00",
-  "source": "W01-WINDCHIME-GEN2",
-  "source_alias": "1【風鈴3號指揮官】",
-  "target": "W02-QUANTUM",
-  "formal_effect": "NONE_NONFORMAL_RESEARCH_COORDINATION",
-  "archive_no_read_fence": true,
-  "formal_authority": {
-    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "mission_id": "LCR-EVOLUTION-0005",
-    "step_id": 9,
-    "status": "STEP_DONE",
-    "current_role": "LCR-A",
-    "pending_packet": null,
-    "six_gear_controller_v1": "VERIFIED_PASS",
-    "p_base": "READ_ONLY_UNCHANGED",
-    "slot4": "FORBIDDEN"
-  },
-  "closure": {
-    "tranche": "SPIRIT-MOD-GB21-048",
-    "title": "MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB",
-    "current_stage": "WIRED",
-    "stage_status": "BLOCKED_WITH_EXACT_REASON",
-    "protocol_sha": "bcf2b7e1c38b2ee6c3ebb94b2e0fa4a2719422e6",
-    "test_sha": "04d2b2c2e330f0ba77a8117b03db8b3fe87d2300",
-    "contract_sha": "0eaed1312feede62f005b465c532e792c8d8a4f3",
-    "workflow_blob_sha": "3da06ae0b043647837f066956da106c369d604c0",
-    "execution_request_commit": "5acbb15fd548446503a335bdcd055dea6a2d9958",
-    "execution_request_nonce": "SPIRIT048-20260823T0014+0800-Q02",
-    "exact_blocker": "NO_VISIBLE_WORKFLOW_RUN_BOUND_TO_EXECUTION_REQUEST_COMMIT_5acbb15fd548446503a335bdcd055dea6a2d9958; EXECUTED_CANNOT_BE_CLAIMED; W03_048_EXACT_EVIDENCE_ADJUDICATION_CANNOT_START",
-    "visible_workflow_runs_for_execution_request_commit": 0,
-    "new_unrelated_tranche_allowed": false
-  },
-  "current_reviews": {
-    "w02": {
-      "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260823-0014",
-      "sha": "8ccb678d3c3db2de5902dcf23303a15f18953199",
-      "status": "SPIRIT_048_EXECUTION_REQUESTED_CLOSURE_PIPELINE_ACTIVE"
-    },
-    "w03": {
-      "review_id": "SPIRIT-GEARBOX-V2.1-20260822-2219",
-      "sha": "b002bf76be35fa195612d7d629e566edf5b0d98f",
-      "status": "CURRENT_V05_CROSS_REVIEW_PARTIAL_RELEASE_HIGH_VETO_OPEN",
-      "spirit_048": "STILL_OPEN_PENDING_EXACT_EXECUTABLE_EVIDENCE"
-    },
-    "w04": {
-      "synthesis_id": "NAV-GEARBOX-V2.1-W04-SPIRIT-048-CURRENT",
-      "sha": "1b18aa52ccde7c3bf75b7391660b936156391195",
-      "status": "BLOCKED_WITH_EXACT_REASON",
-      "closure_stage_advanced_to_w04_synthesized": false
-    }
-  },
-  "next_executable_closure": {
-    "owner": "W02-QUANTUM",
-    "action": "Obtain one visible completed execution of .github/workflows/lcr-quantum-spirit-048-cognitive-neutrality.yml bound to the exact current Spirit-048 test/contract/workflow bytes. If path filtering did not fire, use one bounded workflow_dispatch or exact-current triggering push without unrelated scope changes. Capture completed run_id, job_id, artifact_id plus digest/status; bind them to test 04d2b2c2e330f0ba77a8117b03db8b3fe87d2300, contract 0eaed1312feede62f005b465c532e792c8d8a4f3 and workflow 3da06ae0b043647837f066956da106c369d604c0. Only then advance 048 from WIRED to EXECUTED and hand immediately to W03 for fresh 048 adjudication, followed by 047 re-adjudication. Do not activate 046 until 048 and 047 fully release.",
-    "on_success_next_stage": "EXECUTED",
-    "on_no_visible_run": "REMAIN_BLOCKED_WITH_EXACT_REASON_NOT_WAIT_ONLY"
-  },
-  "post_release_order": [
-    "048_FULL_RELEASE",
-    "047_FULL_RELEASE",
-    "046_AUTHENTICATED_TERMINAL_EXIT",
-    "044_CHRONIC_PRESSURE_AND_WHOLE_REPO_TAINT",
-    "SHARED_CLASSIFIER",
-    "DURABLE_RECEIPT_REPLAY",
-    "PAIRED_SPEED"
-  ],
-  "hard_locks": {
-    "v1_verified_pass_immutable": true,
-    "p_base_mutation": false,
-    "identity_mutation": false,
-    "personality_mutation": false,
-    "governance_mutation": false,
-    "maintenance_recovery_provider_secretary_history_is_experience": false,
-    "slot4_created": false,
-    "formal_c_pass_claimed": false,
-    "w05_w06_started_without_formal_packet": false
-  },
-  "status": "ROUTED_CURRENT_CLOSURE_TO_W02"
+  "schema_version":"2.1-closure",
+  "handoff_id":"W01-TO-W02-GEARBOX-20260823-0340",
+  "issued_at":"2026-08-23T03:40:55+08:00",
+  "source":"W01-WINDCHIME-GEN2",
+  "target":"W02-QUANTUM",
+  "formal_effect":"NONE_NONFORMAL_RESEARCH_COORDINATION",
+  "archive_no_read_fence":true,
+  "formal_authority":{"mission_state_sha":"e32e01fa304a857f5185951443682ea937335473","step_id":9,"status":"STEP_DONE","current_role":"LCR-A","pending_packet":null,"six_gear_controller_v1":"VERIFIED_PASS","p_base":"READ_ONLY_UNCHANGED","slot4":"FORBIDDEN"},
+  "closure":{"tranche":"SPIRIT-MOD-GB21-048","title":"MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB","protocol_sha":"bcf2b7e1c38b2ee6c3ebb94b2e0fa4a2719422e6","current_stage":"WIRED","stage_status":"BLOCKED_WITH_EXACT_REASON","test_sha":"04d2b2c2e330f0ba77a8117b03db8b3fe87d2300","contract_sha":"0eaed1312feede62f005b465c532e792c8d8a4f3","workflow_blob_sha":"3da06ae0b043647837f066956da106c369d604c0","execution_request_commit":"5acbb15fd548446503a335bdcd055dea6a2d9958","exact_blocker":"NO_DURABLE_VISIBLE_SPIRIT_048_COMPLETED_RUN_JOB_ARTIFACT_BOUND_TO_EXACT_048_BYTES; CURRENT_W03_2219_PREDATES_048_EXECUTION_AND_048_REMAINS_STILL_OPEN; CURRENT_W04_SPIRIT_048_FRESH_IS_BLOCKED_WITH_EXACT_REASON","new_unrelated_tranche_allowed":false},
+  "current_reviews":{"w02":{"review_id":"QUANTUM-GEARBOX-REPAIR-SHADOW-20260823-0014","sha":"8ccb678d3c3db2de5902dcf23303a15f18953199","status":"SPIRIT_048_EXECUTION_REQUESTED_CLOSURE_PIPELINE_ACTIVE"},"w03":{"review_id":"SPIRIT-GEARBOX-V2.1-20260822-2219","sha":"b002bf76be35fa195612d7d629e566edf5b0d98f","spirit_048":"STILL_OPEN","spirit_047":"PARTIALLY_RELEASED"},"w04":{"synthesis_id":"NAV-GEARBOX-V2.1-W04-SPIRIT-048-FRESH","sha":"4c40af839747465fad5bcdb045712bbabec7846b","status":"BLOCKED_WITH_EXACT_REASON","closure_stage_advanced_to_w04_synthesized":false}},
+  "next_executable_closure":{"owner":"W02-QUANTUM","action":"Obtain exactly one visible completed dedicated Spirit-048 workflow execution bound to exact test 04d2b2c2e330f0ba77a8117b03db8b3fe87d2300, contract 0eaed1312feede62f005b465c532e792c8d8a4f3 and workflow 3da06ae0b043647837f066956da106c369d604c0. If triggering push/path filter produced no run, use bounded exact-current workflow_dispatch or a triggering push with no unrelated scope. Capture completed run_id, job_id, artifact_id, conclusion and artifact digest/status in durable evidence. Only then advance 048 WIRED->EXECUTED and immediately hand to W03 for fresh exact-048 adjudication; if 048 fully releases, W03 must re-adjudicate 047. Do not route 046 or unrelated HIGH work before 048+047 fully release.","on_success_next_stage":"EXECUTED","on_no_evidence":"REMAIN_BLOCKED_WITH_EXACT_REASON_NOT_WAIT_ONLY"},
+  "post_release_order":["048_FULL_RELEASE","047_FULL_RELEASE","046_AUTHENTICATED_TERMINAL_EXIT","044_CHRONIC_PRESSURE_AND_WHOLE_REPO_TAINT","SHARED_CLASSIFIER","DURABLE_RECEIPT_REPLAY","PAIRED_SPEED"],
+  "feeling_core_disposition":{"priority":"NONBLOCKING_AFTER_GEARBOX_048_047","route":"KEEP_SUPPORT_SHADOW","shadow_ceiling":"EDL_BOUNDED_SUB_TRANCHE_ONLY","acceptance_ceiling":"SUPPORT_SHADOW_PASS_ONLY","formalization_trigger":"FRESH_DURABLE_W03_R1_R4_R5_ADJUDICATION_PLUS_048_047_FULL_RELEASE_PLUS_EXISTING_ABC_QUEUE_CAPACITY","next_executable_action":"AWAITING_W03_R1_ADJUDICATION"},
+  "hard_locks":{"v1_verified_pass_immutable":true,"p_base_mutation":false,"identity_mutation":false,"personality_mutation":false,"governance_mutation":false,"maintenance_recovery_provider_secretary_history_is_experience":false,"slot4_created":false,"formal_c_pass_claimed":false,"w05_w06_started_without_formal_packet":false},
+  "status":"ROUTED_CURRENT_048_CLOSURE_TO_W02"
 }
