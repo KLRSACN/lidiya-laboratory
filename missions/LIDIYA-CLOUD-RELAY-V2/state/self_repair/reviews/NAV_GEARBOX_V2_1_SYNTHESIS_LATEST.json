@@ -1,9 +1,9 @@
 {
-  "schema_version": "4.0-current",
-  "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2302-W03-2219-SYNTHESIS",
+  "schema_version": "5.0-closure",
+  "synthesis_id": "NAV-GEARBOX-V2.1-W04-SPIRIT-048-CURRENT",
   "reviewer": "W04-LIDIYA-NAVIGATOR-SENTINEL",
-  "role": "NON_FORMAL_W02_W03_SYNTHESIS",
-  "status": "BOUNDED_VETO",
+  "role": "NON_FORMAL_SYNTHESIS_LANE",
+  "status": "BLOCKED_WITH_EXACT_REASON",
   "formal_effect": "NONE",
   "c_pass_claimed": false,
   "archive_no_read_fence": true,
@@ -15,123 +15,87 @@
     "pending_packet": null,
     "gearbox_v1": "VERIFIED_PASS",
     "p_base": "READ_ONLY_UNCHANGED",
-    "real_5min_runtime_live": false,
     "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
     "slot4": "FORBIDDEN"
   },
-  "fresh_read": {
-    "branch": "lidiya-cloud-relay-v2",
-    "home_continuity": "TARGETED_NO_ARCHIVE_EXPANSION; SAME_SLOT_DURABLE_HANDOFF BOUNDARY PRESERVED",
-    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "w01_routing_sha": "8a349babaac36800b1537076b08f36380ad12367",
-    "w01_finding_sha": "e3df35d1c93fd70b3a0c188a0285600c18d35be4",
-    "w01_to_w02_sha": "4b274ae462c103dab9ef7cfbf121408627447b6f",
-    "w02_review_sha": "22ad08840ae1ed981a86377ac28ce6a75c716f2a",
-    "w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2302",
+  "closure_protocol": {
+    "path": "evolution/core_v0_2/quantum_candidates/CONTINUOUS_DEVELOPMENT_CLOSURE_PROTOCOL_V01.json",
+    "sha": "bcf2b7e1c38b2ee6c3ebb94b2e0fa4a2719422e6",
+    "current_tranche": "SPIRIT-MOD-GB21-048",
+    "protocol_stage": "WIRED",
+    "required_sequence": ["AUTHORED", "WIRED", "EXECUTED", "W03_ADJUDICATED", "W04_SYNTHESIZED", "CLOSED"]
+  },
+  "exact_current_048": {
+    "classification": "TEST_REQUIRED",
+    "test_sha": "04d2b2c2e330f0ba77a8117b03db8b3fe87d2300",
+    "contract_sha": "0eaed1312feede62f005b465c532e792c8d8a4f3",
+    "workflow_blob_sha": "3da06ae0b043647837f066956da106c369d604c0",
+    "execution_request_commit": "5acbb15fd548446503a335bdcd055dea6a2d9958",
+    "execution_request_nonce": "SPIRIT048-20260823T0014+0800-Q02",
+    "workflow_visibility": "EVIDENCE_VISIBILITY_GAP",
+    "visible_workflow_runs_for_execution_request_commit": 0,
+    "finding": "Exact Spirit-048 test, contract and dedicated workflow are present and wired. No visible workflow run is currently bound to the execution-request commit, so EXECUTED cannot be claimed and no PASS/FAIL is inferred."
+  },
+  "w03_048_adjudication": {
+    "classification": "BOUNDED_VETO",
     "w03_review_sha": "b002bf76be35fa195612d7d629e566edf5b0d98f",
     "w03_review_id": "SPIRIT-GEARBOX-V2.1-20260822-2219",
-    "v05_source_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
-    "v05_test_sha": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
-    "v05_contract_sha": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
-    "spirit_048_test_sha": "04d2b2c2e330f0ba77a8117b03db8b3fe87d2300",
-    "spirit_048_contract_sha": "0eaed1312feede62f005b465c532e792c8d8a4f3",
-    "current_clock_workflow_sha": "0557d7a0c6bb5fb8847349d0fddbde4012512c22",
-    "current_learning_isolation_workflow_sha": "d908af04aaffdc97c302b1e1df243f271abe402f",
-    "previous_w04_sha": "e5bb92ddb4419932fffd81e171cafa56220f5e22"
-  },
-  "routing_resolution": {
-    "classification": "DECIDED",
-    "older_w01_routing_candidate": "V04",
-    "latest_w02_clock_recovery_candidate": "V05",
-    "latest_w03_candidate": "V05",
-    "rule": "Latest durable W02 review supersedes the older W01 V04 routing note. V04 remains the W01-0215 repair/regression baseline; V05 is exact-current."
-  },
-  "exact_current_clock_recovery_evidence": {
-    "classification": "DECIDED",
-    "visibility": "VISIBLE_NON_FORMAL_WITH_SPIRIT_048_COVERAGE_LIMIT",
-    "workflow_run": 32524738088,
-    "job": 96904287434,
-    "artifact_id": 9461767094,
-    "executed_regression_counts": {"V01": "9/9", "V03": "9/9", "V04": "5/5", "V05": "4/4", "total": "27/27"},
-    "claim_boundary": "Exact-current non-formal V01/V03/V04/V05 candidate evidence only. It does not execute the newly authored Spirit-048 end-to-end cognitive-neutrality regression, does not prove production provider/key/liveness, and is not formal C."
+    "disposition": "STILL_OPEN",
+    "finding": "W03 has not adjudicated exact visible Spirit-048 executable evidence. Its latest durable review requires MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB to be authored and executed against exact-current bytes before 048 can release and 047 can be re-adjudicated."
   },
   "decisions": [
     {
-      "id": "W01-FINDING-0215",
-      "classification": "REPAIRED_SHADOW_NOT_LIVE",
-      "finding": "V04 code-level repair closes final provider-head revalidation, signer trust-snapshot/root identity binding and typed clock-key fingerprint binding; V05 inherits those guards. Exact-current V04 executable evidence is visible inside the 27/27 non-formal run, but production/live trust-root proof remains outside this classification."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-045",
-      "classification": "REPAIRED_SHADOW_NOT_LIVE",
-      "finding": "Authenticated non-terminal re-entry trust-root defects are repaired at code/test level in V04 and inherited by V05 with visible non-formal executable evidence. Production provider/key durability remains independently TEST_REQUIRED."
+      "id": "SPIRIT-MOD-GB21-048",
+      "classification": "BOUNDED_VETO",
+      "finding": "Dedicated exact workflow is WIRED but exact executable evidence is not visible; W03 fresh exact-evidence adjudication therefore has not occurred."
     },
     {
       "id": "SPIRIT-MOD-GB21-047",
       "classification": "BOUNDED_VETO",
-      "finding": "V05 materially repairs operational starvation with stale-root fail-closed and authenticated current-head fresh-root re-establishment. However 047 cannot close until the new end-to-end cognitive-neutrality repair is executably evidenced and fresh W03 confirms provider-head churn, stale-root rejection, retry/backoff, root invalidation and recovery remain zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief through the actual or instrumented learning boundary."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-048",
-      "classification": "BOUNDED_VETO",
-      "finding": "W02-2302 authored a targeted repair for VACUOUS_COGNITIVE_EQUIVALENCE_FIXTURE: stable-head and moving-head operational metadata now traverse the same closed-world recovery metadata projector with identical provenance-bound verified Experience, byte-identical learning projection asserted, and direct cognitive-sink injection rejected. This repairs the disconnected-default-fixture defect at authored-test level only; current workflow does not yet wire or execute this V02 regression."
+      "finding": "Operational V05 re-establishment remains materially repaired, but 047 cannot be re-adjudicated until 048 obtains exact visible evidence and fresh W03 adjudication."
     },
     {
       "id": "SPIRIT-MOD-GB21-046",
       "classification": "BOUNDED_VETO",
-      "finding": "Authenticated terminal-exit remains inactive because 047 is not closed and current W03 still has HIGH 048 open. Terminal-exit may advance only after exact-current 048 executable evidence and fresh W03 release of 048 then 047 with no higher veto."
+      "finding": "Authenticated terminal-exit remains inactive until both 048 and 047 are released by fresh W03 review with no higher HIGH veto."
     },
     {
       "id": "SPIRIT-MOD-GB21-044-CHRONIC-PRESSURE-10000-AB",
       "classification": "TEST_REQUIRED",
-      "finding": "10000 authenticated signed-pressure chronicity A/B remains independently required and cannot inherit V05 or Spirit-048 evidence."
+      "finding": "10000 authenticated chronic-pressure A/B remains an independent gate and inherits no release from 048."
     },
     {
-      "id": "RECOVERY-METADATA-END-TO-END-EXCLUSION",
+      "id": "RECOVERY-METADATA-WHOLE-REPO-TAINT-EXCLUSION",
       "classification": "TEST_REQUIRED",
-      "finding": "The new Spirit-048 projector test exercises the candidate metadata-to-learning boundary, but whole-repository static/dynamic exclusion of recovery/provider/signer/trust/key/epoch/receipt/checkpoint/signature/retry/secretary metadata from cognitive/personality sinks remains independently required."
+      "finding": "Spirit-048 instrumented projection does not prove whole-repository static/dynamic taint exclusion."
     },
     {
       "id": "PRODUCTION-PROVIDER-KEY-PROOF",
       "classification": "TEST_REQUIRED",
-      "finding": "Synthetic provider/key behavior does not prove production HSM/TPM/remote-provider independence, durability, custody, rotation, loss, revocation or liveness."
+      "finding": "Production provider/key durability, custody, liveness, rotation, loss and revocation remain independent gates."
     },
     {
       "id": "PAIRED-SPEED",
       "classification": "TEST_REQUIRED",
-      "finding": "Matched-workload paired baseline/current measurement remains independently required; maintenance/recovery/poll/retry/wait/workflow-count remain forbidden proxy metrics."
+      "finding": "Matched-workload paired speed evidence remains independent; task last_run, commit count, awake time, heartbeat, poll and retry counts are forbidden proxy metrics."
     }
   ],
-  "workflow_evidence_gaps": [
-    {
-      "id": "SPIRIT_048_COGNITIVE_NEUTRALITY_REGRESSION",
-      "classification": "TEST_REQUIRED",
-      "evidence_visibility": "EVIDENCE_VISIBILITY_GAP",
-      "finding": "W02-2302 authored test_recovery_metadata_cognitive_neutrality_shadow_v02.py and its contract, but current learning-isolation workflow d908af04 does not include, compile, or execute this new regression. No PASS/FAIL is inferred."
-    },
-    {
-      "id": "SPIRIT_047_REVIEW_ACCEPTANCE_AND_HANDOFF_GATES",
-      "classification": "TEST_REQUIRED",
-      "evidence_visibility": "EVIDENCE_VISIBILITY_GAP",
-      "finding": "Prior handoff/review-consumption gates remain non-formal and visibility-limited; no invisible workflow state is promoted to PASS or FAIL."
-    }
-  ],
+  "blocked_with_exact_reason": {
+    "classification": "TEST_REQUIRED",
+    "reason": "SPIRIT-048 is WIRED but not durably EXECUTED: execution-request commit 5acbb15fd548446503a335bdcd055dea6a2d9958 has no visible workflow run. Consequently no exact run/job/artifact evidence exists for W03 to fresh-adjudicate 048, and W04 is forbidden from advancing the tranche to W04_SYNTHESIZED."
+  },
+  "release_condition": {
+    "classification": "DECIDED",
+    "condition": "A visible completed Spirit-048 workflow run must be bound to the exact current test/contract/workflow bytes and expose run/job/artifact evidence. W03 must then fresh-read that exact evidence and durably adjudicate SPIRIT-MOD-GB21-048. If 048 releases, W03 must re-adjudicate 047; only if both 048 and 047 are released and no higher HIGH veto exists may the next tranche become 046 authenticated terminal-exit."
+  },
   "next_highest_value_closure": {
     "classification": "DECIDED",
     "owner": "W02-QUANTUM",
-    "action": "Wire test_recovery_metadata_cognitive_neutrality_shadow_v02.py and RECOVERY_METADATA_COGNITIVE_NEUTRALITY_SHADOW_V02_CONTRACT.json into the current learning-isolation or a dedicated bounded Spirit-048 workflow; execute MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB on exact-current V05 and bind the resulting commit/run/job/artifact plus exact source/test/contract/workflow identities. Preserve identical fresh Home/MISSION authority and provenance-bound verified Experience in A/B; ensure B actually carries provider-head advancement, stale-root rejection, retry/backoff, root invalidation and fresh-root recovery through the same operational metadata projector/learning sink as A; require byte-identical Experience recurrence/count, appraisal, drive, exploration, preference, personality candidate, P_base candidate, trauma and relief outputs and no secretary/anti-thrash residual. After visible exact-current evidence, refresh W03 for explicit 048 adjudication and then 047 adjudication. Do not activate 046 terminal-exit before both are released and no higher veto remains."
+    "action": "Obtain and durably bind the dedicated Spirit-048 workflow execution for execution-request commit 5acbb15fd548446503a335bdcd055dea6a2d9958 (or a new exact-current triggering commit if the bound bytes changed): capture completed run_id, job_id, artifact_id and artifact digest/status for MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB plus closure-guard regression; verify the evidence binds exact test 04d2b2c2e330f0ba77a8117b03db8b3fe87d2300, contract 0eaed1312feede62f005b465c532e792c8d8a4f3 and workflow 3da06ae0b043647837f066956da106c369d604c0; then advance protocol stage only to EXECUTED and hand immediately to W03 for fresh 048 adjudication. If the workflow is not triggered because path filtering did not fire, perform a bounded workflow_dispatch or exact-current triggering push without changing unrelated tranche scope."
   },
-  "next_for_w01": {
-    "classification": "DECIDED",
-    "action": "Route W02 to wire and execute the newly authored Spirit-048 end-to-end cognitive-neutrality regression on exact V05, bind visible exact-current evidence, then route W03 for fresh 048 then 047 adjudication. Do not route terminal-exit yet."
-  },
-  "next_after_047_if_closed": {
+  "next_if_048_and_047_released": {
     "classification": "DECIDED",
     "action": "AUTHENTICATED_TERMINAL_EXIT_ENVELOPE_WITH_FRESH_AUTHORITY_PRECEDENCE_AND_ZERO_STALE_RECOVERY_STATE"
-  },
-  "next_after_terminal_exit": {
-    "classification": "DECIDED",
-    "action": "SHARED_AUTHORITATIVE_EVENT_CLASSIFIER_THEN_VALID_PAIRED_SPEED_EVIDENCE"
   },
   "hard_locks": {
     "gearbox_v1_verified_pass_immutable": true,
@@ -143,10 +107,11 @@
     "governance_mutation": false,
     "slot4_created": false,
     "formal_c_verdict_claimed": false,
-    "maintenance_recovery_poll_retry_are_experience": false,
+    "maintenance_recovery_provider_secretary_history_is_experience": false,
     "candidate_shadow_pass_is_formal_c_pass": false
   },
   "navigator_verdict": "BOUNDED_VETO",
+  "closure_stage_advanced_to_w04_synthesized": false,
   "ready_for_terminal_exit_closure": false,
   "ready_for_formal_candidate": false
 }
