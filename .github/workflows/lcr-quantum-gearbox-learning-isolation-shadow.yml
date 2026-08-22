@@ -10,6 +10,9 @@ on:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_RECOVERY_METADATA_DATAFLOW_EXCLUSION_SHADOW_V01_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_learning_isolation_evidence_binding_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_learning_isolation_evidence_binding_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_LEARNING_ISOLATION_EVIDENCE_BINDING_SHADOW_V01_CONTRACT.json'
       - '.github/workflows/lcr-quantum-gearbox-learning-isolation-shadow.yml'
   workflow_dispatch:
 permissions:
@@ -28,26 +31,68 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - name: Compile isolation candidates
-        run: python -m py_compile evolution/core_v0_2/quantum_candidates/gearbox_pressure_chronicity_neutrality_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_pressure_chronicity_neutrality_shadow_v01.py evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
+        id: compile
+        run: >-
+          python -m py_compile
+          evolution/core_v0_2/quantum_candidates/gearbox_pressure_chronicity_neutrality_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_pressure_chronicity_neutrality_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/gearbox_learning_isolation_evidence_binding_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_learning_isolation_evidence_binding_shadow_v01.py
       - name: Run 10000-pressure chronicity A/B
         id: pressure
+        continue-on-error: true
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_pressure_chronicity_neutrality_shadow_v01.py
       - name: Run recovery metadata dataflow exclusion
         id: metadata
+        continue-on-error: true
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
+      - name: Run learning-isolation evidence binding adversarial tests
+        id: evidence_binding
+        continue-on-error: true
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_learning_isolation_evidence_binding_shadow_v01.py
       - name: Emit bounded evidence
         if: always()
         env:
+          COMPILE: ${{ steps.compile.outcome }}
           PRESSURE: ${{ steps.pressure.outcome }}
           METADATA: ${{ steps.metadata.outcome }}
+          EVIDENCE_BINDING: ${{ steps.evidence_binding.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
           python - <<'PY'
-          import json,os
+          import hashlib,json,os
           from pathlib import Path
-          outcomes={'pressure_chronicity_10000_ab':os.environ.get('PRESSURE','skipped'),'metadata_dataflow_exclusion':os.environ.get('METADATA','skipped')}
-          evidence={'schema_version':'1.0-shadow','mission_id':'LCR-EVOLUTION-0005','commit_sha':os.environ['COMMIT_SHA'],'run_id':os.environ['RUN_ID'],'status':'PASS' if all(v=='success' for v in outcomes.values()) else 'FAIL','outcomes':outcomes,'formal_effect':'NONE','formal_c_verification':'NOT_CLAIMED','formal_mutation_allowed':False,'experience_delta':0,'personality_delta':0,'p_base':'READ_ONLY_UNCHANGED','claim_boundary':'Candidate executable isolation evidence only; no production trust-root or formal C proof.'}
+          files=[
+            'evolution/core_v0_2/quantum_candidates/gearbox_pressure_chronicity_neutrality_shadow_v01.py',
+            'evolution/core_v0_2/quantum_candidates/test_gearbox_pressure_chronicity_neutrality_shadow_v01.py',
+            'evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py',
+            'evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py',
+            'evolution/core_v0_2/quantum_candidates/gearbox_learning_isolation_evidence_binding_shadow_v01.py',
+            'evolution/core_v0_2/quantum_candidates/test_gearbox_learning_isolation_evidence_binding_shadow_v01.py',
+          ]
+          outcomes={
+            'compile':os.environ.get('COMPILE','skipped'),
+            'SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_10000_AB':os.environ.get('PRESSURE','skipped'),
+            'RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION':os.environ.get('METADATA','skipped'),
+            'LEARNING_ISOLATION_EVIDENCE_BINDING_ADVERSARIAL':os.environ.get('EVIDENCE_BINDING','skipped'),
+          }
+          evidence={
+            'schema_version':'1.1-shadow','mission_id':'LCR-EVOLUTION-0005','step_id':9,
+            'commit_sha':os.environ['COMMIT_SHA'],'run_id':os.environ['RUN_ID'],'run_attempt':os.environ['RUN_ATTEMPT'],
+            'status':'PASS' if all(v=='success' for v in outcomes.values()) else 'FAIL','outcomes':outcomes,
+            'formal_effect':'NONE','formal_c_verification':'NOT_CLAIMED','formal_mutation_allowed':False,
+            'experience_delta':0,'appraisal_delta':0,'drive_delta':0,'exploration_delta':0,'preference_delta':0,
+            'personality_delta':0,'trauma_relief_delta':0,'p_base':'READ_ONLY_UNCHANGED',
+            'artifact_identity_binding':'POST_RUN_CONSUMER_REQUIRED_FOR_JOB_ID_ARTIFACT_ID_ZIP_SHA256',
+            'claim_boundary':'Candidate executable isolation evidence only. Unit evidence-binding tests are wired here; actual run/job/artifact digest consumption remains a post-run fail-closed gate. No whole-repository taint proof, production trust-root proof, or formal C proof.',
+            'bound_files':{},
+          }
+          for rel in files:
+            data=Path(rel).read_bytes(); evidence['bound_files'][rel]={'sha256':hashlib.sha256(data).hexdigest(),'size_bytes':len(data)}
           out=Path('evidence/quantum-gearbox-learning-isolation-shadow.json'); out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(evidence,indent=2)+'\n'); print(out.read_text())
           PY
       - uses: actions/upload-artifact@v4
@@ -57,3 +102,19 @@ jobs:
           path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/quantum-gearbox-learning-isolation-shadow.json
           if-no-files-found: error
           retention-days: 7
+      - name: Aggregate learning-isolation verdict
+        if: always()
+        env:
+          COMPILE: ${{ steps.compile.outcome }}
+          PRESSURE: ${{ steps.pressure.outcome }}
+          METADATA: ${{ steps.metadata.outcome }}
+          EVIDENCE_BINDING: ${{ steps.evidence_binding.outcome }}
+        run: |
+          python - <<'PY'
+          import os,sys
+          names=('COMPILE','PRESSURE','METADATA','EVIDENCE_BINDING')
+          failed={n:os.environ.get(n,'skipped') for n in names if os.environ.get(n,'skipped')!='success'}
+          if failed:
+            print('LEARNING_ISOLATION_AGGREGATE_FAIL',failed); sys.exit(1)
+          print('LEARNING_ISOLATION_AGGREGATE_PASS')
+          PY
