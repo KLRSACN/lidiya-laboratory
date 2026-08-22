@@ -7,6 +7,9 @@ on:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/RECOVERY_METADATA_COGNITIVE_NEUTRALITY_SHADOW_V02_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/CONTINUOUS_DEVELOPMENT_CLOSURE_PROTOCOL_V01.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/continuous_development_closure_guard_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_continuous_development_closure_guard_v01.py'
       - '.github/workflows/lcr-quantum-spirit-048-cognitive-neutrality.yml'
   workflow_dispatch:
 
@@ -28,24 +31,35 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
 
-      - name: Compile Spirit 048 regression and projector
+      - name: Compile Spirit 048 regression and closure guard
         id: compile
         run: >-
           python -m py_compile
           evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py
+          evolution/core_v0_2/quantum_candidates/continuous_development_closure_guard_v01.py
+          evolution/core_v0_2/quantum_candidates/test_continuous_development_closure_guard_v01.py
 
       - name: Run moving-provider-head end-to-end cognitive neutrality A/B
         id: cognitive_ab
+        continue-on-error: true
         run: |
           set -o pipefail
           python evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py 2>&1 | tee /tmp/spirit-048-cognitive-neutrality.log
+
+      - name: Run continuous-development closure guard regressions
+        id: closure_guard
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_continuous_development_closure_guard_v01.py 2>&1 | tee /tmp/closure-guard.log
 
       - name: Emit Spirit 048 bounded evidence
         if: always()
         env:
           COMPILE_OUTCOME: ${{ steps.compile.outcome }}
           AB_OUTCOME: ${{ steps.cognitive_ab.outcome }}
+          CLOSURE_GUARD_OUTCOME: ${{ steps.closure_guard.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
@@ -57,13 +71,17 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py',
               'evolution/core_v0_2/quantum_candidates/RECOVERY_METADATA_COGNITIVE_NEUTRALITY_SHADOW_V02_CONTRACT.json',
+              'evolution/core_v0_2/quantum_candidates/CONTINUOUS_DEVELOPMENT_CLOSURE_PROTOCOL_V01.json',
+              'evolution/core_v0_2/quantum_candidates/continuous_development_closure_guard_v01.py',
+              'evolution/core_v0_2/quantum_candidates/test_continuous_development_closure_guard_v01.py',
           ]
           outcomes = {
               'compile': os.environ.get('COMPILE_OUTCOME', 'skipped'),
               'MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB': os.environ.get('AB_OUTCOME', 'skipped'),
+              'CONTINUOUS_DEVELOPMENT_CLOSURE_GUARD': os.environ.get('CLOSURE_GUARD_OUTCOME', 'skipped'),
           }
           evidence = {
-              'schema_version': '1.0-shadow',
+              'schema_version': '1.1-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
               'step_id': 9,
               'evidence_type': 'SPIRIT_048_END_TO_END_COGNITIVE_NEUTRALITY',
@@ -72,6 +90,7 @@ jobs:
               'run_attempt': os.environ['RUN_ATTEMPT'],
               'status': 'PASS' if all(v == 'success' for v in outcomes.values()) else 'FAIL',
               'outcomes': outcomes,
+              'closure_stage_under_test': 'WIRED_TO_EXECUTED',
               'formal_effect': 'NONE',
               'formal_c_verification': 'NOT_CLAIMED',
               'formal_mutation_allowed': False,
@@ -83,7 +102,7 @@ jobs:
               'personality_delta': 0,
               'trauma_relief_delta': 0,
               'p_base': 'READ_ONLY_UNCHANGED',
-              'claim_boundary': 'Non-formal exact-workflow regression evidence for Spirit-048 only. It does not release W03 veto by itself, prove whole-repository taint exclusion, production provider/key trust, paired speed, or formal C verification.',
+              'claim_boundary': 'Non-formal exact-workflow regression evidence for Spirit-048 and closure-guard behavior only. It does not release W03 veto by itself, prove whole-repository taint exclusion, production provider/key trust, paired speed, or formal C verification.',
               'bound_files': {},
           }
           for rel in files:
@@ -103,3 +122,20 @@ jobs:
           path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/spirit-048-cognitive-neutrality-shadow.json
           if-no-files-found: error
           retention-days: 7
+
+      - name: Aggregate Spirit 048 verdict
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          AB_OUTCOME: ${{ steps.cognitive_ab.outcome }}
+          CLOSURE_GUARD_OUTCOME: ${{ steps.closure_guard.outcome }}
+        run: |
+          python - <<'PY'
+          import os, sys
+          names = ('COMPILE_OUTCOME', 'AB_OUTCOME', 'CLOSURE_GUARD_OUTCOME')
+          failed = {n: os.environ.get(n, 'skipped') for n in names if os.environ.get(n, 'skipped') != 'success'}
+          if failed:
+              print('SPIRIT_048_AGGREGATE_FAIL', failed)
+              sys.exit(1)
+          print('SPIRIT_048_AGGREGATE_PASS')
+          PY
