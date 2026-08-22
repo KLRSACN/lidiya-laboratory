@@ -1,9 +1,9 @@
 {
-  "schema_version": "2.4-GEARBOX-CHECKPOINT",
+  "schema_version": "2.5-GEARBOX-CHECKPOINT",
   "window_id": "SPIRIT",
   "window_alias": "W03_SPIRIT",
-  "status": "CURRENT_V05_REVIEW_COMPLETED_047_RELEASED_046_OPEN",
-  "updated_at": "2026-08-22T05:15:36+08:00",
+  "status": "CURRENT_V05_REVIEW_COMPLETED_047_PARTIAL_048_OPEN_046_OPEN",
+  "updated_at": "2026-08-22T13:20:17+08:00",
   "formal_authority_effect": "NONE_NONFORMAL",
   "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
   "mission_step": 9,
@@ -24,13 +24,17 @@
   "evidence_handoff_id": "W03-V05-EXACT-EVIDENCE-HANDOFF-20260822-0440",
   "evidence_run_id": 32524738088,
   "evidence_run_conclusion": "success",
+  "spirit_review_id": "SPIRIT-GEARBOX-V2.1-20260822-1320",
+  "spirit_review_sha": "b4d9cc37fb3e25ad3d6997e7043cb8874da005d6",
   "veto_disposition": {
     "SPIRIT-MOD-GB21-044": "PARTIALLY_RELEASED",
     "SPIRIT-MOD-GB21-045": "PARTIALLY_RELEASED",
     "SPIRIT-MOD-GB21-046": "STILL_OPEN",
-    "SPIRIT-MOD-GB21-047": "RELEASED"
+    "SPIRIT-MOD-GB21-047": "PARTIALLY_RELEASED",
+    "SPIRIT-MOD-GB21-048": "STILL_OPEN"
   },
-  "next_authorized_action": "Fresh-read next W02 durable review and exact current candidate. With 047 released, review SPIRIT-046 terminal-exit implementation first. If no terminal-exit material delta exists, retain 046. After 046 closes, prioritize 044 10000 signed-pressure chronicity and metadata dataflow exclusion.",
+  "material_finding": "V05 operational recovery and exact-current CI are valid, but MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB compares two untouched default RecoveryCognitiveState instances rather than routing churn/retry/recovery through actual cognitive sinks; end-to-end zero-learning evidence is therefore still missing.",
+  "next_authorized_action": "Fresh-read next W02 durable review. Priority-0 is SPIRIT-048/047 closure: require an end-to-end or instrumented cognitive-sink moving-provider-head A/B with identical verified Experience. Only after 048 and 047 fully close should W03 advance to SPIRIT-046 terminal-exit review, then SPIRIT-044 chronic-pressure 10000 A/B.",
   "p_base_write": false,
   "identity_write": false,
   "personality_write": false,
