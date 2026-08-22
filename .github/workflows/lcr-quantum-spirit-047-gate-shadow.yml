@@ -1,0 +1,30 @@
+name: LCR Quantum Spirit 047 Gate Shadow
+on:
+  push:
+    branches: [lidiya-cloud-relay-v2]
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_SPIRIT_047_ADJUDICATION_GATE_SHADOW_V01_CONTRACT.json'
+      - '.github/workflows/lcr-quantum-spirit-047-gate-shadow.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  spirit_047_gate_shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Spirit 047 activation gate
+        run: python -m py_compile evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v01.py
+      - name: Run Spirit 047 activation gate regressions
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v01.py
