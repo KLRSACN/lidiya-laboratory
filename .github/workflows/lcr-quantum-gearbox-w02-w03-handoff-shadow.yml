@@ -2,12 +2,14 @@ name: LCR Quantum Gearbox W02-W03 Handoff Shadow
 
 on:
   push:
-    branches:
-      - lidiya-cloud-relay-v2
+    branches: [lidiya-cloud-relay-v2]
     paths:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V01_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V02_CONTRACT.json'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json'
       - '.github/workflows/lcr-quantum-gearbox-w02-w03-handoff-shadow.yml'
   workflow_dispatch:
@@ -29,18 +31,24 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile exact handoff gate
+      - name: Compile exact handoff gates
         run: >-
           python -m py_compile
           evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
-      - name: Run handoff freshness adversarial regressions
-        id: handoff_tests
+          evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py
+      - name: Run V01 byte identity regressions
+        id: handoff_v01
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
+      - name: Run V02 semantic completeness regressions
+        id: handoff_v02
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py
       - name: Emit bounded evidence
         if: always()
         env:
-          TEST_OUTCOME: ${{ steps.handoff_tests.outcome }}
+          V01_OUTCOME: ${{ steps.handoff_v01.outcome }}
+          V02_OUTCOME: ${{ steps.handoff_v02.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
@@ -52,16 +60,21 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py',
               'evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V01_CONTRACT.json',
+              'evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py',
+              'evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V02_CONTRACT.json',
               'state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json',
           ]
+          outcomes = {'v01': os.environ.get('V01_OUTCOME'), 'v02': os.environ.get('V02_OUTCOME')}
           evidence = {
-              'schema_version': '1.0-shadow',
+              'schema_version': '1.1-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
-              'evidence_type': 'w02_w03_handoff_freshness_shadow',
+              'evidence_type': 'w02_w03_handoff_freshness_semantic_shadow',
               'commit_sha': os.environ['COMMIT_SHA'],
               'run_id': os.environ['RUN_ID'],
               'run_attempt': os.environ['RUN_ATTEMPT'],
-              'status': 'PASS' if os.environ.get('TEST_OUTCOME') == 'success' else 'FAIL',
+              'outcomes': outcomes,
+              'status': 'PASS' if all(v == 'success' for v in outcomes.values()) else 'FAIL',
               'formal_effect': 'NONE',
               'formal_c_verification': 'NOT_CLAIMED',
               'spirit_047_closed': False,
