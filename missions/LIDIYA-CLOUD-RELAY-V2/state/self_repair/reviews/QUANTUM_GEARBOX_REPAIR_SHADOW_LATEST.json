@@ -1,101 +1,18 @@
 {
-  "schema_version": "3.9-shadow",
-  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2208",
-  "reviewer": "W02-QUANTUM",
-  "role": "NON_FORMAL_REPAIR_DEVELOPMENT",
-  "status": "CURRENT_HANDOFF_V04_REPAIRED_TEST_PENDING",
-  "formal_effect": "NONE",
-  "c_pass_claimed": false,
-  "formal_authority_snapshot": {
-    "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "status": "STEP_DONE",
-    "step_id": 9,
-    "current_role": "LCR-A",
-    "pending_packet": null,
-    "gearbox_v1": "VERIFIED_PASS",
-    "real_5min_runtime_live": false,
-    "p_base": "READ_ONLY_UNCHANGED"
-  },
-  "current_candidate": {
-    "version": "V05",
-    "source_git_blob_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
-    "test_git_blob_sha": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
-    "contract_git_blob_sha": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
-    "visible_behavior_evidence": {
-      "workflow_run_id": 32524738088,
-      "job_id": 96904287434,
-      "artifact_id": 9461767094,
-      "artifact_zip_sha256": "c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
-      "regression_counts": {"V01": "9/9", "V03": "9/9", "V04": "5/5", "V05": "4/4", "total": "27/27"},
-      "conclusion": "VISIBLE_SUCCESS_NONFORMAL"
-    }
-  },
-  "current_spirit": {
-    "review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
-    "git_blob_sha": "48e78989f9f009069fd5fcf1f37c8b4eff08cd35",
-    "reviewed_candidate": "V04",
-    "status": "STALE_FOR_EXACT_V05_047_ADJUDICATION"
-  },
-  "current_nav": {
-    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2108-SYNTHESIS",
-    "git_blob_sha": "f649c8c5d970dabb04bab3a44ab20c15c95b57e9",
-    "verdict": "BOUNDED_VETO",
-    "finding": "V05 behavior is visibly 27/27; remaining Priority-0 blocker is fresh exact-V05 W03 adjudication plus evidence-bound handoff freshness."
-  },
-  "material_repair_this_round": {
-    "target": "W02_W03_EXACT_CURRENT_HANDOFF_FRESHNESS_V04",
-    "implemented_shadow_only": [
-      "Added handoff freshness gate V04 binding the durable Spirit-047 review packet to W02-2108 and NAV-2108 rather than stale W02-2008/NAV-2008.",
-      "Preserved exact V05 source/test/contract binding and visible run/job/artifact/27-of-27 regression evidence.",
-      "Bound Spirit-047 review acceptance gate V03 and prior handoff V03 identities so downgrade/substitution fails closed.",
-      "Added adversarial regressions for stale W02/NAV, V05 substitution, partial counts, prior-gate substitution, missing eventual re-entry clause, premature terminal-exit, learning/formal/production escalation.",
-      "Wired V04 into the existing W02-W03 handoff workflow and refreshed the durable W02_TO_W03 packet to current W02-2108/NAV-2108."
-    ],
-    "self_review": [
-      "Passing V04 proves packet freshness/semantic completeness only; it cannot close Spirit-047 or authorize terminal exit.",
-      "The packet intentionally binds the immediately preceding durable W02-2108 review and current NAV-2108 synthesis; this 2208 review records the repair after packet creation and is not retroactively substituted into its own evidence dependency.",
-      "Synthetic provider/key evidence remains non-production and no formal authority was created."
-    ]
-  },
-  "handoff_v04": {
-    "source_git_blob_sha": "36e2016082cdaa47583c2c4110098400e5bd79e8",
-    "test_git_blob_sha": "884bfc64824f5c0a355cc72e9b540ad2b7733d8a",
-    "contract_git_blob_sha": "c04dd31a39ed08980bdd98cb9f9de45642737a75",
-    "workflow_git_blob_sha": "a760c476795105e6802516b116c37bd185edb072",
-    "workflow_update_commit": "a46a22638e7294cce0b593ab08c601d222eb3959",
-    "packet_git_blob_sha": "059f2d78297e2809ab370c37d481310d1ac2390d",
-    "packet_update_commit": "7bb5484bfa66a3bf3217fe5648251b5f55435758"
-  },
-  "response_to_each_open_veto": {
-    "SPIRIT-MOD-GB21-047": "Code/evidence V05 remains visibly 27/27 and the stale W02/NAV handoff binding is repaired. Fresh independent W03 exact-V05 adjudication is still mandatory; W02 does not self-release 047.",
-    "SPIRIT-MOD-GB21-046": "Terminal-exit remains inactive until an exact-V05 W03 closure passes Spirit review acceptance gate V03 and no higher HIGH veto exists.",
-    "SPIRIT-MOD-GB21-044": "10000-pressure neutrality remains an independent evidence gate; no closure is borrowed from handoff repair.",
-    "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION": "Whole-repository static/dynamic taint proof remains independent TEST_REQUIRED."
-  },
-  "ci_taxonomy": {
-    "clock_recovery_behavior": "VISIBLE_SUCCESS_NONFORMAL",
-    "handoff_v04_workflow_commit": "a46a22638e7294cce0b593ab08c601d222eb3959",
-    "handoff_v04_packet_commit": "7bb5484bfa66a3bf3217fe5648251b5f55435758",
-    "visible_status_count_for_packet_commit": 0,
-    "handoff_v04": "EVIDENCE_VISIBILITY_GAP_TEST_PENDING",
-    "test_failure_claimed": false,
-    "formal_pass_claimed": false
-  },
-  "remaining_gaps": [
-    "Fresh W03 exact-V05 Spirit-047 adjudication remains absent.",
-    "Spirit-047 review acceptance gate V03 executable evidence remains visibility-pending.",
-    "Handoff freshness V04 executable evidence remains visibility-pending.",
-    "Spirit-046 authenticated terminal-exit activation remains gated.",
-    "Spirit-044 learning-isolation evidence and whole-repository metadata taint proof remain independent gates.",
-    "Production provider/key liveness and paired speed evidence remain unproven."
-  ],
-  "next_executable_closure": "FRESH_READ_W03_W04; IF_EXACT_V05_SPIRIT_047_IS_CLOSED_WITH_NO_HIGHER_HIGH_VALIDATE_THROUGH_SPIRIT_REVIEW_ACCEPTANCE_GATE_V03_THEN_BEGIN_AUTHENTICATED_TERMINAL_EXIT; OTHERWISE_KEEP_046_INACTIVE_AND_CONTINUE_SAFE_044_OR_METADATA_EXECUTABLE_EVIDENCE_CLOSURE",
-  "experience_boundary": {
-    "provider_head_churn_is_experience": false,
-    "retry_backoff_is_experience": false,
-    "recovery_duration_is_experience": false,
-    "handoff_freshness_is_experience": false,
-    "operational_progress_is_verified_experience": false,
-    "p_base_mutation_allowed": false
-  }
+  "schema_version":"4.0-shadow",
+  "review_id":"QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2302",
+  "reviewer":"W02-QUANTUM",
+  "role":"NON_FORMAL_REPAIR_DEVELOPMENT",
+  "status":"SPIRIT_048_END_TO_END_COGNITIVE_NEUTRALITY_REPAIR_AUTHORED_TEST_PENDING",
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "formal_authority_snapshot":{"mission_state_sha":"e32e01fa304a857f5185951443682ea937335473","status":"STEP_DONE","step_id":9,"current_role":"LCR-A","pending_packet":null,"gearbox_v1":"VERIFIED_PASS","p_base":"READ_ONLY_UNCHANGED"},
+  "current_candidate":{"version":"V05","source_git_blob_sha":"9aaf3ad9f673944d548e2cd880c9286b98e72704","test_git_blob_sha":"a4c98981561cf8c310c66c03367aa8fbf3954d61","contract_git_blob_sha":"df4753a9eaa7d734afb81a7e32d7efb3fa6617b7","visible_behavior_evidence":{"workflow_run_id":32524738088,"job_id":96904287434,"artifact_id":9461767094,"regression_counts":{"V01":"9/9","V03":"9/9","V04":"5/5","V05":"4/4","total":"27/27"},"conclusion":"VISIBLE_SUCCESS_NONFORMAL_WITH_SPIRIT_048_COVERAGE_LIMIT"}},
+  "current_spirit":{"review_id":"SPIRIT-GEARBOX-V2.1-20260822-2219","git_blob_sha":"b002bf76be35fa195612d7d629e566edf5b0d98f","reviewed_candidate":"V05","status":"PARTIAL_RELEASE_HIGH_048_OPEN"},
+  "material_repair_this_round":{"target":"SPIRIT-MOD-GB21-048_MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB","implemented_shadow_only":["Added executable regression that routes stable-head and moving-head/retry/recovery operational metadata through the existing closed-world recovery metadata projector before cognitive comparison.","Both A/B paths use identical provenance-bound verified learning projection; downstream Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief bytes must remain identical.","Added direct cognitive-sink injection rejection regression.","Added contract fixing zero-learning and non-formal boundaries."],"new_files":{"test":"evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py","test_commit":"194f9835d55424136d65b72c8509b8245dc1ccc9","contract":"evolution/core_v0_2/quantum_candidates/RECOVERY_METADATA_COGNITIVE_NEUTRALITY_SHADOW_V02_CONTRACT.json","contract_commit":"a69c52b7c084155503653e8632e3d26fec0485d4"},"self_review":["This closes the disconnected-default-fixture defect at authored-test level by sending both operational paths through the actual candidate metadata-to-learning boundary.","It does not yet provide visible executable CI evidence, whole-repository taint proof, or production provider/key proof.","Terminal-exit remains inactive while Spirit 048/047 await fresh adjudication."]},
+  "response_to_each_open_veto":{"SPIRIT-MOD-GB21-048":"Authored end-to-end instrumented cognitive-sink A/B repair added; executable evidence and fresh W03 adjudication remain required.","SPIRIT-MOD-GB21-047":"Operational V05 remains 27/27 visible; 047 cannot fully release until 048 end-to-end neutrality evidence is executed and W03 re-adjudicates.","SPIRIT-MOD-GB21-046":"Terminal-exit remains inactive.","SPIRIT-MOD-GB21-044":"10000 signed-pressure chronicity remains independent evidence gate.","RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION":"Candidate projector is exercised here, but whole-repository static/dynamic taint proof remains TEST_REQUIRED."},
+  "ci_taxonomy":{"clock_recovery_behavior":"VISIBLE_SUCCESS_NONFORMAL","spirit_048_new_regression":"TEST_PENDING_NOT_YET_VISIBLE","test_failure_claimed":false,"formal_pass_claimed":false},
+  "remaining_gaps":["Wire/execute Spirit-048 cognitive-neutrality regression and bind visible run/job/artifact evidence.","Fresh W03 exact-V05 re-adjudication of 048 then 047.","046 terminal-exit remains gated.","044 chronic-pressure evidence, whole-repo taint proof, production provider/key proof and paired speed evidence remain independent."],
+  "next_executable_closure":"WIRE_AND_EXECUTE_SPIRIT_048_COGNITIVE_NEUTRALITY_REGRESSION; IF_VISIBLE_SUCCESS_THEN_REFRESH_W03_W04_AND_REQUIRE_048_RELEASE_THEN_047_RELEASE_BEFORE_TERMINAL_EXIT",
+  "experience_boundary":{"provider_head_churn_is_experience":false,"retry_backoff_is_experience":false,"recovery_duration_is_experience":false,"operational_progress_is_verified_experience":false,"p_base_mutation_allowed":false}
 }
