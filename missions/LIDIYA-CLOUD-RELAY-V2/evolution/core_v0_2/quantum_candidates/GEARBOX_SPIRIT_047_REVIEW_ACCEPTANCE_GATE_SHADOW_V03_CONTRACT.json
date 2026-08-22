@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_SPIRIT_047_REVIEW_ACCEPTANCE_GATE_SHADOW_V03",
+  "status": "NON_FORMAL_SECURITY_GATE_TEST_REQUIRED",
+  "purpose": "Consume, but never author, a future independent W03 exact-V05 Spirit-047 closure before terminal-exit engineering may begin.",
+  "required_bindings": {
+    "candidate_version": "V05",
+    "veto": "SPIRIT-MOD-GB21-047",
+    "source_git_blob_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
+    "test_git_blob_sha": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
+    "contract_git_blob_sha": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
+    "workflow_run_id": 32524738088,
+    "job_id": 96904287434,
+    "artifact_id": 9461767094,
+    "artifact_zip_sha256": "c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
+    "regressions": "27/27"
+  },
+  "must_assert": [
+    "every stale root fails closed",
+    "current provider head can establish a fresh authenticated root",
+    "eventual non-terminal re-entry is demonstrated",
+    "fresh Mission authority has precedence",
+    "no stale pressure or terminal-hold carryover survives re-entry",
+    "provider churn, retry/backoff and recovery duration create zero Experience",
+    "cognitive/personality state is equal when verified Experience is equal",
+    "no higher HIGH veto remains"
+  ],
+  "hard_fail_closed": [
+    "V04 or other stale candidate review",
+    "candidate byte substitution",
+    "run/job/artifact substitution",
+    "partial regression execution",
+    "missing zero-learning assertion",
+    "higher HIGH veto present",
+    "formal C PASS claim",
+    "production provider/key liveness claim from synthetic evidence"
+  ],
+  "claim_boundary": {
+    "accepted_for_terminal_exit_engineering": "only after exact independent W03 closure passes this gate",
+    "formal_effect": "NONE",
+    "formal_c_verification": "NOT_CLAIMED",
+    "production_provider_key_proof": false,
+    "experience_delta": 0,
+    "personality_delta": 0,
+    "p_base_mutation_allowed": false
+  }
+}
