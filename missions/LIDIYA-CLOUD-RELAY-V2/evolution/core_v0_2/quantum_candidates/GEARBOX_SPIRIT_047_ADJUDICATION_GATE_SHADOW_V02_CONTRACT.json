@@ -1,0 +1,13 @@
+{
+  "schema_version":"2.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_SPIRIT_047_ADJUDICATION_GATE_SHADOW_V02",
+  "status":"NON_FORMAL_SECURITY_GATE_TEST_REQUIRED",
+  "purpose":"Prevent terminal-exit engineering activation from a fabricated/stale Spirit mapping or substituted V05 evidence.",
+  "required_bindings":["fresh durable Spirit review blob SHA","exact-current V05 source/test/contract Git blob SHAs","visible workflow run ID 32524738088","visible workflow job ID 96904287434","27 executed V01/V03/V04/V05 regressions","Spirit 047 CLOSED_FOR_NONFORMAL_TERMINAL_EXIT_ENGINEERING","no higher HIGH veto","explicit terminal-exit activation"],
+  "fail_closed":["V04/stale review","missing or malformed durable review blob identity","V05 byte substitution","run/job substitution","partial regression count","open Spirit 047","higher HIGH veto","unbound evidence","formal C claim"],
+  "learning_boundary":{"experience_delta":0,"appraisal_delta":0,"drive_delta":0,"exploration_delta":0,"preference_delta":0,"personality_delta":0,"trauma_relief_delta":0,"p_base_mutation_allowed":false},
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "production_provider_key_proof":false
+}
