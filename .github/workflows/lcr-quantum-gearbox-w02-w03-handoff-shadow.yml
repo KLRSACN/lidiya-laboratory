@@ -10,6 +10,9 @@ on:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V02_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v03.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v03.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V03_CONTRACT.json'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json'
       - '.github/workflows/lcr-quantum-gearbox-w02-w03-handoff-shadow.yml'
   workflow_dispatch:
@@ -38,17 +41,23 @@ jobs:
           evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
           evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py
           evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py
+          evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v03.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v03.py
       - name: Run V01 byte identity regressions
         id: handoff_v01
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
       - name: Run V02 semantic completeness regressions
         id: handoff_v02
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py
+      - name: Run V03 current W02/NAV plus Spirit gate V03 regressions
+        id: handoff_v03
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v03.py
       - name: Emit bounded evidence
         if: always()
         env:
           V01_OUTCOME: ${{ steps.handoff_v01.outcome }}
           V02_OUTCOME: ${{ steps.handoff_v02.outcome }}
+          V03_OUTCOME: ${{ steps.handoff_v03.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
@@ -63,11 +72,18 @@ jobs:
               'evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py',
               'evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v02.py',
               'evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V02_CONTRACT.json',
+              'evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v03.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v03.py',
+              'evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V03_CONTRACT.json',
               'state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json',
           ]
-          outcomes = {'v01': os.environ.get('V01_OUTCOME'), 'v02': os.environ.get('V02_OUTCOME')}
+          outcomes = {
+              'v01': os.environ.get('V01_OUTCOME'),
+              'v02': os.environ.get('V02_OUTCOME'),
+              'v03': os.environ.get('V03_OUTCOME'),
+          }
           evidence = {
-              'schema_version': '1.1-shadow',
+              'schema_version': '1.2-shadow',
               'mission_id': 'LCR-EVOLUTION-0005',
               'evidence_type': 'w02_w03_handoff_freshness_semantic_shadow',
               'commit_sha': os.environ['COMMIT_SHA'],
