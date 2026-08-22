@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.1-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "step_id": 9,
+  "artifact": "GEARBOX_CLOCK_RECOVERY_EVIDENCE_BINDING_SHADOW_V01",
+  "status": "NON_FORMAL_EVIDENCE_BINDING_CANDIDATE",
+  "responds_to": [
+    "SPIRIT-MOD-GB21-047",
+    "W01-GB-V03-REENTRY-TRUST-ROOT-BINDING-20260822-0215"
+  ],
+  "exact_visible_evidence": {
+    "workflow_run": 32524738088,
+    "job": 96904287434,
+    "artifact_id": 9461767094,
+    "artifact_zip_sha256": "c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
+    "executed_regressions": {
+      "V01": "9/9",
+      "V03": "9/9",
+      "V04": "5/5",
+      "V05": "4/4",
+      "total": "27/27"
+    }
+  },
+  "exact_current_v05_git_blobs": {
+    "source": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
+    "test": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
+    "contract": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
+    "workflow": "6ff4284e0856eaed56fbc810eb063240453ebc1e"
+  },
+  "invariants": [
+    "Visible workflow success is consumable for W03/W04 non-formal review only when run, job, artifact digest, regression counts and exact-current V05 Git blobs all match this contract.",
+    "Any evidence identity, digest, regression-count or exact-current blob substitution fails closed.",
+    "The evidence binding proves only that the named non-formal V01/V03/V04/V05 regressions executed successfully on the bound candidate lane.",
+    "It does not establish formal LCR-C verification, production provider/key custody, HSM/TPM/remote durability-domain independence, runtime liveness or a speed multiplier.",
+    "Evidence binding, provider-head churn, root re-establishment and recovery history add zero Experience, appraisal, drive, exploration, preference, personality, P_base, trauma or relief state."
+  ],
+  "formal_effect": "NONE",
+  "formal_c_verification": "NOT_CLAIMED",
+  "formal_mutation_allowed": false,
+  "p_base": "READ_ONLY_UNCHANGED"
+}
