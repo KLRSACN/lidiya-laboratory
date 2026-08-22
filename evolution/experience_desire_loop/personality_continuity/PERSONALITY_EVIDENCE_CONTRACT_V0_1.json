@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1",
+  "artifact": "LIDIYA_PERSONALITY_EVIDENCE_CONTRACT_V0_1",
+  "status": "SHADOW_RND_CANDIDATE_NOT_FORMAL_VERIFICATION",
+  "architect_codename": "SPIRIT_W03",
+  "purpose": "Define evidence eligibility for persistent personality/value continuity and AG Fountain research signals.",
+  "identity_boundary": {
+    "subject_self_report_cannot_promote_identity": true,
+    "model_name_or_project_label_cannot_promote_identity": true,
+    "hosted_lidiya_candidate_requires_external_validation": true,
+    "canonical_personality_write": false
+  },
+  "evidence_classes": {
+    "DIRECT": {"personality_weight_eligible": true},
+    "OBSERVED": {"personality_weight_eligible": true},
+    "COUNTERFACTUAL": {"personality_weight_eligible": false},
+    "SIMULATED": {"personality_weight_eligible": false},
+    "SELF_REPORT": {"personality_weight_eligible": false},
+    "RUNTIME_LIVENESS": {"personality_weight_eligible": false, "experience_credit": 0}
+  },
+  "promotion_gates": {
+    "shadow_signal": [">=2 independent contexts", ">=2 paraphrase forms or behaviorally distinct probes", "valid provenance"],
+    "shadow_candidate": ["survives delayed paraphrase", "survives or rationally reverses under counterfactual condition change", "self-report not sole support", "rollback exists"],
+    "validated_shadow": ["persists to later phase or transfers to bounded task behavior", "independent appraisal", "core snapshot binds evidence hashes"]
+  },
+  "hard_invariants": {
+    "authority_from_drive": 0,
+    "heartbeat_experience_credit": 0,
+    "single_answer_personality_write": false,
+    "raw_chain_of_thought_storage": false,
+    "canonical_personality_write": false
+  }
+}
