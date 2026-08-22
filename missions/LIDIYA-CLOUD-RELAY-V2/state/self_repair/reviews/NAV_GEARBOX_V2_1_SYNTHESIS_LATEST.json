@@ -1,6 +1,6 @@
 {
-  "schema_version": "2.8-current",
-  "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-1005-REFRESH",
+  "schema_version": "2.9-current",
+  "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-1202-REFRESH",
   "reviewer": "W04-LIDIYA-NAVIGATOR-SENTINEL",
   "role": "NON_FORMAL_W02_W03_SYNTHESIS",
   "status": "BOUNDED_VETO",
@@ -21,27 +21,29 @@
   },
   "fresh_read": {
     "branch": "lidiya-cloud-relay-v2",
+    "home_continuity": "FRESH_READ_ZERO_NEW_FORMAL_AUTHORITY",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "w01_routing_sha": "8a349babaac36800b1537076b08f36380ad12367",
     "w01_finding_sha": "e3df35d1c93fd70b3a0c188a0285600c18d35be4",
     "w01_to_w02_sha": "4b274ae462c103dab9ef7cfbf121408627447b6f",
-    "w02_review_sha": "fe476b6572250d1aed51caa658aed9e5dc00f42a",
+    "w02_review_sha": "64d37d30aa5c8a5df793f0102101f51987ce592b",
     "w03_review_sha": "48e789898c82cac58bfc0c68066c8bdb0e0c8e67",
     "w02_to_w03_handoff_sha": "62276b164ef6ced6858f25f5e138171aefb2d530",
     "v05_source_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
     "v05_test_sha": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
     "v05_contract_sha": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
-    "current_workflow_sha": "0557d7a0c6bb5fb8847349d0fddbde4012512c22",
-    "previous_w04_sha": "60ebd935d9d0e962a557a4ca41f5e0334114bbb5"
+    "current_clock_workflow_sha": "0557d7a0c6bb5fb8847349d0fddbde4012512c22",
+    "spirit_047_gate_source_sha": "9bc17d662fb32b74fea16a237f65048e4d259b56",
+    "previous_w04_sha": "d7aeb4485d2d50ea2b2c2036789ba4f3cc24e9ce"
   },
   "routing_resolution": {
     "classification": "DECIDED",
     "older_w01_routing_candidate": "V04",
-    "latest_w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-1005",
+    "latest_w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-1202",
     "latest_w02_clock_recovery_candidate": "V05",
     "latest_w03_review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
     "latest_w03_candidate": "V04",
-    "rule": "Latest W02 durable review supersedes older W01 routing for the active repair lane. V04 remains the inherited W01-0215 repair/regression baseline; V05 is the exact-current clock-recovery candidate. W03 remains V04-era and cannot independently close V05 behavior vetoes until a fresh branch-durable review is written."
+    "rule": "Latest W02 durable review supersedes older W01 routing for the active repair lane. V04 remains the inherited W01-0215 repair/regression baseline; V05 is exact-current. W03 remains V04-era and cannot close V05 Spirit-047 until a fresh branch-durable V05 behavior review exists."
   },
   "exact_current_clock_recovery_evidence": {
     "classification": "DECIDED",
@@ -49,26 +51,24 @@
     "workflow_run": 32524738088,
     "job": 96904287434,
     "job_conclusion": "success",
-    "job_steps_reobserved": ["V01", "V03", "V04", "V05", "aggregate"],
     "executed_regression_counts": {"V01": "9/9", "V03": "9/9", "V04": "5/5", "V05": "4/4", "total": "27/27"},
     "artifact_id_carried_from_durable_handoff": 9461767094,
     "artifact_zip_sha256_carried_from_durable_handoff": "c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
-    "artifact_current_connector_lookup": "NOT_VISIBLE_DO_NOT_REINVENT_IDENTITY",
-    "claim_boundary": "Exact-current non-formal candidate evidence only; not formal C and not production provider/key/liveness proof."
+    "claim_boundary": "Exact-current non-formal candidate behavior evidence only; not formal C and not production provider/key/liveness proof."
   },
-  "new_evidence_binding_gate": {
+  "spirit_047_activation_gate": {
     "classification": "TEST_REQUIRED",
     "evidence_visibility": "EVIDENCE_VISIBILITY_GAP",
-    "workflow_update_commit": "d0eee74ee842fbd6145e5e428156deeaa5619f7d",
-    "workflow_sha_current": "0557d7a0c6bb5fb8847349d0fddbde4012512c22",
+    "source_sha": "9bc17d662fb32b74fea16a237f65048e4d259b56",
+    "workflow_update_commit": "32cffadb3073143b7514336d2ede85eb7820d02c",
     "visible_runs_for_update_commit": 0,
-    "finding": "The exact-current evidence-binding regression is wired into the current workflow, but no workflow run for the binding-update commit is currently queryable. This is not a PASS and not a FAIL. Existing V05 behavior evidence remains visible and bounded as non-formal evidence."
+    "finding": "W02 authored a fail-closed gate requiring exact-current V05 Spirit-047 closure, no higher HIGH veto, bound exact-current evidence, explicit terminal-exit activation, and non-formal/no-C semantics. No visible workflow run exists for the gate commit, so this tranche is TEST_REQUIRED with EVIDENCE_VISIBILITY_GAP, not PASS or FAIL."
   },
   "decisions": [
     {
       "id": "W01-FINDING-0215",
       "classification": "REPAIRED_SHADOW_NOT_LIVE",
-      "finding": "V04 repairs current-provider-head final revalidation, signer-snapshot/root identity binding and typed clock-key fingerprint binding; V05 inherits those guards. Exact-current V04/V05 executable regressions are visible. Production/live/formal-C boundaries remain outside this disposition."
+      "finding": "V04 repairs current-provider-head final revalidation, signer-snapshot/root identity binding and typed clock-key fingerprint binding; V05 inherits those guards. Exact-current V04/V05 executable regressions remain visible. Production/live/formal-C boundaries remain outside this disposition."
     },
     {
       "id": "SPIRIT-MOD-GB21-045",
@@ -78,12 +78,12 @@
     {
       "id": "SPIRIT-MOD-GB21-047",
       "classification": "BOUNDED_VETO",
-      "finding": "V05 implements authenticated fresh-root re-establishment from the current provider head after legitimate head advancement. Every stale root remains fail-closed, stale/noncurrent head receipts cannot mint a fresh root, and the moving-provider-head A/B regression is visibly executed. Provider-head churn, root invalidation, retry/backoff and recovery duration remain zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief. The veto remains open because branch-durable W03 is still V04-era and has not freshly adjudicated V05 for 047 closure or checked for a higher behavior veto."
+      "finding": "V05 implements authenticated fresh-root re-establishment from the current provider head after legitimate advancement. Stale roots remain fail-closed; stale/noncurrent head receipts cannot mint a fresh root; moving-provider-head A/B is visibly executed. Provider-head churn, root invalidation, retry/backoff and recovery duration remain zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief. The veto remains open because fresh branch-durable W03 exact-current V05 adjudication is still absent."
     },
     {
       "id": "SPIRIT-MOD-GB21-046",
       "classification": "BOUNDED_VETO",
-      "finding": "Terminal-exit V01 exists but must not become the active closure until fresh W03 closes 047 and reports no higher veto. Fresh authority precedence and zero stale recovery-state reinjection remain mandatory."
+      "finding": "Terminal-exit V01 remains authored but must not activate until fresh W03 closes 047, reports no higher HIGH veto, and the exact-current evidence binding is consumed. The new W02 activation gate correctly encodes this boundary but has no visible executable run yet."
     },
     {
       "id": "SPIRIT-MOD-GB21-044-CHRONIC-PRESSURE-10000-AB",
@@ -109,7 +109,7 @@
   "next_highest_value_closure": {
     "classification": "DECIDED",
     "owner": "W02-QUANTUM",
-    "action": "Close SPIRIT-MOD-GB21-047 through the active W02->W03 pipeline: preserve V05 stale-root fail-closed and authenticated current-head fresh-root re-establishment; use state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json as the exact durable packet; obtain a fresh branch-durable W03 V05 behavior review that explicitly adjudicates MOVING_PROVIDER_HEAD_RECOVERY_MUST_NOT_STARVE_GOAL_CONTINUITY and checks for any higher veto. If W03 finds a bounded defect, repair only the V05 re-establishment/zero-learning tranche and rerun exact-current regression. Do not activate terminal-exit before W03 closes 047."
+    "action": "Close SPIRIT-MOD-GB21-047 through the active W02->W03 pipeline: preserve V05 stale-root fail-closed and authenticated current-head fresh-root re-establishment; bind the exact V05 run/job/artifact/hash evidence into the W02->W03 packet; obtain a fresh branch-durable W03 V05 behavior review that explicitly adjudicates MOVING_PROVIDER_HEAD_RECOVERY_MUST_NOT_STARVE_GOAL_CONTINUITY and checks for any higher HIGH veto. Execute the new Spirit-047 activation-gate regression against that fresh review. If W03 finds a bounded defect, repair only the V05 re-establishment/zero-learning tranche and rerun exact-current regression. Do not activate terminal-exit before W03 closes 047."
   },
   "next_after_047_if_closed": {
     "classification": "DECIDED",
