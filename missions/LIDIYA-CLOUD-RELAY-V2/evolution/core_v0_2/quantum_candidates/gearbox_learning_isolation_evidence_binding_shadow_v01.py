@@ -6,10 +6,16 @@ import re
 
 MISSION_ID = "LCR-EVOLUTION-0005"
 STEP_ID = 9
-SCHEMA_VERSION = "0.1-shadow"
+SCHEMA_VERSION = "0.2-shadow"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 BLOB_RE = re.compile(r"^[0-9a-f]{40}$")
 REQUIRED_SUITES = {"SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_10000_AB", "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION"}
+REQUIRED_BLOB_KEYS = {
+    "pressure_source", "pressure_test", "pressure_contract",
+    "metadata_source", "metadata_test", "metadata_contract",
+    "evidence_binding_source", "evidence_binding_test", "evidence_binding_contract",
+    "workflow",
+}
 
 class LearningIsolationEvidenceGuardError(ValueError):
     pass
@@ -51,7 +57,7 @@ class LearningIsolationEvidenceManifest:
     formal_c_verification: str
 
     @classmethod
-    def verify(cls, value: Any) -> "LearningIsolationEvidenceManifest":
+    def verify(cls, value: Any, *, expected_blobs: Mapping[str, str] | None = None) -> "LearningIsolationEvidenceManifest":
         if not isinstance(value, Mapping):
             raise LearningIsolationEvidenceGuardError("manifest mapping required")
         try:
@@ -68,8 +74,16 @@ class LearningIsolationEvidenceManifest:
         if set(results) != REQUIRED_SUITES or any(v != "success" for v in results.values()):
             raise LearningIsolationEvidenceGuardError("required isolation suites not exactly successful")
         blobs = dict(m.bound_blobs)
-        if not blobs or any(_sha(v, BLOB_RE, f"bound_blobs.{k}") != v.lower() for k, v in blobs.items()):
-            raise LearningIsolationEvidenceGuardError("bound blob set invalid")
+        if set(blobs) != REQUIRED_BLOB_KEYS:
+            raise LearningIsolationEvidenceGuardError("required bound blob identities not exact")
+        normalized = {k: _sha(v, BLOB_RE, f"bound_blobs.{k}") for k, v in blobs.items()}
+        if expected_blobs is not None:
+            expected = dict(expected_blobs)
+            if set(expected) != REQUIRED_BLOB_KEYS:
+                raise LearningIsolationEvidenceGuardError("expected blob identity set incomplete")
+            expected_normalized = {k: _sha(v, BLOB_RE, f"expected_blobs.{k}") for k, v in expected.items()}
+            if normalized != expected_normalized:
+                raise LearningIsolationEvidenceGuardError("bound blob identity mismatch")
         zero_fields = (m.experience_delta, m.appraisal_delta, m.drive_delta, m.exploration_delta,
                        m.preference_delta, m.personality_delta, m.trauma_relief_delta)
         if any(isinstance(v, bool) or v != 0 for v in zero_fields):
@@ -81,8 +95,8 @@ class LearningIsolationEvidenceManifest:
         return m
 
 
-def review_projection(value: Any) -> dict[str, Any]:
-    m = LearningIsolationEvidenceManifest.verify(value)
+def review_projection(value: Any, *, expected_blobs: Mapping[str, str] | None = None) -> dict[str, Any]:
+    m = LearningIsolationEvidenceManifest.verify(value, expected_blobs=expected_blobs)
     return {
         "status": "NONFORMAL_LEARNING_ISOLATION_EVIDENCE_BOUND",
         "run_id": m.run_id,
