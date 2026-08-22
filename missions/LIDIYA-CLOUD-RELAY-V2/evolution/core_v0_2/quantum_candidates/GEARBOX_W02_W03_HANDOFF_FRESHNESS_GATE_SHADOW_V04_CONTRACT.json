@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.3-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V04",
+  "status": "NON_FORMAL_REVIEW_HANDOFF_GATE_TEST_REQUIRED",
+  "purpose": "Bind the Spirit-047 V05 review packet to exact current W02-2108 and NAV-2108 identities after the prior packet was proven stale-current, while preserving the independent Spirit review boundary.",
+  "required_bindings": [
+    "Mission Step009 STEP_DONE / LCR-A / pending=null / v1 VERIFIED_PASS snapshot",
+    "W02 review QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2108 and exact Git blob",
+    "NAV synthesis NAV-GEARBOX-V2.1-W04-20260822-W02-2108-SYNTHESIS and exact Git blob",
+    "exact-current V05 source/test/contract Git blobs",
+    "visible V05 run 32524738088 / job 96904287434 / artifact 9461767094 / exact artifact SHA256 / 27-of-27 regression counts",
+    "Spirit-047 review acceptance gate V03 source/test/contract/workflow identities",
+    "prior handoff freshness V03 source/test/contract/workflow identities",
+    "complete moving-provider-head adjudication clauses including eventual re-entry and zero-learning invariants"
+  ],
+  "fail_closed_on": [
+    "W02-2008 or older review substitution",
+    "NAV-2008 or older synthesis substitution",
+    "V05 source/test/contract substitution",
+    "partial or substituted V05 run/job/artifact/regression evidence",
+    "Spirit review-gate downgrade or substitution",
+    "prior handoff-gate identity substitution",
+    "missing eventual non-terminal re-entry adjudication",
+    "terminal-exit activation while Spirit-047 remains unreviewed on exact V05",
+    "Experience/appraisal/drive/exploration/preference/personality/P_base/trauma-relief contamination",
+    "formal-C or production provider/key proof escalation"
+  ],
+  "claim_boundary": {
+    "spirit_047_closed": false,
+    "terminal_exit_activation_allowed": false,
+    "formal_effect": "NONE",
+    "formal_c_verification": "NOT_CLAIMED",
+    "production_provider_key_liveness_proven": false,
+    "experience_delta": 0,
+    "personality_delta": 0,
+    "p_base_mutation_allowed": false
+  },
+  "release_condition": "A fresh independent W03 review must consume the exact-current V05 packet and author its own Spirit-047 disposition. This gate only proves packet freshness and semantic completeness."
+}
