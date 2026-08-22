@@ -9,6 +9,9 @@ on:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v02.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v02.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_SPIRIT_047_ADJUDICATION_GATE_SHADOW_V02_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_review_acceptance_gate_shadow_v03.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_review_acceptance_gate_shadow_v03.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_SPIRIT_047_REVIEW_ACCEPTANCE_GATE_SHADOW_V03_CONTRACT.json'
       - '.github/workflows/lcr-quantum-spirit-047-gate-shadow.yml'
   workflow_dispatch:
 permissions:
@@ -27,9 +30,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile Spirit 047 activation gates
-        run: python -m py_compile evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v01.py evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v02.py evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v02.py
+      - name: Compile Spirit 047 activation and acceptance gates
+        run: >-
+          python -m py_compile
+          evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v02.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v02.py
+          evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_review_acceptance_gate_shadow_v03.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_review_acceptance_gate_shadow_v03.py
       - name: Run Spirit 047 activation gate v01 regressions
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v01.py
       - name: Run Spirit 047 evidence-bound gate v02 regressions
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v02.py
+      - name: Run Spirit 047 exact V05 review acceptance gate v03 regressions
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_review_acceptance_gate_shadow_v03.py
