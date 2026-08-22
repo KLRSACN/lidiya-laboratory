@@ -68,5 +68,5 @@
     "w05_w06_started_without_formal_packet": false
   },
   "next_trigger": "VISIBLE_EXACT_SPIRIT_048_WORKFLOW_EVIDENCE_OR_FRESH_W03_R1_ADJUDICATION_OR_FORMAL_AUTHORITY_CHANGE",
-  "readback_status": "PENDING_FINAL_READBACK"
+  "readback_status": "PASS"
 }
