@@ -1,0 +1,28 @@
+{
+  "schema_version":"1.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_RECOVERY_METADATA_DATAFLOW_EXCLUSION_SHADOW_V01",
+  "status":"NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "invariants":[
+    "Provider/signer/trust-snapshot/key-fingerprint/epoch/receipt/checkpoint/signature/retry/recovery/secretary-pressure metadata is operational-only.",
+    "Operational metadata is accepted through a closed-world allowlist; unknown fields fail closed.",
+    "Operational metadata cannot directly or indirectly mutate Experience, appraisal, drive, exploration, preference, personality, P_base, trauma, relief, competence or motivation.",
+    "A separate provenance-bound verified Experience pipeline is required for any learning-state mutation.",
+    "Retry/backoff/root churn/recovery duration/provider maintenance/clock maintenance/signature success create zero Experience and zero cognitive/personality credit.",
+    "Formal mutation authority is always false."
+  ],
+  "required_regressions":[
+    "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION",
+    "RETRY_CHURN_LEARNING_IDENTITY_AB",
+    "COGNITIVE_SINK_INJECTION_FAIL_CLOSED",
+    "UNKNOWN_METADATA_FIELD_FAIL_CLOSED"
+  ],
+  "known_limits":[
+    "This shadow boundary proves only the candidate projection module and authored regressions; whole-repository static taint analysis remains TEST_REQUIRED.",
+    "Synthetic provider/key evidence is not production custody, rollback-independence or HSM/TPM proof.",
+    "Candidate evidence is not formal LCR-C verification."
+  ],
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
