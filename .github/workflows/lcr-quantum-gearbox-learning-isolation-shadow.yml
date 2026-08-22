@@ -1,0 +1,59 @@
+name: LCR Quantum Gearbox Learning Isolation Shadow
+
+on:
+  push:
+    branches: [lidiya-cloud-relay-v2]
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_pressure_chronicity_neutrality_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_pressure_chronicity_neutrality_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_PRESSURE_CHRONICITY_NEUTRALITY_SHADOW_V01_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_RECOVERY_METADATA_DATAFLOW_EXCLUSION_SHADOW_V01_CONTRACT.json'
+      - '.github/workflows/lcr-quantum-gearbox-learning-isolation-shadow.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  learning_isolation_shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution:${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Compile isolation candidates
+        run: python -m py_compile evolution/core_v0_2/quantum_candidates/gearbox_pressure_chronicity_neutrality_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_pressure_chronicity_neutrality_shadow_v01.py evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
+      - name: Run 10000-pressure chronicity A/B
+        id: pressure
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_pressure_chronicity_neutrality_shadow_v01.py
+      - name: Run recovery metadata dataflow exclusion
+        id: metadata
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
+      - name: Emit bounded evidence
+        if: always()
+        env:
+          PRESSURE: ${{ steps.pressure.outcome }}
+          METADATA: ${{ steps.metadata.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          outcomes={'pressure_chronicity_10000_ab':os.environ.get('PRESSURE','skipped'),'metadata_dataflow_exclusion':os.environ.get('METADATA','skipped')}
+          evidence={'schema_version':'1.0-shadow','mission_id':'LCR-EVOLUTION-0005','commit_sha':os.environ['COMMIT_SHA'],'run_id':os.environ['RUN_ID'],'status':'PASS' if all(v=='success' for v in outcomes.values()) else 'FAIL','outcomes':outcomes,'formal_effect':'NONE','formal_c_verification':'NOT_CLAIMED','formal_mutation_allowed':False,'experience_delta':0,'personality_delta':0,'p_base':'READ_ONLY_UNCHANGED','claim_boundary':'Candidate executable isolation evidence only; no production trust-root or formal C proof.'}
+          out=Path('evidence/quantum-gearbox-learning-isolation-shadow.json'); out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(evidence,indent=2)+'\n'); print(out.read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lcr-quantum-gearbox-learning-isolation-shadow
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/quantum-gearbox-learning-isolation-shadow.json
+          if-no-files-found: error
+          retention-days: 7
