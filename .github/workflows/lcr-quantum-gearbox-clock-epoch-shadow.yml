@@ -7,6 +7,9 @@ on:
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v*.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v*.py'
       - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V*_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_clock_recovery_evidence_binding_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_clock_recovery_evidence_binding_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_RECOVERY_EVIDENCE_BINDING_SHADOW_V01_CONTRACT.json'
       - '.github/workflows/lcr-quantum-gearbox-clock-epoch-shadow.yml'
   workflow_dispatch:
 permissions:
@@ -16,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   clock_epoch_shadow:
-    name: Non-formal clock epoch recovery V01/V03/V04/V05 regression
+    name: Non-formal clock epoch recovery V01/V03/V04/V05 + evidence binding regression
     runs-on: ubuntu-latest
     timeout-minutes: 7
     defaults:
@@ -35,9 +38,10 @@ jobs:
           import gearbox_clock_epoch_recovery_shadow_v03
           import gearbox_clock_epoch_recovery_shadow_v04
           import gearbox_clock_epoch_recovery_shadow_v05
-          print('CLOCK_EPOCH_IMPORT_PASS_V01_V03_V04_V05')
+          import gearbox_clock_recovery_evidence_binding_shadow_v01
+          print('CLOCK_EPOCH_IMPORT_PASS_V01_V03_V04_V05_EVIDENCE_BINDING')
           PY
-          python -m py_compile evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v05.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v05.py
+          python -m py_compile evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v05.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v05.py evolution/core_v0_2/quantum_candidates/gearbox_clock_recovery_evidence_binding_shadow_v01.py evolution/core_v0_2/quantum_candidates/test_gearbox_clock_recovery_evidence_binding_shadow_v01.py
       - name: Run V01 baseline clock epoch regression
         id: v01_tests
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py
@@ -50,6 +54,9 @@ jobs:
       - name: Run V05 moving-provider-head continuity regression
         id: v05_tests
         run: python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v05.py
+      - name: Run exact-current evidence binding regression
+        id: evidence_binding_tests
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_recovery_evidence_binding_shadow_v01.py
       - name: Emit bounded clock epoch evidence
         if: always()
         env:
@@ -57,6 +64,7 @@ jobs:
           V03: ${{ steps.v03_tests.outcome }}
           V04: ${{ steps.v04_tests.outcome }}
           V05: ${{ steps.v05_tests.outcome }}
+          EVIDENCE_BINDING: ${{ steps.evidence_binding_tests.outcome }}
           COMMIT_SHA: ${{ github.sha }}
           REF_NAME: ${{ github.ref_name }}
           RUN_ID: ${{ github.run_id }}
@@ -66,10 +74,12 @@ jobs:
           from pathlib import Path
           versions=('01','03','04','05')
           outcomes={v:os.environ.get('V'+v,'skipped') for v in versions}
+          outcomes['evidence_binding']=os.environ.get('EVIDENCE_BINDING','skipped')
           files=[]
           for v in versions:
               files += [f'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v{v}.py',f'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v{v}.py',f'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V{v}_CONTRACT.json']
-          evidence={'schema_version':'1.2-shadow','mission_id':'LCR-EVOLUTION-0005','current_release_candidate':'V05','commit_sha':os.environ['COMMIT_SHA'],'run_id':os.environ['RUN_ID'],'ref_name':os.environ['REF_NAME'],'status':'PASS' if all(x=='success' for x in outcomes.values()) else 'FAIL','test_outcomes':outcomes,'formal_effect':'NONE','formal_c_verification':'NOT_CLAIMED','formal_mutation_allowed':False,'p_base':'READ_ONLY_UNCHANGED','provider_head_churn_counts_as_experience':False,'claim_boundary':'Executable non-formal V01/V03/V04/V05 evidence only; no production provider/key/liveness or formal C proof.','bound_files':{}}
+          files += ['evolution/core_v0_2/quantum_candidates/gearbox_clock_recovery_evidence_binding_shadow_v01.py','evolution/core_v0_2/quantum_candidates/test_gearbox_clock_recovery_evidence_binding_shadow_v01.py','evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_RECOVERY_EVIDENCE_BINDING_SHADOW_V01_CONTRACT.json']
+          evidence={'schema_version':'1.3-shadow','mission_id':'LCR-EVOLUTION-0005','current_release_candidate':'V05','commit_sha':os.environ['COMMIT_SHA'],'run_id':os.environ['RUN_ID'],'ref_name':os.environ['REF_NAME'],'status':'PASS' if all(x=='success' for x in outcomes.values()) else 'FAIL','test_outcomes':outcomes,'formal_effect':'NONE','formal_c_verification':'NOT_CLAIMED','formal_mutation_allowed':False,'p_base':'READ_ONLY_UNCHANGED','provider_head_churn_counts_as_experience':False,'evidence_binding_counts_as_experience':False,'claim_boundary':'Executable non-formal V01/V03/V04/V05 plus exact-current evidence-binding regression only; no production provider/key/liveness or formal C proof.','bound_files':{}}
           for rel in files:
               data=Path(rel).read_bytes(); evidence['bound_files'][rel]={'sha256':hashlib.sha256(data).hexdigest(),'size_bytes':len(data)}
           out=Path('evidence/quantum-gearbox-clock-epoch-shadow.json'); out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(evidence,indent=2)+'\n'); print(out.read_text())
