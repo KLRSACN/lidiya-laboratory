@@ -1,0 +1,20 @@
+{
+  "schema_version":"1.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_SPIRIT_047_ADJUDICATION_GATE_SHADOW_V01",
+  "status":"NON_FORMAL_SECURITY_GATE_TEST_REQUIRED",
+  "purpose":"Prevent terminal-exit engineering activation from consuming stale V04-era Spirit review or unbound V05 evidence.",
+  "invariants":[
+    "Only a fresh Spirit adjudication explicitly reviewing exact-current V05 may open the non-formal terminal-exit engineering gate.",
+    "SPIRIT-MOD-GB21-047 must be explicitly closed for non-formal terminal-exit engineering and no higher HIGH veto may remain open.",
+    "The adjudication must consume exact-current non-formal executable evidence binding; EVIDENCE_VISIBILITY_GAP cannot open the gate.",
+    "Opening this engineering gate is not formal C verification, live routing authority, Experience, personality learning or P_base mutation.",
+    "V04-era review, open/partial 047 disposition, higher HIGH veto, missing explicit activation, or formal-pass claim fails closed."
+  ],
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "experience_delta":0,
+  "personality_delta":0,
+  "p_base":"READ_ONLY_UNCHANGED",
+  "production_provider_key_proof":false
+}
