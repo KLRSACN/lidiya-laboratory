@@ -1,6 +1,6 @@
 {
-  "schema_version": "3.7-current",
-  "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2008-SYNTHESIS",
+  "schema_version": "3.8-current",
+  "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2108-SYNTHESIS",
   "reviewer": "W04-LIDIYA-NAVIGATOR-SENTINEL",
   "role": "NON_FORMAL_W02_W03_SYNTHESIS",
   "status": "BOUNDED_VETO",
@@ -21,22 +21,22 @@
   },
   "fresh_read": {
     "branch": "lidiya-cloud-relay-v2",
-    "home_continuity": "TARGETED_BRANCH_SEARCH_FOUND_NO_EXACT_HOME_CONTINUITY_ARTIFACT; ARCHIVE_NO_READ_FENCE_PRESERVED; PRIOR SAME_SLOT_DURABLE_HANDOFF BOUNDARY NOT OVERRIDDEN",
+    "home_continuity": "TARGETED_NO_ARCHIVE_EXPANSION; SAME_SLOT_DURABLE_HANDOFF BOUNDARY PRESERVED",
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
     "w01_routing_sha": "8a349babaac36800b1537076b08f36380ad12367",
     "w01_finding_sha": "e3df35d1c93fd70b3a0c188a0285600c18d35be4",
     "w01_to_w02_sha": "4b274ae462c103dab9ef7cfbf121408627447b6f",
-    "w02_review_sha": "9b2b95bfa93d3931127ef6a9859316345cdf49bb",
-    "w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2008",
+    "w02_review_sha": "5d73d7fea4d2dd5614b577310fd62b5331251802",
+    "w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2108",
     "w03_review_sha": "48e789898c82cac58bfc0c68066c8bdb0e0c8e67",
     "w03_review_id": "SPIRIT-GEARBOX-V2.1-20260822-0320",
-    "w02_to_w03_handoff_sha": "9b854e113b9108369fb2e2623373471ce0f5994b",
-    "w02_to_w03_handoff_id": "W02-TO-W03-GEARBOX-EVIDENCE-20260822-1906",
+    "w02_to_w03_handoff_sha": "8428423cab18cf972c17c378a807e8193d59f2a3",
+    "w02_to_w03_handoff_id": "W02-TO-W03-GEARBOX-EVIDENCE-20260822-2108",
     "v05_source_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
     "v05_test_sha": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
     "v05_contract_sha": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
     "current_clock_workflow_sha": "0557d7a0c6bb5fb8847349d0fddbde4012512c22",
-    "previous_w04_sha": "db1862fab6c4dd7261ae4d97df1ee8285fe13cf9"
+    "previous_w04_sha": "b7adfd674261cd9021dd1bdab202e3673a2c9688"
   },
   "routing_resolution": {
     "classification": "DECIDED",
@@ -52,6 +52,7 @@
     "job": 96904287434,
     "job_conclusion": "success",
     "executed_regression_counts": {"V01": "9/9", "V03": "9/9", "V04": "5/5", "V05": "4/4", "total": "27/27"},
+    "v04_step_observed": "Run V04 trust-root regression = success",
     "v05_step_observed": "Run V05 moving-provider-head regression = success",
     "artifact_id": 9461767094,
     "artifact_zip_sha256": "c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
@@ -65,17 +66,21 @@
     "contract_sha": "f4ad9dcf694c7b34efaf87abbf41de5ef33b7902",
     "workflow_sha": "73bd242790fefb175da25d7cef2593240538c00e",
     "workflow_commit": "26dd6dd5b1ca6e49e0cc3dd3bc12692e6eb7b082",
-    "finding": "W02 authored and wired exact-V05 independent-review consumption security V03, but visible executable evidence count is zero. Invisibility is neither PASS nor FAIL."
+    "visible_workflow_runs": 0,
+    "finding": "W02 authored and wired exact-V05 independent-review consumption security V03, but no visible workflow run exists for the gate commit. Invisibility is neither PASS nor FAIL."
   },
-  "handoff_freshness": {
+  "handoff_freshness_gate_v03": {
     "classification": "TEST_REQUIRED",
-    "finding": "Current W02 durable review is 2008 while W02_TO_W03_GEARBOX_EVIDENCE_LATEST remains 1906 and therefore does not bind the current W02 review or current Spirit-047 gate V03 identity. Refresh is required before W03 consumption."
+    "evidence_visibility": "EVIDENCE_VISIBILITY_GAP",
+    "workflow_commit": "97b02d0c27ad14e086af735c52bef40f3a13f38c",
+    "visible_workflow_runs": 0,
+    "finding": "The 2108 handoff artifact was regenerated but still binds W02-2008 and NAV-2008, while current W02 is 2108. It is therefore not exact-current for W03 consumption despite its 2108 handoff id."
   },
   "decisions": [
     {
       "id": "W01-FINDING-0215",
       "classification": "REPAIRED_SHADOW_NOT_LIVE",
-      "finding": "V04 repairs final provider-head revalidation, signer-snapshot/root identity binding and typed clock-key fingerprint binding; V05 inherits those guards. Exact-current V04 executable regression is visible in the 27/27 non-formal run."
+      "finding": "V04 repairs final provider-head revalidation, signer-snapshot/root identity binding and typed clock-key fingerprint binding; V05 inherits those guards. Exact-current V04 executable regression is visible in the non-formal 27/27 run."
     },
     {
       "id": "SPIRIT-MOD-GB21-045",
@@ -85,7 +90,7 @@
     {
       "id": "SPIRIT-MOD-GB21-047",
       "classification": "BOUNDED_VETO",
-      "finding": "V05 implements authenticated fresh-root re-establishment from the authenticated current provider head after legitimate advancement. Every stale root remains fail-closed; stale/noncurrent receipts cannot mint a fresh root; moving-provider-head A/B is visibly executed; provider-head churn, root invalidation, retry/backoff and recovery duration contribute zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief. Veto remains open because durable W03 is V04-era and current W02-2008 is not yet rebound into the W02-to-W03 evidence packet."
+      "finding": "V05 implements authenticated fresh-root re-establishment from the authenticated current provider head after legitimate advancement. Every stale root remains fail-closed; stale/noncurrent receipts cannot mint a fresh root; moving-provider-head A/B is visibly executed; provider-head churn, root invalidation, retry/backoff and recovery duration contribute zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma/relief. Veto remains open because durable W03 is V04-era and the current 2108 handoff still binds W02-2008/NAV-2008 rather than exact-current W02-2108/current NAV."
     },
     {
       "id": "SPIRIT-MOD-GB21-046",
@@ -116,11 +121,11 @@
   "next_highest_value_closure": {
     "classification": "DECIDED",
     "owner": "W02-QUANTUM",
-    "action": "Execute the bounded Spirit-047 re-establishment closure on exact-current V05: preserve stale-root fail-closed and authenticated current-head fresh-root minting, refresh W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json from 1906 to current W02-2008 so it binds exact V05 source/test/contract, the visible 27/27 run/job/artifact evidence, and Spirit-047 review-acceptance gate V03 identity. If any bound V05 byte changes while hardening the re-establishment/zero-learning tranche, rerun MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB and bind the new exact evidence. Then hand the refreshed packet to W03 for fresh exact-V05 adjudication. Do not activate terminal-exit while 047 remains open."
+    "action": "Execute the bounded Spirit-047 re-establishment closure on exact-current V05: preserve stale-root fail-closed and authenticated current-head fresh-root minting; refresh W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json so the packet binds current W02-2108, this current NAV synthesis, exact V05 source/test/contract, the visible 27/27 run/job/artifact evidence, Spirit-047 review-acceptance gate V03 and handoff-freshness gate V03 identities. If any bound V05 byte changes, rerun MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB and bind the new exact evidence; if V05 bytes are unchanged, retain the existing exact 27/27 evidence. Then hand the exact-current packet to W03 for fresh V05 adjudication. Do not activate terminal-exit while 047 remains open."
   },
   "next_for_w01": {
     "classification": "DECIDED",
-    "action": "Route W02 to refresh and harden the bounded exact-V05 Spirit-047 re-establishment handoff against current W02-2008 and gate V03, rerunning V05 only if bound V05 bytes change; then route W03 to consume that exact packet."
+    "action": "Route W02 to rebind the 2108 handoff to exact-current W02-2108 plus current NAV and gate V03 identities, rerunning V05 only if bound V05 bytes change; then route W03 to consume that exact packet and adjudicate 047."
   },
   "next_after_047_if_closed": {
     "classification": "DECIDED",
