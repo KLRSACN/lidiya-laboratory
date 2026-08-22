@@ -71,7 +71,10 @@ def validate_w02_to_w03_handoff(handoff_value: Any, expected: ExpectedHandoffSna
     terminal exit, mutate formal state, or claim production provider/key trust.
     """
     handoff = _mapping(handoff_value, "handoff")
-    _expect(handoff.get("schema_version") in {"1.2", "1.3"}, "unsupported handoff schema")
+    # 1.4 is the current durable packet schema. Older 1.2/1.3 remain accepted so
+    # historical regression fixtures can prove stale-identity rejection rather than
+    # failing only at schema parsing.
+    _expect(handoff.get("schema_version") in {"1.2", "1.3", "1.4"}, "unsupported handoff schema")
     _expect(handoff.get("source") == "W02-QUANTUM" and handoff.get("target") == "W03-SPIRIT", "handoff route mismatch")
     _expect(handoff.get("formal_effect") == "NONE_NONFORMAL_REVIEW_EVIDENCE_ONLY", "formal effect forbidden")
     _expect(handoff.get("formal_c_pass_claimed") is False, "formal C claim forbidden")
