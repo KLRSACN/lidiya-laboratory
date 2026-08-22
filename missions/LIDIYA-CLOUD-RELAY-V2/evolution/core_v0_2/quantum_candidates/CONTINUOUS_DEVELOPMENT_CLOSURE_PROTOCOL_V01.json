@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "CONTINUOUS_DEVELOPMENT_CLOSURE_PROTOCOL_V01",
+  "status": "NON_FORMAL_CONTINUITY_ENGINE_CANDIDATE",
+  "purpose": "Prevent repair work from appearing interrupted by requiring every bounded tranche to close its evidence/review/synthesis loop before unrelated work begins.",
+  "formal_effect": "NONE",
+  "stages": [
+    "AUTHORED",
+    "WIRED",
+    "EXECUTED",
+    "W03_ADJUDICATED",
+    "W04_SYNTHESIZED",
+    "CLOSED"
+  ],
+  "terminal_alternatives": ["BLOCKED_WITH_EXACT_REASON", "REBASED_ON_FORMAL_AUTHORITY_CHANGE"],
+  "invariants": [
+    "A tranche may advance only one stage at a time from durable evidence.",
+    "AUTHORED without WIRED is an engineering delivery defect, not completed progress.",
+    "WIRED without visible executable evidence is EVIDENCE_VISIBILITY_GAP, not PASS or FAIL.",
+    "EXECUTED candidate evidence is non-formal and cannot replace W03/W04 or LCR-C.",
+    "W03 adjudicates behavior/personality contamination only after exact executable evidence is bound.",
+    "W04 synthesizes current W02/W03 only; stale synthesis cannot close a tranche.",
+    "Unrelated new repair work is blocked while a P0/HIGH tranche is between AUTHORED and W04_SYNTHESIZED, unless formal authority changes or the tranche is durably BLOCKED.",
+    "Every blocked stage must record exact blocker, owner, release condition, and next executable action.",
+    "Every stage transition writes latest-only checkpoint and fresh readback before reporting.",
+    "Heartbeat, poll, retry, workflow age, stage age, maintenance and self-test duration are zero Experience.",
+    "P_base, Identity, Personality and Governance remain read-only in this non-formal protocol."
+  ],
+  "current_tranche": {
+    "id": "SPIRIT-MOD-GB21-048",
+    "title": "MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB",
+    "stage": "WIRED",
+    "author_test_sha": "04d2b2c2e330f0ba77a8117b03db8b3fe87d2300",
+    "contract_sha": "0eaed1312feede62f005b465c532e792c8d8a4f3",
+    "dedicated_workflow_commit": "339a9d18229c014c0fa8a2b2f9dcaeb27e9b4833",
+    "next_owner": "W02-QUANTUM",
+    "next_action": "Bind visible workflow run/job/artifact evidence; then immediately hand to W03 for 048 then 047 adjudication and W04 synthesis.",
+    "new_unrelated_tranche_allowed": false
+  },
+  "closure_metrics": {
+    "primary": "time_from_AUTHORED_to_W04_SYNTHESIZED_for_same_exact_bytes",
+    "secondary": [
+      "authored_without_wired_count",
+      "wired_without_execution_count",
+      "executed_without_W03_adjudication_count",
+      "W03_adjudicated_without_current_W04_synthesis_count",
+      "rebase_count",
+      "evidence_visibility_gap_count"
+    ],
+    "forbidden_as_speed_or_experience": ["commit_count", "wake_count", "heartbeat_count", "poll_count", "task_last_run", "awake_time"]
+  },
+  "claim_boundary": "This protocol improves engineering continuity and evidence closure only. It does not prove Gearbox correctness, speedup, production trust roots, real always-on runtime, subjective continuity, or formal verification."
+}
