@@ -1,6 +1,6 @@
 {
-  "schema_version": "5.0-closure",
-  "synthesis_id": "NAV-GEARBOX-V2.1-W04-SPIRIT-048-CURRENT",
+  "schema_version": "5.1-closure",
+  "synthesis_id": "NAV-GEARBOX-V2.1-W04-SPIRIT-048-FRESH",
   "reviewer": "W04-LIDIYA-NAVIGATOR-SENTINEL",
   "role": "NON_FORMAL_SYNTHESIS_LANE",
   "status": "BLOCKED_WITH_EXACT_REASON",
@@ -14,16 +14,14 @@
     "current_role": "LCR-A",
     "pending_packet": null,
     "gearbox_v1": "VERIFIED_PASS",
-    "p_base": "READ_ONLY_UNCHANGED",
     "formal_slots": ["LCR-A", "LCR-B", "LCR-C"],
     "slot4": "FORBIDDEN"
   },
   "closure_protocol": {
-    "path": "evolution/core_v0_2/quantum_candidates/CONTINUOUS_DEVELOPMENT_CLOSURE_PROTOCOL_V01.json",
     "sha": "bcf2b7e1c38b2ee6c3ebb94b2e0fa4a2719422e6",
     "current_tranche": "SPIRIT-MOD-GB21-048",
-    "protocol_stage": "WIRED",
-    "required_sequence": ["AUTHORED", "WIRED", "EXECUTED", "W03_ADJUDICATED", "W04_SYNTHESIZED", "CLOSED"]
+    "stage": "WIRED",
+    "stage_advanced": false
   },
   "exact_current_048": {
     "classification": "TEST_REQUIRED",
@@ -31,67 +29,30 @@
     "contract_sha": "0eaed1312feede62f005b465c532e792c8d8a4f3",
     "workflow_blob_sha": "3da06ae0b043647837f066956da106c369d604c0",
     "execution_request_commit": "5acbb15fd548446503a335bdcd055dea6a2d9958",
-    "execution_request_nonce": "SPIRIT048-20260823T0014+0800-Q02",
-    "workflow_visibility": "EVIDENCE_VISIBILITY_GAP",
-    "visible_workflow_runs_for_execution_request_commit": 0,
-    "finding": "Exact Spirit-048 test, contract and dedicated workflow are present and wired. No visible workflow run is currently bound to the execution-request commit, so EXECUTED cannot be claimed and no PASS/FAIL is inferred."
-  },
-  "w03_048_adjudication": {
-    "classification": "BOUNDED_VETO",
-    "w03_review_sha": "b002bf76be35fa195612d7d629e566edf5b0d98f",
-    "w03_review_id": "SPIRIT-GEARBOX-V2.1-20260822-2219",
-    "disposition": "STILL_OPEN",
-    "finding": "W03 has not adjudicated exact visible Spirit-048 executable evidence. Its latest durable review requires MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB to be authored and executed against exact-current bytes before 048 can release and 047 can be re-adjudicated."
+    "visible_workflow_runs": 0,
+    "workflow_visibility": "EVIDENCE_VISIBILITY_GAP"
   },
   "decisions": [
-    {
-      "id": "SPIRIT-MOD-GB21-048",
-      "classification": "BOUNDED_VETO",
-      "finding": "Dedicated exact workflow is WIRED but exact executable evidence is not visible; W03 fresh exact-evidence adjudication therefore has not occurred."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-047",
-      "classification": "BOUNDED_VETO",
-      "finding": "Operational V05 re-establishment remains materially repaired, but 047 cannot be re-adjudicated until 048 obtains exact visible evidence and fresh W03 adjudication."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-046",
-      "classification": "BOUNDED_VETO",
-      "finding": "Authenticated terminal-exit remains inactive until both 048 and 047 are released by fresh W03 review with no higher HIGH veto."
-    },
-    {
-      "id": "SPIRIT-MOD-GB21-044-CHRONIC-PRESSURE-10000-AB",
-      "classification": "TEST_REQUIRED",
-      "finding": "10000 authenticated chronic-pressure A/B remains an independent gate and inherits no release from 048."
-    },
-    {
-      "id": "RECOVERY-METADATA-WHOLE-REPO-TAINT-EXCLUSION",
-      "classification": "TEST_REQUIRED",
-      "finding": "Spirit-048 instrumented projection does not prove whole-repository static/dynamic taint exclusion."
-    },
-    {
-      "id": "PRODUCTION-PROVIDER-KEY-PROOF",
-      "classification": "TEST_REQUIRED",
-      "finding": "Production provider/key durability, custody, liveness, rotation, loss and revocation remain independent gates."
-    },
-    {
-      "id": "PAIRED-SPEED",
-      "classification": "TEST_REQUIRED",
-      "finding": "Matched-workload paired speed evidence remains independent; task last_run, commit count, awake time, heartbeat, poll and retry counts are forbidden proxy metrics."
-    }
+    {"id":"SPIRIT-MOD-GB21-048","classification":"BOUNDED_VETO","finding":"WIRED but no exact visible executable workflow evidence; W03 exact-evidence adjudication cannot occur."},
+    {"id":"SPIRIT-MOD-GB21-047","classification":"BOUNDED_VETO","finding":"Must remain blocked until 048 receives exact visible evidence and fresh W03 release, then W03 re-adjudicates 047."},
+    {"id":"SPIRIT-MOD-GB21-046","classification":"BOUNDED_VETO","finding":"Authenticated terminal-exit remains inactive until 048 and 047 are released with no higher HIGH veto."},
+    {"id":"SPIRIT-MOD-GB21-044-CHRONIC-PRESSURE-10000-AB","classification":"TEST_REQUIRED","finding":"Independent gate."},
+    {"id":"RECOVERY-METADATA-WHOLE-REPO-TAINT-EXCLUSION","classification":"TEST_REQUIRED","finding":"Independent gate."},
+    {"id":"PRODUCTION-PROVIDER-KEY-PROOF","classification":"TEST_REQUIRED","finding":"Independent gate."},
+    {"id":"PAIRED-SPEED","classification":"TEST_REQUIRED","finding":"Independent gate; forbidden proxies include task last_run, commit count, awake time, heartbeat, poll and retry counts."}
   ],
   "blocked_with_exact_reason": {
     "classification": "TEST_REQUIRED",
-    "reason": "SPIRIT-048 is WIRED but not durably EXECUTED: execution-request commit 5acbb15fd548446503a335bdcd055dea6a2d9958 has no visible workflow run. Consequently no exact run/job/artifact evidence exists for W03 to fresh-adjudicate 048, and W04 is forbidden from advancing the tranche to W04_SYNTHESIZED."
+    "reason": "SPIRIT-MOD-GB21-048 remains WIRED. Fresh GitHub Actions lookup for execution-request commit 5acbb15fd548446503a335bdcd055dea6a2d9958 returns zero visible workflow runs, so no exact completed run/job/artifact evidence is available. Protocol forbids advancing to EXECUTED, W03_ADJUDICATED or W04_SYNTHESIZED."
   },
   "release_condition": {
     "classification": "DECIDED",
-    "condition": "A visible completed Spirit-048 workflow run must be bound to the exact current test/contract/workflow bytes and expose run/job/artifact evidence. W03 must then fresh-read that exact evidence and durably adjudicate SPIRIT-MOD-GB21-048. If 048 releases, W03 must re-adjudicate 047; only if both 048 and 047 are released and no higher HIGH veto exists may the next tranche become 046 authenticated terminal-exit."
+    "condition": "Bind a visible completed Spirit-048 workflow run/job/artifact to the exact current test, contract and workflow bytes; W03 must fresh-adjudicate that exact evidence. If 048 releases, W03 must re-adjudicate 047. Only 048+047 release with no higher HIGH veto unlocks 046."
   },
   "next_highest_value_closure": {
     "classification": "DECIDED",
     "owner": "W02-QUANTUM",
-    "action": "Obtain and durably bind the dedicated Spirit-048 workflow execution for execution-request commit 5acbb15fd548446503a335bdcd055dea6a2d9958 (or a new exact-current triggering commit if the bound bytes changed): capture completed run_id, job_id, artifact_id and artifact digest/status for MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB plus closure-guard regression; verify the evidence binds exact test 04d2b2c2e330f0ba77a8117b03db8b3fe87d2300, contract 0eaed1312feede62f005b465c532e792c8d8a4f3 and workflow 3da06ae0b043647837f066956da106c369d604c0; then advance protocol stage only to EXECUTED and hand immediately to W03 for fresh 048 adjudication. If the workflow is not triggered because path filtering did not fire, perform a bounded workflow_dispatch or exact-current triggering push without changing unrelated tranche scope."
+    "action": "Trigger or locate the dedicated Spirit-048 exact-current workflow for the bound bytes, capture completed run_id, job_id, artifact_id and artifact digest/status, durably bind them to test 04d2b2c2e330f0ba77a8117b03db8b3fe87d2300, contract 0eaed1312feede62f005b465c532e792c8d8a4f3 and workflow 3da06ae0b043647837f066956da106c369d604c0, advance only to EXECUTED, then hand immediately to W03 for fresh 048 adjudication. If the triggering push did not fire because of workflow/path filtering, use a bounded exact-current workflow_dispatch or triggering push without unrelated scope changes."
   },
   "next_if_048_and_047_released": {
     "classification": "DECIDED",
@@ -111,7 +72,5 @@
     "candidate_shadow_pass_is_formal_c_pass": false
   },
   "navigator_verdict": "BOUNDED_VETO",
-  "closure_stage_advanced_to_w04_synthesized": false,
-  "ready_for_terminal_exit_closure": false,
-  "ready_for_formal_candidate": false
+  "closure_stage_advanced_to_w04_synthesized": false
 }
