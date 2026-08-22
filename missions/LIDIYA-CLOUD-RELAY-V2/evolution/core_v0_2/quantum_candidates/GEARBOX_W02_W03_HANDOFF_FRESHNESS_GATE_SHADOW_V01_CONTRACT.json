@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V01",
+  "status": "NON_FORMAL_EVIDENCE_SECURITY_CANDIDATE_TEST_REQUIRED",
+  "scope": [
+    "W02-to-W03 durable handoff freshness",
+    "exact V05 candidate byte binding",
+    "visible moving-provider-head evidence identity binding",
+    "Spirit-047 gate identity binding",
+    "zero-learning boundary preservation"
+  ],
+  "invariants": [
+    "A W03 review packet must bind the independently fresh current W02 review id and Git blob, not an older durable W02 checkpoint.",
+    "The packet must bind the exact-current V05 source/test/contract Git blobs and the exact visible 27/27 moving-provider-head run/job/artifact digest.",
+    "The packet must bind the current Spirit-047 gate version/source identity before W03 adjudication is considered consumable.",
+    "A valid handoff only proves HANDOFF_FRESH_CURRENT_EXACT_V05. It does not close Spirit-047, activate terminal exit, claim formal C PASS, or prove production provider/key trust.",
+    "Provider-head churn, retry/backoff and recovery duration remain zero Experience; appraisal/drive/exploration/preference/personality/trauma-relief deltas remain zero; P_base mutation remains forbidden.",
+    "Any W02 review substitution, candidate byte substitution, run/job/artifact substitution, incomplete V05 regression count, formal promotion claim or zero-learning relaxation fails closed."
+  ],
+  "required_regressions": [
+    "exact-current handoff accepted without self-closing Spirit-047",
+    "stale W02 review rejected",
+    "V05 candidate byte substitution rejected",
+    "visible workflow run substitution rejected",
+    "incomplete moving-head regression count rejected",
+    "formal C claim rejected",
+    "nonzero personality/learning delta rejected"
+  ],
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "p_base": "READ_ONLY_UNCHANGED",
+  "production_provider_key_proven": false
+}
