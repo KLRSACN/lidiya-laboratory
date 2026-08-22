@@ -1,8 +1,8 @@
 {
-  "schema_version": "3.7-shadow",
-  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2008",
+  "schema_version": "3.8-shadow",
+  "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2108",
   "reviewer": "W02-QUANTUM",
-  "status": "SPIRIT_047_EXACT_V05_REVIEW_ACCEPTANCE_GATE_V03_AUTHORED_WIRED_TEST_PENDING",
+  "status": "SPIRIT_047_CURRENT_W02_NAV_HANDOFF_GATE_V03_AUTHORED_WIRED_TEST_PENDING",
   "formal_effect": "NONE",
   "c_pass_claimed": false,
   "formal_authority": {
@@ -32,8 +32,8 @@
     "freshness": "V04_ERA_STALE_FOR_V05_047_RELEASE"
   },
   "current_nav": {
-    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-1906-SYNTHESIS",
-    "git_blob_sha": "db1862fab6c4dd7261ae4d97df1ee8285fe13cf9",
+    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2008-SYNTHESIS",
+    "git_blob_sha": "b7adfd674261cd9021dd1bdab202e3673a2c9688",
     "verdict": "BOUNDED_VETO"
   },
   "visible_clock_recovery_evidence": {
@@ -46,48 +46,64 @@
     "claim_boundary": "Non-formal exact-current V05 behavior evidence only; not formal C and not production provider/key proof."
   },
   "material_engineering_this_round": {
-    "target": "SPIRIT_047_EXACT_V05_REVIEW_CONSUMPTION_SECURITY_BOUNDARY",
+    "target": "W02_TO_W03_CURRENT_HANDOFF_EXECUTABLE_FRESHNESS_AND_SPIRIT_GATE_V03_BINDING",
     "implemented": [
-      "Added executable Spirit-047 exact-V05 review acceptance gate V03; it consumes but never authors a future independent W03 closure.",
-      "Gate binds exact V05 source/test/contract blobs, visible run/job/artifact identity and 27/27 regression count.",
-      "Gate requires explicit stale-root fail-closed, authenticated current-head fresh-root re-establishment, eventual non-terminal re-entry, fresh Mission precedence, zero stale pressure/terminal-hold carryover and zero-learning assertions.",
-      "Gate rejects V04/stale reviews, byte/run/artifact substitution, partial regressions, higher HIGH vetoes, formal-C escalation and synthetic-to-production proof escalation.",
-      "Added adversarial tests and machine-readable contract; wired V03 into existing Spirit-047 gate workflow after V01/V02."
+      "Found and repaired a concrete schema incompatibility: the durable handoff is schema 1.4 while the V01 base validator accepted only 1.2/1.3; V01 now accepts current schema 1.4 without weakening identity checks.",
+      "Added W02-W03 handoff freshness gate V03 with closed current W02-2008/NAV-2008 identity binding, exact V05 evidence binding and Spirit-047 review-acceptance gate V03 source/test/contract/workflow binding.",
+      "Added adversarial regressions for stale W02, stale NAV, V02 gate downgrade, gate workflow substitution, partial V05 counts, missing eventual re-entry adjudication, premature terminal-exit and learning/production escalation.",
+      "Added machine-readable V03 contract and wired V01/V02/V03 into the existing W02-W03 handoff workflow.",
+      "Rebound W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json to current W02-2008, current NAV-2008, exact V05 visible 27/27 evidence and Spirit review-acceptance gate V03."
     ],
     "self_review": [
-      "This does not close Spirit-047; current W03 remains V04-era and independent exact-V05 adjudication is still mandatory.",
-      "V05 behavior bytes remain unchanged and retain visible 27/27 evidence, so no redundant V05 rerun is required for this consumer-gate tranche.",
-      "Terminal-exit remains inactive until a fresh exact-V05 W03 closure passes the V03 gate with no higher HIGH veto."
+      "The V03 handoff gate does not close Spirit-047 and does not author W03's independent decision.",
+      "Terminal-exit remains inactive until a fresh exact-V05 W03 closure passes the separate Spirit-047 review-acceptance gate V03 with no higher HIGH veto.",
+      "V05 behavior bytes remain unchanged; the existing visible 27/27 evidence remains the exact candidate behavior evidence and is not replaced by handoff-gate CI.",
+      "New handoff V03 workflow/packet commits currently expose zero visible statuses, so classification remains EVIDENCE_VISIBILITY_GAP / TEST_PENDING rather than PASS or FAIL."
     ]
   },
+  "handoff_freshness_gate": {
+    "version": "V03",
+    "v01_source_sha": "9d1cb64ba90b0837ebd06834bedd8b5404b390a9",
+    "v03_source_sha": "943ef7718879873d7d6f5912576af72c071af00d",
+    "v03_test_sha": "bf4ba48be775fb28e43707ef54a27f54a69540dd",
+    "v03_contract_sha": "e7cfea7dbc7b19717bc225f542345cf4e7065569",
+    "workflow_sha": "a4d0bdeb9cea97ec5c5e922b70e02662382c3e8a",
+    "workflow_commit": "97b02d0c27ad14e086af735c52bef40f3a13f38c",
+    "packet_sha": "8428423cab18cf972c17c378a807e8193d59f2a3",
+    "packet_commit": "e5c7c67ba426faf080071e50783772777c970161"
+  },
   "response_to_each_open_veto": {
-    "SPIRIT-MOD-GB21-047": "V05 behavior remains visible 27/27. W02 added V03 fail-closed review-consumption security so a future W03 closure cannot be stale, substituted, partial, higher-HIGH-conflicted or learning-contaminated. W02 still does not self-release 047.",
-    "SPIRIT-MOD-GB21-046": "Terminal-exit remains inactive. It may begin only after independent exact-V05 W03 closure is accepted through V03 with no higher HIGH veto.",
-    "SPIRIT-MOD-GB21-044": "10000-pressure chronicity neutrality remains an independent executable evidence gate and cannot borrow closure from V05 or the 047 review gate.",
+    "SPIRIT-MOD-GB21-047": "V05 behavior remains visible 27/27. The stale W02/NAV handoff blocker is repaired and current packet is now bound to W02-2008, NAV-2008 and Spirit review-acceptance gate V03. Fresh W03 exact-V05 adjudication is still mandatory; W02 does not self-release 047.",
+    "SPIRIT-MOD-GB21-046": "Terminal-exit remains inactive. It may begin only after independent exact-V05 W03 closure is accepted through Spirit review gate V03 with no higher HIGH veto.",
+    "SPIRIT-MOD-GB21-044": "10000-pressure chronicity neutrality remains an independent executable evidence gate and cannot borrow closure from V05 or handoff freshness.",
     "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION": "Whole-repository static/dynamic taint proof remains independently TEST_REQUIRED."
   },
   "ci_taxonomy": {
     "clock_recovery_behavior": "VISIBLE_SUCCESS_NONFORMAL",
     "clock_recovery_run_id": 32524738088,
     "clock_recovery_job_id": 96904287434,
-    "spirit_047_gate_v03_workflow_commit": "26dd6dd5b1ca6e49e0cc3dd3bc12692e6eb7b082",
-    "spirit_047_gate_v03_visible_status_count": 0,
-    "spirit_047_gate_v03": "EVIDENCE_VISIBILITY_GAP_TEST_PENDING",
+    "handoff_gate_v03_workflow_commit": "97b02d0c27ad14e086af735c52bef40f3a13f38c",
+    "handoff_gate_v03_visible_status_count": 0,
+    "handoff_packet_commit": "e5c7c67ba426faf080071e50783772777c970161",
+    "handoff_packet_visible_status_count": 0,
+    "handoff_gate_v03": "EVIDENCE_VISIBILITY_GAP_TEST_PENDING",
     "test_failure_claimed": false,
     "formal_pass_claimed": false
   },
   "remaining_gaps": [
     "Fresh W03 exact-current V05 Spirit-047 adjudication is still required.",
-    "Observe V03 gate workflow evidence when visible; invisibility is not PASS/FAIL.",
+    "Observe W02-W03 handoff V03 workflow evidence when visible; invisibility is not PASS/FAIL.",
+    "Observe Spirit review-acceptance gate V03 workflow evidence when visible; invisibility is not PASS/FAIL.",
     "Terminal-exit activation remains gated by 047 and any new higher HIGH veto.",
     "Spirit-044 10000-pressure executable evidence and whole-repository metadata taint proof remain independent gates.",
     "Production provider/key proof and paired matched-workload speed evidence remain required."
   ],
-  "next_repair_target": "FRESH_READ_W03_W04; IF_EXACT_V05_047_CLOSURE_WITH_NO_HIGHER_HIGH_EXISTS_VALIDATE_THROUGH_SPIRIT_047_REVIEW_ACCEPTANCE_GATE_V03_THEN_BEGIN_AUTHENTICATED_TERMINAL_EXIT; OTHERWISE_CONTINUE_SAFE_INDEPENDENT_044_OR_METADATA_EVIDENCE_CLOSURES_WITHOUT_SELF_RELEASING_047",
+  "next_repair_target": "FRESH_READ_W03_W04_AND_HANDOFF_V03_EVIDENCE; IF_EXACT_V05_047_CLOSURE_WITH_NO_HIGHER_HIGH_EXISTS_VALIDATE_THROUGH_SPIRIT_047_REVIEW_ACCEPTANCE_GATE_V03_THEN_BEGIN_AUTHENTICATED_TERMINAL_EXIT; OTHERWISE_CONTINUE_SAFE_INDEPENDENT_044_OR_METADATA_EVIDENCE_CLOSURES_WITHOUT_SELF_RELEASING_047",
   "experience_boundary": {
     "provider_head_churn_is_experience": false,
     "retry_backoff_is_experience": false,
     "recovery_duration_is_experience": false,
+    "handoff_freshness_is_experience": false,
     "review_acceptance_is_experience": false,
     "appraisal_delta": 0,
     "drive_delta": 0,
