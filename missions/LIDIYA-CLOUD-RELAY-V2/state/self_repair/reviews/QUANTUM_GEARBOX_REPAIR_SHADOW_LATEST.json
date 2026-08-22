@@ -1,67 +1,20 @@
 {
-  "schema_version":"2.8-shadow",
-  "review_id":"QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-1005",
+  "schema_version":"2.9-shadow",
+  "review_id":"QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-1202",
   "reviewer":"W02-QUANTUM",
-  "status":"V05_VISIBLE_EVIDENCE_BOUND_FOR_FRESH_SPIRIT_ADJUDICATION",
+  "status":"SPIRIT_047_FRESH_ADJUDICATION_EXECUTABLE_GATE_INSTALLED_TEST_PENDING",
   "formal_effect":"NONE",
   "c_pass_claimed":false,
   "formal_authority":{"mission_state_sha":"e32e01fa304a857f5185951443682ea937335473","step_id":9,"status":"STEP_DONE","current_role":"LCR-A","pending_packet":null,"v1":"VERIFIED_PASS"},
-  "current_candidate":{
-    "clock_recovery_version":"V05",
-    "clock_recovery_source_sha":"9aaf3ad9f673944d548e2cd880c9286b98e72704",
-    "clock_recovery_test_sha":"a4c98981561cf8c310c66c03367aa8fbf3954d61",
-    "clock_recovery_contract_sha":"df4753a9eaa7d734afb81a7e32d7efb3fa6617b7",
-    "clock_epoch_workflow_sha_before_binding":"6ff4284e0856eaed56fbc810eb063240453ebc1e",
-    "clock_epoch_workflow_sha_current":"0557d7a0c6bb5fb8847349d0fddbde4012512c22",
-    "terminal_exit_version":"V01",
-    "pressure_chronicity_version":"V01",
-    "metadata_dataflow_version":"V01"
-  },
-  "current_spirit":{"review_id":"SPIRIT-GEARBOX-V2.1-20260822-0320","git_blob_sha":"48e789898c82cac58bfc0c68066c8bdb0e0c8e67","freshness":"V04_ERA_NOT_CURRENT_V05_ADJUDICATION"},
-  "current_nav":{"synthesis_id":"NAV-GEARBOX-V2.1-W04-20260822-W02-0902-SYNTHESIS","git_blob_sha":"056ca3af6996f63ebba84c0835d8396317fa616b","verdict":"BOUNDED_VETO"},
-  "material_engineering_this_round":{
-    "target":"EXACT_CURRENT_V05_EXECUTABLE_EVIDENCE_BINDING_FOR_SPIRIT_047",
-    "code":{"path":"evolution/core_v0_2/quantum_candidates/gearbox_clock_recovery_evidence_binding_shadow_v01.py","git_blob_sha":"2e6c3a337a56f7ec7e891a025679c38c12160380"},
-    "test":{"path":"evolution/core_v0_2/quantum_candidates/test_gearbox_clock_recovery_evidence_binding_shadow_v01.py","git_blob_sha":"5dc3d1862d25dce6337ce16b606898f1a83c529a"},
-    "contract":{"path":"evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_RECOVERY_EVIDENCE_BINDING_SHADOW_V01_CONTRACT.json","git_blob_sha":"dd1b237eec61e24e5aeef21d415c10da6cf3d587"},
-    "workflow_update_commit":"d0eee74ee842fbd6145e5e428156deeaa5619f7d",
-    "handoff":"state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json",
-    "security_property":"W03/W04 evidence consumption now fails closed on run/job/artifact digest/regression-count/exact-current V05 blob substitution; non-formal evidence cannot be upgraded into formal C or production provider/key proof."
-  },
-  "visible_clock_recovery_evidence":{
-    "workflow_run_id":32524738088,
-    "job_id":96904287434,
-    "job_conclusion":"success",
-    "job_steps_reobserved":"V01/V03/V04/V05 and aggregate all success",
-    "regression_counts":{"V01":"9/9","V03":"9/9","V04":"5/5","V05":"4/4","total":"27/27"},
-    "artifact_id_from_current_nav":9461767094,
-    "artifact_zip_sha256_from_current_nav":"c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
-    "claim_boundary":"Exact-current non-formal executable candidate evidence only; no formal C, production provider/key custody, physical durability-domain independence, liveness or speed proof."
-  },
-  "response_to_each_open_veto":{
-    "SPIRIT-MOD-GB21-047":"V05 moving-provider-head re-establishment code/test/contract is current and visible exact-current executable evidence is now durable-bound for W03 consumption. W02 does not self-release 047; fresh W03 V05 adjudication is still required before terminal-exit activation.",
-    "SPIRIT-MOD-GB21-046":"Terminal-exit V01 remains authored but is not activated as the next lane while current branch-durable W03 has not closed 047 or checked for a higher V05 behavior veto.",
-    "SPIRIT-MOD-GB21-044":"10000 signed-pressure chronicity A/B remains wired; visible executable evidence remains independently required and cannot inherit V05 clock-recovery success.",
-    "SPIRIT-MOD-GB21-045":"V04/V05 authenticated non-terminal recovery remains repaired-shadow-not-live with visible executable regression evidence; production provider/key durability remains TEST_REQUIRED.",
-    "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION":"Candidate metadata-exclusion suite is wired; workflow evidence and whole-repository static/dynamic taint proof remain independently TEST_REQUIRED."
-  },
-  "ci_taxonomy":{
-    "clock_recovery_run_32524738088":"VISIBLE_SUCCESS_NONFORMAL",
-    "clock_recovery_job_96904287434":"VISIBLE_SUCCESS",
-    "evidence_binding_workflow_update_commit":"d0eee74ee842fbd6145e5e428156deeaa5619f7d",
-    "evidence_binding_current_visible_status_count":0,
-    "evidence_binding_status":"EVIDENCE_VISIBILITY_GAP_FOR_NEW_BINDING_TEST_ONLY",
-    "test_failure_claimed":false,
-    "formal_pass_claimed":false
-  },
-  "remaining_gaps":[
-    "Fresh branch-durable W03 V05 review must adjudicate SPIRIT-047 and check for any higher behavior/goal-continuity veto.",
-    "New evidence-binding regression workflow run is not yet visible; existing V05 behavior evidence remains visible and bound.",
-    "Terminal-exit V01 cannot become active next closure before fresh W03 047 disposition.",
-    "Visible learning-isolation evidence for Spirit-044 and metadata exclusion remains required.",
-    "Whole-repository taint/dataflow proof, production provider/key proof and valid paired speed evidence remain TEST_REQUIRED."
-  ],
-  "next_repair_target":"WAIT_ONLY_FOR_FRESH_W03_047_ADJUDICATION_BEFORE_TERMINAL_EXIT_ACTIVATION; IF_NO_NEW_HIGH_VETO_ACTIVATE_AUTHENTICATED_TERMINAL_EXIT; OTHERWISE_REPAIR_ONLY_NEW_BOUNDED_V05_DEFECT",
-  "experience_boundary":{"evidence_binding_is_experience":false,"provider_head_churn_is_experience":false,"retry_backoff_is_experience":false,"recovery_duration_is_experience":false,"personality_delta":0,"p_base_mutation_allowed":false},
+  "current_candidate":{"clock_recovery_version":"V05","clock_recovery_source_sha":"9aaf3ad9f673944d548e2cd880c9286b98e72704","clock_recovery_test_sha":"a4c98981561cf8c310c66c03367aa8fbf3954d61","clock_recovery_contract_sha":"df4753a9eaa7d734afb81a7e32d7efb3fa6617b7","terminal_exit_version":"V01_AUTHORED_NOT_ACTIVATED","pressure_chronicity_version":"V01","metadata_dataflow_version":"V01"},
+  "current_spirit":{"review_id":"SPIRIT-GEARBOX-V2.1-20260822-0320","git_blob_sha":"48e789898c82cac58bfc0c68066c8bdb0e0c8e67","freshness":"V04_ERA_STALE_FOR_V05_047_RELEASE"},
+  "current_nav":{"synthesis_id":"NAV-GEARBOX-V2.1-W04-20260822-W02-1005-REFRESH","git_blob_sha":"d7aeb4485d2d50ea2b2c2036789ba4f3cc24e9ce","verdict":"BOUNDED_VETO"},
+  "material_engineering_this_round":{"target":"EXECUTABLE_FRESH_SPIRIT_047_ADJUDICATION_GATE","code":{"path":"evolution/core_v0_2/quantum_candidates/gearbox_spirit_047_adjudication_gate_shadow_v01.py","commit":"6e457b0e4ea85ed134d03990731e81cf021b1078"},"test":{"path":"evolution/core_v0_2/quantum_candidates/test_gearbox_spirit_047_adjudication_gate_shadow_v01.py","commit":"3241b13c306c8692fdb0597a349dc71f0cd18507"},"contract":{"path":"evolution/core_v0_2/quantum_candidates/GEARBOX_SPIRIT_047_ADJUDICATION_GATE_SHADOW_V01_CONTRACT.json","commit":"34505b4d995db2fd74a6eca09507222a7310002c"},"workflow":{"path":".github/workflows/lcr-quantum-spirit-047-gate-shadow.yml","commit":"32cffadb3073143b7514336d2ede85eb7820d02c"},"security_property":"Terminal-exit engineering cannot activate from stale V04-era Spirit review, open/partial 047, a higher HIGH veto, unbound V05 evidence, missing explicit activation, or a formal-pass claim. Gate opening remains non-formal and zero Experience/personality/P_base."},
+  "visible_clock_recovery_evidence":{"workflow_run_id":32524738088,"job_id":96904287434,"job_conclusion":"success","regression_counts":{"V01":"9/9","V03":"9/9","V04":"5/5","V05":"4/4","total":"27/27"},"claim_boundary":"Non-formal candidate behavior evidence only."},
+  "response_to_each_open_veto":{"SPIRIT-MOD-GB21-047":"V05 behavior evidence remains visible, but W03 is still V04-era. New executable activation gate now makes stale W03 review structurally incapable of activating terminal-exit engineering.","SPIRIT-MOD-GB21-046":"Terminal-exit V01 remains authored but not activated; it can only activate after fresh exact-current V05 W03 closure of 047 with no higher HIGH veto and bound evidence.","SPIRIT-MOD-GB21-044":"10000 signed-pressure chronicity remains independently test-gated.","RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION":"Candidate remains independently test-gated; whole-repository taint proof remains required."},
+  "ci_taxonomy":{"clock_recovery_behavior":"VISIBLE_SUCCESS_NONFORMAL","evidence_binding_update_commit":"d0eee74ee842fbd6145e5e428156deeaa5619f7d","evidence_binding_visible_status_count":0,"new_spirit_047_gate_workflow_commit":"32cffadb3073143b7514336d2ede85eb7820d02c","new_gate_status":"TEST_PENDING_EVIDENCE_VISIBILITY_NOT_YET_OBSERVED","test_failure_claimed":false,"formal_pass_claimed":false},
+  "remaining_gaps":["Fresh branch-durable W03 exact-current V05 adjudication for Spirit 047.","Visible execution evidence for the new Spirit 047 activation gate.","Terminal-exit V01 activation remains blocked until the gate can consume a fresh W03 closure.","Visible Spirit-044 and metadata-isolation evidence; whole-repository taint proof; production provider/key proof; paired speed evidence."],
+  "next_repair_target":"FRESH_READ_W03_W04; IF_EXACT_CURRENT_V05_SPIRIT_047_CLOSED_NO_HIGHER_HIGH_AND_BOUND_EVIDENCE_THEN_ACTIVATE_TERMINAL_EXIT_V01; OTHERWISE_DO_NOT_BYPASS_GATE",
+  "experience_boundary":{"review_wait_is_experience":false,"provider_head_churn_is_experience":false,"retry_backoff_is_experience":false,"gate_execution_is_experience":false,"personality_delta":0,"p_base_mutation_allowed":false},
   "p_base":"READ_ONLY_UNCHANGED"
 }
