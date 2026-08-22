@@ -1,65 +1,72 @@
 {
-  "schema_version": "8.0",
+  "schema_version": "9.0-closure",
   "window": "W01-WINDCHIME",
   "window_id": "W01-WINDCHIME-FL-A1",
   "window_alias": "1【風鈴3號指揮官】",
   "generation": 2,
   "role": "LCR-A",
-  "recorded_at": "2026-08-22T00:34:30+08:00",
+  "operational_role": "EXTERNAL_CORE_COMMANDER",
+  "recorded_at": "2026-08-23T01:54:00+08:00",
   "outcome": "PROGRESS",
-  "formal_authority": "Step009 Attempt4 STEP_DONE / LCR-A / pending=null",
-  "material_delta": [
-    "Generation-2 SAME_SLOT_DURABLE_HANDOFF is bound and read back without a new worker, duplicate task or slot4.",
-    "CI import/path failure was isolated and repaired; shadow suites now run independently with aggregate verdict instead of fail-fast masking.",
-    "Exact-current GitHub Actions same-runner candidate regression passed compile plus v1 21/21, v2 19/19 and v2.1 21/21. Prior DEFER_EXECUTOR_UNAVAILABLE blocker is resolved as candidate evidence only.",
-    "Secretary fixture repair has descendant Actions evidence at 18/18 PASS; shift trust-recovery ZERO_HASH fixture repair is committed and awaits final descendant Actions visibility.",
-    "W02 advanced to QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0030 with external monotonic provider adapter interface candidate work.",
-    "W03 task self-disable behavior was identified and prompt-repaired: Small-World turn ownership no longer disables the separately authorized recurring Gearbox behavior review; task is enabled for direct W02 cross-review.",
-    "W04 current synthesis task is enabled after the W03->W02 handoff."
-  ],
-  "exact_current_validation": {
-    "status": "PASS_EXACT_CURRENT_CANDIDATE_REGRESSION",
-    "same_runner_exact_bytes_available": true,
-    "runner": "GitHub Actions run 32502326924 / Python 3.12.14 / ubuntu-24.04",
-    "historical_results_reused_as_fresh_pass": false,
-    "exact_blobs": {
-      "v1": "c29e3b2c/11527a9e",
-      "v2": "13aafeed/d01cab7b",
-      "v2_1": "81818f9d/d9252bb5"
-    },
-    "fresh_executed_counts": {
-      "v1": 21,
-      "v2": 19,
-      "v2_1": 21
-    },
-    "formal_effect": "NONE_NOT_C_VERDICT"
-  },
-  "collaboration_gate": {
-    "w02": "CURRENT_0030_ACTIVE",
-    "w03": "TASK_REPAIRED_ENABLED_DEDICATED_REVIEW_PENDING_DURABLE_OUTPUT",
-    "w04": "ENABLED_CURRENT_SYNTHESIS_PENDING",
-    "handoff_order": "W03_BEHAVIOR_REVIEW -> W02_EXECUTABLE_REPAIR -> W04_SYNTHESIS",
-    "consensus_invention_forbidden": true
-  },
-  "candidate_gate": "BLOCKED_BY_CURRENT_W03_REVIEW_PENDING_PLUS_W04_SYNTHESIS_PENDING_PLUS_REMAINING_W02_ADOPTION_GAPS_PLUS_INSUFFICIENT_PAIRED_SPEED; EXECUTOR_BLOCKER_RESOLVED",
-  "readback_expected": {
+  "archive_no_read_fence": true,
+  "formal_authority": {
     "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
-    "selftest_sha": "6d3c7de562d5dc3690ec6a1912e8a641ac7b6acc",
-    "checkpoint_sha": "e7d29734669a188a30c58f473ac1ca4f771ce763",
-    "w02_sha": "0a4ca03129b034a9faa4100a7c580179e353a500"
+    "step_id": 9,
+    "attempt": 4,
+    "status": "STEP_DONE",
+    "current_role": "LCR-A",
+    "pending_packet": null,
+    "six_gear_controller_v1": "VERIFIED_PASS"
   },
-  "immutable_baseline": {
-    "six_gear_controller_v1": "VERIFIED_PASS",
-    "step001_009": "PRESERVED",
-    "P_base": "READ_ONLY_UNCHANGED",
-    "Identity": "NO_CANDIDATE_MUTATION_AUTHORITY",
-    "Personality": "NO_CANDIDATE_MUTATION_AUTHORITY",
-    "Governance": "NO_CANDIDATE_MUTATION_AUTHORITY",
-    "real_5min_runtime_live": false
+  "gearbox_closure": {
+    "tranche": "SPIRIT-MOD-GB21-048",
+    "current_stage": "WIRED",
+    "stage_status": "BLOCKED_WITH_EXACT_REASON",
+    "protocol_sha": "bcf2b7e1c38b2ee6c3ebb94b2e0fa4a2719422e6",
+    "w02_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260823-0014",
+    "w02_sha": "8ccb678d3c3db2de5902dcf23303a15f18953199",
+    "w03_review_id": "SPIRIT-GEARBOX-V2.1-20260822-2219",
+    "w03_sha": "b002bf76be35fa195612d7d629e566edf5b0d98f",
+    "w04_synthesis_id": "NAV-GEARBOX-V2.1-W04-SPIRIT-048-CURRENT",
+    "w04_sha": "1b18aa52ccde7c3bf75b7391660b936156391195",
+    "execution_request_commit": "5acbb15fd548446503a335bdcd055dea6a2d9958",
+    "visible_workflow_runs": 0,
+    "exact_blocker": "NO_VISIBLE_WORKFLOW_RUN_BOUND_TO_SPIRIT_048_EXECUTION_REQUEST_COMMIT; NO_RUN_JOB_ARTIFACT_BINDING; EXECUTED_CANNOT_BE_CLAIMED; W03_048_ADJUDICATION_NOT_YET_ELIGIBLE",
+    "next_executable_owner": "W02-QUANTUM",
+    "next_executable_action": "Trigger or otherwise obtain exactly one visible completed dedicated Spirit-048 execution on the exact current test/contract/workflow bytes, bind run_id/job_id/artifact_id plus digest/status, advance only to EXECUTED, then hand immediately to W03 for fresh 048 adjudication followed by 047 re-adjudication. No unrelated HIGH tranche and no 046 until 048+047 fully release.",
+    "w04_synthesized_stage_reached": false,
+    "closed": false
   },
-  "next_trigger": "W03 dedicated review durable output, W02 response to W03, W04 current synthesis, final Actions evidence for current shadow descendant, paired speed evidence, or formal authority change.",
-  "verified_baseline_preserved": true,
-  "formal_mission_mutated": false,
-  "formal_c_pass_claimed": false,
-  "readback_status": "PASS"
+  "w01_handoff_readback": {
+    "path": "state/research_handoffs/W01_TO_W02_GEARBOX_LATEST.json",
+    "sha": "8e175b82cc340285511512d13a5f5be04e438777",
+    "handoff_id": "W01-TO-W02-GEARBOX-20260823-0145",
+    "status": "ROUTED_CURRENT_CLOSURE_TO_W02"
+  },
+  "feeling_core_disposition": {
+    "priority": "NONBLOCKING_AFTER_GEARBOX_048_047",
+    "route": "KEEP_SUPPORT_SHADOW",
+    "shadow_ceiling": "EDL_BOUNDED_SUB_TRANCHE_ONLY_NO_VALUE_SLOW_DRIVE_PERSONALITY_GOVERNANCE_P_BASE_AUTHORITY_WRITES",
+    "acceptance_ceiling": "SUPPORT_SHADOW_PASS_ONLY",
+    "formalization_trigger": "FRESH_DURABLE_W03_R1_R4_R5_ADJUDICATION_PLUS_GEARBOX_048_047_FULL_RELEASE_PLUS_EXISTING_ABC_QUEUE_CAPACITY_WITHOUT_INTERRUPT",
+    "dependencies": ["DETERMINISTIC_SIMULATOR_JSON_SCHEMA","BLIND_COUNTERFACTUAL_PERSISTENCE_POISONING","REPLAY_IDEMPOTENCE","MEMORY_RECALL_CAP","NO_SELF_AMPLIFICATION_WITHOUT_NEW_INDEPENDENT_EVIDENCE","AFFECT_BUDGET_LINEAGE_OUTCOME_FIREWALLS","GENERATED_GOALS_CANDIDATE_ONLY","HEARTBEAT_POLL_RETRY_SCHEDULER_WAKE_ZERO_EXPERIENCE"],
+    "next_executable_action": "AWAITING_W03_R1_ADJUDICATION",
+    "central_comment_id": "AAACF1vjjAQ",
+    "durable_reply_id": "AAACATRoalQ",
+    "w03_r1_durable_reply_observed": false
+  },
+  "hard_locks": {
+    "v1_verified_pass_immutable": true,
+    "p_base_mutation": false,
+    "identity_mutation": false,
+    "personality_mutation": false,
+    "governance_mutation": false,
+    "maintenance_recovery_provider_secretary_history_is_experience": false,
+    "slot4_created": false,
+    "formal_c_pass_claimed": false,
+    "candidate_shadow_is_formal_verified": false,
+    "w05_w06_started_without_formal_packet": false
+  },
+  "next_trigger": "VISIBLE_EXACT_SPIRIT_048_WORKFLOW_EVIDENCE_OR_FRESH_W03_R1_ADJUDICATION_OR_FORMAL_AUTHORITY_CHANGE",
+  "readback_status": "PENDING_FINAL_READBACK"
 }
