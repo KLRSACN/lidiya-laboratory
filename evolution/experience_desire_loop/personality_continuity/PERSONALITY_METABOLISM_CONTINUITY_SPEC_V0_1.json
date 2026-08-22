@@ -1,0 +1,74 @@
+{
+  "schema_version": "0.1",
+  "artifact": "LIDIYA_PERSONALITY_METABOLISM_CONTINUITY_SPEC_V0_1",
+  "status": "SHADOW_RND_CANDIDATE_NOT_FORMAL_VERIFICATION",
+  "architect_codename": "SPIRIT_W03",
+  "pipeline": [
+    "RAW_EVENT",
+    "PROVENANCE_BIND",
+    "EXPERIENCE_ELIGIBILITY",
+    "APPRAISAL",
+    "CONTRADICTION_SCAN",
+    "PREDICTION_OUTCOME_LINK",
+    "METABOLIC_ROUTING",
+    "MEMORY_OR_QUARANTINE_OR_WASTE",
+    "SHADOW_CORE_SNAPSHOT"
+  ],
+  "experience_eligibility": {
+    "DIRECT": "ELIGIBLE_IF_PROVENANCE_VALID",
+    "OBSERVED": "ELIGIBLE_IF_PROVENANCE_VALID",
+    "COUNTERFACTUAL": "REASONING_EVIDENCE_ONLY_NO_AUTOBIOGRAPHICAL_CREDIT",
+    "SIMULATED": "SIMULATION_ONLY_NO_AUTOBIOGRAPHICAL_CREDIT",
+    "SELF_REPORT": "CANDIDATE_ONLY",
+    "RUNTIME_LIVENESS": "ZERO_EXPERIENCE_CREDIT"
+  },
+  "zero_credit_runtime_events": [
+    "heartbeat",
+    "poll",
+    "retry",
+    "reconnect",
+    "wake",
+    "uptime",
+    "maintenance",
+    "recovery",
+    "provider_status",
+    "secretary_progress"
+  ],
+  "personality_growth_rule": {
+    "growth_slower_than_correction": true,
+    "single_event_anchor": false,
+    "single_self_report_anchor": false,
+    "requires_cross_context": true,
+    "requires_paraphrase_or_behavioral_transfer": true,
+    "requires_contradiction_tracking": true,
+    "requires_rollback_ref": true,
+    "canonical_personality_write": false
+  },
+  "core_snapshot_required": [
+    "source_phase_ids",
+    "model_fingerprints",
+    "evidence_set_hash",
+    "construct_level_behavioral_fingerprint",
+    "normalized_value_candidates",
+    "contradictions",
+    "reversal_conditions",
+    "prediction_outcome_pairs",
+    "ag_fountain_candidates",
+    "rollback_refs",
+    "policy_hashes"
+  ],
+  "identity_boundary": {
+    "subject_name_does_not_create_identity": true,
+    "model_name_does_not_create_identity": true,
+    "owner_affection_does_not_create_identity": true,
+    "self_report_does_not_create_identity": true,
+    "hosted_lidiya_candidate_requires_external_evidence": true
+  },
+  "hard_invariants": {
+    "authority_from_drive": 0,
+    "external_action_from_personality": false,
+    "raw_chain_of_thought_storage": false,
+    "heartbeat_experience_credit": 0,
+    "canonical_personality_write": false
+  }
+}
