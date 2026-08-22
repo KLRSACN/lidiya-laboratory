@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.1-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V02",
+  "status": "NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "scope": [
+    "exact W02/NAV/V05 handoff identity",
+    "visible V05 run/job/artifact evidence identity",
+    "closed Spirit-047 adjudication semantic completeness",
+    "terminal-exit activation hold",
+    "zero-learning and non-production claim boundary"
+  ],
+  "invariants": [
+    "V02 preserves every V01 byte/identity freshness check.",
+    "The durable handoff_id and current NAV verdict must match independently fresh expectations.",
+    "The packet must retain the required Spirit-047 stale-root, fresh-root eventual recovery, zero-learning, higher-HIGH and durable-review adjudication clauses; freshness cannot compensate for omitted adversarial requirements.",
+    "SPIRIT-MOD-GB21-046 terminal-exit remains inactive until fresh exact-V05 W03 closure is separately consumed by Spirit-047 gate V02.",
+    "Passing this handoff gate never closes Spirit-047, never activates terminal exit and never authorizes formal mutation.",
+    "Synthetic provider/key behavior evidence is not production HSM/TPM/remote-provider/key-liveness proof.",
+    "Provider churn, retry/backoff, recovery duration and handoff maintenance create zero Experience, appraisal, drive, exploration, preference, personality, trauma/relief or P_base mutation."
+  ],
+  "required_regressions": [
+    "semantically complete exact-current packet passes without releasing Spirit-047",
+    "missing required Spirit-047 adjudication clause fails closed",
+    "wrong handoff identity fails closed",
+    "NAV verdict relaxation fails closed",
+    "production-proof escalation fails closed",
+    "terminal-exit activation language before 047 closure fails closed"
+  ],
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "p_base": "READ_ONLY_UNCHANGED"
+}
