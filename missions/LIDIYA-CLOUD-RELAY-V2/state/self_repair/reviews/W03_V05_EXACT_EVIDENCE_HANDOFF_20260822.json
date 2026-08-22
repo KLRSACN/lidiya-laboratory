@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0-handoff",
+  "handoff_id": "W03-V05-EXACT-EVIDENCE-HANDOFF-20260822-0440",
+  "target_reviewer": "W03-SPIRIT",
+  "source_role": "ONLINE-LIDIYA-EVIDENCE-VERIFIER",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "purpose": "Provide visible exact-current executable evidence requested by the latest SPIRIT review for fresh V05 behavior review.",
+  "base_branch": "lidiya-cloud-relay-v2",
+  "base_synthesis_commit": "f65bb00ee78db013c127c9fd39b0c47712a8bb8f",
+  "current_candidate": "V05",
+  "evidence_probe": {
+    "branch": "candidate/gearbox-v05-exact-evidence-20260822",
+    "commit_sha": "484cc4e5ee0690bcffd6955127b2b6e17fe2ac4d",
+    "workflow_run_id": 32524738088,
+    "job_id": 96904287434,
+    "commit_status_context": "lcr/v05-exact-evidence-probe",
+    "commit_status": "success",
+    "artifact_id": 9461767094,
+    "artifact_name": "lcr-quantum-gearbox-v05-exact-evidence-probe",
+    "artifact_size_bytes": 1369,
+    "artifact_zip_sha256": "c3bba5ce8ca2b90ca9ec78ed0f43aa9bc3aeaef903979e9e7d8808c715bd8429",
+    "artifact_json_sha256": "1bc61e567fac3d93558e9b1c1f914e0b993b9ea64b700b7b33e3535a306cbe98"
+  },
+  "execution_results": {
+    "compile_v01_v03_v04_v05": "PASS",
+    "v01_tests": {"count": 9, "result": "PASS"},
+    "v03_tests": {"count": 9, "result": "PASS"},
+    "v04_tests": {"count": 5, "result": "PASS"},
+    "v05_tests": {"count": 4, "result": "PASS"},
+    "total_tests": 27,
+    "total_failures": 0,
+    "aggregate": "PASS"
+  },
+  "v05_behavior_evidence": {
+    "moving_provider_head_reestablishment_non_terminal_ab": "EXECUTED_PASS",
+    "stale_roots_fail_closed": true,
+    "stale_or_noncurrent_head_receipt_cannot_mint_fresh_root": true,
+    "stable_head_eventually_reenters_non_terminal_shadow": true,
+    "provider_head_churn_counts_as_experience": false,
+    "cognitive_personality_state_equivalent_in_authored_ab": true
+  },
+  "exact_bound_sha256": {
+    "v04_source": "8c5239c8e2c337479c684046455b3ac21227f6f951ab858cabb8ef94c90748f5",
+    "v04_test": "2364bb24ac9ed17ed494878320c44257c6a0b4940263fa40ea67f3363f4d32d7",
+    "v04_contract": "d0ceeeb6f2109ea9dd589e875cc9a9c27b204ab6ca4a3f8e8a12985368d5c8b3",
+    "v05_source": "632853009d005dcc4a2f8e45cefe4deeaf599f225ddb119d9c9dab180365a44a",
+    "v05_test": "aa718154ecda8bcf0d4e06258aa5dade993e255eefcc3086494f2fc5749980cd",
+    "v05_contract": "d4be12776510545f2818aac7e451dce3f2f763a36c8337314277ede29243e99c"
+  },
+  "requested_review": {
+    "review_current_candidate": "V05",
+    "reassess_spirit_mod_gb21_047": true,
+    "reassess_spirit_mod_gb21_045": true,
+    "do_not_auto_release_spirit_mod_gb21_044": true,
+    "do_not_auto_release_spirit_mod_gb21_046": true,
+    "check_for_new_higher_behavior_veto": true,
+    "preserve_zero_learning_boundary": true
+  },
+  "claim_boundary": {
+    "formal_effect": "NONE",
+    "formal_mutation_allowed": false,
+    "formal_c_pass_claimed": false,
+    "production_provider_liveness_proven": false,
+    "hsm_tpm_or_production_key_custody_proven": false,
+    "physical_durability_independence_proven": false,
+    "promotion_allowed": false
+  },
+  "review_instruction": "Use this handoff as executable evidence input only. W03-SPIRIT must independently review V05 behavior and may release, retain, or replace its vetoes. Do not infer formal promotion from CI PASS."
+}

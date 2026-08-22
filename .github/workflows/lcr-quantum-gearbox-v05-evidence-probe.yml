@@ -1,0 +1,196 @@
+name: LCR Quantum Gearbox V05 Exact Evidence Probe
+
+on:
+  push:
+    branches:
+      - candidate/gearbox-v05-exact-evidence-20260822
+    paths:
+      - '.github/workflows/lcr-quantum-gearbox-v05-evidence-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: lcr-quantum-gearbox-v05-evidence-probe-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  exact_v05_evidence:
+    name: Exact-current V01/V03/V04/V05 executable evidence
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution:${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+
+    steps:
+      - name: Checkout exact candidate bytes
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Import and compile V01/V03/V04/V05
+        id: compile
+        continue-on-error: true
+        run: |
+          python - <<'PY'
+          import gearbox_clock_epoch_recovery_shadow_v01
+          import gearbox_clock_epoch_recovery_shadow_v03
+          import gearbox_clock_epoch_recovery_shadow_v04
+          import gearbox_clock_epoch_recovery_shadow_v05
+          print('CLOCK_EPOCH_IMPORT_PASS_V01_V03_V04_V05')
+          PY
+          python -m py_compile \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v01.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v03.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v04.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py \
+            evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v05.py \
+            evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v05.py
+
+      - name: Run V01 baseline regression
+        id: v01
+        continue-on-error: true
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v01.py
+
+      - name: Run V03 recovery regression
+        id: v03
+        continue-on-error: true
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v03.py
+
+      - name: Run V04 trust-root regression
+        id: v04
+        continue-on-error: true
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v04.py
+
+      - name: Run V05 moving-provider-head regression
+        id: v05
+        continue-on-error: true
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v05.py
+
+      - name: Emit exact-byte bounded evidence
+        id: evidence
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          V01_OUTCOME: ${{ steps.v01.outcome }}
+          V03_OUTCOME: ${{ steps.v03.outcome }}
+          V04_OUTCOME: ${{ steps.v04.outcome }}
+          V05_OUTCOME: ${{ steps.v05.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          REF_NAME: ${{ github.ref_name }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+
+          files = []
+          for v in ('01','03','04','05'):
+              files += [
+                  f'evolution/core_v0_2/quantum_candidates/gearbox_clock_epoch_recovery_shadow_v{v}.py',
+                  f'evolution/core_v0_2/quantum_candidates/test_gearbox_clock_epoch_recovery_shadow_v{v}.py',
+                  f'evolution/core_v0_2/quantum_candidates/GEARBOX_CLOCK_EPOCH_RECOVERY_SHADOW_V{v}_CONTRACT.json',
+              ]
+          outcomes = {
+              'compile': os.environ.get('COMPILE_OUTCOME', 'skipped'),
+              'v01': os.environ.get('V01_OUTCOME', 'skipped'),
+              'v03': os.environ.get('V03_OUTCOME', 'skipped'),
+              'v04': os.environ.get('V04_OUTCOME', 'skipped'),
+              'v05': os.environ.get('V05_OUTCOME', 'skipped'),
+          }
+          overall = all(v == 'success' for v in outcomes.values())
+          evidence = {
+              'schema_version': '1.0-v05-exact-evidence-probe',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'candidate': 'V05',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'run_id': os.environ['RUN_ID'],
+              'ref_name': os.environ['REF_NAME'],
+              'status': 'PASS' if overall else 'FAIL',
+              'test_outcomes': outcomes,
+              'formal_effect': 'NONE',
+              'formal_mutation_allowed': False,
+              'p_base': 'READ_ONLY_UNCHANGED',
+              'provider_head_churn_counts_as_experience': False,
+              'promotion_allowed': False,
+              'claim_boundary': 'Non-formal exact-byte V01/V03/V04/V05 executable evidence only; no production provider/key/liveness or formal C proof.',
+              'bound_files': {},
+          }
+          for rel in files:
+              data = Path(rel).read_bytes()
+              evidence['bound_files'][rel] = {
+                  'sha256': hashlib.sha256(data).hexdigest(),
+                  'size_bytes': len(data),
+              }
+          out = Path('evidence/quantum-gearbox-v05-exact-evidence-probe.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(out.read_text(encoding='utf-8'))
+          PY
+
+      - name: Upload exact-byte evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-quantum-gearbox-v05-exact-evidence-probe
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/quantum-gearbox-v05-exact-evidence-probe.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Publish queryable commit status
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          V01_OUTCOME: ${{ steps.v01.outcome }}
+          V03_OUTCOME: ${{ steps.v03.outcome }}
+          V04_OUTCOME: ${{ steps.v04.outcome }}
+          V05_OUTCOME: ${{ steps.v05.outcome }}
+        run: |
+          python - <<'PY' > /tmp/status.json
+          import json, os
+          outcomes=[os.environ.get(k,'skipped') for k in ('COMPILE_OUTCOME','V01_OUTCOME','V03_OUTCOME','V04_OUTCOME','V05_OUTCOME')]
+          ok=all(v=='success' for v in outcomes)
+          print(json.dumps({
+            'state':'success' if ok else 'failure',
+            'context':'lcr/v05-exact-evidence-probe',
+            'description':'V01/V03/V04/V05 exact-byte regression PASS' if ok else 'V05 exact-byte evidence probe has failing gate',
+            'target_url':f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          }))
+          PY
+          curl --fail-with-body -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}" \
+            -d @/tmp/status.json
+
+      - name: Aggregate exact evidence verdict
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          V01_OUTCOME: ${{ steps.v01.outcome }}
+          V03_OUTCOME: ${{ steps.v03.outcome }}
+          V04_OUTCOME: ${{ steps.v04.outcome }}
+          V05_OUTCOME: ${{ steps.v05.outcome }}
+        run: |
+          python - <<'PY'
+          import os, sys
+          outcomes={k:os.environ.get(k,'skipped') for k in ('COMPILE_OUTCOME','V01_OUTCOME','V03_OUTCOME','V04_OUTCOME','V05_OUTCOME')}
+          failed={k:v for k,v in outcomes.items() if v!='success'}
+          if failed:
+              print('V05_EXACT_EVIDENCE_PROBE_FAIL', failed)
+              sys.exit(1)
+          print('V05_EXACT_EVIDENCE_PROBE_PASS')
+          PY
