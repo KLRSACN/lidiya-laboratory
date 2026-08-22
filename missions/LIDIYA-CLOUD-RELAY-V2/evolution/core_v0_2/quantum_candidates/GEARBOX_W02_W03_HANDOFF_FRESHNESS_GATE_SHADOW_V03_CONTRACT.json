@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.2-shadow",
+  "mission_id": "LCR-EVOLUTION-0005",
+  "artifact": "GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V03",
+  "status": "NON_FORMAL_REPAIR_CANDIDATE_TEST_REQUIRED",
+  "scope": [
+    "current W02-2008 and NAV-2008 durable identity binding",
+    "exact V05 source/test/contract and visible 27/27 evidence binding",
+    "Spirit-047 review acceptance gate V03 code/test/contract/workflow binding",
+    "closed exact-V05 adjudication semantic completeness",
+    "terminal-exit hold and zero-learning boundary"
+  ],
+  "invariants": [
+    "Current durable handoff schema 1.4 is accepted by the base freshness validator; schema evolution cannot make an otherwise-current packet unconsumable.",
+    "V03 requires the exact current W02 review and exact current NAV synthesis supplied by an independently fresh expectation; older W02/NAV packets fail closed.",
+    "The packet must bind Spirit-047 review acceptance gate V03 source, test, contract, workflow blob and workflow update commit; V02 downgrade or component substitution fails closed.",
+    "The packet must bind exact V05 source/test/contract and the visible run 32524738088 / job 96904287434 / artifact 9461767094 evidence identity with complete 27/27 regression counts.",
+    "W03 must independently confirm stale-root fail-closed, quiet/current-head fresh-root re-establishment, eventual non-terminal re-entry, zero recovery learning and absence of a higher HIGH veto.",
+    "Passing the handoff gate never closes Spirit-047. Only a separately authored W03 exact-V05 review that passes Spirit-047 review acceptance gate V03 may release the research activation gate.",
+    "SPIRIT-MOD-GB21-046 terminal-exit remains inactive before that independent V03 consumption.",
+    "Synthetic provider/key evidence is not production HSM/TPM/remote-provider/key-liveness proof.",
+    "Provider churn, retry/backoff, recovery duration, handoff freshness and review plumbing create zero Experience, appraisal, drive, exploration, preference, personality, trauma/relief or P_base mutation.",
+    "Formal MISSION_STATE, pending, v1, Identity, Personality and Governance are outside this shadow contract."
+  ],
+  "required_regressions": [
+    "current schema-1.4 W02-2008/NAV-2008/V05/V03 packet passes without releasing Spirit-047",
+    "stale W02 review fails closed",
+    "stale NAV synthesis fails closed",
+    "Spirit gate V02 downgrade fails closed",
+    "Spirit gate workflow substitution fails closed",
+    "partial V05 regression evidence fails closed",
+    "missing eventual re-entry adjudication clause fails closed",
+    "terminal-exit activation before fresh W03 closure fails closed",
+    "learning or production-proof escalation fails closed"
+  ],
+  "formal_effect": "NONE",
+  "c_pass_claimed": false,
+  "p_base": "READ_ONLY_UNCHANGED"
+}
