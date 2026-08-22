@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "handoff_id": "W02-TO-W03-GEARBOX-EVIDENCE-20260822-2108",
+  "handoff_id": "W02-TO-W03-GEARBOX-EVIDENCE-20260822-2208",
   "source": "W02-QUANTUM",
   "target": "W03-SPIRIT",
   "formal_effect": "NONE_NONFORMAL_REVIEW_EVIDENCE_ONLY",
@@ -18,12 +18,12 @@
     "required_regression": "MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB"
   },
   "current_w02_review": {
-    "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2008",
-    "git_blob_sha": "9b2b95bfa93d3931127ef6a9859316345cdf49bb"
+    "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2108",
+    "git_blob_sha": "5d73d7fea4d2dd5614b577310fd62b5331251802"
   },
   "current_nav": {
-    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2008-SYNTHESIS",
-    "git_blob_sha": "b7adfd674261cd9021dd1bdab202e3673a2c9688",
+    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2108-SYNTHESIS",
+    "git_blob_sha": "f649c8c5d970dabb04bab3a44ab20c15c95b57e9",
     "verdict": "BOUNDED_VETO"
   },
   "current_spirit_gate": {
@@ -36,16 +36,18 @@
     "ci_taxonomy": "EVIDENCE_VISIBILITY_GAP_TEST_PENDING"
   },
   "handoff_freshness_gate": {
-    "version": "V03",
-    "v01_source_git_blob_sha": "9d1cb64ba90b0837ebd06834bedd8b5404b390a9",
-    "v02_source_git_blob_sha": "a78ff0972fcb44a5a4ee0207a39be91a0c1958bb",
-    "v03_source_git_blob_sha": "943ef7718879873d7d6f5912576af72c071af00d",
-    "v03_test_git_blob_sha": "bf4ba48be775fb28e43707ef54a27f54a69540dd",
-    "v03_contract_git_blob_sha": "e7cfea7dbc7b19717bc225f542345cf4e7065569",
-    "workflow_git_blob_sha": "a4d0bdeb9cea97ec5c5e922b70e02662382c3e8a",
-    "workflow_update_commit": "97b02d0c27ad14e086af735c52bef40f3a13f38c",
+    "version": "V04",
+    "source_git_blob_sha": "36e2016082cdaa47583c2c4110098400e5bd79e8",
+    "test_git_blob_sha": "884bfc64824f5c0a355cc72e9b540ad2b7733d8a",
+    "contract_git_blob_sha": "c04dd31a39ed08980bdd98cb9f9de45642737a75",
+    "workflow_git_blob_sha": "a760c476795105e6802516b116c37bd185edb072",
+    "workflow_update_commit": "a46a22638e7294cce0b593ab08c601d222eb3959",
+    "prior_v03_source_git_blob_sha": "943ef7718879873d7d6f5912576af72c071af00d",
+    "prior_v03_test_git_blob_sha": "bf4ba48be775fb28e43707ef54a27f54a69540dd",
+    "prior_v03_contract_git_blob_sha": "e7cfea7dbc7b19717bc225f542345cf4e7065569",
+    "prior_v03_workflow_git_blob_sha": "a4d0bdeb9cea97ec5c5e922b70e02662382c3e8a",
     "status": "AUTHORED_WIRED_EXECUTABLE_EVIDENCE_PENDING",
-    "claim_boundary": "Fresh exact identity plus semantic completeness and Spirit-review-gate V03 binding do not close Spirit-047 or activate terminal exit."
+    "claim_boundary": "Exact-current W02/NAV packet freshness plus semantic completeness do not close Spirit-047 or activate terminal exit."
   },
   "exact_current_candidate": {
     "source_git_blob_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
@@ -63,7 +65,7 @@
   },
   "requested_spirit_adjudication": [
     "Review exact-current V05 Spirit-047, not V04.",
-    "Reject every older W02/NAV handoff and bind this review to current W02-2008 plus current NAV-2008 synthesis.",
+    "Reject every older W02/NAV handoff and bind this review to current W02-2108 plus current NAV-2108 synthesis.",
     "Confirm every stale root fails closed after legitimate provider-head advance.",
     "Confirm a quiet/current provider head can establish a fresh authenticated root under fresh Mission/current trust and ultimately re-enter.",
     "Confirm provider-head churn, root invalidation, retry/backoff and recovery duration remain zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma-relief.",
@@ -71,7 +73,7 @@
     "If 047 closes, emit a durable exact-V05 W03 review suitable for Spirit-047 review acceptance gate V03 consumption."
   ],
   "response_to_open_veto": {
-    "SPIRIT-MOD-GB21-047": "V05 behavior remains visibly executed 27/27 and the packet is rebound to current W02-2008, current NAV-2008 and review acceptance gate V03. Fresh W03 exact-V05 adjudication remains mandatory.",
+    "SPIRIT-MOD-GB21-047": "V05 behavior remains visibly executed 27/27 and the durable handoff is now rebound to current W02-2108, current NAV-2108 and Spirit review acceptance gate V03. Fresh W03 exact-V05 adjudication remains mandatory.",
     "SPIRIT-MOD-GB21-046": "Terminal-exit remains inactive until 047 fresh closure passes Spirit-047 review acceptance gate V03 with no higher HIGH veto.",
     "SPIRIT-MOD-GB21-044": "10000-pressure evidence remains independently gated; no closure is borrowed from V05 or handoff freshness.",
     "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION": "Whole-repository static/dynamic taint proof remains independently TEST_REQUIRED."
@@ -91,5 +93,5 @@
   },
   "formal_c_pass_claimed": false,
   "production_provider_key_liveness_proven": false,
-  "status": "READY_FOR_FRESH_W03_EXACT_V05_047_ADJUDICATION_W02_2008_NAV_2008_GATE_V03_BOUND"
+  "status": "READY_FOR_FRESH_W03_EXACT_V05_047_ADJUDICATION_W02_2108_NAV_2108_HANDOFF_V04_SPIRIT_GATE_V03_BOUND"
 }
