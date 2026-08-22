@@ -1,0 +1,17 @@
+{
+  "schema_version":"2.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"RECOVERY_METADATA_COGNITIVE_NEUTRALITY_SHADOW_V02",
+  "status":"NON_FORMAL_TEST_REQUIRED",
+  "scope":["MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB","recovery metadata to learning-sink exclusion"],
+  "invariants":[
+    "A stable provider path and a moving-head/retry/recovery path must traverse the same operational metadata projector before comparison.",
+    "With identical provenance-bound verified Experience, downstream appraisal, drive, exploration, preference, personality, P_base, trauma and relief projections must be byte-identical.",
+    "Provider-head movement, stale-root rejection, retry/backoff, recovery duration and root re-establishment are operational-only and add zero Experience.",
+    "Recovery metadata cannot directly inject a cognitive/personality sink.",
+    "This instrumented projection is non-formal evidence and does not prove whole-repository taint exclusion or production provider/key properties."
+  ],
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
