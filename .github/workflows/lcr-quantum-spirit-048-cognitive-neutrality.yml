@@ -1,0 +1,105 @@
+name: LCR Quantum Spirit 048 Cognitive Neutrality
+
+on:
+  push:
+    branches: [lidiya-cloud-relay-v2]
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/RECOVERY_METADATA_COGNITIVE_NEUTRALITY_SHADOW_V02_CONTRACT.json'
+      - '.github/workflows/lcr-quantum-spirit-048-cognitive-neutrality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  spirit_048:
+    name: Spirit 048 end-to-end cognitive neutrality
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution:${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+
+      - name: Compile Spirit 048 regression and projector
+        id: compile
+        run: >-
+          python -m py_compile
+          evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py
+
+      - name: Run moving-provider-head end-to-end cognitive neutrality A/B
+        id: cognitive_ab
+        run: |
+          set -o pipefail
+          python evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py 2>&1 | tee /tmp/spirit-048-cognitive-neutrality.log
+
+      - name: Emit Spirit 048 bounded evidence
+        if: always()
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          AB_OUTCOME: ${{ steps.cognitive_ab.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          files = [
+              'evolution/core_v0_2/quantum_candidates/gearbox_recovery_metadata_dataflow_exclusion_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/test_recovery_metadata_cognitive_neutrality_shadow_v02.py',
+              'evolution/core_v0_2/quantum_candidates/RECOVERY_METADATA_COGNITIVE_NEUTRALITY_SHADOW_V02_CONTRACT.json',
+          ]
+          outcomes = {
+              'compile': os.environ.get('COMPILE_OUTCOME', 'skipped'),
+              'MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB': os.environ.get('AB_OUTCOME', 'skipped'),
+          }
+          evidence = {
+              'schema_version': '1.0-shadow',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'step_id': 9,
+              'evidence_type': 'SPIRIT_048_END_TO_END_COGNITIVE_NEUTRALITY',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'run_id': os.environ['RUN_ID'],
+              'run_attempt': os.environ['RUN_ATTEMPT'],
+              'status': 'PASS' if all(v == 'success' for v in outcomes.values()) else 'FAIL',
+              'outcomes': outcomes,
+              'formal_effect': 'NONE',
+              'formal_c_verification': 'NOT_CLAIMED',
+              'formal_mutation_allowed': False,
+              'experience_delta': 0,
+              'appraisal_delta': 0,
+              'drive_delta': 0,
+              'exploration_delta': 0,
+              'preference_delta': 0,
+              'personality_delta': 0,
+              'trauma_relief_delta': 0,
+              'p_base': 'READ_ONLY_UNCHANGED',
+              'claim_boundary': 'Non-formal exact-workflow regression evidence for Spirit-048 only. It does not release W03 veto by itself, prove whole-repository taint exclusion, production provider/key trust, paired speed, or formal C verification.',
+              'bound_files': {},
+          }
+          for rel in files:
+              data = Path(rel).read_bytes()
+              evidence['bound_files'][rel] = {'sha256': hashlib.sha256(data).hexdigest(), 'size_bytes': len(data)}
+          out = Path('evidence/spirit-048-cognitive-neutrality-shadow.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(out.read_text(encoding='utf-8'))
+          PY
+
+      - name: Upload Spirit 048 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-spirit-048-cognitive-neutrality-shadow
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/spirit-048-cognitive-neutrality-shadow.json
+          if-no-files-found: error
+          retention-days: 7
