@@ -1,0 +1,23 @@
+{
+  "schema_version":"1.0-shadow",
+  "mission_id":"LCR-EVOLUTION-0005",
+  "artifact":"GEARBOX_LEARNING_ISOLATION_EVIDENCE_BINDING_SHADOW_V01",
+  "status":"NON_FORMAL_SECURITY_CANDIDATE_TEST_REQUIRED",
+  "required_suite_identities":["SIGNED_PRESSURE_CHRONICITY_NEUTRALITY_10000_AB","RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION"],
+  "invariants":[
+    "Both required suites must be exactly present and successful; unrelated passing suites cannot substitute them.",
+    "Evidence consumption binds positive run/job/artifact identities, artifact SHA-256 and exact Git blob identities for the exercised candidate/workflow bytes.",
+    "Experience, appraisal, drive, exploration, preference, personality, trauma/relief and P_base mutation deltas remain zero.",
+    "Candidate executable isolation evidence is non-formal and never implies LCR-C PASS.",
+    "Candidate projection evidence is not a whole-repository static/dynamic taint proof and cannot release that independent requirement.",
+    "Provider/signer/clock/recovery/secretary maintenance remains operational-only and creates zero Experience."
+  ],
+  "known_limits":[
+    "Production provider/key custody and physical rollback independence remain TEST_REQUIRED.",
+    "Whole-repository taint analysis remains TEST_REQUIRED even after this evidence binding passes.",
+    "Spirit HIGH veto disposition remains owned by fresh W03 review; W02 cannot self-release it."
+  ],
+  "formal_effect":"NONE",
+  "c_pass_claimed":false,
+  "p_base":"READ_ONLY_UNCHANGED"
+}
