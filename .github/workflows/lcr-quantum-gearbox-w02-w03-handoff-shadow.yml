@@ -1,0 +1,89 @@
+name: LCR Quantum Gearbox W02-W03 Handoff Shadow
+
+on:
+  push:
+    branches:
+      - lidiya-cloud-relay-v2
+    paths:
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V01_CONTRACT.json'
+      - 'missions/LIDIYA-CLOUD-RELAY-V2/state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json'
+      - '.github/workflows/lcr-quantum-gearbox-w02-w03-handoff-shadow.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  handoff_freshness_shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: missions/LIDIYA-CLOUD-RELAY-V2
+    env:
+      PYTHONPATH: ${{ github.workspace }}/missions/LIDIYA-CLOUD-RELAY-V2/evolution/core_v0_2/quantum_candidates
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile exact handoff gate
+        run: >-
+          python -m py_compile
+          evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
+          evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
+      - name: Run handoff freshness adversarial regressions
+        id: handoff_tests
+        run: python evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py
+      - name: Emit bounded evidence
+        if: always()
+        env:
+          TEST_OUTCOME: ${{ steps.handoff_tests.outcome }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          files = [
+              'evolution/core_v0_2/quantum_candidates/gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/test_gearbox_w02_w03_handoff_freshness_gate_shadow_v01.py',
+              'evolution/core_v0_2/quantum_candidates/GEARBOX_W02_W03_HANDOFF_FRESHNESS_GATE_SHADOW_V01_CONTRACT.json',
+              'state/research_handoffs/W02_TO_W03_GEARBOX_EVIDENCE_LATEST.json',
+          ]
+          evidence = {
+              'schema_version': '1.0-shadow',
+              'mission_id': 'LCR-EVOLUTION-0005',
+              'evidence_type': 'w02_w03_handoff_freshness_shadow',
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'run_id': os.environ['RUN_ID'],
+              'run_attempt': os.environ['RUN_ATTEMPT'],
+              'status': 'PASS' if os.environ.get('TEST_OUTCOME') == 'success' else 'FAIL',
+              'formal_effect': 'NONE',
+              'formal_c_verification': 'NOT_CLAIMED',
+              'spirit_047_closed': False,
+              'terminal_exit_activation_allowed': False,
+              'experience_delta': 0,
+              'personality_delta': 0,
+              'p_base_mutation_allowed': False,
+              'files': {},
+          }
+          for rel in files:
+              data = Path(rel).read_bytes()
+              evidence['files'][rel] = {'sha256': hashlib.sha256(data).hexdigest(), 'size_bytes': len(data)}
+          out = Path('evidence/w02-w03-handoff-freshness-shadow.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
+          print(out.read_text())
+          PY
+      - name: Upload bounded evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcr-w02-w03-handoff-freshness-shadow
+          path: missions/LIDIYA-CLOUD-RELAY-V2/evidence/w02-w03-handoff-freshness-shadow.json
+          if-no-files-found: error
+          retention-days: 7
