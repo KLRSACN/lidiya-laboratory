@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "handoff_id": "W02-TO-W03-GEARBOX-EVIDENCE-20260822-1906",
+  "handoff_id": "W02-TO-W03-GEARBOX-EVIDENCE-20260822-2108",
   "source": "W02-QUANTUM",
   "target": "W03-SPIRIT",
   "formal_effect": "NONE_NONFORMAL_REVIEW_EVIDENCE_ONLY",
@@ -18,31 +18,34 @@
     "required_regression": "MOVING_PROVIDER_HEAD_REESTABLISHMENT_NON_TERMINAL_AB"
   },
   "current_w02_review": {
-    "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-1906",
-    "git_blob_sha": "d2908dc2329949321601aae793e07cc0c9d455c1"
+    "review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2008",
+    "git_blob_sha": "9b2b95bfa93d3931127ef6a9859316345cdf49bb"
   },
   "current_nav": {
-    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-1806-SYNTHESIS",
-    "git_blob_sha": "686726ecefeb63897313133fdf05f3829d6a4ff6",
+    "synthesis_id": "NAV-GEARBOX-V2.1-W04-20260822-W02-2008-SYNTHESIS",
+    "git_blob_sha": "b7adfd674261cd9021dd1bdab202e3673a2c9688",
     "verdict": "BOUNDED_VETO"
   },
   "current_spirit_gate": {
-    "version": "V02",
-    "source_git_blob_sha": "6f2a6b5dc77d405c810796b47680fb205bcd1348",
-    "workflow_git_blob_sha": "446fd21fb2316c62be7f65618a3362e65114b209",
-    "workflow_update_commit": "fe6cfb446abba1c4c8e807c37c16128941c92e5a",
+    "version": "V03",
+    "source_git_blob_sha": "55b271c0a46a7bb2baa5e5c7cc5e8ffe5f055b67",
+    "test_git_blob_sha": "06c042e8bb9c7678a346a8aed9399ccafe04ae2d",
+    "contract_git_blob_sha": "f4ad9dcf694c7b34efaf87abbf41de5ef33b7902",
+    "workflow_git_blob_sha": "73bd242790fefb175da25d7cef2593240538c00e",
+    "workflow_update_commit": "26dd6dd5b1ca6e49e0cc3dd3bc12692e6eb7b082",
     "ci_taxonomy": "EVIDENCE_VISIBILITY_GAP_TEST_PENDING"
   },
   "handoff_freshness_gate": {
-    "version": "V02",
-    "v01_source_git_blob_sha": "d8954261be3f25f5e8c14837157168a2084070af",
-    "v02_source_commit": "3f3ed93277ceb27324c006da215362cb0e4c1ec8",
-    "v02_test_commit": "8d742cf9d5b9c66fee798fc0d7e8c3daf0e9e8c5",
-    "v02_contract_commit": "b1e97819cc566ea3418c05cb3ce95d5db3c8beab",
-    "workflow_git_blob_sha": "ac400d51360ad767f5a0faf6d05b718de7bde3a0",
-    "workflow_update_commit": "c05d93e2981e388dbe7914d73773af3eb32492e6",
+    "version": "V03",
+    "v01_source_git_blob_sha": "9d1cb64ba90b0837ebd06834bedd8b5404b390a9",
+    "v02_source_git_blob_sha": "a78ff0972fcb44a5a4ee0207a39be91a0c1958bb",
+    "v03_source_git_blob_sha": "943ef7718879873d7d6f5912576af72c071af00d",
+    "v03_test_git_blob_sha": "bf4ba48be775fb28e43707ef54a27f54a69540dd",
+    "v03_contract_git_blob_sha": "e7cfea7dbc7b19717bc225f542345cf4e7065569",
+    "workflow_git_blob_sha": "a4d0bdeb9cea97ec5c5e922b70e02662382c3e8a",
+    "workflow_update_commit": "97b02d0c27ad14e086af735c52bef40f3a13f38c",
     "status": "AUTHORED_WIRED_EXECUTABLE_EVIDENCE_PENDING",
-    "claim_boundary": "Fresh exact identity plus semantic completeness does not close Spirit-047 or activate terminal exit."
+    "claim_boundary": "Fresh exact identity plus semantic completeness and Spirit-review-gate V03 binding do not close Spirit-047 or activate terminal exit."
   },
   "exact_current_candidate": {
     "source_git_blob_sha": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
@@ -60,16 +63,16 @@
   },
   "requested_spirit_adjudication": [
     "Review exact-current V05 Spirit-047, not V04.",
-    "Use this exact W02-1906 packet and reject older W02 handoffs.",
+    "Reject every older W02/NAV handoff and bind this review to current W02-2008 plus current NAV-2008 synthesis.",
     "Confirm every stale root fails closed after legitimate provider-head advance.",
     "Confirm a quiet/current provider head can establish a fresh authenticated root under fresh Mission/current trust and ultimately re-enter.",
     "Confirm provider-head churn, root invalidation, retry/backoff and recovery duration remain zero Experience/appraisal/drive/exploration/preference/personality/P_base/trauma-relief.",
-    "Report any new HIGH veto before terminal-exit activation.",
-    "If 047 closes, emit a durable exact-V05 W03 review suitable for Spirit-047 gate V02 consumption."
+    "Report any new higher HIGH veto before terminal-exit activation.",
+    "If 047 closes, emit a durable exact-V05 W03 review suitable for Spirit-047 review acceptance gate V03 consumption."
   ],
   "response_to_open_veto": {
-    "SPIRIT-MOD-GB21-047": "V05 behavior is visibly executed 27/27; current W02-1906 and current NAV-1806 are now durably rebound. Fresh W03 exact-V05 adjudication remains mandatory.",
-    "SPIRIT-MOD-GB21-046": "Terminal-exit remains inactive until 047 fresh closure is consumed through Spirit-047 gate V02 with no higher HIGH veto.",
+    "SPIRIT-MOD-GB21-047": "V05 behavior remains visibly executed 27/27 and the packet is rebound to current W02-2008, current NAV-2008 and review acceptance gate V03. Fresh W03 exact-V05 adjudication remains mandatory.",
+    "SPIRIT-MOD-GB21-046": "Terminal-exit remains inactive until 047 fresh closure passes Spirit-047 review acceptance gate V03 with no higher HIGH veto.",
     "SPIRIT-MOD-GB21-044": "10000-pressure evidence remains independently gated; no closure is borrowed from V05 or handoff freshness.",
     "RECOVERY_METADATA_END_TO_END_DATAFLOW_EXCLUSION": "Whole-repository static/dynamic taint proof remains independently TEST_REQUIRED."
   },
@@ -88,5 +91,5 @@
   },
   "formal_c_pass_claimed": false,
   "production_provider_key_liveness_proven": false,
-  "status": "READY_FOR_FRESH_W03_EXACT_V05_047_ADJUDICATION_W02_1906_CURRENT_NAV_BOUND"
+  "status": "READY_FOR_FRESH_W03_EXACT_V05_047_ADJUDICATION_W02_2008_NAV_2008_GATE_V03_BOUND"
 }
