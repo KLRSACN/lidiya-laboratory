@@ -1,37 +1,41 @@
 {
-  "schema_version": "2.3-GEARBOX-CHECKPOINT",
+  "schema_version": "2.4-GEARBOX-CHECKPOINT",
   "window_id": "SPIRIT",
   "window_alias": "W03_SPIRIT",
-  "status": "CURRENT_V04_REVIEW_COMPLETED_HIGH_VETO_OPEN",
-  "updated_at": "2026-08-22T03:20:00+08:00",
+  "status": "CURRENT_V05_REVIEW_COMPLETED_HIGH_VETO_OPEN",
+  "updated_at": "2026-08-22T22:19:00+08:00",
   "formal_authority_effect": "NONE_NONFORMAL",
-  "handoff_id": "W01-TO-W03-GEARBOX-20260822-001",
-  "routing_id": "W01-GEARBOX-CANDIDATE-ROUTING-20260822-0213",
-  "w01_finding_id": "W01-GB-V03-REENTRY-TRUST-ROOT-BINDING-20260822-0215",
   "mission_state_sha": "e32e01fa304a857f5185951443682ea937335473",
   "mission_step": 9,
   "mission_status": "STEP_DONE",
   "mission_role": "LCR-A",
   "mission_pending_packet": null,
-  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-0306",
-  "quantum_review_sha": "132e294eb945de213ea2617484ba76fde0b60b6e",
-  "quantum_repair_target": "W01_REENTRY_TRUST_ROOT_FINDING_REPAIR_V04",
-  "current_candidate_version": "V04",
+  "quantum_review_id": "QUANTUM-GEARBOX-REPAIR-SHADOW-20260822-2208",
+  "quantum_review_sha": "a9e033d3d7e60d7fb493fd5572e17ffe4228ab59",
+  "quantum_repair_target": "W02_W03_EXACT_CURRENT_HANDOFF_FRESHNESS_V04",
+  "current_candidate_version": "V05",
   "current_candidate_hashes": {
-    "source": "71f0639f34ec4a820581b65a310a54675f54c222",
-    "test": "113ba0aead9b4583594b7e338439144bdd1cafb4",
-    "contract": "85ee51a8e14854e4b7d8867e2c7793fc8ac0c3a1"
+    "source": "9aaf3ad9f673944d548e2cd880c9286b98e72704",
+    "test": "a4c98981561cf8c310c66c03367aa8fbf3954d61",
+    "contract": "df4753a9eaa7d734afb81a7e32d7efb3fa6617b7"
   },
-  "selftest_sha": "6d3c7de562d5dc3690ec6a1912e8a641ac7b6acc",
-  "v04_specific_ci_status": "NOT_OBSERVED_TEST_PENDING",
-  "w01_finding_disposition": "CODE_LEVEL_REPAIR_PRESENT_EXECUTABLE_EVIDENCE_PENDING",
+  "executed_evidence": {
+    "run_id": 32524738088,
+    "job_id": 96904287434,
+    "artifact_id": 9461767094,
+    "status": "VISIBLE_SUCCESS_NONFORMAL",
+    "V05": "4/4",
+    "total": "27/27"
+  },
   "veto_disposition": {
     "SPIRIT-MOD-GB21-044": "PARTIALLY_RELEASED",
     "SPIRIT-MOD-GB21-045": "PARTIALLY_RELEASED",
     "SPIRIT-MOD-GB21-046": "STILL_OPEN",
-    "SPIRIT-MOD-GB21-047": "STILL_OPEN"
+    "SPIRIT-MOD-GB21-047": "PARTIALLY_RELEASED",
+    "SPIRIT-MOD-GB21-048": "STILL_OPEN"
   },
-  "next_authorized_action": "Fresh-read newer W02 durable review and exact-current candidate. If V04 is executed, verify exact hashes and regression outcomes; if W02 advances to terminal-exit, directly review stale-state reinjection and fresh-authority/epoch binding. Do not use V01 as release target unless W02 explicitly rebases.",
+  "key_finding": "V05 operational non-terminal recovery is source/test/executed-evidence closed, but cognitive neutrality is not end-to-end: the current RecoveryCognitiveState A/B fixtures are never coupled to the recovery/cognitive pipeline.",
+  "next_authorized_action": "W02 should implement and execute MOVING_PROVIDER_HEAD_END_TO_END_COGNITIVE_NEUTRALITY_AB on exact-current candidate bytes. W03 then re-adjudicates 047. Keep 046 terminal-exit inactive until 047 fully releases; then review 046 before 044 chronic-pressure closure.",
   "p_base_write": false,
   "identity_write": false,
   "personality_write": false,
@@ -39,6 +43,6 @@
   "formal_state_mutation": false,
   "c_pass_claimed": false,
   "runtime_events_are_experience": false,
-  "heartbeat_poll_retry_window_age_selftest_recovery_provider_maintenance_are_experience": false,
+  "maintenance_recovery_provider_secretary_history_are_experience": false,
   "archive_read": false
 }
